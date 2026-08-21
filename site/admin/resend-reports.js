@@ -36,7 +36,11 @@
     'achievers':   'Achievers Mocks',
     'record':      'Multilevel Record'
   };
-  var SKILLS = ['speaking', 'writing', 'reading', 'listening', 'full-mock'];
+  // The two skills whose reports actually get re-sent by hand. Reading and
+  // listening are marked instantly and rarely need rescuing; a full mock is
+  // five reports in one and belongs to a different conversation. Add to this
+  // list to bring a skill back — nothing else needs changing.
+  var SKILLS = ['speaking', 'writing'];
   var SKILL_ICON = {
     speaking: '🎤', writing: '✍️', reading: '📖', listening: '🎧', 'full-mock': '🎯'
   };
@@ -281,7 +285,7 @@
           '<div class="rsr-f"><label>Date</label><input type="date" id="rsrDate" value="' + todayISO() + '"></div>' +
           '<div class="rsr-f"><label>Centre</label><select id="rsrCentre">' + centreOpts + '</select></div>' +
           '<div class="rsr-f"><label>Skill</label><select id="rsrSkill">' +
-            '<option value="">All skills</option>' + skillOpts + '</select></div>' +
+            '<option value="">Speaking + Writing</option>' + skillOpts + '</select></div>' +
           '<div class="rsr-f"><label>Type</label><select id="rsrType">' +
             '<option value="all">All</option>' +
             '<option value="full">Full mocks</option>' +
@@ -366,7 +370,12 @@
         p_date: date, p_center: centre, p_skill: skill,
         p_type: type, p_from: from, p_to: to
       });
-      state.rows = rows || [];
+      // With no skill chosen the RPC returns every skill, so the panel keeps
+      // only the ones it offers — otherwise the list shows rows the filter
+      // above claims are not there.
+      state.rows = (rows || []).filter(function (r) {
+        return !r.skill || SKILLS.indexOf(String(r.skill).toLowerCase()) > -1;
+      });
       body.innerHTML = rowsHtml(state.rows);
       var missing = state.rows.filter(function (r) { return !r.delivered; }).length;
       var linked = state.rows.length ? Number(state.rows[0].day_linked_pct || 0) : 0;
