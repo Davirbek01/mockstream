@@ -29,8 +29,12 @@
     openai:   'gpt-4o-mini',
     deepseek: 'deepseek-v4-flash',
     grok:     'grok-4.20-0309-non-reasoning',
-    groq:     'llama-3.3-70b-versatile',
-    claude:   'claude-3-5-haiku-latest'
+    // Both of these were RETIRED and answered 404 — checked against the
+    // providers' live model lists on 21 Aug 2026, along with everything else
+    // in this map. A dead default is worse than none: the call fails only for
+    // the centres that never set an explicit model.
+    groq:     'openai/gpt-oss-120b',
+    claude:   'claude-haiku-4-5'
   };
 
   var _resolved = null;

@@ -280,10 +280,8 @@
       ],
       groq: [
         { val: 'qwen/qwen3.6-27b',        label: 'Qwen 3.6 27B — 🖼️ vision, ~21s, fastest' },
-        { val: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B — text only' },
         { val: 'openai/gpt-oss-120b',     label: 'GPT-OSS 120B — text only' },
-        { val: 'openai/gpt-oss-20b',      label: 'GPT-OSS 20B — text only, cheapest ⚠ unproven' },
-        { val: 'llama-3.1-8b-instant',    label: 'Llama 8B Instant — text only ⚠ weak' }
+        { val: 'openai/gpt-oss-20b',      label: 'GPT-OSS 20B — text only, cheapest ⚠ unproven' }
       ]
     };
 
@@ -393,10 +391,8 @@
       h += row('deepseek', 'deepseek-v4-pro',   'DeepSeek V4 Pro',   [0,0], 'both', '119s');
       h += vendor('🟢 Groq · LPU', '#15803d');
       h += row('groq', 'qwen/qwen3.6-27b',        'Qwen 3.6 27B',      [1,0], 'tr',   '21s', 'FASTEST');
-      h += row('groq', 'llama-3.3-70b-versatile', 'Llama 3.3 70B',     [0,0], 'both', '');
       h += row('groq', 'openai/gpt-oss-120b',     'GPT-OSS 120B',      [0,0], 'both', '');
       h += row('groq', 'openai/gpt-oss-20b',      'GPT-OSS 20B',       [0,0], 'both', '', 'CHEAPEST');
-      h += row('groq', 'llama-3.1-8b-instant',    'Llama 8B Instant',  [0,0], 'both', '');
       h += '</tbody></table></div>';
       return h;
     }

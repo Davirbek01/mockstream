@@ -469,16 +469,12 @@
       { id: 'spProviderGroqQwen',      name: 'Qwen 3.6 27B',      call: "_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')",
         cap: [1,1,0], need: 'tr', sec: '21s', rel: '9/9', tag: 'FASTEST',
         note: 'Vision-capable (confirmed by Groq support + verified). JSON mode suppresses the <think> preamble. Groq caps output at 16k.' },
-      { id: 'spProviderGroqLlama70B',  name: 'Llama 3.3 70B',     call: "_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')",
-        cap: [1,0,0], need: 'both', sec: '', rel: '', note: 'Text only — needs both helpers.' },
       { id: 'spProviderGroqOss',       name: 'GPT-OSS 120B',      call: "_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')",
         cap: [1,0,0], need: 'both', sec: '', rel: '',
         note: 'Largest open-weight on Groq. Text only. Supports prompt caching (input halves to $0.075/1M on a cache hit); output $0.60/1M — 5x cheaper than Qwen.' },
       { id: 'spProviderGroqOss20',     name: 'GPT-OSS 20B',       call: "_spSetGroqVariant('openai/gpt-oss-20b','spProviderGroqOss20')",
         cap: [1,0,0], need: 'both', sec: '', rel: '', tag: 'CHEAPEST',
         note: 'Cheapest on Groq: $0.075 in / $0.30 out per 1M — output 10x cheaper than Qwen, and 1000 TPS (2x faster). Supports prompt caching (input halves to $0.0375 on a hit). Text only. UNPROVEN for scoring — A/B against Qwen before trusting it on live mocks.' },
-      { id: 'spProviderGroqLlama8B',   name: 'Llama 8B Instant',  call: "_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')",
-        cap: [1,0,0], need: 'both', sec: '', rel: '', tagWarn: 'WEAK', note: 'Cheapest/fastest, but benchmarked poorly for scoring (hallucinated + arithmetic errors).' },
     ]},
   ];
 
@@ -659,11 +655,11 @@
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
-              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.1-8b-instant · llama-3.3-70b-versatile · qwen/qwen3.6-27b · openai/gpt-oss-120b · openai/gpt-oss-20b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_groq" placeholder="openai/gpt-oss-120b · openai/gpt-oss-20b · qwen/qwen3.6-27b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
-              <label>Llama 4 Scout model (Groq · vision)</label>
-              <input type="text" id="sp_scoring_model_llama_scout" placeholder="meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <label>Groq vision model (was Llama 4 Scout — retired)</label>
+              <input type="text" id="sp_scoring_model_llama_scout" placeholder="qwen/qwen3.6-27b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
 
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
@@ -985,7 +981,7 @@
     function _spSetGroqVariant(modelString, btnId) {
       // Set the model BEFORE _spSetProvider: the transcriber banner reads this
       // field to decide whether the picked Groq model also needs a vision
-      // helper (qwen3.6-27b sees images; the Llama/OSS models do not).
+      // helper (qwen3.6-27b sees images; the GPT-OSS models do not).
       var fld = document.getElementById('sp_scoring_model_groq');
       if (fld) fld.value = modelString;
       _spSetProvider('groq');
@@ -1128,7 +1124,7 @@
             openai:   [['nano', 'spProviderOpenaiNano'], ['mini', 'spProviderOpenaiMini'], ['', 'spProviderOpenaiFull']],
             grok:     [['4.20', 'spProviderGrokFast'], ['4.5', 'spProviderGrok45'], ['', 'spProviderGrok43']],
             deepseek: [['pro', 'spProviderDeepseekReasoner'], ['', 'spProviderDeepseekChat']],
-            groq:     [['8b', 'spProviderGroqLlama8B'], ['qwen', 'spProviderGroqQwen'], ['oss', 'spProviderGroqOss'], ['', 'spProviderGroqLlama70B']]
+            groq:     [['20b', 'spProviderGroqOss20'], ['qwen', 'spProviderGroqQwen'], ['', 'spProviderGroqOss']]
           };
           if (!_tierMatch[_prov]) return;
           var _mv = (map['scoring_model_' + _prov] || '').trim().toLowerCase();
