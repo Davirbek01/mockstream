@@ -233,12 +233,23 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   // which is not a number that can exist. Two causes, both benign: the sweep
   // delivers the previous evening's stragglers after midnight, and a re-send
   // writes its own key. Say what actually happened instead of the arithmetic.
-  L.push(`📨 <b>Telegram</b> — sent ${tg.submissions}, failures ${tg.failed}` +
+  // The question is "of the reports taken today, how many reached Telegram" —
+  // counted per report, not per message, so a re-send of an older report or
+  // last night's stragglers cannot push the number past the day's total.
+  L.push(`📨 <b>Telegram</b> — delivered ${tg.submissions} of ${s.submissions}` +
+         (Number(tg.failed) ? ` · ${tg.failed} send failure${Number(tg.failed) > 1 ? 's' : ''}` : '') +
          (Number(tg.resends) ? ` · ${tg.resends} re-sent by hand` : ''));
   if (Number(tg.gap) > 0) {
-    L.push(`  not delivered: ${tg.gap} (${tg.gap_pct}%, usual ${tg.gap_pct_7d}%)`);
+    // The baseline only counts days whose sends carried the report id; before
+    // 20 Aug 2026 they did not, so those days cannot be measured and are left
+    // out rather than dragging the average down.
+    const days = Number(tg.baseline_days || 0);
+    const usual = (tg.gap_pct_7d === null || tg.gap_pct_7d === undefined || days < 3)
+      ? `baseline building — ${days} comparable day${days === 1 ? '' : 's'} so far`
+      : `usual ${tg.gap_pct_7d}%`;
+    L.push(`  not delivered: ${tg.gap} (${tg.gap_pct}%, ${usual})`);
   } else {
-    L.push(`  ✅ every report delivered <i>(${Math.abs(Number(tg.gap))} of them last night's, arriving after midnight)</i>`);
+    L.push(`  ✅ every report delivered`);
   }
   // A send carries the id of its submission, so a miss can be named — but only
   // once most clients send that way. Below that, the names would be a list of
