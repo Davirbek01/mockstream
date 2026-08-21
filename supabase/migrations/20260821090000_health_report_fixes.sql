@@ -1,0 +1,18 @@
+-- ============================================================================
+-- daily_health_snapshot(): stop counting re-sends as submissions.
+-- ----------------------------------------------------------------------------
+-- Applied 2026-08-21. The 08:00 report claimed "not delivered: -314 (-23%)",
+-- which is not a number that can exist: it counted every distinct key in
+-- telegram_send_log as a delivered submission, and a re-send from the Resend
+-- Reports panel writes its own key ('resend-<uuid>'). 279 of them on 20 Aug
+-- pushed the delivered count above the number of reports taken.
+--
+-- Delivered submissions are now counted ONLY from keys shaped like a results
+-- row id — the same filter `sent_ids` already used for the missing-report list
+-- — and the re-send count is reported separately. What remained after the fix
+-- was a gap of -34: last night's stragglers delivered by the 5-minute sweep
+-- after midnight, which is the boundary working as designed, so the digest
+-- says "every report delivered" instead of printing a negative percentage.
+-- ============================================================================
+-- (Function body applied via SQL; see the deployed definition — this file
+--  records WHY, and the change is a two-line filter in the tg / tg_week CTEs.)
