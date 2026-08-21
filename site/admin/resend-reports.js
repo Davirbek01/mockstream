@@ -268,6 +268,7 @@
     '.rsr-no{color:#dc2626;font-weight:700;font-size:12px}',
     '.rsr-unk{color:#cbd5e1;font-weight:700;cursor:help}',
     '.rsr-prac{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;margin-left:4px}',
+    '.rsr-exam{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.03em;background:rgba(99,102,241,.14);color:#4338ca;margin-left:4px}',
     '.rsr-empty{padding:36px;text-align:center;color:#94a3b8}',
     '.rsr-count{margin-left:auto;font-size:13px;color:#64748b;font-weight:600}'
   ].join('');
@@ -299,6 +300,10 @@
           '<div class="rsr-f"><label>Centre</label><select id="rsrCentre">' + centreOpts + '</select></div>' +
           '<div class="rsr-f"><label>Skill</label><select id="rsrSkill">' +
             '<option value="">' + esc(allSkillsLabel()) + '</option>' + skillOpts + '</select></div>' +
+          '<div class="rsr-f"><label>Exam</label><select id="rsrExam">' +
+            '<option value="">CEFR + IELTS</option>' +
+            '<option value="cefr">🎓 CEFR Multilevel</option>' +
+            '<option value="ielts">🌍 IELTS</option></select></div>' +
           '<div class="rsr-f"><label>Type</label><select id="rsrType">' +
             '<option value="all">All</option>' +
             '<option value="full">Full mocks</option>' +
@@ -327,7 +332,7 @@
     // Changing a filter reloads. Without this the table kept the previous
     // query while the controls showed the new one — a day of every centre
     // read as one centre's, and the counts disagreed with the dropdowns.
-    ['#rsrDate', '#rsrCentre', '#rsrSkill', '#rsrType', '#rsrFrom', '#rsrTo'].forEach(function (sel) {
+    ['#rsrDate', '#rsrCentre', '#rsrSkill', '#rsrExam', '#rsrType', '#rsrFrom', '#rsrTo'].forEach(function (sel) {
       var el = container.querySelector(sel);
       if (el) el.addEventListener('change', function () { load(container); });
     });
@@ -353,6 +358,9 @@
         '<td>' + esc(r.taken_at) + '</td>' +
         '<td>' + esc(r.student_name || '—') + '</td>' +
         '<td><span class="rsr-badge">' + (SKILL_ICON[r.skill] || '') + ' ' + esc(r.skill) + '</span>' +
+          // Which exam it was: the same mock number exists in both, so the
+          // skill alone does not say what the teacher is looking at.
+          (r.exam_type ? ' <span class="rsr-exam">' + esc(String(r.exam_type).toUpperCase()) + '</span>' : '') +
           (r.is_practice ? ' <span class="rsr-prac">practice</span>' : '') + '</td>' +
         '<td>' + esc(r.mock_number || '—') + '</td>' +
         '<td class="rsr-sc">' + esc(r.score || '—') + (r.level ? ' · ' + esc(r.level) : '') + '</td>' +
@@ -373,6 +381,7 @@
     var date = container.querySelector('#rsrDate').value;
     var centre = container.querySelector('#rsrCentre').value;
     var skill = container.querySelector('#rsrSkill').value;
+    var exam = container.querySelector('#rsrExam').value;
     var type = container.querySelector('#rsrType').value;
     var from = container.querySelector('#rsrFrom').value;
     var to = container.querySelector('#rsrTo').value;
@@ -380,7 +389,7 @@
     body.innerHTML = '<div class="rsr-empty">Loading…</div>';
     try {
       var rows = await rpc('admin_day_submissions', {
-        p_date: date, p_center: centre, p_skill: skill,
+        p_date: date, p_center: centre, p_skill: skill, p_exam: exam,
         p_type: type, p_from: from, p_to: to
       });
       // With no skill chosen the RPC returns every skill, so the panel keeps
