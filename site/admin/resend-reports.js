@@ -36,18 +36,22 @@
     'achievers':   'Achievers Mocks',
     'record':      'Multilevel Record'
   };
-  // The skills whose reports get rescued by hand. Reading and listening are
-  // marked instantly and rarely need it. Add to this list to bring one back —
-  // the filter label and the row filter both read from here, so nothing else
-  // needs changing.
-  var SKILLS = ['speaking', 'writing', 'full-mock'];
+  // Every skill a report exists for. Each format was fetched through
+  // report-locked before being offered here: writing and listening are a
+  // single html, speaking is html now and a zip before 18 Aug, reading comes
+  // as either a review payload or an html twin, and a full mock as the tabbed
+  // JSON or its original zip.
+  var SKILLS = ['speaking', 'writing', 'reading', 'listening', 'full-mock'];
   var SKILL_ICON = {
     speaking: '🎤', writing: '✍️', reading: '📖', listening: '🎧', 'full-mock': '🎯'
   };
 
-  /** "Speaking + Writing + Full mock" — built from SKILLS so the label can
-   *  never disagree with what the panel actually shows. */
+  /** The label for the empty filter, built from SKILLS so it can never
+   *  disagree with what the panel shows: "All skills" when every skill is on
+   *  the list, otherwise the ones that are. */
+  var ALL_SKILLS = ['speaking', 'writing', 'reading', 'listening', 'full-mock'];
   function allSkillsLabel() {
+    if (SKILLS.length >= ALL_SKILLS.length) return 'All skills';
     return SKILLS.map(function (s) {
       var t = s.replace('-', ' ');
       return t.charAt(0).toUpperCase() + t.slice(1);
