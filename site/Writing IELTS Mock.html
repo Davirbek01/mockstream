@@ -10332,7 +10332,7 @@ setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 1500);
         // Groq hosts open-weight chat models via OpenAI-compatible API.
         if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
         if (!_GROQ_KEY) throw new Error('No Groq API key available');
-        var _mdlGroqLocal = (opts._forceModel && opts._forceProvider === 'groq') ? opts._forceModel : ((cp['scoring_model_groq'] || '').trim() || 'llama-3.3-70b-versatile');
+        var _mdlGroqLocal = (opts._forceModel && opts._forceProvider === 'groq') ? opts._forceModel : ((cp['scoring_model_groq'] || '').trim() || 'openai/gpt-oss-120b');
         if (_cmModel && !opts._forceModel) _mdlGroqLocal = _cmModel;
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
