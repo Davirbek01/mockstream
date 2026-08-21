@@ -301,7 +301,7 @@
           '<div class="rsr-f"><label>Skill</label><select id="rsrSkill">' +
             '<option value="">' + esc(allSkillsLabel()) + '</option>' + skillOpts + '</select></div>' +
           '<div class="rsr-f"><label>Exam</label><select id="rsrExam">' +
-            '<option value="">CEFR + IELTS</option>' +
+            '<option value="">All exams</option>' +
             '<option value="cefr">🎓 CEFR Multilevel</option>' +
             '<option value="ielts">🌍 IELTS</option></select></div>' +
           '<div class="rsr-f"><label>Type</label><select id="rsrType">' +
