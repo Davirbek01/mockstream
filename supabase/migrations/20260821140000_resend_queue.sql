@@ -1,0 +1,31 @@
+-- ============================================================================
+-- Re-sending moves to the server: resend_queue + resend-drain.
+-- ----------------------------------------------------------------------------
+-- Applied 2026-08-21. The panel used to send the batch itself, in a loop inside
+-- the page. Chrome throttles a hidden tab's timers and eventually freezes the
+-- tab, so switching to Telegram to watch the reports arrive PAUSED the very
+-- sending being watched — Davirbek found it that way.
+--
+-- Now "Send" only writes rows; pg_cron 'resend-drain-1min' drains them. The
+-- browser can be closed and the batch still finishes.
+--
+-- The interval the admin picks is carried by send_after (row n becomes due n
+-- intervals from now), so the drain keeps no schedule of its own: it takes what
+-- is due and stops. It exists for two reasons — Telegram rate-limits a channel
+-- at roughly 20 messages a minute, and a teacher does not want fifty files
+-- landing at once.
+--
+-- Objects:
+--   resend_queue            the queue (RLS on, no policies — reached only
+--                           through the SECURITY DEFINER functions below)
+--   resend_enqueue()        panel → queue, checks is_super_admin()
+--   resend_batch_rows()     per-row progress for the panel to poll
+--   resend_batch_status()   counts by status
+--   resend_cancel()         stop what has not gone; sent stays sent
+--   resend_take_due()       the drain's atomic claim (FOR UPDATE SKIP LOCKED,
+--                           so two ticks can never send the same report twice)
+--
+-- The caption rules travelled with the work: stripTiming and retagCaption now
+-- live in the Edge Function. They used to exist in the panel as well, and two
+-- copies of a rule drift apart the moment one is edited — the panel's copies
+-- were deleted rather than left behind.

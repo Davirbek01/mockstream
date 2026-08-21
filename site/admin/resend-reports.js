@@ -65,7 +65,6 @@
   }
   function centreLabel(c) { return CENTER_LABELS[c] || c || '—'; }
   /** The routing id send-to-telegram expects (the main centre is 'mockstream'). */
-  function routingId(c) { return c === 'mock_stream' ? 'mockstream' : c; }
   // Where each centre's report viewer lives. A student's own send builds this
   // from the page it ran on; this panel runs on the main site, so the centre's
   // domain has to be named here. site_settings.siteDomain is NOT it — that
@@ -87,7 +86,6 @@
     var d = new Date(Date.now() + 5 * 3600000);          // Asia/Tashkent
     return d.toISOString().slice(0, 10);
   }
-  function pad(n) { return String(n).padStart(2, '0'); }
 
   async function accessToken() {
     try {
@@ -116,172 +114,18 @@
     return r.json();
   }
 
-  // ── Caption date rewriting ────────────────────────────────────────────────
-  // Only used for the "today" choice. Three things carry a date: the readable
-  // line, the day hashtags, and the month hashtags — a re-send in a new month
-  // has to move all of them or the counts disagree with each other.
-  function retagCaption(caption, centre) {
-    if (!caption) return caption;
-    var now = new Date(Date.now() + 5 * 3600000);        // Asia/Tashkent
-    var d = now.getUTCDate(), m = now.getUTCMonth() + 1, y = now.getUTCFullYear();
-    var yy = String(y).slice(-2);
-    var day = pad(d) + '_' + pad(m) + '_' + yy;          // 19_08_26
-    var mon = pad(m) + '_' + yy;                         // 08_26
-    var rid = routingId(centre);
-    var out = caption;
-    out = out.replace(/(📅 Date:\s*)\d{1,2}\/\d{1,2}\/\d{4}/, '$1' + m + '/' + d + '/' + y);
-    out = out.replace(new RegExp('#' + rid + '_\\d{2}_\\d{2}_\\d{2}', 'g'), '#' + rid + '_' + day);
-    out = out.replace(/#all_\d{2}_\d{2}_\d{2}/g, '#all_' + day);
-    out = out.replace(new RegExp('#' + rid + '_\\d{2}_\\d{2}(?!_)', 'g'), '#' + rid + '_' + mon);
-    out = out.replace(/#all_\d{2}_\d{2}(?!_)/g, '#all_' + mon);
-    out = out.replace(new RegExp('#' + rid + '_\\d{4}', 'g'), '#' + rid + '_' + y);
-    out = out.replace(/#all_\d{4}/g, '#all_' + y);
-    return out;
+  // The browser no longer builds or sends the file — resend-drain does. The
+  // caption rules, the zip fallback and the archive lookup therefore live in
+  // ONE place. They used to live here as well, and two copies of a rule drift
+  // apart the moment one of them is edited.
+
+  var state = { rows: [], busy: false, batch: null, watchStop: null };
+
+  /** One line of feedback, in the slot the row count already occupies. */
+  function flash(container, msg) {
+    var el = container.querySelector('#rsrCount');
+    if (el) el.innerHTML = '<span style="color:#b45309">' + esc(msg) + '</span>';
   }
-
-  /** Drop the clock-time lines from a re-sent caption.
-   *  Start and Finish are wall-clock times of the sitting, and beside a message
-   *  that arrives days later they read as if the exam had just been taken.
-   *  Duration STAYS — how long the student took is true whenever it is read.
-   *  Everything else keeps its wording. Two icon sets are in the stored
-   *  captions (🕐 and 🟢/🔴), so the label decides which line goes, not the
-   *  emoji. */
-  function stripTiming(caption) {
-    return String(caption || '').split('\n').filter(function (ln) {
-      var t = ln.replace(/^[^A-Za-z]+/, '').trim();
-      return !/^(Start|Finish)\s*:/i.test(t);
-    }).join('\n');
-  }
-
-  /** The name the student's own send would have used, so the channel reads the
-   *  same whether a report arrived the first time or the second. */
-  function fileName(row, dateMode) {
-    var who = String(row.student_name || 'Student').replace(/[^\w]+/g, '_').slice(0, 40);
-    var src = row.report_path || '';
-    var dd, mm;
-    if (dateMode === 'today') {
-      var now = new Date(Date.now() + 5 * 3600000);
-      dd = pad(now.getUTCDate()); mm = pad(now.getUTCMonth() + 1);
-    } else {
-      var m = /📅 Date:\s*(\d{1,2})\/(\d{1,2})\//.exec(row.caption || '');
-      if (m) { dd = pad(m[2]); mm = pad(m[1]); }         // caption is M/D/YYYY
-      else { var n2 = new Date(); dd = pad(n2.getDate()); mm = pad(n2.getMonth() + 1); }
-    }
-    var skill = String(row.skill || 'report').replace('-', '');
-    var mock = String(row.mock_number || '').replace(/[^\w]+/g, '');
-    return who + '_' + dd + '_' + mm + '_' + routingId(row.center) + '_' +
-           skill + (mock ? '_' + mock : '') + (src.endsWith('.json') ? '' : '') + '_locked.html';
-  }
-
-  /** The report as a file to attach.
-   *  An attempt saved before 18 Aug 2026 is a ZIP — report-locked only knows
-   *  html and json and answers 404 for one — so those are sent as they were
-   *  sent originally: the zip itself, from storage, or from the permanent
-   *  archive once retention has cleared the bucket copy. */
-  async function reportFile(row, dateMode) {
-    var path = row.report_path || '';
-    if (!path) return { error: 'no report' };
-    var name = fileName(row, dateMode);
-
-    if (/\.zip$/i.test(path)) {
-      var urls = [
-        SB_URL + '/storage/v1/object/public/reports/' + encodeURI(path),
-        'https://storage.googleapis.com/mockstream-report-archive/' + encodeURI(path)
-      ];
-      for (var i = 0; i < urls.length; i++) {
-        var zr = await fetch(urls[i]);
-        if (zr.ok) {
-          var blob = await zr.blob();
-          return { file: new File([blob], name.replace(/_locked\.html$/, '.zip'), { type: 'application/zip' }) };
-        }
-      }
-      return { error: 'zip not found' };
-    }
-
-    var lr = await fetch(SB_URL + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
-    if (!lr.ok) return { error: 'report-locked ' + lr.status };
-    var html = await lr.text();
-    return { file: new File([html], name, { type: 'text/html' }) };
-  }
-
-  /** Post ONE stored report to its centre's channel. Resolves to a status. */
-  async function resendOne(row, dateMode, inDashboard) {
-    var got = await reportFile(row, dateMode);
-    if (got.error) return { ok: false, error: got.error };
-    var file = got.file;
-
-    // The stored caption stops before two lines the sender adds at send time:
-    // who was signed in, and the link to the report. Without them a re-sent
-    // message reads as a lesser copy of the original, so put them back.
-    var caption = stripTiming(dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || ''));
-    if (row.login_line && !/(^|\n)\S* ?Login: /.test(caption)) caption += '\n' + row.login_line;
-    var link = viewLink(row);
-    if (link && caption.indexOf('View Report') < 0) caption += '\n\n📎 View Report: ' + link;
-
-    var fd = new FormData();
-    fd.append('testIdentifier', routingId(row.center));
-    fd.append('skill', row.skill || '');
-    // A fresh key every time: the sender de-duplicates for ten minutes, and a
-    // deliberate re-send must never be mistaken for a retry of the original.
-    fd.append('idempotency_key', 'resend-' + row.id + '-' + Date.now());
-    fd.append('caption', caption);
-    fd.append('text', caption);
-    fd.append('file', file);
-
-    var r = await fetch(SB_URL + '/functions/v1/send-to-telegram', { method: 'POST', body: fd });
-    var j = await r.json().catch(function () { return {}; });
-    if (!(r.ok && j.ok !== false)) return { ok: false, error: j.error || ('HTTP ' + r.status) };
-    // Recorded only after the channel took it, so the dashboard never shows a
-    // second appearance for a send that did not happen. A failure here is not
-    // the send failing, so it must not be reported as one.
-    if (inDashboard) {
-      try { await rpc('record_report_resend', { p_result_id: row.id }); }
-      catch (e) { console.warn('[resend] not recorded for the dashboard:', e.message); }
-    }
-    return { ok: true };
-  }
-
-  // ── UI ────────────────────────────────────────────────────────────────────
-  var CSS = [
-    '.rsr-wrap{padding:16px 18px;font-family:inherit}',
-    '.rsr-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px}',
-    '.rsr-f{display:flex;flex-direction:column;gap:4px}',
-    '.rsr-f label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700}',
-    '.rsr-f select,.rsr-f input{padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;color:#111}',
-    '.rsr-btn{padding:9px 16px;border-radius:9px;border:none;font-weight:700;cursor:pointer;font-size:14px}',
-    '.rsr-btn.p{background:#116a60;color:#fff}.rsr-btn.p:disabled{background:#9ca3af;cursor:not-allowed}',
-    '.rsr-btn.s{background:#eef2f7;color:#334155}',
-    '.rsr-mode{display:flex;gap:14px;align-items:center;font-size:13px;color:#334155}',
-    '.rsr-mode label{display:flex;gap:5px;align-items:center;cursor:pointer;font-weight:600}',
-    '.rsr-note{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:8px 10px;margin:8px 0 12px;display:none}',
-    '.rsr-tbl{width:100%;border-collapse:collapse;font-size:14px}',
-    '.rsr-tbl th{background:#f8fafc;color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px;text-align:left;border-bottom:2px solid #e2e8f0;position:sticky;top:0}',
-    '.rsr-tbl td{padding:8px;border-bottom:1px solid #f1f5f9;vertical-align:middle}',
-    '.rsr-tbl tr:hover td{background:#f8fafc}',
-    '.rsr-sc{font-weight:700;color:#0f172a}',
-    '.rsr-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#eef2f7;color:#475569}',
-    '.rsr-st{font-size:12px;font-weight:700}.rsr-st.ok{color:#16a34a}.rsr-st.no{color:#dc2626}.rsr-st.go{color:#2563eb}',
-    '.rsr-miss td{background:#fef2f2}.rsr-miss:hover td{background:#fee2e2}',
-    '.rsr-miss td:first-child{box-shadow:inset 3px 0 0 #dc2626}',
-    '.rsr-dlv{white-space:nowrap}',
-    '.rsr-yes{color:#16a34a;font-weight:700}',
-    '.rsr-no{color:#dc2626;font-weight:700;font-size:12px}',
-    '.rsr-unk{color:#cbd5e1;font-weight:700;cursor:help}',
-    '.rsr-prac{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;margin-left:4px}',
-    '.rsr-exam{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.03em;background:rgba(99,102,241,.14);color:#4338ca;margin-left:4px}',
-    '.rsr-empty{padding:36px;text-align:center;color:#94a3b8}',
-    '.rsr-count{margin-left:auto;font-size:13px;color:#64748b;font-weight:600}'
-  ].join('');
-
-  function ensureCss() {
-    if (document.getElementById('rsr-css')) return;
-    var s = document.createElement('style');
-    s.id = 'rsr-css';
-    s.textContent = CSS;
-    document.head.appendChild(s);
-  }
-
-  var state = { rows: [], busy: false };
 
   function render(container) {
     var centreOpts = ['<option value="">All centres</option>'].concat(
@@ -310,6 +154,11 @@
             '<option value="practice">Practice</option></select></div>' +
           '<div class="rsr-f"><label>From</label><input type="time" id="rsrFrom"></div>' +
           '<div class="rsr-f"><label>To</label><input type="time" id="rsrTo"></div>' +
+          '<div class="rsr-f"><label>Pace</label><select id="rsrPace">' +
+            '<option value="0">Send now (10/min)</option>' +
+            '<option value="60">1 per minute</option>' +
+            '<option value="120">1 per 2 minutes</option>' +
+            '<option value="300">1 per 5 minutes</option></select></div>' +
           '<button class="rsr-btn s" id="rsrLoad">Show</button>' +
           '<span class="rsr-count" id="rsrCount"></span>' +
         '</div>' +
@@ -322,6 +171,7 @@
               '<input type="checkbox" id="rsrDash" checked> Show in dashboard too</label>' +
           '</div>' +
           '<button class="rsr-btn p" id="rsrSend" disabled>Send to channel</button>' +
+          '<button class="rsr-btn" id="rsrStop" style="display:none">Stop</button>' +
         '</div>' +
         '<div class="rsr-note" id="rsrNote">⚠️ “Today” moves the date line and every dated hashtag ' +
           '(#centre_dd_mm_yy, #all_dd_mm_yy) to today — the work will be counted on today in the channel statistics.</div>' +
@@ -337,6 +187,8 @@
       if (el) el.addEventListener('change', function () { load(container); });
     });
     container.querySelector('#rsrSend').addEventListener('click', function () { send(container); });
+    var stopBtn = container.querySelector('#rsrStop');
+    if (stopBtn) stopBtn.addEventListener('click', function () { cancelBatch(container); });
     container.querySelectorAll('input[name="rsrDateMode"]').forEach(function (el) {
       el.addEventListener('change', function () {
         container.querySelector('#rsrNote').style.display = (el.value === 'today' && el.checked) ? 'block' : 'none';
@@ -434,6 +286,7 @@
     var mode = (container.querySelector('input[name="rsrDateMode"]:checked') || {}).value || 'original';
     var dashEl = container.querySelector('#rsrDash');
     var inDashboard = !dashEl || dashEl.checked;
+    var pace = parseInt(container.querySelector('#rsrPace').value, 10) || 0;
     var picked = [].slice.call(container.querySelectorAll('.rsr-cb'))
       .filter(function (b) { return b.checked; })
       .map(function (b) { return parseInt(b.dataset.i, 10); });
@@ -442,27 +295,114 @@
     state.busy = true;
     var btn = container.querySelector('#rsrSend');
     btn.disabled = true;
-    var done = 0, failed = 0;
+    btn.textContent = 'Queueing…';
 
-    for (var k = 0; k < picked.length; k++) {
-      var i = picked[k];
-      var cell = container.querySelector('[data-st="' + i + '"]');
-      if (cell) { cell.className = 'rsr-st go'; cell.textContent = 'sending…'; }
-      var res;
-      try { res = await resendOne(state.rows[i], mode, inDashboard); }
-      catch (e) { res = { ok: false, error: e.message }; }
-      if (cell) {
-        cell.className = 'rsr-st ' + (res.ok ? 'ok' : 'no');
-        cell.textContent = res.ok ? '✓ sent' : '✗ ' + (res.error || 'failed');
-      }
-      if (res.ok) { done++; var cb = container.querySelector('.rsr-cb[data-i="' + i + '"]'); if (cb) cb.checked = false; }
-      else failed++;
-      btn.textContent = 'Sending… ' + (k + 1) + '/' + picked.length;
+    var ids = picked.map(function (i) { return state.rows[i].id; });
+    var byId = {};
+    picked.forEach(function (i) { byId[state.rows[i].id] = i; });
+
+    var res;
+    try {
+      res = await rpc('resend_enqueue', {
+        p_result_ids: ids, p_date_mode: mode,
+        p_in_dashboard: inDashboard, p_interval_seconds: pace
+      });
+    } catch (e) {
+      state.busy = false;
+      btn.disabled = false;
+      btn.textContent = 'Send';
+      flash(container, 'Could not queue: ' + e.message);
+      return;
     }
 
+    var batch = (res && res[0] && res[0].batch_id) || null;
+    var queued = (res && res[0] && res[0].queued) || 0;
+    if (!batch || !queued) {
+      state.busy = false; btn.disabled = false; btn.textContent = 'Send';
+      flash(container, 'Nothing to queue — those rows have no stored report.');
+      return;
+    }
+
+    state.batch = batch;
+    picked.forEach(function (i) {
+      var cell = container.querySelector('[data-st="' + i + '"]');
+      if (cell) { cell.className = 'rsr-st go'; cell.textContent = 'queued'; }
+    });
+    showStop(container, true);
+    watch(container, batch, byId, queued);
+  }
+
+  /** Follow the batch the server is working through.
+   *
+   *  The polling lives in the page, but nothing depends on it: close the tab
+   *  and the cron finishes the batch anyway. This only paints what already
+   *  happened. */
+  function watch(container, batch, byId, total) {
+    var btn = container.querySelector('#rsrSend');
+    var stop = false;
+    state.watchStop = function () { stop = true; };
+
+    (async function tick() {
+      if (stop) return;
+      var rows = [];
+      try { rows = await rpc('resend_batch_rows', { p_batch: batch }); } catch (e) { /* keep watching */ }
+      var done = 0, failed = 0, pending = 0;
+      (rows || []).forEach(function (r) {
+        var i = byId[r.result_id];
+        var cell = (i === undefined) ? null : container.querySelector('[data-st="' + i + '"]');
+        if (r.status === 'sent') {
+          done++;
+          if (cell) { cell.className = 'rsr-st ok'; cell.textContent = '✓ sent'; }
+          var cb = (i === undefined) ? null : container.querySelector('.rsr-cb[data-i="' + i + '"]');
+          if (cb) cb.checked = false;
+        } else if (r.status === 'failed') {
+          failed++;
+          if (cell) { cell.className = 'rsr-st no'; cell.textContent = '✗ ' + (r.error || 'failed'); }
+        } else if (r.status === 'cancelled') {
+          if (cell) { cell.className = 'rsr-st'; cell.textContent = 'cancelled'; }
+        } else {
+          pending++;
+          if (cell && cell.textContent.indexOf('✓') < 0) {
+            var due = r.send_after ? new Date(r.send_after) : null;
+            var wait = due ? Math.max(0, Math.round((due - Date.now()) / 1000)) : 0;
+            cell.className = 'rsr-st go';
+            cell.textContent = r.status === 'sending' ? 'sending…'
+                             : (wait > 5 ? 'in ' + (wait >= 60 ? Math.round(wait / 60) + ' min' : wait + 's') : 'queued');
+          }
+        }
+      });
+
+      btn.textContent = pending
+        ? 'Sending ' + (done + failed) + '/' + total + '…'
+        : 'Sent ' + done + (failed ? ' · ' + failed + ' failed' : '');
+
+      if (!pending) {
+        state.busy = false;
+        btn.disabled = false;
+        showStop(container, false);
+        setTimeout(function () { wireTable(container); }, 1200);
+        return;
+      }
+      setTimeout(tick, 4000);
+    })();
+  }
+
+  function showStop(container, on) {
+    var b = container.querySelector('#rsrStop');
+    if (b) b.style.display = on ? '' : 'none';
+  }
+
+  /** Cancel what has not gone yet. Anything already sent stays sent. */
+  async function cancelBatch(container) {
+    if (!state.batch) return;
+    try { await rpc('resend_cancel', { p_batch: state.batch }); } catch (e) { /* nothing to undo */ }
+    if (state.watchStop) state.watchStop();
     state.busy = false;
-    btn.textContent = 'Sent ' + done + (failed ? ' · ' + failed + ' failed' : '');
-    setTimeout(function () { wireTable(container); }, 1200);
+    var btn = container.querySelector('#rsrSend');
+    btn.disabled = false;
+    btn.textContent = 'Send';
+    showStop(container, false);
+    wireTable(container);
   }
 
   window.AdminPanels = window.AdminPanels || {};
