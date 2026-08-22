@@ -13,6 +13,7 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <script src="score-boost.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
   <script src="code-persistence.js" defer></script>
@@ -14180,7 +14181,11 @@ ${_wReportSpec}`;
       if (_hasT12 && result.t12_score === 0) result.t12_score = 1;
       if (_hasT2  && result.t2_score  === 0) result.t2_score  = 1;
 
-      result.raw_score = result.t11_score + result.t12_score + result.t2_score;
+      // The centre's score boost applies here too. Standalone CEFR writing was
+      // the one AI-scored skill that never read it, so the same essay scored a
+      // point higher inside a full mock than on its own.
+      result.raw_score = Math.min(16, result.t11_score + result.t12_score + result.t2_score +
+                                      (window.getScoreBoost ? window.getScoreBoost() : 0));
 
       // VALIDATION: Check if AI returned valid scores (not all zeros when there's actual content)
       const hasContent = _hasT11 || _hasT12 || _hasT2;

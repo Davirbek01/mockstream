@@ -84,7 +84,7 @@
         brandColor: '', welcomeMessage: '', hidePoweredBy: false,
         // AI & Scoring (geminiPlan / transcriberProvider / transcriberGeminiPlan
         // are 'default' = inherit from system prompts unless explicitly overridden)
-        scoreBoost: 1, aiProvider: 'default', maxAiCallsDay: 0,
+        scoreBoost: 0, aiProvider: 'default', maxAiCallsDay: 0,
         geminiPlan: 'default', transcriberProvider: 'default', transcriberGeminiPlan: 'default',
         // Vision fact-check — OFF by default. When ON (and the primary
         // scoring AI is text-only), IELTS Writing Task 1 charts and CEFR

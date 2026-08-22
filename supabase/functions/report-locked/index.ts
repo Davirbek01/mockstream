@@ -82,6 +82,12 @@ function lockerPage(pathname: string, fnUrl: string, ivB64: string, dataB64: str
 <title>Protected report — Mock Stream</title>
 <style>
 /* Mirrors the view.html lock gate so the file and the link feel identical. */
+/* view.html applies a global border-box rule, so ITS card is 380px wide in
+   total. Without the same rule here the card measured 380 + 28 + 28 of padding
+   = 436px, and the downloaded file's gate came out ~15% larger than the one
+   behind the View Report link. (No backticks in this comment: the whole page
+   lives inside a template literal.) */
+*{box-sizing:border-box}
 :root{color-scheme:light}
 body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
  background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);

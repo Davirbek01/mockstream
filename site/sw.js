@@ -8,7 +8,7 @@
 //     focuses/opens the target page. Subscriptions are managed by
 //     site/push-client.js; sends fan out from the web-push Edge Function.
 
-const CACHE_NAME = 'mockstream-v1002';
+const CACHE_NAME = 'mockstream-v1003';
 const CONTENT_CACHE = 'mockstream-content-v1'; // NOT versioned with the shell
 
 const SUPABASE_HOST = 'zknyukkbtbcqgvkgjktb.supabase.co';
@@ -24,6 +24,7 @@ const PRECACHE_URLS = [
   'admin.html',
   'version-banner.js',
   'site-config/site-config.js',
+  'score-boost.js',
   'site-config/responsive-scaling.css'
 ];
 

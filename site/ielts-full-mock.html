@@ -24,6 +24,7 @@
     <!-- Site Config (swap this script to change brand/skin) -->
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
+  <script src="score-boost.js"></script>
     <script src="supabase-send.js"></script>
     <!-- fetchLockedReportFile: the encrypted Telegram copy -->
     <script src="attempt-payload.js"></script>
@@ -9146,7 +9147,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                     }
 
                     const rawBand = parsed.overall?.band || 5;
-                    const _wBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    const _wBoost = (window.getScoreBoost ? window.getScoreBoost() : 0);
                     state.scaledScores.w = Math.min(9, rawBand + _wBoost);
                     return parsed;
                 } else {
@@ -9323,7 +9324,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                     state.aiFailed.speaking = false;
                     state.aiError.speaking = '';
                     const rawBand = parsed.overall?.band || 6.5;
-                    const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    const _sBoost = (window.getScoreBoost ? window.getScoreBoost() : 0);
                     state.scaledScores.s = Math.min(9, rawBand + _sBoost);
                     return parsed;
                 } else {
