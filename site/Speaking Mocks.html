@@ -37,6 +37,7 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <script src="score-boost.js"></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
   <!-- fetchLockedReportFile: the encrypted Telegram copy -->
@@ -17247,7 +17248,7 @@ ${_reportSpec}` }];
           if (p2  === 0 && _partHasSpeech([7]))          p2  = 1;
           if (p3  === 0 && _partHasSpeech([8]))          p3  = 1;
 
-          const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+          const _boost = (window.getScoreBoost ? window.getScoreBoost() : 0);
           const rawScore = Math.min(21, p11 + p12 + p2 + p3 + _boost);
 
           // Log zero-score scenarios for debugging (no longer treated as failure)

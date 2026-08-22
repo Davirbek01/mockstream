@@ -15,6 +15,7 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <script src="score-boost.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
   <script src="code-persistence.js" defer></script>
@@ -10671,7 +10672,7 @@ ${_wSpec}
       // Ensure valid band scores
       const roundHalf = (v) => Math.round((Number(v) || 0) * 2) / 2;  // for task bands & overall (half bands OK)
       const roundWhole = (v) => Math.round(Number(v) || 0);           // for criteria (whole numbers only per IELTS rules)
-      const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+      const _boost = (window.getScoreBoost ? window.getScoreBoost() : 0);
       // Criteria: whole numbers only
       result.t1_ta  = Math.min(9, roundWhole(result.t1_ta) + _boost);
       result.t1_cc  = Math.min(9, roundWhole(result.t1_cc) + _boost);

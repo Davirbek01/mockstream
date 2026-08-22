@@ -27,6 +27,7 @@
     <!-- Site Config (swap this script to change brand/skin) -->
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
+  <script src="score-boost.js"></script>
     <script src="supabase-send.js"></script>
     <!-- fetchLockedReportFile: the encrypted Telegram copy -->
     <script src="attempt-payload.js"></script>
@@ -9296,7 +9297,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                     result.t11_score = Math.round(result.t11_score || 0);
                     result.t12_score = Math.round(result.t12_score || 0);
                     result.t2_score = Math.round(result.t2_score || 0);
-                    const _wBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    const _wBoost = (window.getScoreBoost ? window.getScoreBoost() : 0);
                     result.raw_score = Math.min(16, result.t11_score + result.t12_score + result.t2_score + _wBoost);
 
                     // Recalculate certificate score based on integer raw score
@@ -9851,7 +9852,7 @@ ${_sSpec}
                 const result = _extractJsonObject(_analysisText);
 
                 // Apply score boost from site config (temporary measure)
-                const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                const _sBoost = (window.getScoreBoost ? window.getScoreBoost() : 0);
                 if (_sBoost && result.raw_score > 0) {
                     result.raw_score = Math.min(21, (result.raw_score || 0) + _sBoost);
                     const _sMap = { 21:75,20:71,19:67,18:64,17:61,16:57,15:54,14:51,13:49,12:46,11:43,10:40,9:38,8:35,7:32,6:29,5:26,4:23,3:19,2:15,1:11,0:0 };
