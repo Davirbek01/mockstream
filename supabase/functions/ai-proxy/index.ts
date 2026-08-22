@@ -331,19 +331,49 @@ async function studentCapExceeded(
  *  Groq's `usage.total_time` is NOT it — that is how long the model spent
  *  thinking, which on a chat call is a fraction of a second and has nothing to
  *  do with the bill; reading it as audio put 0.07 seconds on a text call. */
-function readUsage(buf: ArrayBuffer, lane: string): { tokensIn: number | null; tokensOut: number | null; audioSec: number | null } {
-  const empty = { tokensIn: null, tokensOut: null, audioSec: null };
+function readUsage(buf: ArrayBuffer, lane: string): {
+  tokensIn: number | null; tokensOut: number | null; audioSec: number | null;
+  answerChars: number | null; finishReason: string; reasoningChars: number;
+} {
+  const empty = { tokensIn: null, tokensOut: null, audioSec: null,
+                  answerChars: null, finishReason: '', reasoningChars: 0 };
   try {
     if (buf.byteLength > 2_000_000) return empty;      // not a scoring reply
     const j: any = JSON.parse(new TextDecoder().decode(buf));
     const u = j?.usage || j?.usageMetadata || j?.x_groq?.usage || {};
     const num = (v: any) => (typeof v === 'number' && isFinite(v) ? Math.round(v) : null);
+    // The answer itself, in each provider's own shape. null means "this reply
+    // is not a chat completion" (a model list, a transcription) — only a
+    // measured zero counts as an empty answer.
+    let answer: string | null = null;
+    let reasoning = '';
+    let finish = '';
+    const ch = j?.choices?.[0];
+    if (ch) {                                              // openai / groq / deepseek / grok
+      const c = ch.message?.content;
+      answer = typeof c === 'string' ? c
+             : Array.isArray(c) ? c.map((x: any) => x?.text || '').join('')
+             : c == null ? '' : String(c);
+      reasoning = String(ch.message?.reasoning || ch.message?.reasoning_content || '');
+      finish = String(ch.finish_reason || '');
+    } else if (Array.isArray(j?.content)) {                // anthropic
+      answer = j.content.map((x: any) => x?.text || '').join('');
+      finish = String(j.stop_reason || '');
+    } else if (j?.candidates?.[0]) {                       // gemini
+      const parts = j.candidates[0]?.content?.parts || [];
+      answer = parts.map((x: any) => x?.text || '').join('');
+      finish = String(j.candidates[0]?.finishReason || '');
+    }
+
     return {
       // openai/groq/deepseek/grok · anthropic · gemini
       tokensIn:  num(u.prompt_tokens ?? u.input_tokens ?? u.promptTokenCount),
       tokensOut: num(u.completion_tokens ?? u.output_tokens ?? u.candidatesTokenCount),
       audioSec:  lane === 'transcribe' && typeof j?.duration === 'number'
                  ? Math.round(j.duration * 100) / 100 : null,
+      answerChars: answer === null ? null : answer.trim().length,
+      finishReason: finish,
+      reasoningChars: reasoning.length,
     };
   } catch {
     return empty;                                       // a non-JSON reply is not a failure
@@ -568,10 +598,22 @@ Deno.serve(async (req) => {
 
   // Mark which key index served it when >1 configured.
   const keyTag = (providerKeys.length > 1) ? `key#${usedKeyIdx + 1}` : '';
-  const logOk = (usage?: { tokensIn?: number | null; tokensOut?: number | null; audioSec?: number | null }) =>
+  const logOk = (usage?: {
+    tokensIn?: number | null; tokensOut?: number | null; audioSec?: number | null;
+    answerChars?: number | null; finishReason?: string; reasoningChars?: number;
+  }) =>
     logCall({
       ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
-      status: 'ok', errorMessage: keyTag,
+      // 200 with nothing in the answer field. The wire is fine and the tokens
+      // are spent, but the caller has nothing to use — it throws the reply
+      // away and retries, and that is how a submission ends up unscored while
+      // every log line reads 'ok'. Named so the digest can show it.
+      status: usage?.answerChars === 0 ? 'empty_answer' : 'ok',
+      errorMessage: usage?.answerChars === 0
+        ? `empty answer (finish_reason=${usage?.finishReason || '?'}` +
+          (usage?.reasoningChars ? `, ${usage.reasoningChars} chars of reasoning instead` : '') +
+          `)${keyTag ? ` ${keyTag}` : ''}`
+        : keyTag,
       bytesIn: reqBytes,
       tokensIn: usage?.tokensIn ?? null,
       tokensOut: usage?.tokensOut ?? null,
