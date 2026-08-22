@@ -57,6 +57,8 @@ Deno.serve(async (req: Request) => {
   fd.append('file', new Blob([bytes], { type: mime }), 'answer.m4a');
   fd.append('model', 'whisper-large-v3-turbo');
   fd.append('response_format', 'json');
+  // English exam — see the note in the apps' speakingPipeline.
+  fd.append('language', 'en');
 
   try {
     const r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {

@@ -125,10 +125,12 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] 
     const p = prices[key] || prices[`${r.provider}/all`];
     blind += Number(r.no_usage || 0);
     if (!p) {
-      // Rows logged before ai-proxy recorded the lane land in 'all' and carry
-      // no usage at all, so they cost nothing to price and nothing to skip.
-      // Counting them as "no price set" made the report nag about history.
-      const nothingToPrice = r.lane === 'all' &&
+      // A lane that reported NO usage at all costs nothing, so there is
+      // nothing to price and nothing to warn about. That covers the rows
+      // logged before ai-proxy recorded the lane (they land in 'all') and the
+      // model-list probes the monthly health check makes against every
+      // provider — six of those made the digest claim six lanes were unpriced.
+      const nothingToPrice =
         !Number(r.tokens_in) && !Number(r.tokens_out) && !Number(r.audio_sec) && !Number(r.bytes_in);
       if (!nothingToPrice) unpriced++;
       continue;
@@ -199,7 +201,7 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   const alerts: string[] = [];
   if (dead.length) alerts.push(`${dead.length} function${dead.length > 1 ? 's' : ''} down`);
   if (Number(tg.dead_windows) > 0) alerts.push('Telegram silence');
-  if (Number(tg.failed) > 0) alerts.push(`${tg.failed} send failures`);
+  if (Number(tg.failed) > 0) alerts.push(`${tg.failed} send failure${Number(tg.failed) === 1 ? '' : 's'}`);
   if (Number(tg.gap_pct) > Number(tg.gap_pct_7d) + 3) alerts.push('delivery gap up');
 
   L.push(alerts.length ? '🔴 <b>Health check — needs attention</b>' : '🟢 <b>Health check — all clear</b>');
@@ -256,14 +258,34 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   // everyone on an old build rather than everyone who lost a report.
   const linked = Number(tg.linked_pct || 0);
   const misses = tg.missing || [];
-  if (linked >= 60 && misses.length) {
+  // Two different problems wear the same face here. A row WITH a stored report
+  // is a report that exists and did not reach the channel — that is the one to
+  // chase. A row WITHOUT one was never sendable: an old desktop build (before
+  // 9 Jul 2026) saved practice drills as a bare score with no report at all,
+  // and listing those as lost reports sent us looking for a delivery failure
+  // that never happened.
+  const lost = misses.filter((m: any) => m.has_report !== false);
+  const bare = misses.filter((m: any) => m.has_report === false);
+  if (linked >= 60 && lost.length) {
     L.push(`  <b>missing reports:</b>`);
-    for (const m of misses.slice(0, 10)) {
+    for (const m of lost.slice(0, 10)) {
       L.push(`   ${esc(m.student || '—')} · ${esc(m.center || '?')} · ${esc(m.skill || '?')} · ${esc(m.at)}`);
     }
-    if (misses.length > 10) L.push(`   …and ${misses.length - 10} more`);
-  } else if (linked < 60) {
+    if (lost.length > 10) L.push(`   …and ${lost.length - 10} more`);
+  }
+  if (linked >= 60 && bare.length) {
+    const who = [...new Set(bare.map((m: any) => `${m.student || '—'} (${m.center || '?'})`))];
+    L.push(`  <i>${bare.length} row(s) had no report to send — an app build that saves practice ` +
+           `drills as a bare score: ${esc(who.slice(0, 3).join(', '))}${who.length > 3 ? ' …' : ''}</i>`);
+  }
+  if (linked < 60) {
     L.push(`  <i>naming needs the linked senders — ${linked}% of today's submissions carry their id</i>`);
+  }
+  // The channel copy should be the encrypted html the locker builds. A zip
+  // means the page could not fetch it and fell back to the old bundle — the
+  // student is fine, but the channel got a multi-MB file and no locked report.
+  if (Number(tg.via_zip) > 0) {
+    L.push(`  📦 ${tg.via_zip} report(s) went as the legacy zip — the locker could not be fetched`);
   }
   if (Number(tg.dead_windows) > 0) {
     L.push(`  🔴 silent windows: ${tg.dead_windows} (${tg.dead_subs} submissions) at ${esc(tg.dead_at)}`);
