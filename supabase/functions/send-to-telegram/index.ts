@@ -223,6 +223,15 @@ Deno.serve(async (req) => {
     fileType  = file.type || 'application/octet-stream';
   }
 
+  // What the channel is getting. 'zip' means the page could not fetch the
+  // encrypted html and fell back to the legacy bundle — nothing here changes
+  // because of it; the 08:00 digest reads it so the fallback stops being
+  // invisible.
+  const via = !fileBytes ? 'none'
+            : /_locked\.html$/i.test(fileName) ? 'locked'
+            : /\.zip$/i.test(fileName) ? 'zip'
+            : 'other';
+
   const results: Array<Record<string, unknown>> = [];
   let primaryOk = false;
   let primaryError: Record<string, unknown> | null = null;
@@ -264,7 +273,7 @@ Deno.serve(async (req) => {
         .from('telegram_send_log')
         .insert({
           idem_key: idemKey, target_tag: target.tag,
-          center: centerId, skill, chat_id: target.chatId, ok: false
+          center: centerId, skill, chat_id: target.chatId, ok: false, via
         });
       if (insErr) {
         // Race lost — another isolate is already posting this target.

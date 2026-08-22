@@ -307,17 +307,43 @@
    *                such as writing — encrypted as it stands)
    */
   async function fetchLockedReportFile(centre, id, name, ext) {
-    try {
-      var SB = (window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co');
-      var path = centre + '/' + id + '.' + (ext === 'html' ? 'html' : 'json');
-      var r = await fetch(SB + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
-      if (!r.ok) return null;
-      var html = await r.text();
-      return new File([html], (name || 'report') + '_locked.html', { type: 'text/html' });
-    } catch (e) {
-      console.warn('[locked report] unavailable:', e);
-      return null;
+    var SB = (window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co');
+    var path = centre + '/' + id + '.' + (ext === 'html' ? 'html' : 'json');
+    var url = SB + '/functions/v1/report-locked?p=' + encodeURIComponent(path);
+    var last = '';
+    var tries = 0;
+
+    // Three tries, 0.5 s and 1.5 s apart. This runs at the busiest moment of a
+    // submission — the report has just been uploaded and a scoring call may
+    // still be retrying — and one dropped connection here costs the channel
+    // its encrypted copy for good.
+    for (var attempt = 1; attempt <= 3; attempt++) {
+      tries = attempt;
+      try {
+        var r = await fetch(url);
+        if (r.ok) {
+          var html = await r.text();
+          // A locker that answers 200 with nothing is not a report; treat it
+          // as a failure rather than attaching an empty file.
+          if (html && html.length > 200) {
+            return new File([html], (name || 'report') + '_locked.html', { type: 'text/html' });
+          }
+          last = 'empty body';
+        } else {
+          last = 'HTTP ' + r.status;
+          // 4xx = the path is wrong or the report is not stored. Retrying
+          // cannot change that; only 408/429 are worth another go.
+          if (r.status >= 400 && r.status < 500 && r.status !== 408 && r.status !== 429) break;
+        }
+      } catch (e) {
+        last = (e && e.message) || 'network error';
+      }
+      if (attempt < 3) await new Promise(function (r2) { setTimeout(r2, attempt === 1 ? 500 : 1500); });
     }
+
+    console.warn('[locked report] giving up after ' + tries + ' tr' + (tries === 1 ? 'y' : 'ies') + ' (' + last +
+                 ') — the channel gets the legacy zip for ' + path);
+    return null;
   }
 
 
