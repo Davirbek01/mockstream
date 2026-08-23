@@ -137,6 +137,13 @@ export async function gcpSpend(daysBack: number): Promise<GcpSpend | null> {
                    from \`${PROJECT}.${DATASET}.${t}\``)
       .join('\n union all \n');
 
+    // Same tables, but the columns the egress question needs.
+    const egressUnion = tables
+      .map((t) => `select sku.description as sku, resource.name as bucket, usage.amount as amount,
+                          usage_start_time
+                   from \`${PROJECT}.${DATASET}.${t}\``)
+      .join('\n union all \n');
+
     const rows = await bq(token, `
       with all_rows as (${union}),
       dwin as (
@@ -181,7 +188,26 @@ export async function gcpSpend(daysBack: number): Promise<GcpSpend | null> {
     const dayEnd = asMs(rows[0]?.day_end);
     const partial = !!(lastExport && dayEnd && lastExport < dayEnd);
 
+    // How much of that day's traffic was students pulling exam audio.
+    let audioEgressGib: number | undefined;
+    try {
+      const eg = await bq(token, `
+        with all_rows as (${egressUnion}),
+        dwin as (
+          select date_sub(current_date('Asia/Tashkent'), interval ${Math.max(0, daysBack)} day) as d
+        )
+        select round(sum(amount) / pow(1024, 3), 2) as gib
+        from all_rows, dwin
+        where date(usage_start_time, 'Asia/Tashkent') = dwin.d
+          and sku like 'Download%'
+          and bucket in ('mockstream-listening-audio', 'mockstream-samples-audio')
+      `);
+      const g = Number(eg[0]?.gib);
+      if (isFinite(g)) audioEgressGib = g;
+    } catch { /* the spend line matters more than this one */ }
+
     return {
+      audioEgressGib,
       day: rows[0]?.day || '',
       total: by.reduce((a, b) => a + b.cost, 0),
       by,
