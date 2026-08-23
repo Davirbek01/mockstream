@@ -18,7 +18,8 @@
 // The counts come from daily_health_snapshot() so the SQL lives in a
 // migration; this function formats, sweeps and delivers.
 //
-// Trigger: pg_cron job 'daily-health-0800' (03:00 UTC) via pg_net +
+// Trigger: pg_cron job 'daily-health-0800' (03:03 UTC = 08:03 Tashkent — off
+//          the top of the minute, where every other cron fires) via pg_net +
 // vault service key. Manual run:
 //   POST /functions/v1/daily-health-check           → yesterday
 //   POST /functions/v1/daily-health-check {"days_back":0}  → today so far
@@ -351,7 +352,20 @@ Deno.serve(async (req) => {
   const daysBack = Number.isFinite(body?.days_back) ? Number(body.days_back) : 1;
   const dry = body?.dry === true;
 
-  const { data: snap, error } = await sb.rpc('daily_health_snapshot', { p_days_back: daysBack });
+  // Two tries. On 23 Aug the 08:00 run died with "canceling statement due to
+  // statement timeout": the snapshot scans a whole day of submissions and
+  // sends, and it happened to land on the minute when the 1-minute drain, the
+  // 5-minute sweep and the 10-minute watcher all fire (two of those timed out
+  // at the same instant). The report is once a day — it can afford to wait
+  // three seconds and ask again rather than go missing until someone notices.
+  let snap: any = null;
+  let error: { message: string } | null = null;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const res = await sb.rpc('daily_health_snapshot', { p_days_back: daysBack });
+    snap = res.data; error = res.error;
+    if (!error) break;
+    if (attempt === 1) await new Promise((r) => setTimeout(r, 3000));
+  }
   if (error) return json(500, { ok: false, error: error.message });
   // A crash below used to answer a bare 'Internal Server Error' — nothing to
   // act on, on a report nobody looks at until 08:00 the next morning.
