@@ -9178,7 +9178,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             const fd = new FormData();
             fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
             fd.append('model', model);
-            fd.append('response_format', 'json');
+            // verbose_json so the reply carries `duration` — ai-proxy stores it and the
+            // daily spend line prices real audio hours instead of guessing from bytes.
+            fd.append('response_format', 'verbose_json');
             fd.append('language', 'en');
             const r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
                 method: 'POST', headers: { 'Authorization': 'proxy' }, body: fd

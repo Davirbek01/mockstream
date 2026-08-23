@@ -114,7 +114,7 @@ function esc(s: string) {
  *  estimated from the bytes we uploaded at the configured bitrate. That part
  *  is marked ~ so it is never mistaken for a measurement.
  */
-function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] {
+function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttempts: number): string[] {
   const L: string[] = [];
   if (!rows || !rows.length) return L;
 
@@ -172,7 +172,7 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] 
       L.push(`  <b>Google</b>: <i>${esc(gcp.note)}</i>`);
     } else {
       L.push(`  <b>Google</b> ${money(gcp.total)}` +
-             (gcp.day ? ` <i>(${esc(gcp.day)}, billed)</i>` : ''));
+             (gcp.day ? ` <i>(${esc(gcp.day)}, ${gcp.partial ? 'STILL FILLING' : 'billed'})</i>` : ''));
       for (const g of gcp.by.slice(0, 5)) {
         L.push(`   ${esc(g.service)}: ${money(g.cost)}`);
       }
@@ -184,6 +184,14 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] 
   }
   if (estimated) L.push(`  <i>~ audio minutes estimated from upload size; the rest is the providers' own counts</i>`);
   if (blind) L.push(`  <i>${blind} call(s) reported no usage — not counted</i>`);
+  // Bytes per attempt, not bytes. A total moves with how busy the day was;
+  // this moves only when the same file is fetched more or fewer times — which
+  // is the thing a cache header or a smaller encoding actually changes.
+  if (gcp && typeof gcp.audioEgressGib === 'number' && audioAttempts > 0) {
+    const mbEach = Math.round((gcp.audioEgressGib * 1024) / audioAttempts);
+    L.push(`  🎧 <b>Audio egress</b> ${gcp.audioEgressGib} GiB · ${audioAttempts} listening/speaking/full mock` +
+           ` · <b>${mbEach} MB per attempt</b>` + (gcp.partial ? ' <i>(day still filling)</i>' : ''));
+  }
   if (unpriced) L.push(`  <i>${unpriced} lane(s) have no price set in ai_price_table</i>`);
   if (prices._confirmed !== true) {
     L.push(`  ⚠️ <i>prices not confirmed against the providers' consoles yet</i>`);
@@ -215,6 +223,11 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   const trend = diff >= 0 ? `+${diff}` : String(diff);
   L.push(`📊 <b>Submissions: ${s.submissions}</b> <i>(7-day avg ${s.avg_7d}, ${trend})</i>`);
   const rows: Row[] = s.by_centre || [];
+  // Everything that pulls exam audio: the listening parts, the speaking
+  // question prompts, and a full mock which contains both.
+  const audioAttempts = rows
+    .filter((r: any) => ['listening', 'speaking', 'full-mock'].includes(String(r.skill || '')))
+    .reduce((a: number, r: any) => a + Number(r.n || 0), 0);
   const centres = new Map<string, Row[]>();
   for (const r of rows) {
     if (!centres.has(r.center)) centres.set(r.center, []);
@@ -317,7 +330,7 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   // description at all, and the examiner grades a picture task having seen
   // nothing. Small and shrinking on its own — this is here so that a centre
   // freezing on an old build shows up the next morning rather than never.
-  for (const line of spendSection(spend, prices, gcp)) L.push(line);
+  for (const line of spendSection(spend, prices, gcp, audioAttempts)) L.push(line);
 
   const stale = s.stale_app || {};
   if (Number(stale.total) > 0) {

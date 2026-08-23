@@ -133,21 +133,33 @@ export async function gcpSpend(daysBack: number): Promise<GcpSpend | null> {
     }
 
     const union = tables
-      .map((t) => `select service.description as service, cost, credits, usage_start_time
+      .map((t) => `select service.description as service, cost, credits, usage_start_time, export_time
+                   from \`${PROJECT}.${DATASET}.${t}\``)
+      .join('\n union all \n');
+
+    // Same tables, but the columns the egress question needs.
+    const egressUnion = tables
+      .map((t) => `select sku.description as sku, resource.name as bucket, usage.amount as amount,
+                          usage_start_time
                    from \`${PROJECT}.${DATASET}.${t}\``)
       .join('\n union all \n');
 
     const rows = await bq(token, `
       with all_rows as (${union}),
-      day as (
+      dwin as (
         select date_sub(current_date('Asia/Tashkent'), interval ${Math.max(0, daysBack)} day) as d
       )
       select service,
              round(sum(cost) + sum(ifnull((select sum(c.amount) from unnest(credits) c), 0)), 4) as cost,
-             (select format_date('%Y-%m-%d', d) from day) as day
-      from all_rows, day
-      where date(usage_start_time, 'Asia/Tashkent') = day.d
-      group by service
+             format_date('%Y-%m-%d', dwin.d) as day,
+             -- Google keeps appending to a day for a while after it ends. If
+             -- the newest row for this day was written before the day was even
+             -- over, what we are looking at is a part of it.
+             max(export_time) as last_export,
+             timestamp_add(timestamp(dwin.d, 'Asia/Tashkent'), interval 24 hour) as day_end
+      from all_rows, dwin
+      where date(usage_start_time, 'Asia/Tashkent') = dwin.d
+      group by service, dwin.d
       having cost <> 0
       order by cost desc
     `);
@@ -162,11 +174,48 @@ export async function gcpSpend(daysBack: number): Promise<GcpSpend | null> {
       if (!n) return { day: '', total: 0, by: [], tables: tables.length,
                        note: 'export connected, Google has not written any rows yet (first data lands within a day)' };
     }
+    // A day is settled once Google has written to it after the day ended.
+    // BigQuery's REST API hands TIMESTAMPs back as epoch SECONDS in a string
+    // ("1787417739.123"), not as text a Date can parse — reading them with
+    // Date.parse gave NaN and every day looked settled.
+    const asMs = (v: unknown): number => {
+      const raw = String(v ?? '').trim();
+      if (!raw) return 0;
+      const n = Number(raw);
+      return isFinite(n) ? Math.round(n * 1000) : Date.parse(raw);
+    };
+    const lastExport = asMs(rows[0]?.last_export);
+    const dayEnd = asMs(rows[0]?.day_end);
+    const partial = !!(lastExport && dayEnd && lastExport < dayEnd);
+
+    // How much of that day's traffic was students pulling exam audio.
+    let audioEgressGib: number | undefined;
+    try {
+      const eg = await bq(token, `
+        with all_rows as (${egressUnion}),
+        dwin as (
+          select date_sub(current_date('Asia/Tashkent'), interval ${Math.max(0, daysBack)} day) as d
+        )
+        select round(sum(amount) / pow(1024, 3), 2) as gib
+        from all_rows, dwin
+        where date(usage_start_time, 'Asia/Tashkent') = dwin.d
+          and sku like 'Download%'
+          and bucket in ('mockstream-listening-audio', 'mockstream-samples-audio')
+      `);
+      const g = Number(eg[0]?.gib);
+      if (isFinite(g)) audioEgressGib = g;
+    } catch { /* the spend line matters more than this one */ }
+
     return {
+      audioEgressGib,
       day: rows[0]?.day || '',
       total: by.reduce((a, b) => a + b.cost, 0),
       by,
       tables: tables.length,
+      partial,
+      note: partial
+        ? 'Google is still writing this day — no settled figure yet (it lands within a day)'
+        : undefined,
     };
   } catch (e) {
     return { day: '', total: 0, by: [], tables: 0, note: String((e as any)?.message || e).slice(0, 200) };
