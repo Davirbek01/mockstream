@@ -172,7 +172,7 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] 
       L.push(`  <b>Google</b>: <i>${esc(gcp.note)}</i>`);
     } else {
       L.push(`  <b>Google</b> ${money(gcp.total)}` +
-             (gcp.day ? ` <i>(${esc(gcp.day)}, billed)</i>` : ''));
+             (gcp.day ? ` <i>(${esc(gcp.day)}, ${gcp.partial ? 'STILL FILLING' : 'billed'})</i>` : ''));
       for (const g of gcp.by.slice(0, 5)) {
         L.push(`   ${esc(g.service)}: ${money(g.cost)}`);
       }
