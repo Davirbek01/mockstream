@@ -14,7 +14,7 @@ window.PET_L_TEST = {
   },
   audio: {
     base: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test8/",
-    files: { 1: "PART1.mp3", 2: "PART2.mp3", 3: "PART3.mp3", 4: "PART4.mp3" }
+    files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a" }
   },
   parts: [
     {

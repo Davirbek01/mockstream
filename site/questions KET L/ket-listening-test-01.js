@@ -15,7 +15,7 @@ window.KET_L_TEST = {
 
   audio: {
     base: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test1/",
-    files: { 1: "PART1.mp3", 2: "PART2.mp3", 3: "PART3.mp3", 4: "PART4.mp3", 5: "PART5.mp3" }
+    files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a", 5: "PART5.m4a" }
   },
 
   parts: [
