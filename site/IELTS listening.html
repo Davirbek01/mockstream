@@ -17,6 +17,7 @@
   <script src="premium-gate.js" defer></script>
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
+  <script src="attempt-payload.js"></script>
   <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
@@ -7400,6 +7401,7 @@
 
         // Send to Supabase first (get result link for caption)
         var finalCaption = caption;
+        var sbResultId = null;
         if (window.sendToSupabase) {
           try {
             var sbResult = await window.sendToSupabase({
@@ -7416,7 +7418,8 @@
                 ? { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered, is_practice: true, part: 'p' + window._practicePart }
                 : { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered }
             });
-            if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+            if (sbResult) { finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                            sbResultId = sbResult.id; }
           } catch (e) { console.warn('[Supabase] skipped:', e); }
         }
 
@@ -7429,8 +7432,22 @@
         // Send to routing backend (Supabase edge function — handles per-center
         // + general fanout). Legacy alwaysdata /send-result removed: it was
         // double-posting to general.
+        // The channel copy is the ENCRYPTED report, exactly as every other skill
+        // sends it: opening it asks for the centre's current access code. The
+        // plain html stays as the fallback — a report in the channel beats no
+        // report — but it must be the second choice, not the first.
+        var _tgFile = new File([htmlBlob], filename, { type: 'text/html' });
+        if (sbResultId && window.fetchLockedReportFile) {
+          try {
+            var _locked = await window.fetchLockedReportFile(
+              (window.SITE_CONFIG || {}).testIdentifier, sbResultId,
+              filename.replace(/\.html$/, ''), 'html');
+            if (_locked) _tgFile = _locked;
+            else console.warn('[locked report] listening: locker unavailable, sending the plain html');
+          } catch (e) { console.warn('[locked report] listening:', e); }
+        }
         if (window.sendToRoutingBackend) {
-          await window.sendToRoutingBackend({ skill: 'listening', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+          await window.sendToRoutingBackend({ skill: 'listening', caption: finalCaption, file: _tgFile });
         }
         if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       } catch (error) {
