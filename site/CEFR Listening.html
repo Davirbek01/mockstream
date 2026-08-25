@@ -6570,7 +6570,7 @@
           try {
             var _locked = await window.fetchLockedReportFile(
               (window.SITE_CONFIG || {}).testIdentifier, sbResultId,
-              filename.replace(/\.html$/, ''), 'html');
+              filename.replace(/\.html$/, ''), _payloadBlob ? 'json' : 'html');
             if (_locked) _tgFile = _locked;
             else console.warn('[locked report] listening: locker unavailable, sending the plain html');
           } catch (e) { console.warn('[locked report] listening:', e); }
