@@ -252,15 +252,18 @@ function optionQuestion(q, vm) {
 
 /** matching-speakers: the option bank, then one lettered answer per speaker. */
 function matching(part, vm) {
-  const bank = (part.options || []).map((o, i) => {
+  const options = [...(part.options || []), ...(part.extraOptions || [])];
+  const title = part.boxTitle || part.optionsTitle || part.boxHeading;
+  const bank = options.map((o, i) => {
     const letter = String(o.letter || LETTERS[i] || '').toUpperCase();
     return `<p class="lx-ref"><b>${esc(letter)}.</b> ${esc(htmlToText(o.text || o))}</p>`;
   }).join('');
-  const rows = (part.questions || []).map((q) => {
+  // CEFR keeps the rows under `speakers`, IELTS under `questions`.
+  const rows = (part.questions || part.speakers || []).map((q) => {
     const v = vm.get(String(q.id));
     const chosen = String((v && v.userAnswer) || '').trim().toUpperCase();
     const right = String((v && v.correctAnswer) || '').trim().toUpperCase();
-    const letters = (part.options || []).map((o, i) => {
+    const letters = options.map((o, i) => {
       const letter = String(o.letter || LETTERS[i] || '').toUpperCase();
       const kls = letter === right ? 'right' : letter === chosen ? 'chose' : '';
       return `<span class="lx-letter ${kls}">${esc(letter)}${letter === right ? ' ✓' : ''}</span>`;
@@ -269,16 +272,17 @@ function matching(part, vm) {
       : `<span class="lx-tag no">✗ correct: ${esc(right || '—')}</span>`;
     return `<div class="lx-q ${v && v.correct ? 'ok' : 'no'}" data-ok="${v && v.correct ? 1 : 0}">
       <div class="lx-qhead"><span class="lx-n">${esc(q.id)}</span>
-        <span class="lx-qtext">${esc(htmlToText(q.text || q.speaker || ''))}</span>${tag}</div>
+        <span class="lx-qtext">${esc(htmlToText(q.text || q.label || q.speaker || ''))}</span>${tag}</div>
       <div class="lx-letters">${letters}</div></div>`;
   }).join('');
-  return (bank ? `<div class="lx-refbox">${bank}</div>` : '') + rows;
+  return (bank ? `<div class="lx-refbox">${title ? `<h3>${esc(htmlToText(title))}</h3>` : ''}${bank}</div>` : '') + rows;
 }
 
 /** map-labeling: the image beside the A–N grid, the chosen cell marked. */
 function mapLabeling(part, vm) {
-  const letters = (part.mapLetters || part.letters ||
-    LETTERS.slice(0, Number(part.letterCount) || 9)).map((x) => String(x).toUpperCase());
+  const letters = [...(part.mapLabels || part.mapLetters || part.letters ||
+    LETTERS.slice(0, Number(part.letterCount) || 9)), ...(part.extraLabels || [])]
+    .map((x) => String((x && x.letter) || x).toUpperCase());
   const head = `<tr><th></th>${letters.map((l) => `<th>${esc(l)}</th>`).join('')}</tr>`;
   const rows = (part.questions || []).map((q) => {
     const v = vm.get(String(q.id));
@@ -288,10 +292,11 @@ function mapLabeling(part, vm) {
       const kls = l === right ? 'right' : l === chosen ? 'chose' : '';
       return `<td class="lx-cell ${kls}">${l === right ? '✓' : l === chosen ? '✗' : ''}</td>`;
     }).join('');
-    return `<tr><td class="lbl"><span class="lx-n">${esc(q.id)}</span> ${esc(htmlToText(q.text || ''))}</td>${cells}</tr>`;
+    return `<tr><td class="lbl"><span class="lx-n">${esc(q.id)}</span> ${esc(htmlToText(q.place || q.text || q.label || ''))}</td>${cells}</tr>`;
   }).join('');
   const img = part.image || part.mapImage || part.imageUrl;
   return `<div class="lx-map">
+    ${part.mapTitle ? `<h3 style="grid-column:1/-1;margin:0">${esc(htmlToText(part.mapTitle))}</h3>` : ''}
     ${img ? `<div><img src="${esc(img)}" alt="map"></div>` : ''}
     <div><table class="lx-grid">${head}${rows}</table></div>
   </div>`;
@@ -301,7 +306,7 @@ function mapLabeling(part, vm) {
 /** mcq-multi: pick N letters from one list. The chosen letters live on N
  *  question ids, so the marks are gathered before the list is drawn. */
 function mcqMulti(part, vm) {
-  const ids = (part.questionIds || []).map(String);
+  const ids = (part.questionIds || (part.questions || []).map((q) => q.id)).map(String);
   const chosen = new Set();
   const right = new Set();
   let allOk = ids.length > 0;
@@ -377,8 +382,9 @@ function partBody(part, vm) {
     out += `<div class="lx-card">${part.formTitle ? `<h3>${esc(htmlToText(part.formTitle))}</h3>` : ''}
       ${formContent(part.formContent, vm)}</div>`;
   } else if (type === 'sentence-completion') {
-    const html = part.content || part.text || '';
-    out += `<div class="lx-card">${gappedText(html, vm)}</div>`;
+    const html = part.passageContent || part.content || part.text || '';
+    out += `<div class="lx-card">${part.passageTitle ? `<h3>${esc(htmlToText(part.passageTitle))}</h3>` : ''}
+      ${gappedText(html, vm)}</div>`;
   } else if (type === 'mcq' || type === 'mcq-reply') {
     out += (part.questions || []).map((q) => optionQuestion(q, vm)).join('');
   } else if (type === 'mcq-extracts') {
@@ -393,7 +399,7 @@ function partBody(part, vm) {
     out += flowchart(part, vm);
   } else if (type === 'summary-completion') {
     // Same shape as sentence-completion in every mock that has one.
-    out += `<div class="lx-card">${gappedText(part.content || part.text || '', vm)}</div>`;
+    out += `<div class="lx-card">${gappedText(part.summaryText || part.content || part.text || '', vm)}</div>`;
   } else if (type === 'matching-speakers' || type === 'matching') {
     out += matching(part, vm);
   } else if (type === 'map-labeling') {
