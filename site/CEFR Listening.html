@@ -18,6 +18,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
+  <script src="listening-review-bar.js"></script>
   <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
@@ -5824,7 +5825,10 @@
       document.getElementById('resultsBody').innerHTML = resultsHtml;
       var _regListening = !(sessionStorage.getItem('listeningPremiumEntry') === 'true');
       if (!_regListening) {
-        document.getElementById('resultsModal').classList.add('active');
+        // Premium lands in the exam window itself, marked, with the score strip
+        // on top — the same thing the stored report shows. The old modal is one
+        // press away ("Details"), and still carries the per-part breakdown.
+        showReview();
         if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
         if (typeof resetFabIdle === 'function') resetFabIdle();
       }
@@ -6529,6 +6533,10 @@
             });
             if (_pl && _pl.result && _pl.result.questions.length) {
               _payloadBlob = new Blob([JSON.stringify(_pl)], { type: 'application/json' });
+              // The same payload drives the on-screen review strip, so the
+              // student sees exactly what the stored report will show.
+              window._listeningPayload = _pl;
+              if (window._mountReviewBar) window._mountReviewBar(_pl);
             }
           }
         } catch (e) { console.warn('[payload] falling back to the html report:', e); }
@@ -6584,6 +6592,29 @@
         if (window.msProgress) window.msProgress.hide();
       }
     }
+
+    /** Called once the submission has built the payload. Premium only — the
+     *  regular tier never enters review, so the strip never mounts for it. */
+    window._mountReviewBar = function (payload) {
+      if (!window.ListeningReviewBar || !isReviewMode) return;
+      window.ListeningReviewBar.mount({
+        payload: payload,
+        onDetails: function () {
+          document.getElementById('resultsMinPill').classList.remove('visible');
+          document.getElementById('resultsModal').classList.add('active');
+        },
+        onTranscripts: function () { if (typeof openTranscriptsPopup === 'function') openTranscriptsPopup(); },
+        onTryAgain: function () { location.reload(); },
+        onBack: function () {
+          sessionStorage.setItem('listeningMockReturnCategory', 'cefr-listening');
+          window.__okToLeave = true;
+          _navToLanding();
+        },
+      });
+      // The strip carries the score, so the floating pill would just repeat it.
+      var pill = document.getElementById('resultsMinPill');
+      if (pill) pill.classList.remove('visible');
+    };
 
     function showReview() {
       isReviewMode = true;

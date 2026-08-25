@@ -125,6 +125,21 @@ const EXAM_CSS = `
 .lx-tile .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-top:3px;font-weight:700}
 .lx-tile.lvl .n{color:#b45309}
 .lx-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1;min-width:0}
+/* On a phone the three tiles stacked one per line and ate half the screen.
+   Keep them on ONE row sharing the width, and push the part chips below. */
+@media (max-width:820px){
+  /* The shell stacks every striprow on phones (reading's design) and does it
+     with .striprow:first-child, which outranks a single class — so the
+     override has to carry both classes. The score board is the one row that
+     must stay a row. */
+  .striprow.lx-board{flex-direction:row;align-items:stretch;flex-wrap:wrap}
+  .lx-tile{flex:1 1 0;min-width:0;padding:8px 4px}
+  .lx-tile .n{font-size:20px}
+  .lx-tile.lvl .n{font-size:17px}
+  .lx-tile .n span{font-size:13px}
+  .lx-tile .l{font-size:9.5px;letter-spacing:.5px}
+  .lx-chips{flex:1 1 100%}
+}
 .lx-chip{display:inline-flex;gap:7px;align-items:baseline;padding:6px 13px;background:var(--surface);
  border:1px solid var(--line);border-radius:999px;font-size:13.5px;text-decoration:none;color:inherit}
 .lx-chip b{font-weight:800}
