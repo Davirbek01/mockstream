@@ -16,7 +16,7 @@
 // ============================================================================
 import { renderReadingReview } from './renderReadingReview.js';
 import { renderFullMock } from './renderFullMock.js';
-import { renderListeningReview } from './renderListeningReview.js';
+import { renderListeningExam } from './renderListeningExam.js';
 import { repairStored } from './repairStored.js';
 import { withAiRails } from './aiRails.js';
 import { withTwoUpImages } from './twoUpImages.js';
@@ -113,7 +113,10 @@ export async function renderStored(sb, path, raw) {
     // Listening is the same review page with the transcript (and the part's
     // audio) where reading shows the passage.
     const listening = payload && String(payload.kind || '').endsWith('-listening');
-    return { html: listening ? renderListeningReview(payload) : renderReadingReview(payload) };
+    // Listening renders the EXAM, marked — the paper the student sat, not a
+    // transcript with a verdict column beside it (which is what
+    // renderListeningReview did and nobody recognised).
+    return { html: listening ? renderListeningExam(payload) : renderReadingReview(payload) };
   } catch (e) {
     return { error: 'render_failed: ' + e.message };
   }

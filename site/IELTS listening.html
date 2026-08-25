@@ -7404,6 +7404,26 @@
         var sbResultId = null;
         if (window.sendToSupabase) {
           try {
+            // The attempt as a PAYLOAD — see the note in CEFR Listening.
+            var _payloadBlob = null;
+            try {
+              if (window.buildListeningPayload && window.TEST_DATA) {
+                var _pl = window.buildListeningPayload({
+                  data: window.TEST_DATA,
+                  userAnswers: userAnswers,
+                  matches: matchesAnswer,
+                  student: candidateName,
+                  mockNumber: mockNum,
+                  exam: 'ielts',
+                  onlyPart: window._practicePart || 0,
+                  result: { correct: correct, total: total, band: Number(scaledScore.toFixed(1)) },
+                });
+                if (_pl && _pl.result && _pl.result.questions.length) {
+                  _payloadBlob = new Blob([JSON.stringify(_pl)], { type: 'application/json' });
+                }
+              }
+            } catch (e) { console.warn('[payload] falling back to the html report:', e); }
+
             var sbResult = await window.sendToSupabase({
               studentName: candidateName,
               examType: 'ielts',
@@ -7411,8 +7431,8 @@
               score: window._practicePart ? correct + '/' + total : scaledScore.toFixed(1) + '/9.0',
               level: window._practicePart ? 'Part ' + window._practicePart : 'Band ' + scaledScore.toFixed(1),
               mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' \u00b7 Mock ' + mockNum) : ('Mock ' + mockNum),
-              file: htmlBlob,
-              fileType: 'html',
+              file: _payloadBlob || htmlBlob,
+              fileType: _payloadBlob ? 'payload' : 'html',
               caption: caption,
               metadata: window._practicePart
                 ? { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered, is_practice: true, part: 'p' + window._practicePart }
