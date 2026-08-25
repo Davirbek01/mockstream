@@ -37,6 +37,12 @@ const EXAM_CSS = `
 .lx-card{border:1px solid var(--line);border-radius:12px;background:#fbfcfe;padding:18px;margin:12px 0}
 .lx-card h3{margin:0 0 14px;text-align:center;font-size:15px}
 .lx-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin:10px 0;line-height:1.9}
+.lx-html{line-height:2}
+.lx-html h3,.lx-html h4,.lx-html h5{margin:14px 0 6px;font-size:14.5px;text-align:left}
+.lx-html p,.lx-html li{margin:8px 0}
+.lx-html ul,.lx-html ol{margin:8px 0;padding-left:22px}
+.lx-html table{width:100%;border-collapse:collapse;margin:8px 0}
+.lx-html td,.lx-html th{border:1px solid var(--line);padding:8px 11px;vertical-align:top}
 .lx-head{font-weight:800;margin:16px 0 6px}
 .lx-text{margin:8px 0}
 
@@ -194,6 +200,8 @@ function gapRow(inner) {
 /** gap-fill-form / table content: heading, plain text, and gapped items. */
 function formContent(items, vm) {
   return (items || []).map((it) => {
+    // A third shape: one item whose text is the whole form as HTML.
+    if (/<input|data-gap=/i.test(it.text || '')) return gappedHtml(it.text, vm);
     const t = htmlToText(it.text || '');
     if (it.type === 'item-gap') {
       const suffix = it.gapSuffix ? `<span>${esc(htmlToText(it.gapSuffix))}</span>` : '';
@@ -202,6 +210,39 @@ function formContent(items, vm) {
     if (it.type === 'heading') return `<p class="lx-head">${esc(t)}</p>`;
     return `<p class="lx-text">${esc(t)}</p>`;
   }).join('');
+}
+
+
+/** A form kept as HTML: <input data-q="N"> and <span data-gap="N"> are the
+ *  gaps. Everything else is reduced to a small, attribute-free tag set so the
+ *  layout survives without carrying the exam page's own styling or scripts. */
+const KEEP_TAGS = new Set(['h3', 'h4', 'h5', 'p', 'br', 'hr', 'ul', 'ol', 'li',
+  'table', 'thead', 'tbody', 'tr', 'td', 'th', 'strong', 'b', 'em', 'i', 'u', 'div']);
+
+function gappedHtml(html, vm) {
+  let out = String(html || '');
+  const gaps = [];
+  // Park the gaps behind markers first: sanitising would otherwise eat them.
+  const park = (id) => { gaps.push(id); return '\u0001' + (gaps.length - 1) + '\u0001'; };
+  out = out.replace(/<input[^>]*\bdata-q(?:uestion)?=["'](\d+)["'][^>]*>/gi, (_m, id) => park(id));
+  out = out.replace(/<span[^>]*\bdata-gap=["'](\d+)["'][^>]*>[\s\S]*?<\/span>/gi, (_m, id) => park(id));
+
+  out = out.replace(/<(script|style)[\s\S]*?<\/\1>/gi, '');
+  out = out.replace(/<(\/?)([a-z0-9]+)[^>]*>/gi, (_m, slash, tag) => {
+    const t = tag.toLowerCase();
+    return KEEP_TAGS.has(t) ? '<' + slash + t + '>' : '';
+  });
+
+  // Whatever text is left is untrusted, so escape it and only then put the
+  // answers back.
+  out = out.split(/(<\/?[a-z0-9]+>)/i)
+    .map((chunk, i) => (i % 2 ? chunk : esc(chunk)))
+    .join('');
+  out = out.replace(/\u0001(\d+)\u0001/g, (_m, i) => {
+    const id = gaps[Number(i)];
+    return '<span class="lx-gap">' + gapHtml(id, vm.get(String(id))) + '</span>';
+  });
+  return '<div class="lx-html">' + out + '</div>';
 }
 
 /** sentence-completion: HTML carrying <span data-gap="N"> markers. */
@@ -380,11 +421,11 @@ function partBody(part, vm) {
 
   if (type === 'gap-fill-form') {
     out += `<div class="lx-card">${part.formTitle ? `<h3>${esc(htmlToText(part.formTitle))}</h3>` : ''}
-      ${formContent(part.formContent, vm)}</div>`;
+      ${Array.isArray(part.formContent) ? formContent(part.formContent, vm) : gappedHtml(part.formContent, vm)}</div>`;
   } else if (type === 'sentence-completion') {
     const html = part.passageContent || part.content || part.text || '';
     out += `<div class="lx-card">${part.passageTitle ? `<h3>${esc(htmlToText(part.passageTitle))}</h3>` : ''}
-      ${gappedText(html, vm)}</div>`;
+      ${/<input/i.test(html) ? gappedHtml(html, vm) : gappedText(html, vm)}</div>`;
   } else if (type === 'mcq' || type === 'mcq-reply') {
     out += (part.questions || []).map((q) => optionQuestion(q, vm)).join('');
   } else if (type === 'mcq-extracts') {
@@ -399,7 +440,8 @@ function partBody(part, vm) {
     out += flowchart(part, vm);
   } else if (type === 'summary-completion') {
     // Same shape as sentence-completion in every mock that has one.
-    out += `<div class="lx-card">${gappedText(part.summaryText || part.content || part.text || '', vm)}</div>`;
+    const sum = part.summaryText || part.content || part.text || '';
+    out += `<div class="lx-card">${/<input/i.test(sum) ? gappedHtml(sum, vm) : gappedText(sum, vm)}</div>`;
   } else if (type === 'matching-speakers' || type === 'matching') {
     out += matching(part, vm);
   } else if (type === 'map-labeling') {
@@ -407,7 +449,8 @@ function partBody(part, vm) {
   } else if (type === 'mixed') {
     out += (part.subParts || []).map((sp) => partBody(sp, vm)).join('');
   } else if (part.formContent) {
-    out += `<div class="lx-card">${formContent(part.formContent, vm)}</div>`;
+    out += `<div class="lx-card">${Array.isArray(part.formContent)
+      ? formContent(part.formContent, vm) : gappedHtml(part.formContent, vm)}</div>`;
   } else if (part.questions) {
     out += (part.questions || []).map((q) => optionQuestion(q, vm)).join('');
   }
