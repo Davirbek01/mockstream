@@ -6505,6 +6505,34 @@
         // Send to Supabase first (get result link for caption)
         var finalCaption = caption;
         var sbResultId = null;
+
+        // The attempt as a PAYLOAD: the `report` function then renders the exam
+        // itself, marked — the same page the View Report link, the Telegram
+        // file and My Results all open. The html stays as the fallback.
+        var _payloadBlob = null;
+        try {
+          if (window.buildListeningPayload && TEST_DATA && TEST_DATA.parts) {
+            var _pl = window.buildListeningPayload({
+              data: TEST_DATA,
+              userAnswers: userAnswers,
+              matches: matchesAnswer,
+              student: candidateName,
+              mockNumber: mockNum,
+              exam: 'cefr',
+              onlyPart: window._practicePart || 0,
+              result: {
+                correct: actualScore,
+                total: total,
+                certificateScore: certificateScore,
+                cefrLevel: cefrResult.level,
+              },
+            });
+            if (_pl && _pl.result && _pl.result.questions.length) {
+              _payloadBlob = new Blob([JSON.stringify(_pl)], { type: 'application/json' });
+            }
+          }
+        } catch (e) { console.warn('[payload] falling back to the html report:', e); }
+
         if (window.sendToSupabase) {
           try {
             var sbResult = await window.sendToSupabase({
@@ -6514,8 +6542,8 @@
               score: certificateScore + '/75',
               level: cefrResult.level,
               mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' · Mock ' + mockNum) : ('Mock ' + mockNum),
-              file: htmlBlob,
-              fileType: 'html',
+              file: _payloadBlob || htmlBlob,
+              fileType: _payloadBlob ? 'payload' : 'html',
               caption: caption,
               metadata: window._practicePart ? { raw: actualScore, total: total, is_practice: true, part: 'p' + window._practicePart } : { raw: actualScore, total: total }
             });
@@ -6542,7 +6570,7 @@
           try {
             var _locked = await window.fetchLockedReportFile(
               (window.SITE_CONFIG || {}).testIdentifier, sbResultId,
-              filename.replace(/\.html$/, ''), 'html');
+              filename.replace(/\.html$/, ''), _payloadBlob ? 'json' : 'html');
             if (_locked) _tgFile = _locked;
             else console.warn('[locked report] listening: locker unavailable, sending the plain html');
           } catch (e) { console.warn('[locked report] listening:', e); }

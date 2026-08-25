@@ -114,6 +114,105 @@
    *                      matcher, so the report agrees with the score shown)
    * @param o.result      { correct, total, certificateScore, cefrLevel }
    */
+  /** Build the LISTENING attempt payload (CEFR + IELTS share one shape).
+   *
+   *  What the renderer needs beyond the answers: each part's transcript, its
+   *  audio, and `answerHighlights` (question id → transcript line indices) so
+   *  the line that answers a question can be marked. All three already live on
+   *  the mock, so this only reshapes them.
+   *
+   *  o = { data, userAnswers, matches, student, mockNumber, exam:'cefr'|'ielts',
+   *        onlyPart, result:{correct,total,certificateScore?,cefrLevel?,band?} }
+   */
+  function buildListeningPayload(o) {
+    var allParts = (o.data && o.data.parts) || [];
+    // Part practice: keep ONLY the practised part, or the report lists the whole
+    // mock and marks every untouched question wrong.
+    var parts = o.onlyPart
+      ? allParts.filter(function (p, i) { return (p.partNumber || i + 1) === Number(o.onlyPart); })
+      : allParts;
+
+    var questions = [];
+    var perPart = [];
+    var payloadParts = [];
+
+    parts.forEach(function (part, i) {
+      var partNo = part.partNumber || i + 1;
+      var answers = part.answers || {};
+      var correctCount = 0;
+      var total = 0;
+
+      Object.keys(answers).forEach(function (key) {
+        var id = parseInt(String(key).replace(/\D/g, ''), 10);
+        if (!isFinite(id)) return;
+        var acc = Array.isArray(answers[key]) ? answers[key] : [answers[key]];
+        var user = String((o.userAnswers || {})[id] || (o.userAnswers || {})[key] || '').trim();
+        var ok = !!user && (o.matches
+          ? !!o.matches(user, answers[key])
+          : String(acc[0]).toLowerCase() === user.toLowerCase());
+        total += 1;
+        if (ok) correctCount += 1;
+        questions.push({
+          id: id,
+          part: partNo,
+          correct: ok,
+          userAnswer: user,
+          correctAnswer: acc.join(' / '),
+          explanation: explToText((part.explanations || {})['q' + id] || (part.explanations || {})[id]),
+        });
+      });
+
+      perPart.push({
+        part: partNo,
+        title: part.title || 'Part ' + partNo,
+        correct: correctCount,
+        total: total,
+      });
+
+      payloadParts.push({
+        part: partNo,
+        title: part.title || 'Part ' + partNo,
+        questionRange: part.questionRange || '',
+        transcript: part.transcript || '',
+        // The player in the report needs a URL it can fetch directly.
+        audio: part.audioFile || '',
+        highlights: part.answerHighlights || null,
+        // The whole part, so the report can rebuild the questions exactly as
+        // the student saw them (forms, option lists, matching rows, the map
+        // grid) instead of listing answers. Transcript is dropped from the copy
+        // — it is already carried above and would double the payload.
+        raw: (function () {
+          var copy = {};
+          Object.keys(part).forEach(function (k) {
+            if (k !== 'transcript' && k !== 'answerHighlights') copy[k] = part[k];
+          });
+          return copy;
+        })(),
+      });
+    });
+
+    questions.sort(function (a, b) { return a.id - b.id; });
+
+    var r = o.result || {};
+    return {
+      v: 2,
+      kind: (o.exam === 'ielts' ? 'ielts' : 'cefr') + '-listening',
+      student: o.student || 'Student',
+      mockNumber: o.mockNumber,
+      takenAt: new Date().toISOString(),
+      result: {
+        correct: r.correct != null ? r.correct : questions.filter(function (q) { return q.correct; }).length,
+        total: r.total != null ? r.total : questions.length,
+        certificateScore: r.certificateScore,
+        cefrLevel: r.cefrLevel,
+        band: r.band,
+        perPart: perPart,
+        questions: questions,
+      },
+      parts: payloadParts,
+    };
+  }
+
   function buildCefrReadingPayload(o) {
     var allParts = (o.data && o.data.parts) || [];
     o._qmeta = cefrQuestionMeta(o.data);
@@ -384,6 +483,7 @@
   window.violationDetailsHtml = violationDetailsHtml;
   window.withViolationLog = withViolationLog;
 
+  window.buildListeningPayload = buildListeningPayload;
   window.buildCefrReadingPayload = buildCefrReadingPayload;
   window.buildIeltsReadingPayload = buildIeltsReadingPayload;
   window.fetchLockedReportFile = fetchLockedReportFile;

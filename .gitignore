@@ -21,3 +21,6 @@ vite-app/
 react-app/
 
 supabase/.temp/
+
+# Local design previews — rendered from real mocks for review, never deployed.
+site/_proto/
