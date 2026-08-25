@@ -24,7 +24,7 @@
 //   matching-speakers · map-labeling · mixed (IELTS: a list of the above in
 //   `subParts`)
 // ============================================================================
-import { CSS, esc, htmlToText } from './reviewShell.js';
+import { CSS, decodeEntities, esc, htmlToText } from './reviewShell.js';
 
 const EXAM_CSS = `
 .lx-wrap{max-width:980px;margin:0 auto;padding:0 16px 90px}
@@ -236,7 +236,9 @@ function gappedHtml(html, vm) {
   // Whatever text is left is untrusted, so escape it and only then put the
   // answers back.
   out = out.split(/(<\/?[a-z0-9]+>)/i)
-    .map((chunk, i) => (i % 2 ? chunk : esc(chunk)))
+    // Decode first: the source writes &nbsp; and &amp;, and escaping those
+    // again would print the entity itself on the page.
+    .map((chunk, i) => (i % 2 ? chunk : esc(decodeEntities(chunk))))
     .join('');
   out = out.replace(/\u0001(\d+)\u0001/g, (_m, i) => {
     const id = gaps[Number(i)];
