@@ -8978,7 +8978,7 @@
             messages.push({ role: 'user', content: _gMsg });
             if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
             var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
-            if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq API hard cap (qwen3.6-27b rejects >16384)
+            if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, /gpt-oss/i.test(_mdlGroq) ? 65536 : 16384); // per-model ceiling: qwen3.6-27b rejects >16384; gpt-oss reasons INSIDE the budget, so 16384 starved the JSON
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             return await _callWithKeyRotation('groq', _GROQ_KEY, _getServerBackupKeys('groq').concat(_getBackupKeys('groq', cp)), async function(key) {
               var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -9003,7 +9003,7 @@
               if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
               messages.push({ role: 'user', content: uMsg });
               var body = { model: _mdlLlamaScout, messages: messages, temperature: opts.temperature || 0.3 };
-              if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq API hard cap (qwen3.6-27b rejects >16384)
+              if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, /gpt-oss/i.test(_mdlLlamaScout) ? 65536 : 16384); // per-model ceiling: qwen3.6-27b rejects >16384; gpt-oss reasons INSIDE the budget, so 16384 starved the JSON
               if (opts.jsonMode) body.response_format = { type: 'json_object' };
               var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',

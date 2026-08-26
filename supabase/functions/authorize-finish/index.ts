@@ -134,12 +134,34 @@ Deno.serve(async (req) => {
   if (claim.directorName   && claim.directorName   !== real.directorName)   mismatches.push('directorName');
 
   if (mismatches.length > 0) {
-    await logAttempt({
-      ip, userAgent, centerId, studentName,
-      status: 'tamper_detected',
-      errorMessage: `mismatches=${mismatches.join(',')}; claim=${JSON.stringify(claim)}`
-    });
-    return json(403, { error: 'tamper_detected', mismatches });
+    // A claim that is EXACTLY the Mock Stream defaults, sent from another
+    // centre, is not a forgery — it is the client that never loaded its own
+    // config (cold cache, a dropped request) and fell back to the values baked
+    // into the page. Blocking there punishes a student who did nothing wrong:
+    // 11 finishes were refused this way on 2026-08-25 alone.
+    //
+    // Letting it through costs nothing, because this endpoint answers with the
+    // SERVER's branding regardless — the claim carries no authority, it is only
+    // ever a signal. A forgery naming some other real centre still blocks.
+    const fallback = await readRow('center_site_config_mock_stream');
+    const isUnloadedDefault = !!fallback && centerId !== 'mock_stream'
+      && claim.brandName === fallback.brandName
+      && claim.testIdentifier === fallback.testIdentifier;
+
+    if (isUnloadedDefault) {
+      await logAttempt({
+        ip, userAgent, centerId, studentName,
+        status: 'stale_claim',
+        errorMessage: `client never loaded center_site_config_${centerId}; mismatches=${mismatches.join(',')}`
+      });
+    } else {
+      await logAttempt({
+        ip, userAgent, centerId, studentName,
+        status: 'tamper_detected',
+        errorMessage: `mismatches=${mismatches.join(',')}; claim=${JSON.stringify(claim)}`
+      });
+      return json(403, { error: 'tamper_detected', mismatches });
+    }
   }
 
   // -------- success: return trusted data --------
