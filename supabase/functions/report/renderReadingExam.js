@@ -119,6 +119,75 @@ function passageBlock(passage, vm) {
   return `<div class="rx-passage">${head}${body}</div>`;
 }
 
+/* ── IELTS section shapes ───────────────────────────────────────────────
+   A bank entry arrives as one string with its marker in front — "A It helps
+   us…", "i Not all would stay…" — or, in older mocks, as bare text with the
+   marker implied by position. Both have to answer "which letter was this?". */
+const ROMAN = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x',
+               'xi', 'xii', 'xiii', 'xiv', 'xv'];
+
+function parseBank(list, roman) {
+  return (list || []).map((raw, i) => {
+    const s = String(raw == null ? '' : raw).trim();
+    const m = roman
+      ? s.match(/^((?:x|ix|iv|v?i{1,3}))[.)\s]+(.*)$/i)
+      : s.match(/^([A-Z])[.)\s]+(.*)$/);
+    if (m) return { letter: m[1], text: m[2] };
+    return { letter: roman ? (ROMAN[i] || String(i + 1)) : (LETTERS[i] || ''), text: s };
+  });
+}
+
+/** A bank plus one lettered answer per question — matching-features,
+ *  matching-info, list-selection, matching-headings. */
+function bankQuestions(sec, list, roman, vm, title) {
+  const items = parseBank(list, roman);
+  const letters = items.map((x) => x.letter);
+  const rows = items.map((x) => `<p><b>${esc(x.letter)}.</b> ${esc(htmlToText(x.text))}</p>`).join('');
+  const box = rows ? `<div class="rx-bank">${title ? `<h4>${esc(title)}</h4>` : ''}${rows}</div>` : '';
+  const qs = (sec.questions || []).map((q) =>
+    letterQuestion(q.id, htmlToText(q.text || ''), letters, vm)).join('');
+  return box + qs;
+}
+
+/** TRUE / FALSE / NOT GIVEN (and the YES/NO variant). The three choices are
+ *  the question type itself — no mock stores them, so they are named here. */
+function tfQuestions(sec, yesNo, vm) {
+  const choices = yesNo ? ['YES', 'NO', 'NOT GIVEN'] : ['TRUE', 'FALSE', 'NOT GIVEN'];
+  return (sec.questions || []).map((q) => {
+    const v = vm.get(String(q.id));
+    const mine = String((v && v.userAnswer) || '').trim().toUpperCase();
+    const right = String((v && v.correctAnswer) || '').trim().toUpperCase();
+    const opts = choices.map((c) => {
+      const isRight = right === c || right.split(/\s*\/\s*/).includes(c);
+      const isMine = mine === c;
+      const kls = isRight ? 'right' : isMine ? 'chose' : '';
+      const mark = isRight ? '<span class="lx-mark">correct answer</span>'
+        : isMine ? '<span class="lx-mark">✗ your answer</span>' : '';
+      return `<div class="lx-opt ${kls}"><span class="lx-bul"></span><span>${esc(c)}</span>${mark}</div>`;
+    }).join('');
+    const tag = !v ? ''
+      : v.correct ? '<span class="lx-tag ok">✓ correct</span>'
+      : `<span class="lx-tag no">✗ correct: ${esc(right || '—')}</span>`;
+    return `<div class="lx-q ${v && v.correct ? 'ok' : 'no'}" data-ok="${v && v.correct ? 1 : 0}">
+      <div class="lx-qhead"><span class="lx-n">${esc(q.id)}</span>
+        <span class="lx-qtext">${esc(htmlToText(q.text || ''))}</span>${tag}</div>
+      ${opts}${explain(v)}</div>`;
+  }).join('');
+}
+
+/** completion: the sentence carries a {INPUT} placeholder where the gap was. */
+function completionQuestions(sec, vm) {
+  return (sec.questions || []).map((q) => {
+    const v = vm.get(String(q.id));
+    const text = String(q.text || '');
+    const gap = `<span class="lx-gap">${gapHtml(q.id, v)}</span>`;
+    const body = text.includes('{INPUT}')
+      ? esc(htmlToText(text)).replace('{INPUT}', gap)
+      : `${esc(htmlToText(text))} ${gap}`;
+    return `<p class="lx-row">${body}</p>${explain(v)}`;
+  }).join('');
+}
+
 /** reading-comprehension: the passage, then each section of questions. */
 function sections(list, vm) {
   return (list || []).map((sec) => {
@@ -127,7 +196,7 @@ function sections(list, vm) {
       ${sec.title ? `<h4>${esc(htmlToText(sec.title))}</h4>` : ''}
       ${sec.instruction ? `<p>${esc(htmlToText(sec.instruction))}</p>` : ''}</div>`;
 
-    if (type === 'mcq') {
+    if (type === 'mcq' || type === 'multiple-choice') {
       return head + (sec.questions || []).map((q) => {
         const v = vm.get(String(q.id));
         return optionQuestion(q, vm).replace('</div>\n  </div>', '</div>' + explain(v) + '</div>');
@@ -161,6 +230,21 @@ function sections(list, vm) {
         }).join('');
       return head + `<div class="rx-passage">${title}${body}${loose}</div>`;
     }
+
+    // ── IELTS section types ──
+    if (type === 'completion') return head + `<div class="rx-passage">${completionQuestions(sec, vm)}</div>`;
+    if (type === 'tfng' || type === 'ynng') return head + tfQuestions(sec, type === 'ynng', vm);
+    if (type === 'matching-headings') {
+      return head + bankQuestions(sec, sec.headingsList || sec.headings, true, vm, sec.boxTitle || 'Headings');
+    }
+    if (type === 'matching-features' || type === 'matching-info' || type === 'list-selection'
+        || type === 'matching-sentence-endings') {
+      // Sentence endings are a bank like the rest — the question is the stem,
+      // the bank holds the endings it could have taken.
+      return head + bankQuestions(sec, sec.featuresList, false, vm, sec.boxTitle || null);
+    }
+    // Short answer carries its {INPUT} the same way completion does.
+    if (type === 'short-answer') return head + `<div class="rx-passage">${completionQuestions(sec, vm)}</div>`;
 
     // Unknown section type: still show its questions rather than nothing.
     return head + (sec.questions || []).map((q) => {
@@ -244,10 +328,27 @@ function partBody(part, vm) {
 }
 
 export function renderReadingExam(payload) {
-  const r = (payload && payload.result) || {};
+  const raw = (payload && payload.result) || {};
   const ielts = String(payload.kind || '').indexOf('ielts') === 0;
   const vm = verdictMap(payload);
   const parts = (payload.parts || []).map((p) => ({ ...p, ...(p.raw || {}) }));
+
+  // IELTS counts passages, CEFR counts parts. Same thing on the page, two names
+  // in the payload — normalise once here rather than branching everywhere.
+  const perPart = raw.perPart
+    || (raw.perPassage || []).map((x) => ({ ...x, part: x.passage ?? x.part }));
+  // The shared Answers drawer groups by q.part; IELTS questions carry no part,
+  // so give each one the passage it belongs to (by the ids that passage owns).
+  const questions = (raw.questions || []).map((q) => {
+    if (q.part != null) return q;
+    const owner = parts.find((pt) => {
+      const ids = Object.keys((pt.correctAnswers || pt.answers || {}))
+        .map((k) => parseInt(String(k).replace(/\D/g, ''), 10));
+      return ids.includes(Number(q.id));
+    });
+    return owner ? { ...q, part: owner.part } : q;
+  });
+  const r = { ...raw, perPart, questions };
 
   const chips = (r.perPart || []).map((p) => {
     const good = p.total ? p.correct / p.total >= 0.6 : false;

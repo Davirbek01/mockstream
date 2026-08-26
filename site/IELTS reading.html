@@ -21,6 +21,7 @@
   <script src="code-persistence.js" defer></script>
     <script src="supabase-send.js"></script>
     <script src="attempt-payload.js"></script>
+  <script src="exam-review-bar.js"></script>
     <script src="session-recovery.js"></script>
     <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
     <!-- Load dynamic settings from Speaking Mock 01 -->
@@ -5273,6 +5274,9 @@
                             });
                             if (_pl && _pl.result && _pl.result.questions.length) {
                               _payloadBlob = new Blob([JSON.stringify(_pl)], { type: 'application/json' });
+                              // The same payload drives the on-screen strip.
+                              window._readingPayload = _pl;
+                              if (window._mountReviewBar) window._mountReviewBar(_pl);
                             }
                           }
                         } catch (e) { console.warn('[payload] falling back to html report:', e); }
@@ -5664,7 +5668,10 @@
                 if (resultModal) {
                     resultModal.classList.remove('minimized');
                     if (!_regIr) {
-                        resultModal.classList.add('show');
+                        // Premium lands in the paper itself, marked, with the
+                        // score strip on top — as listening and CEFR reading do.
+                        // The modal stays reachable through its minimised pill.
+                        reviewAnswers();
                         if (typeof window._irUpdateFabBack === 'function') window._irUpdateFabBack();
                         if (typeof resetFabIdle === 'function') resetFabIdle();
                     }
@@ -5768,6 +5775,20 @@
 
             // ===== REVIEW MODE (inline answer marking like CEFR Reading) =====
             var isTestReviewMode = false;
+
+            /** Called once the submission has built the payload. Premium only. */
+            window._mountReviewBar = function (payload) {
+                if (!window.ExamReviewBar || !isTestReviewMode) return;
+                window.ExamReviewBar.mount({
+                    payload: payload,
+                    onTryAgain: function () { location.reload(); },
+                    onBack: function () {
+                        sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
+                        window.__okToLeave = true;
+                        if (typeof _navToLanding === 'function') _navToLanding();
+                    },
+                });
+            };
 
             function reviewAnswers() {
                 isTestReviewMode = true;
