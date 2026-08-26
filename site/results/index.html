@@ -3645,6 +3645,12 @@
         if (rows.length > 0) {
           var match = rows[0];
           if (match.center && match.center !== '' && match.center !== siteCenter) return;
+          // Same as the Supabase-session path: the Premium panel scopes itself
+          // to whoever is signed in, so it has to know on this route too.
+          window._msAdminRole = {
+            role: match.center ? 'admin' : 'super_admin',
+            center: match.center || ''
+          };
           sessionStorage.setItem('dashboard-auth', 'true');
           sessionStorage.setItem('dashboard-auth-method', 'email');
           unlockDashboard();
@@ -6001,9 +6007,11 @@
       if (isClone) {
         var btns = document.querySelectorAll('.main-site-only');
         btns.forEach(function(b) { b.style.display = 'none'; });
-        // Clones can only add students — hide admin role option
-        var roleSelect = document.getElementById('premiumRoleSelect');
-        if (roleSelect) roleSelect.style.display = 'none';
+        // The role select is NOT hidden here any more. This ran on page load
+        // and keyed off the site, so it fought the panel's own lock — which
+        // keys off the signed-in admin — and won: the email form showed no
+        // role at all while the Telegram form beside it showed a greyed
+        // "User". Same control, same rule, so let one place decide it.
       }
 
       // Show "Return to Mock Stream" button if admin has switched center
