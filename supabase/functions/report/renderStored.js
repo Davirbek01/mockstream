@@ -17,6 +17,7 @@
 import { renderReadingReview } from './renderReadingReview.js';
 import { renderFullMock } from './renderFullMock.js';
 import { renderListeningExam } from './renderListeningExam.js';
+import { renderReadingExam } from './renderReadingExam.js';
 import { repairStored } from './repairStored.js';
 import { withAiRails } from './aiRails.js';
 import { withTwoUpImages } from './twoUpImages.js';
@@ -113,10 +114,17 @@ export async function renderStored(sb, path, raw) {
     // Listening is the same review page with the transcript (and the part's
     // audio) where reading shows the passage.
     const listening = payload && String(payload.kind || '').endsWith('-listening');
-    // Listening renders the EXAM, marked — the paper the student sat, not a
-    // transcript with a verdict column beside it (which is what
-    // renderListeningReview did and nobody recognised).
-    return { html: listening ? renderListeningExam(payload) : renderReadingReview(payload) };
+    // Both skills render the EXAM, marked — the paper the student sat, not a
+    // transcript or a passage with a verdict column beside it (which is what
+    // the review renderers did, and nobody recognised the paper in them).
+    //
+    // Reading only switched at payload v2: v1 never carried the parts, so the
+    // options a student chose from were not stored and cannot be drawn. Older
+    // reports keep opening through the review page rather than losing content.
+    if (listening) return { html: renderListeningExam(payload) };
+    const readingExam = Number(payload && payload.v) >= 2
+      && Array.isArray(payload.parts) && payload.parts.length;
+    return { html: readingExam ? renderReadingExam(payload) : renderReadingReview(payload) };
   } catch (e) {
     return { error: 'render_failed: ' + e.message };
   }

@@ -17,6 +17,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
+  <script src="exam-review-bar.js"></script>
   <script src="session-recovery.js"></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <!-- Load global settings -->
@@ -360,6 +361,19 @@
 
     .part-container.active {
       display: block;
+    }
+
+    /* Review: the whole paper on one page. One part at a time IS the exam;
+       afterwards the student is reading it back, and scrolling from Part 1 into
+       Part 2 is how the apps and the stored report already behave. The part
+       switcher stays and scrolls. */
+    body.review-mode .part-container {
+      display: block;
+    }
+    body.review-mode .part-container + .part-container {
+      margin-top: 30px;
+      border-top: 2px dashed rgba(148, 163, 184, .45);
+      padding-top: 24px;
     }
 
     /* Parts 1-3 full width on desktop */
@@ -4615,6 +4629,18 @@
 
       currentPart = index;
 
+      // In review every part is already on the page, so the switcher scrolls to
+      // one rather than hiding the rest.
+      if (document.body.classList.contains('review-mode')) {
+        var _target = document.getElementById('part-' + index) ||
+                      document.querySelectorAll('.part-container')[index];
+        if (_target) _target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.part-btn').forEach(function (b) {
+          b.classList.toggle('active', Number(b.dataset.part) === index);
+        });
+        return;
+      }
+
       // Update part containers (compare by part-N id — NodeList position
       // doesn't necessarily equal parts[] index since some entries may be
       // skeletons that still render an empty container).
@@ -4883,7 +4909,10 @@
       document.getElementById('resultsModal').classList.remove('minimized');
       var _regReading = !(sessionStorage.getItem('readingPremiumEntry') === 'true');
       if (!_regReading) {
-        document.getElementById('resultsModal').classList.add('show');
+        // Premium lands in the paper itself, marked, with the score strip on
+        // top — the same screen the stored report and the listening paper show.
+        // The old "Test Complete!" modal is still one press away (📊 Details).
+        reviewAnswers();
         if (typeof window._updateFabBack === 'function') window._updateFabBack();
         if (typeof resetFabIdle === 'function') resetFabIdle();
       }
@@ -5492,6 +5521,11 @@
                 });
                 if (_payload && _payload.result && _payload.result.questions.length) {
                   _payloadBlob = new Blob([JSON.stringify(_payload)], { type: 'application/json' });
+                  // The same payload drives the on-screen strip, so what the
+                  // student sees now and what the stored report shows later are
+                  // one thing.
+                  window._readingPayload = _payload;
+                  if (window._mountReviewBar) window._mountReviewBar(_payload);
                 }
               }
             } catch (e) { console.warn('[payload] falling back to html report:', e); }
@@ -5654,6 +5688,23 @@
         }
       });
     }
+
+    /** Called once the submission has built the payload. Premium only — the
+     *  regular tier never enters review, so the strip never mounts for it. */
+    window._mountReviewBar = function (payload) {
+      if (!window.ExamReviewBar || !document.body.classList.contains('review-mode')) return;
+      window.ExamReviewBar.mount({
+        payload: payload,
+        onTryAgain: function () { location.reload(); },
+        onBack: function () {
+          sessionStorage.setItem('readingMockReturnCategory', 'cefr-reading');
+          window.__okToLeave = true;
+          if (typeof _navToLanding === 'function') _navToLanding();
+        },
+      });
+      // The page's own "Restore Results" pill already reopens the full modal,
+      // so the strip does not carry a Details button of its own.
+    };
 
     function reviewAnswers() {
       // Minimize results modal to pill instead of closing

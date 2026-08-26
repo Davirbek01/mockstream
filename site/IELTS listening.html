@@ -18,7 +18,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
-  <script src="listening-review-bar.js"></script>
+  <script src="exam-review-bar.js"></script>
   <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
@@ -526,6 +526,19 @@
 
     .part-section.active {
       display: block;
+    }
+
+    /* Review: every part on one page. The exam shows one part at a time —
+       that is the exam. Afterwards the student is reading, not sitting it, and
+       scrolling from Part 1 straight into Part 2 is how the apps and the stored
+       report already behave. The switcher stays; it now scrolls. */
+    body.review-mode .part-section {
+      display: block;
+    }
+    body.review-mode .part-section + .part-section {
+      margin-top: 28px;
+      border-top: 2px dashed rgba(148, 163, 184, .45);
+      padding-top: 22px;
     }
 
     .part-header {
@@ -5819,6 +5832,17 @@
       if (window._practicePart && index !== (window._practicePart - 1)) return;
       if (index < 0 || index >= TEST_DATA.parts.length) return;
       currentPart = index;
+
+      // See CEFR Listening: in review the parts are all on the page, so the
+      // switcher scrolls rather than swapping.
+      if (document.body.classList.contains('review-mode')) {
+        var target = document.querySelectorAll('.part-section')[index];
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.part-btn').forEach(function (b) {
+          b.classList.toggle('active', parseInt(b.dataset.part) === index);
+        });
+        return;
+      }
       document.querySelectorAll('.part-section').forEach((s, i) => s.classList.toggle('active', i === index));
       document.querySelectorAll('.part-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.part) === index));
       var _btnPrev = document.getElementById('btnPrev');
@@ -7487,15 +7511,9 @@
     /** Called once the submission has built the payload. Premium only — the
      *  regular tier never enters review, so the strip never mounts for it. */
     window._mountReviewBar = function (payload) {
-      if (!window.ListeningReviewBar || !isReviewMode) return;
-      window.ListeningReviewBar.mount({
+      if (!window.ExamReviewBar || !isReviewMode) return;
+      window.ExamReviewBar.mount({
         payload: payload,
-        onDetails: function () {
-          var pill = document.getElementById('resultsMinPill');
-          if (pill) pill.classList.remove('visible');
-          document.getElementById('resultsModal').classList.add('active');
-        },
-        onTranscripts: function () { if (typeof openTranscriptsPopup === 'function') openTranscriptsPopup(); },
         onTryAgain: function () { location.reload(); },
         onBack: function () {
           sessionStorage.setItem('listeningMockReturnCategory', 'ielts-listening');
