@@ -261,7 +261,13 @@
     });
 
     return {
-      v: 1,
+      // v2 carries the parts themselves. v1 shipped only the passage text and a
+      // per-question meta guess, and that guess missed most of CEFR reading:
+      // the option lists live under questionSections (mcq), on the section
+      // (tfni), in `statements` (matching) or `headings` (matching-headings),
+      // none of which the meta reader knew. The report could therefore only
+      // name the correct answer — a student never saw what they chose it from.
+      v: 2,
       kind: 'cefr-reading',
       student: o.student || 'Student',
       mockNumber: o.mockNumber,
@@ -278,11 +284,27 @@
         perPart: perPart,
         questions: questions,
       },
+      // Kept for the v1 renderer (older reports still open through it).
       passages: parts.map(function (part, i) {
         return {
           title: part.title || 'Part ' + (i + 1),
           text: cefrPartText(part),
           explanations: part.explanations || {},
+        };
+      }),
+      // The whole part, so the report can rebuild the paper the student sat:
+      // passage, every question, every option. Explanations travel above in
+      // `passages`, so they are dropped from the copy rather than stored twice.
+      parts: parts.map(function (part, i) {
+        var copy = {};
+        Object.keys(part).forEach(function (k) {
+          if (k !== 'explanations') copy[k] = part[k];
+        });
+        return {
+          part: part.partNumber || i + 1,
+          title: part.title || 'Part ' + (i + 1),
+          questionRange: part.questionRange || '',
+          raw: copy,
         };
       }),
     };
