@@ -180,7 +180,23 @@
     var bar = el('<div id="lrBar">' +
       '<div class="lrb-row">' + tiles(r, payload.kind === 'ielts-listening' ? 'ielts' : 'cefr') + '</div>' +
       '<div class="lrb-row">' + btns + who(payload) + '</div></div>');
-    document.body.insertBefore(bar, document.body.firstChild);
+    // The exam page keeps its own sticky header — and the part switcher lives
+    // inside it. Dropping this strip at top:0 too made the two stack on the
+    // same 60px and the switcher disappeared underneath. Sit below it instead,
+    // so both stay visible while the page scrolls through every part.
+    var examHeader = document.querySelector('.header');
+    if (examHeader && examHeader.parentNode) {
+      examHeader.parentNode.insertBefore(bar, examHeader.nextSibling);
+      var place = function () {
+        var h = Math.round(examHeader.getBoundingClientRect().height);
+        bar.style.top = h + 'px';
+      };
+      place();
+      window.addEventListener('resize', place);
+      bar.style.zIndex = '850';   // under the header, over the paper
+    } else {
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
 
     var back = el('<div id="lrBackdrop"></div>');
     document.body.appendChild(back);

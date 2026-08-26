@@ -540,6 +540,19 @@
       display: block;
     }
 
+    /* Review: every part on one page. The exam shows one part at a time —
+       that is the exam. Afterwards the student is reading, not sitting it, and
+       scrolling from Part 1 straight into Part 2 is how the apps and the stored
+       report already behave. The switcher stays; it now scrolls. */
+    body.review-mode .part-section {
+      display: block;
+    }
+    body.review-mode .part-section + .part-section {
+      margin-top: 28px;
+      border-top: 2px dashed rgba(148, 163, 184, .45);
+      padding-top: 22px;
+    }
+
     /* ===== MOBILE RESPONSIVE - Edge to Edge ===== */
     @media (max-width: 768px) {
       .header, .part-nav, .pc-integrated-player, .pc-audio-wrapper, .audio-player-bar.desktop-only, .audio-player-bar.mobile-only {
@@ -5409,6 +5422,19 @@
       // In practice mode, lock to the practised part
       if (window._practicePart && index !== (window._practicePart - 1)) return;
       currentPart = index;
+
+      // In review every part is already on the page, so the switcher scrolls
+      // instead of swapping — the student keeps their place and can also just
+      // keep scrolling into the next part.
+      if (document.body.classList.contains('review-mode')) {
+        var target = document.querySelectorAll('.part-section')[index];
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.part-btn').forEach(function (btn, i) {
+          btn.classList.toggle('active', i % TEST_DATA.parts.length === index);
+        });
+        if (window.loadPartAudio) window.loadPartAudio(index, false);
+        return;
+      }
 
       // When manually switching parts, also load the audio but don't play it
       if (window.loadPartAudio) {
