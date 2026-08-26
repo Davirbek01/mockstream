@@ -18,7 +18,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
-  <script src="listening-review-bar.js"></script>
+  <script src="exam-review-bar.js"></script>
   <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
@@ -6622,8 +6622,8 @@
     /** Called once the submission has built the payload. Premium only — the
      *  regular tier never enters review, so the strip never mounts for it. */
     window._mountReviewBar = function (payload) {
-      if (!window.ListeningReviewBar || !isReviewMode) return;
-      window.ListeningReviewBar.mount({
+      if (!window.ExamReviewBar || !isReviewMode) return;
+      window.ExamReviewBar.mount({
         payload: payload,
         onTryAgain: function () { location.reload(); },
         onBack: function () {

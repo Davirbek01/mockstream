@@ -1,13 +1,13 @@
 /* ============================================================================
- * listening-review-bar — the score strip that sits above the exam window after
- * a listening mock is submitted.
+ * exam-review-bar — the score strip that sits above the exam window after a
+ * mock is submitted. Listening and reading both mount it.
  * ----------------------------------------------------------------------------
  * The exam page already marks the questions in place (showReview). What it
  * lacked was the header the stored report has: the three score tiles, the
  * per-part scores, and the Answers table. This adds exactly that, so the
  * in-app screen and the report a student opens later are the same thing.
  *
- * Loaded by CEFR Listening.html and IELTS listening.html — one file, because a
+ * Loaded by both listening pages and CEFR Reading.html — one file, because a
  * copy in each page is a copy that drifts.
  * ========================================================================== */
 (function () {
@@ -230,6 +230,8 @@
   /** Put a Transcript button in every part header and wire the drawer. */
   function mountPartTranscripts(payload, openDrawer) {
     var parts = (payload && payload.parts) || [];
+    // Reading has no script to show; only listening parts carry one.
+    if (!parts.some(function (x) { return x && x.transcript; })) return;
     var sections = document.querySelectorAll('.part-section');
     parts.forEach(function (part, i) {
       var sec = sections[i];
@@ -342,5 +344,9 @@
     fillPartStatus(r);
   }
 
-  window.ListeningReviewBar = { mount: mount };
+  // ExamReviewBar is the name now that reading mounts it too;
+  // ListeningReviewBar stays as an alias so a cached listening page that
+  // loads the new file still finds what it calls.
+  window.ExamReviewBar = { mount: mount };
+  window.ListeningReviewBar = window.ExamReviewBar;
 })();
