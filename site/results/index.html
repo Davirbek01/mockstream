@@ -3301,6 +3301,12 @@
       ['premiumCenterSelect', 'premiumTgCenter'].forEach(function (selId) {
         var sel = document.getElementById(selId);
         if (!sel) return;
+        // A clone site locks these to its own centre (disabled + one option).
+        // Rebuilding them here put "All Centers" back and left it SELECTED, so
+        // a centre admin granting premium wrote center:'' — the shape of a
+        // global grant. The results filter above already skips locked selects;
+        // these have to as well.
+        if (sel.disabled) return;
         var pVal = sel.value;
         sel.innerHTML = '<option value="">All Centers</option>';
         Object.keys(CENTER_NAMES).forEach(function(key) {
