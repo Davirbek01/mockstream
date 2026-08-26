@@ -11197,7 +11197,7 @@
         <button class="sysprompt-provider-btn" id="spProviderLlamaScout" onclick="_spSetProvider('llama-scout')" title="Vision-capable — image prompts work. Hosted on Groq, no native audio (transcriber required for Speaking).">🦙 Llama 4 Scout 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3-32b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3 32B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3.6 27B ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq GPT-OSS 120B</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama4Scout" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqLlama4Scout')" title="Vision-capable — image prompts work">⚡ Groq Qwen 3.6 27B 🖼️</button>
       </div>
@@ -11212,7 +11212,7 @@
           <option value="grok">Grok (text only)</option>
           <option value="deepseek">DeepSeek (text only)</option>
           <option value="groq:openai/gpt-oss-120b">Groq GPT-OSS 120B</option>
-          <option value="groq:qwen/qwen3-32b">Groq Qwen 3 32B</option>
+          <option value="groq:qwen/qwen3.6-27b">Groq Qwen 3.6 27B</option>
           <option value="groq:qwen/qwen3.6-27b">Groq Qwen 3.6 27B</option>
         </select>
         <span style="font-size:11px;color:#9ca3af;">Tried only when ALL primary keys fail terminally. Leave empty to disable.</span>
@@ -34493,7 +34493,7 @@
               { val: 'grok', label: 'Grok (text only)' },
               { val: 'deepseek', label: 'DeepSeek (text only)' },
               { val: 'groq:openai/gpt-oss-120b', label: 'Groq GPT-OSS 120B' },
-              { val: 'groq:qwen/qwen3-32b', label: 'Groq Qwen 3 32B' },
+              { val: 'groq:qwen/qwen3.6-27b', label: 'Groq Qwen 3.6 27B' },
               { val: 'groq:qwen/qwen3.6-27b', label: 'Groq Qwen 3.6 27B (vision)' }
             ]);
 
