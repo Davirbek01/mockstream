@@ -3618,6 +3618,9 @@
         if (!aa || typeof aa.currentRole !== 'function') return false;
         var info = await aa.currentRole();
         if (!info || !info.role) return false;
+        // Remembered so the Premium panel can scope itself to the PERSON, not
+        // to the site it happens to be served from.
+        window._msAdminRole = { role: info.role, center: info.center || '' };
         var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
         // Center-scoped admin can only unlock its own clone; super_admin (center='') unlocks any.
         if (info.role === 'admin' && info.center && info.center !== siteCenter) return false;
@@ -4998,10 +5001,27 @@
       var countEl = document.getElementById('premiumCount');
       listEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 
-      // Detect if this is a clone site
+      // Who is looking, not where they are looking from. The lock used to key
+      // off the SITE (clone vs main), which is the wrong question: what a
+      // person may grant follows their own admin row, not the domain.
       var _cid3 = window.__CENTER_ID || 'mock_stream';
-      var premiumLockedCenter = _cid3 !== 'mock_stream' ? _cid3 : null;
+      var _who = window._msAdminRole || {};
+      var _isSuperAdmin = _who.role === 'super_admin';
+      var premiumLockedCenter = _isSuperAdmin
+        ? null
+        : (_who.center || (_cid3 !== 'mock_stream' ? _cid3 : null));
       _premLockedCenter = premiumLockedCenter;
+
+      // A centre admin may grant premium, never a role. Fix the role filter to
+      // Users and grey it out, so the list shows only what they can act on.
+      // The database refuses the rest anyway since today's RLS change; this
+      // stops the panel offering what would be refused.
+      var roleFilter = document.getElementById('premiumFilterRole');
+      if (premiumLockedCenter && roleFilter) {
+        roleFilter.innerHTML = '<option value="user">Users</option>';
+        roleFilter.value = 'user';
+        roleFilter.disabled = true;
+      }
 
       // Lock center dropdown on clone sites
       var centerSelect = document.getElementById('premiumCenterSelect');
