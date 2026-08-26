@@ -6625,11 +6625,6 @@
       if (!window.ListeningReviewBar || !isReviewMode) return;
       window.ListeningReviewBar.mount({
         payload: payload,
-        onDetails: function () {
-          document.getElementById('resultsMinPill').classList.remove('visible');
-          document.getElementById('resultsModal').classList.add('active');
-        },
-        onTranscripts: function () { if (typeof openTranscriptsPopup === 'function') openTranscriptsPopup(); },
         onTryAgain: function () { location.reload(); },
         onBack: function () {
           sessionStorage.setItem('listeningMockReturnCategory', 'cefr-listening');
