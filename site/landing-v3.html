@@ -19779,22 +19779,105 @@
           sysSec.classList.remove('msv3-coll-open');
         }
 
+        // The passcode used to be collected with window.prompt(). Two problems:
+        // it renders as the browser's own grey box (nothing to do with this
+        // page), and Telegram's in-app browser ignores prompt() entirely — the
+        // section simply could not be unlocked from inside Telegram.
+        //
+        // The field takes digits only: every admin passcode is numeric, so
+        // letters could only ever be a typo, and inputmode="numeric" brings up
+        // the number pad on a phone instead of the full keyboard.
         function askForCode() {
-          var code = window.prompt('Admin passcode');
-          if (code === null) return;                       // cancelled
-          code = String(code).trim();
-          if (!code) return;
-          head.classList.add('msv3-gate-checking');
-          verify(code).then(function (ok) {
-            head.classList.remove('msv3-gate-checking');
-            if (!ok) {
-              head.classList.add('msv3-gate-wrong');
-              setTimeout(function () { head.classList.remove('msv3-gate-wrong'); }, 1200);
-              return;
-            }
-            try { localStorage.setItem(CODE_KEY, code); localStorage.setItem(key, '1'); } catch (_) {}
-            sysSec.classList.add('msv3-coll-open');
+          var old = document.getElementById('msv3PassGate');
+          if (old) old.remove();
+
+          var ov = document.createElement('div');
+          ov.id = 'msv3PassGate';
+          ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100020;' +
+                             'display:flex;align-items:center;justify-content:center;padding:20px;';
+          ov.innerHTML =
+            '<div role="dialog" aria-modal="true" aria-labelledby="msv3PassTitle" ' +
+                 'style="background:#fff;border-radius:16px;padding:26px 22px 20px;max-width:340px;width:100%;' +
+                        'text-align:center;box-shadow:0 24px 60px rgba(15,23,42,.28);">' +
+              '<div style="font-size:36px;line-height:1;margin-bottom:6px;">🔐</div>' +
+              '<h2 id="msv3PassTitle" style="margin:6px 0 6px;font-size:17px;color:#111;font-weight:700;">' +
+                'System Administration</h2>' +
+              '<p style="color:#6b7280;font-size:13.5px;line-height:1.45;margin:0 0 16px;">' +
+                'Enter the admin passcode to open this section.</p>' +
+              '<input id="msv3PassInput" type="password" inputmode="numeric" pattern="[0-9]*" ' +
+                     'autocomplete="off" autocorrect="off" spellcheck="false" maxlength="16" ' +
+                     'aria-label="Admin passcode" ' +
+                     'style="width:100%;box-sizing:border-box;padding:13px 14px;border:1.5px solid #e5e7eb;' +
+                            'border-radius:12px;font-size:20px;font-weight:700;text-align:center;' +
+                            'letter-spacing:.42em;text-indent:.42em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;' +
+                            'color:#111;outline:none;transition:border-color .15s,box-shadow .15s;">' +
+              '<div id="msv3PassMsg" style="margin-top:9px;font-size:12.5px;color:#dc2626;min-height:1.2em;"></div>' +
+              '<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">' +
+                '<button type="button" id="msv3PassGo" ' +
+                  'style="padding:11px 22px;border-radius:10px;border:none;background:#0d9488;color:#fff;' +
+                         'font-weight:700;font-size:14px;cursor:pointer;">Unlock</button>' +
+                '<button type="button" id="msv3PassCancel" ' +
+                  'style="background:transparent;border:0;color:#6b7280;font-size:13px;cursor:pointer;">Cancel</button>' +
+              '</div>' +
+            '</div>';
+          document.body.appendChild(ov);
+
+          var input = ov.querySelector('#msv3PassInput');
+          var msg = ov.querySelector('#msv3PassMsg');
+          var go = ov.querySelector('#msv3PassGo');
+          var focusRing = function (on) {
+            input.style.borderColor = on ? '#0d9488' : '#e5e7eb';
+            input.style.boxShadow = on ? '0 0 0 3px rgba(13,148,136,.15)' : 'none';
+          };
+          input.addEventListener('focus', function () { focusRing(true); });
+          input.addEventListener('blur', function () { focusRing(false); });
+          // Digits only — including what arrives by paste or autofill.
+          input.addEventListener('input', function () {
+            var clean = input.value.replace(/\D+/g, '');
+            if (clean !== input.value) input.value = clean;
+            msg.textContent = '';
           });
+          setTimeout(function () { try { input.focus(); } catch (_) {} }, 40);
+
+          function close() { ov.remove(); }
+          ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+          ov.querySelector('#msv3PassCancel').addEventListener('click', close);
+          document.addEventListener('keydown', function esc(e) {
+            if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+          });
+
+          function submit() {
+            var code = String(input.value || '').trim();
+            if (!code) { msg.textContent = 'Enter the passcode.'; input.focus(); return; }
+            go.disabled = true;
+            go.textContent = 'Checking…';
+            msg.textContent = '';
+            head.classList.add('msv3-gate-checking');
+            verify(code).then(function (ok) {
+              head.classList.remove('msv3-gate-checking');
+              go.disabled = false;
+              go.textContent = 'Unlock';
+              if (!ok) {
+                msg.textContent = 'That passcode is not right.';
+                input.value = '';
+                input.focus();
+                input.style.borderColor = '#dc2626';
+                input.animate(
+                  [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' },
+                   { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+                  { duration: 220 }
+                );
+                head.classList.add('msv3-gate-wrong');
+                setTimeout(function () { head.classList.remove('msv3-gate-wrong'); }, 1200);
+                return;
+              }
+              try { localStorage.setItem(CODE_KEY, code); localStorage.setItem(key, '1'); } catch (_) {}
+              sysSec.classList.add('msv3-coll-open');
+              close();
+            });
+          }
+          go.addEventListener('click', submit);
+          input.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); });
         }
 
         head.addEventListener('click', function () {
