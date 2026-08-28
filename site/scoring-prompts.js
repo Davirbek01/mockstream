@@ -203,7 +203,11 @@ CERTIFICATE CONVERSION: 21→75, 20→71, 19→67, 18→64, 17→61, 16→57, 15
 CEFR LEVELS: C1 (65-75), B2 (51-64), B1 (35-50), Below B1 (0-34)
 
 ⚠️ CRITICAL RULES — ALWAYS RETURN VALID JSON:
-• If a response is "[No speech]", "[Transcription failed]" or "[Error]", score that question 0 and explain "No speech was detected in this response."
+• If a response is "[No speech]", score that question 0 and explain "No speech was detected in this response."
+• If a response is "[Transcription failed]" or "[Error]", the recording could not be OPENED — that is a device
+  fault, not silence, and the candidate may well have spoken. Score it 0 (there is nothing to assess) but explain
+  "This answer could not be read — a recording problem, not a judgement about what was said." Never write that
+  the candidate said nothing.
 • If a response is completely off-topic but the candidate DID speak / produce intelligible language, score that part 1 (participation credit) — NOT 0 — and explain why.
 • Reserve a score of 0 ONLY for parts where the candidate produced no meaningful speech at all (silence / transcription errors).
 • NEVER refuse to score. ALWAYS return the full JSON with numeric scores, even if all scores are 0 or 1.
@@ -288,7 +292,10 @@ IMPORTANT SCORING NOTES:
 - Do NOT give band 0 unless there is literally no speech at all.
 
 ⚠️ CRITICAL RULES — ALWAYS RETURN VALID JSON:
-• If a response is "[No speech]", "[Transcription failed]" or "[Error]", treat it as band 0 for that question and explain "No speech was detected in this response."
+• If a response is "[No speech]", treat it as band 0 and explain "No speech was detected in this response."
+• If a response is "[Transcription failed]" or "[Error]", the recording could not be OPENED — a device fault,
+  not silence. Band 0 (there is nothing to assess), but explain "This answer could not be read — a recording
+  problem, not a judgement about what was said." Never write that the candidate said nothing.
 • If a response is completely off-topic or unintelligible, give a very low band (0-1) and explain why.
 • NEVER refuse to score. ALWAYS return the full JSON with numeric band scores, even if all bands are 0.
 • A band of 0 is a valid IELTS assessment — the candidate did not attempt or produced no assessable language.`;
