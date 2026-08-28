@@ -367,6 +367,15 @@
        afterwards the student is reading it back, and scrolling from Part 1 into
        Part 2 is how the apps and the stored report already behave. The part
        switcher stays and scrolls. */
+    /* Once the paper is submitted, the strip across the top of the page
+       carries the score, the certificate, the level, Answers, Try Again and
+       Back. The exam's two floating controls then only sit on top of the
+       paper repeating it: the mobile submit button (there is nothing left to
+       submit) and the minimised result modal, which is the same score a
+       second time. Hidden in review only — during the exam both still work. */
+    body.review-mode .mobile-floating-submit,
+    body.review-mode .modal-overlay.minimized { display: none !important; }
+
     body.review-mode .part-container {
       display: block;
     }
@@ -3441,25 +3450,50 @@
           });
         }
       }
-      // Positional fallback: when Gemini emits questions: [{id}] without
-      // the matching paragraphNumber field (observed on Mock 41 Part 3),
-      // qMap stays empty and every questionId is undefined — the runner
-      // then renders "Qundefined" badges. Zip parsed paragraphs in source
-      // order against question ids sorted ascending: paragraph A → first
-      // id, B → second, etc. Safe because the source layout guarantees
-      // paragraphs and question rows appear in matching order.
-      if (out.some(function(p) { return p.questionId == null; })) {
+      return _cefrLinkHeadingParagraphs(out, questions);
+    }
+
+    // Give every paragraph the question id its heading slot answers.
+    //
+    // The renderer keys the drop slot off `para.questionId` — the badge, the
+    // element id, data-question, data-qid and _mhClear all read it. When it is
+    // missing the slot becomes data-question="undefined": the badge shows
+    // "Qundefined" and a dropped heading is recorded against nothing, so the
+    // part scores zero however the student answers it. Mocks 65-70 shipped
+    // with passage.paragraphs already built and no questionId on any of them.
+    //
+    // Two ways to link, tried in order:
+    //   by value  — the question's own paragraph field against para.number.
+    //               Both appear as plain numbers (65, 66), roman numerals
+    //               (67) and letters (68-70), and the builder has used both
+    //               `paragraphNumber` and `paragraphLetter` for it over time.
+    //   by order  — paragraph 1 to the lowest question id, and so on. The
+    //               source layout always lists paragraphs and questions in
+    //               the same order, so this is a safe last resort.
+    function _cefrLinkHeadingParagraphs(paras, questions) {
+      if (!Array.isArray(paras) || !paras.length) return paras;
+      var qMap = {};
+      (questions || []).forEach(function(q) {
+        if (!q) return;
+        var key = q.paragraphNumber != null ? q.paragraphNumber : q.paragraphLetter;
+        if (key != null) qMap[String(key).trim().toUpperCase()] = q.id;
+      });
+      paras.forEach(function(p) {
+        if (p && p.questionId == null && p.number != null) {
+          var hit = qMap[String(p.number).trim().toUpperCase()];
+          if (hit != null) p.questionId = hit;
+        }
+      });
+      if (paras.some(function(p) { return p && p.questionId == null; })) {
         var sortedIds = (questions || [])
           .map(function(q) { return q && q.id; })
           .filter(function(id) { return typeof id === 'number'; })
           .sort(function(a, b) { return a - b; });
-        out.forEach(function(p, i) {
-          if (p.questionId == null && sortedIds[i] != null) {
-            p.questionId = sortedIds[i];
-          }
+        paras.forEach(function(p, i) {
+          if (p && p.questionId == null && sortedIds[i] != null) p.questionId = sortedIds[i];
         });
       }
-      return out;
+      return paras;
     }
     function _cefrNormalizeMatchingHeadings(md) {
       if (!md || !Array.isArray(md.parts)) return md;
@@ -3467,7 +3501,13 @@
         if (!part || part.type !== 'matching-headings') return;
         var p = part.passage;
         if (!p || typeof p !== 'object') return;
-        if (Array.isArray(p.paragraphs) && p.paragraphs.length > 0) return;
+        if (Array.isArray(p.paragraphs) && p.paragraphs.length > 0) {
+          // Built already — but "built" does not mean "linked". Mocks 65-70
+          // arrive with paragraphs and no questionId on any of them, which is
+          // what put "Qundefined" on every slot and dropped every answer.
+          _cefrLinkHeadingParagraphs(p.paragraphs, part.questions || []);
+          return;
+        }
         if (typeof p.content === 'string' && p.content.trim()) {
           var paras = _cefrParseHeadingsHtml(p.content, part.questions || []);
           if (paras.length > 0) p.paragraphs = paras;
