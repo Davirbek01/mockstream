@@ -29,6 +29,7 @@
     <!-- fetchLockedReportFile: the encrypted Telegram copy -->
     <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
+    <script src="audio-integrity.js"></script>
     <script src="./scoring-tier.js"></script>
     <script src="session-recovery.js"></script>
     <script>
@@ -7662,7 +7663,12 @@
         // ===== SPEAKING MODULE =====
         let ttsUtterance = null;
         let mediaRecorder = null;
-        let audioChunks = [];
+        // NO shared chunk array here on purpose. `stop()` delivers its last
+        // chunk asynchronously, so a shared array let a late chunk from question
+        // N land at the head of question N+1 - the answer then began mid-stream
+        // and the transcriber refused it ("is it a valid media file?"). One
+        // iPhone lost Q5-Q8 that way on 2026-08-27 and the paper scored them 0.
+        // Each recording now owns its array; see audio-integrity.js.
         let speakingTimerId = null;
         let speakingMode = null; // 'prep' or 'speak'
         let speakingRemaining = 0;
@@ -8309,33 +8315,49 @@
         async function startRecording(qIdx) {
             const key = `S-${qIdx}`;
             delete state.answers.speaking[key];
-            audioChunks = [];
+            const chunks = [];   // this recording's own - never shared, see above
             const stream = await fmEnsureMediaStream();
             if (!stream) return;
             try {
                 const mimeType = fmGetSupportedMimeType();
                 const options = mimeType ? { mimeType } : {};
-                mediaRecorder = new MediaRecorder(stream, options);
-                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || mimeType || 'audio/webm' });
-                    // Nothing captured = a device failure, not an answer. Keeping
-                    // it would send an unopenable file to the transcriber and the
-                    // paper would score 0 with no recording to appeal to. Silence
-                    // is not this: it still produces a real file.
-                    if (blob.size >= 1024) {
-                        state.answers.speaking[key] = blob;
-                    } else {
-                        console.warn('[Speaking] empty blob for ' + key + ' - not kept');
+                const rec = mediaRecorder = new MediaRecorder(stream, options);
+                rec.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+                rec.onstop = () => {
+                    const blob = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' });
+                    const done = () => {
+                        const r = _ifmAudioStopResolve;
+                        _ifmAudioStopResolve = null;
+                        if (r) r();
+                    };
+                    const failed = () => {
+                        console.warn('[Speaking] unusable recording for ' + key + ' - not kept');
                         try {
-                            alert('⚠️ Question ' + (qIdx + 1) + ': the microphone did not record anything.\n\n' +
+                            alert('Question ' + (qIdx + 1) + ': the microphone did not record anything.\n\n' +
                                   'Your answer was NOT saved. Please tell your examiner now - this is a device ' +
                                   'problem, not a scoring decision.');
                         } catch (e) { /* never block the exam on a dialog */ }
-                    }
-                    const r = _ifmAudioStopResolve;
-                    _ifmAudioStopResolve = null;
-                    if (r) r();
+                        done();
+                    };
+                    // Nothing captured = a device failure, not an answer. Silence
+                    // is not this: it still produces a real file. And size alone
+                    // is not enough - a file can be a megabyte and still start in
+                    // the middle of the stream, which is exactly what the
+                    // transcriber refuses. Trim a stray prefix when the header is
+                    // merely late; refuse when there is no header at all.
+                    if (blob.size < 1024) { failed(); return; }
+                    (window.AudioIntegrity
+                        ? window.AudioIntegrity.check(blob)
+                        : Promise.resolve({ ok: true, repaired: false, blob: blob })
+                    ).then(res => {
+                        if (!res.ok) { failed(); return; }
+                        if (res.repaired) {
+                            console.warn('[Speaking] ' + key + ': trimmed ' + res.offset +
+                                         ' stray bytes before the header');
+                        }
+                        state.answers.speaking[key] = res.blob;
+                        done();
+                    });
                 };
                 // A timeslice hands over a chunk every second; without it the one
                 // stop-time `dataavailable` can fail to arrive on iOS and the
@@ -9206,6 +9228,15 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 } catch (e) {
                     lastErr = e;
                     console.warn('[Transcribe] ' + label + ' attempt ' + a + '/3 failed: ' + ((e && e.message) || e));
+                    // A 400 that names the file itself is a verdict, not a
+                    // hiccup: the same bytes fail the same way every time.
+                    // Retrying an unopenable recording three times only added
+                    // ~5s per answer to the student's wait.
+                    if (/is it a valid media file|Audio file is too short|invalid_request_error/i
+                        .test(String((e && e.message) || e))) {
+                        console.warn('[Transcribe] unusable audio - not retrying');
+                        throw e;
+                    }
                     if (a < 3) await new Promise(r => setTimeout(r, a * 2500));
                 }
             }

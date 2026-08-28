@@ -40,6 +40,7 @@
   <!-- fetchLockedReportFile: the encrypted Telegram copy -->
   <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
+  <script src="audio-integrity.js"></script>
   <script src="./scoring-tier.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
@@ -6808,6 +6809,15 @@
           return t;
         } catch (e) {
           lastErr = e;
+          // A 400 that names the file itself is a verdict, not a hiccup: the
+          // same bytes fail the same way every time. Retrying an unopenable
+          // recording three times only added ~5s per answer to the student's
+          // wait and burned two extra calls (152 of them on 2026-08-27).
+          var _m = String((e && e.message) || e);
+          if (/is it a valid media file|Audio file is too short|invalid_request_error/i.test(_m)) {
+            console.warn('[Transcribe] unusable audio - not retrying');
+            throw e;
+          }
           console.warn('[Transcribe] Q' + qNum + ' attempt ' + a + '/' + ATTEMPTS +
                        ' failed: ' + ((e && e.message) || e));
           if (a < ATTEMPTS) await new Promise(function (r) { setTimeout(r, a * 2500); });
@@ -7329,7 +7339,12 @@
       // === MediaRecorder for audio recording ===
       let mediaStream = null;
       let mediaRecorder = null;
-      let audioChunks = [];
+      // NO shared chunk array here on purpose. `stop()` delivers its last chunk
+      // asynchronously, so a shared array let a late chunk from question N land
+      // at the head of question N+1 - the answer then began mid-stream and the
+      // transcriber refused it ("is it a valid media file?"). One iPhone lost
+      // Q5-Q8 that way on 2026-08-27 and the paper scored them 0. Each
+      // recording now owns its array; see audio-integrity.js.
       let currentQIndex = null;
       // Detect if device is a mobile phone (not tablet, not desktop)
       function isMobilePhone() {
@@ -7400,7 +7415,7 @@
 
       function startRecording(qIndex) {
         currentQIndex = qIndex;
-        audioChunks = [];
+        const chunks = [];   // this recording's own - never shared, see above
         const key = 'speaking_audio_q' + (qIndex + 1);
 
         // Remove stale clip for this question to avoid previous-session leakage.
@@ -7419,12 +7434,12 @@
             const mimeType = getSupportedMimeType();
             const options = mimeType ? { mimeType: mimeType, audioBitsPerSecond: 48000 } : { audioBitsPerSecond: 48000 };
 
-            mediaRecorder = new MediaRecorder(stream, options);
-            mediaRecorder.ondataavailable = e => {
-              if (e.data.size > 0) audioChunks.push(e.data);
+            const rec = mediaRecorder = new MediaRecorder(stream, options);
+            rec.ondataavailable = e => {
+              if (e.data.size > 0) chunks.push(e.data);
             };
-            mediaRecorder.onstop = () => {
-              const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || mimeType || 'audio/webm' });
+            rec.onstop = () => {
+              const blob = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' });
               const done = () => {
                 const r = _audioStopResolve;
                 _audioStopResolve = null;
@@ -7439,10 +7454,29 @@
                 done();
                 return;
               }
-              saveAudioToDB(key, blob)
-                .then(() => updateDownloadButtons())
-                .catch(e => alert('Could not save audio: ' + e.message))
-                .finally(done);
+              // Size is not enough: a file can be a megabyte and still start
+              // in the middle of the stream. Check that it begins at its
+              // container header, trim a stray prefix if one is there, and
+              // refuse to save an answer no transcriber could open.
+              (window.AudioIntegrity
+                ? window.AudioIntegrity.check(blob)
+                : Promise.resolve({ ok: true, repaired: false, blob: blob })
+              ).then(res => {
+                if (!res.ok) {
+                  console.warn('[Recording] no container header in ' + key + ' - not saved');
+                  notifyRecordingFailed(qIndex);
+                  done();
+                  return;
+                }
+                if (res.repaired) {
+                  console.warn('[Recording] ' + key + ': trimmed ' + res.offset +
+                               ' stray bytes before the header');
+                }
+                return saveAudioToDB(key, res.blob)
+                  .then(() => updateDownloadButtons())
+                  .catch(e => alert('Could not save audio: ' + e.message))
+                  .finally(done);
+              });
             };
             // A timeslice hands over a chunk every second; without it the single
             // stop-time `dataavailable` can never arrive on iOS and the whole

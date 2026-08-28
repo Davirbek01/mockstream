@@ -32,6 +32,7 @@
     <!-- fetchLockedReportFile: the encrypted Telegram copy -->
     <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
+    <script src="audio-integrity.js"></script>
     <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
@@ -8185,10 +8186,33 @@
                     if (localChunks.length > 0) {
                         const blob = new Blob(localChunks, { type: recorder.mimeType || mimeType || 'audio/webm' });
                         console.log(`[Speaking] 💾 Finalizing ${key} (${blob.size} bytes)...`);
-                        saveSpeakingAudio(key, blob)
-                            .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
-                            .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
-                            .finally(finishStop);
+                        // The chunk array here is already per-recording, which is
+                        // what keeps a late chunk from the previous question out
+                        // of this answer. This is the belt to that pair of
+                        // braces: an answer must begin at its container header,
+                        // or no transcriber can open it (see audio-integrity.js).
+                        (window.AudioIntegrity
+                            ? window.AudioIntegrity.check(blob)
+                            : Promise.resolve({ ok: true, repaired: false, blob: blob })
+                        ).then(res => {
+                            if (!res.ok) {
+                                console.warn(`[Speaking] no container header in ${key} — not saved`);
+                                try {
+                                    alert('⚠️ Question ' + (qIndex + 1) + ': the recording could not be saved.\n\n' +
+                                          'Your answer was NOT saved. Please tell your examiner now — this is a ' +
+                                          'device problem, not a scoring decision.');
+                                } catch (e) { /* never block the exam on a dialog */ }
+                                finishStop();
+                                return;
+                            }
+                            if (res.repaired) {
+                                console.warn(`[Speaking] ${key}: trimmed ${res.offset} stray bytes before the header`);
+                            }
+                            return saveSpeakingAudio(key, res.blob)
+                                .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
+                                .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
+                                .finally(finishStop);
+                        });
                     } else {
                         // Nothing was captured: a device failure, not an answer.
                         // Silence still produces a real file, so this only fires
@@ -9458,6 +9482,15 @@ Empty responses = 0 points and skip analysis for that task.`;
               return t;
             } catch (e) {
               lastErr = e;
+              // A 400 that names the file itself is a verdict, not a hiccup: the
+              // same bytes fail the same way every time. Retrying an unopenable
+              // recording three times only added ~5s per answer to the student's
+              // wait and burned two extra calls (152 of them on 2026-08-27).
+              var _m = String((e && e.message) || e);
+              if (/is it a valid media file|Audio file is too short|invalid_request_error/i.test(_m)) {
+                console.warn('[Transcribe] unusable audio - not retrying');
+                throw e;
+              }
               console.warn('[Transcribe] Q' + qNum + ' attempt ' + a + '/' + ATTEMPTS +
                            ' failed: ' + ((e && e.message) || e));
               if (a < ATTEMPTS) await new Promise(function (r) { setTimeout(r, a * 2500); });
