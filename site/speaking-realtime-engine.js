@@ -39,6 +39,10 @@
     proxyWsBase: 'wss://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-proxy',
     apiPath:     'v1beta',
     model:       'gemini-3.1-flash-live-preview',
+    // Maya's own speech language. Uzbek is not on Google's documented Live
+    // output list, so `start()` falls back to no language code if the server
+    // refuses the session — see onclose. Override per page or with ?lang=.
+    languageCode: 'uz-UZ',
     // Audio settings
     outputSampleRate: 24000,     // Live API speaks at 24 kHz
     inputSampleRate:  16000,     // Live API accepts 16 kHz from mic
@@ -175,18 +179,25 @@
         // Available prebuilt voices on Live API: Puck, Charon, Kore,
         // Fenrir, Aoede. Puck = friendly young male (best fit for the
         // Uzbek-23yo persona).
+        // Without a language_code the Live API answers in English and will
+        // not be talked out of it — asking in the persona is not enough,
+        // because the output language is pinned here, not in the prompt.
+        // Maya speaks Uzbek to the student; the student practises English
+        // back at her. Left out entirely (never sent as null) once the
+        // fallback in onclose has cleared it.
+        var speechCfg = {
+          voice_config: {
+            prebuilt_voice_config: { voice_name: self.opts.voiceName || 'Puck' }
+          }
+        };
+        if (self.opts.languageCode) speechCfg.language_code = self.opts.languageCode;
+
         var setup = {
           setup: {
             model: 'models/' + self.opts.model,
             generation_config: {
               response_modalities: ['AUDIO'],
-              speech_config: {
-                voice_config: {
-                  prebuilt_voice_config: {
-                    voice_name: self.opts.voiceName || 'Puck'
-                  }
-                }
-              }
+              speech_config: speechCfg
             },
             system_instruction: {
               parts: [{ text: self.persona }]
@@ -222,6 +233,25 @@
       };
       self.ws.onclose = function (e) {
         self.closed = true;
+        // If the server rejected the session before it ever completed setup,
+        // and we asked for a speech language, assume that language is the
+        // reason and try once more without it. Uzbek voice output is not on
+        // Google's documented Live list; if it turns out unsupported the
+        // student still gets the English Maya that worked yesterday, rather
+        // than a chat that will not open at all.
+        if (!settled && self.opts.languageCode && !self._langRetried) {
+          self._langRetried = true;
+          self._emit('error', {
+            stage: 'setup',
+            message: 'speech language ' + self.opts.languageCode +
+                     ' refused (' + (e.reason || e.code) + ') — retrying without it',
+          });
+          self.opts.languageCode = null;
+          settled = true;
+          self.closed = false;
+          self.start().then(resolve, reject);
+          return;
+        }
         self._emit('close', { code: e.code, reason: e.reason });
       };
     });
