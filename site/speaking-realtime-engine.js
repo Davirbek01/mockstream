@@ -46,7 +46,12 @@
     // Audio settings
     outputSampleRate: 24000,     // Live API speaks at 24 kHz
     inputSampleRate:  16000,     // Live API accepts 16 kHz from mic
-    micChunkMs:       200        // how often to flush mic data to server
+    micChunkMs:       200,       // how often to flush mic data to server
+    // Silence gate — see _sendMicChunk. Threshold is RMS on the 16-bit mic
+    // signal; the tail is how long we keep streaming after the voice stops so
+    // the server can still hear the pause and end the turn.
+    voiceThreshold:   0.012,
+    silenceTailMs:    1500
   };
 
   function RealtimeSession(opts) {
@@ -278,6 +283,14 @@
     var msg;
     try { msg = JSON.parse(text); } catch { return; }
 
+    // Google reports what the session actually cost on the same stream as the
+    // content. We used to drop it, which is why Speaking Plus could only ever
+    // be priced by guessing from wall-clock time.
+    if (msg.usageMetadata) {
+      this.usage = msg.usageMetadata;
+      this._emit('usage', msg.usageMetadata);
+    }
+
     // Server content — model speaking
     var sc = msg.serverContent;
     if (sc) {
@@ -285,6 +298,11 @@
         for (var i = 0; i < sc.modelTurn.parts.length; i++) {
           var p = sc.modelTurn.parts[i];
           if (p.inlineData && p.inlineData.data) {
+            // Base64 PCM16 at 24 kHz: 3 bytes of base64 carry 4 samples' worth
+            // of bytes, so seconds = bytes / (rate * 2). This is the expensive
+            // half of the bill ($0.018/min against $0.005/min inbound).
+            this._recvSec = (this._recvSec || 0) +
+              ((p.inlineData.data.length * 0.75) / (this.opts.outputSampleRate * 2));
             this._enqueueAudio(p.inlineData.data, p.inlineData.mimeType || 'audio/pcm');
           }
           if (p.text) {
@@ -424,8 +442,41 @@
     return out;
   };
 
+  /* Seconds of audio actually sent and received — the two sides Google bills
+     separately. `sent` is below wall-clock because of the silence gate. */
+  RealtimeSession.prototype.audioSeconds = function () {
+    return {
+      sent:     Math.round((this._sentSec || 0) * 10) / 10,
+      received: Math.round((this._recvSec || 0) * 10) / 10,
+    };
+  };
+
   RealtimeSession.prototype._sendMicChunk = function (pcm16) {
     if (!this.ws || this.ws.readyState !== 1) return;
+
+    // ── Silence gate ────────────────────────────────────────────────
+    // Inbound audio is billed for every second we send, and we were sending
+    // the mic continuously — the student thinking, the pauses between turns,
+    // the whole session. Roughly half of it carried no speech.
+    //
+    // We cannot simply drop every quiet chunk: Google decides the student has
+    // finished a turn by hearing the pause, so cutting the stream the instant
+    // the voice stops would leave the turn hanging. So: send while there is
+    // voice, keep sending for a short tail after it stops — long enough for
+    // the model to call the turn — and only then go quiet until they speak
+    // again.
+    var sum = 0;
+    for (var k = 0; k < pcm16.length; k++) { var v = pcm16[k] / 32768; sum += v * v; }
+    var rms = Math.sqrt(sum / (pcm16.length || 1));
+    var now = Date.now();
+    if (rms >= (this.opts.voiceThreshold || 0.012)) {
+      this._voiceUntil = now + (this.opts.silenceTailMs || 1500);
+    }
+    if (!this._voiceUntil || now > this._voiceUntil) {
+      this._skippedChunks = (this._skippedChunks || 0) + 1;
+      return;   // pure silence — not worth paying for
+    }
+    this._sentSec = (this._sentSec || 0) + (pcm16.length / this.opts.inputSampleRate);
     // Try BOTH paths — first the JSON-base64 form (what proto-JSON
     // docs describe), then the raw-binary form (what one community
     // sample claimed is required for the new Live API). We toggle

@@ -79,6 +79,11 @@ interface MetaShape {
   started_at?: string;
   ended_at?: string;
   duration_sec?: number;
+  // What the session actually cost, straight from the Live API rather than
+  // inferred from the clock — see speaking_realtime_sessions.usage.
+  usage?: unknown;
+  audio_in_sec?: number;
+  audio_out_sec?: number;
   p1_1_source?: any;
   p1_2_source?: any;
   p2_source?: any;
@@ -137,6 +142,9 @@ Deno.serve(async (req) => {
     started_at: meta.started_at || new Date().toISOString(),
     ended_at:   meta.ended_at   || new Date().toISOString(),
     duration_sec: typeof meta.duration_sec === 'number' ? Math.round(meta.duration_sec) : null,
+    usage:         meta.usage ?? null,
+    audio_in_sec:  typeof meta.audio_in_sec  === 'number' ? meta.audio_in_sec  : null,
+    audio_out_sec: typeof meta.audio_out_sec === 'number' ? meta.audio_out_sec : null,
     p1_1_source: meta.p1_1_source ?? null,
     p1_2_source: meta.p1_2_source ?? null,
     p2_source:   meta.p2_source   ?? null,

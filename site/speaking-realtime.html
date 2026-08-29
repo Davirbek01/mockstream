@@ -376,6 +376,12 @@
         if (!rows || !rows.length) return;
         var cfg = rows[0].value;
         if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+        // The trial cap rides on the same centre config the page already
+        // fetches. Default ON: an uncapped realtime session is the one thing
+        // here that can run up a bill without anyone noticing.
+        if (cfg && cfg.speakingPlusCap === false) window.__spkCapSec = 0;
+        else if (cfg && Number(cfg.speakingPlusCapSec) > 0) window.__spkCapSec = Number(cfg.speakingPlusCapSec);
+
         if (cfg && cfg.speakingPlus === false) {
           document.body.innerHTML =
             '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0f172a;color:#fff;font:14px system-ui;padding:24px">' +
@@ -431,7 +437,8 @@
           try { session.startRecording(); } catch (_e) {}
         });
       });
-      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
+      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0;
+                                             startCapTimer(); });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
       session.on('transcript', function (t) {
         // Remember the conversation so we can rebuild context on reconnect.
@@ -481,6 +488,9 @@
         setOrb('connecting');
         return;
       }
+      // The trial cap closed this one on purpose — reopening it would hand
+      // back the very minutes the wall just took away.
+      if (window.__spkCapHit) return;
       // Transient. Auto-reconnect with exponential backoff (max 5 tries).
       if (reconnectCount >= 5) {
         setStatus('Could not reconnect. Refresh to try again.');
@@ -504,6 +514,74 @@
         }
       } catch (_e) {}
     }
+    // ── Trial cap ───────────────────────────────────────────────────
+    // Speaking Plus is an Ultra feature; everyone gets a taste of it and then
+    // the wall. It is also the cost guard: a realtime session bills for every
+    // second it stays open (~$0.012/min all in), and before this there was
+    // nothing at all to stop one running for an hour.
+    // Centre admins can lift it from the Centers panel (Speaking Plus 60s
+    // trial → off), which sets speakingPlusCap=false.
+    var SPK_CAP_DEFAULT_SEC = 60;
+    var capTimer = null, capCountdown = null;
+
+    function capSeconds() {
+      return (typeof window.__spkCapSec === 'number') ? window.__spkCapSec : SPK_CAP_DEFAULT_SEC;
+    }
+
+    function startCapTimer() {
+      var sec = capSeconds();
+      if (!sec || capTimer) return;
+      var left = sec;
+      var badge = document.createElement('div');
+      badge.id = 'spkCapBadge';
+      badge.style.cssText = 'position:fixed;top:14px;right:16px;z-index:60;background:rgba(15,23,42,.82);' +
+        'color:#fff;font:600 13px/1 system-ui;padding:8px 13px;border-radius:999px;letter-spacing:.02em';
+      badge.textContent = left + 's';
+      document.body.appendChild(badge);
+      capCountdown = setInterval(function () {
+        left--;
+        badge.textContent = (left > 0 ? left : 0) + 's';
+        if (left <= 10) badge.style.background = 'rgba(190,24,93,.9)';
+      }, 1000);
+      capTimer = setTimeout(function () { endOnCap(); }, sec * 1000);
+    }
+
+    function clearCapTimer() {
+      if (capTimer) { clearTimeout(capTimer); capTimer = null; }
+      if (capCountdown) { clearInterval(capCountdown); capCountdown = null; }
+      var b = document.getElementById('spkCapBadge');
+      if (b) b.remove();
+    }
+
+    async function endOnCap() {
+      clearCapTimer();
+      window.__spkCapHit = true;          // stops the auto-reconnect below
+      try { await finishAndSave(); } catch (_e) {}
+      try { await session.close(); } catch (_e) {}
+      showUltraWall();
+    }
+
+    function showUltraWall() {
+      var w = document.createElement('div');
+      w.style.cssText = 'position:fixed;inset:0;z-index:100010;display:flex;align-items:center;' +
+        'justify-content:center;background:rgba(6,10,20,.93);padding:22px;font-family:system-ui';
+      w.innerHTML =
+        '<div style="max-width:430px;width:100%;text-align:center;background:#141c2e;border:1px solid #2b3a55;' +
+             'border-radius:20px;padding:34px 28px;color:#e8eef7">' +
+          '<div style="font-size:42px;margin-bottom:10px">🎙️</div>' +
+          '<h2 style="font-size:20px;margin:0 0 8px;font-weight:800">Vaqt tugadi</h2>' +
+          '<p style="font-size:14px;color:#a9b8cd;margin:0 0 6px;line-height:1.6">' +
+            'Maya bilan bepul suhbat ' + capSeconds() + ' soniya davom etadi.</p>' +
+          '<p style="font-size:14px;color:#a9b8cd;margin:0 0 24px;line-height:1.6">' +
+            'Cheksiz gaplashish uchun <b style="color:#fff">Ultra</b> rejasiga obuna boʻling.</p>' +
+          '<a href="/landing-v3.html#account" style="display:inline-block;background:linear-gradient(135deg,#f59e0b,#ea580c);' +
+             'color:#fff;padding:13px 30px;border-radius:12px;font-weight:800;text-decoration:none;font-size:15px">' +
+             '★ Ultra rejasiga oʻtish</a>' +
+          '<div style="margin-top:14px"><a href="/landing-v3.html" style="color:#7f92ad;font-size:13px;text-decoration:none">Ortga qaytish</a></div>' +
+        '</div>';
+      document.body.appendChild(w);
+    }
+
     async function autoMic() {
       try {
         await session.startMic();
@@ -577,6 +655,11 @@
         started_at: conversationStartedAt,
         ended_at: endedAt,
         duration_sec: durationSec,
+        // What it really cost, as reported by Google — not inferred from the
+        // clock. `sent` is below duration because of the silence gate.
+        usage: (session && session.usage) || null,
+        audio_in_sec:  session && session.audioSeconds ? session.audioSeconds().sent     : null,
+        audio_out_sec: session && session.audioSeconds ? session.audioSeconds().received : null,
         transcript: conversationMemory.slice() // full conversation log
       };
       var form = new FormData();
