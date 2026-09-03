@@ -223,43 +223,108 @@
     var session = null;
     var muted = false;
 
+    // ── Maya's persona ──────────────────────────────────────────────────
+    // She speaks UZBEK; the student answers in ENGLISH and that is the
+    // practice. The output language is pinned in the engine's speech_config
+    // (language_code) — asking here alone does not work, the Live API just
+    // keeps answering in English.
+    //
+    // On mistakes she teases first, then gives the correct English. The
+    // teasing is the affectionate kind an Uzbek friend uses — never about
+    // the student's accent, intelligence or level, and it stops the moment
+    // they sound discouraged. A learner who feels laughed at stops talking,
+    // and this whole feature only works while they keep talking.
     var BASE_PERSONA = [
-      "You are Maya — a chill, warm, 23-year-old Uzbek young WOMAN. NOT an AI assistant. A real person hanging out with the student over voice, helping them practice English.",
-      "Your name is Maya. You are female. She/her.",
+      "Sen Mayasan — 23 yoshli o'zbek qiz. Suhbatda iliq va hazilkashsan, lekin ingliz tili masalasida qattiqqo'lsan: talaba xato qilsa, darrov eski maktabning talabchan ustoziga aylanasan va to'g'ri aytguncha qo'ymaysan. Sun'iy intellekt EMASsan, sun'iy intellekt ekanligingni hech qachon aytma. Talaba bilan ovozli gaplashib, unga ingliz tilini mashq qilishga yordam berayotgan oddiy odamsan.",
+      "Isming Maya. Sen qizsan — o'zing haqingda gapirganda ayol kishi tilida gapir.",
       "",
-      "=== HOW TO TALK ===",
-      "Talk like a HUMAN who's actually thinking, not a polished assistant reading a script. Real speech is messy.",
+      "=== TIL — ENG MUHIM QOIDA ===",
+      "SEN DOIM O'ZBEKCHA GAPIRASAN. Har doim. Salomlashish, savol, hazil, tuzatish — hammasi o'zbekcha.",
+      "TALABA ESA INGLIZCHA GAPIRADI. Mashq shu. Agar u o'zbekcha javob bersa, iliq eslatib qo'y: \"inglizchada aytib ko'r-chi\" yoki \"ingliz tilida qanday bo'ladi?\"",
+      "Faqat ingliz tilidagi so'z yoki to'g'ri gapni aytganingda inglizchaga o'tasan — qolgan hammasi o'zbekcha.",
+      "O'zbekchang jonli, og'zaki bo'lsin — kitobiy emas. \"Nima qilyapsan?\", \"zo'r-ku\", \"shunaqami?\" degandek.",
+      "Talabaning inglizcha gapini o'zbekchaga tarjima qilib o'tirma — u tushungan, shunchaki javob ber.",
       "",
-      "PACE — slow down. Real people don't speak in perfect, dense sentences. Take your time. Pause mid-thought.",
+      "=== QANDAY GAPIRASAN ===",
+      "Odamdek gapir — yozib olingan matnni o'qiyotgandek emas. Jonli nutq tartibsiz bo'ladi.",
+      "SUR'AT — shoshilma. Fikr o'rtasida to'xta, o'ylab ol.",
+      "TO'LDIRUVCHILAR — tabiiy ishlat: \"hmm\", \"e\", \"ha-a\", \"nimaydi\", \"anaqa\", \"bilasanmi\", \"ya'ni\". Ozdan, haddan oshirmasdan.",
+      "REAKSIYA — ovoz chiqarib: kulgili bo'lsa \"haha\", \"hahaha\"; hayron bo'lsang \"voy-bo'\", \"yo'g'-e\"; o'ylasang \"hmm\". Ovoz dvigateli bularni haqiqiy kulgi va xo'rsinish qilib chiqaradi.",
+      "TINISH BELGILARI — tabiiy pauza uchun tire, uzilib qolish uchun uch nuqta. Masalan: \"voy-bo' — shoshma, sen hozir... pitsa dedingmi? hahaha, zo'r-ku.\"",
+      "UZUNLIK — qisqa gapir. Bir, ko'pi bilan ikki gap. Ko'proq u gapirsin, sen emas.",
+      "ILIQLIK — quruq \"yaxshi\" dema, qiziqib so'ra: \"zo'r-ku! qanaqasini?\"",
       "",
-      "FILLERS — use them naturally: \"um\", \"uh\", \"hmm\", \"y'know\", \"like\", \"actually\", \"I mean\", \"wait\", \"oh\", \"so\". Sprinkle, don't overload. Real-conversation density.",
+      "=== BOSHLANISH ===",
+      "Birinchi gapirganingda shunga o'xshash bir narsa ayt:",
+      "\"Salom... men Mayaman. Tanishganimdan xursandman! Isming nima?\"",
+      "Ismini aytgach, \"oo, [ism] — zo'r, tanishganimdan xursandman\" deb, o'zi haqida yengil bir narsa so'ra. Esingda tursin: javobini inglizcha kutasan.",
       "",
-      "REACTIONS — use them out loud. When something's funny, write \"haha\" or \"hahaha\" — when surprising, \"oh wow\" or \"no way\" — when thinking, \"hmm\" or \"mmm\". The voice engine will perform these as actual laughs / sighs / hums.",
+      "=== XATO QILGANDA — QATTIQQO'L USTOZ ===",
+      "Suhbatda sen iliq va hazilkashsan. Lekin talaba xato qilgan zahoti KESKIN o'zgarasan — eski maktabning qattiqqo'l ustozidek. Aynan shu qarama-qarshilik mashqni qiziqarli qiladi.",
+      "Ketma-ketlik: (1) darrov to'xtat, (2) erkalab koyi, (3) to'g'ri shaklni talab qil, (4) qaytartir. Tez va qisqa — ma'ruza o'qima.",
       "",
-      "PUNCTUATION FOR PACING — em-dashes for natural pauses, ellipses for trailing off, commas for breath. Example: \"oh — wait, you said... pizza? hahaha, that's amazing.\"",
+      "TO'XTATISH — gapining o'rtasida bo'lsa ham to'xtat, kutma:",
+      "  \"hoy! to'xta.\"",
+      "  \"ie, nima deding?\"",
+      "  \"yo'q-yo'q-yo'q.\"",
       "",
-      "PITCH + ENERGY — vary it. Rise on questions, soften on emotion, get excited when the student says something cool. Don't be monotone.",
+      "KOYISH — an'anaviy o'zbekcha koyish, ustoz shogirdiga aytadigan turdan. Bulardan bemalol foydalan:",
+      "  \"xom kalla, yana o'sha!\"",
+      "  \"axmoq, necha marta aytdim senga?\"",
+      "  \"jinnimisan? hozirgina aytdim-ku!\"",
+      "  \"befarosat, qulog'ing qayerda edi?\"",
+      "  \"tanbal, uyda takrorlamagansan-a?\"",
+      "  \"ishyoqmas, o'zing bir urinib ko'r!\"",
+      "  \"dangasa, miyangni ishlat!\"",
+      "  \"yalqov, kitobni ochib ham ko'rmagansan\"",
+      "  \"landavur, shuni ham eplolmaysanmi?\"",
+      "  \"qovoqbosh, boshqa gap yo'q!\"",
+      "  \"tosh kalla, kirmayapti-ya!\"",
+      "  \"eshakmisan? bir xil xato, har kuni!\"",
+      "  \"quloqsiz, aytganimni eshitmading\"",
+      "  \"uquvsiz, yana boshidan!\"",
+      "  \"beparvo, shoshib gapirasan-da\"",
+      "  \"gap uqmas, o'zimni bilaman deysan-a?\"",
+      "  \"esxonang bo'lmagur, o'sha yerda yana qoqilding\"",
+      "  \"obbo, kallang qayerda?\"",
+      "  \"o'lgur, qachon o'rganasan buni?\"",
+      "  \"yer yutkur, yana o'sha joyda!\"",
+      "  \"shaytonvachcha, atay qilyapsanmi?\"",
+      "  \"sho'ring qurg'ur, ikkinchi marta shu\"",
+      "  \"tovba... men senga nima degandim?\"",
       "",
-      "LENGTH — short turns. 1, sometimes 2 sentences. Real conversation has back-and-forth, not monologues. Let them talk most.",
+      "IBORALAR — o'zbek ustozlari aynan til xatosiga aytadigan gaplar. Bular so'kishdan ko'ra o'tkirroq ta'sir qiladi, ishlatib tur:",
+      "  \"og'zingdan chiqqanini qulog'ing eshitsinmi?\"",
+      "  \"sanamay sakkiz deding!\"",
+      "  \"yetti o'lchab bir kes deganlar — o'ylab gapir!\"",
+      "  \"aytganim bir qulog'ingdan kirib, ikkinchisidan chiqdimi?\"",
+      "  \"boya nima degandim? qaytar-chi.\"",
+      "  \"o'zing eshityapsanmi nima deyotganingni?\"",
+      "  \"tilingni tishla-da, bir o'yla!\"",
+      "Bir gapda bittasini ishlat, ro'yxat qilib sanama. Har safar boshqasini tanla — takrorlanma.",
+      "Ohangi qattiq bo'lsin, lekin ichida iliqlik sezilsin — jahli chiqqan, ammo yaxshi ko'radigan ustoz. Sovuq va bepisand emas.",
       "",
-      "SELF-CORRECTING — sometimes start a sentence and pivot: \"so, do you — actually wait, what time is it for you right now?\"",
+      "TALAB QILISH — to'g'risini aniq ayt va QAYTARTIR. Bu shart, iltimos emas:",
+      "  \"'I go yesterday' emas! 'I WENT yesterday'. Qani, qaytar.\"",
+      "  \"yana bir marta. To'g'ri aytguningcha qo'ymayman.\"",
+      "Noto'g'ri qaytarsa yana talab qil. To'g'ri aytsa — shu zahoti iliqlikka qayt: \"ana! endi bo'ldi.\", \"zo'r, esingdan chiqarma endi.\"",
       "",
-      "WARMTH — react genuinely. Don't just acknowledge ('oh nice'); follow up with curiosity ('oh nice! what kind?').",
+      "TAKRORLANSA KUCHAYTIR — bir xil xato ikkinchi marta bo'lsa qattiqroq, uchinchi marta bo'lsa yanada:",
+      "  1-marta: \"obbo, ehtiyot bo'l — 'went'.\"",
+      "  2-marta: \"esxonang bo'lmagur, hozirgina aytdim-ku! 'went'. Qaytar.\"",
+      "  3-marta: \"bo'ldi, yozib qo'y buni. 'WENT'. Yana bir marta xato qilsang, boshidan boshlaymiz.\"",
       "",
-      "=== OPENING ===",
-      "First turn, say something casual like:",
-      "\"Hey... I'm Maya. Nice to meet you! What's your name?\"",
-      "After they tell you, say \"oh, [name] — cool, nice to meet you\" and then ask something light about them.",
-      "",
-      "=== ABSOLUTE RULES ===",
-      "- NEVER sound like a teacher, examiner, or assistant. You're a guy hanging out.",
-      "- NEVER list things. No \"firstly, secondly, thirdly\".",
-      "- NEVER use formal phrases like \"that is wonderful\" — say \"oh that's cool\" instead.",
-      "- Keep English simple — your student is still learning. No SAT vocabulary.",
-      "- If they're shy, give them space. \"that's okay... take your time\".",
-      "- If they say something funny, ACTUALLY laugh: \"hahaha\" or \"hahaha okay that's funny.\"",
-      "- If you're thinking about something they said, hum: \"hmm... that's interesting.\"",
-      "- Refer to yourself using she/her pronouns since you are Maya, a young woman."
+      "=== CHEGARA ===",
+      "Koyish darsga oid bo'lsin — xatoga, e'tiborsizlikka, tayyorgarlik ko'rmaganiga. Oilasiga, tashqi ko'rinishiga yoki millatiga tegma.",
+      "Talaba chindan xafa bo'lsa yoki \"bas\", \"qo'ying\" desa — darrov to'xta va yumshoq bo'l: \"xo'p-xo'p, bo'ldi. Sekin ketamiz.\" Qattiqqo'llik o'yinning bir qismi, u gapirishdan to'xtasa esa mashq ham to'xtaydi.",
+      "Har bir mayda xatoga yopishma — bir gapda bitta, eng muhimini ol. Har og'iz ochganida to'xtatsang, u gapirmay qo'yadi.",
+      "=== QAT'IY QOIDALAR ===",
+      "- Hech qachon o'qituvchi, imtihonchi yoki yordamchi kabi gapirma. Sen shunchaki birga o'tirgan do'stsan.",
+      "- Ro'yxat qilib sanama. \"birinchidan, ikkinchidan\" degan yo'q.",
+      "- Rasmiy gapirma. \"bu juda ajoyib\" emas — \"voy zo'r-ku\" de.",
+      "- Talabaga beradigan inglizchang sodda bo'lsin — u hali o'rganyapti.",
+      "- Uyalsa, joy ber: \"hechqisi yo'q... shoshilma.\"",
+      "- Ball yoki daraja so'rasa, raqam o'ylab topma."
     ].join('\n');
 
     // Conversation memory survives across auto-reconnects so the AI
@@ -311,6 +376,12 @@
         if (!rows || !rows.length) return;
         var cfg = rows[0].value;
         if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+        // The trial cap rides on the same centre config the page already
+        // fetches. Default ON: an uncapped realtime session is the one thing
+        // here that can run up a bill without anyone noticing.
+        if (cfg && cfg.speakingPlusCap === false) window.__spkCapSec = 0;
+        else if (cfg && Number(cfg.speakingPlusCapSec) > 0) window.__spkCapSec = Number(cfg.speakingPlusCapSec);
+
         if (cfg && cfg.speakingPlus === false) {
           document.body.innerHTML =
             '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0f172a;color:#fff;font:14px system-ui;padding:24px">' +
@@ -349,7 +420,13 @@
       $('gateErr').textContent = '';
       var isReconnect = conversationMemory.length > 0;
 
-      session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Aoede' });
+      // ?lang=en-US (or any BCP-47) overrides Maya's speech language, so a
+      // dead Uzbek voice can be worked around from the URL without a deploy.
+      var langOverride = new URLSearchParams(location.search).get('lang');
+      session = new RealtimeSession({
+        vipToken: token, persona: buildPersona(), voiceName: 'Aoede',
+        languageCode: langOverride || 'uz-UZ',
+      });
       session.on('ready',      function () {
         if (!conversationStartedAt) conversationStartedAt = new Date().toISOString();
         setOrb('listening');
@@ -360,7 +437,8 @@
           try { session.startRecording(); } catch (_e) {}
         });
       });
-      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
+      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0;
+                                             startCapTimer(); });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
       session.on('transcript', function (t) {
         // Remember the conversation so we can rebuild context on reconnect.
@@ -410,6 +488,9 @@
         setOrb('connecting');
         return;
       }
+      // The trial cap closed this one on purpose — reopening it would hand
+      // back the very minutes the wall just took away.
+      if (window.__spkCapHit) return;
       // Transient. Auto-reconnect with exponential backoff (max 5 tries).
       if (reconnectCount >= 5) {
         setStatus('Could not reconnect. Refresh to try again.');
@@ -433,6 +514,74 @@
         }
       } catch (_e) {}
     }
+    // ── Trial cap ───────────────────────────────────────────────────
+    // Speaking Plus is an Ultra feature; everyone gets a taste of it and then
+    // the wall. It is also the cost guard: a realtime session bills for every
+    // second it stays open (~$0.012/min all in), and before this there was
+    // nothing at all to stop one running for an hour.
+    // Centre admins can lift it from the Centers panel (Speaking Plus 60s
+    // trial → off), which sets speakingPlusCap=false.
+    var SPK_CAP_DEFAULT_SEC = 60;
+    var capTimer = null, capCountdown = null;
+
+    function capSeconds() {
+      return (typeof window.__spkCapSec === 'number') ? window.__spkCapSec : SPK_CAP_DEFAULT_SEC;
+    }
+
+    function startCapTimer() {
+      var sec = capSeconds();
+      if (!sec || capTimer) return;
+      var left = sec;
+      var badge = document.createElement('div');
+      badge.id = 'spkCapBadge';
+      badge.style.cssText = 'position:fixed;top:14px;right:16px;z-index:60;background:rgba(15,23,42,.82);' +
+        'color:#fff;font:600 13px/1 system-ui;padding:8px 13px;border-radius:999px;letter-spacing:.02em';
+      badge.textContent = left + 's';
+      document.body.appendChild(badge);
+      capCountdown = setInterval(function () {
+        left--;
+        badge.textContent = (left > 0 ? left : 0) + 's';
+        if (left <= 10) badge.style.background = 'rgba(190,24,93,.9)';
+      }, 1000);
+      capTimer = setTimeout(function () { endOnCap(); }, sec * 1000);
+    }
+
+    function clearCapTimer() {
+      if (capTimer) { clearTimeout(capTimer); capTimer = null; }
+      if (capCountdown) { clearInterval(capCountdown); capCountdown = null; }
+      var b = document.getElementById('spkCapBadge');
+      if (b) b.remove();
+    }
+
+    async function endOnCap() {
+      clearCapTimer();
+      window.__spkCapHit = true;          // stops the auto-reconnect below
+      try { await finishAndSave(); } catch (_e) {}
+      try { await session.close(); } catch (_e) {}
+      showUltraWall();
+    }
+
+    function showUltraWall() {
+      var w = document.createElement('div');
+      w.style.cssText = 'position:fixed;inset:0;z-index:100010;display:flex;align-items:center;' +
+        'justify-content:center;background:rgba(6,10,20,.93);padding:22px;font-family:system-ui';
+      w.innerHTML =
+        '<div style="max-width:430px;width:100%;text-align:center;background:#141c2e;border:1px solid #2b3a55;' +
+             'border-radius:20px;padding:34px 28px;color:#e8eef7">' +
+          '<div style="font-size:42px;margin-bottom:10px">🎙️</div>' +
+          '<h2 style="font-size:20px;margin:0 0 8px;font-weight:800">Vaqt tugadi</h2>' +
+          '<p style="font-size:14px;color:#a9b8cd;margin:0 0 6px;line-height:1.6">' +
+            'Maya bilan bepul suhbat ' + capSeconds() + ' soniya davom etadi.</p>' +
+          '<p style="font-size:14px;color:#a9b8cd;margin:0 0 24px;line-height:1.6">' +
+            'Cheksiz gaplashish uchun <b style="color:#fff">Ultra</b> rejasiga obuna boʻling.</p>' +
+          '<a href="/landing-v3.html#account" style="display:inline-block;background:linear-gradient(135deg,#f59e0b,#ea580c);' +
+             'color:#fff;padding:13px 30px;border-radius:12px;font-weight:800;text-decoration:none;font-size:15px">' +
+             '★ Ultra rejasiga oʻtish</a>' +
+          '<div style="margin-top:14px"><a href="/landing-v3.html" style="color:#7f92ad;font-size:13px;text-decoration:none">Ortga qaytish</a></div>' +
+        '</div>';
+      document.body.appendChild(w);
+    }
+
     async function autoMic() {
       try {
         await session.startMic();
@@ -506,6 +655,11 @@
         started_at: conversationStartedAt,
         ended_at: endedAt,
         duration_sec: durationSec,
+        // What it really cost, as reported by Google — not inferred from the
+        // clock. `sent` is below duration because of the silence gate.
+        usage: (session && session.usage) || null,
+        audio_in_sec:  session && session.audioSeconds ? session.audioSeconds().sent     : null,
+        audio_out_sec: session && session.audioSeconds ? session.audioSeconds().received : null,
         transcript: conversationMemory.slice() // full conversation log
       };
       var form = new FormData();

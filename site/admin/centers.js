@@ -108,7 +108,7 @@
         },
         // Features
         helpCenter: true, announcements: false, certificates: false, telegramNotifs: true,
-        flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true, readingPlus: true, listeningPlus: true,
+        flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true, readingPlus: true, listeningPlus: true, speakingPlusCap: true,
         // Scheduling
         operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
         examScheduleMode: false, examScheduleDate: '',
@@ -972,6 +972,10 @@
             h += _cmToggleInput(cid, 'leaderboard', '🏆 Leaderboard', cfg.leaderboard !== false);
             h += _cmToggleInput(cid, 'writingPlus', '✏️ Writing Plus', cfg.writingPlus !== false);
             h += _cmToggleInput(cid, 'speakingPlus', '🎤 Speaking Plus', cfg.speakingPlus !== false);
+            // Speaking Plus is the only realtime feature: it bills by the
+            // second while a session is open (~$0.012/min). ON = the 60s
+            // Ultra trial; OFF = uncapped sessions for this centre.
+            h += _cmToggleInput(cid, 'speakingPlusCap', '⏱️ Speaking Plus 60s trial', cfg.speakingPlusCap !== false);
             h += _cmToggleInput(cid, 'readingPlus', '📖 Reading Plus', cfg.readingPlus !== false);
             h += _cmToggleInput(cid, 'listeningPlus', '🎧 Listening Plus', cfg.listeningPlus !== false);
             h += '</div>';
