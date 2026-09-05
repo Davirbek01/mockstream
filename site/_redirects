@@ -24,3 +24,11 @@
 # landing-v2.html was an abandoned design iteration (deleted 2026-07-20).
 # 301 any stray old bookmark to the live landing.
 /landing-v2.html /landing-v3.html 301
+
+# Desktop app download shortlinks. These lived only in netlify.toml, which
+# Cloudflare Pages does not read — so they move here, where both hosts see
+# them. 302 (not 200) because the target is an external host: Pages can only
+# proxy relative URLs, and a redirect keeps the student's link working if we
+# re-point the target later.
+/desktop    https://storage.googleapis.com/mockstream-desktop-releases/download.html   302
+/download   https://storage.googleapis.com/mockstream-desktop-releases/download.html   302
