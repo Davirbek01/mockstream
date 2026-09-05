@@ -67,7 +67,7 @@ window.PET_W_TEST = {
           outro: "Write your story in about 100 words on your answer sheet." },
         { id: 8,
           intro: "This is part of a letter you receive from an English friend.",
-          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test5/q8_ribbon.png",
+          image: "https://audio.mock-stream.com/PET-Writing/test5/q8_ribbon.png",
           outro: "Now write a letter to your friend.\nWrite your letter in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",

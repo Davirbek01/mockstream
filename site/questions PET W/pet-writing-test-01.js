@@ -65,7 +65,7 @@ window.PET_W_TEST = {
       choices: [
         { id: 7,
           intro: "This is part of a letter you receive from a British friend.",
-          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test1/q7_ribbon.png",
+          image: "https://audio.mock-stream.com/PET-Writing/test1/q7_ribbon.png",
           outro: "Now write a letter to your friend.\nWrite your letter on your answer sheet." },
         { id: 8,
           intro: "Your English teacher wants you to write a story.\n\nThis is the title for your story:",

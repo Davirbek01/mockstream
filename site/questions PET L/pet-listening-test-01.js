@@ -18,7 +18,7 @@ window.PET_L_TEST = {
   },
 
   audio: {
-    base: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test1/",
+    base: "https://audio.mock-stream.com/PET-Listening/test1/",
     // Single full-length recording until per-part splits are produced.
     files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a" }
   },
@@ -33,7 +33,7 @@ window.PET_L_TEST = {
         "For each question there are three pictures and a short recording.",
         "For each question, choose the correct answer A, B or C."
       ],
-      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test1/p1/",
+      imageBase: "https://audio.mock-stream.com/PET-Listening/test1/p1/",
       example: {
         number: 0,
         question: "Where is the girl's hat?",

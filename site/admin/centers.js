@@ -55,7 +55,7 @@
 
     var CM_CENTERS = [
       { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
-      { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
+      { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://audio.mock-stream.com/LOGOS/BEK.png' },
       { id: 'global',      name: 'Global Education LC', logo: 'https://i.ibb.co/Xrzrh7x6/image.png' },
       { id: 'niners',      name: 'Niners Academy',      logo: 'https://i.ibb.co/39jVLp1w/image.png' },
       { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://i.ibb.co/gMQ80dNn/image.png' }

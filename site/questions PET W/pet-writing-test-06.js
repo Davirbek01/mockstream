@@ -63,7 +63,7 @@ window.PET_W_TEST = {
       choices: [
         { id: 7,
           intro: "This is part of a letter you receive from your penfriend.",
-          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test6/q7_ribbon.png",
+          image: "https://audio.mock-stream.com/PET-Writing/test6/q7_ribbon.png",
           outro: "Now write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
         { id: 8,
           intro: "You have to write a story for your English homework.\n\nYour story must have this title:",

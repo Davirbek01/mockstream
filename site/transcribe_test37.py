@@ -4,10 +4,10 @@ API_KEY = "AIzaSyCfnYXgCySMlckKOdJw6vzRDlBVvJvZrZo"
 MODEL = "gemini-2.0-flash"
 
 URLS = {
-    "section_1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test37/TEST%209%20(1).mp3",
-    "section_2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test37/TEST%209%20(2).mp3",
-    "section_3": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test37/TEST%209%20(3).mp3",
-    "section_4": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test37/TEST%209%20(4).mp3",
+    "section_1": "https://audio.mock-stream.com/IELTS%20listening/test37/TEST%209%20(1).mp3",
+    "section_2": "https://audio.mock-stream.com/IELTS%20listening/test37/TEST%209%20(2).mp3",
+    "section_3": "https://audio.mock-stream.com/IELTS%20listening/test37/TEST%209%20(3).mp3",
+    "section_4": "https://audio.mock-stream.com/IELTS%20listening/test37/TEST%209%20(4).mp3",
 }
 
 PROMPT = (

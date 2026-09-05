@@ -9,10 +9,10 @@ API_KEY = "AIzaSyCfnYXgCySMlckKOdJw6vzRDlBVvJvZrZo"
 API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
 
 AUDIO_URLS = [
-    "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test35/TEST%207%20(1).mp3",
-    "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test35/TEST%207%20(2).mp3",
-    "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test35/TEST%207%20(3).mp3",
-    "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test35/TEST%207%20(4).mp3",
+    "https://audio.mock-stream.com/IELTS%20listening/test35/TEST%207%20(1).mp3",
+    "https://audio.mock-stream.com/IELTS%20listening/test35/TEST%207%20(2).mp3",
+    "https://audio.mock-stream.com/IELTS%20listening/test35/TEST%207%20(3).mp3",
+    "https://audio.mock-stream.com/IELTS%20listening/test35/TEST%207%20(4).mp3",
 ]
 
 PROMPT = """You are transcribing an IELTS Listening test audio. 

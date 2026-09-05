@@ -30,7 +30,7 @@ window.PET_R_TEST = {
         number: 0,
         prompt: "LOST FLOPPY DISC — Lost on Tuesday - contains important schoolwork. Hand in to office.",
         answer: "A",
-        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q0.png",
+        image: "https://audio.mock-stream.com/PET-Reading/test2/q0.png",
         options: [
           { letter: "A", text: "Go to the office if you have lost a floppy disc." },
           { letter: "B", text: "Make sure all schoolwork is given in on floppy disc to the office." },
@@ -39,7 +39,7 @@ window.PET_R_TEST = {
       },
       items: [
         {
-          id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q1.png",
+          id: 1, image: "https://audio.mock-stream.com/PET-Reading/test2/q1.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "The English class must take their workbooks to the language laboratory." },
@@ -49,7 +49,7 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q2.png",
+          id: 2, image: "https://audio.mock-stream.com/PET-Reading/test2/q2.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Application forms are unavailable after 1st November." },
@@ -59,7 +59,7 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q3.png",
+          id: 3, image: "https://audio.mock-stream.com/PET-Reading/test2/q3.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Louis went windsurfing after he went to the funfair yesterday." },
@@ -69,7 +69,7 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q4.png",
+          id: 4, image: "https://audio.mock-stream.com/PET-Reading/test2/q4.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Don't sit at the front of the café unless you're attending the party." },
@@ -79,7 +79,7 @@ window.PET_R_TEST = {
           answer: "A"
         },
         {
-          id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/q5.png",
+          id: 5, image: "https://audio.mock-stream.com/PET-Reading/test2/q5.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Marie is offering to lend Sylviane a book." },
@@ -105,11 +105,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Swimming Clubs",
       items: [
-        { id: 6, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/p6.jpg", name: "Ralph", description: "Ralph is a strong swimmer, and would like a club that organises challenging long-distance events. He'd also like to improve his technique, but only has weekends free.", answer: "D" },
-        { id: 7, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/p7.jpg", name: "Marta", description: "Marta has just learnt to swim and wants to improve quickly so she can jump off the top board into a big pool. She prefers indoor pools, but doesn't like doing competitions.", answer: "H" },
-        { id: 8, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/p8.jpg", name: "Fiona", description: "Fiona wants a club where she can swim for pleasure and meet other people. She'd also like a club that organises games in the pool, and regular social events.", answer: "C" },
-        { id: 9, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/p9.jpg", name: "Jay",   description: "Jay can't swim very far at the moment, so he wants to get stronger. He can only attend one evening per week, so would like individual instruction.", answer: "G" },
-        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/p10.jpg", name: "Daisy", description: "Daisy wants to attend a swimming club after 6 p.m. on Tuesday and Thursday. She wants to take swimming tests as she moves up from intermediate to advanced level, and hopes to become a winner in club races.", answer: "E" }
+        { id: 6, image: "https://audio.mock-stream.com/PET-Reading/test2/p6.jpg", name: "Ralph", description: "Ralph is a strong swimmer, and would like a club that organises challenging long-distance events. He'd also like to improve his technique, but only has weekends free.", answer: "D" },
+        { id: 7, image: "https://audio.mock-stream.com/PET-Reading/test2/p7.jpg", name: "Marta", description: "Marta has just learnt to swim and wants to improve quickly so she can jump off the top board into a big pool. She prefers indoor pools, but doesn't like doing competitions.", answer: "H" },
+        { id: 8, image: "https://audio.mock-stream.com/PET-Reading/test2/p8.jpg", name: "Fiona", description: "Fiona wants a club where she can swim for pleasure and meet other people. She'd also like a club that organises games in the pool, and regular social events.", answer: "C" },
+        { id: 9, image: "https://audio.mock-stream.com/PET-Reading/test2/p9.jpg", name: "Jay",   description: "Jay can't swim very far at the moment, so he wants to get stronger. He can only attend one evening per week, so would like individual instruction.", answer: "G" },
+        { id: 10, image: "https://audio.mock-stream.com/PET-Reading/test2/p10.jpg", name: "Daisy", description: "Daisy wants to attend a swimming club after 6 p.m. on Tuesday and Thursday. She wants to take swimming tests as she moves up from intermediate to advanced level, and hopes to become a winner in club races.", answer: "E" }
       ],
       texts: [
         { letter: "A", title: "Elvers",       body: "Everyone who joins our club takes part in lots of races — and loves to win! So we expect our members to turn up regularly to evening practice sessions — at least three times a week. Come and try our lovely indoor pool — and new high diving board! Individual teaching is available on request." },
@@ -135,7 +135,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
-      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test2/passage3.jpg",
+      passageImage: "https://audio.mock-stream.com/PET-Reading/test2/passage3.jpg",
       passageTitle: "Metal giraffe arrives at school!",
       passage:
         "The pupils of Grangetown High have been busy getting to know their newest and tallest classmate — a 7-metre-tall giraffe outside their school.\n\n" +

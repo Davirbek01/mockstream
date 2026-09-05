@@ -8857,7 +8857,7 @@
           <span class="option-desc">International English</span>
         </button>
         <button class="writing-option-btn cefr" onclick="selectWritingType('cefr')">
-          <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
+          <img src="https://audio.mock-stream.com/LOGOS/flag%20UZB.webp" alt="UZ"
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
@@ -8887,7 +8887,7 @@
           <span class="option-desc">International English</span>
         </button>
         <button class="listening-option-btn cefr" onclick="selectListeningType('cefr')">
-          <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
+          <img src="https://audio.mock-stream.com/LOGOS/flag%20UZB.webp" alt="UZ"
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
@@ -8917,7 +8917,7 @@
           <span class="option-desc">International English</span>
         </button>
         <button class="reading-option-btn cefr" onclick="selectReadingType('cefr')">
-          <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
+          <img src="https://audio.mock-stream.com/LOGOS/flag%20UZB.webp" alt="UZ"
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
@@ -8945,7 +8945,7 @@
           <span class="option-desc">International English</span>
         </button>
         <button class="fullmock-option-btn cefr" onclick="selectFullMockType('cefr')">
-          <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
+          <img src="https://audio.mock-stream.com/LOGOS/flag%20UZB.webp" alt="UZ"
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
@@ -8965,7 +8965,7 @@
           <span class="option-desc">International English</span>
         </button>
         <button class="speaking-option-btn cefr" onclick="selectSpeakingType('cefr')">
-          <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
+          <img src="https://audio.mock-stream.com/LOGOS/flag%20UZB.webp" alt="UZ"
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
@@ -34010,7 +34010,7 @@
 
     var CM_CENTERS = [
       { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
-      { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
+      { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://audio.mock-stream.com/LOGOS/BEK.png' },
       { id: 'global',      name: 'Global Education LC', logo: 'https://i.ibb.co/Xrzrh7x6/image.png' },
       { id: 'niners',      name: 'Niners Academy',      logo: 'https://i.ibb.co/39jVLp1w/image.png' },
       { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://i.ibb.co/gMQ80dNn/image.png' }
@@ -35864,7 +35864,7 @@
     // 🇪🇺/🇺🇿 doesn't render as a flag on Windows Chrome (shows letters
     // "EU"/"UZ"). The Uzbek flag is hosted on our own GCS bucket so we don't
     // depend on third-party CDNs for the admin-panel branding.
-    var _MMG_UZ_FLAG_URL = 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp';
+    var _MMG_UZ_FLAG_URL = 'https://audio.mock-stream.com/LOGOS/flag%20UZB.webp';
     var _MMG_EXAMS = [
       { id: 'ielts', label: 'IELTS', icon: '🌍', color: '#dc2626' },
       { id: 'cefr',  label: 'CEFR',  icon: '<img src="' + _MMG_UZ_FLAG_URL + '" alt="UZ" class="mmg-flag-icon">', color: '#2563eb' }
@@ -38708,7 +38708,7 @@
     ];
     // Pre-generated voice preview URLs in GCS (created by generate-voice-previews.mjs).
     function _mmgVoicePreviewUrl(model, voice) {
-      return 'https://storage.googleapis.com/mockstream-listening-audio/Voice%20previews/'
+      return 'https://audio.mock-stream.com/Voice%20previews/'
            + encodeURIComponent(model) + '-' + encodeURIComponent(voice) + '.wav';
     }
     // Audio row: URL input + 🎙 Generate + 📤 Upload + per-Q voice/model + inline player.

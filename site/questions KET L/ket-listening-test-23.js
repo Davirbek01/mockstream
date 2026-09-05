@@ -14,7 +14,7 @@ window.KET_L_TEST = {
   },
 
   audio: {
-    base: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test23/",
+    base: "https://audio.mock-stream.com/KET-Listening/test23/",
     files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a", 5: "PART5.m4a" }
   },
 
@@ -23,7 +23,7 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
-      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test23/p1/",
+      imageBase: "https://audio.mock-stream.com/KET-Listening/test23/p1/",
       // Q2 (dates) shown as text — book renders them as plain text cards.
       example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",image:"q0A.png"},{letter:"B",image:"q0B.png"},{letter:"C",image:"q0C.png"}], answer: "C" },
       items: [
