@@ -14,7 +14,7 @@ window.PET_L_TEST = {
     parts: 4
   },
   audio: {
-    base: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test5/",
+    base: "https://audio.mock-stream.com/PET-Listening/test5/",
     files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a" }
   },
   parts: [
@@ -26,7 +26,7 @@ window.PET_L_TEST = {
         "For each question there are three pictures and a short recording.",
         "Choose the correct picture and put a tick (✓) in the box below it."
       ],
-      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test5/p1/",
+      imageBase: "https://audio.mock-stream.com/PET-Listening/test5/p1/",
       example: { number: 0, question: "What's the time?",
         options: [ { letter: "A", text: "(example pictures from book pp.18 — student sees A as worked example)" }, { letter: "B", text: "" }, { letter: "C", text: "" } ],
         answer: "A" },

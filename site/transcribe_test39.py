@@ -5,10 +5,10 @@ MODEL = "gemini-2.0-flash"
 API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={API_KEY}"
 
 AUDIO_URLS = {
-    "section_1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test39/TEST%201%20(1).mp3",
-    "section_2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test39/TEST%201%20(2).mp3",
-    "section_3": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test39/TEST%201%20(3).mp3",
-    "section_4": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20listening/test39/TEST%201%20(4).mp3",
+    "section_1": "https://audio.mock-stream.com/IELTS%20listening/test39/TEST%201%20(1).mp3",
+    "section_2": "https://audio.mock-stream.com/IELTS%20listening/test39/TEST%201%20(2).mp3",
+    "section_3": "https://audio.mock-stream.com/IELTS%20listening/test39/TEST%201%20(3).mp3",
+    "section_4": "https://audio.mock-stream.com/IELTS%20listening/test39/TEST%201%20(4).mp3",
 }
 
 PROMPT = (

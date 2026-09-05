@@ -8,11 +8,17 @@
 //     focuses/opens the target page. Subscriptions are managed by
 //     site/push-client.js; sends fan out from the web-push Edge Function.
 
-const CACHE_NAME = 'mockstream-v1025';
+const CACHE_NAME = 'mockstream-v1026';
 const CONTENT_CACHE = 'mockstream-content-v1'; // NOT versioned with the shell
 
 const SUPABASE_HOST = 'zknyukkbtbcqgvkgjktb.supabase.co';
-const GCS_HOST = 'storage.googleapis.com';
+// Exam audio and images. GCS was the only origin until 2026-09-06, when the
+// files were copied to Cloudflare R2 (audio.mock-stream.com) for its zero
+// egress. Both hosts are matched on purpose: mock_data URLs flip over in one
+// UPDATE, and older app builds still carry hardcoded GCS links, so a student
+// can hit either origin — and both must stay cache-first or offline mocks
+// silently stop working offline.
+const AUDIO_HOSTS = ['storage.googleapis.com', 'audio.mock-stream.com'];
 
 // Core shell files to pre-cache on install
 // Icons & manifest are per-clone (inside site-config/<clone>/), so they are
@@ -72,11 +78,11 @@ self.addEventListener('fetch', event => {
   try { url = new URL(request.url); } catch (e) { return; }
 
   // ── Offline mock content ─────────────────────────────────────────────
-  // GCS audio (listening/speaking mp3s, immutable files): cache-first.
+  // Exam audio (listening/speaking mp3s, immutable files): cache-first.
   // <audio src> requests are no-cors → opaque responses. Those replay fine
   // in Chrome, but NOT in Safari — see the range guard above, which is why
   // media never reaches this branch on iOS.
-  if (url.hostname === GCS_HOST) {
+  if (AUDIO_HOSTS.includes(url.hostname)) {
     event.respondWith(
       caches.open(CONTENT_CACHE).then(cache =>
         cache.match(request).then(cached => {

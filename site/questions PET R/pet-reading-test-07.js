@@ -26,7 +26,7 @@ window.PET_R_TEST = {
         number: 0,
         prompt: "NO BICYCLES AGAINST GLASS PLEASE",
         answer: "A",
-        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q0.png",
+        image: "https://audio.mock-stream.com/PET-Reading/test7/q0.png",
         options: [
           { letter: "A", text: "Do not leave your bicycle touching the window." },
           { letter: "B", text: "Do not ride your bicycle in this area." },
@@ -34,35 +34,35 @@ window.PET_R_TEST = {
         ]
       },
       items: [
-        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q1.png",
+        { id: 1, image: "https://audio.mock-stream.com/PET-Reading/test7/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "The college secretary will post students their essays on Friday." },
             { letter: "B", text: "Students may hand in their essays after Friday if they can prove illness." },
             { letter: "C", text: "Unless your essay is due by Friday, you do not need to reply." }
           ], answer: "B" },
-        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q2.png",
+        { id: 2, image: "https://audio.mock-stream.com/PET-Reading/test7/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Take the tablets regularly until the bottle is empty." },
             { letter: "B", text: "Take one tablet every day until they are finished." },
             { letter: "C", text: "Take three tablets after meals until you feel better." }
           ], answer: "A" },
-        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q3.png",
+        { id: 3, image: "https://audio.mock-stream.com/PET-Reading/test7/q3.png",
           prompt: "Kim suggests",
           options: [
             { letter: "A", text: "meeting at the football match." },
             { letter: "B", text: "going to Ben's house later." },
             { letter: "C", text: "playing on his brother's computer." }
           ], answer: "C" },
-        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q4.png",
+        { id: 4, image: "https://audio.mock-stream.com/PET-Reading/test7/q4.png",
           prompt: " ",
           options: [
             { letter: "A", text: "John can deliver the sofa if the time is convenient." },
             { letter: "B", text: "Anyone wanting this sofa must pick it up this week." },
             { letter: "C", text: "Call John with advice on how he can transport his sofa." }
           ], answer: "B" },
-        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q5.png",
+        { id: 5, image: "https://audio.mock-stream.com/PET-Reading/test7/q5.png",
           prompt: "The hire charge covers all the costs",
           options: [
             { letter: "A", text: "including fuel and insurance." },
@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "English Colleges in Britain",
       items: [
-        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p6.png",  name: "Marta",  description: "Marta wants a course in Business Studies and English, starting in September. She would prefer to be in a city, but wants a college which will organise visits, so she can see something of Britain.", answer: "H" },
-        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p7.png",  name: "Jean",   description: "Jean wants to attend classes for a few hours a week in July, so that he has plenty of free time to visit the countryside. He wants to stay in a city, with a family.", answer: "A" },
-        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p8.png",  name: "Laura",  description: "Laura is looking for a full-time beginners' course and can come to Britain at any time. She is keen on sport and wants to stay with a family.", answer: "F" },
-        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p9.png",  name: "Marek",  description: "Marek likes big cities. He hopes to find work during the day, so he is looking for an evening class. He wants to live in a flat or house.", answer: "C" },
-        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p10.png", name: "Birgit", description: "Birgit is going to spend August in Britain. She knows some English already and wants a full-time course. She wants to meet people through the college and live with a family.", answer: "E" }
+        { id: 6,  image: "https://audio.mock-stream.com/PET-Reading/test7/p6.png",  name: "Marta",  description: "Marta wants a course in Business Studies and English, starting in September. She would prefer to be in a city, but wants a college which will organise visits, so she can see something of Britain.", answer: "H" },
+        { id: 7,  image: "https://audio.mock-stream.com/PET-Reading/test7/p7.png",  name: "Jean",   description: "Jean wants to attend classes for a few hours a week in July, so that he has plenty of free time to visit the countryside. He wants to stay in a city, with a family.", answer: "A" },
+        { id: 8,  image: "https://audio.mock-stream.com/PET-Reading/test7/p8.png",  name: "Laura",  description: "Laura is looking for a full-time beginners' course and can come to Britain at any time. She is keen on sport and wants to stay with a family.", answer: "F" },
+        { id: 9,  image: "https://audio.mock-stream.com/PET-Reading/test7/p9.png",  name: "Marek",  description: "Marek likes big cities. He hopes to find work during the day, so he is looking for an evening class. He wants to live in a flat or house.", answer: "C" },
+        { id: 10, image: "https://audio.mock-stream.com/PET-Reading/test7/p10.png", name: "Birgit", description: "Birgit is going to spend August in Britain. She knows some English already and wants a full-time course. She wants to meet people through the college and live with a family.", answer: "E" }
       ],
       texts: [
         { letter: "A", title: "Lowton College",     body: "Situated in a pleasant area of the city close to the river. Convenient for North Wales and the English Lake District.\n• Courses in English run all year.\n• Part-time courses available in the evenings/days.\n• We will arrange accommodation with an English family." },
@@ -110,7 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
-      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/passage3.jpg",
+      passageImage: "https://audio.mock-stream.com/PET-Reading/test7/passage3.jpg",
       passageTitle: "Norwich",
       passage:
         "Norwich, the capital of the part of Britain known as East Anglia, has existed as a place to live for more than two thousand years. It began as a small village beside the River Wensum. At the time of the Norman invasion in 1066 it had grown to become one of the largest towns in England.\n\n" +

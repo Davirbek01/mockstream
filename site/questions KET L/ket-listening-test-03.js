@@ -14,7 +14,7 @@ window.KET_L_TEST = {
   },
 
   audio: {
-    base: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test3/",
+    base: "https://audio.mock-stream.com/KET-Listening/test3/",
     files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a", 5: "PART5.m4a" }
   },
 
@@ -31,7 +31,7 @@ window.KET_L_TEST = {
         "There is one question for each conversation.",
         "For questions 1–5, put a tick (✓) under the right answer."
       ],
-      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test3/p1/",
+      imageBase: "https://audio.mock-stream.com/KET-Listening/test3/p1/",
       example: {
         number: 0,
         question: "What time is it?",

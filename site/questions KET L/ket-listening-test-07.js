@@ -14,7 +14,7 @@ window.KET_L_TEST = {
   },
 
   audio: {
-    base: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test7/",
+    base: "https://audio.mock-stream.com/KET-Listening/test7/",
     files: { 1: "PART1.m4a", 2: "PART2.m4a", 3: "PART3.m4a", 4: "PART4.m4a", 5: "PART5.m4a" }
   },
 
@@ -23,7 +23,7 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
-      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test7/p1/",
+      imageBase: "https://audio.mock-stream.com/KET-Listening/test7/p1/",
       // Q0 (day names) and Q2 (petrol amounts) shown as text — book renders them plain.
       example: { number: 0, question: "When's the school trip?", options: [{letter:"A",text:"Tuesday"},{letter:"B",text:"Wednesday"},{letter:"C",text:"Thursday"}], answer: "C" },
       items: [

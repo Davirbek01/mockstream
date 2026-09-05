@@ -30,7 +30,7 @@ window.PET_R_TEST = {
         number: 0,
         prompt: "LOST FLOPPY DISC — Lost on Tuesday - contains important schoolwork. Hand in to office.",
         answer: "A",
-        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q0.png",
+        image: "https://audio.mock-stream.com/PET-Reading/test1/q0.png",
         options: [
           { letter: "A", text: "Go to the office if you have lost a floppy disc." },
           { letter: "B", text: "Make sure all schoolwork is given in on floppy disc to the office." },
@@ -39,7 +39,7 @@ window.PET_R_TEST = {
       },
       items: [
         {
-          id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q1.png",
+          id: 1, image: "https://audio.mock-stream.com/PET-Reading/test1/q1.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Lost locker keys can be replaced for a charge of 6€." },
@@ -49,7 +49,7 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q2.png",
+          id: 2, image: "https://audio.mock-stream.com/PET-Reading/test1/q2.png",
                     prompt: " ",
           options: [
             { letter: "A", text: "Hannah has got a purple 'Fast Boys' T-shirt and wants one in another colour." },
@@ -59,7 +59,7 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q3.png",
+          id: 3, image: "https://audio.mock-stream.com/PET-Reading/test1/q3.png",
                     prompt: "What has changed about Class 5's party?",
           options: [
             { letter: "A", text: "the time" },
@@ -69,7 +69,7 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q4.png",
+          id: 4, image: "https://audio.mock-stream.com/PET-Reading/test1/q4.png",
                     prompt: "Mum is writing to",
           options: [
             { letter: "A", text: "tell Becky to stay at home to see her aunt." },
@@ -79,7 +79,7 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q5.png",
+          id: 5, image: "https://audio.mock-stream.com/PET-Reading/test1/q5.png",
                     prompt: "The school fitness centre will",
           options: [
             { letter: "A", text: "change its opening hours at the end of August." },
@@ -105,11 +105,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Short Art Courses",
       items: [
-        { id: 6, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p6.jpg", name: "Alice",  description: "Alice wants a course to help her with her drawing skills, particularly with drawing the latest styles of clothes, shoes and bags, because she wants to study this later at college.", answer: "E" },
-        { id: 7, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p7.jpg", name: "Darius", description: "Darius loves making comic books, but isn't confident about his drawing. He wants to draw superheroes and animals and create adventures about them, but doesn't want to display his work.", answer: "C" },
-        { id: 8, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p8.jpg", name: "Cassie", description: "Cassie enjoys making pictures and objects from different materials. During the course she'd like to use her love of sport in her designs, and visit an exhibition to get new ideas.", answer: "B" },
-        { id: 9, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p9.jpg", name: "Marc",   description: "Marc is talented at drawing, but also likes filming his friends on an old digital camera. He wants to develop this skill by learning to use more advanced equipment, and prepare for further study.", answer: "D" },
-        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p10.jpg", name: "Harry",  description: "Harry has done a course about printing on paper, and would like to learn how to print on other materials. He also wants to produce something to take home and wear.", answer: "H" }
+        { id: 6, image: "https://audio.mock-stream.com/PET-Reading/test1/p6.jpg", name: "Alice",  description: "Alice wants a course to help her with her drawing skills, particularly with drawing the latest styles of clothes, shoes and bags, because she wants to study this later at college.", answer: "E" },
+        { id: 7, image: "https://audio.mock-stream.com/PET-Reading/test1/p7.jpg", name: "Darius", description: "Darius loves making comic books, but isn't confident about his drawing. He wants to draw superheroes and animals and create adventures about them, but doesn't want to display his work.", answer: "C" },
+        { id: 8, image: "https://audio.mock-stream.com/PET-Reading/test1/p8.jpg", name: "Cassie", description: "Cassie enjoys making pictures and objects from different materials. During the course she'd like to use her love of sport in her designs, and visit an exhibition to get new ideas.", answer: "B" },
+        { id: 9, image: "https://audio.mock-stream.com/PET-Reading/test1/p9.jpg", name: "Marc",   description: "Marc is talented at drawing, but also likes filming his friends on an old digital camera. He wants to develop this skill by learning to use more advanced equipment, and prepare for further study.", answer: "D" },
+        { id: 10, image: "https://audio.mock-stream.com/PET-Reading/test1/p10.jpg", name: "Harry",  description: "Harry has done a course about printing on paper, and would like to learn how to print on other materials. He also wants to produce something to take home and wear.", answer: "H" }
       ],
       texts: [
         { letter: "A", title: "Wild Art",     body: "This course concentrates on teaching drawing and painting, and you'll use your new skills to make a wall poster on the theme of animals, to take home. And we've got lots of picture books from galleries around the world to give you ideas! There'll be an exhibition of everyone's work at the end, too." },
@@ -135,7 +135,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
-      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/passage3.jpg",
+      passageImage: "https://audio.mock-stream.com/PET-Reading/test1/passage3.jpg",
       passageTitle: "Dolphin Trip",
       passageSubtitle: "By Paul Hannan",
       passage:

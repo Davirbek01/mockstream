@@ -26,7 +26,7 @@ window.PET_R_TEST = {
         number: 0,
         prompt: "NO BICYCLES AGAINST GLASS PLEASE",
         answer: "A",
-        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q0.png",
+        image: "https://audio.mock-stream.com/PET-Reading/test8/q0.png",
         options: [
           { letter: "A", text: "Do not leave your bicycle touching the window." },
           { letter: "B", text: "Do not ride your bicycle in this area." },
@@ -34,35 +34,35 @@ window.PET_R_TEST = {
         ]
       },
       items: [
-        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q1.png",
+        { id: 1, image: "https://audio.mock-stream.com/PET-Reading/test8/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Tell the doctor if you need to park here." },
             { letter: "B", text: "Only the doctor working today can park here." },
             { letter: "C", text: "Park in this space only in an emergency." }
           ], answer: "B" },
-        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q2.png",
+        { id: 2, image: "https://audio.mock-stream.com/PET-Reading/test8/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Heidi will start her new job in September." },
             { letter: "B", text: "Ruth wants Heidi to help her find employment." },
             { letter: "C", text: "Ruth has offered to talk to Heidi's boss about her." }
           ], answer: "B" },
-        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q3.png",
+        { id: 3, image: "https://audio.mock-stream.com/PET-Reading/test8/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Cameras cannot be used near this building." },
             { letter: "B", text: "You must look after your cameras here." },
             { letter: "C", text: "This building is guarded by cameras." }
           ], answer: "C" },
-        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q4.png",
+        { id: 4, image: "https://audio.mock-stream.com/PET-Reading/test8/q4.png",
           prompt: "Where should Helena meet the others?",
           options: [
             { letter: "A", text: "at the café" },
             { letter: "B", text: "at the theatre" },
             { letter: "C", text: "at the club" }
           ], answer: "C" },
-        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q5.png",
+        { id: 5, image: "https://audio.mock-stream.com/PET-Reading/test8/q5.png",
           prompt: " ",
           options: [
             { letter: "A", text: "We offer a choice of flats to rent in this area." },
@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Short Trips",
       items: [
-        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p6.png",  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
-        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p7.png",  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
-        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p8.png",  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
-        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p9.png",  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
-        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p10.png", name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
+        { id: 6,  image: "https://audio.mock-stream.com/PET-Reading/test8/p6.png",  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
+        { id: 7,  image: "https://audio.mock-stream.com/PET-Reading/test8/p7.png",  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
+        { id: 8,  image: "https://audio.mock-stream.com/PET-Reading/test8/p8.png",  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
+        { id: 9,  image: "https://audio.mock-stream.com/PET-Reading/test8/p9.png",  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
+        { id: 10, image: "https://audio.mock-stream.com/PET-Reading/test8/p10.png", name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
       ],
       texts: [
         { letter: "A", title: "Marine Life, France",                 body: "The chance to experience the oceans of the world. Children will love the observatory, with water all around them and enormous fish swimming above their heads! Afterwards you eat at a world-famous local restaurant before boarding the ferry at 9 p.m. Not cheap, but a great day out!" },
@@ -110,7 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
-      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/passage3.jpg",
+      passageImage: "https://audio.mock-stream.com/PET-Reading/test8/passage3.jpg",
       passageTitle: "NENE VALLEY RAILWAY",
       passage:
         "About the Railway\nThe twelve kilometre-long Nene Valley Railway passes through the lovely Nene Park, from an Eastern terminus at Peterborough to the Railway's headquarters in Wansford (next to the A1 main road). A two-kilometre extension of the Railway takes passengers through Wansford Tunnel to the quiet beauty of Yarwell, the present Western end of the line.\n\n" +
