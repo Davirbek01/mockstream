@@ -1,4 +1,11 @@
-# Netlify rewrites — keep URL clean while routing to the entry HTML.
+# NOTE on the destinations below having no ".html": Cloudflare Pages
+# normalises /foo.html to /foo with a 308, and in doing so it DROPS the
+# query string these rules add — so /take/<slug> arrived at the landing
+# page with no ?take= and the deep link silently did nothing. Writing the
+# destination without .html avoids that redirect entirely. Netlify serves
+# /landing-v3 the same way, so both hosts behave identically.
+
+# Rewrites — keep URL clean while routing to the entry HTML.
 # 200 = internal rewrite (URL bar unchanged); a 301/302 would visibly redirect.
 
 # Deep-link "take" URLs: /take/cefr-reading-45  →  /landing-v3.html?take=cefr-reading-45
@@ -12,14 +19,14 @@
 # loadMock iframe path which had a return-to-v3 quirk that bounced users
 # back to /landing-v3.html instead of opening the speaking mock on first
 # code submit.
-/take/* /landing-v3.html?take=:splat 200
+/take/* /landing-v3?take=:splat 200
 
 # VIP deep link: /vip/<code> → the Profile tab with the code box focused and
 # the code already typed in. Students were being told "open the menu, find the
 # VIP field, type this" — three steps that some never completed. A teacher can
 # now send one link. Bare /vip works too: it opens the box, empty.
-/vip /landing-v3.html?vip=1 200
-/vip/* /landing-v3.html?vip=:splat 200
+/vip /landing-v3?vip=1 200
+/vip/* /landing-v3?vip=:splat 200
 
 # landing-v2.html was an abandoned design iteration (deleted 2026-07-20).
 # 301 any stray old bookmark to the live landing.
