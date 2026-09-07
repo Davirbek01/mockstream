@@ -56,7 +56,7 @@
   // Keep this table in sync with manifest-<slug>.json (short_name + 192px icon).
   var APPLE = {
     mock_stream: { title: 'Mock Stream',        icon: '/site-config/icons/icon-192.png' },
-    bek:         { title: 'Bekzods Multilevel', icon: '/site-config/icons-bek/icon-192.png' },
+    bek:         { title: "Bekzod Turg'unov KX", icon: '/site-config/icons-bek/icon-192.png' },
     niners:      { title: 'Niners Academy',     icon: '/site-config/icons-niners/icon-192.png' },
     global:      { title: 'Global Education LC',icon: '/site-config/icons-global/icon-192.png' },
     muzaffars:   { title: 'Muzaffars English',  icon: '/site-config/icons-muzaffars/icon-192.png' },
