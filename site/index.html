@@ -5367,7 +5367,19 @@
       achievers:   'acheivers_login_bot', // bot handle keeps URL misspelling
       record:      'multilevelrecord_sign_bot'
     };
-    var _tgBotIdCache = null; // promise that resolves to {center: bot_id}
+    // A centre reachable on two domains needs two login bots, because Telegram
+    // allows exactly one /setdomain per bot. Bekzod's centre is mid-rebrand and
+    // serves both bekzodsmultilevel.com and bekzodturgunovkx.com, so the bot is
+    // chosen by HOSTNAME, not by centre. Everything else — the button, the
+    // request body, the account it signs into — stays keyed on the centre.
+    var TELEGRAM_LOGIN_KEY_BY_HOST = {
+      'bekzodturgunovkx.com':     'bek_kx',
+      'www.bekzodturgunovkx.com': 'bek_kx'
+    };
+    function _tgLoginKey(center) {
+      return TELEGRAM_LOGIN_KEY_BY_HOST[location.hostname] || center;
+    }
+    var _tgBotIdCache = null; // promise that resolves to {key: bot_id}
     function _loadTelegramBotIds() {
       if (_tgBotIdCache) return _tgBotIdCache;
       var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
@@ -5407,7 +5419,10 @@
       try {
         var center = window.__CENTER_ID || 'mock_stream';
         var botIds = await _loadTelegramBotIds();
-        var botId = botIds[center];
+        // Fall back to the centre's own bot when the host-specific one has no
+        // token yet, so a half-finished setup keeps the old behaviour instead
+        // of showing a button that cannot work.
+        var botId = botIds[_tgLoginKey(center)] || botIds[center];
         if (!botId) {
           alert('Telegram sign-in is not configured for this center yet.');
           return;
