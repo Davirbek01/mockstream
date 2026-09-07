@@ -150,21 +150,30 @@ Deno.serve(async (req) => {
   // Mock Stream's Mini App bots — keyed by the same center_id the rest of
   // the codebase uses. Each centre's "main" bot (the one that hosts the
   // Take Mock web_app button) has its token in one of these env vars.
-  const TOKEN_ENV_BY_CENTER: Record<string, string> = {
-    mockstream: 'MOCK_STREAM_CENTER_BOT_TOKEN',
-    bek:        'BEK_CENTER_BOT_TOKEN',
-    niners:     'NINERS_CENTER_BOT_TOKEN',
-    global:     'GLOBAL_CENTER_BOT_TOKEN',
-    muzaffars:  'MUZAFFARS_CENTER_BOT_TOKEN',
-    achievers:  'ACHIEVERS_CENTER_BOT_TOKEN',
-    record:     'RECORD_CENTER_BOT_TOKEN',
+  // A centre may run more than one bot — Bekzod's rebrand (Sept 2026) keeps the
+  // old bot alive alongside the new one, because Telegram cannot move a bot's
+  // chats. initData is signed with whichever bot opened the Mini App, so every
+  // token the centre owns has to be tried; checking only the first would make
+  // auto sign-in fail for anyone arriving through the other bot.
+  const TOKEN_ENVS_BY_CENTER: Record<string, string[]> = {
+    mockstream: ['MOCK_STREAM_CENTER_BOT_TOKEN'],
+    bek:        ['BEK_CENTER_BOT_TOKEN', 'BEK_KX_CENTER_BOT_TOKEN'],
+    niners:     ['NINERS_CENTER_BOT_TOKEN'],
+    global:     ['GLOBAL_CENTER_BOT_TOKEN'],
+    muzaffars:  ['MUZAFFARS_CENTER_BOT_TOKEN'],
+    achievers:  ['ACHIEVERS_CENTER_BOT_TOKEN'],
+    record:     ['RECORD_CENTER_BOT_TOKEN'],
   };
-  const envName = TOKEN_ENV_BY_CENTER[center];
-  if (!envName) return jerr(400, 'unknown_center', center);
-  const botToken = Deno.env.get(envName);
-  if (!botToken) return jerr(500, 'bot_token_unset', envName);
+  const envNames = TOKEN_ENVS_BY_CENTER[center];
+  if (!envNames) return jerr(400, 'unknown_center', center);
+  const botTokens = envNames.map((n) => Deno.env.get(n)).filter(Boolean) as string[];
+  if (!botTokens.length) return jerr(500, 'bot_token_unset', envNames.join(','));
 
-  const verified = await verifyInitData(initData, botToken);
+  let verified: Awaited<ReturnType<typeof verifyInitData>> = null;
+  for (const token of botTokens) {
+    verified = await verifyInitData(initData, token);
+    if (verified) break;
+  }
   if (!verified) return jerr(401, 'telegram_signature_invalid');
 
   const u = verified.user;

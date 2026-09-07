@@ -10,9 +10,16 @@
 // 503 on every call; bundle unretrievable) and its source was never committed.
 // Deploy with: supabase functions deploy get-login-bot-ids --no-verify-jwt
 
+// Keys are usually a centre id, but a centre reachable on two domains needs
+// two login bots: Telegram allows exactly one /setdomain per bot, so the old
+// domain and the new one cannot share. `bek_kx` is Bekzod's rebranded domain
+// (bekzodturgunovkx.com); the site picks between `bek` and `bek_kx` by
+// hostname. A key whose secret is unset is simply omitted from the response,
+// so this is inert until the token exists.
 const TOKEN_ENV_BY_CENTER: Record<string, string> = {
   mock_stream: 'TELEGRAM_LOGIN_BOT_TOKEN',
   bek: 'TELEGRAM_LOGIN_BOT_TOKEN_BEK',
+  bek_kx: 'TELEGRAM_LOGIN_BOT_TOKEN_BEK_KX',
   niners: 'TELEGRAM_LOGIN_BOT_TOKEN_NINERS',
   global: 'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL',
   muzaffars: 'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',

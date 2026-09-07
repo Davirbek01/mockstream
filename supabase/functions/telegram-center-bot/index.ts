@@ -76,9 +76,20 @@ interface CenterConfig {
   show_admin_btn: boolean; show_mock_btn: boolean; show_support_btn: boolean;
   show_dict_btn: boolean; active: boolean;
 }
-async function loadCenterConfig(centerId: string): Promise<CenterConfig | null> {
-  const { data, error } = await sb.from('center_bots').select('*').eq('center_id', centerId).maybeSingle();
-  if (error || !data) { console.warn('[center-bot] no config for', centerId, error?.message); return null; }
+// A centre can run more than one bot at once. Bekzod's centre rebranded in
+// September 2026 and the old bot has to keep serving its existing subscribers
+// for months — Telegram offers no way to move a bot's chats to another bot, so
+// both must answer. The webhook URL therefore carries ?bot=<username> to say
+// which row to use. When it is absent we fall back to the centre's OLDEST row,
+// which is what every webhook registered before this change points at, so the
+// other six centres keep working without being re-registered.
+async function loadCenterConfig(centerId: string, botUsername?: string): Promise<CenterConfig | null> {
+  let q = sb.from('center_bots').select('*').eq('center_id', centerId);
+  q = botUsername
+    ? q.eq('bot_username', botUsername)
+    : q.order('created_at', { ascending: true }).limit(1);
+  const { data, error } = await q.maybeSingle();
+  if (error || !data) { console.warn('[center-bot] no config for', centerId, botUsername || '(default)', error?.message); return null; }
   if (!data.active) return null;
   const tokenEnv = String(data.bot_token_env || '').trim();
   const token = tokenEnv ? Deno.env.get(tokenEnv) : null;
@@ -1106,7 +1117,9 @@ Deno.serve(async (req: Request) => {
   const url = new URL(req.url);
   const centerId = (url.searchParams.get('center') || '').trim();
   if (!centerId) return new Response('missing center', { status: 400 });
-  const cfg = await loadCenterConfig(centerId);
+  // Optional: pins the update to one specific bot of a multi-bot centre.
+  const botParam = (url.searchParams.get('bot') || '').trim().replace(/^@/, '');
+  const cfg = await loadCenterConfig(centerId, botParam || undefined);
   if (!cfg) return new Response('center not configured', { status: 404 });
 
   let update: Record<string, unknown>;

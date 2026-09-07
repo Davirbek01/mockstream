@@ -101,19 +101,25 @@ Deno.serve(async (req) => {
   // 2. Per-center bot token. Each clone has its own bot because Telegram's
   //    /setdomain accepts only one domain per bot. The env name for
   //    "achievers" keeps the URL misspelling (acheivers-mocks.netlify.app).
-  const TOKEN_ENV_BY_CENTER: Record<string, string> = {
-    mock_stream: 'TELEGRAM_LOGIN_BOT_TOKEN',
-    bek:         'TELEGRAM_LOGIN_BOT_TOKEN_BEK',
-    niners:      'TELEGRAM_LOGIN_BOT_TOKEN_NINERS',
-    global:      'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL',
-    muzaffars:   'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',
-    achievers:   'TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS',
-    record:      'TELEGRAM_LOGIN_BOT_TOKEN_RECORD',
+  //    A centre reachable on two domains needs two login bots (one /setdomain
+  //    each), and the browser sends only the centre id — it cannot say which
+  //    bot signed the payload. So every token the centre owns is tried and the
+  //    first that matches wins. Checking just one would reject a perfectly
+  //    valid signature from the other bot, and the error would read
+  //    "invalid_hash", pointing nowhere near the real cause.
+  const TOKEN_ENVS_BY_CENTER: Record<string, string[]> = {
+    mock_stream: ['TELEGRAM_LOGIN_BOT_TOKEN'],
+    bek:         ['TELEGRAM_LOGIN_BOT_TOKEN_BEK', 'TELEGRAM_LOGIN_BOT_TOKEN_BEK_KX'],
+    niners:      ['TELEGRAM_LOGIN_BOT_TOKEN_NINERS'],
+    global:      ['TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL'],
+    muzaffars:   ['TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS'],
+    achievers:   ['TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS'],
+    record:      ['TELEGRAM_LOGIN_BOT_TOKEN_RECORD'],
   };
-  const envName = TOKEN_ENV_BY_CENTER[center];
-  if (!envName) return jerr(400, 'unknown_center', center);
-  const botToken = Deno.env.get(envName);
-  if (!botToken) return jerr(500, 'bot_token_unset', envName);
+  const envNames = TOKEN_ENVS_BY_CENTER[center];
+  if (!envNames) return jerr(400, 'unknown_center', center);
+  const botTokens = envNames.map((n) => Deno.env.get(n)).filter(Boolean) as string[];
+  if (!botTokens.length) return jerr(500, 'bot_token_unset', envNames.join(','));
 
   // 3. Verify HMAC-SHA256 hash per Telegram spec
   //    secret_key = SHA256(bot_token)
@@ -126,10 +132,13 @@ Deno.serve(async (req) => {
   if (photo_url)  fields.photo_url  = photo_url;
 
   const dataCheckString = Object.keys(fields).sort().map(k => `${k}=${fields[k]}`).join('\n');
-  const secretKey = await sha256(botToken);
-  const computedHash = await hmacHex(secretKey, dataCheckString);
 
-  if (computedHash !== hash) return jerr(401, 'invalid_hash');
+  let hashOk = false;
+  for (const token of botTokens) {
+    const secretKey = await sha256(token);
+    if (await hmacHex(secretKey, dataCheckString) === hash) { hashOk = true; break; }
+  }
+  if (!hashOk) return jerr(401, 'invalid_hash');
 
   // 3. auth_date within 24h
   const now = Math.floor(Date.now() / 1000);
