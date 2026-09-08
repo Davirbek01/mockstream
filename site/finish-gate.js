@@ -16,6 +16,86 @@
 //      callers (e.g. PDF download buttons) can use directly.
 // ============================================================================
 
+// ============================================================================
+// SIGN-IN GATE — a mock may only be opened by a signed-in account
+// ============================================================================
+// Guest mode is gone. Until now ~41% of attempts came from people the platform
+// could not identify at all, which made every per-student rule impossible: a
+// shared premium account or VIP code was indistinguishable from one student
+// working hard, and the only fallback identifier was the IP — which a whole
+// centre shares.
+//
+// The check runs at page load, NOT at submit. A student who finds out after
+// forty minutes of work that they cannot continue has lost the forty minutes;
+// that is the one outcome worth designing against.
+//
+// This is a UX gate, not a security boundary — it runs in the browser and can
+// be bypassed there, like every client-side check. It exists so the ordinary
+// path produces an identified student.
+// ============================================================================
+(function () {
+  if (window.__MS_SIGNIN_GATE__) return;
+  window.__MS_SIGNIN_GATE__ = true;
+
+  // auth.js is NOT loaded on exam pages, so isSignedIn() does not exist here.
+  // The session lives in localStorage under the storageKey auth.js configures.
+  // Presence of a token is enough: we deliberately do NOT check expiry, because
+  // an expired access token with a refresh token is still a real account and
+  // auth.js renews it on the next page that loads it. Blocking those would sign
+  // out people who did nothing wrong.
+  function hasAccountSession() {
+    try {
+      var raw = localStorage.getItem('ms_auth_session');
+      if (!raw) return false;
+      var s = JSON.parse(raw);
+      if (!s || typeof s !== 'object') return false;
+      return !!(s.access_token || s.refresh_token ||
+                (s.currentSession && (s.currentSession.access_token || s.currentSession.refresh_token)));
+    } catch (_e) {
+      // Unreadable storage (private mode, a format change) must not lock the
+      // whole platform out — fail open and let the page load.
+      return true;
+    }
+  }
+
+  function showSignInWall() {
+    if (document.getElementById('msSignInWall')) return;
+    // index.html already has a return-path mechanism and validates it
+    // (same-origin paths starting with "/" only). Reuse it rather than
+    // inventing a ?next= param it would ignore — otherwise signing in drops
+    // the student on the home page and they have to find the mock again.
+    try {
+      localStorage.setItem('ms_oauth_next', location.pathname + location.search + location.hash);
+    } catch (_e) {}
+    var d = document.createElement('div');
+    d.id = 'msSignInWall';
+    d.style.cssText =
+      'position:fixed;inset:0;z-index:2147483646;display:flex;align-items:center;' +
+      'justify-content:center;background:rgba(15,23,42,.96);padding:24px;' +
+      'font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+    d.innerHTML =
+      '<div style="max-width:420px;width:100%;background:#fff;border-radius:18px;padding:32px 26px;text-align:center;">' +
+        '<div style="font-size:44px;margin-bottom:10px;">🔐</div>' +
+        '<h2 style="margin:0 0 10px;font-size:20px;color:#0f172a;font-weight:800;">Mok ishlash uchun tizimga kiring</h2>' +
+        '<p style="margin:0 0 22px;font-size:14px;line-height:1.6;color:#475569;">' +
+          'Natijalaringiz saqlanishi va barcha qurilmalaringizda ko‘rinishi uchun ' +
+          'Google, Telegram yoki email orqali kiring. Bir marta kirasiz — keyin so‘ralmaydi.' +
+        '</p>' +
+        '<a href="index.html" style="display:block;background:linear-gradient(135deg,#2563eb,#6366f1);' +
+          'color:#fff;padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">Kirish →</a>' +
+        '<a href="landing-v3.html" style="display:inline-block;margin-top:14px;font-size:13px;color:#64748b;text-decoration:underline;">Bosh sahifaga qaytish</a>' +
+      '</div>' +
+    '</div>';
+    (document.body || document.documentElement).appendChild(d);
+    try { document.documentElement.style.overflow = 'hidden'; } catch (_e) {}
+  }
+
+  if (!hasAccountSession()) {
+    if (document.body) showSignInWall();
+    else document.addEventListener('DOMContentLoaded', showSignInWall);
+  }
+})();
+
 (function () {
   if (window.__FINISH_GATE_INSTALLED__) return;
   window.__FINISH_GATE_INSTALLED__ = true;
