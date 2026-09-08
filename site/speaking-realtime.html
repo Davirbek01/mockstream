@@ -376,11 +376,34 @@
         if (!rows || !rows.length) return;
         var cfg = rows[0].value;
         if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+
+        // Accounts the trial cap does not apply to, listed as SHA-256 digests
+        // of the lower-cased email. center_config_* is world-readable with the
+        // publishable key, so storing addresses here would publish them to
+        // anyone who asks; a digest identifies the account without exposing it.
+        // ms_admin_email is written only after the server confirmed the account
+        // is an admin.
+        try {
+          var who = (localStorage.getItem('ms_admin_email') || '').trim().toLowerCase();
+          var exempt = cfg.speakingPlusCapExempt;
+          if (who && Array.isArray(exempt) && exempt.length && window.crypto && crypto.subtle) {
+            var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(who));
+            var hex = Array.prototype.map.call(new Uint8Array(buf), function (b) {
+              return b.toString(16).padStart(2, '0');
+            }).join('');
+            if (exempt.indexOf(hex) !== -1) {
+              window.__spkCapSec = 0;
+              window.__spkCapExempt = true;
+            }
+          }
+        } catch (_e) {}
         // The trial cap rides on the same centre config the page already
         // fetches. Default ON: an uncapped realtime session is the one thing
         // here that can run up a bill without anyone noticing.
-        if (cfg && cfg.speakingPlusCap === false) window.__spkCapSec = 0;
-        else if (cfg && Number(cfg.speakingPlusCapSec) > 0) window.__spkCapSec = Number(cfg.speakingPlusCapSec);
+        if (!window.__spkCapExempt) {
+          if (cfg.speakingPlusCap === false) window.__spkCapSec = 0;
+          else if (Number(cfg.speakingPlusCapSec) > 0) window.__spkCapSec = Number(cfg.speakingPlusCapSec);
+        }
 
         if (cfg && cfg.speakingPlus === false) {
           document.body.innerHTML =
