@@ -5482,6 +5482,15 @@
                  inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false">
           <button type="button" id="msv3EmailBtn" aria-label="Send sign-in link">→</button>
         </div>
+        <!-- Revealed after sending. On a phone the magic link opens in the
+             DEFAULT browser, not this one, so the student signs in somewhere
+             else and this tab stays logged out. The code keeps them here. -->
+        <div class="msv3-email-row" id="msv3CodeRow" style="display:none;margin-top:8px;">
+          <input type="text" id="msv3CodeInput" placeholder="Emaildagi 6 xonali kod"
+                 inputmode="numeric" autocomplete="one-time-code" maxlength="6"
+                 autocorrect="off" spellcheck="false">
+          <button type="button" id="msv3CodeBtn" aria-label="Verify code">→</button>
+        </div>
         <div class="msv3-email-sub" id="msv3EmailSub">Kirish havolasini emailingizga yuboramiz</div>
       </div>
 
@@ -6295,16 +6304,58 @@
           });
           if (res.error) throw res.error;
           try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-          _status('✅ Kirish havolasi yuborildi. Emailingizni tekshiring.', 'ok');
+          sentTo = email;
+          _status('✅ Yuborildi. Havolani bosing yoki emaildagi kodni kiriting.', 'ok');
           btn.textContent = '✓';
+          if (codeRow) {
+            codeRow.style.display = '';
+            if (codeInput) setTimeout(function () { codeInput.focus(); }, 120);
+          }
         } catch (e) {
           console.warn('[v3] sidebar magic link failed:', e);
           _status('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
           btn.disabled = false;
         }
       }
+
+      // The address the code was sent to — verifyOtp needs it alongside the
+      // code, since the code alone does not identify the account.
+      var sentTo = '';
+      var codeRow   = document.getElementById('msv3CodeRow');
+      var codeInput = document.getElementById('msv3CodeInput');
+      var codeBtn   = document.getElementById('msv3CodeBtn');
+
+      async function verify() {
+        var code = String((codeInput && codeInput.value) || '').replace(/\D/g, '');
+        if (code.length !== 6) { _status('❌ 6 xonali kodni kiriting', 'err'); return; }
+        if (!sentTo) { _status('❌ Avval emailingizni kiriting', 'err'); return; }
+        if (codeBtn) codeBtn.disabled = true;
+        _status('⏳ Tekshirilmoqda…', '');
+        try {
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client || !client.auth) throw new Error('auth client missing');
+          // A first-time address confirms with type 'signup', an existing one
+          // with 'email'; we cannot tell which from here, so try both.
+          var vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'email' });
+          if (vr && vr.error) {
+            vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'signup' });
+          }
+          if (vr && vr.error) throw vr.error;
+          _status('✅ Kirildi', 'ok');
+          window.location.reload();
+        } catch (e) {
+          console.warn('[v3] sidebar otp verify failed:', e);
+          _status('❌ Kod noto\'g\'ri yoki muddati o\'tgan', 'err');
+          if (codeBtn) codeBtn.disabled = false;
+        }
+      }
+
       btn.addEventListener('click', send);
       input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+      if (codeBtn) codeBtn.addEventListener('click', verify);
+      if (codeInput) codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') verify(); });
     })();
     // ── VIP Activation submit (inline; replaces the old landing.html bounce) ──
     // Dispatcher: looks at the input shape and routes to either the
