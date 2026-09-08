@@ -3436,17 +3436,28 @@
                           id="welcomeEmailBtn" aria-label="Havola yuborish" title="Havola yuborish">→</button>
                 </div>
                 <p class="wv2-email-status" id="welcomeEmailStatus"></p>
+                <!-- Revealed after the email is sent. On a phone the magic link
+                     opens in the DEFAULT browser, not the one the student
+                     started in, so they end up signed in somewhere else and the
+                     tab in front of them stays logged out. Typing the code keeps
+                     them here. The link still works for anyone on a desktop. -->
+                <div class="wv2-input-row" id="welcomeCodeRow" style="display:none;margin-top:10px;">
+                  <input type="text" id="welcomeCodeInput" placeholder="Emaildagi kod"
+                         inputmode="numeric" autocomplete="one-time-code" maxlength="8"
+                         autocorrect="off" spellcheck="false"
+                         onkeydown="if(event.key==='Enter'){event.preventDefault();submitWelcomeCode();}">
+                  <button type="button" class="wv2-submit" onclick="submitWelcomeCode()"
+                          id="welcomeCodeBtn" aria-label="Kodni tasdiqlash" title="Kodni tasdiqlash">→</button>
+                </div>
               </div>
             </div>
 
-            <button type="button" class="wv2-provider wv2-guest" onclick="openWelcomeGuest()">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="8" r="4"/>
-                <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>
-              </svg>
-              <span class="wv2-label">Mehmon sifatida davom eting</span>
-              <span class="wv2-arrow">→</span>
-            </button>
+            <!-- Guest entry removed 2026-09-08. It was the path of least
+                 resistance and ~41% of attempts came through it, leaving the
+                 platform unable to tell one student from ten sharing an
+                 account. The wizard functions below are kept: cached pages and
+                 old deep links still call them, and throwing there would break
+                 the card outright. -->
 
             <div class="wv2-save-hint" id="googleSigninHint">
               <span>✓</span> Natijalaringiz har bir qurilmada saqlanadi
@@ -5343,11 +5354,60 @@
         });
         if (res.error) throw res.error;
         try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-        _welcomeEmailStatus('✅ Kirish havolasi yuborildi. Emailingizni tekshiring.', 'ok');
+        _welcomeOtpEmail = email;
+        _welcomeEmailStatus('✅ Yuborildi. Havolani bosing yoki emaildagi kodni kiriting.', 'ok');
         if (btn) btn.textContent = '✓';
+        var codeRow = document.getElementById('welcomeCodeRow');
+        if (codeRow) {
+          codeRow.style.display = '';
+          var ci = document.getElementById('welcomeCodeInput');
+          if (ci) setTimeout(function () { ci.focus(); }, 120);
+        }
       } catch (e) {
         console.warn('[index] magic link failed:', e);
         _welcomeEmailStatus('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // The address the code was sent to. verifyOtp needs it alongside the code —
+    // the code alone does not identify the account.
+    var _welcomeOtpEmail = '';
+
+    async function submitWelcomeCode() {
+      var inp = document.getElementById('welcomeCodeInput');
+      var btn = document.getElementById('welcomeCodeBtn');
+      var code = inp ? String(inp.value || '').replace(/\D/g, '') : '';
+      if (code.length < 6 || code.length > 8) {
+        _welcomeEmailStatus('❌ Emaildagi kodni kiriting', 'err');
+        return;
+      }
+      if (!_welcomeOtpEmail) {
+        _welcomeEmailStatus('❌ Avval emailingizni kiriting', 'err');
+        return;
+      }
+      if (btn) btn.disabled = true;
+      _welcomeEmailStatus('⏳ Tekshirilmoqda…', '');
+      try {
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        if (!client || !client.auth) throw new Error('auth client missing');
+        // A first-time address is confirmed with type 'signup', an existing one
+        // with 'email'. We cannot tell which from here, so try 'email' and fall
+        // back — sending the wrong type reads as an invalid code.
+        var vr = await client.auth.verifyOtp({ email: _welcomeOtpEmail, token: code, type: 'email' });
+        if (vr && vr.error) {
+          vr = await client.auth.verifyOtp({ email: _welcomeOtpEmail, token: code, type: 'signup' });
+        }
+        if (vr && vr.error) throw vr.error;
+        _welcomeEmailStatus('✅ Kirildi', 'ok');
+        // Same continuation as the Telegram path: auth.js has the session now,
+        // a reload lets the rest of the page pick it up.
+        window.location.reload();
+      } catch (e) {
+        console.warn('[index] otp verify failed:', e);
+        _welcomeEmailStatus('❌ Kod noto\'g\'ri yoki muddati o\'tgan', 'err');
         if (btn) btn.disabled = false;
       }
     }
