@@ -3442,8 +3442,8 @@
                      tab in front of them stays logged out. Typing the code keeps
                      them here. The link still works for anyone on a desktop. -->
                 <div class="wv2-input-row" id="welcomeCodeRow" style="display:none;margin-top:10px;">
-                  <input type="text" id="welcomeCodeInput" placeholder="Emaildagi 6 xonali kod"
-                         inputmode="numeric" autocomplete="one-time-code" maxlength="6"
+                  <input type="text" id="welcomeCodeInput" placeholder="Emaildagi kod"
+                         inputmode="numeric" autocomplete="one-time-code" maxlength="8"
                          autocorrect="off" spellcheck="false"
                          onkeydown="if(event.key==='Enter'){event.preventDefault();submitWelcomeCode();}">
                   <button type="button" class="wv2-submit" onclick="submitWelcomeCode()"
@@ -5380,8 +5380,8 @@
       var inp = document.getElementById('welcomeCodeInput');
       var btn = document.getElementById('welcomeCodeBtn');
       var code = inp ? String(inp.value || '').replace(/\D/g, '') : '';
-      if (code.length !== 6) {
-        _welcomeEmailStatus('❌ 6 xonali kodni kiriting', 'err');
+      if (code.length < 6 || code.length > 8) {
+        _welcomeEmailStatus('❌ Emaildagi kodni kiriting', 'err');
         return;
       }
       if (!_welcomeOtpEmail) {
