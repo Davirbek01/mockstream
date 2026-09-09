@@ -276,6 +276,7 @@
        visible. They use display:none/flex inline-style toggles, so we
        can't filter by class on body children. Instead, force their
        visibility back on when shown. */
+    html[data-takelink] #msSignInGateModal,
     html[data-takelink] #speakingAccessCodeModal,
     html[data-takelink] #readingAccessCodeModal,
     html[data-takelink] #listeningAccessCodeModal,
@@ -288,6 +289,7 @@
     html[data-reopenpicker] body > *:not(script):not(style) {
       visibility: hidden;
     }
+    html[data-reopenpicker] #msSignInGateModal { visibility: visible !important; }
     html[data-reopenpicker] body > #cspetPicker,
     html[data-reopenpicker] body > #ispetPicker,
     html[data-reopenpicker] body > #cwetPicker,
@@ -6083,6 +6085,648 @@
       // inside the VIP Activation input (submitVip dispatches by shape).
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // SIGN-IN GATE — the last step before a mock actually opens
+    // ═══════════════════════════════════════════════════════════════
+    // Policy: only a signed-in account may take a mock. The ask lives at the
+    // four per-skill launch functions (_loadReadingMockOrShowMode,
+    // _loadListeningMockOrShowMode, _launchWritingMock, _launchSpeakingMock)
+    // because every route into a mock converges there — access code, VIP,
+    // centre access and open mocks alike.
+    //
+    // WHERE it sits matters more than it looks. The first version asked on the
+    // deep link, BEFORE the access code, so a student who tapped a shared
+    // /take/ link was bounced to the welcome page before they could even see
+    // what the link was for. Asking here means the code is typed and validated
+    // first, and the request arrives with the mock already identified.
+    //
+    // Two of the three providers never leave the page: Telegram opens its own
+    // popup window, and the email path exchanges an 8-digit code in place.
+    // Only Google has to leave for accounts.google.com, so that button parks
+    // the pending launch in sessionStorage (which survives a same-tab
+    // redirect) and _msGateResume() replays it on return.
+
+    // Reads the Supabase session key directly rather than auth.js's
+    // isSignedIn(), which fills in asynchronously — a signed-in student would
+    // otherwise be asked to sign in again during a slow restore.
+    // finish-gate.js holds the same check for the exam pages; keep them in step.
+    function _msGateSignedIn() {
+      if (window.__msGateJustSignedIn) return true;
+      try {
+        var raw = localStorage.getItem('ms_auth_session');
+        if (!raw) return false;
+        var s = JSON.parse(raw);
+        if (!s || typeof s !== 'object') return false;
+        return !!(s.access_token || s.refresh_token ||
+                  (s.currentSession && (s.currentSession.access_token || s.currentSession.refresh_token)));
+      } catch (_e) { return true; }  // unreadable storage must not lock anyone out
+    }
+
+    // The four launchers live in later <script> blocks, so they are reached
+    // through window (each block exports them explicitly).
+    function _msGateLaunch(skill, pageUrl, category) {
+      // A full mock has no launcher function — full-mock.html IS the
+      // destination, so replaying it is a plain navigation.
+      if (skill === 'full_mock') { window.location.href = pageUrl; return; }
+      var fn = ({
+        reading:   window._loadReadingMockOrShowMode,
+        listening: window._loadListeningMockOrShowMode,
+        writing:   window._launchWritingMock,
+        speaking:  window._launchSpeakingMock
+      })[skill];
+      if (typeof fn === 'function') fn(pageUrl, category);
+    }
+
+    function _msGateStashPending(skill, pageUrl, category) {
+      try {
+        sessionStorage.setItem('ms_pending_launch', JSON.stringify({
+          skill: skill, pageUrl: pageUrl, category: category, ts: Date.now()
+        }));
+      } catch (_e) {}
+    }
+    function _msGateClearPending() {
+      try { sessionStorage.removeItem('ms_pending_launch'); } catch (_e) {}
+    }
+
+    // Replays the launch the student was one tap away from when Google took
+    // them off-site. Consumes the parked entry either way, so a stale one can
+    // never fire twice. Returns true when it took over.
+    function _msGateResume() {
+      var raw = '';
+      try { raw = sessionStorage.getItem('ms_pending_launch') || ''; } catch (_e) {}
+      if (!raw) return false;
+      _msGateClearPending();
+      if (!_msGateSignedIn()) return false;
+      var p = null;
+      try { p = JSON.parse(raw); } catch (_e) { return false; }
+      if (!p || !p.skill || !p.pageUrl) return false;
+      if (Date.now() - (p.ts || 0) > 20 * 60 * 1000) return false;   // gone cold
+      try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+      try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      setTimeout(function () { _msGateLaunch(p.skill, p.pageUrl, p.category); }, 150);
+      return true;
+    }
+
+    function _msGateCloseModal() {
+      var el = document.getElementById('msSignInGateModal');
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+
+    // Returns true when the caller may proceed. A false return means the gate
+    // modal is up and will re-call the launcher itself once sign-in lands.
+    function _msGateAllow(skill, pageUrl, category) {
+      if (_msGateSignedIn()) return true;
+      _msOpenSignInGate(skill, pageUrl, category);
+      return false;
+    }
+
+    function _msOpenSignInGate(skill, pageUrl, category) {
+      _msGateCloseModal();
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      var hasTgBot = !!TELEGRAM_BOT_BY_CENTER[centerId];
+
+      // Mock number straight off the runner URL — the per-skill extractors
+      // live in other script blocks. `sbmock=` holds a UUID that can start
+      // with a digit, hence the [?&] anchor.
+      var num = '';
+      try {
+        var mm = String(pageUrl).match(/[?&](?:mock|num)=(\d+)/i)
+              || String(pageUrl).match(/mock-(\d+)/i);
+        if (mm) num = String(parseInt(mm[1], 10));
+      } catch (_e) {}
+      var exam = ((category || '').split('-')[0] || '').toUpperCase();
+      var mockLabel = (exam ? exam + ' ' : '')
+                    + skill.charAt(0).toUpperCase() + skill.slice(1)
+                    + (num ? ' Mock ' + num : '');
+
+      // Reuse the sidebar's provider markup (SVGs and all) but re-id the
+      // buttons — duplicate ids would make getElementById find the sidebar's
+      // copy instead of ours.
+      var providers = _msv3SignInButtonsHtml(hasTgBot)
+        .replace('id="msv3GoogleBtn"',   'id="msGateGoogleBtn"')
+        .replace('id="msv3TelegramBtn"', 'id="msGateTelegramBtn"');
+
+      var d = document.createElement('div');
+      d.id = 'msSignInGateModal';
+      d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(4px);z-index:100010;display:flex;align-items:center;justify-content:center;padding:18px;';
+      d.innerHTML =
+        '<div id="msGateCard" style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:24px 22px;max-width:390px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .3s ease;max-height:92vh;overflow-y:auto;">'
+      +   '<div style="text-align:center;font-size:34px;line-height:1;margin-bottom:8px;">&#127891;</div>'
+      +   '<div style="text-align:center;margin-bottom:10px;">'
+      +     '<span style="font-size:11.5px;font-weight:700;color:#15803d;background:rgba(21,128,61,.1);border-radius:999px;padding:5px 12px;display:inline-block;">&#9989; ' + esc(mockLabel) + ' ochildi</span>'
+      +   '</div>'
+      +   '<h3 style="margin:0 0 6px;font-size:18px;font-weight:800;color:var(--ink);text-align:center;line-height:1.35;">Testni boshlash uchun ro&#8216;yxatdan o&#8216;ting</h3>'
+      +   '<p style="margin:0 0 16px;font-size:12.5px;line-height:1.55;color:var(--muted);text-align:center;">Natijangiz hisobingizga saqlanadi va istalgan qurilmadan ochiladi.</p>'
+      +   '<div style="display:flex;flex-direction:column;gap:8px;">' + providers + '</div>'
+      +   '<div style="display:flex;align-items:center;gap:10px;margin:14px 0 10px;">'
+      +     '<span style="flex:1;height:1px;background:var(--ring);"></span>'
+      +     '<span style="font-size:11px;font-weight:700;color:var(--muted);">yoki email bilan</span>'
+      +     '<span style="flex:1;height:1px;background:var(--ring);"></span>'
+      +   '</div>'
+      +   '<div class="msv3-email-row">'
+      +     '<input type="email" id="msGateEmailInput" placeholder="email@example.com" inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false">'
+      +     '<button type="button" id="msGateEmailBtn" aria-label="Send code">&#8594;</button>'
+      +   '</div>'
+      +   '<div class="msv3-email-row" id="msGateCodeRow" style="display:none;margin-top:8px;">'
+      +     '<input type="text" id="msGateCodeInput" placeholder="Emaildagi kod" inputmode="numeric" autocomplete="one-time-code" maxlength="8" autocorrect="off" spellcheck="false">'
+      +     '<button type="button" id="msGateCodeBtn" aria-label="Verify code">&#8594;</button>'
+      +   '</div>'
+      +   '<div class="msv3-email-sub" id="msGateSub" style="text-align:center;margin-top:8px;min-height:17px;">Email bilan shu oynaning o&#8216;zida kirasiz &#8212; boshqa sahifaga o&#8216;tmaysiz</div>'
+      +   '<button type="button" id="msGateCancelBtn" style="margin-top:14px;width:100%;padding:9px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:12.5px;font-weight:600;cursor:pointer;">Bekor qilish</button>'
+      + '</div>';
+      document.body.appendChild(d);
+
+      var sub = document.getElementById('msGateSub');
+      function _status(msg, kind) {
+        if (!sub) return;
+        sub.textContent = msg;
+        sub.className = 'msv3-email-sub' + (kind ? ' ' + kind : '');
+      }
+
+      // Sign-in landed. auth.js fills CANDIDATE_FULL_NAME from its
+      // onAuthStateChange handler, which can resolve a beat after verifyOtp
+      // does — and the runner pages stamp every result with that name — so
+      // wait briefly for it rather than launching the mock nameless.
+      function _msGateSuccess() {
+        window.__msGateJustSignedIn = true;
+        _msGateClearPending();
+        try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+        var waited = 0;
+        (function waitForName() {
+          var have = false;
+          try { have = !!sessionStorage.getItem('CANDIDATE_FULL_NAME'); } catch (_e) { have = true; }
+          if (have || waited >= 1500) {
+            _msGateCloseModal();
+            _msGateLaunch(skill, pageUrl, category);
+            return;
+          }
+          waited += 100;
+          setTimeout(waitForName, 100);
+        })();
+      }
+
+      // First-time Telegram accounts arrive with a Telegram display name,
+      // which is usually not a real name — and that name goes on the
+      // certificate. Same confirmation index.html shows, inline here so the
+      // student never leaves the gate.
+      function _msGateAskLegalName(prefilled) {
+        var card = document.getElementById('msGateCard');
+        if (!card) { _msGateSuccess(); return; }
+        card.innerHTML =
+          '<div style="text-align:center;font-size:34px;line-height:1;margin-bottom:8px;">&#128220;</div>'
+        + '<h3 style="margin:0 0 6px;font-size:18px;font-weight:800;color:var(--ink);text-align:center;">To&#8216;liq ismingizni tasdiqlang</h3>'
+        + '<p style="margin:0 0 14px;font-size:12.5px;line-height:1.55;color:var(--muted);text-align:center;">Bu nom sertifikatda ko&#8216;rsatiladi.</p>'
+        + '<input type="text" id="msGateLegalName" maxlength="80" placeholder="Familiya Ism" value="' + String(prefilled || '').trim().replace(/"/g, '&quot;') + '" '
+        +   'style="width:100%;padding:12px 14px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);outline:none;">'
+        + '<button type="button" id="msGateLegalSave" style="margin-top:14px;width:100%;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:#fff;border:none;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;">Davom etish</button>';
+        var ni = document.getElementById('msGateLegalName');
+        if (ni) { try { ni.focus(); ni.select(); } catch (_e) {} }
+        var sv = document.getElementById('msGateLegalSave');
+        function save() {
+          var name = ((ni && ni.value) || '').trim();
+          if (sv) sv.disabled = true;
+          (async function () {
+            try {
+              var c = (window.MockStream && window.MockStream.auth &&
+                       typeof window.MockStream.auth.getClient === 'function')
+                        ? window.MockStream.auth.getClient() : null;
+              if (c && c.auth && name) await c.auth.updateUser({ data: { full_name: name } });
+            } catch (e) { console.warn('[gate] updateUser failed', e); }
+            try {
+              if (name) {
+                sessionStorage.setItem('CANDIDATE_FULL_NAME', name);
+                localStorage.setItem('ms_candidate_name', name);
+              }
+            } catch (_e) {}
+            _msGateSuccess();
+          })();
+        }
+        if (sv) sv.addEventListener('click', save);
+        if (ni) ni.addEventListener('keydown', function (e) { if (e.key === 'Enter') save(); });
+      }
+
+      // ── Google — the only provider that leaves the page ──
+      var gb = document.getElementById('msGateGoogleBtn');
+      if (gb) gb.addEventListener('click', function () {
+        _msGateStashPending(skill, pageUrl, category);
+        _status('⏳ Google ochilmoqda…', '');
+        try {
+          if (window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.signInWithGoogle === 'function') {
+            // search is kept so the ?take=<slug> form of a deep link survives
+            // the round trip, same as the /take/<slug> path form.
+            window.MockStream.auth.signInWithGoogle(
+              window.location.origin + window.location.pathname + window.location.search);
+          } else {
+            window.location.href = '/index.html';
+          }
+        } catch (_e) { window.location.href = '/index.html'; }
+      });
+
+      // ── Telegram — popup window, page stays put ──
+      var tb = document.getElementById('msGateTelegramBtn');
+      if (tb) tb.addEventListener('click', function () {
+        _status('⏳ Telegram oynasi ochilmoqda…', '');
+        Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+          var ids = results[1] || {};
+          var botId = ids[centerId];
+          if (!botId || !window.Telegram || !window.Telegram.Login) {
+            _status('❌ Telegram hozircha mavjud emas', 'err');
+            return;
+          }
+          window.Telegram.Login.auth(
+            { bot_id: botId, request_access: 'write' },
+            function (user) {
+              if (!user) { _status('', ''); return; }
+              _msGateTelegramFinish(user);
+            }
+          );
+        }).catch(function () { _status('❌ Telegram hozircha mavjud emas', 'err'); });
+      });
+
+      // Mirrors index.html's onTelegramAuth, minus its page reload: the widget
+      // payload is verified server-side, which hands back a one-time OTP we
+      // exchange for a real Supabase session.
+      async function _msGateTelegramFinish(user) {
+        if (!user || !user.id || !user.hash || !user.auth_date) {
+          _status('❌ Telegram javobi noto‘g‘ri', 'err');
+          return;
+        }
+        _status('⏳ Tekshirilmoqda…', '');
+        var sbUrl = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        try {
+          var resp = await fetch(sbUrl + '/functions/v1/verify-telegram-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: user.id,
+              first_name: user.first_name || '',
+              last_name: user.last_name || '',
+              username: user.username || '',
+              photo_url: user.photo_url || '',
+              auth_date: user.auth_date,
+              hash: user.hash,
+              center: window.__CENTER_ID || 'mock_stream'
+            })
+          });
+          var data = await resp.json();
+          if (!resp.ok || !data || !data.email || !data.otp) {
+            var msg = (data && data.error === 'ambiguous_name_match')
+              ? 'Ismingiz bir nechta hisobga mos keldi. Avval Google bilan kiring.'
+              : 'Telegram orqali kirib bo‘lmadi';
+            _status('❌ ' + msg, 'err');
+            return;
+          }
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client || !client.auth) throw new Error('auth client missing');
+          var vr = await client.auth.verifyOtp({ email: data.email, token: data.otp, type: 'email' });
+          if (vr && vr.error) throw vr.error;
+          _status('✅ Kirildi', 'ok');
+          if (data.needs_legal_name_confirm) {
+            _msGateAskLegalName(((data.profile && data.profile.first_name) || '') + ' '
+                              + ((data.profile && data.profile.last_name) || ''));
+          } else {
+            _msGateSuccess();
+          }
+        } catch (e) {
+          console.warn('[gate] telegram sign-in failed:', e);
+          _status('❌ Telegram orqali kirib bo‘lmadi', 'err');
+        }
+      }
+
+      // ── Email — 8-digit code, exchanged in place ──
+      var emailInput = document.getElementById('msGateEmailInput');
+      var emailBtn   = document.getElementById('msGateEmailBtn');
+      var codeRow    = document.getElementById('msGateCodeRow');
+      var codeInput  = document.getElementById('msGateCodeInput');
+      var codeBtn    = document.getElementById('msGateCodeBtn');
+      // verifyOtp needs the address alongside the code — the code alone does
+      // not identify the account.
+      var sentTo = '';
+
+      async function sendEmail() {
+        var email = ((emailInput && emailInput.value) || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
+        var cdKey = 'ms_email_cd_' + email;
+        try {
+          var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
+          if (Date.now() - last < 60000) {
+            var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
+            _status('⏳ ' + secs + ' soniyadan so‘ng qayta urinib ko‘ring', 'err');
+            if (codeRow) codeRow.style.display = '';   // a code may already be in their inbox
+            sentTo = email;
+            return;
+          }
+        } catch (_e) {}
+        if (emailBtn) emailBtn.disabled = true;
+        _status('⏳ Yuborilmoqda…', '');
+        var SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        if (!window.EMAIL_LOGIN_OPEN_TO_ALL) {
+          try {
+            var elig = await fetch(SB + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': 'Bearer ' + KEY },
+              body: JSON.stringify({ p_email: email })
+            });
+            var ok = elig.ok ? await elig.json() : false;
+            if (ok !== true) { _status('❌ Bu email hozircha ruxsat etilmagan', 'err'); if (emailBtn) emailBtn.disabled = false; return; }
+          } catch (_e) { _status('❌ Xatolik. Qayta urinib ko‘ring', 'err'); if (emailBtn) emailBtn.disabled = false; return; }
+        }
+        try {
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client || !client.auth) throw new Error('auth client missing');
+          // emailRedirectTo points back at this exact link, so a student who
+          // taps the emailed link instead of typing the code still lands on
+          // the mock they were opening — the parked launch replays there.
+          _msGateStashPending(skill, pageUrl, category);
+          var res = await client.auth.signInWithOtp({
+            email: email,
+            options: { emailRedirectTo: window.location.origin + window.location.pathname + window.location.search }
+          });
+          if (res.error) throw res.error;
+          try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
+          sentTo = email;
+          _status('✅ Kod yuborildi. Emailingizdagi kodni kiriting.', 'ok');
+          if (emailBtn) emailBtn.textContent = '✓';
+          if (codeRow) {
+            codeRow.style.display = '';
+            if (codeInput) setTimeout(function () { try { codeInput.focus(); } catch (_e) {} }, 120);
+          }
+        } catch (e) {
+          console.warn('[gate] otp send failed:', e);
+          _status('❌ Kod yuborilmadi. Keyinroq urinib ko‘ring', 'err');
+          if (emailBtn) emailBtn.disabled = false;
+        }
+      }
+
+      async function verifyEmailCode() {
+        var code = String((codeInput && codeInput.value) || '').replace(/\D/g, '');
+        // The project's OTP is 8 digits (Supabase default is 6) — accept both.
+        if (code.length < 6 || code.length > 8) { _status('❌ Emaildagi kodni to‘liq kiriting', 'err'); return; }
+        if (!sentTo) { _status('❌ Avval emailingizni kiriting', 'err'); return; }
+        if (codeBtn) codeBtn.disabled = true;
+        _status('⏳ Tekshirilmoqda…', '');
+        try {
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client || !client.auth) throw new Error('auth client missing');
+          // A first-time address confirms with type 'signup', an existing one
+          // with 'email'; we cannot tell which from here, so try both.
+          var vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'email' });
+          if (vr && vr.error) {
+            vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'signup' });
+          }
+          if (vr && vr.error) throw vr.error;
+          _status('✅ Kirildi', 'ok');
+          _msGateSuccess();
+        } catch (e) {
+          console.warn('[gate] otp verify failed:', e);
+          _status('❌ Kod noto‘g‘ri yoki muddati o‘tgan', 'err');
+          if (codeBtn) codeBtn.disabled = false;
+        }
+      }
+
+      if (emailBtn)   emailBtn.addEventListener('click', sendEmail);
+      if (emailInput) emailInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendEmail(); });
+      if (codeBtn)    codeBtn.addEventListener('click', verifyEmailCode);
+      if (codeInput)  codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') verifyEmailCode(); });
+
+      var cancel = document.getElementById('msGateCancelBtn');
+      if (cancel) cancel.addEventListener('click', function () {
+        _msGateClearPending();
+        _msGateCloseModal();
+        // A deep link leaves the landing chrome hidden behind the curtain —
+        // drop it, or cancelling lands the student on a blank page.
+        try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // DAILY MOCK LIMIT — asked right after sign-in, before the mock opens
+    // ═══════════════════════════════════════════════════════════════
+    // Per centre, per skill, per account, over a rolling 24 hours. Set in the
+    // admin Centers panel; 0 (the default everywhere) means unlimited and
+    // costs nothing — check-mock-limit answers before it looks up an identity.
+    //
+    // Deliberately checked HERE and not at scoring time. ai-proxy has had a
+    // per-student cap for a while, but it fires inside the submit call: the
+    // student writes the whole essay and only then learns they had no
+    // allowance left. Asking before the mock opens costs them nothing.
+    //
+    // The count itself is server-side. mock_attempts is anon-writable, so a
+    // count taken in the browser could simply be edited; and the rule (an
+    // attempt counts once submitted, or once 30 minutes old and unsubmitted)
+    // lives in one SQL function that both this gate and authorize-finish call.
+
+    var _msLimitCleared = {};   // skill -> true for exactly one re-entry
+
+    function _msLimitAccessToken() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (!s) return '';
+        return String(s.access_token
+          || (s.currentSession && s.currentSession.access_token) || '');
+      } catch (_e) { return ''; }
+    }
+
+    function _msLimitEmail() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        var su = s && (s.user || (s.currentSession && s.currentSession.user));
+        if (su && su.email) return String(su.email).trim().toLowerCase();
+      } catch (_e) {}
+      try {
+        var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+        if (p && p.email) return String(p.email).trim().toLowerCase();
+      } catch (_e) {}
+      try { return String(localStorage.getItem('ms_vip_email') || '').trim().toLowerCase(); } catch (_e) {}
+      return '';
+    }
+
+    function _msLimitBusy(on) {
+      var el = document.getElementById('msLimitBusy');
+      if (!on) { if (el && el.parentNode) el.parentNode.removeChild(el); return; }
+      if (el) return;
+      var d = document.createElement('div');
+      d.id = 'msLimitBusy';
+      d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100011;display:flex;align-items:center;justify-content:center;';
+      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">Tekshirilmoqda…</div>';
+      document.body.appendChild(d);
+    }
+
+    // "bugun 21:40" / "ertaga 09:15" / "12-sen 09:15" in the student's own
+    // clock. A bare ISO timestamp is useless to them, and "24 hours" is a lie
+    // — the window is measured from their earliest counted attempt.
+    function _msLimitWhen(iso) {
+      if (!iso) return '';
+      var t = new Date(iso);
+      if (isNaN(t.getTime())) return '';
+      var hhmm = String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0');
+      var now = new Date();
+      function ymd(x) { return x.getFullYear() + '-' + x.getMonth() + '-' + x.getDate(); }
+      var tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      if (ymd(t) === ymd(now))      return 'bugun ' + hhmm;
+      if (ymd(t) === ymd(tomorrow)) return 'ertaga ' + hhmm;
+      return t.getDate() + '.' + (t.getMonth() + 1) + ' ' + hhmm;
+    }
+
+    var _MS_UZ_MONTHS = ['yanvar','fevral','mart','aprel','may','iyun',
+                         'iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+    // "1-oktabr" — the centre quota resets on a date, not at a clock time,
+    // so it is worded as one.
+    function _msLimitDate(iso) {
+      if (!iso) return '';
+      var t = new Date(iso);
+      if (isNaN(t.getTime())) return '';
+      return t.getDate() + '-' + _MS_UZ_MONTHS[t.getMonth()];
+    }
+
+    var _MS_SKILL_UZ = {
+      reading: 'Reading', listening: 'Listening',
+      writing: 'Writing', speaking: 'Speaking', full_mock: 'Full Mock'
+    };
+
+    function _msShowLimitReached(skill, info) {
+      var old = document.getElementById('msLimitModal');
+      if (old && old.parentNode) old.parentNode.removeChild(old);
+      var when = _msLimitWhen(info && info.nextAvailableAt);
+      var limit = (info && info.limit) || 0;
+      var name = _MS_SKILL_UZ[skill] || skill;
+      // The window is a per-centre setting, so the wording cannot say "a day".
+      // 24h reads naturally as "bir kunda"; anything else names the hours.
+      var win = Number((info && info.windowHours) || 24);
+      var perWhat = (win === 24)
+        ? 'Bir kunda'
+        : ('Har ' + (Math.round(win * 10) / 10) + ' soatda');
+      // Two very different refusals wear the same modal. Saying "your limit"
+      // to a student stopped by the CENTRE's monthly quota would send them
+      // looking for a fault in their own account that isn't there.
+      var isCentre = !!(info && info.scope === 'center');
+      var resetLine = isCentre
+        ? (_msLimitDate(info && info.periodEnd) ? 'Yangilanadi: ' + _msLimitDate(info.periodEnd) : '')
+        : (when ? 'Keyingi urinish: ' + when : '');
+      var d = document.createElement('div');
+      d.id = 'msLimitModal';
+      d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(4px);z-index:100012;display:flex;align-items:center;justify-content:center;padding:18px;';
+      d.innerHTML =
+        '<div style="background:var(--card);border:2px solid #f59e0b;border-radius:20px;padding:24px 22px;max-width:370px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .3s ease;">'
+      +   '<div style="font-size:34px;line-height:1;margin-bottom:10px;">&#9203;</div>'
+      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">'
+      +     (isCentre ? 'Markaz limiti tugadi' : esc(name) + ' limiti tugadi')
+      +   '</h3>'
+      +   '<p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:var(--muted);">'
+      +     (isCentre
+          ? 'Markazingizda bu oy uchun <strong>' + esc(name) + '</strong> mocklari '
+            + 'tugagan. Bu sizning shaxsiy limitingiz emas — butun markazga tegishli.'
+          : esc(perWhat) + ' <strong>' + limit + ' marta</strong> ' + esc(name)
+            + ' mock topshirish mumkin. Siz buni ishlatib bo&#8216;ldingiz.')
+      +   '</p>'
+      +   (resetLine
+          ? '<div style="margin:14px 0 4px;padding:11px;background:rgba(245,158,11,.12);border-radius:12px;font-size:13.5px;font-weight:700;color:#b45309;">'
+            + esc(resetLine)
+            + '</div>'
+          : '')
+      +   '<p style="margin:12px 0 0;font-size:11.5px;line-height:1.55;color:var(--muted);">'
+      +     (isCentre
+          ? 'Markaz administratori bilan bog&#8216;laning.'
+          : 'Boshqa mahoratlar hozir ham ochiq. Limit hisobingizga bog&#8216;langan.')
+      +   '</p>'
+      +   '<button type="button" id="msLimitOkBtn" style="margin-top:16px;width:100%;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:#fff;border:none;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;">Tushunarli</button>'
+      + '</div>';
+      document.body.appendChild(d);
+      // A deep link leaves the landing hidden behind the curtain; without
+      // this the student closes the notice onto a blank page.
+      try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+      try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      var ok = document.getElementById('msLimitOkBtn');
+      if (ok) ok.addEventListener('click', function () {
+        if (d.parentNode) d.parentNode.removeChild(d);
+      });
+    }
+
+    // Returns true when the caller may proceed. False means the check is in
+    // flight (or refused) and this will re-call the launcher itself if it
+    // clears. Fails OPEN on any error: a limit is a policy, and a broken
+    // policy check must not be able to shut a centre's mocks down.
+    function _msLimitAllow(skill, pageUrl, category) {
+      if (_msLimitCleared[skill]) { delete _msLimitCleared[skill]; return true; }
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      var proceed = function () {
+        _msLimitCleared[skill] = true;
+        _msLimitBusy(false);
+        _msGateLaunch(skill, pageUrl, category);
+      };
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var token = _msLimitAccessToken();
+      // The check runs on every open, including for the centres that have no
+      // limit at all — that is what keeps the count server-side, where it
+      // cannot be edited. But it usually answers in well under a second, and
+      // a spinner that flashes on every single mock open is worse than no
+      // spinner, so only show one if the round trip is actually slow.
+      var slowTimer = setTimeout(function () { _msLimitBusy(true); }, 600);
+      var timedOut = false;
+      var timer = setTimeout(function () { timedOut = true; clearTimeout(slowTimer); proceed(); }, 4000);
+      try {
+        fetch(SB + '/functions/v1/check-mock-limit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // The JWT is what the function trusts. The anon key is only a
+            // fallback so the request is never rejected outright.
+            'Authorization': 'Bearer ' + (token || KEY),
+            'apikey': KEY
+          },
+          body: JSON.stringify({ center: centerId, skill: skill, email: _msLimitEmail() })
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (info) {
+            if (timedOut) return;
+            clearTimeout(timer); clearTimeout(slowTimer);
+            _msLimitBusy(false);
+            if (!info || info.allowed !== false) { proceed(); return; }
+            _msShowLimitReached(skill, info);
+          })
+          .catch(function () {
+            if (timedOut) return;
+            clearTimeout(timer); clearTimeout(slowTimer);
+            proceed();
+          });
+      } catch (_e) {
+        clearTimeout(timer); clearTimeout(slowTimer);
+        proceed();
+      }
+      return false;
+    }
+
+    window._msLimitAllow = _msLimitAllow;
+
+    window._msGateAllow    = _msGateAllow;
+    window._msGateSignedIn = _msGateSignedIn;
+    window._msGateResume   = _msGateResume;
+
+    // Boot replay for the non-deep-link case (a tile tapped on the landing,
+    // then Google). The /take/ path is owned by _processDeepLinkTakeV3, which
+    // calls _msGateResume() itself so the two can never both fire.
+    (function () {
+      function boot() {
+        try {
+          if (/^\/take\/[^\/?#]+/i.test(window.location.pathname)) return;
+          if (new URLSearchParams(window.location.search).get('take')) return;
+        } catch (_e) {}
+        setTimeout(_msGateResume, 400);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+      else boot();
+    })();
+
     function renderAccount() {
       var slot = document.getElementById('msv3AccountSlot');
       if (!slot) return;
@@ -6940,15 +7584,10 @@
       // returns to v3, not whatever was earlier in history (which on
       // legacy sessions was /landing.html?openFullMock=1 showing the
       // old chooser modal).
-      try {
-        var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
-        var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
-        var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
-        var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
-      } catch (_e) {
-        window.location.href = '/landing-v3.html';
-      }
+      // Same gated path as the landing card below (hoisted, so calling it
+      // from here is fine) — duplicating the navigation is how this button
+      // came to bypass both gates in the first place.
+      _msv3LaunchCefrFullMock();
     });
 
     document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
@@ -6977,26 +7616,36 @@
       window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
-      // IELTS Full Mock — direct navigation (runner page picks its own
-      // mocks internally; no random selection needed at v3 level). Use
-      // href (push) so browser-back returns to v3.
-      window.location.href = '/ielts-full-mock.html';
+      // IELTS Full Mock — the runner page picks its own mocks internally,
+      // so there is nothing to choose here. Goes through the same gated
+      // helper as the landing card.
+      _msv3LaunchIeltsFullMock();
     });
 
     // Main landing Full Mock card — same handlers as the sidebar buttons.
+    //
+    // A full mock leaves the landing by plain navigation rather than through
+    // one of the four per-skill launchers, so it has to ask the sign-in and
+    // limit gates for itself. It used to skip both, which meant a per-skill
+    // limit could be walked straight around: a full mock contains all four.
+    function _msv3GoFullMock(url, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('full_mock', url, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('full_mock', url, category)) return;
+      window.location.href = url;
+    }
     function _msv3LaunchCefrFullMock() {
       try {
         var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
         var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
+        _msv3GoFullMock('/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S, 'cefr-full-mock');
       } catch (_e) {
         window.location.href = '/landing-v3.html';
       }
     }
     function _msv3LaunchIeltsFullMock() {
-      window.location.href = '/ielts-full-mock.html';
+      _msv3GoFullMock('/ielts-full-mock.html', 'ielts-full-mock');
     }
     var _mainCefrFM = document.getElementById('msv3MainCefrFullMock');
     if (_mainCefrFM) _mainCefrFM.addEventListener('click', _msv3LaunchCefrFullMock);
@@ -12805,7 +13454,12 @@
       const nameWrap  = document.getElementById('writingAccessNameWrap');
       const nameInput = document.getElementById('writingAccessNameInput');
       const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
-      const needName = nameWrap && nameInput && !existingName;
+      // The name field is gone from this modal. A mock can only be taken by a
+      // signed-in account and the sign-in gate runs the moment this code is
+      // validated, so the account supplies the name. Asking for one here too
+      // turned a shared /take/ link into a form to fill in before the student
+      // even knew what the link was for.
+      const needName = false;
       if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
       if (nameInput) {
         nameInput.value = existingName;
@@ -12871,6 +13525,8 @@
     window.verifyWritingAccessCode    = verifyWritingAccessCode;
 
     function _launchWritingMock(pageUrl, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('writing', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('writing', pageUrl, category)) return;
       var num = _extractWritingMockNumber(pageUrl);
       var isPremium = _isWritingPremiumAi();
       if (category === 'cefr-writing') {
@@ -13802,7 +14458,12 @@
       const nameWrap  = document.getElementById('readingAccessNameWrap');
       const nameInput = document.getElementById('readingAccessNameInput');
       const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
-      const needName = nameWrap && nameInput && !existingName;
+      // The name field is gone from this modal. A mock can only be taken by a
+      // signed-in account and the sign-in gate runs the moment this code is
+      // validated, so the account supplies the name. Asking for one here too
+      // turned a shared /take/ link into a form to fill in before the student
+      // even knew what the link was for.
+      const needName = false;
       if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
       if (nameInput) {
         nameInput.value = existingName;
@@ -13873,9 +14534,14 @@
       }
     }
     window.verifyReadingAccessCode = verifyReadingAccessCode;
+    // Exported for the sign-in gate, which replays the launch from another
+    // script block after an OAuth round trip.
+    window._loadReadingMockOrShowMode = _loadReadingMockOrShowMode;
     window.closeReadingAccessCodeModal = closeReadingAccessCodeModal;
 
     function _loadReadingMockOrShowMode(pageUrl, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('reading', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('reading', pageUrl, category)) return;
       var isPremium = _isReadingPremiumAi();
       if (category === 'cefr-reading') {
         _pendingCefrReadingUrl = pageUrl;
@@ -15437,7 +16103,12 @@
       const nameWrap  = document.getElementById('listeningAccessNameWrap');
       const nameInput = document.getElementById('listeningAccessNameInput');
       const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
-      const needName = nameWrap && nameInput && !existingName;
+      // The name field is gone from this modal. A mock can only be taken by a
+      // signed-in account and the sign-in gate runs the moment this code is
+      // validated, so the account supplies the name. Asking for one here too
+      // turned a shared /take/ link into a form to fill in before the student
+      // even knew what the link was for.
+      const needName = false;
       if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
       if (nameInput) {
         nameInput.value = existingName;
@@ -15508,9 +16179,13 @@
       }
     }
     window.verifyListeningAccessCode = verifyListeningAccessCode;
+    // Exported for the sign-in gate — see _loadReadingMockOrShowMode above.
+    window._loadListeningMockOrShowMode = _loadListeningMockOrShowMode;
     window.closeListeningAccessCodeModal = closeListeningAccessCodeModal;
 
     function _loadListeningMockOrShowMode(pageUrl, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('listening', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('listening', pageUrl, category)) return;
       var isPremium = _isListeningPremiumAi();
       if (category === 'cefr-listening') {
         _pendingCefrListeningUrl = pageUrl;
@@ -16371,6 +17046,18 @@
           takeParam = params.get('take');
         }
         if (!takeParam) { _takeHideSplash(); return; }
+
+        // Sign-in is NOT asked here. The code field has to come first: the
+        // gate that requires an account lives at the four launch functions,
+        // so the student types and validates the code, and only then is asked
+        // to register. See the SIGN-IN GATE block above renderAccount().
+        //
+        // What DOES belong here is the replay: if Google took them off-site
+        // mid-flow, they come back to this same link with the launch parked.
+        if (typeof window._msGateResume === 'function' && window._msGateResume()) {
+          _takeHideSplash();
+          return;
+        }
         // Match the same slugs landing.html accepts.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
              || takeParam.match(/^(cefr|ielts)-(speaking)-(\d+)$/i)
@@ -18108,7 +18795,12 @@
       const nameWrap  = document.getElementById('speakingAccessNameWrap');
       const nameInput = document.getElementById('speakingAccessNameInput');
       const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
-      const needName = nameWrap && nameInput && !existingName;
+      // The name field is gone from this modal. A mock can only be taken by a
+      // signed-in account and the sign-in gate runs the moment this code is
+      // validated, so the account supplies the name. Asking for one here too
+      // turned a shared /take/ link into a form to fill in before the student
+      // even knew what the link was for.
+      const needName = false;
       if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
       if (nameInput) {
         nameInput.value = existingName;
@@ -18175,6 +18867,8 @@
 
     // ===== Mode + Part Picker modals =====
     function _launchSpeakingMock(pageUrl, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('speaking', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('speaking', pageUrl, category)) return;
       _pendingSpeakingLaunch = { pageUrl, category };
       var label = document.getElementById('speakingModeMockLabel');
       var num = _extractSpeakingMockNumber(pageUrl);

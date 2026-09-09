@@ -3,6 +3,7 @@
 
 <head>
   <script src="finish-gate.js" defer></script>
+  <script src="premium-gate.js"></script>
   <script src="./ai-proxy-interceptor.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -5216,6 +5217,17 @@
             console.log('Reference:', state.referenceNumber);
             console.log('=====================================');
 
+            // The attempt is real from here: the four mocks are chosen and the
+            // exam starts on the next lines. Recorded as ONE full_mock attempt
+            // rather than four skill attempts — a full mock has its own
+            // allowance, so taking one must not lock the student out of every
+            // individual skill as well.
+            try {
+                if (window.PremiumGate && PremiumGate.recordOpen) {
+                    PremiumGate.recordOpen({ skill: 'full_mock', exam_type: 'ielts', mock_number: 1 });
+                }
+            } catch (_e) {}
+
             // Hide selection overlay
             document.getElementById('mock-selection-overlay').style.display = 'none';
 
@@ -5394,6 +5406,25 @@
 
                 // Dropdowns already populated at page load - just show the overlay.
                 // Tier notice first: premium = AI scoring; regular = no AI + upgrade urge.
+                // Daily / monthly limit. Asked HERE, at the gate, and not only on
+                // the landing: a full mock has a share button, so this page is
+                // routinely opened by a direct link that never passes the
+                // landing's gate at all. Fails open on any error.
+                try {
+                    if (window.PremiumGate && PremiumGate.checkLimit) {
+                        const _fmLim = await PremiumGate.checkLimit('full_mock');
+                        if (_fmLim && _fmLim.allowed === false) {
+                            passcodeError.textContent = (_fmLim.scope === 'center')
+                                ? 'Markazingizda bu oy uchun Full Mock limiti tugagan. Administrator bilan bog‘laning.'
+                                : 'Full Mock limitingiz tugadi. Keyinroq qayta urinib ko‘ring.';
+                            passcodeError.style.display = 'block';
+                            startBtn.disabled = false;
+                            startBtn.textContent = 'Begin Session';
+                            return;
+                        }
+                    }
+                } catch (_e) { /* fail open */ }
+
                 const _fmProceed = function () {
                     document.getElementById('gate').style.display = 'none';
                     document.getElementById('mock-selection-overlay').style.display = 'flex';
@@ -10449,6 +10480,15 @@ ${questionsHTML}
 
                     // Send to Supabase first (get result link for caption)
                     var finalCaption = caption;
+                    // Stamps submitted_at on the open full_mock attempt. Before
+                    // the send, so a failed upload still records that the
+                    // student finished.
+                    try {
+                        if (window.PremiumGate && PremiumGate.recordSubmit) {
+                            PremiumGate.recordSubmit({ skill: 'full_mock', exam_type: 'ielts', mock_number: 1 });
+                        }
+                    } catch (_e) {}
+
                     if (window.sendToSupabase) {
                       try {
                         var sbResult = await window.sendToSupabase({

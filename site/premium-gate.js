@@ -12,6 +12,8 @@
  *   .openUpgradeModal(reason)
  *   .applyLockBadge(element, reason)
  *   .fetchTakenForUser()         — Promise<row[]> from Supabase merged with localStorage
+ *   .checkLimit(skill, center)   — Promise<{allowed,...}> from check-mock-limit;
+ *                                  resolves { allowed: true } on any failure
  * ========================================================================= */
 (function () {
   'use strict';
@@ -43,6 +45,40 @@
       }
     } catch (e) {}
     return n;
+  }
+
+  // Account email — the ONLY reliable key for a per-account daily limit.
+  // candidate_name is not one: two students who type the same name are one
+  // person to it, and one student who types their name differently is two.
+  //
+  // The exam pages do not load auth.js, so getCurrentUser() is unavailable
+  // here; these are the localStorage sources that are actually populated by
+  // the time a student reaches a mock. ai-proxy-interceptor.js resolves the
+  // email the same way for its x-ms-email header — keep the two in step.
+  function _candidateEmail() {
+    var em = '';
+    try {
+      var u = window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                ? window.MockStream.auth.getCurrentUser() : null;
+      if (u && u.email) em = u.email;
+    } catch (e) {}
+    if (!em) {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        var su = s && (s.user || (s.currentSession && s.currentSession.user));
+        if (su && su.email) em = su.email;
+      } catch (e) {}
+    }
+    if (!em) {
+      try {
+        var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+        if (p && p.email) em = p.email;
+      } catch (e) {}
+    }
+    if (!em) {
+      try { em = localStorage.getItem('ms_vip_email') || localStorage.getItem('ms_admin_email') || ''; } catch (e) {}
+    }
+    return String(em || '').trim().toLowerCase();
   }
 
   function _center() {
@@ -152,7 +188,10 @@
       mock_number:    Number(o.mock_number),
       tier_at_open:   o.tier || (isPremiumTier(o.skill) ? 'premium' : 'regular'),
       opened_at:      new Date().toISOString(),
-      submitted_at:   null
+      submitted_at:   null,
+      // What the per-account daily limit counts. NULL for a student we
+      // cannot identify, and a NULL row counts toward nobody's limit.
+      user_email:     _candidateEmail() || null
     };
     _lsAppend(row);
     _sbInsert(row);
@@ -187,7 +226,10 @@
   }
 
   function _sbInsert(row) {
-    if (!row || !row.candidate_name) return;
+    // An email is enough on its own. Requiring a name meant clearing the
+    // name out of storage produced no rows at all — and no rows means no
+    // daily limit, which is exactly the hole the limit exists to close.
+    if (!row || (!row.candidate_name && !row.user_email)) return;
     if (typeof fetch !== 'function') return;
     try {
       fetch(SB_URL + '/rest/v1/mock_attempts', {
@@ -200,11 +242,16 @@
   }
 
   function _sbPatchSubmit(o) {
-    var name = _normName(_candidateName());
-    if (!name) return;
+    var name  = _normName(_candidateName());
+    var email = _candidateEmail();
+    if (!name && !email) return;
     if (typeof fetch !== 'function') return;
     try {
-      var qs = '?candidate_name=eq.' + encodeURIComponent(name)
+      // Match on the email when we have one: two students sharing a name
+      // would otherwise stamp each other's rows as submitted.
+      var qs = (email
+                 ? '?user_email=eq.' + encodeURIComponent(email)
+                 : '?candidate_name=eq.' + encodeURIComponent(name))
              + '&skill=eq.'         + encodeURIComponent(o.skill)
              + '&mock_number=eq.'   + Number(o.mock_number)
              + '&submitted_at=is.null'
@@ -235,6 +282,49 @@
         rows.forEach(push); local.forEach(push);
         return out;
       });
+  }
+
+  // ───── Daily / monthly limit check ────────────────────────────────────────
+  // Asks check-mock-limit whether this account may start `skill` here.
+  // Lives in this shared module rather than on each page: landing-v3 gates
+  // the four per-skill launchers itself, but a full mock can also be reached
+  // by a shared link straight to full-mock.html, which never passes the
+  // landing at all — so the runner pages have to ask too.
+  //
+  // Resolves to the server's answer, or to { allowed: true } on ANY failure.
+  // Failing open is deliberate and matches the rest of the gate: a limit is a
+  // policy, and a broken policy check must not shut a centre's mocks down.
+  function checkLimit(skill, center) {
+    if (typeof fetch !== 'function') return Promise.resolve({ allowed: true });
+    var token = '';
+    try {
+      var sess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      token = String((sess && (sess.access_token ||
+        (sess.currentSession && sess.currentSession.access_token))) || '');
+    } catch (e) {}
+    var payload = {
+      center: String(center || _center() || 'mock_stream'),
+      skill:  String(skill || ''),
+      email:  _candidateEmail()
+    };
+    // Never leave a student stuck on a spinner because the check hung.
+    var timeout = new Promise(function (resolve) {
+      setTimeout(function () { resolve({ allowed: true, reason: 'timeout' }); }, 4000);
+    });
+    var call = fetch(SB_URL + '/functions/v1/check-mock-limit', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        // The JWT is what the function trusts; the anon key only keeps the
+        // request from being rejected outright when there is no session.
+        'Authorization': 'Bearer ' + (token || SB_ANON),
+        'apikey':        SB_ANON
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.ok ? r.json() : { allowed: true }; })
+      .catch(function () { return { allowed: true }; });
+    return Promise.race([call, timeout]);
   }
 
   // ───── Modal + lock badge ─────────────────────────────────────────────────
@@ -439,6 +529,7 @@
     openUpgradeModal:  openUpgradeModal,
     renderUpsellCard:  renderUpsellCard,
     showTierNotice:    showTierNotice,
+    checkLimit:        checkLimit,
     applyLockBadge:    applyLockBadge,
     _normName:         _normName,
     _center:           _center,

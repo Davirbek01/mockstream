@@ -118,8 +118,23 @@
         desktopAppDisabled: false,
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
-        // Limits
+        // Limits — the two above are AI-call caps; the four below are mock
+        // attempts per signed-in account per rolling 24h, per skill.
+        // 0 = unlimited everywhere, so a centre keeps its current behaviour
+        // until an admin sets a number.
         maxAttemptsPerStudent: 0, dailyMockLimit: 0,
+        dailyLimitReading: 0, dailyLimitListening: 0,
+        dailyLimitWriting: 0, dailyLimitSpeaking: 0,
+        // The interval those four are measured over, in hours. One per centre,
+        // not per skill. 24 = a day; 5 = "one, then the next five hours later".
+        dailyLimitWindowHours: 24,
+        // Whole-centre volume caps, per skill, per calendar month. A different
+        // thing from the per-account limits above — both apply at once.
+        monthlyLimitReading: 0, monthlyLimitListening: 0,
+        monthlyLimitWriting: 0, monthlyLimitSpeaking: 0,
+        // Full Mock is its own allowance, not four. Without it the per-skill
+        // limits are trivially bypassed — a full mock contains all four.
+        dailyLimitFullMock: 0, monthlyLimitFullMock: 0,
         // Global Access: 'off' (codes required), 'premium', or 'regular'
         globalAccess: 'off',
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
@@ -1024,6 +1039,45 @@
             h += '<div style="padding:10px 16px;">';
             h += _cmNumberInput(cid, 'maxAttemptsPerStudent', 'Per-Student daily AI calls', cfg.maxAttemptsPerStudent, '0 = unlimited · tracked by Google account when signed in, otherwise by IP');
             h += _cmNumberInput(cid, 'dailyMockLimit', 'Center daily max AI calls', cfg.dailyMockLimit, '0 = unlimited · total successful AI calls across this center per 24h');
+            // Per-account MOCK limits — a different thing from the AI-call caps
+            // above, and the one that stops a shared premium login. Checked
+            // BEFORE the mock opens (check-mock-limit) instead of at scoring
+            // time, so a student is never turned away after doing the work.
+            // An attempt counts once submitted, or once 30 min old and still
+            // unsubmitted — so a dropped connection costs nothing.
+            h += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--ring,#e5e7eb);">'
+              +    '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">'
+              +      'Per-account mocks per 24h'
+              +    '</div>'
+              +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
+              +      'Counted by signed-in account, rolling window. Admins are exempt.<br>'
+              +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for the whole window.'
+              +    '</div>';
+            h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading',   cfg.dailyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening', cfg.dailyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing',   cfg.dailyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking',  cfg.dailyLimitSpeaking,  '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitFullMock',  'Full Mock', cfg.dailyLimitFullMock,  '0 = unlimited · counts separately, not as 4 skills');
+            h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Window (hours)', cfg.dailyLimitWindowHours, 'default 24 · e.g. 5 = next attempt 5h later · 1–168');
+            h += '</div>';
+            // Whole-centre volume cap. Independent of the per-account limits:
+            // a student can be well inside their own allowance and still be
+            // stopped because the centre has spent its month.
+            h += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--ring,#e5e7eb);">'
+              +    '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">'
+              +      'Whole centre, per calendar month'
+              +    '</div>'
+              +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
+              +      'Every student here combined. Resets on the 1st.<br>'
+              +      'Real Aug 2026 usage — bek 6.5k speaking / 6.3k writing, record 8.9k / 6.9k,<br>'
+              +      'mock_stream 925 / 272. Set the number ABOVE actual usage or students hit a wall.'
+              +    '</div>';
+            h += _cmNumberInput(cid, 'monthlyLimitReading',   'Reading / month',   cfg.monthlyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitListening', 'Listening / month', cfg.monthlyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitWriting',   'Writing / month',   cfg.monthlyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitSpeaking',  'Speaking / month',  cfg.monthlyLimitSpeaking,  '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitFullMock',  'Full Mock / month', cfg.monthlyLimitFullMock,  '0 = unlimited · Aug 2026: bek 1118, record 680');
+            h += '</div>';
             h += '</div>';
           }
 
