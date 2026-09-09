@@ -6005,6 +6005,28 @@
       achievers:   'acheivers_login_bot',
       record:      'multilevelrecord_sign_bot'
     };
+
+    // A login bot accepts exactly ONE domain (/setdomain), so a centre that has
+    // been rebranded onto a new domain while the old one is still running needs
+    // a SECOND bot under its own key. The key is chosen by the host the student
+    // is actually on, NOT by the centre id — the centre id is the same for both
+    // domains, which is the whole point of keeping the old one alive.
+    //
+    // index.html has carried this map since Bekzod's rebrand; this page did not,
+    // so every Telegram button HERE used the original centre's bot. On
+    // bekzodturgunovkx.com that bot's registered domain does not match the page,
+    // and Telegram silently refuses to open the popup. Adding the map here fixes
+    // that too. Keep the two copies in step.
+    var TELEGRAM_LOGIN_KEY_BY_HOST = {
+      'bekzodturgunovkx.com':     'bek_kx',
+      'www.bekzodturgunovkx.com': 'bek_kx',
+      'asrolingo.com':            'global_asr',
+      'www.asrolingo.com':        'global_asr'
+    };
+    window._msTgLoginKey = function (center) {
+      try { return TELEGRAM_LOGIN_KEY_BY_HOST[location.hostname] || center; }
+      catch (_e) { return center; }
+    };
     var _tgLoading = null;
     function loadTelegram() {
       if (window.Telegram && window.Telegram.Login) return Promise.resolve();
@@ -6066,7 +6088,7 @@
       if (tb) tb.addEventListener('click', function () {
         Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
           var ids = results[1] || {};
-          var botId = ids[centerId];
+          var botId = ids[(window._msTgLoginKey ? window._msTgLoginKey(centerId) : centerId)];
           if (!botId || !window.Telegram || !window.Telegram.Login) {
             alert('Telegram sign-in is not available yet.'); return;
           }
@@ -6344,7 +6366,7 @@
         _status('⏳ Telegram oynasi ochilmoqda…', '');
         Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
           var ids = results[1] || {};
-          var botId = ids[centerId];
+          var botId = ids[(window._msTgLoginKey ? window._msTgLoginKey(centerId) : centerId)];
           if (!botId || !window.Telegram || !window.Telegram.Login) {
             _status('❌ Telegram hozircha mavjud emas', 'err');
             return;
@@ -7459,7 +7481,7 @@
         }
         Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
           var ids = results[1] || {};
-          var botId = ids[centerId];
+          var botId = ids[(window._msTgLoginKey ? window._msTgLoginKey(centerId) : centerId)];
           if (!botId) {
             setStatus('No Telegram login bot is configured for this centre.');
             tgBtn.disabled = false; tgBtn.style.opacity = '';
