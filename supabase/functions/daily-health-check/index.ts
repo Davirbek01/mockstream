@@ -200,7 +200,28 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttem
   return L;
 }
 
-function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null): string {
+// One line per account that started a mock on a second device while an
+// earlier one was still unfinished. Same-mock reopens and same-device tabs are
+// already excluded by the SQL, so what is left is either a shared login or a
+// student on a phone and a laptop at once — which is exactly why this reports
+// rather than blocks.
+function concurrencySection(rows: any[]): string[] {
+  if (!rows || !rows.length) return [];
+  const L: string[] = [];
+  const events = rows.reduce((a, r) => a + Number(r.events || 0), 0);
+  L.push(`\u{1F6A9} <b>Shared-account signals: ${rows.length} account${rows.length === 1 ? '' : 's'}</b>` +
+         ` <i>(${events} event${events === 1 ? '' : 's'})</i>`);
+  for (const r of rows.slice(0, 5)) {
+    L.push(`  ${esc(String(r.user_email || '?'))} \u00b7 ${esc(String(r.center || '?'))}` +
+           ` — ${r.events}\u00d7, ${r.devices} device${Number(r.devices) === 1 ? '' : 's'}`);
+  }
+  if (rows.length > 5) L.push(`  <i>+${rows.length - 5} more</i>`);
+  L.push(`  <i>detect-only — nobody is blocked or warned</i>`);
+  L.push('');
+  return L;
+}
+
+function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = []): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -242,6 +263,8 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
     L.push(`  <b>${esc(c)}</b> ${t} — ${per}`);
   }
   L.push('');
+
+  for (const line of concurrencySection(concurrent)) L.push(line);
 
   // 2. Telegram delivery
   //
@@ -393,9 +416,13 @@ Deno.serve(async (req) => {
   const dead = body?.skip_sweep === true ? [] : await sweepFunctions();
   // Prices live in a setting, not in this file: a provider changing its rate
   // should be a one-line edit, not a deploy.
-  const [{ data: spend }, { data: priceRow }] = await Promise.all([
+  const [{ data: spend }, { data: priceRow }, { data: concurrent }] = await Promise.all([
     sb.rpc('ai_spend_window', { p_days_back: daysBack }),
     sb.from('site_settings').select('value').eq('key', 'ai_price_table').maybeSingle(),
+    // Detect-only account sharing. Nothing is blocked and no student is told
+    // anything — this is here so the real rate can be watched for a couple of
+    // weeks before deciding whether a warning is worth showing at all.
+    sb.rpc('concurrent_session_report', { p_days_back: daysBack }),
   ]);
   let prices: any = {};
   try { prices = priceRow ? JSON.parse(priceRow.value) : {}; } catch { /* keep going without costs */ }
@@ -404,7 +431,7 @@ Deno.serve(async (req) => {
   // behind by nature: the export is written after the day closes.
   const gcp = await gcpSpend(daysBack);
 
-  const text = buildMessage(snap, dead, spend || [], prices, gcp);
+  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || []);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).

@@ -81,6 +81,25 @@
     return String(em || '').trim().toLowerCase();
   }
 
+  // Stable per-browser id. auth.js already mints and stores this as
+  // ms_device_id when a student signs in, and reuses it across browsers on
+  // the same machine via a hardware fingerprint — we only read it here, so
+  // an attempt row and the device registry point at the same device.
+  // Generated as a fallback only if sign-in has not written one yet.
+  //
+  // This is what makes concurrent-session detection possible at all: without
+  // it, "two mocks open at once" is mostly one person reloading a page.
+  function _deviceId() {
+    try {
+      var d = localStorage.getItem('ms_device_id') || '';
+      if (!d) {
+        d = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('ms_device_id', d);
+      }
+      return d;
+    } catch (e) { return ''; }
+  }
+
   function _center() {
     try {
       var c = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
@@ -191,7 +210,10 @@
       submitted_at:   null,
       // What the per-account daily limit counts. NULL for a student we
       // cannot identify, and a NULL row counts toward nobody's limit.
-      user_email:     _candidateEmail() || null
+      user_email:     _candidateEmail() || null,
+      // Detect-only: lets concurrent_session_report() tell "someone else is
+      // using this account" apart from "same person reopened the page".
+      device_id:      _deviceId() || null
     };
     _lsAppend(row);
     _sbInsert(row);
