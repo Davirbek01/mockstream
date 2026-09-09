@@ -401,7 +401,7 @@
     mock_stream: 'mock-stream.com',
     bek: 'bekzodsmultilevel.com',
     niners: 'ninersacademy.com',
-    global: 'global-education.netlify.app',
+    global: 'asrolingo.com',
     muzaffars: 'muzaffars-english.netlify.app',
     achievers: 'achievers-mocks.netlify.app',
     record: 'multilevelrecord.com'
