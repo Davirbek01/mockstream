@@ -22,6 +22,10 @@ const TOKEN_ENV_BY_CENTER: Record<string, string> = {
   bek_kx: 'TELEGRAM_LOGIN_BOT_TOKEN_BEK_KX',
   niners: 'TELEGRAM_LOGIN_BOT_TOKEN_NINERS',
   global: 'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL',
+  // Asrolingo — global's rebranded domain (asrolingo.com). Same centre, second
+  // bot, because the old global-education.netlify.app keeps running and one bot
+  // cannot answer for two domains.
+  global_asr: 'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL_ASR',
   muzaffars: 'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',
   achievers: 'TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS', // env name keeps the historic misspelling
   record: 'TELEGRAM_LOGIN_BOT_TOKEN_RECORD',

@@ -111,7 +111,7 @@ Deno.serve(async (req) => {
     mock_stream: ['TELEGRAM_LOGIN_BOT_TOKEN'],
     bek:         ['TELEGRAM_LOGIN_BOT_TOKEN_BEK', 'TELEGRAM_LOGIN_BOT_TOKEN_BEK_KX'],
     niners:      ['TELEGRAM_LOGIN_BOT_TOKEN_NINERS'],
-    global:      ['TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL'],
+    global:      ['TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL', 'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL_ASR'],
     muzaffars:   ['TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS'],
     achievers:   ['TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS'],
     record:      ['TELEGRAM_LOGIN_BOT_TOKEN_RECORD'],

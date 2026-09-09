@@ -5434,7 +5434,9 @@
     // request body, the account it signs into — stays keyed on the centre.
     var TELEGRAM_LOGIN_KEY_BY_HOST = {
       'bekzodturgunovkx.com':     'bek_kx',
-      'www.bekzodturgunovkx.com': 'bek_kx'
+      'www.bekzodturgunovkx.com': 'bek_kx',
+      'asrolingo.com':            'global_asr',
+      'www.asrolingo.com':        'global_asr'
     };
     function _tgLoginKey(center) {
       return TELEGRAM_LOGIN_KEY_BY_HOST[location.hostname] || center;
