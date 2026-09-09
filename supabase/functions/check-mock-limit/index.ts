@@ -10,8 +10,12 @@
 //      login being shared around a class.
 //        dailyLimitReading / dailyLimitListening / dailyLimitWriting /
 //        dailyLimitSpeaking / dailyLimitFullMock
-//        + dailyLimitWindowHours (default 24, clamped 1..168;
-//          5 means "one, then the next five hours later")
+//        + dailyLimitWindowHours — the centre's default interval (24,
+//          clamped 1..168; 5 means "one, then the next five hours later")
+//        + dailyLimitWindowReading / ...Listening / ...Writing / ...Speaking /
+//          ...FullMock — optional per-skill override of that interval, for
+//          centres that want e.g. speaking every 5h but reading every 2h.
+//          0 or absent falls back to the centre default.
 //
 //   2. Per CENTRE, per skill, per calendar month — caps a centre's total
 //      volume, e.g. 5000 speaking a month.
@@ -139,16 +143,20 @@ async function readConfig(centerId: string, skill: Skill): Promise<Config> {
   let v: any = (data as { value: unknown }).value;
   if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return none; } }
 
-  // Clamped to 1h..168h (a week). Below an hour the fixed 30-minute grace
-  // would swallow most of the window; the SQL clamps identically, so a bad
-  // value can only narrow the window, never widen it.
-  const rawWin = v?.dailyLimitWindowHours;
-  const w = typeof rawWin === 'number' ? rawWin : parseFloat(String(rawWin ?? ''));
+  // Interval: the per-skill override if one is set, else the centre default,
+  // else 24h. Clamped to 1h..168h (a week) — below an hour the fixed
+  // 30-minute grace would swallow most of the window. The SQL clamps
+  // identically, so a bad value can only narrow the window, never widen it.
+  const num = (raw: unknown): number => {
+    const n = typeof raw === 'number' ? raw : parseFloat(String(raw ?? ''));
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  };
+  const w = num(v?.[`dailyLimitWindow${FIELD[skill]}`]) || num(v?.dailyLimitWindowHours) || 24;
 
   return {
     perAccount:  posInt(v?.[`dailyLimit${FIELD[skill]}`]),
     perMonth:    posInt(v?.[`monthlyLimit${FIELD[skill]}`]),
-    windowHours: Number.isFinite(w) && w > 0 ? Math.min(Math.max(w, 1), 168) : 24
+    windowHours: Math.min(Math.max(w, 1), 168)
   };
 }
 

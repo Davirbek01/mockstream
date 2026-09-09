@@ -128,6 +128,12 @@
         // The interval those four are measured over, in hours. One per centre,
         // not per skill. 24 = a day; 5 = "one, then the next five hours later".
         dailyLimitWindowHours: 24,
+        // Optional per-skill override of that interval. 0 = use the centre
+        // default above. Lets a centre run e.g. speaking every 5h but
+        // reading every 2h.
+        dailyLimitWindowReading: 0, dailyLimitWindowListening: 0,
+        dailyLimitWindowWriting: 0, dailyLimitWindowSpeaking: 0,
+        dailyLimitWindowFullMock: 0,
         // Whole-centre volume caps, per skill, per calendar month. A different
         // thing from the per-account limits above — both apply at once.
         monthlyLimitReading: 0, monthlyLimitListening: 0,
@@ -1054,11 +1060,16 @@
               +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for the whole window.'
               +    '</div>';
             h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading',   cfg.dailyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWindowReading', '↳ reading every (h)', cfg.dailyLimitWindowReading, '0 = use centre default');
             h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening', cfg.dailyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWindowListening', '↳ listening every (h)', cfg.dailyLimitWindowListening, '0 = use centre default');
             h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing',   cfg.dailyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWindowWriting', '↳ writing every (h)', cfg.dailyLimitWindowWriting, '0 = use centre default');
             h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking',  cfg.dailyLimitSpeaking,  '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWindowSpeaking', '↳ speaking every (h)', cfg.dailyLimitWindowSpeaking, '0 = use centre default');
             h += _cmNumberInput(cid, 'dailyLimitFullMock',  'Full Mock', cfg.dailyLimitFullMock,  '0 = unlimited · counts separately, not as 4 skills');
-            h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Window (hours)', cfg.dailyLimitWindowHours, 'default 24 · e.g. 5 = next attempt 5h later · 1–168');
+            h += _cmNumberInput(cid, 'dailyLimitWindowFullMock', '↳ full mock every (h)', cfg.dailyLimitWindowFullMock, '0 = use centre default');
+            h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Default window (h)', cfg.dailyLimitWindowHours, 'used by any skill left at 0 above · 1–168');
             h += '</div>';
             // Whole-centre volume cap. Independent of the per-account limits:
             // a student can be well inside their own allowance and still be

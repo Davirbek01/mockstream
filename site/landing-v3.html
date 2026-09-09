@@ -6124,23 +6124,38 @@
 
     // The four launchers live in later <script> blocks, so they are reached
     // through window (each block exports them explicitly).
-    function _msGateLaunch(skill, pageUrl, category) {
+    // `via` says where to pick the flow back up.
+    //   'launch' — straight into the mock; the caller had already validated a
+    //              code, so re-running the click handler would ask for it twice
+    //   'click'  — back through handleXxxMockClick, which is what asked. It
+    //              still has the access-code decision to make, and skipping it
+    //              would hand a signed-in student the mock with NO code at all
+    function _msGateLaunch(skill, pageUrl, category, via) {
       // A full mock has no launcher function — full-mock.html IS the
       // destination, so replaying it is a plain navigation.
       if (skill === 'full_mock') { window.location.href = pageUrl; return; }
-      var fn = ({
-        reading:   window._loadReadingMockOrShowMode,
-        listening: window._loadListeningMockOrShowMode,
-        writing:   window._launchWritingMock,
-        speaking:  window._launchSpeakingMock
-      })[skill];
+      var table = (via === 'click')
+        ? {
+            reading:   window.handleReadingMockClick,
+            listening: window.handleListeningMockClick,
+            writing:   window.handleWritingMockClick,
+            speaking:  window.handleSpeakingMockClick
+          }
+        : {
+            reading:   window._loadReadingMockOrShowMode,
+            listening: window._loadListeningMockOrShowMode,
+            writing:   window._launchWritingMock,
+            speaking:  window._launchSpeakingMock
+          };
+      var fn = table[skill];
       if (typeof fn === 'function') fn(pageUrl, category);
     }
 
-    function _msGateStashPending(skill, pageUrl, category) {
+    function _msGateStashPending(skill, pageUrl, category, via) {
       try {
         sessionStorage.setItem('ms_pending_launch', JSON.stringify({
-          skill: skill, pageUrl: pageUrl, category: category, ts: Date.now()
+          skill: skill, pageUrl: pageUrl, category: category,
+          via: via || 'launch', ts: Date.now()
         }));
       } catch (_e) {}
     }
@@ -6163,7 +6178,7 @@
       if (Date.now() - (p.ts || 0) > 20 * 60 * 1000) return false;   // gone cold
       try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
       try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
-      setTimeout(function () { _msGateLaunch(p.skill, p.pageUrl, p.category); }, 150);
+      setTimeout(function () { _msGateLaunch(p.skill, p.pageUrl, p.category, p.via); }, 150);
       return true;
     }
 
@@ -6174,13 +6189,13 @@
 
     // Returns true when the caller may proceed. A false return means the gate
     // modal is up and will re-call the launcher itself once sign-in lands.
-    function _msGateAllow(skill, pageUrl, category) {
+    function _msGateAllow(skill, pageUrl, category, via) {
       if (_msGateSignedIn()) return true;
-      _msOpenSignInGate(skill, pageUrl, category);
+      _msOpenSignInGate(skill, pageUrl, category, via);
       return false;
     }
 
-    function _msOpenSignInGate(skill, pageUrl, category) {
+    function _msOpenSignInGate(skill, pageUrl, category, via) {
       _msGateCloseModal();
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var hasTgBot = !!TELEGRAM_BOT_BY_CENTER[centerId];
@@ -6257,7 +6272,7 @@
           try { have = !!sessionStorage.getItem('CANDIDATE_FULL_NAME'); } catch (_e) { have = true; }
           if (have || waited >= 1500) {
             _msGateCloseModal();
-            _msGateLaunch(skill, pageUrl, category);
+            _msGateLaunch(skill, pageUrl, category, via);
             return;
           }
           waited += 100;
@@ -6308,7 +6323,7 @@
       // ── Google — the only provider that leaves the page ──
       var gb = document.getElementById('msGateGoogleBtn');
       if (gb) gb.addEventListener('click', function () {
-        _msGateStashPending(skill, pageUrl, category);
+        _msGateStashPending(skill, pageUrl, category, via);
         _status('⏳ Google ochilmoqda…', '');
         try {
           if (window.MockStream && window.MockStream.auth &&
@@ -6443,7 +6458,7 @@
           // emailRedirectTo points back at this exact link, so a student who
           // taps the emailed link instead of typing the code still lands on
           // the mock they were opening — the parked launch replays there.
-          _msGateStashPending(skill, pageUrl, category);
+          _msGateStashPending(skill, pageUrl, category, via);
           var res = await client.auth.signInWithOtp({
             email: email,
             options: { emailRedirectTo: window.location.origin + window.location.pathname + window.location.search }
@@ -6525,7 +6540,12 @@
     // attempt counts once submitted, or once 30 minutes old and unsubmitted)
     // lives in one SQL function that both this gate and authorize-finish call.
 
-    var _msLimitCleared = {};   // skill -> true for exactly one re-entry
+    // skill|url -> timestamp of a passing check. Short-lived rather than
+    // one-shot: one mock open now asks twice (once before the access code,
+    // once at launch) and both should ride the same answer. A different mock
+    // is a different key, so it is checked properly.
+    var _msLimitCleared = {};
+    var _MS_LIMIT_TTL = 45000;
 
     function _msLimitAccessToken() {
       try {
@@ -6655,13 +6675,14 @@
     // flight (or refused) and this will re-call the launcher itself if it
     // clears. Fails OPEN on any error: a limit is a policy, and a broken
     // policy check must not be able to shut a centre's mocks down.
-    function _msLimitAllow(skill, pageUrl, category) {
-      if (_msLimitCleared[skill]) { delete _msLimitCleared[skill]; return true; }
+    function _msLimitAllow(skill, pageUrl, category, via) {
+      var ck = skill + '|' + pageUrl;
+      if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL) return true;
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var proceed = function () {
-        _msLimitCleared[skill] = true;
+        _msLimitCleared[ck] = Date.now();
         _msLimitBusy(false);
-        _msGateLaunch(skill, pageUrl, category);
+        _msGateLaunch(skill, pageUrl, category, via);
       };
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -13389,6 +13410,25 @@
     }
 
     function handleWritingMockClick(pageUrl, category) {
+      // Sign-in is asked BEFORE the access code here, not after. A student
+      // browsing the site is not following a shared link: making them find and
+      // type a code and only THEN telling them they must register reads as a
+      // bait-and-switch — and their account may open the mock with no code at
+      // all (VIP, centre access, or an open mock), so the code question is not
+      // even always the right one to ask first.
+      //
+      // A real /take/ deep link is the exception and keeps code-first, so the
+      // link visibly resolves to the mock it promised before anything is asked
+      // of the student. __msTakePending is set by the head script at page load,
+      // which is what distinguishes that from the pickers below — they rewrite
+      // the URL to /take/<slug> with pushState, so the address bar alone cannot
+      // tell the two apart.
+      if (!window.__msTakePending) {
+        if (typeof window._msGateAllow === 'function' &&
+            !window._msGateAllow('writing', pageUrl, category, 'click')) return;
+        if (typeof window._msLimitAllow === 'function' &&
+            !window._msLimitAllow('writing', pageUrl, category, 'click')) return;
+      }
       sessionStorage.setItem('writingMockReturnCategory', category);
       const mockNumber = _extractWritingMockNumber(pageUrl);
       if (!mockNumber) { _launchWritingMock(pageUrl, category); return; }
@@ -14399,6 +14439,25 @@
     }
 
     function handleReadingMockClick(pageUrl, category) {
+      // Sign-in is asked BEFORE the access code here, not after. A student
+      // browsing the site is not following a shared link: making them find and
+      // type a code and only THEN telling them they must register reads as a
+      // bait-and-switch — and their account may open the mock with no code at
+      // all (VIP, centre access, or an open mock), so the code question is not
+      // even always the right one to ask first.
+      //
+      // A real /take/ deep link is the exception and keeps code-first, so the
+      // link visibly resolves to the mock it promised before anything is asked
+      // of the student. __msTakePending is set by the head script at page load,
+      // which is what distinguishes that from the pickers below — they rewrite
+      // the URL to /take/<slug> with pushState, so the address bar alone cannot
+      // tell the two apart.
+      if (!window.__msTakePending) {
+        if (typeof window._msGateAllow === 'function' &&
+            !window._msGateAllow('reading', pageUrl, category, 'click')) return;
+        if (typeof window._msLimitAllow === 'function' &&
+            !window._msLimitAllow('reading', pageUrl, category, 'click')) return;
+      }
       const mockNumber = _extractReadingMockNumber(pageUrl);
       sessionStorage.setItem('readingMockReturnCategory', category);
       if (!mockNumber) { _loadReadingMockOrShowMode(pageUrl, category); return; }
@@ -16041,6 +16100,25 @@
     }
 
     function handleListeningMockClick(pageUrl, category) {
+      // Sign-in is asked BEFORE the access code here, not after. A student
+      // browsing the site is not following a shared link: making them find and
+      // type a code and only THEN telling them they must register reads as a
+      // bait-and-switch — and their account may open the mock with no code at
+      // all (VIP, centre access, or an open mock), so the code question is not
+      // even always the right one to ask first.
+      //
+      // A real /take/ deep link is the exception and keeps code-first, so the
+      // link visibly resolves to the mock it promised before anything is asked
+      // of the student. __msTakePending is set by the head script at page load,
+      // which is what distinguishes that from the pickers below — they rewrite
+      // the URL to /take/<slug> with pushState, so the address bar alone cannot
+      // tell the two apart.
+      if (!window.__msTakePending) {
+        if (typeof window._msGateAllow === 'function' &&
+            !window._msGateAllow('listening', pageUrl, category, 'click')) return;
+        if (typeof window._msLimitAllow === 'function' &&
+            !window._msLimitAllow('listening', pageUrl, category, 'click')) return;
+      }
       const mockNumber = _extractListeningMockNumber(pageUrl);
       sessionStorage.setItem('listeningMockReturnCategory', category);
       if (!mockNumber) { _loadListeningMockOrShowMode(pageUrl, category); return; }
@@ -18730,6 +18808,25 @@
 
     // ===== Gate entry: handleSpeakingMockClick =====
     function handleSpeakingMockClick(pageUrl, category) {
+      // Sign-in is asked BEFORE the access code here, not after. A student
+      // browsing the site is not following a shared link: making them find and
+      // type a code and only THEN telling them they must register reads as a
+      // bait-and-switch — and their account may open the mock with no code at
+      // all (VIP, centre access, or an open mock), so the code question is not
+      // even always the right one to ask first.
+      //
+      // A real /take/ deep link is the exception and keeps code-first, so the
+      // link visibly resolves to the mock it promised before anything is asked
+      // of the student. __msTakePending is set by the head script at page load,
+      // which is what distinguishes that from the pickers below — they rewrite
+      // the URL to /take/<slug> with pushState, so the address bar alone cannot
+      // tell the two apart.
+      if (!window.__msTakePending) {
+        if (typeof window._msGateAllow === 'function' &&
+            !window._msGateAllow('speaking', pageUrl, category, 'click')) return;
+        if (typeof window._msLimitAllow === 'function' &&
+            !window._msLimitAllow('speaking', pageUrl, category, 'click')) return;
+      }
       const mockNumber = _extractSpeakingMockNumber(pageUrl);
       sessionStorage.setItem('speakingMockReturnCategory', category);
       if (!mockNumber) { _launchSpeakingMock(pageUrl, category); return; }
