@@ -6505,6 +6505,175 @@
       });
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // DAILY MOCK LIMIT — asked right after sign-in, before the mock opens
+    // ═══════════════════════════════════════════════════════════════
+    // Per centre, per skill, per account, over a rolling 24 hours. Set in the
+    // admin Centers panel; 0 (the default everywhere) means unlimited and
+    // costs nothing — check-mock-limit answers before it looks up an identity.
+    //
+    // Deliberately checked HERE and not at scoring time. ai-proxy has had a
+    // per-student cap for a while, but it fires inside the submit call: the
+    // student writes the whole essay and only then learns they had no
+    // allowance left. Asking before the mock opens costs them nothing.
+    //
+    // The count itself is server-side. mock_attempts is anon-writable, so a
+    // count taken in the browser could simply be edited; and the rule (an
+    // attempt counts once submitted, or once 30 minutes old and unsubmitted)
+    // lives in one SQL function that both this gate and authorize-finish call.
+
+    var _msLimitCleared = {};   // skill -> true for exactly one re-entry
+
+    function _msLimitAccessToken() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (!s) return '';
+        return String(s.access_token
+          || (s.currentSession && s.currentSession.access_token) || '');
+      } catch (_e) { return ''; }
+    }
+
+    function _msLimitEmail() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        var su = s && (s.user || (s.currentSession && s.currentSession.user));
+        if (su && su.email) return String(su.email).trim().toLowerCase();
+      } catch (_e) {}
+      try {
+        var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+        if (p && p.email) return String(p.email).trim().toLowerCase();
+      } catch (_e) {}
+      try { return String(localStorage.getItem('ms_vip_email') || '').trim().toLowerCase(); } catch (_e) {}
+      return '';
+    }
+
+    function _msLimitBusy(on) {
+      var el = document.getElementById('msLimitBusy');
+      if (!on) { if (el && el.parentNode) el.parentNode.removeChild(el); return; }
+      if (el) return;
+      var d = document.createElement('div');
+      d.id = 'msLimitBusy';
+      d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100011;display:flex;align-items:center;justify-content:center;';
+      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">Tekshirilmoqda…</div>';
+      document.body.appendChild(d);
+    }
+
+    // "bugun 21:40" / "ertaga 09:15" / "12-sen 09:15" in the student's own
+    // clock. A bare ISO timestamp is useless to them, and "24 hours" is a lie
+    // — the window is measured from their earliest counted attempt.
+    function _msLimitWhen(iso) {
+      if (!iso) return '';
+      var t = new Date(iso);
+      if (isNaN(t.getTime())) return '';
+      var hhmm = String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0');
+      var now = new Date();
+      function ymd(x) { return x.getFullYear() + '-' + x.getMonth() + '-' + x.getDate(); }
+      var tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      if (ymd(t) === ymd(now))      return 'bugun ' + hhmm;
+      if (ymd(t) === ymd(tomorrow)) return 'ertaga ' + hhmm;
+      return t.getDate() + '.' + (t.getMonth() + 1) + ' ' + hhmm;
+    }
+
+    var _MS_SKILL_UZ = {
+      reading: 'Reading', listening: 'Listening',
+      writing: 'Writing', speaking: 'Speaking'
+    };
+
+    function _msShowLimitReached(skill, info) {
+      var old = document.getElementById('msLimitModal');
+      if (old && old.parentNode) old.parentNode.removeChild(old);
+      var when = _msLimitWhen(info && info.nextAvailableAt);
+      var limit = (info && info.limit) || 0;
+      var name = _MS_SKILL_UZ[skill] || skill;
+      var d = document.createElement('div');
+      d.id = 'msLimitModal';
+      d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(4px);z-index:100012;display:flex;align-items:center;justify-content:center;padding:18px;';
+      d.innerHTML =
+        '<div style="background:var(--card);border:2px solid #f59e0b;border-radius:20px;padding:24px 22px;max-width:370px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .3s ease;">'
+      +   '<div style="font-size:34px;line-height:1;margin-bottom:10px;">&#9203;</div>'
+      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">Bugungi ' + esc(name) + ' limiti tugadi</h3>'
+      +   '<p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:var(--muted);">'
+      +     'Bir kunda <strong>' + limit + ' marta</strong> ' + esc(name)
+      +     ' mock topshirish mumkin. Siz buni ishlatib bo&#8216;ldingiz.'
+      +   '</p>'
+      +   (when
+          ? '<div style="margin:14px 0 4px;padding:11px;background:rgba(245,158,11,.12);border-radius:12px;font-size:13.5px;font-weight:700;color:#b45309;">'
+            + 'Keyingi urinish: ' + esc(when)
+            + '</div>'
+          : '')
+      +   '<p style="margin:12px 0 0;font-size:11.5px;line-height:1.55;color:var(--muted);">'
+      +     'Boshqa mahoratlar hozir ham ochiq. Limit hisobingizga bog&#8216;langan.'
+      +   '</p>'
+      +   '<button type="button" id="msLimitOkBtn" style="margin-top:16px;width:100%;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:#fff;border:none;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;">Tushunarli</button>'
+      + '</div>';
+      document.body.appendChild(d);
+      // A deep link leaves the landing hidden behind the curtain; without
+      // this the student closes the notice onto a blank page.
+      try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+      try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      var ok = document.getElementById('msLimitOkBtn');
+      if (ok) ok.addEventListener('click', function () {
+        if (d.parentNode) d.parentNode.removeChild(d);
+      });
+    }
+
+    // Returns true when the caller may proceed. False means the check is in
+    // flight (or refused) and this will re-call the launcher itself if it
+    // clears. Fails OPEN on any error: a limit is a policy, and a broken
+    // policy check must not be able to shut a centre's mocks down.
+    function _msLimitAllow(skill, pageUrl, category) {
+      if (_msLimitCleared[skill]) { delete _msLimitCleared[skill]; return true; }
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      var proceed = function () {
+        _msLimitCleared[skill] = true;
+        _msLimitBusy(false);
+        _msGateLaunch(skill, pageUrl, category);
+      };
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var token = _msLimitAccessToken();
+      // The check runs on every open, including for the centres that have no
+      // limit at all — that is what keeps the count server-side, where it
+      // cannot be edited. But it usually answers in well under a second, and
+      // a spinner that flashes on every single mock open is worse than no
+      // spinner, so only show one if the round trip is actually slow.
+      var slowTimer = setTimeout(function () { _msLimitBusy(true); }, 600);
+      var timedOut = false;
+      var timer = setTimeout(function () { timedOut = true; clearTimeout(slowTimer); proceed(); }, 4000);
+      try {
+        fetch(SB + '/functions/v1/check-mock-limit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // The JWT is what the function trusts. The anon key is only a
+            // fallback so the request is never rejected outright.
+            'Authorization': 'Bearer ' + (token || KEY),
+            'apikey': KEY
+          },
+          body: JSON.stringify({ center: centerId, skill: skill, email: _msLimitEmail() })
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (info) {
+            if (timedOut) return;
+            clearTimeout(timer); clearTimeout(slowTimer);
+            _msLimitBusy(false);
+            if (!info || info.allowed !== false) { proceed(); return; }
+            _msShowLimitReached(skill, info);
+          })
+          .catch(function () {
+            if (timedOut) return;
+            clearTimeout(timer); clearTimeout(slowTimer);
+            proceed();
+          });
+      } catch (_e) {
+        clearTimeout(timer); clearTimeout(slowTimer);
+        proceed();
+      }
+      return false;
+    }
+
+    window._msLimitAllow = _msLimitAllow;
+
     window._msGateAllow    = _msGateAllow;
     window._msGateSignedIn = _msGateSignedIn;
     window._msGateResume   = _msGateResume;
@@ -13318,6 +13487,7 @@
 
     function _launchWritingMock(pageUrl, category) {
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('writing', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('writing', pageUrl, category)) return;
       var num = _extractWritingMockNumber(pageUrl);
       var isPremium = _isWritingPremiumAi();
       if (category === 'cefr-writing') {
@@ -14332,6 +14502,7 @@
 
     function _loadReadingMockOrShowMode(pageUrl, category) {
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('reading', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('reading', pageUrl, category)) return;
       var isPremium = _isReadingPremiumAi();
       if (category === 'cefr-reading') {
         _pendingCefrReadingUrl = pageUrl;
@@ -15975,6 +16146,7 @@
 
     function _loadListeningMockOrShowMode(pageUrl, category) {
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('listening', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('listening', pageUrl, category)) return;
       var isPremium = _isListeningPremiumAi();
       if (category === 'cefr-listening') {
         _pendingCefrListeningUrl = pageUrl;
@@ -18657,6 +18829,7 @@
     // ===== Mode + Part Picker modals =====
     function _launchSpeakingMock(pageUrl, category) {
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('speaking', pageUrl, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('speaking', pageUrl, category)) return;
       _pendingSpeakingLaunch = { pageUrl, category };
       var label = document.getElementById('speakingModeMockLabel');
       var num = _extractSpeakingMockNumber(pageUrl);

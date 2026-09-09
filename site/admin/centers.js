@@ -118,8 +118,13 @@
         desktopAppDisabled: false,
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
-        // Limits
+        // Limits — the two above are AI-call caps; the four below are mock
+        // attempts per signed-in account per rolling 24h, per skill.
+        // 0 = unlimited everywhere, so a centre keeps its current behaviour
+        // until an admin sets a number.
         maxAttemptsPerStudent: 0, dailyMockLimit: 0,
+        dailyLimitReading: 0, dailyLimitListening: 0,
+        dailyLimitWriting: 0, dailyLimitSpeaking: 0,
         // Global Access: 'off' (codes required), 'premium', or 'regular'
         globalAccess: 'off',
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
@@ -1024,6 +1029,25 @@
             h += '<div style="padding:10px 16px;">';
             h += _cmNumberInput(cid, 'maxAttemptsPerStudent', 'Per-Student daily AI calls', cfg.maxAttemptsPerStudent, '0 = unlimited · tracked by Google account when signed in, otherwise by IP');
             h += _cmNumberInput(cid, 'dailyMockLimit', 'Center daily max AI calls', cfg.dailyMockLimit, '0 = unlimited · total successful AI calls across this center per 24h');
+            // Per-account MOCK limits — a different thing from the AI-call caps
+            // above, and the one that stops a shared premium login. Checked
+            // BEFORE the mock opens (check-mock-limit) instead of at scoring
+            // time, so a student is never turned away after doing the work.
+            // An attempt counts once submitted, or once 30 min old and still
+            // unsubmitted — so a dropped connection costs nothing.
+            h += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--ring,#e5e7eb);">'
+              +    '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">'
+              +      'Per-account mocks per 24h'
+              +    '</div>'
+              +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
+              +      'Counted by signed-in account, rolling 24h. Admins are exempt.<br>'
+              +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for a day.'
+              +    '</div>';
+            h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading / 24h',   cfg.dailyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening / 24h', cfg.dailyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing / 24h',   cfg.dailyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking / 24h',  cfg.dailyLimitSpeaking,  '0 = unlimited');
+            h += '</div>';
             h += '</div>';
           }
 
