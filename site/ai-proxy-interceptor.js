@@ -118,7 +118,15 @@
       if (!_sn) { try { _sn = localStorage.getItem('ms_candidate_name') || ''; } catch (e) {} }
       if (_sn) headers.set('x-ms-student', String(_sn).slice(0, 120));
     } catch (_e) {}
-    // Email of signed-in user (Google) — more reliable than name for per-student tracking.
+    // Email of the signed-in user — more reliable than name for per-student
+    // tracking, and the key every per-student limit counts on.
+    //
+    // getCurrentUser() only answers where auth.js is loaded, and the exam
+    // pages do NOT load it — they pull in this interceptor alone. The old
+    // fallback read 'ms_user_email', a key nothing in the codebase ever
+    // writes, so every AI call from every mock went out with no email at all.
+    // These four sources are the ones that are actually populated by the time
+    // a student reaches a mock, most authoritative first.
     try {
       var _em = '';
       try {
@@ -126,8 +134,27 @@
                   ? window.MockStream.auth.getCurrentUser() : null;
         if (_u && _u.email) _em = _u.email;
       } catch (e) {}
-      if (!_em) { try { _em = localStorage.getItem('ms_user_email') || ''; } catch (e) {} }
-      if (_em) headers.set('x-ms-email', String(_em).slice(0, 160));
+      // The Supabase session itself — written by supabase-js, survives
+      // navigation between the landing and every runner page.
+      if (!_em) {
+        try {
+          var _s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+          var _su = _s && (_s.user || (_s.currentSession && _s.currentSession.user));
+          if (_su && _su.email) _em = _su.email;
+        } catch (e) {}
+      }
+      // Mirrored by auth.js applyToLocalStorage() and index.html on sign-in.
+      if (!_em) {
+        try {
+          var _p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+          if (_p && _p.email) _em = _p.email;
+        } catch (e) {}
+      }
+      // VIP activation carries an email without necessarily an account.
+      if (!_em) {
+        try { _em = localStorage.getItem('ms_vip_email') || localStorage.getItem('ms_admin_email') || ''; } catch (e) {}
+      }
+      if (_em) headers.set('x-ms-email', String(_em).trim().toLowerCase().slice(0, 160));
     } catch (_e) {}
     // Per-page skill hint so the proxy can apply Plus-mode toggle gating.
     // Pages set window.__MS_SKILL_HINT once near the top (e.g. 'writing-plus').
