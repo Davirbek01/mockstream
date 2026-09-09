@@ -125,6 +125,9 @@
         maxAttemptsPerStudent: 0, dailyMockLimit: 0,
         dailyLimitReading: 0, dailyLimitListening: 0,
         dailyLimitWriting: 0, dailyLimitSpeaking: 0,
+        // The interval those four are measured over, in hours. One per centre,
+        // not per skill. 24 = a day; 5 = "one, then the next five hours later".
+        dailyLimitWindowHours: 24,
         // Global Access: 'off' (codes required), 'premium', or 'regular'
         globalAccess: 'off',
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
@@ -1040,9 +1043,10 @@
               +      'Per-account mocks per 24h'
               +    '</div>'
               +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
-              +      'Counted by signed-in account, rolling 24h. Admins are exempt.<br>'
-              +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for a day.'
+              +      'Counted by signed-in account, rolling window. Admins are exempt.<br>'
+              +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for the whole window.'
               +    '</div>';
+            h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Window (hours)', cfg.dailyLimitWindowHours, 'default 24 · e.g. 5 = next attempt 5h later · 1–168');
             h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading / 24h',   cfg.dailyLimitReading,   '0 = unlimited');
             h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening / 24h', cfg.dailyLimitListening, '0 = unlimited');
             h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing / 24h',   cfg.dailyLimitWriting,   '0 = unlimited');

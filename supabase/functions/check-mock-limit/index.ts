@@ -4,24 +4,33 @@
 // Answers one question, before a mock is allowed to open:
 //   "may this account start <skill> at this centre right now?"
 //
-// The limit is per centre, per skill, per account, over a rolling 24 hours,
-// and is set in the admin Centers panel (dailyLimitReading /
-// dailyLimitListening / dailyLimitWriting / dailyLimitSpeaking).
-// 0 or missing = unlimited, which is the default for every centre — nothing
-// changes until an admin types a number.
+// The limit is per centre, per skill, per account, over a rolling window, all
+// set in the admin Centers panel: dailyLimitReading / dailyLimitListening /
+// dailyLimitWriting / dailyLimitSpeaking for the counts, and
+// dailyLimitWindowHours for the interval they are measured over (default 24,
+// clamped to 1..168 — e.g. 5 means "one speaking, the next five hours later").
+// A count of 0 or missing = unlimited, which is the default for every centre
+// — nothing changes until an admin types a number.
 //
 // The counting rule lives in the SQL function mock_daily_usage(), NOT here,
-// so this and authorize-finish can never drift into disagreeing about
+// so any second caller added later cannot drift into disagreeing about
 // whether a student is over their limit. In short: an attempt counts once
 // it is submitted, or once it is 30 minutes old and still unsubmitted.
 //
 // Identity: the caller's JWT when one is supplied, which is unfakeable and
 // is what every signed-in student has (sign-in is mandatory to take a mock).
 // A body email is accepted as a fallback so a student whose token is being
-// refreshed is not locked out of the platform — this endpoint is the UX
-// gate, and getting past it only reaches the exam page. authorize-finish
-// re-checks with the JWT alone before any report or certificate is issued,
-// so nothing of value is handed out on an unverified identity.
+// refreshed is not locked out of the platform.
+//
+// SCOPE, stated plainly: this stops a shared login being used through the
+// normal UI, which is what it was built for. It does not stop someone who
+// edits localStorage to skip the gate — mock_attempts is anon-writable, so a
+// determined student can also avoid recording the attempt at all. The hard
+// ceiling for that case remains ai-proxy's maxAttemptsPerStudent, which
+// refuses the SCORING call and therefore the report. A limit check inside
+// authorize-finish was considered and not built: it is not told which skill
+// the finish is for, so it would mean changing ~26 exam pages, and it would
+// refuse a student only after they had already done the whole mock.
 //
 // Deploy:
 //   supabase functions deploy check-mock-limit --no-verify-jwt
@@ -92,18 +101,31 @@ async function isAdmin(email: string): Promise<boolean> {
   return !!data;
 }
 
-async function skillLimit(centerId: string, skill: Skill): Promise<number> {
+// The cap and the interval it is measured over. The interval is per centre,
+// not per skill — a centre picks one rhythm ("one of anything every 5 hours")
+// and applies it across the board.
+async function centreLimit(centerId: string, skill: Skill): Promise<{ limit: number; windowHours: number }> {
   const { data } = await sb
     .from('site_settings')
     .select('value')
     .eq('key', `center_config_${centerId}`)
     .maybeSingle();
-  if (!data) return 0;
+  if (!data) return { limit: 0, windowHours: 24 };
   let v: any = (data as { value: unknown }).value;
-  if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return 0; } }
-  const raw = v?.[LIMIT_FIELD[skill]];
-  const n = typeof raw === 'number' ? raw : parseInt(String(raw ?? ''), 10);
-  return Number.isFinite(n) && n > 0 ? n : 0;
+  if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return { limit: 0, windowHours: 24 }; } }
+
+  const rawLimit = v?.[LIMIT_FIELD[skill]];
+  const n = typeof rawLimit === 'number' ? rawLimit : parseInt(String(rawLimit ?? ''), 10);
+  const limit = Number.isFinite(n) && n > 0 ? n : 0;
+
+  // Clamped to 1h..168h (a week). Below an hour the fixed 30-minute grace
+  // would swallow most of the window; the SQL clamps identically so a bad
+  // value can never widen the window instead of narrowing it.
+  const rawWin = v?.dailyLimitWindowHours;
+  const w = typeof rawWin === 'number' ? rawWin : parseFloat(String(rawWin ?? ''));
+  const windowHours = Number.isFinite(w) && w > 0 ? Math.min(Math.max(w, 1), 168) : 24;
+
+  return { limit, windowHours };
 }
 
 Deno.serve(async (req: Request) => {
@@ -122,7 +144,7 @@ Deno.serve(async (req: Request) => {
   }
   const skill = skillRaw as Skill;
 
-  const limit = await skillLimit(centerId, skill);
+  const { limit, windowHours } = await centreLimit(centerId, skill);
   if (limit <= 0) return unlimited({ reason: 'no_limit_set' });
 
   // Only resolve identity once we know a limit is actually configured —
@@ -139,9 +161,10 @@ Deno.serve(async (req: Request) => {
   if (await isAdmin(email)) return unlimited({ reason: 'admin', identified });
 
   const { data, error } = await sb.rpc('mock_daily_usage', {
-    p_email:  email,
-    p_center: centerId,
-    p_skill:  skill
+    p_email:        email,
+    p_center:       centerId,
+    p_skill:        skill,
+    p_window_hours: windowHours
   });
   if (error) {
     console.error('[check-mock-limit] mock_daily_usage failed:', error.message);
@@ -154,7 +177,7 @@ Deno.serve(async (req: Request) => {
 
   if (used < limit) {
     return json(200, {
-      allowed: true, limit, used, remaining: limit - used, identified
+      allowed: true, limit, used, remaining: limit - used, windowHours, identified
     });
   }
 
@@ -164,10 +187,12 @@ Deno.serve(async (req: Request) => {
   let nextAvailableAt: string | null = null;
   if (oldest) {
     const t = Date.parse(oldest);
-    if (Number.isFinite(t)) nextAvailableAt = new Date(t + 24 * 60 * 60 * 1000).toISOString();
+    if (Number.isFinite(t)) {
+      nextAvailableAt = new Date(t + windowHours * 60 * 60 * 1000).toISOString();
+    }
   }
 
   return json(200, {
-    allowed: false, limit, used, remaining: 0, nextAvailableAt, skill, identified
+    allowed: false, limit, used, remaining: 0, nextAvailableAt, windowHours, skill, identified
   });
 });

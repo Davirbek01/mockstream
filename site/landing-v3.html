@@ -6585,15 +6585,21 @@
       var when = _msLimitWhen(info && info.nextAvailableAt);
       var limit = (info && info.limit) || 0;
       var name = _MS_SKILL_UZ[skill] || skill;
+      // The window is a per-centre setting, so the wording cannot say "a day".
+      // 24h reads naturally as "bir kunda"; anything else names the hours.
+      var win = Number((info && info.windowHours) || 24);
+      var perWhat = (win === 24)
+        ? 'Bir kunda'
+        : ('Har ' + (Math.round(win * 10) / 10) + ' soatda');
       var d = document.createElement('div');
       d.id = 'msLimitModal';
       d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(4px);z-index:100012;display:flex;align-items:center;justify-content:center;padding:18px;';
       d.innerHTML =
         '<div style="background:var(--card);border:2px solid #f59e0b;border-radius:20px;padding:24px 22px;max-width:370px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .3s ease;">'
       +   '<div style="font-size:34px;line-height:1;margin-bottom:10px;">&#9203;</div>'
-      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">Bugungi ' + esc(name) + ' limiti tugadi</h3>'
+      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">' + esc(name) + ' limiti tugadi</h3>'
       +   '<p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:var(--muted);">'
-      +     'Bir kunda <strong>' + limit + ' marta</strong> ' + esc(name)
+      +     esc(perWhat) + ' <strong>' + limit + ' marta</strong> ' + esc(name)
       +     ' mock topshirish mumkin. Siz buni ishlatib bo&#8216;ldingiz.'
       +   '</p>'
       +   (when
