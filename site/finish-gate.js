@@ -81,12 +81,25 @@
           'Natijalaringiz saqlanishi va barcha qurilmalaringizda ko‘rinishi uchun ' +
           'Google, Telegram yoki email orqali kiring. Bir marta kirasiz — keyin so‘ralmaydi.' +
         '</p>' +
-        '<a href="index.html" style="display:block;background:linear-gradient(135deg,#2563eb,#6366f1);' +
+        '<a href="/index.html" style="display:block;background:linear-gradient(135deg,#2563eb,#6366f1);' +
           'color:#fff;padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">Kirish →</a>' +
-        '<a href="landing-v3.html" style="display:inline-block;margin-top:14px;font-size:13px;color:#64748b;text-decoration:underline;">Bosh sahifaga qaytish</a>' +
+        '<a href="/landing-v3.html" style="display:inline-block;margin-top:14px;font-size:13px;color:#64748b;text-decoration:underline;">Bosh sahifaga qaytish</a>' +
       '</div>' +
     '</div>';
-    (document.body || document.documentElement).appendChild(d);
+    // ⚠️ Exam pages go fullscreen, and a fullscreened element renders ONLY its
+    // own subtree. A wall appended to <body> is then invisible — the student
+    // carries on through the mic test and the wall appears out of nowhere when
+    // fullscreen ends, with audio already playing. Mount it inside whatever is
+    // fullscreen, and follow that element when it changes.
+    function mount() {
+      var host = document.fullscreenElement || document.webkitFullscreenElement ||
+                 document.body || document.documentElement;
+      if (d.parentNode !== host) host.appendChild(d);
+    }
+    mount();
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (ev) {
+      document.addEventListener(ev, mount);
+    });
     try { document.documentElement.style.overflow = 'hidden'; } catch (_e) {}
   }
 

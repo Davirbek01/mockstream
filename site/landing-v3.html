@@ -16371,6 +16371,35 @@
           takeParam = params.get('take');
         }
         if (!takeParam) { _takeHideSplash(); return; }
+
+        // A mock may only be taken by a signed-in account, and the ask belongs
+        // HERE — before the access-code modal. Putting it on the exam page
+        // meant a student typed their name, typed the code, passed the mic
+        // test and only then hit the wall, losing all of it. Signing in first
+        // also removes the name field: the account supplies the name, so the
+        // modal asks for the code alone.
+        //
+        // Reads the session key directly rather than auth.js's isSignedIn(),
+        // which is populated asynchronously — a signed-in student would be
+        // bounced to the welcome card on a slow restore. finish-gate.js holds
+        // the same check for the exam pages; keep the two in step.
+        var _msSignedIn = true;
+        try {
+          var _sess = localStorage.getItem('ms_auth_session');
+          if (!_sess) _msSignedIn = false;
+          else {
+            var _s = JSON.parse(_sess);
+            _msSignedIn = !!(_s && (_s.access_token || _s.refresh_token ||
+              (_s.currentSession && (_s.currentSession.access_token || _s.currentSession.refresh_token))));
+          }
+        } catch (_e) { _msSignedIn = true; }  // unreadable storage must not lock anyone out
+        if (!_msSignedIn) {
+          // index.html validates and consumes this, returning the student to
+          // the same /take/ link — where the code prompt is waiting.
+          try { localStorage.setItem('ms_oauth_next', location.pathname + location.search); } catch (_e) {}
+          location.replace('/index.html');
+          return;
+        }
         // Match the same slugs landing.html accepts.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
              || takeParam.match(/^(cefr|ielts)-(speaking)-(\d+)$/i)

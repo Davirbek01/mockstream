@@ -6267,6 +6267,21 @@
       // guest — else the redirect drops the token and lands the user signed-out.
       var hasAuthCallback = /access_token=|provider_token=/.test(window.location.hash || '')
                          || /[?&](code|error|error_description)=/.test(window.location.search || '');
+      // ⚠️ A return path with NO session means a page bounced the student here
+      // to sign in — a mock now requires an account. A returning guest carries
+      // ms_entered_app AND a remembered name, so the shortcut below would fire
+      // _go(), which consumes the return path and sends them back to the mock,
+      // which bounces them here again: an endless loop. Ignore the shortcut and
+      // show the welcome card so they can actually sign in.
+      var pendingSignIn = false;
+      try {
+        pendingSignIn = !!localStorage.getItem('ms_oauth_next') &&
+                        !localStorage.getItem('ms_auth_session');
+      } catch (_e) {}
+      if (pendingSignIn && !hasAuthCallback) {
+        hasEntered = false;
+        hasGoogleSession = false;
+      }
       function _go() {
         sessionStorage.setItem('ms_entered_app', '1');
         // Honor an OAuth "next" target if a sub-page (e.g. results/my-results.html)
