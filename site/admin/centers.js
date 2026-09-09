@@ -132,6 +132,9 @@
         // thing from the per-account limits above — both apply at once.
         monthlyLimitReading: 0, monthlyLimitListening: 0,
         monthlyLimitWriting: 0, monthlyLimitSpeaking: 0,
+        // Full Mock is its own allowance, not four. Without it the per-skill
+        // limits are trivially bypassed — a full mock contains all four.
+        dailyLimitFullMock: 0, monthlyLimitFullMock: 0,
         // Global Access: 'off' (codes required), 'premium', or 'regular'
         globalAccess: 'off',
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
@@ -1054,6 +1057,7 @@
             h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening', cfg.dailyLimitListening, '0 = unlimited');
             h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing',   cfg.dailyLimitWriting,   '0 = unlimited');
             h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking',  cfg.dailyLimitSpeaking,  '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitFullMock',  'Full Mock', cfg.dailyLimitFullMock,  '0 = unlimited · counts separately, not as 4 skills');
             h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Window (hours)', cfg.dailyLimitWindowHours, 'default 24 · e.g. 5 = next attempt 5h later · 1–168');
             h += '</div>';
             // Whole-centre volume cap. Independent of the per-account limits:
@@ -1072,6 +1076,7 @@
             h += _cmNumberInput(cid, 'monthlyLimitListening', 'Listening / month', cfg.monthlyLimitListening, '0 = unlimited');
             h += _cmNumberInput(cid, 'monthlyLimitWriting',   'Writing / month',   cfg.monthlyLimitWriting,   '0 = unlimited');
             h += _cmNumberInput(cid, 'monthlyLimitSpeaking',  'Speaking / month',  cfg.monthlyLimitSpeaking,  '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitFullMock',  'Full Mock / month', cfg.monthlyLimitFullMock,  '0 = unlimited · Aug 2026: bek 1118, record 680');
             h += '</div>';
             h += '</div>';
           }

@@ -12,6 +12,8 @@
  *   .openUpgradeModal(reason)
  *   .applyLockBadge(element, reason)
  *   .fetchTakenForUser()         — Promise<row[]> from Supabase merged with localStorage
+ *   .checkLimit(skill, center)   — Promise<{allowed,...}> from check-mock-limit;
+ *                                  resolves { allowed: true } on any failure
  * ========================================================================= */
 (function () {
   'use strict';
@@ -282,6 +284,49 @@
       });
   }
 
+  // ───── Daily / monthly limit check ────────────────────────────────────────
+  // Asks check-mock-limit whether this account may start `skill` here.
+  // Lives in this shared module rather than on each page: landing-v3 gates
+  // the four per-skill launchers itself, but a full mock can also be reached
+  // by a shared link straight to full-mock.html, which never passes the
+  // landing at all — so the runner pages have to ask too.
+  //
+  // Resolves to the server's answer, or to { allowed: true } on ANY failure.
+  // Failing open is deliberate and matches the rest of the gate: a limit is a
+  // policy, and a broken policy check must not shut a centre's mocks down.
+  function checkLimit(skill, center) {
+    if (typeof fetch !== 'function') return Promise.resolve({ allowed: true });
+    var token = '';
+    try {
+      var sess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      token = String((sess && (sess.access_token ||
+        (sess.currentSession && sess.currentSession.access_token))) || '');
+    } catch (e) {}
+    var payload = {
+      center: String(center || _center() || 'mock_stream'),
+      skill:  String(skill || ''),
+      email:  _candidateEmail()
+    };
+    // Never leave a student stuck on a spinner because the check hung.
+    var timeout = new Promise(function (resolve) {
+      setTimeout(function () { resolve({ allowed: true, reason: 'timeout' }); }, 4000);
+    });
+    var call = fetch(SB_URL + '/functions/v1/check-mock-limit', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        // The JWT is what the function trusts; the anon key only keeps the
+        // request from being rejected outright when there is no session.
+        'Authorization': 'Bearer ' + (token || SB_ANON),
+        'apikey':        SB_ANON
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.ok ? r.json() : { allowed: true }; })
+      .catch(function () { return { allowed: true }; });
+    return Promise.race([call, timeout]);
+  }
+
   // ───── Modal + lock badge ─────────────────────────────────────────────────
 
   var _modalEl = null;
@@ -484,6 +529,7 @@
     openUpgradeModal:  openUpgradeModal,
     renderUpsellCard:  renderUpsellCard,
     showTierNotice:    showTierNotice,
+    checkLimit:        checkLimit,
     applyLockBadge:    applyLockBadge,
     _normName:         _normName,
     _center:           _center,

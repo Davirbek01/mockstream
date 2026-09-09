@@ -6125,6 +6125,9 @@
     // The four launchers live in later <script> blocks, so they are reached
     // through window (each block exports them explicitly).
     function _msGateLaunch(skill, pageUrl, category) {
+      // A full mock has no launcher function — full-mock.html IS the
+      // destination, so replaying it is a plain navigation.
+      if (skill === 'full_mock') { window.location.href = pageUrl; return; }
       var fn = ({
         reading:   window._loadReadingMockOrShowMode,
         listening: window._loadListeningMockOrShowMode,
@@ -6587,7 +6590,7 @@
 
     var _MS_SKILL_UZ = {
       reading: 'Reading', listening: 'Listening',
-      writing: 'Writing', speaking: 'Speaking'
+      writing: 'Writing', speaking: 'Speaking', full_mock: 'Full Mock'
     };
 
     function _msShowLimitReached(skill, info) {
@@ -7581,15 +7584,10 @@
       // returns to v3, not whatever was earlier in history (which on
       // legacy sessions was /landing.html?openFullMock=1 showing the
       // old chooser modal).
-      try {
-        var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
-        var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
-        var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
-        var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
-      } catch (_e) {
-        window.location.href = '/landing-v3.html';
-      }
+      // Same gated path as the landing card below (hoisted, so calling it
+      // from here is fine) — duplicating the navigation is how this button
+      // came to bypass both gates in the first place.
+      _msv3LaunchCefrFullMock();
     });
 
     document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
@@ -7618,26 +7616,36 @@
       window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
-      // IELTS Full Mock — direct navigation (runner page picks its own
-      // mocks internally; no random selection needed at v3 level). Use
-      // href (push) so browser-back returns to v3.
-      window.location.href = '/ielts-full-mock.html';
+      // IELTS Full Mock — the runner page picks its own mocks internally,
+      // so there is nothing to choose here. Goes through the same gated
+      // helper as the landing card.
+      _msv3LaunchIeltsFullMock();
     });
 
     // Main landing Full Mock card — same handlers as the sidebar buttons.
+    //
+    // A full mock leaves the landing by plain navigation rather than through
+    // one of the four per-skill launchers, so it has to ask the sign-in and
+    // limit gates for itself. It used to skip both, which meant a per-skill
+    // limit could be walked straight around: a full mock contains all four.
+    function _msv3GoFullMock(url, category) {
+      if (typeof window._msGateAllow === 'function' && !window._msGateAllow('full_mock', url, category)) return;
+      if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('full_mock', url, category)) return;
+      window.location.href = url;
+    }
     function _msv3LaunchCefrFullMock() {
       try {
         var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
         var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
+        _msv3GoFullMock('/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S, 'cefr-full-mock');
       } catch (_e) {
         window.location.href = '/landing-v3.html';
       }
     }
     function _msv3LaunchIeltsFullMock() {
-      window.location.href = '/ielts-full-mock.html';
+      _msv3GoFullMock('/ielts-full-mock.html', 'ielts-full-mock');
     }
     var _mainCefrFM = document.getElementById('msv3MainCefrFullMock');
     if (_mainCefrFM) _mainCefrFM.addEventListener('click', _msv3LaunchCefrFullMock);

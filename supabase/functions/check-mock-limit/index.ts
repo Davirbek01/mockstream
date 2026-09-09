@@ -9,13 +9,17 @@
 //   1. Per ACCOUNT, per skill, over a rolling window — stops one premium
 //      login being shared around a class.
 //        dailyLimitReading / dailyLimitListening / dailyLimitWriting /
-//        dailyLimitSpeaking   + dailyLimitWindowHours (default 24,
-//        clamped 1..168; 5 means "one, then the next five hours later")
+//        dailyLimitSpeaking / dailyLimitFullMock
+//        + dailyLimitWindowHours (default 24, clamped 1..168;
+//          5 means "one, then the next five hours later")
 //
 //   2. Per CENTRE, per skill, per calendar month — caps a centre's total
 //      volume, e.g. 5000 speaking a month.
-//        monthlyLimitReading / monthlyLimitListening /
-//        monthlyLimitWriting / monthlyLimitSpeaking
+//        monthlyLimitReading / monthlyLimitListening / monthlyLimitWriting /
+//        monthlyLimitSpeaking / monthlyLimitFullMock
+//
+// A full mock counts as its own skill ("full_mock"), not as four. Without it
+// a per-skill limit was trivially bypassed: full mock contains all four.
 //
 // 0 or missing = unlimited on every one of them, which is the default for
 // every centre — nothing changes until an admin types a number.
@@ -60,10 +64,22 @@ const CORS = {
   'Access-Control-Allow-Headers': '*',
 };
 
-const SKILLS = ['reading', 'listening', 'writing', 'speaking'] as const;
+const SKILLS = ['reading', 'listening', 'writing', 'speaking', 'full_mock'] as const;
 type Skill = typeof SKILLS[number];
 
-const CAP = (skill: Skill) => skill.charAt(0).toUpperCase() + skill.slice(1);
+// Config-key suffix per skill. Spelled out rather than derived from the skill
+// name, because full_mock would capitalise to "Full_mock".
+const FIELD: Record<Skill, string> = {
+  reading:   'Reading',
+  listening: 'Listening',
+  writing:   'Writing',
+  speaking:  'Speaking',
+  // A full mock carries all four skills but has its own allowance, matching
+  // how skillAccess already treats full_mock as a fifth entry. Charging it
+  // against the four separate limits would lock a student out of every skill
+  // for taking one exam.
+  full_mock: 'FullMock'
+};
 
 function json(status: number, body: Record<string, unknown>) {
   return new Response(JSON.stringify(body), {
@@ -130,8 +146,8 @@ async function readConfig(centerId: string, skill: Skill): Promise<Config> {
   const w = typeof rawWin === 'number' ? rawWin : parseFloat(String(rawWin ?? ''));
 
   return {
-    perAccount:  posInt(v?.[`dailyLimit${CAP(skill)}`]),
-    perMonth:    posInt(v?.[`monthlyLimit${CAP(skill)}`]),
+    perAccount:  posInt(v?.[`dailyLimit${FIELD[skill]}`]),
+    perMonth:    posInt(v?.[`monthlyLimit${FIELD[skill]}`]),
     windowHours: Number.isFinite(w) && w > 0 ? Math.min(Math.max(w, 1), 168) : 24
   };
 }
@@ -148,6 +164,7 @@ Deno.serve(async (req: Request) => {
 
   if (!centerId || !SKILLS.includes(skillRaw as Skill)) {
     // Cambridge / SAT papers and anything unrecognised are not limited.
+    // (Those runners record their own skill strings, e.g. fce_reading_writing.)
     return unlimited({ reason: 'not_limited' });
   }
   const skill = skillRaw as Skill;
@@ -166,9 +183,10 @@ Deno.serve(async (req: Request) => {
     identified = email ? 'client' : 'none';
   }
 
-  // Admins pass both gates. Their attempts still COUNT toward the centre's
-  // monthly quota — they are real usage — but a centre that has run out must
-  // not lock its own administrator out of checking it.
+  // Admins pass both gates: a centre that has run out must not lock its own
+  // administrator out of checking why. Note their attempts are not counted
+  // either — premium-gate.js recordOpen() returns early for admins, so no
+  // mock_attempts row is ever written for them.
   if (email && await isAdmin(email)) {
     return unlimited({ reason: 'admin', identified });
   }
