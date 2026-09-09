@@ -4,18 +4,27 @@
 // Answers one question, before a mock is allowed to open:
 //   "may this account start <skill> at this centre right now?"
 //
-// The limit is per centre, per skill, per account, over a rolling window, all
-// set in the admin Centers panel: dailyLimitReading / dailyLimitListening /
-// dailyLimitWriting / dailyLimitSpeaking for the counts, and
-// dailyLimitWindowHours for the interval they are measured over (default 24,
-// clamped to 1..168 — e.g. 5 means "one speaking, the next five hours later").
-// A count of 0 or missing = unlimited, which is the default for every centre
-// — nothing changes until an admin types a number.
+// TWO limits, both set in the admin Centers panel, both applying at once:
 //
-// The counting rule lives in the SQL function mock_daily_usage(), NOT here,
-// so any second caller added later cannot drift into disagreeing about
-// whether a student is over their limit. In short: an attempt counts once
-// it is submitted, or once it is 30 minutes old and still unsubmitted.
+//   1. Per ACCOUNT, per skill, over a rolling window — stops one premium
+//      login being shared around a class.
+//        dailyLimitReading / dailyLimitListening / dailyLimitWriting /
+//        dailyLimitSpeaking   + dailyLimitWindowHours (default 24,
+//        clamped 1..168; 5 means "one, then the next five hours later")
+//
+//   2. Per CENTRE, per skill, per calendar month — caps a centre's total
+//      volume, e.g. 5000 speaking a month.
+//        monthlyLimitReading / monthlyLimitListening /
+//        monthlyLimitWriting / monthlyLimitSpeaking
+//
+// 0 or missing = unlimited on every one of them, which is the default for
+// every centre — nothing changes until an admin types a number.
+//
+// Both counting rules live in SQL (mock_daily_usage,
+// mock_center_monthly_usage), never here, so they cannot drift into
+// disagreeing about what an "attempt" is. In both: an attempt counts once it
+// is submitted, or once it is 30 minutes old and still unsubmitted — so a
+// dropped connection or an accidental close costs nothing.
 //
 // Identity: the caller's JWT when one is supplied, which is unfakeable and
 // is what every signed-in student has (sign-in is mandatory to take a mock).
@@ -54,12 +63,7 @@ const CORS = {
 const SKILLS = ['reading', 'listening', 'writing', 'speaking'] as const;
 type Skill = typeof SKILLS[number];
 
-const LIMIT_FIELD: Record<Skill, string> = {
-  reading:   'dailyLimitReading',
-  listening: 'dailyLimitListening',
-  writing:   'dailyLimitWriting',
-  speaking:  'dailyLimitSpeaking',
-};
+const CAP = (skill: Skill) => skill.charAt(0).toUpperCase() + skill.slice(1);
 
 function json(status: number, body: Record<string, unknown>) {
   return new Response(JSON.stringify(body), {
@@ -73,6 +77,11 @@ function json(status: number, body: Record<string, unknown>) {
 // able to stop a whole centre from taking mocks.
 function unlimited(extra: Record<string, unknown> = {}) {
   return json(200, { allowed: true, limit: 0, used: 0, remaining: null, ...extra });
+}
+
+function posInt(raw: unknown): number {
+  const n = typeof raw === 'number' ? raw : parseInt(String(raw ?? ''), 10);
+  return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
 async function verifiedEmail(authHeader: string): Promise<string> {
@@ -101,31 +110,30 @@ async function isAdmin(email: string): Promise<boolean> {
   return !!data;
 }
 
-// The cap and the interval it is measured over. The interval is per centre,
-// not per skill — a centre picks one rhythm ("one of anything every 5 hours")
-// and applies it across the board.
-async function centreLimit(centerId: string, skill: Skill): Promise<{ limit: number; windowHours: number }> {
+type Config = { perAccount: number; windowHours: number; perMonth: number };
+
+async function readConfig(centerId: string, skill: Skill): Promise<Config> {
+  const none: Config = { perAccount: 0, windowHours: 24, perMonth: 0 };
   const { data } = await sb
     .from('site_settings')
     .select('value')
     .eq('key', `center_config_${centerId}`)
     .maybeSingle();
-  if (!data) return { limit: 0, windowHours: 24 };
+  if (!data) return none;
   let v: any = (data as { value: unknown }).value;
-  if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return { limit: 0, windowHours: 24 }; } }
-
-  const rawLimit = v?.[LIMIT_FIELD[skill]];
-  const n = typeof rawLimit === 'number' ? rawLimit : parseInt(String(rawLimit ?? ''), 10);
-  const limit = Number.isFinite(n) && n > 0 ? n : 0;
+  if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return none; } }
 
   // Clamped to 1h..168h (a week). Below an hour the fixed 30-minute grace
-  // would swallow most of the window; the SQL clamps identically so a bad
-  // value can never widen the window instead of narrowing it.
+  // would swallow most of the window; the SQL clamps identically, so a bad
+  // value can only narrow the window, never widen it.
   const rawWin = v?.dailyLimitWindowHours;
   const w = typeof rawWin === 'number' ? rawWin : parseFloat(String(rawWin ?? ''));
-  const windowHours = Number.isFinite(w) && w > 0 ? Math.min(Math.max(w, 1), 168) : 24;
 
-  return { limit, windowHours };
+  return {
+    perAccount:  posInt(v?.[`dailyLimit${CAP(skill)}`]),
+    perMonth:    posInt(v?.[`monthlyLimit${CAP(skill)}`]),
+    windowHours: Number.isFinite(w) && w > 0 ? Math.min(Math.max(w, 1), 168) : 24
+  };
 }
 
 Deno.serve(async (req: Request) => {
@@ -144,40 +152,82 @@ Deno.serve(async (req: Request) => {
   }
   const skill = skillRaw as Skill;
 
-  const { limit, windowHours } = await centreLimit(centerId, skill);
-  if (limit <= 0) return unlimited({ reason: 'no_limit_set' });
+  const cfg = await readConfig(centerId, skill);
+  // Fast path for every centre as configured today: one query, then out.
+  if (cfg.perAccount <= 0 && cfg.perMonth <= 0) {
+    return unlimited({ reason: 'no_limit_set' });
+  }
 
-  // Only resolve identity once we know a limit is actually configured —
-  // otherwise this endpoint would do two extra round trips per mock open
-  // for the centres (all of them, today) that have no limit at all.
+  // Identity is resolved only once we know some limit is configured.
   let email = await verifiedEmail(req.headers.get('authorization') || '');
   let identified = 'jwt';
   if (!email) {
     email = String(body.email || '').trim().toLowerCase();
     identified = email ? 'client' : 'none';
   }
-  if (!email) return unlimited({ reason: 'no_account', identified });
 
-  if (await isAdmin(email)) return unlimited({ reason: 'admin', identified });
+  // Admins pass both gates. Their attempts still COUNT toward the centre's
+  // monthly quota — they are real usage — but a centre that has run out must
+  // not lock its own administrator out of checking it.
+  if (email && await isAdmin(email)) {
+    return unlimited({ reason: 'admin', identified });
+  }
+
+  // ---- gate 1: the centre's monthly quota ----------------------------
+  // Checked first: it needs no identity, and when a centre is out of quota
+  // the answer is the same for everybody.
+  if (cfg.perMonth > 0) {
+    const { data, error } = await sb.rpc('mock_center_monthly_usage', {
+      p_center: centerId,
+      p_skill:  skill
+    });
+    if (error) {
+      console.error('[check-mock-limit] center usage failed:', error.message);
+    } else {
+      const row  = Array.isArray(data) ? data[0] : data;
+      const used = Number(row?.used || 0);
+      if (used >= cfg.perMonth) {
+        return json(200, {
+          allowed: false,
+          scope: 'center',
+          limit: cfg.perMonth,
+          used,
+          remaining: 0,
+          periodEnd: row?.period_end ? String(row.period_end) : null,
+          skill,
+          identified
+        });
+      }
+    }
+  }
+
+  // ---- gate 2: this account's rolling-window limit -------------------
+  if (cfg.perAccount <= 0) return unlimited({ reason: 'center_quota_only', identified });
+  if (!email)              return unlimited({ reason: 'no_account', identified });
 
   const { data, error } = await sb.rpc('mock_daily_usage', {
     p_email:        email,
     p_center:       centerId,
     p_skill:        skill,
-    p_window_hours: windowHours
+    p_window_hours: cfg.windowHours
   });
   if (error) {
     console.error('[check-mock-limit] mock_daily_usage failed:', error.message);
     return unlimited({ reason: 'count_failed', identified });
   }
 
-  const row  = Array.isArray(data) ? data[0] : data;
-  const used = Number(row?.used || 0);
+  const row    = Array.isArray(data) ? data[0] : data;
+  const used   = Number(row?.used || 0);
   const oldest = row?.oldest_counted ? String(row.oldest_counted) : '';
 
-  if (used < limit) {
+  if (used < cfg.perAccount) {
     return json(200, {
-      allowed: true, limit, used, remaining: limit - used, windowHours, identified
+      allowed: true,
+      limit: cfg.perAccount,
+      used,
+      remaining: cfg.perAccount - used,
+      windowHours: cfg.windowHours,
+      identified
     });
   }
 
@@ -188,11 +238,19 @@ Deno.serve(async (req: Request) => {
   if (oldest) {
     const t = Date.parse(oldest);
     if (Number.isFinite(t)) {
-      nextAvailableAt = new Date(t + windowHours * 60 * 60 * 1000).toISOString();
+      nextAvailableAt = new Date(t + cfg.windowHours * 60 * 60 * 1000).toISOString();
     }
   }
 
   return json(200, {
-    allowed: false, limit, used, remaining: 0, nextAvailableAt, windowHours, skill, identified
+    allowed: false,
+    scope: 'account',
+    limit: cfg.perAccount,
+    used,
+    remaining: 0,
+    nextAvailableAt,
+    windowHours: cfg.windowHours,
+    skill,
+    identified
   });
 });

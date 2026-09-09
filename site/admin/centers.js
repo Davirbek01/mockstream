@@ -128,6 +128,10 @@
         // The interval those four are measured over, in hours. One per centre,
         // not per skill. 24 = a day; 5 = "one, then the next five hours later".
         dailyLimitWindowHours: 24,
+        // Whole-centre volume caps, per skill, per calendar month. A different
+        // thing from the per-account limits above — both apply at once.
+        monthlyLimitReading: 0, monthlyLimitListening: 0,
+        monthlyLimitWriting: 0, monthlyLimitSpeaking: 0,
         // Global Access: 'off' (codes required), 'premium', or 'regular'
         globalAccess: 'off',
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
@@ -1046,11 +1050,28 @@
               +      'Counted by signed-in account, rolling window. Admins are exempt.<br>'
               +      'Start high (3–5) — at 1 a student who reopens an abandoned mock is locked out for the whole window.'
               +    '</div>';
+            h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading',   cfg.dailyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening', cfg.dailyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing',   cfg.dailyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking',  cfg.dailyLimitSpeaking,  '0 = unlimited');
             h += _cmNumberInput(cid, 'dailyLimitWindowHours', 'Window (hours)', cfg.dailyLimitWindowHours, 'default 24 · e.g. 5 = next attempt 5h later · 1–168');
-            h += _cmNumberInput(cid, 'dailyLimitReading',   'Reading / 24h',   cfg.dailyLimitReading,   '0 = unlimited');
-            h += _cmNumberInput(cid, 'dailyLimitListening', 'Listening / 24h', cfg.dailyLimitListening, '0 = unlimited');
-            h += _cmNumberInput(cid, 'dailyLimitWriting',   'Writing / 24h',   cfg.dailyLimitWriting,   '0 = unlimited');
-            h += _cmNumberInput(cid, 'dailyLimitSpeaking',  'Speaking / 24h',  cfg.dailyLimitSpeaking,  '0 = unlimited');
+            h += '</div>';
+            // Whole-centre volume cap. Independent of the per-account limits:
+            // a student can be well inside their own allowance and still be
+            // stopped because the centre has spent its month.
+            h += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--ring,#e5e7eb);">'
+              +    '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">'
+              +      'Whole centre, per calendar month'
+              +    '</div>'
+              +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
+              +      'Every student here combined. Resets on the 1st.<br>'
+              +      'Real Aug 2026 usage — bek 6.5k speaking / 6.3k writing, record 8.9k / 6.9k,<br>'
+              +      'mock_stream 925 / 272. Set the number ABOVE actual usage or students hit a wall.'
+              +    '</div>';
+            h += _cmNumberInput(cid, 'monthlyLimitReading',   'Reading / month',   cfg.monthlyLimitReading,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitListening', 'Listening / month', cfg.monthlyLimitListening, '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitWriting',   'Writing / month',   cfg.monthlyLimitWriting,   '0 = unlimited');
+            h += _cmNumberInput(cid, 'monthlyLimitSpeaking',  'Speaking / month',  cfg.monthlyLimitSpeaking,  '0 = unlimited');
             h += '</div>';
             h += '</div>';
           }

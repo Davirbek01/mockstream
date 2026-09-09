@@ -6574,6 +6574,17 @@
       return t.getDate() + '.' + (t.getMonth() + 1) + ' ' + hhmm;
     }
 
+    var _MS_UZ_MONTHS = ['yanvar','fevral','mart','aprel','may','iyun',
+                         'iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+    // "1-oktabr" — the centre quota resets on a date, not at a clock time,
+    // so it is worded as one.
+    function _msLimitDate(iso) {
+      if (!iso) return '';
+      var t = new Date(iso);
+      if (isNaN(t.getTime())) return '';
+      return t.getDate() + '-' + _MS_UZ_MONTHS[t.getMonth()];
+    }
+
     var _MS_SKILL_UZ = {
       reading: 'Reading', listening: 'Listening',
       writing: 'Writing', speaking: 'Speaking'
@@ -6591,24 +6602,38 @@
       var perWhat = (win === 24)
         ? 'Bir kunda'
         : ('Har ' + (Math.round(win * 10) / 10) + ' soatda');
+      // Two very different refusals wear the same modal. Saying "your limit"
+      // to a student stopped by the CENTRE's monthly quota would send them
+      // looking for a fault in their own account that isn't there.
+      var isCentre = !!(info && info.scope === 'center');
+      var resetLine = isCentre
+        ? (_msLimitDate(info && info.periodEnd) ? 'Yangilanadi: ' + _msLimitDate(info.periodEnd) : '')
+        : (when ? 'Keyingi urinish: ' + when : '');
       var d = document.createElement('div');
       d.id = 'msLimitModal';
       d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(4px);z-index:100012;display:flex;align-items:center;justify-content:center;padding:18px;';
       d.innerHTML =
         '<div style="background:var(--card);border:2px solid #f59e0b;border-radius:20px;padding:24px 22px;max-width:370px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .3s ease;">'
       +   '<div style="font-size:34px;line-height:1;margin-bottom:10px;">&#9203;</div>'
-      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">' + esc(name) + ' limiti tugadi</h3>'
+      +   '<h3 style="margin:0 0 8px;font-size:18px;font-weight:800;color:var(--ink);">'
+      +     (isCentre ? 'Markaz limiti tugadi' : esc(name) + ' limiti tugadi')
+      +   '</h3>'
       +   '<p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:var(--muted);">'
-      +     esc(perWhat) + ' <strong>' + limit + ' marta</strong> ' + esc(name)
-      +     ' mock topshirish mumkin. Siz buni ishlatib bo&#8216;ldingiz.'
+      +     (isCentre
+          ? 'Markazingizda bu oy uchun <strong>' + esc(name) + '</strong> mocklari '
+            + 'tugagan. Bu sizning shaxsiy limitingiz emas — butun markazga tegishli.'
+          : esc(perWhat) + ' <strong>' + limit + ' marta</strong> ' + esc(name)
+            + ' mock topshirish mumkin. Siz buni ishlatib bo&#8216;ldingiz.')
       +   '</p>'
-      +   (when
+      +   (resetLine
           ? '<div style="margin:14px 0 4px;padding:11px;background:rgba(245,158,11,.12);border-radius:12px;font-size:13.5px;font-weight:700;color:#b45309;">'
-            + 'Keyingi urinish: ' + esc(when)
+            + esc(resetLine)
             + '</div>'
           : '')
       +   '<p style="margin:12px 0 0;font-size:11.5px;line-height:1.55;color:var(--muted);">'
-      +     'Boshqa mahoratlar hozir ham ochiq. Limit hisobingizga bog&#8216;langan.'
+      +     (isCentre
+          ? 'Markaz administratori bilan bog&#8216;laning.'
+          : 'Boshqa mahoratlar hozir ham ochiq. Limit hisobingizga bog&#8216;langan.')
       +   '</p>'
       +   '<button type="button" id="msLimitOkBtn" style="margin-top:16px;width:100%;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:#fff;border:none;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;">Tushunarli</button>'
       + '</div>';
