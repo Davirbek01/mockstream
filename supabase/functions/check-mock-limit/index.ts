@@ -253,13 +253,13 @@ Deno.serve(async (req: Request) => {
   // ---- gate 0: the iOS fair-use rule -------------------------------
   // Checked before the others because it is the widest: it spans every skill,
   // so a student refused here is refused whatever they pick next.
-  if (iosRule) {
-    if (!email) return unlimited({ reason: 'no_account', identified });
-    // Anyone who gets AI in their own right is exempt. Their access is what
-    // they were given; this rule exists for the students who have none.
-    if (await hasPremiumAccount(email)) {
-      return unlimited({ reason: 'premium_account', identified });
-    }
+  //
+  // Being exempt from THIS rule is not being exempt from the others. A premium
+  // account on iOS skips the fair-use cap but still owes the centre's
+  // per-student and monthly limits, exactly as it would on Android or the web
+  // — the allowance belongs to the student, not to the screen they opened.
+  // Returning early here let an iOS premium account past every gate.
+  if (iosRule && email && !(await hasPremiumAccount(email))) {
     const { data, error } = await sb.rpc('mock_daily_usage_any_skill', {
       p_email:        email,
       p_center:       centerId,
@@ -293,6 +293,8 @@ Deno.serve(async (req: Request) => {
       }
     }
   }
+  // The iOS rule may be the only one configured — then there is nothing left
+  // to check and the student passes.
   if (cfg.perAccount <= 0 && cfg.perMonth <= 0) {
     return unlimited({ reason: 'ios_rule_only', identified });
   }
