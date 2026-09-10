@@ -134,6 +134,12 @@
         dailyLimitWindowReading: 0, dailyLimitWindowListening: 0,
         dailyLimitWindowWriting: 0, dailyLimitWindowSpeaking: 0,
         dailyLimitWindowFullMock: 0,
+        // iOS ONLY. Every mock opens for everyone on iOS (a passcode in front
+        // of content is what App Store 3.1.1 forbids), so this fair-use cap
+        // replaces the lock: N mocks per window across ALL FOUR SKILLS, for
+        // accounts that get no AI. 0 = off. Kept a setting rather than code:
+        // if review ever objects it must be switchable in seconds, no build.
+        iosDailyLimit: 0, iosDailyWindowHours: 24,
         // Whole-centre volume caps, per skill, per calendar month. A different
         // thing from the per-account limits above — both apply at once.
         monthlyLimitReading: 0, monthlyLimitListening: 0,
@@ -1088,6 +1094,21 @@
             h += _cmNumberInput(cid, 'monthlyLimitWriting',   'Writing / month',   cfg.monthlyLimitWriting,   '0 = unlimited');
             h += _cmNumberInput(cid, 'monthlyLimitSpeaking',  'Speaking / month',  cfg.monthlyLimitSpeaking,  '0 = unlimited');
             h += _cmNumberInput(cid, 'monthlyLimitFullMock',  'Full Mock / month', cfg.monthlyLimitFullMock,  '0 = unlimited · Aug 2026: bek 1118, record 680');
+            h += '</div>';
+            // iOS fair-use cap. Its own block because it behaves unlike the
+            // others: iOS only, all four skills share ONE allowance, and only
+            // students who get no AI are counted.
+            h += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--ring,#e5e7eb);">'
+              +    '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">'
+              +      'iOS app only — fair use'
+              +    '</div>'
+              +    '<div style="font-size:10px;color:#888;margin-bottom:6px;line-height:1.5;">'
+              +      'iOS opens every mock to everyone (App Store 3.1.1), so this replaces the lock.<br>'
+              +      'ALL FOUR SKILLS share one allowance — a writing mock closes speaking too.<br>'
+              +      'Students with premium, or at a centre in premium mode, are exempt. 0 = off.'
+              +    '</div>';
+            h += _cmNumberInput(cid, 'iosDailyLimit', 'Mocks per window', cfg.iosDailyLimit, '0 = off · 1 = one mock, then wait');
+            h += _cmNumberInput(cid, 'iosDailyWindowHours', '↳ window (h)', cfg.iosDailyWindowHours, 'default 24 · 1–168');
             h += '</div>';
             h += '</div>';
           }

@@ -22,6 +22,17 @@
 //        monthlyLimitReading / monthlyLimitListening / monthlyLimitWriting /
 //        monthlyLimitSpeaking / monthlyLimitFullMock
 //
+//   3. iOS ONLY, and only for accounts that get no AI: one mock per rolling
+//      window across ALL FOUR SKILLS combined — sit writing and speaking is
+//      closed too. Set by iosDailyLimit (+ iosDailyWindowHours, default 24).
+//      iOS opens every mock to everyone, because a passcode in front of
+//      content is what App Store guideline 3.1.1 forbids; this is the fair-use
+//      rule that replaces the lock, NOT a paywall. Anyone who gets AI —
+//      personal premium, or a centre running in premium mode — is exempt, and
+//      the refusal deliberately never mentions premium. It lives in a config
+//      field precisely so it can be switched off in seconds, with no new
+//      build, if review ever objects.
+//
 // A full mock counts as its own skill ("full_mock"), not as four. Without it
 // a per-skill limit was trivially bypassed: full mock contains all four.
 //
@@ -69,6 +80,7 @@ const CORS = {
 };
 
 const SKILLS = ['reading', 'listening', 'writing', 'speaking', 'full_mock'] as const;
+const IOS_WINDOW_DEFAULT = 24;
 type Skill = typeof SKILLS[number];
 
 // Config-key suffix per skill. Spelled out rather than derived from the skill
@@ -130,10 +142,22 @@ async function isAdmin(email: string): Promise<boolean> {
   return !!data;
 }
 
-type Config = { perAccount: number; windowHours: number; perMonth: number };
+type Config = {
+  perAccount: number;
+  windowHours: number;
+  perMonth: number;
+  /** iOS-only cross-skill cap; 0 = off. */
+  iosDaily: number;
+  iosWindowHours: number;
+  /** True when the centre hands AI to everyone — those students are exempt. */
+  centreGivesAi: boolean;
+};
 
 async function readConfig(centerId: string, skill: Skill): Promise<Config> {
-  const none: Config = { perAccount: 0, windowHours: 24, perMonth: 0 };
+  const none: Config = {
+    perAccount: 0, windowHours: 24, perMonth: 0,
+    iosDaily: 0, iosWindowHours: IOS_WINDOW_DEFAULT, centreGivesAi: false,
+  };
   const { data } = await sb
     .from('site_settings')
     .select('value')
@@ -153,11 +177,39 @@ async function readConfig(centerId: string, skill: Skill): Promise<Config> {
   };
   const w = num(v?.[`dailyLimitWindow${FIELD[skill]}`]) || num(v?.dailyLimitWindowHours) || 24;
 
+  const iw = num(v?.iosDailyWindowHours) || IOS_WINDOW_DEFAULT;
+
+  // A centre can hand AI to everyone. Only a GLOBAL grant exempts a student
+  // from the iOS rule — deliberately not a per-skill one. The rule is
+  // cross-skill, so letting skillAccess.reading = 'premium' exempt them would
+  // punch a hole straight through it: all seven centres open reading that way,
+  // so every student could sit unlimited readings on iOS while writing and
+  // speaking stayed capped. A grant for one skill is not the same as not
+  // needing the cap at all.
+  const centreGivesAi = v?.globalAccess === 'premium';
+
   return {
     perAccount:  posInt(v?.[`dailyLimit${FIELD[skill]}`]),
     perMonth:    posInt(v?.[`monthlyLimit${FIELD[skill]}`]),
-    windowHours: Math.min(Math.max(w, 1), 168)
+    windowHours: Math.min(Math.max(w, 1), 168),
+    iosDaily:    posInt(v?.iosDailyLimit),
+    iosWindowHours: Math.min(Math.max(iw, 1), 168),
+    centreGivesAi,
   };
+}
+
+/** Does this account get AI in its own right? Those are exempt from the iOS rule. */
+async function hasPremiumAccount(email: string): Promise<boolean> {
+  if (!email) return false;
+  const { data } = await sb
+    .from('premium_emails')
+    .select('tier, role')
+    .eq('email', email)
+    .neq('active', false)
+    .limit(1);
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row) return false;
+  return row.tier === 'premium' || row.role === 'admin';
 }
 
 Deno.serve(async (req: Request) => {
@@ -169,6 +221,7 @@ Deno.serve(async (req: Request) => {
 
   const centerId = String(body.center || '').trim();
   const skillRaw = String(body.skill  || '').trim().toLowerCase();
+  const platform = String(body.platform || '').trim().toLowerCase();
 
   if (!centerId || !SKILLS.includes(skillRaw as Skill)) {
     // Cambridge / SAT papers and anything unrecognised are not limited.
@@ -178,8 +231,9 @@ Deno.serve(async (req: Request) => {
   const skill = skillRaw as Skill;
 
   const cfg = await readConfig(centerId, skill);
+  const iosRule = platform === 'ios' && cfg.iosDaily > 0 && !cfg.centreGivesAi;
   // Fast path for every centre as configured today: one query, then out.
-  if (cfg.perAccount <= 0 && cfg.perMonth <= 0) {
+  if (cfg.perAccount <= 0 && cfg.perMonth <= 0 && !iosRule) {
     return unlimited({ reason: 'no_limit_set' });
   }
 
@@ -197,6 +251,55 @@ Deno.serve(async (req: Request) => {
   // mock_attempts row is ever written for them.
   if (email && await isAdmin(email)) {
     return unlimited({ reason: 'admin', identified });
+  }
+
+  // ---- gate 0: the iOS fair-use rule -------------------------------
+  // Checked before the others because it is the widest: it spans every skill,
+  // so a student refused here is refused whatever they pick next.
+  //
+  // Being exempt from THIS rule is not being exempt from the others. A premium
+  // account on iOS skips the fair-use cap but still owes the centre's
+  // per-student and monthly limits, exactly as it would on Android or the web
+  // — the allowance belongs to the student, not to the screen they opened.
+  // Returning early here let an iOS premium account past every gate.
+  if (iosRule && email && !(await hasPremiumAccount(email))) {
+    const { data, error } = await sb.rpc('mock_daily_usage_any_skill', {
+      p_email:        email,
+      p_center:       centerId,
+      p_window_hours: cfg.iosWindowHours,
+    });
+    if (error) {
+      console.error('[check-mock-limit] ios usage failed:', error.message);
+    } else {
+      const row  = Array.isArray(data) ? data[0] : data;
+      const used = Number(row?.used || 0);
+      if (used >= cfg.iosDaily) {
+        let nextAvailableAt: string | null = null;
+        const oldest = row?.oldest_counted ? String(row.oldest_counted) : '';
+        if (oldest) {
+          const t = Date.parse(oldest);
+          if (Number.isFinite(t)) {
+            nextAvailableAt = new Date(t + cfg.iosWindowHours * 60 * 60 * 1000).toISOString();
+          }
+        }
+        return json(200, {
+          allowed: false,
+          scope: 'ios_daily',
+          limit: cfg.iosDaily,
+          used,
+          remaining: 0,
+          nextAvailableAt,
+          windowHours: cfg.iosWindowHours,
+          skill,
+          identified,
+        });
+      }
+    }
+  }
+  // The iOS rule may be the only one configured — then there is nothing left
+  // to check and the student passes.
+  if (cfg.perAccount <= 0 && cfg.perMonth <= 0) {
+    return unlimited({ reason: 'ios_rule_only', identified });
   }
 
   // ---- gate 1: the centre's monthly quota ----------------------------
