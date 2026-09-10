@@ -4512,6 +4512,26 @@
   <script src="/premium-gate.js" defer></script>
   <script src="/code-persistence.js" defer></script>
   <script src="/mock-code-verifier.js?v=2"></script>
+  <script src="/email-help.js" defer></script>
+  <script>
+    // "Did you mean …?" under both email boxes. 40+ addresses are already
+    // on Resend's permanent suppression list, four of them @gamil.com — a
+    // student who mistypes once is blocked from email sign-in for good, so
+    // the cheapest fix by far is catching it before the send.
+    (function () {
+      function wire() {
+        if (!window.MsEmail || !window.MsEmail.attachTypoHint) return;
+        var accent = (window.__CENTER_BRAND_COLOR) || '#4f46e5';
+        // Only the sidebar box exists at load; the gate wires its own when
+        // it is built.
+        var el = document.getElementById('msv3EmailInput');
+        if (el) window.MsEmail.attachTypoHint(el, accent);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(wire, 0); });
+      } else { setTimeout(wire, 0); }
+    })();
+  </script>
   <script src="/pdf-menu.js" defer></script>
   <script src="/session-recovery.js" defer></script>
 
@@ -6272,6 +6292,14 @@
       +   '<button type="button" id="msGateCancelBtn" style="margin-top:14px;width:100%;padding:9px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:12.5px;font-weight:600;cursor:pointer;">Bekor qilish</button>'
       + '</div>';
       document.body.appendChild(d);
+      // The gate is built here, long after DOMContentLoaded, so its email box
+      // has to be wired at construction — the page-level pass cannot see it.
+      try {
+        if (window.MsEmail && window.MsEmail.attachTypoHint) {
+          var _gi = document.getElementById('msGateEmailInput');
+          if (_gi) window.MsEmail.attachTypoHint(_gi);
+        }
+      } catch (_e) {}
 
       var sub = document.getElementById('msGateSub');
       function _status(msg, kind) {
@@ -6495,8 +6523,14 @@
             if (codeInput) setTimeout(function () { try { codeInput.focus(); } catch (_e) {} }, 120);
           }
         } catch (e) {
+          // "Try again later" was wrong for the commonest failure: Resend
+          // refuses a suppressed or undeliverable address permanently, and
+          // waiting never fixes it. Say which kind of failure it was.
           console.warn('[gate] otp send failed:', e);
-          _status('❌ Kod yuborilmadi. Keyinroq urinib ko‘ring', 'err');
+          var _ee = (window.MsEmail && window.MsEmail.sendError)
+                      ? window.MsEmail.sendError(e)
+                      : { text: '❌ Kod yuborilmadi. Qayta urinib ko‘ring.' };
+          _status(_ee.text, 'err');
           if (emailBtn) emailBtn.disabled = false;
         }
       }
@@ -7000,7 +7034,10 @@
           }
         } catch (e) {
           console.warn('[v3] sidebar magic link failed:', e);
-          _status('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
+          var _se = (window.MsEmail && window.MsEmail.sendError)
+                      ? window.MsEmail.sendError(e)
+                      : { text: '❌ Havola yuborilmadi. Qayta urining.' };
+          _status(_se.text, 'err');
           btn.disabled = false;
         }
       }
