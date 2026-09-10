@@ -4,26 +4,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**Mock Stream** — a live English exam mock-test platform (CEFR + IELTS) used by real students. The repo deploys to **6 separate Netlify "center" sites** from this single repo.
+**Mock Stream** — a live English exam mock-test platform (CEFR + IELTS) used by real students. The repo deploys to **7 separate Cloudflare Pages projects** from this single repo — one per centre. (It was on Netlify until 2026-09-10; every Netlify build is now stopped and those sites are kept only as rollback targets.)
 
 ## Branch / deployment fan-out (critical to understand before pushing)
 
-- `dev` branch → **only** the main site `mock-stream.com`. Use it as the canary / staging ground.
-- `master` branch → simultaneously deploys to **6 student-facing clones**:
+- `dev` branch → **only** the main site `mock-stream.com` (Pages project `mock-stream`). Use it as the canary / staging ground.
+- `master` branch → simultaneously deploys to **6 student-facing clones**, each its own Pages project:
   1. `bekzodsmultilevel.com` (center id `bek`)
   2. `ninersacademy.com` (center id `niners`)
-  3. `global-education.netlify.app` (center id `global`)
-  4. `muzaffars-english.netlify.app` (center id `muzaffars`)
-  5. `achievers-mocks.netlify.app` (center id `achievers` — correctly spelled; an older "acheivers-mocks" misspelled subdomain exists but is DEAD, never probe it to verify deploys)
+  3. `asrolingo.com` (center id `global` — rebranded to Asrolingo 2026-09-09; **the centre id stayed `global`**)
+  4. `muzaffarsenglish.com` (center id `muzaffars`)
+  5. `achieversmocks.com` (center id `achievers`)
   6. `multilevelrecord.com` (center id `record`)
 
-All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Netlify build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `center-guard.js` use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
+  The old `*.netlify.app` addresses still answer, frozen at their last build. They are rollback targets — never probe them to verify a deploy.
+
+All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Pages build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `center-guard.js` use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
 
 **Workflow rule:** push to `dev`, verify on `mock-stream.com`, only then push to `master`. Never skip the dev step.
 
 ## Production source: `site/` (no build step)
 
-`site/` is plain HTML + JS. Netlify serves it as-is. There is no bundler, no transpile, no test runner for the production app. Edits to `.html` / `.js` under `site/` go straight to production on push.
+`site/` is plain HTML + JS, and it is the Pages **output directory**. There is no bundler, no transpile, no test runner for the production app. Edits to `.html` / `.js` under `site/` go straight to production on push.
+
+Two directories at the repo root are **not** part of `site/` and are built separately by Pages:
+
+- `functions/` — Cloudflare Pages Functions, one file per route. Currently the five Open Graph link-preview handlers (`/take/*`, `/vip`, `/vip/*`, `/Articles`, `/test`, `/flashcards`), ported from the Netlify edge functions that Pages cannot run. **Every file in here becomes a public route**, so shared code must live elsewhere.
+- `og-shared/` — the helper those functions import. It sits outside `functions/` for exactly that reason.
+
+`netlify.toml` and `netlify/edge-functions/` are **dead** — Pages does not read either. They are kept as the reference the port was made from; `site/_redirects` is what actually routes.
 
 A few of the production page files are huge (`site/Speaking Mocks.html` ≈ 20.9k lines, `site/Writing Mocks.html`, `site/Reading Mocks.html` are also large). When working in them, **grep first, read targeted line ranges**; do not read the whole file.
 
