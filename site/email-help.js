@@ -166,6 +166,25 @@
     hint.appendChild(document.createTextNode('Shuni nazarda tutdingizmi: '));
     hint.appendChild(link);
     hint.appendChild(document.createTextNode(' ?'));
+    // The confirm row, hidden until the student tries to send an address we
+    // have a correction for. Shares the hint's placement.
+    var row = document.createElement('div');
+    row.style.cssText = 'display:none;gap:8px;margin:8px 0 0;box-sizing:border-box;'
+                      + 'padding:0 2px;width:100%;flex-basis:100%;flex-wrap:wrap;';
+    function mkBtn(bg, fg, bd) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.style.cssText = 'flex:1 1 46%;min-width:0;padding:9px 8px;border-radius:10px;'
+                      + 'font-size:12.5px;font-weight:700;cursor:pointer;line-height:1.25;'
+                      + 'white-space:normal;word-break:break-word;'
+                      + 'background:' + bg + ';color:' + fg + ';border:1px solid ' + bd + ';';
+      return b;
+    }
+    var useFix  = mkBtn(accent || '#4f46e5', '#fff', accent || '#4f46e5');
+    var useMine = mkBtn('transparent', '#64748b', '#cbd5e1');
+    row.appendChild(useFix);
+    row.appendChild(useMine);
+
     // The sign-in gate puts its input in a flex ROW next to the send
     // arrow. Dropping the hint straight after the input makes it a third
     // column: the input collapses to a few characters wide and the card
@@ -179,14 +198,34 @@
         anchor = par;
       }
     } catch (_e) {}
-    if (anchor.parentNode) anchor.parentNode.insertBefore(hint, anchor.nextSibling);
+    if (anchor.parentNode) {
+      anchor.parentNode.insertBefore(hint, anchor.nextSibling);
+      anchor.parentNode.insertBefore(row, hint.nextSibling);
+    }
+
 
     function check() {
       var s = suggest(input.value);
+      input.setAttribute('data-typo-suggest', s || '');
+      // A changed address is a new question: drop any previous answer.
+      row.style.display = 'none';
+      input.removeAttribute('data-typo-ack');
       if (!s) { hint.style.display = 'none'; return; }
       link.textContent = s;
       hint.style.display = '';
     }
+
+    // How needsTypoConfirm drives this particular input.
+    input._msTypoRow = {
+      ask: function (typed, fixed, pick) {
+        hint.style.display = 'none';
+        useFix.textContent  = fixed;
+        useMine.textContent = 'Baribir ' + typed;
+        useFix.onclick  = function () { row.style.display = 'none'; pick(fixed); };
+        useMine.onclick = function () { row.style.display = 'none'; pick(typed); };
+        row.style.display = 'flex';
+      }
+    };
     link.addEventListener('click', function () {
       input.value = link.textContent;
       hint.style.display = 'none';
@@ -201,9 +240,37 @@
     });
   }
 
+  /**
+   * Call at the top of a send handler. Returns TRUE when a choice is now on
+   * screen and the caller must stop; `proceed` runs once the student picks.
+   *
+   * A hint alone was not enough, and the reason is structural: a FIRST bounce
+   * cannot be seen at send time. The receiving server rejects the mail seconds
+   * later, and by the time anyone could say anything Resend has suppressed the
+   * address for good. This is the only moment that can be defended. It still
+   * never blocks — "Baribir" sends exactly what was typed.
+   */
+  function needsTypoConfirm(input, proceed) {
+    if (!input) return false;
+    if (input.getAttribute('data-typo-ack') === '1') return false;
+    var fixed = input.getAttribute('data-typo-suggest') || suggest(input.value);
+    if (!fixed) return false;
+    if (!input._msTypoRow) return false;        // not wired; let the send go
+
+    var typed = String(input.value || '').trim().toLowerCase();
+    input._msTypoRow.ask(typed, fixed, function (chosen) {
+      input.value = chosen;
+      input.setAttribute('data-typo-ack', '1');
+      input.setAttribute('data-typo-suggest', '');
+      if (typeof proceed === 'function') proceed();
+    });
+    return true;
+  }
+
   window.MsEmail = {
     suggest: suggest,
     sendError: sendError,
-    attachTypoHint: attachTypoHint
+    attachTypoHint: attachTypoHint,
+    needsTypoConfirm: needsTypoConfirm
   };
 })();

@@ -6472,6 +6472,11 @@
       var sentTo = '';
 
       async function sendEmail() {
+        // A mistyped domain that happens to exist accepts the mail, bounces
+        // seconds later, and is suppressed for good — so the address has to be
+        // settled BEFORE the send, not after. Asks once; never blocks.
+        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+            window.MsEmail.needsTypoConfirm(emailInput, sendEmail)) return;
         var email = ((emailInput && emailInput.value) || '').trim().toLowerCase();
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
         var cdKey = 'ms_email_cd_' + email;
@@ -6989,6 +6994,8 @@
       }
       var DEFAULT_SUB = sub ? sub.textContent : '';
       async function send() {
+        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+            window.MsEmail.needsTypoConfirm(input, send)) return;
         var email = (input.value || '').trim().toLowerCase();
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
         var cdKey = 'ms_email_cd_' + email;
