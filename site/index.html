@@ -139,6 +139,7 @@
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
+  <script src="email-help.js?v=3"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -5295,6 +5296,11 @@
     async function submitWelcomeEmail() {
       var inp = document.getElementById('welcomeEmailInput');
       var btn = document.getElementById('welcomeEmailBtn');
+      // A mistyped domain that exists accepts the mail and bounces seconds
+      // later, after which Resend refuses it for good — so the address has to
+      // be settled before the send. Asks once; "Baribir" sends what was typed.
+      if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+          window.MsEmail.needsTypoConfirm(inp, submitWelcomeEmail)) return;
       var email = (inp && inp.value || '').trim().toLowerCase();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         _welcomeEmailStatus('❌ To\'g\'ri email kiriting', 'err');
@@ -5365,7 +5371,10 @@
         }
       } catch (e) {
         console.warn('[index] magic link failed:', e);
-        _welcomeEmailStatus('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
+        var _ie = (window.MsEmail && window.MsEmail.sendError)
+                    ? window.MsEmail.sendError(e)
+                    : { text: '❌ Havola yuborilmadi. Qayta urining.' };
+        _welcomeEmailStatus(_ie.text, 'err');
         if (btn) btn.disabled = false;
       }
     }
@@ -6599,6 +6608,22 @@
     })();
   </script>
   <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
+  <script>
+    // "Did you mean …?" — see site/email-help.js for why this earns its
+    // place: one bounce puts an address on Resend's permanent
+    // suppression list, and four of the addresses already there are
+    // @gamil.com.
+    (function () {
+      function wire() {
+        if (!window.MsEmail || !window.MsEmail.attachTypoHint) return;
+        var el = document.getElementById('welcomeEmailInput');
+        if (el) window.MsEmail.attachTypoHint(el);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(wire, 0); });
+      } else { setTimeout(wire, 0); }
+    })();
+  </script>
   <script src="holiday-snowflakes.js"></script>
 
   <!-- PWA Service Worker Registration -->
