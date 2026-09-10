@@ -19,6 +19,10 @@
 // Plain ES5, no build step, loaded with a <script> tag like everything else
 // in site/. Defined ONCE and used from every sign-in path — see
 // [[reference_shared_helper_across_pages]] for what happens otherwise.
+//
+// ⚠️ Cloudflare Pages serves this with `max-age=14400`, so a change does not
+// reach anyone who has already loaded the page for four hours. BUMP THE ?v=
+// ON BOTH SCRIPT TAGS (landing-v3.html, index.html) with every edit here.
 // ============================================================================
 (function () {
   'use strict';
