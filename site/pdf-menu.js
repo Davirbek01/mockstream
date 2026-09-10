@@ -3,6 +3,17 @@
 // Flow: pick exam+skill -> pick a published mock -> fetch the mock-pdf Netlify
 // function (server-side headless-Chrome render of print-mock.html) -> download.
 (function () {
+  // ── PAUSED 2026-09-10 ──────────────────────────────────
+  // The download calls /.netlify/functions/mock-pdf, a headless-Chromium
+  // render that exists only on Netlify. mock-stream.com is moving to
+  // Cloudflare Pages, which has no equivalent on the free plan, so the
+  // button is held rather than left to fail with a 404 an admin cannot
+  // interpret. It comes back when the pre-generated PDFs land in R2 —
+  // one file per mock, named with the mock's updated_at.
+  //
+  // To restore: set FROZEN to false. Nothing else was removed.
+  var FROZEN = true;
+
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -71,7 +82,30 @@
     });
   }
 
-  function open(){ inject(); showHome(); el('mpm-overlay').classList.add('show'); }
+  function open(){
+    inject();
+    if (FROZEN) { showFrozen(); }
+    else { showHome(); }
+    el('mpm-overlay').classList.add('show');
+  }
+
+  // Says what is happening and when it returns. An admin who clicks this
+  // deserves better than a spinner that ends in an error.
+  function showFrozen(){
+    el('mpm-home').style.display = 'none';
+    var pick = el('mpm-pick');
+    pick.style.display = '';
+    pick.innerHTML =
+      '<div style="text-align:center;padding:18px 6px 6px;">'
+      + '<div style="font-size:34px;line-height:1;margin-bottom:10px;">⏸️</div>'
+      + '<div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:8px;">Vaqtincha o‘chirilgan</div>'
+      + '<p style="font-size:13px;color:#64748b;margin:0 0 6px;line-height:1.55;">'
+      + 'PDF yuklab olish hozircha ishlamaydi. Sayt Cloudflare’ga ko‘chirilyapti va PDF’lar '
+      + 'oldindan tayyorlanib saqlanadigan qilib qayta qurilyapti — shundan keyin yuklab olish '
+      + 'bir necha soniya emas, bir zumda bo‘ladi.</p>'
+      + '<p style="font-size:12px;color:#94a3b8;margin:10px 0 0;">Moklarning o‘zi va boshqa hamma narsa odatdagidek ishlaydi.</p>'
+      + '</div>';
+  }
   function close(){ var o = el('mpm-overlay'); if (o) o.classList.remove('show'); }
   function showHome(){ el('mpm-home').style.display = ''; el('mpm-pick').style.display = 'none'; }
 
