@@ -139,7 +139,7 @@
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
-  <script src="email-help.js?v=2"></script>
+  <script src="email-help.js?v=3"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -5296,6 +5296,11 @@
     async function submitWelcomeEmail() {
       var inp = document.getElementById('welcomeEmailInput');
       var btn = document.getElementById('welcomeEmailBtn');
+      // A mistyped domain that exists accepts the mail and bounces seconds
+      // later, after which Resend refuses it for good — so the address has to
+      // be settled before the send. Asks once; "Baribir" sends what was typed.
+      if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+          window.MsEmail.needsTypoConfirm(inp, submitWelcomeEmail)) return;
       var email = (inp && inp.value || '').trim().toLowerCase();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         _welcomeEmailStatus('❌ To\'g\'ri email kiriting', 'err');
