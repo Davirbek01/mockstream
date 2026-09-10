@@ -179,11 +179,14 @@ async function readConfig(centerId: string, skill: Skill): Promise<Config> {
 
   const iw = num(v?.iosDailyWindowHours) || IOS_WINDOW_DEFAULT;
 
-  // A centre can hand AI to everyone, globally or for this one skill. Those
-  // students are not "non-premium" in any sense that matters here.
-  const skillAccess = (v?.skillAccess ?? {}) as Record<string, unknown>;
-  const centreGivesAi = v?.globalAccess === 'premium'
-                     || String(skillAccess[skill] ?? '') === 'premium';
+  // A centre can hand AI to everyone. Only a GLOBAL grant exempts a student
+  // from the iOS rule — deliberately not a per-skill one. The rule is
+  // cross-skill, so letting skillAccess.reading = 'premium' exempt them would
+  // punch a hole straight through it: all seven centres open reading that way,
+  // so every student could sit unlimited readings on iOS while writing and
+  // speaking stayed capped. A grant for one skill is not the same as not
+  // needing the cap at all.
+  const centreGivesAi = v?.globalAccess === 'premium';
 
   return {
     perAccount:  posInt(v?.[`dailyLimit${FIELD[skill]}`]),
