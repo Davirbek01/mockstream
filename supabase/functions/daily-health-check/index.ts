@@ -29,6 +29,7 @@
 // =====================================================================
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { gcpSpend, type GcpSpend } from './gcpSpend.ts';
+import { resendDay, resendSection, type ResendDay } from './resendDay.ts';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -221,7 +222,7 @@ function concurrencySection(rows: any[]): string[] {
   return L;
 }
 
-function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = []): string {
+function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = [], resend: ResendDay | null = null): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -353,6 +354,11 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   // description at all, and the examiner grades a picture task having seen
   // nothing. Small and shrinking on its own — this is here so that a centre
   // freezing on an old build shows up the next morning rather than never.
+  // Email sign-in is now the main way in, and Pro costs $20/mo — so the
+  // number that decides whether to keep paying belongs in the daily report.
+  const emailLines = resendSection(resend);
+  if (emailLines.length) { for (const line of emailLines) L.push(line); L.push(''); }
+
   for (const line of spendSection(spend, prices, gcp, audioAttempts)) L.push(line);
 
   const stale = s.stale_app || {};
@@ -430,8 +436,10 @@ Deno.serve(async (req) => {
   // Google's own numbers, if the billing export has been connected. A day
   // behind by nature: the export is written after the day closes.
   const gcp = await gcpSpend(daysBack);
+  // Null when RESEND_API_KEY is unset; the section is then simply absent.
+  const resend = await resendDay(daysBack);
 
-  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || []);
+  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).
