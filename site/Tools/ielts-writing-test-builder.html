@@ -506,7 +506,7 @@
           <h2>⚙️ Test Settings</h2>
           <div class="input-group">
             <label>Logo URL</label>
-            <input type="text" id="logoUrl" placeholder="https://example.com/logo.png" value="https://i.ibb.co/WN0XY5Lv/logo.png" oninput="updatePreview()">
+            <input type="text" id="logoUrl" placeholder="https://example.com/logo.png" value="https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png" oninput="updatePreview()">
           </div>
           <div class="input-group">
             <label>Logo Wording</label>
@@ -541,7 +541,7 @@
             </div>
             <div class="input-group">
               <label>Chart/Graph Image URL</label>
-              <input type="text" id="task1ChartUrl" placeholder="https://example.com/chart.jpg" value="https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg" oninput="updatePreview()">
+              <input type="text" id="task1ChartUrl" placeholder="https://example.com/chart.jpg" value="https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg" oninput="updatePreview()">
             </div>
             <div class="input-group">
               <label>Chart Type</label>
@@ -600,7 +600,7 @@
         <h2 style="color:#dc2626;margin-bottom:20px;">👁️ Live Preview</h2>
         <div class="preview-window">
           <div class="preview-header">
-            <img id="previewLogo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo" class="preview-logo">
+            <img id="previewLogo" src="https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png" alt="Logo" class="preview-logo">
             <div id="previewLogoText" class="preview-logo-text">Mock Stream</div>
             <div class="preview-title">IELTS</div>
             <div id="previewModuleTitle" class="preview-heading">Academic Writing Module</div>
@@ -616,7 +616,7 @@
                 <div style="font-size:24px;animation:spin 1s linear infinite;">⏳</div>
                 <div style="margin-top:8px;">Loading chart...</div>
               </div>
-              <img id="previewChart" src="https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg" alt="Chart Preview" onload="chartLoaded()" onerror="chartError()">
+              <img id="previewChart" src="https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg" alt="Chart Preview" onload="chartLoaded()" onerror="chartError()">
             </div>
           </div>
           
@@ -850,7 +850,7 @@
     // Update preview function
     function updatePreview() {
       // Settings - also use extractImageUrl for logo
-      document.getElementById('previewLogo').src = extractImageUrl(document.getElementById('logoUrl').value) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      document.getElementById('previewLogo').src = extractImageUrl(document.getElementById('logoUrl').value) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       document.getElementById('previewLogoText').textContent = document.getElementById('logoWording').value || 'Mock Stream';
       document.getElementById('previewTestId').textContent = document.getElementById('testId').value || 'IELTS Mock 01';
       document.getElementById('previewModuleTitle').textContent = document.getElementById('moduleTitle').value || 'Academic Writing Module';
@@ -870,7 +870,7 @@
         chartImg.style.display = 'block';
         chartImg.src = chartUrl;
       } else if (!chartUrl) {
-        chartImg.src = 'https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg';
+        chartImg.src = 'https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg';
       }
       
       // Task 2
@@ -1139,7 +1139,7 @@ window.IELTS_WRITING_TEST_DATA = ${JSON.stringify(data, null, 2)};
       document.getElementById('aiTask2Text').textContent = document.getElementById('task2Prompt').value || 'No prompt entered';
       
       const chartUrl = extractImageUrl(document.getElementById('task1ChartUrl').value);
-      document.getElementById('aiChartPreview').src = chartUrl || 'https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg';
+      document.getElementById('aiChartPreview').src = chartUrl || 'https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg';
       
       // Reset status
       const status = document.getElementById('aiStatus');

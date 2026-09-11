@@ -11,7 +11,7 @@ window.SITE_CONFIG = {
   pwaFolder:            'site-config',
   brandName:            'Mock Stream',
   testIdentifier:       'mock_stream',
-  logoUrl:              'https://i.ibb.co/WN0XY5Lv/logo.png',
+  logoUrl:              'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png',
   heading1:             'Bilim va malakalarni baholash agentligi',
   heading2:             'Chet tilini bilish darajasi',
   telegramChannel:      '@mock_stream',

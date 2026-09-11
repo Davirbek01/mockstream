@@ -54,11 +54,11 @@
     var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
     var CM_CENTERS = [
-      { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
+      { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png' },
       { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://audio.mock-stream.com/LOGOS/BEK.png' },
-      { id: 'global',      name: 'Global Education LC', logo: 'https://i.ibb.co/Xrzrh7x6/image.png' },
-      { id: 'niners',      name: 'Niners Academy',      logo: 'https://i.ibb.co/39jVLp1w/image.png' },
-      { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://i.ibb.co/gMQ80dNn/image.png' }
+      { id: 'global',      name: 'Global Education LC', logo: 'https://audio.mock-stream.com/img/ibb/Xrzrh7x6/image.png' },
+      { id: 'niners',      name: 'Niners Academy',      logo: 'https://audio.mock-stream.com/img/ibb/39jVLp1w/image.png' },
+      { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://audio.mock-stream.com/img/ibb/gMQ80dNn/image.png' }
     ];
 
     var CM_MOCKS = [
@@ -758,7 +758,7 @@
             // ── Logo + hero copy. Placeholders show the LIVE default text so
             //    the admin sees exactly which string each field replaces. ──
             h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Logo &amp; Hero</div>';
-            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://i.ibb.co/WN0XY5Lv/logo.png');
+            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png');
             h += _cmTextInput(cid, 'heroImageUrl',   'Hero Image URL',  cfg.heroImageUrl,   '(optional) full-bleed background image URL');
             h += _cmTextInput(cid, 'heroHeading',    'Hero Heading',    cfg.heroHeading,    'Mock Stream  ← brand name shown above subtitle');
             h += _cmTextInput(cid, 'heroSubheading', 'Hero Subheading', cfg.heroSubheading, 'Your gateway to exam success. Practice makes perfect.');

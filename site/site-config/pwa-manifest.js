@@ -60,8 +60,8 @@
     niners:      { title: 'Niners Academy',     icon: '/site-config/icons-niners/icon-192.png' },
     global:      { title: 'Global Education LC',icon: '/site-config/icons-global/icon-192.png' },
     muzaffars:   { title: 'Muzaffars English',  icon: '/site-config/icons-muzaffars/icon-192.png' },
-    achievers:   { title: 'Achievers',          icon: 'https://i.ibb.co/GfTQMD79/image.png' },
-    record:      { title: 'Multilevel Record',  icon: 'https://i.ibb.co/5xn3Cxms/image.png' }
+    achievers:   { title: 'Achievers',          icon: 'https://audio.mock-stream.com/img/ibb/GfTQMD79/image.png' },
+    record:      { title: 'Multilevel Record',  icon: 'https://audio.mock-stream.com/img/ibb/5xn3Cxms/image.png' }
   };
   var brand = APPLE[slug] || APPLE.mock_stream;
 

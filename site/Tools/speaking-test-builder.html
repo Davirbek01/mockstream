@@ -540,7 +540,7 @@
           <div id="global-settings-content" style="display:none;margin-top:16px;">
             <div class="input-group">
               <label>Logo URL</label>
-              <input type="text" id="logoUrl" placeholder="https://i.ibb.co/example/logo.png" value="https://i.ibb.co/WN0XY5Lv/logo.png">
+              <input type="text" id="logoUrl" placeholder="https://i.ibb.co/example/logo.png" value="https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png">
             </div>
             
             <div class="input-group">
@@ -643,7 +643,7 @@
       <div class="right-panel">
         <div class="preview-window">
           <div class="preview-header">
-            <img id="previewLogo" class="preview-logo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo">
+            <img id="previewLogo" class="preview-logo" src="https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png" alt="Logo">
             <div id="previewLogoText" style="font-weight:700;font-size:16px;color:#667eea;">Mock Stream</div>
             <a id="previewChannel" class="preview-channel" href="https://t.me/mock_stream" target="_blank">@mock_stream</a>
             <h3 id="previewHeading1" style="text-align:center;color:#1f2937;margin-top:20px;font-size:17px;"></h3>
@@ -724,11 +724,11 @@
             ${q.number === 4 ? `
               <div class="input-group">
                 <label>Image 1 URL (for picture description)</label>
-                <input type="text" id="sharedImg1" placeholder="https://i.ibb.co/example/image1.png" value="https://i.ibb.co/SDwRVyw8/image.png" onkeyup="updatePreview()">
+                <input type="text" id="sharedImg1" placeholder="https://i.ibb.co/example/image1.png" value="https://audio.mock-stream.com/img/ibb/SDwRVyw8/image.png" onkeyup="updatePreview()">
               </div>
               <div class="input-group">
                 <label>Image 2 URL (for picture description)</label>
-                <input type="text" id="sharedImg2" placeholder="https://i.ibb.co/example/image2.png" value="https://i.ibb.co/rT8fKFs/image.png" onkeyup="updatePreview()">
+                <input type="text" id="sharedImg2" placeholder="https://i.ibb.co/example/image2.png" value="https://audio.mock-stream.com/img/ibb/rT8fKFs/image.png" onkeyup="updatePreview()">
               </div>
             ` : !q.hasImages ? `
               <div class="input-group" style="display:none;">
@@ -1036,7 +1036,7 @@
       const heading1 = document.getElementById('heading1').value;
       const heading2 = document.getElementById('heading2').value;
       
-      previewLogo.src = logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      previewLogo.src = logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       previewLogoText.textContent = logoWording || 'Mock Stream';
       previewChannel.textContent = telegram || '@mock_stream';
       previewChannel.href = `https://t.me/${telegram.replace('@', '')}`;
@@ -2246,7 +2246,7 @@ Make it sophisticated and Band 9 level. Each section should have 3-5 items.`
       if (!confirm('Clear all inputs? This will erase all questions, samples, and vocabulary.')) return;
       
       // Clear global settings
-      document.getElementById('logoUrl').value = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      document.getElementById('logoUrl').value = 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       document.getElementById('logoWording').value = 'MOCK SPEAKING';
       document.getElementById('telegramChannel').value = '@mock_stream';
       document.getElementById('heading1').value = 'Welcome to Speaking Mock Test';

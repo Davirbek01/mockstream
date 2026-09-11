@@ -3039,7 +3039,7 @@
           <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px;">
             <img id="gateLogo" alt="Logo" class="logo" src=""
               style="width:220px;height:220px;border:none;cursor:pointer;border-radius:50%;object-fit:cover;">
-            <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+            <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';</script>
             <div class="mock-stream-label" id="gateLogoWording">Mock Stream</div>
             <script>document.getElementById('gateLogoWording').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
           </div>
@@ -5555,7 +5555,7 @@
       // ===== SECTION 1: SAMPLE ANSWERS =====
 
       // Get logo and branding from Mock 1 (single source of truth) — never fall back to per-mock settings
-      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const logoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
       const currentYear = new Date().getFullYear();
 

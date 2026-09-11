@@ -53,7 +53,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
-  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="shortcut icon" id="site-favicon" href="https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png">
   <!-- <link rel="manifest"> is injected by site-config/pwa-manifest.js with
        the per-clone manifest path picked from window.__CENTER_ID. -->
   <link rel="apple-touch-icon" href="site-config/icons/icon-192.png" />
@@ -8300,7 +8300,7 @@
       <div class="header-content">
         <div class="logo-section">
           <img id="headerLogo" src="" alt="Logo" class="logo">
-          <script>document.getElementById('headerLogo').src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+          <script>document.getElementById('headerLogo').src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';</script>
           <div class="logo-text">
             <h1 id="headerTitle" style="color: white;">Mock Stream Exams</h1>
             <script>document.getElementById('headerTitle').textContent = ((window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' Exams';</script>
@@ -8359,7 +8359,7 @@
         <!-- Welcome Section -->
         <div class="welcome-section">
           <img id="welcomeLogo" src="" alt="Logo" class="welcome-logo" style="margin-bottom: 8px;">
-          <script>document.getElementById('welcomeLogo').src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+          <script>document.getElementById('welcomeLogo').src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';</script>
           <h2>Choose Your Mock Exam</h2>
           <p>Select the exam type you want to practice</p>
         </div>
@@ -24247,7 +24247,7 @@
       let circLogo = null;
       try {
         const img = new Image(); img.crossOrigin = 'anonymous';
-        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png'; });
+        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png'; });
         const sz = 300, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
         const cx = cv.getContext('2d'); cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2, 0, Math.PI * 2); cx.clip(); cx.drawImage(img, 0, 0, sz, sz);
         cx.strokeStyle = '#e5e7eb'; cx.lineWidth = 6; cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2 - 3, 0, Math.PI * 2); cx.stroke();
@@ -24287,7 +24287,7 @@
       const isIELTS = category === 'ielts-speaking';
       const questions = data.questions || [];
       const settings = data.settings || {};
-      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const logoWording = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || settings.logoWording || 'Mock Stream';
 
       _updatePdfProgress(18, 'Loading PDF libraries...');
@@ -24747,7 +24747,7 @@
       const textColor = [15, 23, 42];
       const lightTextColor = [71, 85, 105];
       const accentBg = [248, 250, 252];
-      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const brandTitle = mockName || (category === 'grammar' ? 'Grammar Test' : 'Vocabulary Test');
       const subtitle = (window.SITE_CONFIG && window.SITE_CONFIG.heading2) || 'Practice Questions';
 
@@ -24839,7 +24839,7 @@
       const textColor = [15, 23, 42];
       const lightTextColor = [71, 85, 105];
       const accentBg = [248, 250, 252];
-      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const brandTitle = data.title || mockName || 'Reading Article';
       const subtitle = (window.SITE_CONFIG && window.SITE_CONFIG.heading2) || 'Reading & Vocabulary';
 
@@ -25063,7 +25063,7 @@
       const lightTextColor = [71, 85, 105];
       const accentBg = [248, 250, 252];
       const accentColor = [102, 126, 234];
-      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const brandTitle = mockName || data.title || 'Flashcards';
       const subtitle = (window.SITE_CONFIG && window.SITE_CONFIG.heading2) || 'Vocabulary Learning';
       const cards = data.cards || [];
@@ -25143,7 +25143,7 @@
       const accentColor = isIELTS ? '#0369a1' : '#0d9488';
       const accentBg = isIELTS ? '#f0f9ff' : '#f0fdfa';
 
-      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const brandName = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
       const heading2 = (window.SITE_CONFIG && window.SITE_CONFIG.heading2) || (isListening ? 'Listening Practice Test' : 'Reading Practice Test');
 
@@ -25983,7 +25983,7 @@
 
       // Convert logo to base64
       let logoBase64 = null;
-      try { logoBase64 = await _landingImageToBase64((window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png'); } catch (_) { }
+      try { logoBase64 = await _landingImageToBase64((window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png'); } catch (_) { }
 
       const headerBlock = () => `<div class="header">${logoBase64 ? `<img src="${logoBase64}" alt="Logo">` : ''}<span class="header-text">${(window.SITE_CONFIG && window.SITE_CONFIG.brandName) || settings.logoWording || 'Mock Stream'}</span></div>`;
       const yr = new Date().getFullYear();
@@ -26108,7 +26108,7 @@
       let circLogo = null;
       try {
         const img = new Image(); img.crossOrigin = 'anonymous';
-        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png'; });
+        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png'; });
         const sz = 300, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
         const cx = cv.getContext('2d'); cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2, 0, Math.PI * 2); cx.clip(); cx.drawImage(img, 0, 0, sz, sz);
         cx.strokeStyle = '#e5e7eb'; cx.lineWidth = 6; cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2 - 3, 0, Math.PI * 2); cx.stroke();
@@ -26184,7 +26184,7 @@
       };
 
       let logoBase64 = null;
-      try { logoBase64 = await _landingImageToBase64((window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png'); } catch (_) { }
+      try { logoBase64 = await _landingImageToBase64((window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png'); } catch (_) { }
 
       const brandName = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || settings.logoWording || 'Mock Stream';
       const yr = new Date().getFullYear();
@@ -26406,7 +26406,7 @@
       let circLogo = null;
       try {
         const img = new Image(); img.crossOrigin = 'anonymous';
-        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png'; });
+        await new Promise((r, j) => { img.onload = r; img.onerror = j; img.src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || settings.logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png'; });
         const sz = 300, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
         const cx = cv.getContext('2d'); cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2, 0, Math.PI * 2); cx.clip(); cx.drawImage(img, 0, 0, sz, sz);
         cx.strokeStyle = '#e5e7eb'; cx.lineWidth = 6; cx.beginPath(); cx.arc(sz / 2, sz / 2, sz / 2 - 3, 0, Math.PI * 2); cx.stroke();
@@ -34009,11 +34009,11 @@
     var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
     var CM_CENTERS = [
-      { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
+      { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png' },
       { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://audio.mock-stream.com/LOGOS/BEK.png' },
-      { id: 'global',      name: 'Global Education LC', logo: 'https://i.ibb.co/Xrzrh7x6/image.png' },
-      { id: 'niners',      name: 'Niners Academy',      logo: 'https://i.ibb.co/39jVLp1w/image.png' },
-      { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://i.ibb.co/gMQ80dNn/image.png' }
+      { id: 'global',      name: 'Global Education LC', logo: 'https://audio.mock-stream.com/img/ibb/Xrzrh7x6/image.png' },
+      { id: 'niners',      name: 'Niners Academy',      logo: 'https://audio.mock-stream.com/img/ibb/39jVLp1w/image.png' },
+      { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://audio.mock-stream.com/img/ibb/gMQ80dNn/image.png' }
     ];
 
     var CM_MOCKS = [
@@ -34431,7 +34431,7 @@
             // ── Logo + hero copy. Placeholders show the LIVE default text so
             //    the admin sees exactly which string each field replaces. ──
             h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Logo &amp; Hero</div>';
-            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://i.ibb.co/WN0XY5Lv/logo.png');
+            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png');
             h += _cmTextInput(cid, 'heroImageUrl',   'Hero Image URL',  cfg.heroImageUrl,   '(optional) full-bleed background image URL');
             h += _cmTextInput(cid, 'heroHeading',    'Hero Heading',    cfg.heroHeading,    'Mock Stream  ← brand name shown above subtitle');
             h += _cmTextInput(cid, 'heroSubheading', 'Hero Subheading', cfg.heroSubheading, 'Your gateway to exam success. Practice makes perfect.');

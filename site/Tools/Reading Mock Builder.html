@@ -3497,7 +3497,7 @@ Explanation for question 3..." oninput="saveToLocalStorage()"></textarea>
             const loading = document.getElementById('loading');
             const testTitle = document.getElementById('testTitle').value || 'READING TEST';
             const telegramUrl = document.getElementById('telegramUrl').value;
-            const customLogoUrl = document.getElementById('customLogoUrl').value.trim() || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+            const customLogoUrl = document.getElementById('customLogoUrl').value.trim() || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
             const customBrandName = document.getElementById('customBrandName').value.trim() || 'MOCK STREAM';
             const pageHeaderText = document.getElementById('pageHeaderText').value.trim();
             const pageHeaderLogo = document.getElementById('pageHeaderLogo').value.trim();
@@ -3557,7 +3557,7 @@ Explanation for question 3..." oninput="saveToLocalStorage()"></textarea>
         }
 
         function generateCoverPage(testTitle, telegramUrl, logoUrl, brandName) {
-            logoUrl = logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+            logoUrl = logoUrl || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
             brandName = brandName || 'MOCK STREAM';
             let html = '<div class="cover-page" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center;">';
             
@@ -3592,7 +3592,7 @@ Explanation for question 3..." oninput="saveToLocalStorage()"></textarea>
         let part5PassageStyle = 'default';
         let akPassageStyle = 'default';
         let expPassageStyle = 'default';
-        let currentLogoUrl = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+        let currentLogoUrl = 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
         let currentPageHeaderText = '';
         let currentPageHeaderLogo = '';
         let currentPageFooterText = '';
