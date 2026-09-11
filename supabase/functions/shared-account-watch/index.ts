@@ -47,6 +47,8 @@ interface Row {
   total_devices: number;
   active_days: number;
   peak_concurrent: number;
+  ip_count: number;
+  network_count: number;
   first_at: string;
   last_at: string;
   devices: Array<{ device: string; n: number; from: string; to: string }> | null;
@@ -65,6 +67,17 @@ function describe(r: Row): string[] {
   L.push(`<b>${who}</b> · ${esc(r.center)}`);
   L.push(`  <b>${r.peak_concurrent} at once</b> · ${r.overlap_devices} devices overlapped` +
          ` · ${r.overlap_events} events · ${r.active_days} day${r.active_days === 1 ? '' : 's'}`);
+
+  // The line that decides what this even IS. Many devices behind ONE
+  // network is a classroom — a teacher signing a group in on the centre's
+  // own account, which is not a student cheating and must not be answered
+  // as though it were. Several networks is a password passed around.
+  if (r.network_count >= 1) {
+    const room = r.network_count === 1;
+    L.push(`  ${room ? '🏫' : '🌍'} ${r.ip_count} IP${r.ip_count === 1 ? '' : 's'}` +
+           ` on ${r.network_count} network${r.network_count === 1 ? '' : 's'}` +
+           (room ? ' — <b>looks like one room</b>' : ' — <b>spread across networks</b>'));
+  }
 
   // The evidence, not the summary. Six devices doing 5-8 attempts each across
   // two days reads very differently from two devices, one used once.
@@ -126,6 +139,9 @@ Deno.serve(async (req) => {
     }
   }
   L.push('<i>Watching only — nobody is blocked, nobody is warned.</i>');
+  if (rows.some((r) => r.network_count === 1)) {
+    L.push('<i>🏫 = one network: probably a centre signing a class in on its own account, not a student sharing a password. A different problem with a different answer.</i>');
+  }
   const text = L.join('\n');
 
   // Remember what was reported, so tomorrow's message can lead with what is new.

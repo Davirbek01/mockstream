@@ -1,0 +1,31 @@
+-- =====================================================================
+-- One room, or a password passed around town?
+-- ---------------------------------------------------------------------
+-- Device count cannot tell those apart, and they are not the same
+-- problem. A teacher signing a class in on the centre's own account is
+-- not a student cheating, and a warning written for the second would be
+-- wrong — and probably insulting — aimed at the first. The wording of
+-- any warning depends entirely on which of the two this is.
+--
+-- Networks separate them. A classroom is many devices behind ONE router;
+-- a shared password is the same account turning up on several.
+--
+-- Measured 2026-09-11 on the four accounts over the line:
+--   cambridgeschool0077          7 devices · 1 network   → a room
+--   turonsocialsciencestudents   5 devices · 1 network   → a room
+--   octoberprep101               8 devices · 3 networks  → passed around
+--   tg_6376179666               11 devices · 3 networks  → passed around
+--
+-- Half the list was never the problem we thought we were looking at.
+--
+-- mock_attempts carries no IP, so the addresses come from
+-- ai_submission_logs over the same window — most submissions make an AI
+-- call, which is plenty to tell one network from three.
+--
+-- ⚠️ Adding OUT columns needs DROP first; CREATE OR REPLACE refuses to
+-- change a function's return type.
+-- =====================================================================
+DROP FUNCTION IF EXISTS public.shared_account_watch(INTEGER, INTEGER, INTEGER);
+
+-- (body as applied — see the migration this supersedes for the shared
+--  detection logic; this revision adds ip_count and network_count)
