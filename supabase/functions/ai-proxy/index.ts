@@ -153,6 +153,30 @@ interface ProviderTarget {
   headers: Record<string, string>;
 }
 
+/**
+ * Models a provider has withdrawn, and where to send the request instead.
+ *
+ * Groq removed the whole llama-4 family, and with it the ONLY vision model
+ * it had — so this cannot be fixed by swapping in another Groq model. Old
+ * app builds still name the withdrawn one, they get a 404, and the picture
+ * task is then graded with no description of the picture at all: the student
+ * is marked on an image the grader never saw, and nothing tells them.
+ *
+ * Those builds cannot be repaired from here — an app pinned to an older
+ * runtime version never receives our OTAs, so the id is stuck in its binary.
+ * The rescue therefore belongs in the proxy, which every client goes through.
+ *
+ * Both sides speak the OpenAI chat shape (`image_url` content parts and all),
+ * so this is a redirect, not a translation. Anything that does not parse as
+ * JSON, or does not name a withdrawn model, is forwarded untouched.
+ */
+const WITHDRAWN: Record<string, { provider: string; path: string; model: string }> = {
+  'meta-llama/llama-4-scout-17b-16e-instruct':
+    { provider: 'grok', path: 'v1/chat/completions', model: 'grok-4.20-0309-non-reasoning' },
+  'meta-llama/llama-4-maverick-17b-128e-instruct':
+    { provider: 'grok', path: 'v1/chat/completions', model: 'grok-4.20-0309-non-reasoning' },
+};
+
 // Map "/<provider>/<path>" → real upstream URL + auth headers.
 // `key` selects which configured API key to use (for fallback retries).
 function resolveTarget(provider: string, restPath: string, search: string, key: string): ProviderTarget | null {
@@ -428,8 +452,8 @@ Deno.serve(async (req) => {
   // After "/functions/v1/ai-proxy"
   const fullPath  = url.pathname.replace(/^.*\/ai-proxy\/?/, '');
   const segs      = fullPath.split('/');
-  const provider  = (segs.shift() || '').toLowerCase();
-  const restPath  = segs.join('/');
+  let provider    = (segs.shift() || '').toLowerCase();
+  let restPath    = segs.join('/');
   const search    = url.search;
 
   // Which lane of the provider this is. One Groq key serves two services —
@@ -527,6 +551,29 @@ Deno.serve(async (req) => {
       `${who} hit cap of ${gate.perStudentCap} AI calls/day for center ${centerId}.`);
   }
 
+  // -------- rescue a withdrawn model --------
+  // Read the body here rather than below: the substitution decides which
+  // provider's keys to fetch, so it has to happen before that lookup.
+  const hasBody = !(req.method === 'GET' || req.method === 'HEAD');
+  let bodyBuf: ArrayBuffer | undefined = undefined;
+  if (hasBody) {
+    try { bodyBuf = await req.arrayBuffer(); } catch { bodyBuf = undefined; }
+  }
+  let rescuedFrom = '';
+  if (bodyBuf && String(req.headers.get('content-type') || '').includes('json')) {
+    try {
+      const parsed = JSON.parse(new TextDecoder().decode(bodyBuf));
+      const swap = parsed && typeof parsed.model === 'string' ? WITHDRAWN[parsed.model] : null;
+      if (swap) {
+        rescuedFrom = parsed.model;
+        parsed.model = swap.model;
+        provider = swap.provider;
+        restPath = swap.path;
+        bodyBuf = new TextEncoder().encode(JSON.stringify(parsed)).buffer as ArrayBuffer;
+      }
+    } catch { /* not JSON we understand — forward it exactly as it came */ }
+  }
+
   // -------- resolve provider --------
   // Per-request Gemini plan override: a center can pick its own billing
   // slot via the AI & Scoring panel (header set by ai-proxy-interceptor.js
@@ -549,12 +596,7 @@ Deno.serve(async (req) => {
   // specific (e.g. multipart for whisper).  Provider headers win.
   const incomingCt = req.headers.get('content-type');
 
-  // Buffer the body once so we can retry with a different key on 429/5xx.
-  const hasBody = !(req.method === 'GET' || req.method === 'HEAD');
-  let bodyBuf: ArrayBuffer | undefined = undefined;
-  if (hasBody) {
-    try { bodyBuf = await req.arrayBuffer(); } catch { bodyBuf = undefined; }
-  }
+  // (the body was buffered above, before the withdrawn-model rescue)
 
   let upstream: Response | null = null;
   let lastErr: any = null;
@@ -613,7 +655,10 @@ Deno.serve(async (req) => {
         ? `empty answer (finish_reason=${usage?.finishReason || '?'}` +
           (usage?.reasoningChars ? `, ${usage.reasoningChars} chars of reasoning instead` : '') +
           `)${keyTag ? ` ${keyTag}` : ''}`
-        : keyTag,
+        // A rescued call succeeded, but only because the proxy stepped in.
+        // Say so, otherwise the old builds still out there are invisible and
+        // nobody ever learns when the rescue stops being needed.
+        : (rescuedFrom ? `rescued from withdrawn model ${rescuedFrom}${keyTag ? ` ${keyTag}` : ''}` : keyTag),
       bytesIn: reqBytes,
       tokensIn: usage?.tokensIn ?? null,
       tokensOut: usage?.tokensOut ?? null,
