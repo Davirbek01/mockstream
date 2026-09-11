@@ -288,7 +288,7 @@
   <script src="questions S/questions.js"></script>
   <script>
     // Store CEFR logo, wording, and telegram channel — SITE_CONFIG takes priority
-    window.CEFR_LOGO_URL = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    window.CEFR_LOGO_URL = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
     window.CEFR_LOGO_WORDING = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
     // Cache _site* globals — SITE_CONFIG (already seeded) takes priority
     window._siteTestId = window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.testIdentifier) || '';
@@ -2610,7 +2610,7 @@
       <a href="landing-v3.html" target="_top" onclick="event.preventDefault(); goBack();">
         <img id="gateLogo" src="" alt="logo" border="0"
           style="width: 220px; height: 220px; object-fit: cover; border-radius: 50%;">
-        <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+        <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';</script>
       </a>
       <div class="mock-stream-label" id="gateLogoWording">Mock Stream</div>
       <script>document.getElementById('gateLogoWording').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
@@ -2852,7 +2852,7 @@
               </svg>
             </div>
             <!-- Map Image -->
-            <img id="chartImage" src="https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg" alt="Task 1 Chart"
+            <img id="chartImage" src="https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg" alt="Task 1 Chart"
               style="max-width:100%;height:auto;border-radius:8px;display:block;margin:0 auto;object-fit:contain;">
           </div>
           <!-- Clear Drawings Button -->
@@ -3859,7 +3859,7 @@
         const task2    = tasks.task2              || {};
 
         // Use CEFR logo AND wording (from questions S/questions.js)
-        document.getElementById('gateLogo').src = window.CEFR_LOGO_URL || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+        document.getElementById('gateLogo').src = window.CEFR_LOGO_URL || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
         document.getElementById('gateLogoWording').textContent = window.CEFR_LOGO_WORDING || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
 
         if (settings.moduleTitle) {
@@ -3879,7 +3879,7 @@
         };
 
         // Set chart image
-        CHART_IMAGE = task1.chartImageUrl || "https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg";
+        CHART_IMAGE = task1.chartImageUrl || "https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg";
         document.getElementById('chartImage').src = CHART_IMAGE;
 
         // Update prompts display
@@ -5534,7 +5534,7 @@
       const settings = testData.settings;
       const tasks = testData.tasks;
       // Use Mock 1 logo for PDF (single source of truth)
-      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       // Use the currently displayed chart image (from DOM) to ensure it matches what user sees
       const chartUrl = document.getElementById('chartImage')?.src || tasks.task1.chartImageUrl || '';
 
@@ -7826,7 +7826,7 @@ Respond in JSON format:
         let currentY = 78 + task1BoxHeight + 8; // Dynamic position based on prompt box height
         const mapImg = new Image();
         mapImg.crossOrigin = 'anonymous';
-        mapImg.src = currentChartUrl || 'https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg';
+        mapImg.src = currentChartUrl || 'https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg';
 
         await new Promise((resolve, reject) => {
           mapImg.onload = () => {
@@ -8120,7 +8120,7 @@ Respond in JSON format:
       const task1Instruction = testData?.tasks?.task1?.instruction || 'Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.';
       const task2Prompt = testData?.tasks?.task2?.prompt || 'Task 2 prompt not available';
       const task2Instruction = testData?.tasks?.task2?.instruction || 'Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.';
-      const rawChartUrl = document.getElementById('chartImage')?.src || 'https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg';
+      const rawChartUrl = document.getElementById('chartImage')?.src || 'https://audio.mock-stream.com/img/ibb/bgVC9kpY/Line-graph-ready.jpg';
 
       // Convert chart image to base64 data URL so it works in standalone HTML & PDF
       let currentChartUrl = rawChartUrl;
@@ -11559,7 +11559,7 @@ ${_wSpec}
     const tasks = data.tasks || {};
 
     // Get logo and wording from Mock 1 (single source of truth) — never fall back to per-mock settings
-    const dynamicLogoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    const dynamicLogoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
     const dynamicLogoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
 
     // Convert logo to base64

@@ -3322,7 +3322,7 @@
         <a href="landing-v3.html" target="_top" onclick="event.preventDefault(); goBack();">
           <img id="gateLogo" src="" alt="logo" border="0"
             style="width: 220px; height: 220px; object-fit: cover; border-radius: 50%;">
-          <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+          <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';</script>
         </a>
         <div class="mock-stream-label" id="gateLogoWording">Mock Stream</div>
         <script>document.getElementById('gateLogoWording').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
@@ -8826,7 +8826,7 @@
 
       // Load logo from Mock 1 (single source of truth)
       const settings = window.WRITING_TEST_DATA.settings;
-      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
 
       // Get selected mock number
       const mockSelector = document.getElementById('mockSelector');
@@ -12408,7 +12408,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Add footers to all pages
       const totalPages = pdf.internal.getNumberOfPages();
       const logoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
-      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       const currentYear = new Date().getFullYear();
       
       // Load logo as base64
@@ -19460,7 +19460,7 @@ AREAS TO IMPROVE:
       const tasks = data.tasks || {};
 
       // Convert logo to base64 (use Mock 1 logo as single source of truth)
-      const siteLogoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      const siteLogoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       let logoBase64 = null;
       if (siteLogoUrl) {
         try {
@@ -19991,7 +19991,7 @@ AREAS TO IMPROVE:
           });
         }
 
-        const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+        const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
         const logoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
         const currentYear = new Date().getFullYear();
 
@@ -20438,7 +20438,7 @@ AREAS TO IMPROVE:
           });
         }
 
-        const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+        const logoUrl = window._siteLogoUrl || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
         const logoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
 
         // Base styles for rendering HTML to canvas

@@ -1269,7 +1269,7 @@
   // table display_name + the dashboard's 'mock-stream' default logo.
   async function _cmFetchBrand(centerId) {
     var fallbackName = centerId.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
-    var fallbackLogo = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    var fallbackLogo = 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
     try {
       var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent('center_site_config_' + centerId) + '&select=value', {
         headers: { 'apikey': ANON, 'Authorization': 'Bearer ' + ANON }

@@ -333,7 +333,7 @@
       return _spellingMap[word.toLowerCase()] || [];
     }
 
-    const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
     const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
     const GLOBAL_TEST_IDENTIFIER = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.testIdentifier) || 'mock_stream';
 
@@ -2674,7 +2674,7 @@
       // Get settings for header
       var logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)
         ? window.SITE_CONFIG.logoUrl
-        : (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+        : (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://audio.mock-stream.com/img/ibb/WN0XY5Lv/logo.png';
       var line1 = (window.SITE_CONFIG && window.SITE_CONFIG.brandName)
         ? window.SITE_CONFIG.brandName
         : (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
