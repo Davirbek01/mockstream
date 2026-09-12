@@ -51,8 +51,17 @@ After a passcode is verified, sessionStorage flags determine what features are u
 | Code | Backend | Sets | Tier semantics |
 |---|---|---|---|
 | 8-digit | `verify-passcode` Edge Function (Supabase) | `vipPremiumAi='true'` if `tier==='premium'`; or `vipSessionAccess='true'` only | Site-wide unlock |
-| 10-digit | `admin0709.alwaysdata.net/verify` | `<skill>PremiumEntry='true'` (+ `speakingIndividualCode='premium'` for speaking) | Per-skill premium individual code |
-| 12-digit | `davirbek.alwaysdata.net/verify` | `<skill>PremiumEntry='false'` (+ `speakingIndividualCode='regular'` for speaking) | Per-skill regular individual code |
+| 10-digit | ~~`admin0709.alwaysdata.net/verify`~~ — **RETIRED** | `<skill>PremiumEntry='true'` (+ `speakingIndividualCode='premium'` for speaking) | Per-skill premium individual code — **legacy, no codes issued** |
+| 12-digit | ~~`davirbek.alwaysdata.net/verify`~~ — **RETIRED** | `<skill>PremiumEntry='false'` (+ `speakingIndividualCode='regular'` for speaking) | Per-skill regular individual code — **legacy, no codes issued** |
+
+⚠️ **alwaysdata is dead — only the 8-digit tier is live.** Checked 2026-09-13: `davirbek.alwaysdata.net` no longer resolves at all (no DNS record) and `admin0709.alwaysdata.net` answers **503**. Every code in the database is 8 digits — `mock_codes` 6,053 rows (all active) and `vip_codes` 14 — and there are **zero** 10- or 12-digit codes, so in practice the three-tier system is now one tier: an 8-digit code checked by `verify-passcode` through `site/mock-code-verifier.js`.
+
+The dead calls are still in the source (`site/CEFR Reading Mocks.html`, `site/CEFR Listening Mocks.html`, and the admin gates in `site/admin/registered-users.js`, `site/admin/writing-plus.js`, `site/admin/system-prompts.js`, `site/chat-bubble.js`). Two shapes, and the difference matters if you ever touch them:
+
+- The **10-digit** branches sit in their own `try/catch`, so a failure falls through to the 8-digit `verifyMockStreamCode` check below.
+- The **12-digit** branches are **not** guarded. With DNS gone, `fetch` throws rather than returning a response, the function's outer `catch` swallows it, and it returns "Connection error" **without ever reaching the 8-digit fallback**. Unreachable today (no 12-digit code exists to get that far), but it is a live trap the moment anyone types a 12-character numeric string.
+
+Admin panels gated on `admin0709` cannot unlock through those modals any more. The live admin mechanism is the `admin_passcodes` table + the `adminPasscode` argument that admin Edge Functions (e.g. `admin-mocks`) take.
 
 **Auto AI analysis fires only when the page evaluates `isPremiumEntry === true`** at submit:
 
