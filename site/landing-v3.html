@@ -1423,6 +1423,11 @@
        .hidden actually hides them on centres without a config. */
     .sub-price[hidden], .sub-pay[hidden], .sub-tg-btn[hidden], .sub-soon[hidden],
     .sub-instructor[hidden], .sub-pitch[hidden], .sub-quote[hidden], .sub-how[hidden] { display: none !important; }
+    /* Same trap for the CTA itself: .topbar-subscribe is display:inline-flex,
+       which beats the [hidden] attribute's UA rule. A student who has already
+       paid must not keep seeing "Obuna bo'lish" — that is what the button is
+       hidden for (Afruzbek, 2026-09-12: "hali ham obuna bolish turibdi"). */
+    .topbar-subscribe[hidden] { display: none !important; }
     .sub-card { max-width: 500px; }
     /* Instructor branding badge */
     .sub-instructor { display: flex; align-items: center; gap: 10px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 9px 13px; margin-bottom: 14px; }
@@ -4312,37 +4317,37 @@
       </div>
       <div class="exams-rail" id="examsRail">
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/ket.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/ket.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">A2</div>
           <div class="cb-code">KET</div>
           <div class="cb-name">Key English Test</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/pet.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/pet.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">B1</div>
           <div class="cb-code">PET</div>
           <div class="cb-name">Preliminary</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="fce">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/fce.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/fce.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">B2</div>
           <div class="cb-code">FCE</div>
           <div class="cb-name">First</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cae">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/cae.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/cae.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">C1</div>
           <div class="cb-code">CAE</div>
           <div class="cb-name">Advanced</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cpe">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/cpe.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/cpe.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">C2</div>
           <div class="cb-code">CPE</div>
           <div class="cb-name">Proficiency</div>
         </a>
         <a class="cambridge-card sat-card" href="/SAT Mocks.html">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/sat.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/sat.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level cb-level-sat">College</div>
           <div class="cb-code">SAT</div>
           <div class="cb-name">Digital Adaptive</div>
@@ -4350,28 +4355,28 @@
         <!-- Coming-soon tiles — fill the row visually. No href so they're
              not navigable. .soon greys them out and adds the Soon pill. -->
         <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-ibt">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/toefl-ibt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/toefl-ibt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-toefl">Uni</div>
           <div class="cb-code">TOEFL</div>
           <div class="cb-name">iBT</div>
         </a>
         <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-itp">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/toefl-itp.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/toefl-itp.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-toefl">Inst</div>
           <div class="cb-code">TOEFL</div>
           <div class="cb-name">ITP</div>
         </a>
         <a class="cambridge-card soon gre-card" href="javascript:void(0)" data-exam-soon="gre">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/gre.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/gre.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-gre">Grad</div>
           <div class="cb-code">GRE</div>
           <div class="cb-name">General Test</div>
         </a>
         <a class="cambridge-card soon tkt-card" href="javascript:void(0)" data-exam-soon="tkt">
-          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/tkt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+          <div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/tkt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-tkt">Teach</div>
           <div class="cb-code">TKT</div>
@@ -7816,6 +7821,39 @@
     (function () {
       var subBtn = document.getElementById('topbarSubscribeBtn');
       if (!subBtn) return;
+
+      // ── Paid students must not be sold what they already own ──────────────
+      // Reported 2026-09-12: a student was granted premium in the admin panel,
+      // signed in, and still saw "Obuna bo'lish" — so he assumed the payment
+      // had not landed and asked again.
+      //
+      // The grant lives in `premium_emails` (Registered Users panel). auth.js
+      // mirrors it to localStorage `ms_vip_tier` when the session resolves,
+      // and center-guard.js already wraps that read as _isVipPremiumEmail() —
+      // reuse it, with the raw key as a fallback for the moment before
+      // center-guard has loaded. Admins are hidden from it too: they have
+      // every skill open and never subscribe.
+      function _subIsPremium() {
+        try {
+          if (typeof window._isVipPremiumEmail === 'function' && window._isVipPremiumEmail()) return true;
+          if (localStorage.getItem('ms_vip_tier') === 'premium') return true;
+          if (localStorage.getItem('ms_admin_email')) return true;
+        } catch (e) {}
+        return false;
+      }
+      function _subSyncVisibility() {
+        var prem = _subIsPremium();
+        subBtn.hidden = prem;                    // needs .topbar-subscribe[hidden] — inline-flex beats the UA rule
+        // The flag can arrive while the panel is open (sign-in finishing a
+        // second after a click). Close it rather than leave a paying student
+        // reading a price list.
+        if (prem) { try { closePanel('msv3SubPanel'); } catch (e) {} }
+      }
+      _subSyncVisibility();
+      // The topbar renders before auth resolves, so the first run almost always
+      // sees "not premium". These two fire once the real answer is known.
+      try { window.addEventListener('mockStream:premiumUnlocked', _subSyncVisibility); } catch (e) {}
+      try { document.addEventListener('mockStream:centerConfigLoaded', _subSyncVisibility); } catch (e) {}
       var _SUB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var _SUB_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var _subLoaded = false, _subCfg = null;
@@ -23209,7 +23247,7 @@
           ];
           rail.insertAdjacentHTML('beforeend', EXAMS.map(function (e) {
             return '<a class="cambridge-card soon" href="javascript:void(0)" data-exam-soon="' + e[0] + '">' +
-              '<div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/' + e[0] + '.jpg" alt="" loading="lazy" ' +
+              '<div class="cb-cover"><img src="https://audio.mock-stream.com/intl-exam-covers/' + e[0] + '.jpg" alt="" loading="lazy" ' +
                 'onerror="this.parentElement.className=\'cb-cover msv3-flagcover\';this.parentElement.textContent=\'' + e[1] + '\'"></div>' +
               '<span class="cb-soon">Soon</span>' +
               '<div class="cb-level">' + e[2] + '</div>' +
@@ -23253,7 +23291,7 @@
             var cov = document.createElement('div');
             cov.className = 'msv3-tool-cover';
             var im = document.createElement('img');
-            im.src = 'https://storage.googleapis.com/mockstream-samples-audio/learn-tool-covers/' + key + '.jpg';
+            im.src = 'https://audio.mock-stream.com/learn-tool-covers/' + key + '.jpg';
             im.alt = ''; im.loading = 'lazy';
             im.onerror = function () { cov.remove(); };
             cov.appendChild(im);
