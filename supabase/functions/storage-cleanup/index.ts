@@ -129,20 +129,28 @@ Deno.serve(async (req) => {
   const notArchived: string[] = [];
   for (let i = 0; i < docPaths.length; i += 20) {
     const checks = docPaths.slice(i, i + 20).map(async (p) => {
-      // Only a definite answer from every store may null a row. A network blip
-      // used to count as "not archived" and delete the path — with two stores
-      // to ask, that risk doubles, and the failure is silent and permanent.
+      // Only a definite answer from every store may null a row, and **404 is
+      // the only definite answer**. Everything else — 403 from a WAF rule or an
+      // IP-reputation call, a 5xx, a redirect, or no answer at all — says
+      // nothing about whether the file exists. Measured 2026-09-13:
+      // audio.mock-stream.com already returns 403 to some clients (it 403s a
+      // default `Python-urllib` user-agent while serving curl, wget and an
+      // empty UA), so this is not hypothetical. Reading such a reply as
+      // "missing" would erase a student's link to a report sitting there safe,
+      // silently, across many rows at once. When in doubt, keep the path: the
+      // next nightly run re-checks it, and nothing is lost by waiting.
       let anyFound = false;
-      let allAnswered = true;
+      let allDefinite = true;
       for (const base of ARCHIVE_BASES) {
         try {
           const h = await fetch(base + encodeURI(p), { method: 'HEAD' });
           if (h.ok) { anyFound = true; break; }
+          if (h.status !== 404) allDefinite = false;
         } catch {
-          allAnswered = false;   // unknown, not absent — keep the path
+          allDefinite = false;
         }
       }
-      if (!anyFound && allAnswered) notArchived.push(p);
+      if (!anyFound && allDefinite) notArchived.push(p);
     });
     await Promise.all(checks);
   }
