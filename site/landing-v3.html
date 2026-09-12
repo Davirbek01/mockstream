@@ -7853,12 +7853,14 @@
             if (su && su.email) em = su.email;
           } catch (e) {}
         }
-        if (!em) {
-          try {
-            var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
-            if (p && p.email) em = p.email;
-          } catch (e) {}
-        }
+        // NO ms_candidate_profile fallback here, deliberately. It is a cache
+        // that outlives sign-out like the rest, so using it put the bug
+        // straight back: on mock-stream.com, with nobody signed in, the chain
+        // resolved to the admin's cached profile email, matched ms_admin_email
+        // and hid the CTA again. Only a LIVE session counts. If auth has not
+        // resolved yet the button shows for a moment and then hides — the
+        // right way round for a bug whose cost is a student thinking his
+        // payment failed.
         return String(em || '').trim().toLowerCase();
       }
       function _subIsPremium() {
@@ -7885,6 +7887,13 @@
       // sees "not premium". These two fire once the real answer is known.
       try { window.addEventListener('mockStream:premiumUnlocked', _subSyncVisibility); } catch (e) {}
       try { document.addEventListener('mockStream:centerConfigLoaded', _subSyncVisibility); } catch (e) {}
+      // Sign-in and sign-out both change the answer, and neither reloads the
+      // page — auth.js exposes onStateChange for exactly this.
+      try {
+        if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.onStateChange === 'function') {
+          window.MockStream.auth.onStateChange(function () { _subSyncVisibility(); });
+        }
+      } catch (e) {}
       var _SUB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var _SUB_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var _subLoaded = false, _subCfg = null;
