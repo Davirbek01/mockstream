@@ -7833,11 +7833,42 @@
       // reuse it, with the raw key as a fallback for the moment before
       // center-guard has loaded. Admins are hidden from it too: they have
       // every skill open and never subscribe.
-      function _subIsPremium() {
+      // ⚠️ ms_vip_tier / ms_vip_email / ms_admin_email are localStorage, i.e.
+      // per BROWSER, and auth.js signOut() does not clear them. Checking them
+      // alone hid the button from an anonymous visitor on a machine where a
+      // premium account had once signed in — which is exactly what happened on
+      // mock-stream.com on 2026-09-12. So the flag only counts when it belongs
+      // to the person signed in RIGHT NOW.
+      function _subCurrentEmail() {
+        var em = '';
         try {
-          if (typeof window._isVipPremiumEmail === 'function' && window._isVipPremiumEmail()) return true;
-          if (localStorage.getItem('ms_vip_tier') === 'premium') return true;
-          if (localStorage.getItem('ms_admin_email')) return true;
+          var u = window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                    ? window.MockStream.auth.getCurrentUser() : null;
+          if (u && u.email) em = u.email;
+        } catch (e) {}
+        if (!em) {
+          try {
+            var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+            var su = s && (s.user || (s.currentSession && s.currentSession.user));
+            if (su && su.email) em = su.email;
+          } catch (e) {}
+        }
+        if (!em) {
+          try {
+            var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+            if (p && p.email) em = p.email;
+          } catch (e) {}
+        }
+        return String(em || '').trim().toLowerCase();
+      }
+      function _subIsPremium() {
+        var me = _subCurrentEmail();
+        if (!me) return false;                       // nobody signed in → always offer it
+        try {
+          var vipEmail = String(localStorage.getItem('ms_vip_email') || '').trim().toLowerCase();
+          var admEmail = String(localStorage.getItem('ms_admin_email') || '').trim().toLowerCase();
+          if (admEmail && admEmail === me) return true;
+          if (vipEmail && vipEmail === me && localStorage.getItem('ms_vip_tier') === 'premium') return true;
         } catch (e) {}
         return false;
       }
