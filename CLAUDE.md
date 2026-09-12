@@ -63,6 +63,10 @@ The dead calls are still in the source (`site/CEFR Reading Mocks.html`, `site/CE
 
 Admin panels gated on `admin0709` cannot unlock through those modals any more. The live admin mechanism is the `admin_passcodes` table + the `adminPasscode` argument that admin Edge Functions (e.g. `admin-mocks`) take.
 
+⚠️ **`IELTS Reading Mocks.html`, `IELTS Listening Mocks.html`, `IELTS Speaking Mocks.html` and `ielts-full-mock.html` have no 8-digit fallback at all** — `verifyMockStreamCode` is simply not called there, so their only code paths are the two dead tiers. **This is not a bug, so don't "fix" it on sight:** `landing-v3.html` validates the code at its own gate and only then launches those pages (`_msv3LaunchIeltsFullMock()` → `/ielts-full-mock.html`; `IELTS Speaking Mocks.html?sbmock=…&auto=1`), and IELTS results keep arriving normally (54 reading / 50 speaking / 32 listening / 19 writing / 15 full-mock in the 14 days to 2026-09-13). The in-page verifiers are legacy, reached only by opening those pages directly. Adding the fallback there would be a new feature, not a repair.
+
+Decision 2026-09-13: the dead branches stay. Removing ~20 call sites across ten 8k–21k-line live pages buys nothing visible and risks breaking an inline `<script>`. `landing.html` keeps its copies too — it is frozen.
+
 **Auto AI analysis fires only when the page evaluates `isPremiumEntry === true`** at submit:
 
 - Reading / Listening (CEFR + IELTS) gate the *entire backend submission flow*, not a separate AI call. Regular = spinner + backend; premium = jump to results modal. Flags: `readingPremiumEntry`, `listeningPremiumEntry`.
