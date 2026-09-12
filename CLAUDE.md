@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
   The old `*.netlify.app` addresses still answer, frozen at their last build. They are rollback targets — never probe them to verify a deploy.
 
-All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Pages build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `center-guard.js` use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
+All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Pages build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `site/site-config/center-guard.js` (both in that subfolder, not in `site/` itself) use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
 
 **Workflow rule:** push to `dev`, verify on `mock-stream.com`, only then push to `master`. Never skip the dev step.
 
@@ -34,7 +34,9 @@ Two directories at the repo root are **not** part of `site/` and are built separ
 
 `netlify.toml` and `netlify/edge-functions/` are **dead** — Pages does not read either. They are kept as the reference the port was made from; `site/_redirects` is what actually routes.
 
-A few of the production page files are huge (`site/Speaking Mocks.html` ≈ 20.9k lines, `site/Writing Mocks.html`, `site/Reading Mocks.html` are also large). When working in them, **grep first, read targeted line ranges**; do not read the whole file.
+A few of the production page files are huge — `site/Speaking Mocks.html` ≈ 21.1k lines, `site/Writing Mocks.html` ≈ 19.5k, `site/IELTS Speaking Mocks.html` ≈ 17.6k, `site/full-mock.html` ≈ 11.6k, `site/Writing IELTS Mock.html` ≈ 11.5k, `site/ielts-full-mock.html` ≈ 9.5k. When working in them, **grep first, read targeted line ranges**; do not read the whole file.
+
+⚠️ **There is no `site/Reading Mocks.html`** (this file used to claim there was). The reading pages are `site/CEFR Reading.html` + `site/CEFR Reading Mocks.html`, and `site/IELTS reading.html` + `site/IELTS Reading Mocks.html` — note the **lowercase** `reading` in the IELTS exam page but capitalised in its picker. Listening is the same shape: `site/CEFR Listening.html`, `site/IELTS listening.html`.
 
 ### Sibling apps that **never deploy**
 
@@ -68,18 +70,30 @@ Pages must call AI via `site/ai-proxy-client.js` → `supabase/functions/ai-prox
 
 ## Content layout (per-skill)
 
-Mock content lives in per-skill directories under `site/`:
+**The main CEFR + IELTS mocks are no longer static files.** They live in Supabase `mock_tests`, keyed by `mock_type` + `mock_number`, and the per-mock `.js` files were deleted once migrated (CEFR Speaking's went in commit `22fb02e0`, "Phase 3d cleanup"). Counted 2026-09-12:
 
-- CEFR Speaking: `site/questions S/questions.js` (mock 01) and `questions02.js`–`questions65.js`. Each sets `window.SPEAKING_TEST_DATA`. Audio at `site/questions S/audio/cefr-speaking-mock-NN-qN.mp3`.
-- CEFR Listening: `site/questions CEFR L/cefr-listening-test-NN.js`
-- CEFR Reading: `site/questions CEFR R/cefr-reading-test-NN.js`
-- CEFR Writing: `site/questions W/cefr-mock-NN.js`
-- IELTS variants: `site/questions IELTS L|R|S|W/`
-- Articles, grammar, vocab: `site/questions Articles|G|V/`
+| `mock_type` | rows | `mock_type` | rows |
+|---|---|---|---|
+| `cefr-speaking` | 66 | `ielts-speaking` | 99 |
+| `cefr-writing` | 104 | `ielts-writing` | 96 |
+| `cefr-reading` | 71 | `ielts-reading` | 116 |
+| `cefr-listening` | 59 | `ielts-listening` | 113 |
+| `article` | 220 | `flashcard` | 507 |
+| `grammar` | 402 | `vocabulary` | 342 |
 
-Counts and naming patterns are declared in `site/cefr-mock-config.js` and `site/ielts-mock-config.js` — bump these when adding new mocks. Dynamic mocks created via the admin UI are loaded from Supabase (`mock_tests` table) on top of the static set.
+Mock **media** (audio, images, covers) is on Cloudflare R2 at `audio.mock-stream.com`, referenced from inside `mock_data` — so moving a file is a DB update that reaches every platform at once, including old app builds, with no deploy.
 
-CEFR Speaking structure: 8 questions across 4 parts. Q1–Q3 prep 5/speak 30, Q4 prep 10/speak 45, Q5–Q6 prep 5/speak 30, Q7–Q8 prep 60/speak 120. Defaults are hardcoded as `data-prep`/`data-speak` on `<details class="q">` in `site/Speaking Mocks.html`; per-mock JS files override via `prepTime`/`speakTime`.
+What genuinely remains as static `.js` under `site/` is the **other exam families**:
+
+- `site/questions KET L/` (28) · `site/questions KET RW/` (28)
+- `site/questions PET L|R|W/` (8 each)
+- `site/questions CAE RW/` (2) · `site/questions CPE RW/` (2) · `site/questions FCE L|RW/` (1 each) · `site/questions SAT/` (1)
+
+⚠️ Paths this file used to list that **no longer exist**: `site/questions S/`, `site/questions W/`, `site/questions IELTS R/`, `site/questions IELTS W/`, `site/questions G/`, `site/questions V/`. And `site/questions CEFR L|R/`, `site/questions IELTS L|S/` and `site/questions Articles/` still exist but hold 1 or 0 `.js` — leftovers, not the live content. Check a folder before assuming it feeds anything.
+
+`site/cefr-mock-config.js` and `site/ielts-mock-config.js` still exist and still declare counts / naming patterns for what is left.
+
+CEFR Speaking structure: 8 questions across 4 parts. Q1–Q3 prep 5/speak 30, Q4 prep 10/speak 45, Q5–Q6 prep 5/speak 30, Q7–Q8 prep 60/speak 120. Defaults are hardcoded as `data-prep`/`data-speak` on `<details class="q">` in `site/Speaking Mocks.html`. Per-mock overrides used to come from the static `questions*.js` files; those are gone, so a mock's own timings now travel in its `mock_tests` row.
 
 When the user says "speaking mock" without qualifier, default to **CEFR** (`Speaking Mocks.html`) — IELTS is a separate file.
 
@@ -87,12 +101,13 @@ When the user says "speaking mock" without qualifier, default to **CEFR** (`Spea
 
 - Project URL: `https://zknyukkbtbcqgvkgjktb.supabase.co`. Publishable anon key is committed in client code (it's safe to expose) — never commit the service role key.
 - Migrations: `supabase/migrations/*.sql`, dated `20260423…` and forward. Stage 1 RLS lockdown is applied; treat anon access as locked-down by default and update the whitelist explicitly when adding new public reads.
-- Edge Functions in `supabase/functions/`: `verify-passcode`, `ai-proxy`, `codes-manager`, `send-to-telegram`, `routing-proxy`, `support-bot`, `telegram-bot-webhook`, `telegram-center-bot`, `validate-vip-token`, `authorize-finish`, `admin-ips`, `get-promo-code`.
+- Edge Functions in `supabase/functions/` — **46 of them**, not the dozen this file used to list. Run `ls supabase/functions` for the real set rather than trusting a list here. Most often touched: `ai-proxy` (all AI traffic), `verify-passcode`, `codes-manager`, `send-to-telegram`, `report` / `report-locked`, `guest-results`, `check-mock-limit`, `transcribe-audio`, `web-push` / `send-push`, the watchers (`daily-health-check`, `ai-credit-watch`, `unscored-watch`, `shared-account-watch`), and the bot/auth webhooks (`telegram-bot-webhook`, `telegram-center-bot`, `news-bot-webhook`, `verify-telegram-login`, `verify-telegram-initdata`).
+- ⚠️ **Several functions must be deployed with `--no-verify-jwt`, `ai-proxy` above all.** A redeploy that silently reset it on 2026-09-11 made the gateway reject every scoring call *before the function ran* — so nothing was logged, every provider alarm reported healthy, and 268 submissions came back unscored over 24 h.
 - Deploy guides: `supabase/DEPLOY_AI_PROXY.md`, `supabase/DEPLOY_ADMIN_LOCKDOWN.md`.
 
 ## Service worker — bump the cache version
 
-`site/sw.js` uses a network-first strategy for HTML/JS and cache-first for icons. The cache name has a version suffix (e.g. `mockstream-v11`). **Bump it any time you change the precached shell or want to force clients to drop stale assets** — otherwise users keep serving the old version from cache.
+`site/sw.js` uses a network-first strategy for HTML/JS and cache-first for icons. The cache name has a version suffix — currently `mockstream-v1041`. **Bump it any time you change the precached shell or want to force clients to drop stale assets** — otherwise users keep serving the old version from cache.
 
 ## Smoke / probe scripts (root)
 
