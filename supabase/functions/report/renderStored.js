@@ -22,7 +22,9 @@ import { repairStored } from './repairStored.js';
 import { withAiRails } from './aiRails.js';
 import { withTwoUpImages } from './twoUpImages.js';
 
-const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
+// The permanent archive. Moved from GCS to R2 on 2026-09-13 (all 153,946
+// objects, verified); the GCS bucket is kept as the way back.
+const ARCHIVE = 'https://audio.mock-stream.com/reports/';
 const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
 
 /** Raw bytes of a stored path as text: bucket first, archive second, else null. */
