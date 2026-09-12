@@ -77,6 +77,12 @@ function describe(r: Row): string[] {
     L.push(`  ${room ? '🏫' : '🌍'} ${r.ip_count} IP${r.ip_count === 1 ? '' : 's'}` +
            ` on ${r.network_count} network${r.network_count === 1 ? '' : 's'}` +
            (room ? ' — <b>looks like one room</b>' : ' — <b>spread across networks</b>'));
+  } else {
+    // The IPs come from ai_submission_logs, so an account that opens mocks but
+    // never submits one for AI scoring has no IP on record at all. Printing
+    // nothing read as "no networks", which is the opposite of what it means:
+    // cambridge.itroom (0 submissions) looked tidier than the classroom it is.
+    L.push('  ❔ <i>no network data — nothing submitted for AI scoring</i>');
   }
 
   // The evidence, not the summary. Six devices doing 5-8 attempts each across
