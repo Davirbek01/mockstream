@@ -29,6 +29,7 @@
 // =====================================================================
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { gcpSpend, type GcpSpend } from './gcpSpend.ts';
+import { cfUsage, type CfUsage } from './cfUsage.ts';
 import { resendDay, resendSection, type ResendDay } from './resendDay.ts';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
@@ -115,7 +116,7 @@ function esc(s: string) {
  *  estimated from the bytes we uploaded at the configured bitrate. That part
  *  is marked ~ so it is never mistaken for a measurement.
  */
-function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttempts: number): string[] {
+function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttempts: number, cf: CfUsage | null): string[] {
   const L: string[] = [];
   if (!rows || !rows.length) return L;
 
@@ -165,7 +166,11 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttem
   // for the run rate — which is the number that matters — but kept on separate
   // lines so it stays clear which is which.
   const google = gcp && !gcp.note ? gcp.total : 0;
-  const grand = total + google;
+  // Cloudflare is a third kind again: usage × published rate. It joins the run
+  // rate because that is the number that matters, but keeps its own line so
+  // nobody later mistakes it for an invoice the way Google's half is.
+  const cloud = cf && !cf.note ? cf.dayUsd : 0;
+  const grand = total + google + cloud;
 
   L.push(`💰 <b>Spend</b> — ${money(grand)}  <i>(≈ ${money(grand * 30)}/month at this rate)</i>`);
   if (gcp) {
@@ -177,6 +182,15 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttem
       for (const g of gcp.by.slice(0, 5)) {
         L.push(`   ${esc(g.service)}: ${money(g.cost)}`);
       }
+    }
+  }
+  if (cf) {
+    if (cf.note) {
+      L.push(`  <b>Cloudflare</b>: <i>${esc(cf.note)}</i>`);
+    } else {
+      L.push(`  <b>Cloudflare</b> ${money(cf.dayUsd)} <i>(usage × published rate, not an invoice)</i>`);
+      L.push(`   R2: ${cf.gb.toFixed(1)} GB · ${cf.objects.toLocaleString('en-US')} objects` +
+             (cf.opsFree ? ' · operations inside the free tier' : ' · ⚠️ operations now BILLABLE'));
     }
   }
   L.push(`  <b>AI</b> ${money(total)} <i>(estimated from our own logs)</i>`);
@@ -222,7 +236,7 @@ function concurrencySection(rows: any[]): string[] {
   return L;
 }
 
-function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = [], resend: ResendDay | null = null): string {
+function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = [], resend: ResendDay | null = null, cf: CfUsage | null = null): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -359,7 +373,7 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   const emailLines = resendSection(resend);
   if (emailLines.length) { for (const line of emailLines) L.push(line); L.push(''); }
 
-  for (const line of spendSection(spend, prices, gcp, audioAttempts)) L.push(line);
+  for (const line of spendSection(spend, prices, gcp, audioAttempts, cf)) L.push(line);
 
   const stale = s.stale_app || {};
   if (Number(stale.total) > 0) {
@@ -436,10 +450,13 @@ Deno.serve(async (req) => {
   // Google's own numbers, if the billing export has been connected. A day
   // behind by nature: the export is written after the day closes.
   const gcp = await gcpSpend(daysBack);
+  // Null when CF_ANALYTICS_TOKEN is unset — the Cloudflare line is then simply
+  // absent, exactly like Resend's when its key is missing.
+  const cf = await cfUsage(daysBack);
   // Null when RESEND_API_KEY is unset; the section is then simply absent.
   const resend = await resendDay(daysBack);
 
-  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend);
+  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend, cf);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).
