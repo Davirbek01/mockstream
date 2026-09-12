@@ -2238,7 +2238,7 @@
         // Level-specific natural-voice audio (edge-tts, en-GB-RyanNeural) hosted on GCS.
         // article num -> [levels that have generated audio]. Read-aloud = <level>.mp3 (whole passage);
         // dictation = dictation-<level>/sentence<i>.mp3 (one per sentence, matching the article's sentence split).
-        const LEVEL_AUDIO_BASE = 'https://storage.googleapis.com/mockstream-samples-audio/cefr-articles';
+        const LEVEL_AUDIO_BASE = 'https://audio.mock-stream.com/cefr-articles';
         // Legacy hardcoded map (pre-migration). Migrated articles instead carry an
         // `audio` object in their row: { B1:{whole,timings,dictationBase}, B2:{...}, C1:{...} }.
         const LEVEL_AUDIO_ARTICLES = { '01': ['B1'] };

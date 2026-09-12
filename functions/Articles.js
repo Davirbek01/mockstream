@@ -36,7 +36,7 @@ export const onRequest = (context) =>
     // plain above. No lookup needed for the image.
     const pad = num < 100 ? String(num).padStart(2, '0') : String(num);
     let image =
-      `https://storage.googleapis.com/mockstream-samples-audio/cefr-articles/article-${pad}/image.jpg`;
+      `https://audio.mock-stream.com/cefr-articles/article-${pad}/image.jpg`;
 
     // The real headline — but only for crawlers, so student page loads never
     // pay for the round-trip. Any failure keeps the derived title.
