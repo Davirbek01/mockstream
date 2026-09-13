@@ -72,10 +72,19 @@ export async function cfUsage(daysBack: number): Promise<CfUsage | null> {
   const since = new Date(Date.now() - Math.max(1, daysBack + 1) * 86_400_000).toISOString();
 
   try {
-    // Storage is a level, not a flow: take the most recent reading in the
-    // window rather than summing, or a day with more samples would look bigger.
+    // Storage is a level, not a flow: read the peak in the window rather than
+    // summing, or a day with more samples would look bigger.
+    //
+    // Do NOT order by datetime here. Cloudflare's GraphQL only accepts an
+    // orderBy field that is itself selected as a dimension or an aggregate, so
+    // `orderBy: [datetime_DESC]` fails the whole query with "cannot order by
+    // datetime: it is neither aggregated, nor a dimension" — which is exactly
+    // what the 2026-09-12 digest printed where the Cloudflare figure should be.
+    // With no dimensions and limit 1 the node already collapses the window into
+    // a single row, and `max` takes the peak across it, so the ordering bought
+    // nothing even when it parsed.
     const s = await gql(`{ viewer { accounts(filter: {accountTag: "${ACCOUNT}"}) {
-      r2StorageAdaptiveGroups(limit: 1, filter: {datetime_geq: "${since}"}, orderBy: [datetime_DESC]) {
+      r2StorageAdaptiveGroups(limit: 1, filter: {datetime_geq: "${since}"}) {
         max { objectCount payloadSize }
       } } } }`);
     const top = s?.r2StorageAdaptiveGroups?.[0]?.max;
