@@ -71,7 +71,7 @@
   // field is a file:// fallback and reads 'mockstream.site' for four of seven.
   var CENTER_HOST = {
     'mock_stream': 'mock-stream.com',
-    'bek':         'bekzodsmultilevel.com',
+    'bek':         'bekzodturgunovkx.com',
     'niners':      'ninersacademy.com',
     'global':      'asrolingo.com',
     'muzaffars':   'muzaffars-english.netlify.app',

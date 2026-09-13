@@ -43,7 +43,8 @@ const json = (s: number, b: unknown) =>
  *  field is a file:// fallback and reads 'mockstream.site' for four of seven. */
 const CENTER_HOST: Record<string, string> = {
   mock_stream: 'mock-stream.com',
-  bek: 'bekzodsmultilevel.com',
+  // Rebranded 2026-09-13; bekzodsmultilevel.com is being retired within a month.
+  bek: 'bekzodturgunovkx.com',
   niners: 'ninersacademy.com',
   global: 'global-education.netlify.app',
   muzaffars: 'muzaffars-english.netlify.app',
