@@ -23,7 +23,9 @@ import { withAudioFallback } from './audioFallback.js';
 const SKILL_ICON = { listening: '🎧', reading: '📖', writing: '✍️', speaking: '🎤' };
 const ORDER = ['listening', 'reading', 'writing', 'speaking'];
 const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
-const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
+// The permanent archive. Moved from GCS to R2 on 2026-09-13; the GCS bucket is
+// kept as the way back.
+const ARCHIVE = 'https://audio.mock-stream.com/reports/';
 
 function esc(s) {
   return String(s == null ? '' : s)

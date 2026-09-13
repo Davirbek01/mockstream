@@ -126,7 +126,7 @@ async function sendOne(row: any): Promise<{ ok: boolean; error?: string }> {
     // open one — send it exactly as it was sent originally.
     const urls = [
       `${SUPABASE_URL}/storage/v1/object/public/reports/${encodeURI(path)}`,
-      `https://storage.googleapis.com/mockstream-report-archive/${encodeURI(path)}`,
+      `https://audio.mock-stream.com/reports/${encodeURI(path)}`,
     ];
     let got: Blob | null = null;
     for (const u of urls) {

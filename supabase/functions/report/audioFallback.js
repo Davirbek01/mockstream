@@ -10,7 +10,7 @@
 // locker replaces the whole document on unlock).
 export const AUDIO_FALLBACK =
   `<script>(function(){` +
-  `var A='https://storage.googleapis.com/mockstream-report-archive/';` +
+  `var A='https://audio.mock-stream.com/reports/';` +
   `var P='/storage/v1/object/public/reports/';` +
   `function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;` +
   `el.dataset.archRetry='1';el.src=A+s.split(P)[1];` +

@@ -92,7 +92,7 @@ async function deliver(row: any): Promise<{ id: string; ok: boolean; error?: str
   if (/\.zip$/i.test(path)) {
     const urls = [
       `${SUPABASE_URL}/storage/v1/object/public/reports/${encodeURI(path)}`,
-      `https://storage.googleapis.com/mockstream-report-archive/${encodeURI(path)}`,
+      `https://audio.mock-stream.com/reports/${encodeURI(path)}`,
     ];
     let got: Blob | null = null;
     for (const u of urls) {

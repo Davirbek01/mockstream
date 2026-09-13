@@ -1109,11 +1109,12 @@
       }
     }
 
-    // Old reports move to a permanent GCS archive after Supabase retention;
-    // try live storage first, then the archive.
+    // Old reports move to a permanent archive after Supabase retention; try
+    // live storage first, then the archive. The archive moved from GCS to R2
+    // on 2026-09-13; the GCS copy is kept as the way back.
     function _ruFetchReport(reportPath) {
       var primary = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
-      var archive = 'https://storage.googleapis.com/mockstream-report-archive/' + reportPath;
+      var archive = 'https://audio.mock-stream.com/reports/' + reportPath;
       return fetch(primary).then(function (r) {
         if (r.ok) return r;
         return fetch(archive).then(function (a) {
@@ -1127,7 +1128,7 @@
     // audio before the html. Retry failed <audio> from the archive.
     function _ruInjectArchiveAudio(html) {
       if (!html || html.indexOf('archRetry') !== -1) return html;
-      var s = "<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
+      var s = "<script>(function(){var A='https://audio.mock-stream.com/reports/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
       return html.indexOf('</body>') !== -1 ? html.replace('</body>', s + '</body>') : html + s;
     }
 

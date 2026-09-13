@@ -110,18 +110,47 @@ Deno.serve(async (req) => {
     if (!error) deleted += Array.isArray(data) ? data.length : batch.length;
   }
 
-  // Deleted docs that made it into the permanent GCS archive keep their
-  // report_path — the viewers fall back to the archive. Null only paths that
-  // were never archived, so no row ever points at a file that exists nowhere.
-  const ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
+  // Deleted docs that made it into the permanent archive keep their report_path
+  // — the viewers fall back to the archive. Null only paths that were never
+  // archived, so no row ever points at a file that exists nowhere.
+  //
+  // ⚠️ The archive lives in TWO places since 2026-09-13. The nightly archiver
+  // (mockstream-desktop tools/archive-reports/archive.py) now writes to R2,
+  // because on Coldline ~90% of that job's cost was the writing itself. The
+  // 82.84 GB written before the cut-over was deliberately left on GCS. So a
+  // file counts as archived if it is in EITHER, and checking only GCS here
+  // would null the report_path of every file archived from the cut-over on —
+  // destroying the student's link to a report that is sitting safe on R2.
+  const ARCHIVE_BASES = [
+    'https://audio.mock-stream.com/reports/',                          // R2, current
+    'https://storage.googleapis.com/mockstream-report-archive/',       // GCS, frozen
+  ];
   const docPaths = toDelete.filter((p) => p.split('/').length === 2 && /\.(html|zip)$/i.test(p));
   const notArchived: string[] = [];
   for (let i = 0; i < docPaths.length; i += 20) {
     const checks = docPaths.slice(i, i + 20).map(async (p) => {
-      try {
-        const h = await fetch(ARCHIVE_BASE + encodeURI(p), { method: 'HEAD' });
-        if (!h.ok) notArchived.push(p);
-      } catch { notArchived.push(p); }
+      // Only a definite answer from every store may null a row, and **404 is
+      // the only definite answer**. Everything else — 403 from a WAF rule or an
+      // IP-reputation call, a 5xx, a redirect, or no answer at all — says
+      // nothing about whether the file exists. Measured 2026-09-13:
+      // audio.mock-stream.com already returns 403 to some clients (it 403s a
+      // default `Python-urllib` user-agent while serving curl, wget and an
+      // empty UA), so this is not hypothetical. Reading such a reply as
+      // "missing" would erase a student's link to a report sitting there safe,
+      // silently, across many rows at once. When in doubt, keep the path: the
+      // next nightly run re-checks it, and nothing is lost by waiting.
+      let anyFound = false;
+      let allDefinite = true;
+      for (const base of ARCHIVE_BASES) {
+        try {
+          const h = await fetch(base + encodeURI(p), { method: 'HEAD' });
+          if (h.ok) { anyFound = true; break; }
+          if (h.status !== 404) allDefinite = false;
+        } catch {
+          allDefinite = false;
+        }
+      }
+      if (!anyFound && allDefinite) notArchived.push(p);
     });
     await Promise.all(checks);
   }
