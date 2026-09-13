@@ -44,6 +44,24 @@
       var params = new URLSearchParams(location.search);
       var to = params.get('to') || '';
       var center = params.get('center') || 'mock_stream';
+      // A centre reachable on TWO domains needs two login bots, because Telegram
+      // allows exactly one /setdomain per bot. The bot must match the domain this
+      // page is being served from, or Telegram rejects the origin and the user
+      // sees "Bot domain invalid". The app only knows its centre id, so resolve
+      // the bot by HOSTNAME here — exactly as index.html / landing-v3.html do.
+      //
+      // `center` itself is deliberately left alone: it is not forwarded from this
+      // page (only the signed payload is), and the app posts the centre id to
+      // verify-telegram-login, which tries EVERY token the centre owns and takes
+      // the first that matches. So the account a student signs into is identical
+      // whichever domain and bot they came through.
+      var TELEGRAM_LOGIN_KEY_BY_HOST = {
+        'bekzodturgunovkx.com':     'bek_kx',
+        'www.bekzodturgunovkx.com': 'bek_kx',
+        'asrolingo.com':            'global_asr',
+        'www.asrolingo.com':        'global_asr'
+      };
+      var loginKey = TELEGRAM_LOGIN_KEY_BY_HOST[location.hostname] || center;
       var msg = document.getElementById('msg');
       var spin = document.getElementById('spin');
       var btnWrap = document.getElementById('btn');
@@ -79,7 +97,9 @@
         fetch(SB_URL + '/functions/v1/get-login-bot-ids', { headers: { apikey: SB_KEY } })
           .then(function (r) { return r.ok ? r.json() : {}; })
           .then(function (ids) {
-            var botId = ids[center];
+            // Fall back to the centre's own key so a host that is not in the map
+            // (and every single-domain centre) behaves exactly as before.
+            var botId = ids[loginKey] || ids[center];
             if (!botId) { fail('Telegram sign-in is not configured for this centre.'); return; }
             spin.style.display = 'none';
             msg.textContent = 'Tap the button to continue:';

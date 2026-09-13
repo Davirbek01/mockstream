@@ -399,7 +399,7 @@
   // mock-stream.com link would activate the code on the wrong site.
   var VIP_LINK_HOST = {
     mock_stream: 'mock-stream.com',
-    bek: 'bekzodsmultilevel.com',
+    bek: 'bekzodturgunovkx.com',
     niners: 'ninersacademy.com',
     global: 'asrolingo.com',
     muzaffars: 'muzaffars-english.netlify.app',
