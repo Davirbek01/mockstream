@@ -10,7 +10,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `dev` branch → **only** the main site `mock-stream.com` (Pages project `mock-stream`). Use it as the canary / staging ground.
 - `master` branch → simultaneously deploys to **6 student-facing clones**, each its own Pages project:
-  1. `bekzodsmultilevel.com` (center id `bek`)
+  1. `bekzodturgunovkx.com` (center id `bek`) — **also still served on the old
+     `bekzodsmultilevel.com`**, which is being retired (decided 2026-09-13,
+     "within a month"). Both answer today and serve identical builds. Telegram
+     allows one `/setdomain` per bot, so the centre owns TWO login bots and TWO
+     mini-app bots; the site picks between them by **hostname**, not centre id
+     (`TELEGRAM_LOGIN_KEY_BY_HOST` in `index.html`, `landing-v3.html` and
+     `site/tg-login.html` → key `bek_kx`). `verify-telegram-login` and
+     `verify-telegram-initdata` try every token the centre owns, so either bot
+     signs into the same account.
+     ⚠️ The desktop and mobile apps still hardcode the OLD domain (runner
+     `platform/telegramAuth.ts` + `platform/env.ts`, mobile `lib/telegramAuth.ts`
+     + `config/flavor.ts`). They load the login bridge FROM that domain, so
+     deleting it breaks Telegram sign-in and report links for every installed
+     app. Switch those four and ship before the domain goes.
   2. `ninersacademy.com` (center id `niners`)
   3. `asrolingo.com` (center id `global` — rebranded to Asrolingo 2026-09-09; **the centre id stayed `global`**)
   4. `muzaffarsenglish.com` (center id `muzaffars`)
@@ -22,6 +35,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Pages build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `site/site-config/center-guard.js` (both in that subfolder, not in `site/` itself) use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
 
 **Workflow rule:** push to `dev`, verify on `mock-stream.com`, only then push to `master`. Never skip the dev step.
+
+⚠️ **Some changes cannot be fully verified on `dev`, and pretending otherwise is
+the trap.** Anything keyed on *hostname* — the two-domain Telegram bot selection
+above is the live example — simply does not fire on `mock-stream.com`, because
+that host is not in the map. There, `dev` can only prove two things: the new code
+shipped, and nothing regressed for `mock_stream`. The behaviour itself is only
+testable after `master`, on the domain that triggers it. Say which of the two you
+actually verified rather than calling the dev check a pass.
 
 ## Production source: `site/` (no build step)
 
