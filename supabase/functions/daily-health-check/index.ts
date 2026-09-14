@@ -189,8 +189,12 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttem
       L.push(`  <b>Cloudflare</b>: <i>${esc(cf.note)}</i>`);
     } else {
       L.push(`  <b>Cloudflare</b> ${money(cf.dayUsd)} <i>(usage × published rate, not an invoice)</i>`);
-      L.push(`   R2: ${cf.gb.toFixed(1)} GB · ${cf.objects.toLocaleString('en-US')} objects` +
-             (cf.opsFree ? ' · operations inside the free tier' : ' · ⚠️ operations now BILLABLE'));
+      // Month-to-date, because R2's free allowance is monthly — a single busy
+      // day (a backfill, a migration) is not a trend and must not read as one.
+      const k = (n: number) => n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : String(n);
+      L.push(`   R2: ${cf.gb.toFixed(1)} GB · ${cf.objects.toLocaleString('en-US')} objects`);
+      L.push(`   this month: ${k(cf.classA)} / 1M writes · ${k(cf.classB)} / 10M reads` +
+             (cf.opsFree ? ' — free tier' : ' — ⚠️ over the free tier, now billable'));
     }
   }
   L.push(`  <b>AI</b> ${money(total)} <i>(estimated from our own logs)</i>`);
