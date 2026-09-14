@@ -285,37 +285,86 @@ Deno.serve(async (req) => {
     }
 
     try {
-      let tgResp: Response;
-      if (fileBytes) {
-        const tgForm = new FormData();
-        tgForm.append('chat_id', target.chatId);
-        if (caption) tgForm.append('caption', caption);
-        tgForm.append('document', new Blob([fileBytes], { type: fileType }), fileName);
-        tgResp = await fetch(apiBase + '/sendDocument', { method: 'POST', body: tgForm });
-      } else {
-        const body = caption || text;
-        if (!body) {
-          results.push({ target: target.tag, ok: false, error: 'no_file_no_text' });
-          if (reserved) {
-            await sb.from('telegram_send_log').delete()
-              .eq('idem_key', idemKey).eq('target_tag', target.tag);
-          }
-          continue;
-        }
-        tgResp = await fetch(apiBase + '/sendMessage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: target.chatId, text: body, disable_web_page_preview: true })
-        });
-      }
-      const tgJson = await tgResp.json().catch(() => ({}));
-      if (!tgResp.ok || !tgJson.ok) {
-        const err = { target: target.tag, ok: false, status: tgResp.status, telegram: tgJson };
-        results.push(err);
-        if (target.tag === centerId) primaryError = err;
-        // Failed → release reservation so a legitimate retry can re-post.
+      const textBody = caption || text;
+      if (!fileBytes && !textBody) {
+        results.push({ target: target.tag, ok: false, error: 'no_file_no_text' });
         if (reserved) {
           await sb.from('telegram_send_log').delete()
+            .eq('idem_key', idemKey).eq('target_tag', target.tag);
+        }
+        continue;
+      }
+      // One HTTP call to Telegram. The form is rebuilt every time: a request
+      // body is a stream and cannot be sent twice.
+      const postOnce = (): Promise<Response> => {
+        if (fileBytes) {
+          const tgForm = new FormData();
+          tgForm.append('chat_id', target.chatId);
+          if (caption) tgForm.append('caption', caption);
+          tgForm.append('document', new Blob([fileBytes], { type: fileType }), fileName);
+          return fetch(apiBase + '/sendDocument', { method: 'POST', body: tgForm });
+        }
+        return fetch(apiBase + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: target.chatId, text: textBody, disable_web_page_preview: true })
+        });
+      };
+
+      // Retry what Telegram tells us is temporary — and nothing else.
+      //  • 429 carries `retry_after`: Telegram has NOT posted the message, so
+      //    waiting and sending again cannot duplicate it. Busy evenings hit
+      //    this (231 speaking reports in one hour on 2026-09-13), and every
+      //    report fans out to the `general` channel too.
+      //  • 5xx and a dropped connection get ONE more try. Here Telegram may
+      //    already have posted, so a rare duplicate is possible — accepted,
+      //    because a channel missing a report is worse than one showing it twice.
+      //  • 4xx other than 429 (bad chat id, file too big) will fail the same way
+      //    again, so they are not retried.
+      // The total wait is capped: the student's page is waiting on this reply,
+      // and a page that gives up is exactly how a send gets cut off mid-flight.
+      const MAX_WAIT_MS = 20_000;
+      let waited = 0;
+      let tgResp: Response | null = null;
+      let tgJson: any = {};
+      let fetchError = '';
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        fetchError = '';
+        try {
+          tgResp = await postOnce();
+          tgJson = await tgResp.json().catch(() => ({}));
+        } catch (e) {
+          tgResp = null;
+          fetchError = (e as Error).message;
+        }
+        if (tgResp && tgResp.ok && tgJson.ok) break;
+        let delay = 0;
+        if (tgResp && tgResp.status === 429) {
+          delay = (Number(tgJson?.parameters?.retry_after) || 3) * 1000 + 250;
+        } else if ((!tgResp || tgResp.status >= 500) && attempt === 1) {
+          delay = 1500;
+        }
+        if (!delay || waited + delay > MAX_WAIT_MS) break;
+        await new Promise((r) => setTimeout(r, delay));
+        waited += delay;
+      }
+
+      if (!tgResp || !tgResp.ok || !tgJson.ok) {
+        const reason = !tgResp
+          ? 'fetch_failed: ' + fetchError
+          : `${tgResp.status} ${tgJson?.description || ''}`.trim();
+        const err = tgResp
+          ? { target: target.tag, ok: false, status: tgResp.status, telegram: tgJson }
+          : { target: target.tag, ok: false, error: 'fetch_failed: ' + fetchError };
+        results.push(err);
+        if (target.tag === centerId) primaryError = err;
+        // Keep the row and say WHY. It used to be deleted here, which left a
+        // refused send with no trace — the 08:00 digest could never see one.
+        // A later retry of this report still works: the reservation step above
+        // clears any failed row before posting again.
+        if (reserved) {
+          await sb.from('telegram_send_log')
+            .update({ ok: false, error: reason.slice(0, 300) })
             .eq('idem_key', idemKey).eq('target_tag', target.tag);
         }
       } else {
@@ -335,11 +384,12 @@ Deno.serve(async (req) => {
         }
       }
     } catch (e) {
-      const err = { target: target.tag, ok: false, error: 'fetch_failed: ' + (e as Error).message };
+      const err = { target: target.tag, ok: false, error: 'internal: ' + (e as Error).message };
       results.push(err);
       if (target.tag === centerId) primaryError = err;
       if (reserved) {
-        await sb.from('telegram_send_log').delete()
+        await sb.from('telegram_send_log')
+          .update({ ok: false, error: ('internal: ' + (e as Error).message).slice(0, 300) })
           .eq('idem_key', idemKey).eq('target_tag', target.tag);
       }
     }
