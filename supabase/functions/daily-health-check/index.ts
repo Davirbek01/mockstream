@@ -189,8 +189,12 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null, audioAttem
       L.push(`  <b>Cloudflare</b>: <i>${esc(cf.note)}</i>`);
     } else {
       L.push(`  <b>Cloudflare</b> ${money(cf.dayUsd)} <i>(usage × published rate, not an invoice)</i>`);
-      L.push(`   R2: ${cf.gb.toFixed(1)} GB · ${cf.objects.toLocaleString('en-US')} objects` +
-             (cf.opsFree ? ' · operations inside the free tier' : ' · ⚠️ operations now BILLABLE'));
+      // Month-to-date, because R2's free allowance is monthly — a single busy
+      // day (a backfill, a migration) is not a trend and must not read as one.
+      const k = (n: number) => n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : String(n);
+      L.push(`   R2: ${cf.gb.toFixed(1)} GB · ${cf.objects.toLocaleString('en-US')} objects`);
+      L.push(`   this month: ${k(cf.classA)} / 1M writes · ${k(cf.classB)} / 10M reads` +
+             (cf.opsFree ? ' — free tier' : ' — ⚠️ over the free tier, now billable'));
     }
   }
   L.push(`  <b>AI</b> ${money(total)} <i>(estimated from our own logs)</i>`);
@@ -243,15 +247,30 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   const ai = s.ai || {};
 
   // A headline that says at a glance whether anything needs attention.
+  //
+  // Telegram sends are graded by WHERE they failed. A centre's own channel
+  // missing a report is the thing a centre notices, so it is red. The `general`
+  // oversight channel only mirrors those reports; a missing copy there is worth
+  // knowing but not worth a red morning — on 2026-09-13 one such copy turned
+  // the whole digest red while all 703 reports had reached their centres.
+  const n = (v: unknown) => Number(v) || 0;
+  const plural = (k: number, w: string) => `${k} ${w}${k === 1 ? '' : 's'}`;
   const alerts: string[] = [];
+  const notes: string[] = [];
   if (dead.length) alerts.push(`${dead.length} function${dead.length > 1 ? 's' : ''} down`);
-  if (Number(tg.dead_windows) > 0) alerts.push('Telegram silence');
-  if (Number(tg.failed) > 0) alerts.push(`${tg.failed} send failure${Number(tg.failed) === 1 ? '' : 's'}`);
-  if (Number(tg.gap_pct) > Number(tg.gap_pct_7d) + 3) alerts.push('delivery gap up');
+  if (n(tg.dead_windows) > 0) alerts.push('Telegram silence');
+  if (n(tg.failed_centre) > 0) alerts.push(`${plural(n(tg.failed_centre), 'centre send')} refused`);
+  if (n(tg.cut_centre) > 0) alerts.push(`${plural(n(tg.cut_centre), 'centre send')} cut off`);
+  if (n(tg.gap_pct) > n(tg.gap_pct_7d) + 3) alerts.push('delivery gap up');
+  const generalMissed = n(tg.failed_general) + n(tg.cut_general);
+  if (generalMissed > 0) notes.push(`${generalMissed} ${generalMissed === 1 ? 'copy' : 'copies'} missing from the general channel`);
 
-  L.push(alerts.length ? '🔴 <b>Health check — needs attention</b>' : '🟢 <b>Health check — all clear</b>');
+  L.push(alerts.length ? '🔴 <b>Health check — needs attention</b>'
+       : notes.length ? `🟡 <b>Health check — all clear, ${notes.length === 1 ? 'one note' : `${notes.length} notes`}</b>`
+       : '🟢 <b>Health check — all clear</b>');
   L.push(`<i>${esc(s.day)}</i>`);
   if (alerts.length) L.push('⚠️ ' + esc(alerts.join(' · ')));
+  if (notes.length) L.push('📝 ' + esc(notes.join(' · ')));
   L.push('');
 
   // 1. Submissions
@@ -291,8 +310,17 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   // counted per report, not per message, so a re-send of an older report or
   // last night's stragglers cannot push the number past the day's total.
   L.push(`📨 <b>Telegram</b> — delivered ${tg.submissions} of ${s.submissions}` +
-         (Number(tg.failed) ? ` · ${tg.failed} send failure${Number(tg.failed) > 1 ? 's' : ''}` : '') +
          (Number(tg.resends) ? ` · ${tg.resends} re-sent by hand` : ''));
+  // "refused" = Telegram or the network said no, and the log keeps the reason.
+  // "cut off" = the send stopped mid-flight; whether it arrived is unknown.
+  const sendIssues = [
+    n(tg.failed_centre) ? `centre channel: ${n(tg.failed_centre)} refused` : '',
+    n(tg.cut_centre) ? `centre channel: ${n(tg.cut_centre)} cut off` : '',
+    n(tg.failed_general) ? `general channel: ${n(tg.failed_general)} refused` : '',
+    n(tg.cut_general) ? `general channel: ${n(tg.cut_general)} cut off (may still have arrived)` : '',
+  ].filter(Boolean);
+  if (sendIssues.length) L.push(`  ⚠️ ${esc(sendIssues.join(' · '))}`);
+  if (tg.error_sample) L.push(`  <i>last refusal: ${esc(String(tg.error_sample).slice(0, 160))}</i>`);
   if (Number(tg.gap) > 0) {
     // The baseline only counts days whose sends carried the report id; before
     // 20 Aug 2026 they did not, so those days cannot be measured and are left
