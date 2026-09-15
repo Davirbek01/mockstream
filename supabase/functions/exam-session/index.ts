@@ -11,18 +11,20 @@
 //
 // The logic and its race protection live in SQL (migration
 // 20260915140000_ultra_plan_and_exam_lock.sql); this function only resolves
-// WHO is calling — from the JWT, never from the body, or anybody could lock
-// somebody else out — and where from (IP, country).
+// WHO is calling at start / request — from the JWT, never from the body, or
+// anybody could lock somebody else out — and where from (IP, country). After
+// that, the session / request uuid it handed out is the credential: the exam
+// pages cannot refresh a token, and a paper outlives one.
 //
 // Actions (POST { action, ... }):
 //   start    { center, device_key, platform, device_label, exam_key, exam_label, practice }
 //            → { allowed, tracked, session_id, beat_seconds } | { allowed:false, holder }
-//   beat     { center, session_id, device_key, active }
+//   beat     { session_id, device_key, active }          (no JWT needed)
 //            → { state: ok | request | ended | unknown, request?, reason?, by? }
-//   end      { center, session_id, device_key, reason: submitted | closed }
+//   end      { session_id, device_key, reason: submitted | closed }
 //   request  { same fields as start } → { status: pending | released | rate_limited, ... }
-//   poll     { center, request_id, device_key } → { status, session_id? }
-//   answer   { center, session_id, device_key, request_id, approve }
+//   poll     { request_id, device_key } → { status, session_id? }
+//   answer   { session_id, device_key, request_id, approve }
 //
 // Every failure fails OPEN: a bug or an outage here must never stop a
 // student from taking a mock. Clients treat any non-JSON / error as allowed.
@@ -124,10 +126,52 @@ Deno.serve(async (req: Request) => {
   const action    = str(body.action, 16);
   const centerRaw = str(body.center, 40);
   const deviceKey = str(body.device_key, 120);
-  if (!centerRaw || !deviceKey) return openDoor({ reason: 'bad_request' });
-  const center = normCenter(centerRaw);
+  if (!deviceKey) return openDoor({ reason: 'bad_request' });
 
   try {
+    // ---- after the start: the session / request id is the credential ----
+    // The exam pages cannot refresh an access token, so a 60-minute paper
+    // would outlive it. The uuid the server handed out at start, together
+    // with this device's key, is what a heartbeat proves instead.
+    switch (action) {
+      case 'beat': {
+        const r = await rpc('exam_session_beat', {
+          p_ident: null, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
+          p_active: body.active === true,
+        });
+        return json(200, { ...r, beat_seconds: BEAT_SECONDS });
+      }
+      case 'end': {
+        const r = await rpc('exam_session_end', {
+          p_ident: null, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
+          p_reason: str(body.reason, 16),
+        });
+        return json(200, r);
+      }
+      case 'poll': {
+        const r = await rpc('exam_takeover_poll', {
+          p_ident: null, p_request_id: str(body.request_id, 40), p_device_key: deviceKey,
+        });
+        return json(200, { ...r, beat_seconds: BEAT_SECONDS });
+      }
+      case 'answer': {
+        const r = await rpc('exam_takeover_answer', {
+          p_ident: null, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
+          p_request_id: str(body.request_id, 40), p_approve: body.approve === true,
+        });
+        return json(200, r);
+      }
+      case 'start':
+      case 'request':
+        break;
+      default:
+        return openDoor({ reason: 'unknown_action' });
+    }
+
+    // ---- start / request: who is this, and are they locked at all ----
+    if (!centerRaw) return openDoor({ reason: 'bad_request' });
+    const center = normCenter(centerRaw);
+
     const c = await caller(req);
     if (!c) return openDoor({ reason: 'no_account' });
 
@@ -137,12 +181,11 @@ Deno.serve(async (req: Request) => {
     if (acc.kind !== 'premium' || !acc.ident) {
       return openDoor({ reason: acc.kind || 'not_premium' });
     }
-    const ident = acc.ident;
 
     const platformRaw = str(body.platform, 16).toLowerCase();
     const platform    = PLATFORMS.includes(platformRaw) ? platformRaw : 'web';
     const startArgs = {
-      p_ident:      ident,
+      p_ident:      acc.ident,
       p_center:     center,
       p_device_key: deviceKey,
       p_platform:   platform,
@@ -154,45 +197,12 @@ Deno.serve(async (req: Request) => {
       p_practice:   body.practice === true,
     };
 
-    switch (action) {
-      case 'start': {
-        const r = await rpc('exam_session_start', startArgs);
-        return json(200, { ...r, tracked: r.allowed === true, beat_seconds: BEAT_SECONDS });
-      }
-      case 'beat': {
-        const r = await rpc('exam_session_beat', {
-          p_ident: ident, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
-          p_active: body.active === true,
-        });
-        return json(200, { ...r, beat_seconds: BEAT_SECONDS });
-      }
-      case 'end': {
-        const r = await rpc('exam_session_end', {
-          p_ident: ident, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
-          p_reason: str(body.reason, 16),
-        });
-        return json(200, r);
-      }
-      case 'request': {
-        const r = await rpc('exam_takeover_request', startArgs);
-        return json(200, { ...r, beat_seconds: BEAT_SECONDS });
-      }
-      case 'poll': {
-        const r = await rpc('exam_takeover_poll', {
-          p_ident: ident, p_request_id: str(body.request_id, 40), p_device_key: deviceKey,
-        });
-        return json(200, { ...r, beat_seconds: BEAT_SECONDS });
-      }
-      case 'answer': {
-        const r = await rpc('exam_takeover_answer', {
-          p_ident: ident, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
-          p_request_id: str(body.request_id, 40), p_approve: body.approve === true,
-        });
-        return json(200, r);
-      }
-      default:
-        return openDoor({ reason: 'unknown_action' });
+    if (action === 'start') {
+      const r = await rpc('exam_session_start', startArgs);
+      return json(200, { ...r, tracked: r.allowed === true, beat_seconds: BEAT_SECONDS });
     }
+    const r = await rpc('exam_takeover_request', startArgs);
+    return json(200, { ...r, beat_seconds: BEAT_SECONDS });
   } catch (e) {
     console.error('[exam-session]', action, (e as Error).message);
     // Fail open — for beat that means "carry on", for start "go ahead".
