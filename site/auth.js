@@ -271,7 +271,7 @@
         filterParam = 'or=(' + orClauses.map(encodeURIComponent).join(',') + ')';
       }
       var url = SB_URL + '/rest/v1/premium_emails?' + filterParam +
-                '&select=tier,role,center,active,email,telegram_username,telegram_id';
+                '&select=tier,role,center,active,email,telegram_username,telegram_id,expires_at';
       var resp = await fetch(url, {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
@@ -296,6 +296,9 @@
         center: m.center || '',
         active: m.active !== false,
         isAdmin: m.role === 'admin',
+        // When the grant ends (null = no end, as for most admins). landing-v3's
+        // subscription button shows the time left from it.
+        expiresAt: m.expires_at || null,
         deviceLimitExceeded: false
       };
 

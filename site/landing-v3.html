@@ -326,7 +326,9 @@
       } catch (_e) { }
     })();
   </script>
-  <script src="/auth.js" defer></script>
+  <!-- ?v= because the subscription button reads checkPremiumRole().expiresAt,
+       and Pages serves site/*.js with max-age=14400 -->
+  <script src="/auth.js?v=2" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
 
@@ -1423,6 +1425,33 @@
        .hidden actually hides them on centres without a config. */
     .sub-price[hidden], .sub-pay[hidden], .sub-tg-btn[hidden], .sub-soon[hidden],
     .sub-instructor[hidden], .sub-pitch[hidden], .sub-quote[hidden], .sub-how[hidden] { display: none !important; }
+    /* Subscription STATUS for someone who already has access (2026-09-15).
+       The button used to hide for them; a paying student then could not tell
+       how long they had left, and an admin could not tell they were covered. */
+    .sub-status[hidden], .sub-offer[hidden], .sub-renew-btn[hidden],
+    .sub-status-label[hidden], .sub-status-left[hidden], .sub-status-until[hidden], .sub-status-note[hidden] { display: none !important; }
+    .topbar-subscribe.is-premium { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%) !important; }
+    .topbar-subscribe.is-admin { background: linear-gradient(135deg, #818cf8 0%, #4338ca 100%) !important; }
+    .topbar-subscribe.is-ending { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important; }
+    .sub-status { text-align: center; padding: 20px 16px 18px; border-radius: 16px; margin-bottom: 4px;
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #a7f3d0; }
+    .sub-status.is-admin { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border-color: #c7d2fe; }
+    .sub-status.is-ending { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-color: #fed7aa; }
+    .sub-status-ico { font-size: 36px; line-height: 1; margin-bottom: 8px; }
+    .sub-status-title { font: 800 17px/1.3 'Inter', sans-serif; color: var(--ink); }
+    .sub-status-label { font: 700 11px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-top: 14px; }
+    .sub-status-left { font: 800 28px/1.15 'Inter', sans-serif; color: var(--ink); letter-spacing: -0.02em; margin-top: 6px; }
+    .sub-status-until { font-size: 13px; color: var(--ink-2); margin-top: 6px; }
+    .msv3-panel-body .sub-status-note { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); margin: 12px 0 0; }
+    .sub-renew-btn { display: block; width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 12px; cursor: pointer;
+      font: 700 14px/1 'Inter', sans-serif; color: #fff; background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); }
+    .sub-renew-btn:hover { filter: brightness(1.05); }
+    /* Renewing: keep the price and the payment path, drop the sales pitch —
+       this student already knows what they are paying for. */
+    #msv3SubPanel.sub-renew .sub-intro, #msv3SubPanel.sub-renew .sub-benefits,
+    #msv3SubPanel.sub-renew .sub-pitch, #msv3SubPanel.sub-renew .sub-preview-wrap,
+    #msv3SubPanel.sub-renew .sub-quote, #msv3SubPanel.sub-renew .sub-instructor { display: none !important; }
+    #msv3SubPanel.sub-renew .sub-offer { margin-top: 14px; }
     /* Same trap for the CTA itself: .topbar-subscribe is display:inline-flex,
        which beats the [hidden] attribute's UA rule. A student who has already
        paid must not keep seeing "Obuna bo'lish" — that is what the button is
@@ -5776,6 +5805,19 @@
         <button type="button" class="msv3-panel-close" aria-label="Yopish">×</button>
       </div>
       <div class="msv3-panel-body sub-body">
+        <!-- Shown instead of the offer to someone who already has access:
+             admin → no limit; premium → time left (+ renew when it is close). -->
+        <div class="sub-status" id="msv3SubStatus" hidden>
+          <div class="sub-status-ico" id="msv3SubStatusIco"></div>
+          <div class="sub-status-title" id="msv3SubStatusTitle"></div>
+          <div class="sub-status-label" id="msv3SubStatusLabel" hidden></div>
+          <div class="sub-status-left" id="msv3SubStatusLeft" hidden></div>
+          <div class="sub-status-until" id="msv3SubStatusUntil" hidden></div>
+          <p class="sub-status-note" id="msv3SubStatusNote" hidden></p>
+          <button type="button" class="sub-renew-btn" id="msv3SubRenewBtn" hidden>🔁 Obunani uzaytirish</button>
+        </div>
+
+        <div class="sub-offer" id="msv3SubOffer">
         <div class="sub-price" id="msv3SubPrice" hidden>
           <span class="sub-price-period" id="msv3SubPeriod"></span>
           <span class="sub-price-amt" id="msv3SubAmount"></span>
@@ -5838,6 +5880,7 @@
         </a>
 
         <p class="sub-soon" id="msv3SubSoon" hidden>Obuna tez orada shu yerda faollashtiriladi.</p>
+        </div><!-- /#msv3SubOffer -->
       </div>
     </div>
   </div>
@@ -7831,35 +7874,171 @@
         // payment failed.
         return String(em || '').trim().toLowerCase();
       }
-      function _subIsPremium() {
-        var me = _subCurrentEmail();
-        if (!me) return false;                       // nobody signed in → always offer it
+      // ── What this person already has (2026-09-15) ────────────────────────
+      // Hiding the button left a paying student unable to see how long they
+      // had, and an admin unable to see they were covered. So it now says:
+      //   admin            → "Admin"          · panel: no limit
+      //   premium          → "Obuna bo'lgan"  · panel: time left + end date,
+      //                      and a renew path once 3 days or less remain
+      //   everyone else    → "Obuna bo'lish"  · panel: the offer, as before
+      // A grant whose expires_at has passed counts as "everyone else" even
+      // while the row is still active=true — the job that flips it runs later,
+      // and a student must never be told "Obuna bo'lgan" with nothing left.
+      // The answer comes from checkPremiumRole() for the LIVE session only,
+      // never the localStorage flags (see _subCurrentEmail above).
+      var _SUB_RENEW_MS = 3 * 86400000;
+      var _SUB_MONTHS = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
+      var _subState = { kind: 'none' };
+      var _subSeq = 0;
+      var _subStarIcon = (subBtn.querySelector('svg') || {}).outerHTML || '';
+      var _subCheckIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      var _subCrownIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 4.1L12 4.5l4.4 7.1L21 7.5 19.2 19H4.8z"></path></svg>';
+      function _subEl(id) { return document.getElementById(id); }
+      function _subLeftMs() { return _subState.exp ? _subState.exp - Date.now() : Infinity; }
+      function _subEnding() { return _subState.kind === 'premium' && _subLeftMs() <= _SUB_RENEW_MS; }
+      function _subLeftText(ms) {
+        var min = Math.max(0, Math.floor(ms / 60000));
+        var d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+        if (d > 0) return d + ' kun ' + h + ' soat';
+        if (h > 0) return h + ' soat ' + m + ' daqiqa';
+        return Math.max(1, m) + ' daqiqa';
+      }
+      function _subUntilText(ts) {
+        var t = new Date(ts);
+        return t.getDate() + '-' + _SUB_MONTHS[t.getMonth()] + ', '
+             + String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0') + ' gacha';
+      }
+
+      async function _subResolve() {
+        var seq = ++_subSeq;
+        var next = { kind: 'none' };
         try {
-          var vipEmail = String(localStorage.getItem('ms_vip_email') || '').trim().toLowerCase();
-          var admEmail = String(localStorage.getItem('ms_admin_email') || '').trim().toLowerCase();
-          if (admEmail && admEmail === me) return true;
-          if (vipEmail && vipEmail === me && localStorage.getItem('ms_vip_tier') === 'premium') return true;
+          var a = window.MockStream && window.MockStream.auth;
+          if (a && _subCurrentEmail() && typeof a.checkPremiumRole === 'function') {
+            var info = await a.checkPremiumRole();
+            if (info && info.isAdmin) {
+              next = { kind: 'admin' };
+            } else if (info && info.tier === 'premium' && (info.active || info.deviceLimitExceeded)) {
+              var exp = info.expiresAt ? Date.parse(info.expiresAt) : NaN;
+              if (!(isFinite(exp) && exp <= Date.now())) {
+                next = {
+                  kind: 'premium',
+                  exp: isFinite(exp) ? exp : null,
+                  // An auth.js cached from before 2026-09-15 has no expiresAt at
+                  // all: say "active" without inventing a number.
+                  dateKnown: Object.prototype.hasOwnProperty.call(info, 'expiresAt'),
+                  deviceLimit: !!info.deviceLimitExceeded
+                };
+              }
+            }
+          }
         } catch (e) {}
-        return false;
+        if (seq !== _subSeq) return;   // a newer sign-in / sign-out answered first
+        _subState = next;
+        _subRenderButton();
+        _subRenderStatus();
       }
-      function _subSyncVisibility() {
-        var prem = _subIsPremium();
-        subBtn.hidden = prem;                    // needs .topbar-subscribe[hidden] — inline-flex beats the UA rule
-        // The flag can arrive while the panel is open (sign-in finishing a
-        // second after a click). Close it rather than leave a paying student
-        // reading a price list.
-        if (prem) { try { closePanel('msv3SubPanel'); } catch (e) {} }
+
+      function _subRenderButton() {
+        var k = _subState.kind, ending = _subEnding();
+        var label = k === 'admin' ? 'Admin' : k === 'premium' ? "Obuna bo'lgan" : "Obuna bo'lish";
+        var icon = k === 'admin' ? _subCrownIcon : k === 'premium' ? _subCheckIcon : _subStarIcon;
+        subBtn.innerHTML = icon + '<span class="ts-label">' + label + '</span>';
+        subBtn.title = label;
+        subBtn.setAttribute('aria-label', label);
+        subBtn.classList.toggle('is-admin', k === 'admin');
+        subBtn.classList.toggle('is-premium', k === 'premium' && !ending);
+        subBtn.classList.toggle('is-ending', ending);
+        subBtn.hidden = false;
       }
-      _subSyncVisibility();
-      // The topbar renders before auth resolves, so the first run almost always
-      // sees "not premium". These two fire once the real answer is known.
-      try { window.addEventListener('mockStream:premiumUnlocked', _subSyncVisibility); } catch (e) {}
-      try { document.addEventListener('mockStream:centerConfigLoaded', _subSyncVisibility); } catch (e) {}
+
+      function _subRenderStatus() {
+        var panel = _subEl('msv3SubPanel'), st = _subEl('msv3SubStatus'), offer = _subEl('msv3SubOffer');
+        if (!panel || !st || !offer) return;
+        var k = _subState.kind;
+        var renewing = k === 'premium' && panel.classList.contains('sub-renew');
+        if (!renewing) panel.classList.remove('sub-renew');
+        var tg = _subEl('msv3SubTg');
+        if (tg && tg.lastChild && tg.lastChild.nodeType === 3) {
+          tg.lastChild.nodeValue = renewing ? " Chekni yuborish — Telegram orqali" : " Obuna bo'lish — Telegram orqali";
+        }
+        if (k === 'none') {
+          st.hidden = true;
+          offer.hidden = false;
+          _subEl('msv3SubTitle').textContent = '⭐ Premium obuna';
+          return;
+        }
+        var lbl = _subEl('msv3SubStatusLabel'), left = _subEl('msv3SubStatusLeft'),
+            until = _subEl('msv3SubStatusUntil'), note = _subEl('msv3SubStatusNote'), renew = _subEl('msv3SubRenewBtn');
+        st.hidden = false;
+        st.classList.toggle('is-admin', k === 'admin');
+        if (k === 'admin') {
+          st.classList.remove('is-ending');
+          _subEl('msv3SubTitle').textContent = '👑 Admin hisobi';
+          _subEl('msv3SubStatusIco').textContent = '👑';
+          _subEl('msv3SubStatusTitle').textContent = 'Admin — cheklovsiz';
+          lbl.hidden = true; left.hidden = true; until.hidden = true; renew.hidden = true;
+          note.textContent = 'Barcha mocklar va AI imkoniyatlari muddatsiz ochiq (no limit).';
+          note.hidden = false;
+          offer.hidden = true;
+          return;
+        }
+        var ending = _subEnding();
+        st.classList.toggle('is-ending', ending);
+        _subEl('msv3SubTitle').textContent = renewing ? '🔁 Obunani uzaytirish' : '✅ Obunangiz faol';
+        _subEl('msv3SubStatusIco').textContent = ending ? '⏳' : '✅';
+        _subEl('msv3SubStatusTitle').textContent = ending ? 'Obunangiz tugashiga oz qoldi' : 'Premium obunangiz faol';
+        if (_subState.exp) {
+          lbl.textContent = 'Tugashiga qoldi'; lbl.hidden = false;
+          left.textContent = _subLeftText(_subLeftMs()); left.hidden = false;
+          until.textContent = _subUntilText(_subState.exp); until.hidden = false;
+        } else {
+          lbl.hidden = true; until.hidden = true;
+          left.textContent = 'Muddatsiz';
+          left.hidden = !_subState.dateKnown;
+        }
+        var notes = [];
+        if (_subState.deviceLimit) notes.push('⚠️ Hisobingizga 5 tadan ortiq qurilmadan kirilgan, shuning uchun premium imkoniyatlar vaqtincha yopilgan.');
+        if (ending && !renewing) notes.push('Uzluksiz foydalanish uchun obunani oldindan uzaytiring.');
+        note.textContent = notes.join(' ');
+        note.hidden = !notes.length;
+        // Renewing needs somewhere to pay; without a published centre config
+        // there is nothing to show behind the button.
+        var canPay = !!(_subCfg && (_subCfg.card_number || _subCfg.telegram_username));
+        renew.hidden = !(ending && canPay) || renewing;
+        offer.hidden = !renewing;
+      }
+
+      var _subRenewBtn = _subEl('msv3SubRenewBtn');
+      if (_subRenewBtn) _subRenewBtn.addEventListener('click', function () {
+        var panel = _subEl('msv3SubPanel');
+        if (!panel) return;
+        panel.classList.add('sub-renew');
+        _subRenderStatus();
+        var target = _subEl('msv3SubPrice');
+        if (target && !target.hidden) { try { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {} }
+      });
+
+      // Time passes while the page is open: keep the countdown, the colour and
+      // the expiry itself honest without waiting for a reload.
+      setInterval(function () {
+        if (_subState.kind !== 'premium') return;
+        if (_subState.exp && _subState.exp <= Date.now()) _subState = { kind: 'none' };
+        _subRenderButton();
+        var p = _subEl('msv3SubPanel');
+        if (p && !p.hidden) _subRenderStatus();
+      }, 30000);
+
+      _subResolve();
+      // The topbar renders before auth resolves, so the first answer is almost
+      // always "none". These fire once the real answer is known.
+      try { window.addEventListener('mockStream:premiumUnlocked', _subResolve); } catch (e) {}
+      try { document.addEventListener('mockStream:centerConfigLoaded', _subResolve); } catch (e) {}
       // Sign-in and sign-out both change the answer, and neither reloads the
       // page — auth.js exposes onStateChange for exactly this.
       try {
         if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.onStateChange === 'function') {
-          window.MockStream.auth.onStateChange(function () { _subSyncVisibility(); });
+          window.MockStream.auth.onStateChange(function () { _subResolve(); });
         }
       } catch (e) {}
       var _SUB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
@@ -7924,8 +8103,13 @@
         return _subCfg;
       }
       subBtn.addEventListener('click', async function () {
+        var panel = document.getElementById('msv3SubPanel');
+        if (panel) panel.classList.remove('sub-renew');
+        _subRenderStatus();          // the right view before the config arrives
         openPanel('msv3SubPanel');
         _subApply(await _subLoad());
+        _subRenderStatus();          // the renew button needs the centre's payment path
+        _subResolve();               // cached per session: no extra request
       });
       var copyBtn = document.getElementById('msv3SubCopy');
       if (copyBtn) copyBtn.addEventListener('click', function () {
