@@ -138,6 +138,9 @@ Deno.serve(async (req: Request) => {
         const r = await rpc('exam_session_beat', {
           p_ident: null, p_session_id: str(body.session_id, 40), p_device_key: deviceKey,
           p_active: body.active === true,
+          // Mobile carriers move a phone between addresses all the time; the
+          // notice should name where the device is now, not where it started.
+          p_ip: clientIp(req) || null,
         });
         return json(200, { ...r, beat_seconds: BEAT_SECONDS });
       }
