@@ -347,7 +347,7 @@
           sessionId = null; stopBeats(); return;         // submitted / closed / replaced
         }
         if (r.state === 'unknown') { sessionId = null; stopBeats(); return; }
-        if (answeringId) { answeringId = null; hide(); } // request lapsed while shown
+        if (answeringId) { answeringId = null; hide(); releaseExam(); } // request lapsed while shown
         scheduleBeat();
       });
   }
@@ -538,6 +538,82 @@
     alertAudio = null;
   }
 
+  // ---------------------------------------------------------------- pause
+  // While the takeover prompt is up the exam underneath must stand still: the
+  // question audio, the speaking timer and the recorder kept running behind
+  // the prompt in the first test. Each runner has its own pause control, so
+  // the prompt presses it (and presses it again when the student refuses).
+  // A runner the student had already paused is left alone.
+  var PAUSERS = [
+    { // CEFR + IELTS full mock
+      match: function () { return document.getElementById('hdrPauseBtn') && document.getElementById('pauseResumeBtn'); },
+      isPaused: function () { return window.examPaused === true; },
+      pause: function () { document.getElementById('hdrPauseBtn').click(); },
+      resume: function () { document.getElementById('pauseResumeBtn').click(); }
+    },
+    { // CEFR + IELTS speaking, CEFR writing: #pauseBtn toggles #pauseOverlay
+      match: function () { return document.getElementById('pauseBtn') && document.getElementById('pauseOverlay'); },
+      isPaused: function () { return document.getElementById('pauseOverlay').classList.contains('show'); },
+      pause: function () { document.getElementById('pauseBtn').click(); },
+      resume: function () { document.getElementById('pauseBtn').click(); }
+    },
+    { // IELTS writing: #pauseBtn toggles between ⏸ and ▶
+      match: function () { return document.getElementById('pauseBtn'); },
+      isPaused: function () { return (document.getElementById('pauseBtn').textContent || '').indexOf('▶') !== -1; },
+      pause: function () { document.getElementById('pauseBtn').click(); },
+      resume: function () { document.getElementById('pauseBtn').click(); }
+    }
+  ];
+  var heldPauser = null, heldMedia = [], heldSpeech = false;
+
+  function holdExam() {
+    if (heldPauser || heldMedia.length || heldSpeech) return;
+    try {
+      for (var i = 0; i < PAUSERS.length; i++) {
+        if (PAUSERS[i].match()) {
+          if (!PAUSERS[i].isPaused()) { PAUSERS[i].pause(); heldPauser = PAUSERS[i]; }
+          break;
+        }
+      }
+    } catch (e) {}
+    // Anything still playing that the runner's own pause did not cover
+    // (listening audio, reading pages without a pause button).
+    try {
+      document.querySelectorAll('audio, video').forEach(function (m) {
+        if (!m.paused && !m.ended) { try { m.pause(); heldMedia.push(m); } catch (e) {} }
+      });
+    } catch (e) {}
+    try {
+      if (window.speechSynthesis && window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+        window.speechSynthesis.pause(); heldSpeech = true;
+      }
+    } catch (e) {}
+  }
+
+  function releaseExam() {
+    var p = heldPauser, media = heldMedia, speech = heldSpeech;
+    heldPauser = null; heldMedia = []; heldSpeech = false;
+    try { if (p && p.isPaused()) p.resume(); } catch (e) {}
+    media.forEach(function (m) { try { var r = m.play(); if (r && r.catch) r.catch(function () {}); } catch (e) {} });
+    try { if (speech && window.speechSynthesis) window.speechSynthesis.resume(); } catch (e) {}
+  }
+
+  // The last five seconds tick audibly: five short beeps, the last one higher.
+  function tickBeep(last) {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx(), o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = last ? 1320 : 880;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.3, ctx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (last ? 0.35 : 0.15));
+      o.connect(g); g.connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime + (last ? 0.4 : 0.18));
+      setTimeout(function () { try { ctx.close(); } catch (e) {} }, 700);
+    } catch (e) {}
+  }
+
   function showRequest(req) {
     if (answeringId === req.id && root) {
       var c = $('cd'); if (c) c.textContent = mmss(Number(req.expires_in) || 0);
@@ -564,16 +640,24 @@
         '</div>' +
       '</div>', true
     );
+    holdExam();
     playAlert();
+    var lastBeep = 0;
     var tick = setInterval(function () {
       var c = $('cd');
       if (!c || answeringId !== req.id) { clearInterval(tick); return; }
       var left = (deadline - Date.now()) / 1000;
       c.textContent = mmss(left);
       if (left <= 10) c.classList.add('urgent');
+      var whole = Math.ceil(left);
+      if (whole >= 1 && whole <= 5 && whole !== lastBeep) {
+        lastBeep = whole;
+        if (whole === 5) stopAlert();
+        tickBeep(whole === 1);
+      }
       // At zero ask the server at once rather than waiting for the next beat.
       if (left <= -1) { clearInterval(tick); scheduleBeat(0.1); }
-    }, 1000);
+    }, 250);
     var answer = function (approve) {
       stopAlert();
       var a = $('allow'), d = $('deny');
@@ -584,6 +668,7 @@
           answeringId = null;
           if (approve && r && r.status === 'approved') { approvedHere = true; showEnded('taken_over', req); return; }
           hide();
+          releaseExam();
           scheduleBeat();
         });
     };
