@@ -116,18 +116,40 @@ function posInt(raw: unknown): number {
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
-async function verifiedEmail(authHeader: string): Promise<string> {
+async function verifiedUser(authHeader: string): Promise<{ email: string; telegram: string }> {
+  const none = { email: '', telegram: '' };
   const token = (authHeader || '').replace(/^Bearer\s+/i, '').trim();
-  if (!token) return '';
+  if (!token) return none;
   try {
     const { data, error } = await sb.auth.getUser(token);
-    if (error || !data?.user?.email) return '';
-    return String(data.user.email).trim().toLowerCase();
+    if (error || !data?.user?.email) return none;
+    const meta = (data.user.user_metadata || {}) as Record<string, unknown>;
+    return {
+      email: String(data.user.email).trim().toLowerCase(),
+      telegram: typeof meta.telegram_username === 'string' ? meta.telegram_username : '',
+    };
   } catch {
     // Also the path taken when the anon publishable key is sent as the
     // bearer, which is not a user token and has no email.
-    return '';
+    return none;
   }
+}
+
+/** Ultra (Mock Stream + Record): a premium account with no per-student
+ *  limits. Decided by account_access, which also matches Telegram sign-ins
+ *  and applies the centre rule. Only ever asked for a JWT-verified identity —
+ *  a client-supplied address must not be able to borrow somebody's Ultra. */
+async function isUltra(email: string, telegram: string, centerId: string): Promise<boolean> {
+  if (!email) return false;
+  const { data, error } = await sb.rpc('account_access', {
+    p_email: email, p_telegram: telegram, p_center: centerId,
+  });
+  if (error) {
+    console.error('[check-mock-limit] account_access failed:', error.message);
+    return false;
+  }
+  const row = Array.isArray(data) ? data[0] : data;
+  return row?.kind === 'ultra';
 }
 
 async function isAdmin(email: string): Promise<boolean> {
@@ -238,7 +260,8 @@ Deno.serve(async (req: Request) => {
   }
 
   // Identity is resolved only once we know some limit is configured.
-  let email = await verifiedEmail(req.headers.get('authorization') || '');
+  const verified = await verifiedUser(req.headers.get('authorization') || '');
+  let email = verified.email;
   let identified = 'jwt';
   if (!email) {
     email = String(body.email || '').trim().toLowerCase();
@@ -251,6 +274,12 @@ Deno.serve(async (req: Request) => {
   // mock_attempts row is ever written for them.
   if (email && await isAdmin(email)) {
     return unlimited({ reason: 'admin', identified });
+  }
+
+  // Ultra passes every gate below: the iOS rule, the centre quota and the
+  // per-account window.
+  if (identified === 'jwt' && await isUltra(email, verified.telegram, centerId)) {
+    return unlimited({ reason: 'ultra', identified });
   }
 
   // ---- gate 0: the iOS fair-use rule -------------------------------

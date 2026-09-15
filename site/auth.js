@@ -271,7 +271,7 @@
         filterParam = 'or=(' + orClauses.map(encodeURIComponent).join(',') + ')';
       }
       var url = SB_URL + '/rest/v1/premium_emails?' + filterParam +
-                '&select=tier,role,center,active,email,telegram_username,telegram_id,expires_at';
+                '&select=tier,role,center,active,email,telegram_username,telegram_id,expires_at,plan';
       var resp = await fetch(url, {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
@@ -299,6 +299,10 @@
         // When the grant ends (null = no end, as for most admins). landing-v3's
         // subscription button shows the time left from it.
         expiresAt: m.expires_at || null,
+        // premium | ultra. Ultra = no per-student limits and no one-exam-at-a-
+        // time lock; honoured on Mock Stream and Record only (the server
+        // decides — this is for showing the student what they have).
+        plan: m.plan === 'ultra' ? 'ultra' : 'premium',
         deviceLimitExceeded: false
       };
 

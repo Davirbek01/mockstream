@@ -327,6 +327,15 @@ async function studentCapExceeded(
 ): Promise<boolean> {
   if (!centerId || cap <= 0) return false;
   if (!email && !ip) return false;
+  // Ultra accounts (Mock Stream + Record) have no per-student cap. The address
+  // is the same unverified x-ms-email header the cap itself is keyed on, so
+  // trusting it here opens nothing new: a caller able to fake it could already
+  // dodge the cap by sending a different address.
+  if (email) {
+    const { data } = await sb.rpc('account_access', { p_email: email, p_telegram: '', p_center: centerId });
+    const row = Array.isArray(data) ? data[0] : data;
+    if (row?.kind === 'ultra') return false;
+  }
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   let q = sb.from('ai_submission_logs')
     .select('id', { count: 'exact', head: true })

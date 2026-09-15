@@ -328,7 +328,7 @@
   </script>
   <!-- ?v= because the subscription button reads checkPremiumRole().expiresAt,
        and Pages serves site/*.js with max-age=14400 -->
-  <script src="/auth.js?v=2" defer></script>
+  <script src="/auth.js?v=3" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
 
@@ -1432,10 +1432,12 @@
     .sub-status-label[hidden], .sub-status-left[hidden], .sub-status-until[hidden], .sub-status-note[hidden] { display: none !important; }
     .topbar-subscribe.is-premium { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%) !important; }
     .topbar-subscribe.is-admin { background: linear-gradient(135deg, #818cf8 0%, #4338ca 100%) !important; }
+    .topbar-subscribe.is-ultra { background: linear-gradient(135deg, #a78bfa 0%, #6d28d9 100%) !important; }
     .topbar-subscribe.is-ending { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important; }
     .sub-status { text-align: center; padding: 20px 16px 18px; border-radius: 16px; margin-bottom: 4px;
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #a7f3d0; }
     .sub-status.is-admin { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border-color: #c7d2fe; }
+    .sub-status.is-ultra { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-color: #ddd6fe; }
     .sub-status.is-ending { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-color: #fed7aa; }
     .sub-status-ico { font-size: 36px; line-height: 1; margin-bottom: 8px; }
     .sub-status-title { font: 800 17px/1.3 'Inter', sans-serif; color: var(--ink); }
@@ -7880,6 +7882,8 @@
       //   admin            → "Admin"          · panel: no limit
       //   premium          → "Obuna bo'lgan"  · panel: time left + end date,
       //                      and a renew path once 3 days or less remain
+      //   ultra            → "Ultra"          · panel: time left, no limits,
+      //                      no renew button (Ultra is never sold on the page)
       //   everyone else    → "Obuna bo'lish"  · panel: the offer, as before
       // A grant whose expires_at has passed counts as "everyone else" even
       // while the row is still active=true — the job that flips it runs later,
@@ -7892,6 +7896,13 @@
       var _subSeq = 0;
       var _subStarIcon = (subBtn.querySelector('svg') || {}).outerHTML || '';
       var _subCheckIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      var _subDiamondIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 3h11L22 9l-10 12L2 9z"></path></svg>';
+      // Ultra exists on Mock Stream and Record only; a stray grant elsewhere
+      // shows as the Premium it actually is there.
+      function _subUltraHere() {
+        var c = String(window.__CENTER_ID || 'mock_stream').toLowerCase();
+        return c === 'mock_stream' || c === 'mockstream' || c === 'record';
+      }
       var _subCrownIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 4.1L12 4.5l4.4 7.1L21 7.5 19.2 19H4.8z"></path></svg>';
       function _subEl(id) { return document.getElementById(id); }
       function _subLeftMs() { return _subState.exp ? _subState.exp - Date.now() : Infinity; }
@@ -7927,6 +7938,7 @@
                   // An auth.js cached from before 2026-09-15 has no expiresAt at
                   // all: say "active" without inventing a number.
                   dateKnown: Object.prototype.hasOwnProperty.call(info, 'expiresAt'),
+                  ultra: info.plan === 'ultra' && _subUltraHere(),
                   deviceLimit: !!info.deviceLimitExceeded
                 };
               }
@@ -7940,14 +7952,15 @@
       }
 
       function _subRenderButton() {
-        var k = _subState.kind, ending = _subEnding();
-        var label = k === 'admin' ? 'Admin' : k === 'premium' ? "Obuna bo'lgan" : "Obuna bo'lish";
-        var icon = k === 'admin' ? _subCrownIcon : k === 'premium' ? _subCheckIcon : _subStarIcon;
+        var k = _subState.kind, ending = _subEnding(), ultra = k === 'premium' && !!_subState.ultra;
+        var label = k === 'admin' ? 'Admin' : ultra ? 'Ultra' : k === 'premium' ? "Obuna bo'lgan" : "Obuna bo'lish";
+        var icon = k === 'admin' ? _subCrownIcon : ultra ? _subDiamondIcon : k === 'premium' ? _subCheckIcon : _subStarIcon;
         subBtn.innerHTML = icon + '<span class="ts-label">' + label + '</span>';
         subBtn.title = label;
         subBtn.setAttribute('aria-label', label);
         subBtn.classList.toggle('is-admin', k === 'admin');
-        subBtn.classList.toggle('is-premium', k === 'premium' && !ending);
+        subBtn.classList.toggle('is-premium', k === 'premium' && !ending && !ultra);
+        subBtn.classList.toggle('is-ultra', ultra && !ending);
         subBtn.classList.toggle('is-ending', ending);
         subBtn.hidden = false;
       }
@@ -7984,10 +7997,13 @@
           return;
         }
         var ending = _subEnding();
+        var ultra = !!_subState.ultra;
         st.classList.toggle('is-ending', ending);
-        _subEl('msv3SubTitle').textContent = renewing ? '🔁 Obunani uzaytirish' : '✅ Obunangiz faol';
-        _subEl('msv3SubStatusIco').textContent = ending ? '⏳' : '✅';
-        _subEl('msv3SubStatusTitle').textContent = ending ? 'Obunangiz tugashiga oz qoldi' : 'Premium obunangiz faol';
+        st.classList.toggle('is-ultra', ultra && !ending);
+        _subEl('msv3SubTitle').textContent = renewing ? '🔁 Obunani uzaytirish' : ultra ? '💎 Ultra obuna' : '✅ Obunangiz faol';
+        _subEl('msv3SubStatusIco').textContent = ending ? '⏳' : ultra ? '💎' : '✅';
+        _subEl('msv3SubStatusTitle').textContent = ending ? 'Obunangiz tugashiga oz qoldi'
+          : ultra ? 'Ultra obunangiz faol — cheklovsiz' : 'Premium obunangiz faol';
         if (_subState.exp) {
           lbl.textContent = 'Tugashiga qoldi'; lbl.hidden = false;
           left.textContent = _subLeftText(_subLeftMs()); left.hidden = false;
@@ -7998,14 +8014,17 @@
           left.hidden = !_subState.dateKnown;
         }
         var notes = [];
+        if (ultra) notes.push('Kunlik cheklovlar yo‘q. Bir vaqtning o‘zida bir nechta qurilmada imtihon topshirish mumkin.');
+        if (ultra && ending) notes.push('Obunani uzaytirish uchun markaz administratoriga murojaat qiling.');
         if (_subState.deviceLimit) notes.push('⚠️ Hisobingizga 5 tadan ortiq qurilmadan kirilgan, shuning uchun premium imkoniyatlar vaqtincha yopilgan.');
-        if (ending && !renewing) notes.push('Uzluksiz foydalanish uchun obunani oldindan uzaytiring.');
+        if (ending && !renewing && !ultra) notes.push('Uzluksiz foydalanish uchun obunani oldindan uzaytiring.');
         note.textContent = notes.join(' ');
         note.hidden = !notes.length;
         // Renewing needs somewhere to pay; without a published centre config
         // there is nothing to show behind the button.
         var canPay = !!(_subCfg && (_subCfg.card_number || _subCfg.telegram_username));
-        renew.hidden = !(ending && canPay) || renewing;
+        // Ultra is never sold on the page: its renewal goes through the admin.
+        renew.hidden = !(ending && canPay) || renewing || ultra;
         offer.hidden = !renewing;
       }
 

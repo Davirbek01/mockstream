@@ -1481,6 +1481,7 @@
     }
     .premium-item-tier.premium { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(217,119,6,0.1)); color: #b45309; }
     .premium-item-tier.regular { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(37,99,235,0.1)); color: #1d4ed8; }
+    .premium-item-tier.ultra { background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(79,70,229,0.12)); color: #6d28d9; }
     .premium-item-role { font-size: 10px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
     .premium-item-role.admin { background: linear-gradient(135deg, rgba(220,38,38,0.15), rgba(185,28,28,0.1)); color: #b91c1c; }
     .premium-item-role.user { background: linear-gradient(135deg, rgba(107,114,128,0.15), rgba(75,85,99,0.1)); color: #4b5563; }
@@ -2097,15 +2098,21 @@
 
         <div class="premium-add-form" id="premiumAddFormEmail" style="display:none;">
           <input type="email" id="premiumEmailInput" placeholder="student@email.com" autocomplete="off">
-          <select id="premiumTierSelect">
+          <select id="premiumTierSelect" onchange="syncPremiumPlanSelects()">
             <option value="premium">Premium (AI)</option>
             <option value="regular">Regular (Mocks)</option>
           </select>
-          <select id="premiumRoleSelect">
+          <!-- Ultra: no per-student limits, no one-exam-at-a-time lock.
+               Mock Stream + Record only; hidden for every other centre. -->
+          <select id="premiumPlanSelect" title="Plan" style="display:none;">
+            <option value="premium">⭐ Premium plan</option>
+            <option value="ultra">💎 Ultra (no limits)</option>
+          </select>
+          <select id="premiumRoleSelect" onchange="syncPremiumPlanSelects()">
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
-          <select id="premiumCenterSelect">
+          <select id="premiumCenterSelect" onchange="syncPremiumPlanSelects()">
             <option value="">All Centers</option>
           </select>
           <input type="number" id="premiumDays" min="1" max="3650" value="90"
@@ -2123,15 +2130,19 @@
                  placeholder="@telegram_username"
                  autocomplete="new-password" autocapitalize="none"
                  autocorrect="off" spellcheck="false" style="flex:1;">
-          <select id="premiumTgTier">
+          <select id="premiumTgTier" onchange="syncPremiumPlanSelects()">
             <option value="premium">Premium (AI)</option>
             <option value="regular">Regular (Mocks)</option>
           </select>
-          <select id="premiumTgRole">
+          <select id="premiumTgPlan" title="Plan" style="display:none;">
+            <option value="premium">⭐ Premium plan</option>
+            <option value="ultra">💎 Ultra (no limits)</option>
+          </select>
+          <select id="premiumTgRole" onchange="syncPremiumPlanSelects()">
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
-          <select id="premiumTgCenter">
+          <select id="premiumTgCenter" onchange="syncPremiumPlanSelects()">
             <option value="">All Centers</option>
           </select>
           <input type="number" id="premiumTgDays" min="1" max="3650" value="90"
@@ -5234,8 +5245,9 @@
       var html = '';
       rows.forEach(function (item, idx) {
         var isSuperAdmin = item.role === 'admin' && (!item.center || item.center === '');
-        var tierClass = item.tier === 'premium' ? 'premium' : 'regular';
-        var tierLabel = item.tier === 'premium' ? 'Premium AI' : 'Regular';
+        var isUltra = item.tier === 'premium' && item.plan === 'ultra';
+        var tierClass = isUltra ? 'ultra' : (item.tier === 'premium' ? 'premium' : 'regular');
+        var tierLabel = isUltra ? '💎 Ultra' : (item.tier === 'premium' ? 'Premium AI' : 'Regular');
         var roleClass = isSuperAdmin ? 'admin' : (item.role === 'admin' ? 'admin' : 'user');
         var roleLabel = isSuperAdmin ? '⚡ Super Admin' : (item.role === 'admin' ? '🛡️ Admin' : '👤 User');
         var toggleClass = item.active ? 'active' : 'inactive';
@@ -5294,6 +5306,10 @@
         var renewBtn = (item.role === 'user' || item.role === 'student')
           ? '<button class="premium-item-renew" onclick="event.stopPropagation();renewPremium(\'' + item.id + '\')" title="Renew subscription">↻ Renew</button>'
           : '';
+        // Premium <-> Ultra, for user rows on the two centres that have Ultra.
+        var planBtn = ((item.role === 'user' || item.role === 'student') && item.tier === 'premium' && _ultraAllowed(item.center))
+          ? '<button class="premium-item-renew" onclick="event.stopPropagation();setPremiumPlan(\'' + item.id + '\',\'' + (isUltra ? 'premium' : 'ultra') + '\')" title="' + (isUltra ? 'Back to Premium: daily limits and one exam at a time apply' : 'Ultra: no daily limits, several devices at once') + '">' + (isUltra ? '⭐ Make Premium' : '💎 Make Ultra') + '</button>'
+          : '';
 
         html += '<div class="premium-item-wrap" id="prem-' + item.id + '">'
           + '<div class="premium-item" onclick="togglePremiumCard(this.parentNode, event)">'
@@ -5310,6 +5326,7 @@
           + expiryBadge
           + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="event.stopPropagation();showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
           + renewBtn
+          + planBtn
           + '</div>'
           + expiryBar
           + '</div>';
@@ -5333,6 +5350,7 @@
       tgBtn.classList.toggle('open', openingTg);
       emailForm.style.display = openingEmail ? 'flex' : 'none';
       tgForm.style.display    = openingTg    ? 'flex' : 'none';
+      syncPremiumPlanSelects();
       if (openingEmail) {
         var inp = document.getElementById('premiumEmailInput');
         if (inp) setTimeout(function () { inp.focus(); }, 50);
@@ -5360,6 +5378,55 @@
     }
     window.togglePremiumCard = togglePremiumCard;
 
+    // ── Ultra plan ─────────────────────────────────────────────────────
+    // Ultra = a premium user with no per-student limits and no
+    // one-exam-at-a-time lock. It exists on Mock Stream and Record only
+    // (the database refuses it anywhere else), and never for admins or the
+    // Regular tier, so the picker only appears when all of that holds.
+    var ULTRA_CENTRES = ['', 'mock_stream', 'mockstream', 'record'];
+    function _ultraAllowed(center) {
+      return ULTRA_CENTRES.indexOf(String(center || '').trim().toLowerCase()) !== -1;
+    }
+    function _syncPlanSelect(planId, centerId, roleId, tierId) {
+      var plan = document.getElementById(planId);
+      if (!plan) return;
+      var c = document.getElementById(centerId), r = document.getElementById(roleId), t = document.getElementById(tierId);
+      var ok = _ultraAllowed(c ? c.value : '') && (!r || r.value !== 'admin') && (!t || t.value === 'premium');
+      plan.style.display = ok ? '' : 'none';
+      if (!ok) plan.value = 'premium';
+    }
+    function syncPremiumPlanSelects() {
+      _syncPlanSelect('premiumPlanSelect', 'premiumCenterSelect', 'premiumRoleSelect', 'premiumTierSelect');
+      _syncPlanSelect('premiumTgPlan', 'premiumTgCenter', 'premiumTgRole', 'premiumTgTier');
+    }
+    window.syncPremiumPlanSelects = syncPremiumPlanSelects;
+    function _planValue(planId) {
+      var el = document.getElementById(planId);
+      return el && el.style.display !== 'none' && el.value === 'ultra' ? 'ultra' : 'premium';
+    }
+
+    // Switch an existing row between Premium and Ultra (expiry untouched).
+    async function setPremiumPlan(id, plan) {
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?id=eq.' + id, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ plan: plan === 'ultra' ? 'ultra' : 'premium' })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        showPremiumMsg(plan === 'ultra' ? '💎 Switched to Ultra — no limits' : '⭐ Switched back to Premium', 'success');
+        loadPremiumEmails();
+      } catch (e) {
+        showPremiumMsg('Plan change failed: ' + (e.message || ''), 'error');
+      }
+    }
+    window.setPremiumPlan = setPremiumPlan;
+
     // Reads the days input + returns an ISO expires_at = now + N days.
     // Returns null for admin/super_admin (they never expire) or when the
     // input is missing/invalid. Default 90 days mirrors the legacy plan.
@@ -5384,6 +5451,7 @@
       var role = roleSelect.value;
       var center = centerSelect.value;
       var expiresAt = _premiumExpiresAt('premiumDays', role);
+      var plan = _planValue('premiumPlanSelect');
 
       // Basic email validation
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -5396,7 +5464,7 @@
       btn.textContent = '...';
 
       try {
-        var payload = { email: email, tier: tier, role: role, center: center, active: true };
+        var payload = { email: email, tier: tier, role: role, center: center, active: true, plan: plan };
         if (expiresAt) payload.expires_at = expiresAt;
         var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails', {
           method: 'POST',
@@ -5419,7 +5487,7 @@
             throw new Error('Insert failed');
           }
         } else {
-          showPremiumMsg('✅ ' + email + ' added as ' + tier + ' (' + role + ')', 'success');
+          showPremiumMsg('✅ ' + email + ' added as ' + (plan === 'ultra' ? '💎 Ultra' : tier) + ' (' + role + ')', 'success');
           emailInput.value = '';
           loadPremiumEmails();
         }
@@ -5447,6 +5515,7 @@
       var role = roleSelect.value;
       var center = centerSelect.value;
       var expiresAt = _premiumExpiresAt('premiumTgDays', role);
+      var plan = _planValue('premiumTgPlan');
 
       if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
         showPremiumMsg('Enter a valid Telegram username (3–32 chars, letters/digits/underscore)', 'error');
@@ -5459,7 +5528,7 @@
 
       try {
         // Try UPDATE first (in case @username already exists), else INSERT.
-        var patchBody = { tier: tier, role: role, center: center, active: true };
+        var patchBody = { tier: tier, role: role, center: center, active: true, plan: plan };
         if (expiresAt) patchBody.expires_at = expiresAt;
         var patchResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
           method: 'PATCH',
@@ -5481,7 +5550,7 @@
               'Content-Type': 'application/json',
               'Prefer': 'return=minimal'
             },
-            body: JSON.stringify(Object.assign({ telegram_username: u, tier: tier, role: role, center: center, active: true }, expiresAt ? { expires_at: expiresAt } : {}))
+            body: JSON.stringify(Object.assign({ telegram_username: u, tier: tier, role: role, center: center, active: true, plan: plan }, expiresAt ? { expires_at: expiresAt } : {}))
           });
           if (!insResp.ok) {
             var errData = await insResp.json().catch(function() { return {}; });
