@@ -21,11 +21,30 @@
     } catch (e) { return 'mockstream'; }
   }
 
+  // Remember, for this tab only, the codes a student just typed to open a mock
+  // or unlock VIP. All of them are 8 digits, exactly like the sign-in code we
+  // email, and students were typing their teacher's code into the email-code
+  // box. email-code-modal.js checks this list to say so plainly instead of
+  // "invalid code". Kept in the browser on purpose: a server lookup would let
+  // anyone test whether a guessed code exists.
+  window.msRememberAccessCode = function (code) {
+    try {
+      var d = String(code || '').replace(/\D/g, '');
+      if (d.length < 6) return;
+      var list = JSON.parse(sessionStorage.getItem('ms_recent_access_codes') || '[]');
+      if (!Array.isArray(list)) list = [];
+      list = list.filter(function (x) { return x !== d; });
+      list.unshift(d);
+      sessionStorage.setItem('ms_recent_access_codes', JSON.stringify(list.slice(0, 5)));
+    } catch (_e) {}
+  };
+
   // Verify a code via our verify-passcode edge function.
   // skill/mockNumber are optional but help disambiguate when given.
   window.verifyMockStreamCode = async function (code, opts) {
     if (!code) return { valid: false };
     code = String(code).trim();
+    window.msRememberAccessCode(code);
     opts = opts || {};
     var body = {
       code: code,

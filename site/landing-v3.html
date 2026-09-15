@@ -4516,8 +4516,9 @@
   <script src="/site-config/site-config.js"></script>
   <script src="/premium-gate.js" defer></script>
   <script src="/code-persistence.js" defer></script>
-  <script src="/mock-code-verifier.js?v=2"></script>
+  <script src="/mock-code-verifier.js?v=3"></script>
   <script src="/email-help.js?v=3" defer></script>
+  <script src="/email-code-modal.js?v=1" defer></script>
   <script>
     // "Did you mean …?" under both email boxes. 40+ addresses are already
     // on Resend's permanent suppression list, four of them @gamil.com — a
@@ -5509,16 +5510,10 @@
                  inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false">
           <button type="button" id="msv3EmailBtn" aria-label="Send sign-in link">→</button>
         </div>
-        <!-- Revealed after sending. On a phone the magic link opens in the
-             DEFAULT browser, not this one, so the student signs in somewhere
-             else and this tab stays logged out. The code keeps them here. -->
-        <div class="msv3-email-row" id="msv3CodeRow" style="display:none;margin-top:8px;">
-          <input type="text" id="msv3CodeInput" placeholder="Emaildagi kod"
-                 inputmode="numeric" autocomplete="one-time-code" maxlength="8"
-                 autocorrect="off" spellcheck="false">
-          <button type="button" id="msv3CodeBtn" aria-label="Verify code">→</button>
-        </div>
-        <div class="msv3-email-sub" id="msv3EmailSub">Kirish havolasini emailingizga yuboramiz</div>
+        <!-- The code is typed in a popup of its own (email-code-modal.js), not
+             in a row here. On a phone the emailed link opens the DEFAULT
+             browser, so the code is what keeps the student in this tab. -->
+        <div class="msv3-email-sub" id="msv3EmailSub">Emailingizga kirish kodini yuboramiz</div>
       </div>
 
       <div class="msv3-section">
@@ -6289,10 +6284,6 @@
       +     '<input type="email" id="msGateEmailInput" placeholder="email@example.com" inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false">'
       +     '<button type="button" id="msGateEmailBtn" aria-label="Send code">&#8594;</button>'
       +   '</div>'
-      +   '<div class="msv3-email-row" id="msGateCodeRow" style="display:none;margin-top:8px;">'
-      +     '<input type="text" id="msGateCodeInput" placeholder="Emaildagi kod" inputmode="numeric" autocomplete="one-time-code" maxlength="8" autocorrect="off" spellcheck="false">'
-      +     '<button type="button" id="msGateCodeBtn" aria-label="Verify code">&#8594;</button>'
-      +   '</div>'
       +   '<div class="msv3-email-sub" id="msGateSub" style="text-align:center;margin-top:8px;min-height:17px;">Email bilan shu oynaning o&#8216;zida kirasiz &#8212; boshqa sahifaga o&#8216;tmaysiz</div>'
       +   '<button type="button" id="msGateCancelBtn" style="margin-top:14px;width:100%;padding:9px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:12.5px;font-weight:600;cursor:pointer;">Bekor qilish</button>'
       + '</div>';
@@ -6466,37 +6457,16 @@
         }
       }
 
-      // ── Email — 8-digit code, exchanged in place ──
+      // ── Email — 8-digit code, typed in its own popup (email-code-modal.js) ──
+      // The code used to be a row under these buttons, and students typed the
+      // mock code their teacher gave them into it: both are 8 digits. The popup
+      // says what this code is before anything else. See email-code-modal.js.
       var emailInput = document.getElementById('msGateEmailInput');
       var emailBtn   = document.getElementById('msGateEmailBtn');
-      var codeRow    = document.getElementById('msGateCodeRow');
-      var codeInput  = document.getElementById('msGateCodeInput');
-      var codeBtn    = document.getElementById('msGateCodeBtn');
-      // verifyOtp needs the address alongside the code — the code alone does
-      // not identify the account.
-      var sentTo = '';
 
-      async function sendEmail() {
-        // A mistyped domain that happens to exist accepts the mail, bounces
-        // seconds later, and is suppressed for good — so the address has to be
-        // settled BEFORE the send, not after. Asks once; never blocks.
-        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
-            window.MsEmail.needsTypoConfirm(emailInput, sendEmail)) return;
-        var email = ((emailInput && emailInput.value) || '').trim().toLowerCase();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
-        var cdKey = 'ms_email_cd_' + email;
-        try {
-          var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
-          if (Date.now() - last < 60000) {
-            var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
-            _status('⏳ ' + secs + ' soniyadan so‘ng qayta urinib ko‘ring', 'err');
-            if (codeRow) codeRow.style.display = '';   // a code may already be in their inbox
-            sentTo = email;
-            return;
-          }
-        } catch (_e) {}
-        if (emailBtn) emailBtn.disabled = true;
-        _status('⏳ Yuborilmoqda…', '');
+      // One send, used by the first request AND by the popup's "send again",
+      // so both park the launch and use the same redirect.
+      async function _gateSendCode(email) {
         var SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         if (!window.EMAIL_LOGIN_OPEN_TO_ALL) {
@@ -6507,8 +6477,8 @@
               body: JSON.stringify({ p_email: email })
             });
             var ok = elig.ok ? await elig.json() : false;
-            if (ok !== true) { _status('❌ Bu email hozircha ruxsat etilmagan', 'err'); if (emailBtn) emailBtn.disabled = false; return; }
-          } catch (_e) { _status('❌ Xatolik. Qayta urinib ko‘ring', 'err'); if (emailBtn) emailBtn.disabled = false; return; }
+            if (ok !== true) return { ok: false, text: '❌ Bu email hozircha ruxsat etilmagan' };
+          } catch (_e) { return { ok: false, text: '❌ Xatolik. Qayta urinib ko‘ring' }; }
         }
         try {
           var client = (window.MockStream && window.MockStream.auth &&
@@ -6524,14 +6494,8 @@
             options: { emailRedirectTo: window.location.origin + window.location.pathname + window.location.search }
           });
           if (res.error) throw res.error;
-          try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-          sentTo = email;
-          _status('✅ Kod yuborildi. Emailingizdagi kodni kiriting.', 'ok');
-          if (emailBtn) emailBtn.textContent = '✓';
-          if (codeRow) {
-            codeRow.style.display = '';
-            if (codeInput) setTimeout(function () { try { codeInput.focus(); } catch (_e) {} }, 120);
-          }
+          try { localStorage.setItem('ms_email_cd_' + email, String(Date.now())); } catch (_e) {}
+          return { ok: true };
         } catch (e) {
           // "Try again later" was wrong for the commonest failure: Resend
           // refuses a suppressed or undeliverable address permanently, and
@@ -6540,43 +6504,51 @@
           var _ee = (window.MsEmail && window.MsEmail.sendError)
                       ? window.MsEmail.sendError(e)
                       : { text: '❌ Kod yuborilmadi. Qayta urinib ko‘ring.' };
-          _status(_ee.text, 'err');
-          if (emailBtn) emailBtn.disabled = false;
+          return { ok: false, text: _ee.text };
         }
       }
 
-      async function verifyEmailCode() {
-        var code = String((codeInput && codeInput.value) || '').replace(/\D/g, '');
-        // The project's OTP is 8 digits (Supabase default is 6) — accept both.
-        if (code.length < 6 || code.length > 8) { _status('❌ Emaildagi kodni to‘liq kiriting', 'err'); return; }
-        if (!sentTo) { _status('❌ Avval emailingizni kiriting', 'err'); return; }
-        if (codeBtn) codeBtn.disabled = true;
-        _status('⏳ Tekshirilmoqda…', '');
-        try {
-          var client = (window.MockStream && window.MockStream.auth &&
-                        typeof window.MockStream.auth.getClient === 'function')
-                         ? window.MockStream.auth.getClient() : null;
-          if (!client || !client.auth) throw new Error('auth client missing');
-          // A first-time address confirms with type 'signup', an existing one
-          // with 'email'; we cannot tell which from here, so try both.
-          var vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'email' });
-          if (vr && vr.error) {
-            vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'signup' });
+      function _gateOpenCode(email, justSent) {
+        if (!window.MsEmailCode) { _status('❌ Sahifani yangilab, qayta urinib ko‘ring', 'err'); return; }
+        window.MsEmailCode.open({
+          email: email,
+          justSent: justSent,
+          resend: function () { return _gateSendCode(email); },
+          onVerified: function () { _status('✅ Kirildi', 'ok'); _msGateSuccess(); },
+          onChangeEmail: function () {
+            _status('', '');
+            if (emailInput) { try { emailInput.focus(); emailInput.select(); } catch (_e) {} }
           }
-          if (vr && vr.error) throw vr.error;
-          _status('✅ Kirildi', 'ok');
-          _msGateSuccess();
-        } catch (e) {
-          console.warn('[gate] otp verify failed:', e);
-          _status('❌ Kod noto‘g‘ri yoki muddati o‘tgan', 'err');
-          if (codeBtn) codeBtn.disabled = false;
-        }
+        });
+      }
+
+      async function sendEmail() {
+        // A mistyped domain that happens to exist accepts the mail, bounces
+        // seconds later, and is suppressed for good — so the address has to be
+        // settled BEFORE the send, not after. Asks once; never blocks.
+        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+            window.MsEmail.needsTypoConfirm(emailInput, sendEmail)) return;
+        var email = ((emailInput && emailInput.value) || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
+        // A code for this address went out under a minute ago. Sending again
+        // would cancel it while it is still on its way — open the box for it.
+        try {
+          if (Date.now() - parseInt(localStorage.getItem('ms_email_cd_' + email) || '0', 10) < 60000) {
+            _gateOpenCode(email, false);
+            return;
+          }
+        } catch (_e) {}
+        if (emailBtn) emailBtn.disabled = true;
+        _status('⏳ Yuborilmoqda…', '');
+        var r = await _gateSendCode(email);
+        if (emailBtn) emailBtn.disabled = false;
+        if (!r.ok) { _status(r.text, 'err'); return; }
+        _status('✅ Kod yuborildi', 'ok');
+        _gateOpenCode(email, true);
       }
 
       if (emailBtn)   emailBtn.addEventListener('click', sendEmail);
       if (emailInput) emailInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendEmail(); });
-      if (codeBtn)    codeBtn.addEventListener('click', verifyEmailCode);
-      if (codeInput)  codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') verifyEmailCode(); });
 
       var cancel = document.getElementById('msGateCancelBtn');
       if (cancel) cancel.addEventListener('click', function () {
@@ -6997,23 +6969,8 @@
         sub.textContent = msg;
         sub.className = 'msv3-email-sub' + (kind ? ' ' + kind : '');
       }
-      var DEFAULT_SUB = sub ? sub.textContent : '';
-      async function send() {
-        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
-            window.MsEmail.needsTypoConfirm(input, send)) return;
-        var email = (input.value || '').trim().toLowerCase();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
-        var cdKey = 'ms_email_cd_' + email;
-        try {
-          var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
-          if (Date.now() - last < 60000) {
-            var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
-            _status('⏳ ' + secs + ' soniyadan so\'ng qayta urinib ko\'ring', 'err');
-            return;
-          }
-        } catch (_e) {}
-        btn.disabled = true;
-        _status('⏳ Yuborilmoqda…', '');
+      // One send for the first request and for the popup's "send again".
+      async function sendCode(email) {
         var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         if (!window.EMAIL_LOGIN_OPEN_TO_ALL) {
@@ -7024,8 +6981,8 @@
               body: JSON.stringify({ p_email: email })
             });
             var ok = elig.ok ? await elig.json() : false;
-            if (ok !== true) { _status('❌ Bu email hozircha ruxsat etilmagan', 'err'); btn.disabled = false; return; }
-          } catch (_e) { _status('❌ Xatolik. Qayta urinib ko\'ring', 'err'); btn.disabled = false; return; }
+            if (ok !== true) return { ok: false, text: '❌ Bu email hozircha ruxsat etilmagan' };
+          } catch (_e) { return { ok: false, text: '❌ Xatolik. Qayta urinib ko‘ring' }; }
         }
         try {
           var client = (window.MockStream && window.MockStream.auth &&
@@ -7036,62 +6993,52 @@
             email: email, options: { emailRedirectTo: window.location.origin + '/index.html' }
           });
           if (res.error) throw res.error;
-          try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-          sentTo = email;
-          _status('✅ Yuborildi. Havolani bosing yoki emaildagi kodni kiriting.', 'ok');
-          btn.textContent = '✓';
-          if (codeRow) {
-            codeRow.style.display = '';
-            if (codeInput) setTimeout(function () { codeInput.focus(); }, 120);
-          }
+          try { localStorage.setItem('ms_email_cd_' + email, String(Date.now())); } catch (_e) {}
+          return { ok: true };
         } catch (e) {
-          console.warn('[v3] sidebar magic link failed:', e);
+          console.warn('[v3] sidebar code send failed:', e);
           var _se = (window.MsEmail && window.MsEmail.sendError)
                       ? window.MsEmail.sendError(e)
-                      : { text: '❌ Havola yuborilmadi. Qayta urining.' };
-          _status(_se.text, 'err');
-          btn.disabled = false;
+                      : { text: '❌ Kod yuborilmadi. Qayta urining.' };
+          return { ok: false, text: _se.text };
         }
       }
 
-      // The address the code was sent to — verifyOtp needs it alongside the
-      // code, since the code alone does not identify the account.
-      var sentTo = '';
-      var codeRow   = document.getElementById('msv3CodeRow');
-      var codeInput = document.getElementById('msv3CodeInput');
-      var codeBtn   = document.getElementById('msv3CodeBtn');
+      // The code is typed in its own popup — see email-code-modal.js for why.
+      function openCode(email, justSent) {
+        if (!window.MsEmailCode) { _status('❌ Sahifani yangilab, qayta urinib ko‘ring', 'err'); return; }
+        window.MsEmailCode.open({
+          email: email,
+          justSent: justSent,
+          resend: function () { return sendCode(email); },
+          onVerified: function () { _status('✅ Kirildi', 'ok'); window.location.reload(); },
+          onChangeEmail: function () { _status('', ''); try { input.focus(); input.select(); } catch (_e) {} }
+        });
+      }
 
-      async function verify() {
-        var code = String((codeInput && codeInput.value) || '').replace(/\D/g, '');
-        if (code.length < 6 || code.length > 8) { _status('❌ Emaildagi kodni kiriting', 'err'); return; }
-        if (!sentTo) { _status('❌ Avval emailingizni kiriting', 'err'); return; }
-        if (codeBtn) codeBtn.disabled = true;
-        _status('⏳ Tekshirilmoqda…', '');
+      async function send() {
+        if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
+            window.MsEmail.needsTypoConfirm(input, send)) return;
+        var email = (input.value || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
+        // Sending again inside a minute would cancel the code still on its way.
         try {
-          var client = (window.MockStream && window.MockStream.auth &&
-                        typeof window.MockStream.auth.getClient === 'function')
-                         ? window.MockStream.auth.getClient() : null;
-          if (!client || !client.auth) throw new Error('auth client missing');
-          // A first-time address confirms with type 'signup', an existing one
-          // with 'email'; we cannot tell which from here, so try both.
-          var vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'email' });
-          if (vr && vr.error) {
-            vr = await client.auth.verifyOtp({ email: sentTo, token: code, type: 'signup' });
+          if (Date.now() - parseInt(localStorage.getItem('ms_email_cd_' + email) || '0', 10) < 60000) {
+            openCode(email, false);
+            return;
           }
-          if (vr && vr.error) throw vr.error;
-          _status('✅ Kirildi', 'ok');
-          window.location.reload();
-        } catch (e) {
-          console.warn('[v3] sidebar otp verify failed:', e);
-          _status('❌ Kod noto\'g\'ri yoki muddati o\'tgan', 'err');
-          if (codeBtn) codeBtn.disabled = false;
-        }
+        } catch (_e) {}
+        btn.disabled = true;
+        _status('⏳ Yuborilmoqda…', '');
+        var r = await sendCode(email);
+        btn.disabled = false;
+        if (!r.ok) { _status(r.text, 'err'); return; }
+        _status('✅ Kod yuborildi', 'ok');
+        openCode(email, true);
       }
 
       btn.addEventListener('click', send);
       input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
-      if (codeBtn) codeBtn.addEventListener('click', verify);
-      if (codeInput) codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') verify(); });
     })();
     // ── VIP Activation submit (inline; replaces the old landing.html bounce) ──
     // Dispatcher: looks at the input shape and routes to either the
@@ -7133,6 +7080,9 @@
     }
 
     async function _v3VerifyVipCode(code) {
+      // A VIP code is 8 digits, like the sign-in code we email — remembered so
+      // the code popup can say "that is your VIP code" if it is typed there.
+      try { if (typeof window.msRememberAccessCode === 'function') window.msRememberAccessCode(code); } catch (_e) {}
       if (!/^\d+$/.test(code)) {
         // Unified "Code not recognised" message — same wording the
         // magic-link silent-failure case uses so a wrong VIP code and
@@ -7252,9 +7202,27 @@
         });
         if (res.error) throw res.error;
         try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-        _v3VipShowStatus('✅ Sign-in link sent. Check your inbox.', 'success');
+        try { localStorage.setItem('ms_email_cd_' + email, String(Date.now())); } catch (_e) {}
+        _v3VipShowStatus('✅ Sign-in code sent. Check your inbox.', 'success');
         var btn = document.getElementById('msv3VipBtn');
         if (btn) { btn.textContent = '✓'; btn.disabled = true; }
+        // The mail carries a code as well as the link. Offer the same popup
+        // every other entry uses, so this path cannot be the one that differs.
+        if (window.MsEmailCode) {
+          window.MsEmailCode.open({
+            email: email,
+            resend: async function () {
+              try {
+                var r2 = await client.auth.signInWithOtp({ email: email, options: { emailRedirectTo: redirect } });
+                if (r2.error) throw r2.error;
+                try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
+                return { ok: true };
+              } catch (_e) { return { ok: false }; }
+            },
+            onVerified: function () { window.location.reload(); },
+            onChangeEmail: function () { _v3VipResetUi(); }
+          });
+        }
       } catch (e) {
         // Even genuine errors get the silent-failure wording to prevent
         // enumeration ("ah, this email IS an admin, just throttled").

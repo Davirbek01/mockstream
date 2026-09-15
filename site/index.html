@@ -140,6 +140,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script src="email-help.js?v=3"></script>
+  <script src="email-code-modal.js?v=1"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -3428,7 +3429,7 @@
                  auto-activates for allowlisted emails via checkPremiumRole). -->
             <div class="wv2-email-reveal" id="emailReveal">
               <div class="wv2-email-reveal-inner">
-                <p class="wv2-email-hint">Emailingizni kiriting — kirish havolasini yuboramiz.</p>
+                <p class="wv2-email-hint">Emailingizni kiriting — kirish kodini yuboramiz.</p>
                 <div class="wv2-input-row">
                   <input type="email" id="welcomeEmailInput" placeholder="email@example.com"
                          inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false"
@@ -3437,19 +3438,9 @@
                           id="welcomeEmailBtn" aria-label="Havola yuborish" title="Havola yuborish">→</button>
                 </div>
                 <p class="wv2-email-status" id="welcomeEmailStatus"></p>
-                <!-- Revealed after the email is sent. On a phone the magic link
-                     opens in the DEFAULT browser, not the one the student
-                     started in, so they end up signed in somewhere else and the
-                     tab in front of them stays logged out. Typing the code keeps
-                     them here. The link still works for anyone on a desktop. -->
-                <div class="wv2-input-row" id="welcomeCodeRow" style="display:none;margin-top:10px;">
-                  <input type="text" id="welcomeCodeInput" placeholder="Emaildagi kod"
-                         inputmode="numeric" autocomplete="one-time-code" maxlength="8"
-                         autocorrect="off" spellcheck="false"
-                         onkeydown="if(event.key==='Enter'){event.preventDefault();submitWelcomeCode();}">
-                  <button type="button" class="wv2-submit" onclick="submitWelcomeCode()"
-                          id="welcomeCodeBtn" aria-label="Kodni tasdiqlash" title="Kodni tasdiqlash">→</button>
-                </div>
+                <!-- The code is typed in a popup of its own (email-code-modal.js).
+                     On a phone the emailed link opens the DEFAULT browser, so the
+                     code is what keeps the student signed in in THIS tab. -->
               </div>
             </div>
 
@@ -5309,20 +5300,45 @@
       }
       if (inp) inp.classList.remove('invalid');
 
-      // 60s per-email client cooldown — avoids double-sends burning quota.
+      // A code for this address went out under a minute ago. Sending again
+      // would cancel it while it is still on its way — open the box for it.
       var cdKey = 'ms_email_cd_' + email;
       try {
-        var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
-        if (Date.now() - last < 60000) {
-          var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
-          _welcomeEmailStatus('⏳ ' + secs + ' soniyadan so\'ng qayta urinib ko\'ring', 'err');
+        if (Date.now() - parseInt(localStorage.getItem(cdKey) || '0', 10) < 60000) {
+          _welcomeOpenCode(email, false);
           return;
         }
       } catch (_e) {}
 
       if (btn) { btn.disabled = true; }
       _welcomeEmailStatus('⏳ Yuborilmoqda…', '');
+      var r = await _welcomeSendCode(email);
+      if (btn) btn.disabled = false;
+      if (!r.ok) { _welcomeEmailStatus(r.text, 'err'); return; }
+      _welcomeEmailStatus('✅ Kod yuborildi', 'ok');
+      _welcomeOpenCode(email, true);
+    }
 
+    // The code is typed in its own popup — see email-code-modal.js for why.
+    function _welcomeOpenCode(email, justSent) {
+      if (!window.MsEmailCode) { _welcomeEmailStatus('❌ Sahifani yangilab, qayta urinib ko\'ring', 'err'); return; }
+      window.MsEmailCode.open({
+        email: email,
+        justSent: justSent,
+        resend: function () { return _welcomeSendCode(email); },
+        // Same continuation as the Telegram path: auth.js has the session now,
+        // a reload lets the rest of the page pick it up.
+        onVerified: function () { _welcomeEmailStatus('✅ Kirildi', 'ok'); window.location.reload(); },
+        onChangeEmail: function () {
+          _welcomeEmailStatus('', '');
+          var inp = document.getElementById('welcomeEmailInput');
+          if (inp) { try { inp.focus(); inp.select(); } catch (_e) {} }
+        }
+      });
+    }
+
+    // One send, for the first request and for the popup's "send again".
+    async function _welcomeSendCode(email) {
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -5337,15 +5353,9 @@
             body: JSON.stringify({ p_email: email })
           });
           var ok = elig.ok ? await elig.json() : false;
-          if (ok !== true) {
-            _welcomeEmailStatus('❌ Bu email hozircha ruxsat etilmagan', 'err');
-            if (btn) btn.disabled = false;
-            return;
-          }
+          if (ok !== true) return { ok: false, text: '❌ Bu email hozircha ruxsat etilmagan' };
         } catch (_e) {
-          _welcomeEmailStatus('❌ Xatolik. Qayta urinib ko\'ring', 'err');
-          if (btn) btn.disabled = false;
-          return;
+          return { ok: false, text: '❌ Xatolik. Qayta urinib ko\'ring' };
         }
       }
 
@@ -5359,67 +5369,20 @@
           options: { emailRedirectTo: window.location.origin + '/index.html' }
         });
         if (res.error) throw res.error;
-        try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
-        _welcomeOtpEmail = email;
-        _welcomeEmailStatus('✅ Yuborildi. Havolani bosing yoki emaildagi kodni kiriting.', 'ok');
-        if (btn) btn.textContent = '✓';
-        var codeRow = document.getElementById('welcomeCodeRow');
-        if (codeRow) {
-          codeRow.style.display = '';
-          var ci = document.getElementById('welcomeCodeInput');
-          if (ci) setTimeout(function () { ci.focus(); }, 120);
-        }
+        try { localStorage.setItem('ms_email_cd_' + email, String(Date.now())); } catch (_e) {}
+        return { ok: true };
       } catch (e) {
-        console.warn('[index] magic link failed:', e);
+        console.warn('[index] code send failed:', e);
         var _ie = (window.MsEmail && window.MsEmail.sendError)
                     ? window.MsEmail.sendError(e)
-                    : { text: '❌ Havola yuborilmadi. Qayta urining.' };
-        _welcomeEmailStatus(_ie.text, 'err');
-        if (btn) btn.disabled = false;
+                    : { text: '❌ Kod yuborilmadi. Qayta urining.' };
+        return { ok: false, text: _ie.text };
       }
     }
 
-    // The address the code was sent to. verifyOtp needs it alongside the code —
-    // the code alone does not identify the account.
-    var _welcomeOtpEmail = '';
-
-    async function submitWelcomeCode() {
-      var inp = document.getElementById('welcomeCodeInput');
-      var btn = document.getElementById('welcomeCodeBtn');
-      var code = inp ? String(inp.value || '').replace(/\D/g, '') : '';
-      if (code.length < 6 || code.length > 8) {
-        _welcomeEmailStatus('❌ Emaildagi kodni kiriting', 'err');
-        return;
-      }
-      if (!_welcomeOtpEmail) {
-        _welcomeEmailStatus('❌ Avval emailingizni kiriting', 'err');
-        return;
-      }
-      if (btn) btn.disabled = true;
-      _welcomeEmailStatus('⏳ Tekshirilmoqda…', '');
-      try {
-        var client = (window.MockStream && window.MockStream.auth &&
-                      typeof window.MockStream.auth.getClient === 'function')
-                       ? window.MockStream.auth.getClient() : null;
-        if (!client || !client.auth) throw new Error('auth client missing');
-        // A first-time address is confirmed with type 'signup', an existing one
-        // with 'email'. We cannot tell which from here, so try 'email' and fall
-        // back — sending the wrong type reads as an invalid code.
-        var vr = await client.auth.verifyOtp({ email: _welcomeOtpEmail, token: code, type: 'email' });
-        if (vr && vr.error) {
-          vr = await client.auth.verifyOtp({ email: _welcomeOtpEmail, token: code, type: 'signup' });
-        }
-        if (vr && vr.error) throw vr.error;
-        _welcomeEmailStatus('✅ Kirildi', 'ok');
-        // Same continuation as the Telegram path: auth.js has the session now,
-        // a reload lets the rest of the page pick it up.
-        window.location.reload();
-      } catch (e) {
-        console.warn('[index] otp verify failed:', e);
-        _welcomeEmailStatus('❌ Kod noto\'g\'ri yoki muddati o\'tgan', 'err');
-        if (btn) btn.disabled = false;
-      }
-    }
+    // Retired 2026-09-15: the code is entered in email-code-modal.js now. Kept
+    // as a no-op so a cached page's inline onclick cannot throw.
+    function submitWelcomeCode() {}
 
     // ===== Telegram Login (custom button, JS API) =====
     // Each clone has its own bot (Telegram /setdomain only allows ONE domain
