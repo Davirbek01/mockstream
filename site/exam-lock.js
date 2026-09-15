@@ -262,6 +262,7 @@
   }
 
   function hide() {
+    stopAlert();
     if (host && host.parentNode) host.parentNode.removeChild(host);
     host = null; root = null;
   }
@@ -498,9 +499,11 @@
 
   // Draws attention to the prompt: a student speaking into the microphone or
   // looking at the paper must not miss it and lose the exam at zero.
-  // ALERT_URL is the recorded spoken announcement once it exists; until then,
-  // and whenever it cannot play, a two-tone chime.
-  var ALERT_URL = '';
+  // ALERT_URL is the spoken Uzbek announcement Davirbek recorded (17 s);
+  // whenever it cannot play (autoplay refused, offline) a two-tone chime
+  // stands in. It stops the moment the student answers.
+  var ALERT_URL = '/sounds/exam-lock-request.mp3?v=1';
+  var alertAudio = null;
   function chime() {
     try {
       var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -522,10 +525,17 @@
     try { if (navigator.vibrate) navigator.vibrate([200, 120, 200]); } catch (e) {}
     if (!ALERT_URL) { chime(); return; }
     try {
+      stopAlert();
       var a = new Audio(ALERT_URL);
+      alertAudio = a;
       var p = a.play();
       if (p && p.catch) p.catch(chime);
     } catch (e) { chime(); }
+  }
+  function stopAlert() {
+    if (!alertAudio) return;
+    try { alertAudio.pause(); } catch (e) {}
+    alertAudio = null;
   }
 
   function showRequest(req) {
@@ -565,6 +575,7 @@
       if (left <= -1) { clearInterval(tick); scheduleBeat(0.1); }
     }, 1000);
     var answer = function (approve) {
+      stopAlert();
       var a = $('allow'), d = $('deny');
       if (a) a.disabled = true; if (d) d.disabled = true;
       call({ action: 'answer', session_id: sessionId, device_key: dkey, request_id: req.id, approve: approve }, false)
