@@ -6758,9 +6758,42 @@
     // flight (or refused) and this will re-call the launcher itself if it
     // clears. Fails OPEN on any error: a limit is a policy, and a broken
     // policy check must not be able to shut a centre's mocks down.
+    // A signed-in student's access token, refreshed first when it has run
+    // out. The exam page this launches cannot refresh it (it has no auth
+    // client), and both check-mock-limit and the one-exam-at-a-time lock on
+    // that page trust only a live token. A landing left open for hours - a
+    // laptop woken from sleep - holds an expired one until supabase-js gets
+    // round to it, so a mock opened right away used to go unidentified.
+    function _msTokenStale(t) {
+      try {
+        var p = JSON.parse(atob(String(t).split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        return !p.exp || p.exp * 1000 < Date.now() + 120000;
+      } catch (_e) { return true; }
+    }
+    function _msFreshAccessToken() {
+      var t = _msLimitAccessToken();
+      if (!t || !_msTokenStale(t)) return Promise.resolve(t);
+      try {
+        var a = window.MockStream && window.MockStream.auth;
+        var c = a && typeof a.getClient === 'function' ? a.getClient() : null;
+        if (!c || !c.auth || typeof c.auth.getSession !== 'function') return Promise.resolve(t);
+        var refreshed = c.auth.getSession()
+          .then(function (r) {
+            var s = r && r.data && r.data.session;
+            return (s && s.access_token) ? s.access_token : _msLimitAccessToken();
+          })
+          .catch(function () { return _msLimitAccessToken(); });
+        var cap = new Promise(function (res) { setTimeout(function () { res(_msLimitAccessToken()); }, 2500); });
+        return Promise.race([refreshed, cap]);
+      } catch (_e) { return Promise.resolve(t); }
+    }
+
     function _msLimitAllow(skill, pageUrl, category, via) {
       var ck = skill + '|' + pageUrl;
-      if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL) return true;
+      var _tok = _msLimitAccessToken();
+      // The 30-second "already cleared" shortcut is only taken with a live
+      // token; a stale one goes the long way so it is refreshed on the way.
+      if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL && (!_tok || !_msTokenStale(_tok))) return true;
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var proceed = function () {
         _msLimitCleared[ck] = Date.now();
@@ -6769,7 +6802,6 @@
       };
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      var token = _msLimitAccessToken();
       // The check runs on every open, including for the centres that have no
       // limit at all — that is what keeps the count server-side, where it
       // cannot be edited. But it usually answers in well under a second, and
@@ -6778,6 +6810,8 @@
       var slowTimer = setTimeout(function () { _msLimitBusy(true); }, 600);
       var timedOut = false;
       var timer = setTimeout(function () { timedOut = true; clearTimeout(slowTimer); proceed(); }, 4000);
+      _msFreshAccessToken().then(function (token) {
+      if (timedOut) return;
       try {
         fetch(SB + '/functions/v1/check-mock-limit', {
           method: 'POST',
@@ -6807,6 +6841,7 @@
         clearTimeout(timer); clearTimeout(slowTimer);
         proceed();
       }
+      });
       return false;
     }
 

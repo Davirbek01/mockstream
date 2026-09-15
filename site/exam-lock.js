@@ -351,12 +351,19 @@
   function start() {
     info = examInfo();
     dkey = deviceKey();
-    if (!info || !dkey || !accessToken()) return;
+    if (!info || !dkey) return;
+    if (!accessToken()) {
+      // Signed out, or a token that ran out before this page opened. Either
+      // way nothing can be proven about the account here, so nothing is locked.
+      try { console.info('[exam-lock] not checked: ' + (storedSession() ? 'sign-in token expired' : 'not signed in')); } catch (e) {}
+      return;
+    }
     call({
       action: 'start', center: centerId(), device_key: dkey, platform: 'web',
       device_label: deviceLabel(), exam_key: info.key, exam_label: info.label, practice: info.practice
     }, true).then(function (r) {
       if (!r || stopped) return;
+      try { console.info('[exam-lock] start: ' + (r.tracked ? 'tracked' : r.allowed === false ? 'blocked' : (r.reason || 'not tracked'))); } catch (e) {}
       if (r.allowed === false && r.holder) { showBlocked(r.holder); return; }
       if (r.tracked && r.session_id) {
         sessionId = r.session_id;

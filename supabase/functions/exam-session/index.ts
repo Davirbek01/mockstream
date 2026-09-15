@@ -173,12 +173,17 @@ Deno.serve(async (req: Request) => {
     const center = normCenter(centerRaw);
 
     const c = await caller(req);
-    if (!c) return openDoor({ reason: 'no_account' });
+    if (!c) {
+      const hasBearer = /^Bearer\s+ey/i.test(req.headers.get('authorization') || '');
+      console.log('[exam-session]', action, 'open: no_account', hasBearer ? '(token refused)' : '(no token)', center);
+      return openDoor({ reason: 'no_account' });
+    }
 
     const acc = await access(c, centerRaw);
     // Only Premium is locked. Ultra and admins are free by design; everyone
     // else has no account-bound access worth sharing.
     if (acc.kind !== 'premium' || !acc.ident) {
+      console.log('[exam-session]', action, 'open:', acc.kind || 'not_premium', center);
       return openDoor({ reason: acc.kind || 'not_premium' });
     }
 
