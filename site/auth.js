@@ -133,6 +133,7 @@
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
+          _clearLocalIdentity();
           _notifyListeners('signed_out', null);
           try {
             window.dispatchEvent(new CustomEvent('mockStream:userSignedOut'));
@@ -170,21 +171,33 @@
     }
   }
 
+  // The name, avatar and profile this browser shows for the signed-in
+  // student. Cleared on EVERY way a session ends, not only the button: a
+  // session that dies elsewhere (revoked, expired refresh token) used to
+  // leave the old name on screen while the site already treated the visitor
+  // as signed out — a paying student then got asked for a mock code.
+  function _clearLocalIdentity() {
+    try {
+      sessionStorage.removeItem('CANDIDATE_FULL_NAME');
+      localStorage.removeItem('ms_candidate_name');
+      localStorage.removeItem('CANDIDATE_SURNAME');
+      localStorage.removeItem('CANDIDATE_FIRSTNAME');
+      localStorage.removeItem('ms_avatar_url');
+      localStorage.removeItem('ms_candidate_profile');
+      localStorage.removeItem('ms_auth_provider');
+    } catch (e) {}
+  }
+
   async function signOut() {
     var client = _getClient();
     if (!client) return;
     try {
-      await client.auth.signOut();
-      // Clear local name so they return to guest state
-      try {
-        sessionStorage.removeItem('CANDIDATE_FULL_NAME');
-        localStorage.removeItem('ms_candidate_name');
-        localStorage.removeItem('CANDIDATE_SURNAME');
-        localStorage.removeItem('CANDIDATE_FIRSTNAME');
-        localStorage.removeItem('ms_avatar_url');
-        localStorage.removeItem('ms_candidate_profile');
-        localStorage.removeItem('ms_auth_provider');
-      } catch (e) {}
+      // scope 'local': sign THIS browser out and leave the account's other
+      // devices alone. supabase-js defaults to 'global', which revoked every
+      // session of the account — signing out on a phone silently signed the
+      // laptop out too (2026-09-15).
+      await client.auth.signOut({ scope: 'local' });
+      _clearLocalIdentity();
       _currentUser = null;
       _notifyListeners('signed_out', null);
     } catch (e) {
