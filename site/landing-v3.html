@@ -6790,10 +6790,12 @@
 
     function _msLimitAllow(skill, pageUrl, category, via) {
       var ck = skill + '|' + pageUrl;
-      var _tok = _msLimitAccessToken();
-      // The 30-second "already cleared" shortcut is only taken with a live
-      // token; a stale one goes the long way so it is refreshed on the way.
-      if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL && (!_tok || !_msTokenStale(_tok))) return true;
+      // The replay that follows a cleared check lands here again within
+      // milliseconds and must go straight through. (It briefly also demanded a
+      // live token, which looped - check, relaunch, check - whenever a refresh
+      // could not produce one: a revoked session, or the 90-120 s before
+      // expiry when supabase-js does not refresh yet.)
+      if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL) return true;
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var proceed = function () {
         _msLimitCleared[ck] = Date.now();
