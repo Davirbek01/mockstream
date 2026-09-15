@@ -229,7 +229,12 @@
     '.danger{background:#dc2626;color:#fff}.danger:hover:not(:disabled){background:#b91c1c}',
     '.ghost{background:#f1f5f9;color:#0f172a}.ghost:hover:not(:disabled){background:#e2e8f0}',
     '.hint{font-size:12px;color:#64748b;text-align:center;margin:-2px 0 4px}',
-    '@media (prefers-color-scheme: dark){.card{background:#0f172a;color:#e2e8f0}p{color:#cbd5e1}h2{color:#f8fafc}.dl{background:#111c33;border-color:#1e293b}.row{border-color:#1e293b}.v{color:#f1f5f9}.note{background:#111c33;color:#94a3b8}.ghost{background:#1e293b;color:#e2e8f0}.ghost:hover:not(:disabled){background:#334155}.ico{background:#422006}.ico.blue{background:#172554}.ico.red{background:#450a0a}.status.wait{background:#172554;color:#bfdbfe}.status.bad{background:#450a0a;color:#fecaca}}'
+    '.countdown{border-radius:14px;background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;margin:0 0 14px;text-align:center}',
+    '.cd-num{font-size:34px;line-height:1.1;font-weight:800;color:#c2410c;font-variant-numeric:tabular-nums}',
+    '.cd-num.urgent{color:#dc2626;animation:pulse 1s ease-in-out infinite}',
+    '@keyframes pulse{50%{opacity:.45}}',
+    '.cd-text{font-size:13px;line-height:1.5;color:#7c2d12;margin-top:6px}',
+    '@media (prefers-color-scheme: dark){.card{background:#0f172a;color:#e2e8f0}p{color:#cbd5e1}h2{color:#f8fafc}.dl{background:#111c33;border-color:#1e293b}.row{border-color:#1e293b}.v{color:#f1f5f9}.note{background:#111c33;color:#94a3b8}.ghost{background:#1e293b;color:#e2e8f0}.ghost:hover:not(:disabled){background:#334155}.ico{background:#422006}.ico.blue{background:#172554}.ico.red{background:#450a0a}.status.wait{background:#172554;color:#bfdbfe}.status.bad{background:#450a0a;color:#fecaca}.countdown{background:#431407;border-color:#7c2d12}.cd-num{color:#fdba74}.cd-text{color:#fed7aa}}'
   ].join('');
 
   function esc(s) {
@@ -323,7 +328,7 @@
   function scheduleBeat(delaySec) {
     stopBeats();
     if (stopped || !sessionId) return;
-    beatTimer = setTimeout(beat, Math.max(3, delaySec || beatSeconds) * 1000);
+    beatTimer = setTimeout(beat, Math.max(0.1, delaySec || beatSeconds) * 1000);
   }
 
   function beat() {
@@ -441,7 +446,7 @@
     var deadline = Date.now() + (expiresIn + 5) * 1000;
     var render = function () {
       var left = Math.max(0, (deadline - Date.now()) / 1000 - 5);
-      setStatus('wait', 'Boshqa qurilmada tasdiqlash kutilmoqda… <b>' + mmss(left) + '</b><br>So‘rov o‘sha qurilma ekranida ko‘rsatildi.');
+      setStatus('wait', 'Boshqa qurilmada tasdiqlash kutilmoqda… <b>' + mmss(left) + '</b><br>Javob kelmasa, sanoq tugagach imtihon shu qurilmada avtomatik ochiladi.');
     };
     render();
     countdownTimer = setInterval(render, 1000);
@@ -452,8 +457,8 @@
         if (s === 'pending') { pollTimer = setTimeout(poll, 3000); return; }
         clearWaits();
         if (s === 'approved' || s === 'auto_approved' || s === 'released') { proceed(r.session_id); return; }
-        if (s === 'denied') { waitRetry(120, holder, 'Boshqa qurilmada so‘rov rad etildi.'); return; }
-        if (s === 'no_answer') { waitRetry(120, holder, 'Boshqa qurilmadan javob olinmadi. U qurilmada imtihon faol davom etmoqda.'); return; }
+        if (s === 'denied') { waitRetry(300, holder, 'Boshqa qurilmada so‘rov rad etildi. U qurilmada imtihon davom etmoqda.'); return; }
+        if (s === 'no_answer') { waitRetry(300, holder, 'Boshqa qurilmadan javob olinmadi.'); return; }
         proceed(null);
       });
     };
@@ -491,6 +496,38 @@
     }
   }
 
+  // Draws attention to the prompt: a student speaking into the microphone or
+  // looking at the paper must not miss it and lose the exam at zero.
+  // ALERT_URL is the recorded spoken announcement once it exists; until then,
+  // and whenever it cannot play, a two-tone chime.
+  var ALERT_URL = '';
+  function chime() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      [[880, 0], [660, 0.22], [880, 0.44]].forEach(function (t) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = t[0];
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + t[1]);
+        g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + t[1] + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t[1] + 0.2);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t[1]); o.stop(ctx.currentTime + t[1] + 0.22);
+      });
+      setTimeout(function () { try { ctx.close(); } catch (e) {} }, 1200);
+    } catch (e) {}
+  }
+  function playAlert() {
+    try { if (navigator.vibrate) navigator.vibrate([200, 120, 200]); } catch (e) {}
+    if (!ALERT_URL) { chime(); return; }
+    try {
+      var a = new Audio(ALERT_URL);
+      var p = a.play();
+      if (p && p.catch) p.catch(chime);
+    } catch (e) { chime(); }
+  }
+
   function showRequest(req) {
     if (answeringId === req.id && root) {
       var c = $('cd'); if (c) c.textContent = mmss(Number(req.expires_in) || 0);
@@ -508,18 +545,24 @@
           ['IP manzil', ipText(req), true],
           ['Imtihon', req.exam_label || '—']
         ]) +
-        '<div class="note">Ruxsat bersangiz, <b>bu qurilmadagi imtihon darhol to‘xtatiladi</b> va imtihon o‘sha qurilmada davom etadi. Agar bu so‘rovni siz yubormagan bo‘lsangiz, rad eting va markaz administratoriga murojaat qiling.</div>' +
-        '<div class="status wait">Javob berish uchun qolgan vaqt: <b id="cd">' + mmss((deadline - Date.now()) / 1000) + '</b></div>' +
+        '<div class="countdown"><div class="cd-num" id="cd">' + mmss((deadline - Date.now()) / 1000) + '</div>' +
+          '<div class="cd-text">Javob bermasangiz, sanoq tugagach <b>imtihon boshqa qurilmaga o‘tkaziladi va bu qurilmada to‘xtatiladi</b>.</div></div>' +
+        '<div class="note">Imtihonni shu qurilmada davom ettirish uchun <b>“Rad etish”</b> tugmasini bosing. Agar bu so‘rovni siz yubormagan bo‘lsangiz, markaz administratoriga murojaat qiling.</div>' +
         '<div class="btns">' +
           '<button class="primary" id="deny">Rad etish — shu yerda davom etaman</button>' +
           '<button class="danger" id="allow">Ruxsat berish</button>' +
         '</div>' +
       '</div>', true
     );
+    playAlert();
     var tick = setInterval(function () {
       var c = $('cd');
       if (!c || answeringId !== req.id) { clearInterval(tick); return; }
-      c.textContent = mmss((deadline - Date.now()) / 1000);
+      var left = (deadline - Date.now()) / 1000;
+      c.textContent = mmss(left);
+      if (left <= 10) c.classList.add('urgent');
+      // At zero ask the server at once rather than waiting for the next beat.
+      if (left <= -1) { clearInterval(tick); scheduleBeat(0.1); }
     }, 1000);
     var answer = function (approve) {
       var a = $('allow'), d = $('deny');
@@ -547,7 +590,7 @@
       ? 'Bu qurilma bilan aloqa uzilgan paytda hisobingiz orqali boshqa qurilmada imtihon boshlandi.'
       : approvedHere
         ? 'Siz ruxsat berganingizdan so‘ng imtihon boshqa qurilmaga o‘tkazildi. Bu qurilmada imtihon to‘xtatildi.'
-        : 'Bu qurilmada uzoq vaqt faollik bo‘lmagani sababli imtihon boshqa qurilmaga o‘tkazildi.';
+        : 'Boshqa qurilmadan kelgan so‘rovga 1 daqiqa ichida javob berilmagani sababli imtihon o‘sha qurilmaga o‘tkazildi.';
     show(
       '<div class="card">' +
         '<div class="ico red">⛔</div>' +
