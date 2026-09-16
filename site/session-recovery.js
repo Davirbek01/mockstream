@@ -64,7 +64,9 @@
     _uid: function () {
       if (!this._config || !this._config.getUserId) return null;
       var acct = this._account();
-      if (acct && !this._isSpeaking(this._config.testType)) return 'acct:' + acct;
+      // Speaking too, since 2026-09-16: its recordings now have a server copy
+      // (speaking-draft.js), so a speaking draft can follow the account.
+      if (acct) return 'acct:' + acct;
       return this._legacyUid();
     },
     _legacyUid: function () {
@@ -418,6 +420,8 @@
 
       // Clear localStorage
       try { localStorage.removeItem('sr_' + tt); } catch (e) { /* ignore */ }
+      // A speaking draft's recordings live on the server as well.
+      try { if (this._isSpeaking(tt) && window.SpeakingDraft) window.SpeakingDraft.clear(tt); } catch (e) { /* ignore */ }
 
       // Delete from Supabase — the account row and the old device row alike
       var ids = [uid, this._legacyUid()].filter(function (x, i, arr) { return x && arr.indexOf(x) === i; });
@@ -501,6 +505,7 @@
     discard: function (row) {
       if (!row) return Promise.resolve();
       try { if (row.test_type) localStorage.removeItem('sr_' + row.test_type); } catch (e) { /* ignore */ }
+      try { if (this._isSpeaking(row.test_type)) this._clearSpeakingServer(row.test_type); } catch (e) { /* ignore */ }
       if (row.id) return this._deleteById(row.id);
       if (row.user_identifier && row.test_type) {
         return this._fetch(
@@ -510,6 +515,21 @@
         ).catch(function () {});
       }
       return Promise.resolve();
+    },
+
+    // The landing page's Discard does not load speaking-draft.js, so it asks
+    // the function directly.
+    _clearSpeakingServer: function (tt) {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (s && s.currentSession) s = s.currentSession;
+        if (!s || !s.access_token) return;
+        fetch(SUPABASE_URL + '/functions/v1/speaking-draft', {
+          method: 'POST',
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer ' + s.access_token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'clear', test_type: tt })
+        }).catch(function () {});
+      } catch (e) { /* ignore */ }
     },
 
     // ── Generic answer restoration ──────────────────────────────────────

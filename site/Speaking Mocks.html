@@ -22,7 +22,8 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=2"></script>
+  <script src="session-recovery.js?v=3"></script>
+  <script src="speaking-draft.js?v=1"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
   <script src="./q4-descriptions.js"></script>
@@ -8573,6 +8574,12 @@
     // that way on 2026-08-02 despite 1:59 of perfectly good audio.
     // Three attempts with growing backoff; '[Error]' only after all fail.
     async function _transcribeWithRetry(blob, cp, qNum) {
+      // The answer was already transcribed right after it was recorded (or
+      // its transcript came back with a resumed draft): use that.
+      if (window.SpeakingDraft && qNum) {
+        var _early = SpeakingDraft.cachedTranscript(qNum, blob);
+        if (_early) { try { return await _early; } catch (_e) { /* transcribe afresh below */ } }
+      }
       var ATTEMPTS = 3, lastErr = null;
       for (var a = 1; a <= ATTEMPTS; a++) {
         try {
@@ -8841,6 +8848,16 @@
       function hasAudioInDB(key) {
         return getAudioFromDB(key).then(blob => !!blob);
       }
+      // Resuming on a device that does not hold the answers: bring them back
+      // from the account's server draft first, so the resume below finds them.
+      async function _restoreSpeakingDraftIfMissing() {
+        try {
+          if (!window.SpeakingDraft) return;
+          if (await hasAudioInDB('speaking_audio_q1')) return;
+          await SpeakingDraft.restore(saveAudioToDB, clearAudioDB, window.SELECTED_MOCK_NUMBER);
+        } catch (e) { console.warn('[speaking-draft] restore failed:', e); }
+      }
+
       // === Download all answers as ZIP ===
       function getAllAudioKeys() {
         // There are 8 questions, keys: speaking_audio_q1 ... speaking_audio_q8
@@ -9301,6 +9318,7 @@
                 }
                 return saveAudioToDB(key, res.blob)
                   .then(() => updateDownloadButtons())
+                  .then(() => { try { if (window.SpeakingDraft) SpeakingDraft.onSaved(key, res.blob); } catch (_e) {} })
                   .catch(e => alert('Could not save audio: ' + e.message))
                   .finally(done);
               });
@@ -11383,6 +11401,7 @@
                 // (skip everything → straight to the recorded question) and
                 // window._srResumeIndex is already set; don't prompt again.
                 _resumeSession = true;
+                await _restoreSpeakingDraftIfMissing();
               } else {
                 var session = await SessionRecovery.check();
                 if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
@@ -11390,6 +11409,7 @@
                   if (choice === 'resume') {
                     _resumeSession = true;
                     window._srResumeIndex = session.session_data.questionIndex || 0;
+                    await _restoreSpeakingDraftIfMissing();
                   } else {
                     await SessionRecovery.clear();
                     await clearAudioDB();
@@ -16838,7 +16858,7 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
 
             try {
               // Add delay between requests to avoid rate limiting
-              if (i > 0) await new Promise(r => setTimeout(r, 2000));
+              if (i > 0 && !(window.SpeakingDraft && SpeakingDraft.cachedTranscript(qNum, blob))) await new Promise(r => setTimeout(r, 2000));
 
               const transcribedText = await _transcribeWithRetry(blob, _cpTranscribe, qNum);
               transcriptions.push({ questionNum: qNum, text: transcribedText });
