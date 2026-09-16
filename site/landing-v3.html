@@ -328,7 +328,7 @@
   </script>
   <!-- ?v= because the subscription button reads checkPremiumRole().expiresAt,
        and Pages serves site/*.js with max-age=14400 -->
-  <script src="/auth.js?v=4" defer></script>
+  <script src="/auth.js?v=5" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
 
@@ -6653,16 +6653,48 @@
       return '';
     }
 
-    function _msLimitBusy(on) {
+    function _msLimitBusy(on, text) {
       var el = document.getElementById('msLimitBusy');
       if (!on) { if (el && el.parentNode) el.parentNode.removeChild(el); return; }
       if (el) return;
       var d = document.createElement('div');
       d.id = 'msLimitBusy';
       d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100011;display:flex;align-items:center;justify-content:center;';
-      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">Tekshirilmoqda…</div>';
+      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">' + (text || 'Tekshirilmoqda…') + '</div>';
       document.body.appendChild(d);
     }
+
+    // ── Wait for the premium answer before judging a mock click ──────────
+    // The premium check is two round trips (premium_emails, then a signed
+    // vipToken from verify-passcode). Until it lands, a paying student looks
+    // like everybody else: their own mocks come back as "Mock Completed" and
+    // the access-code box opens. This holds the click for up to three seconds
+    // - with a notice once it is slow enough to notice - and then launches
+    // whatever the answer was. It never blocks: after three seconds the mock
+    // opens exactly as it used to.
+    var _msPremiumSettled = false;
+    var _msPremiumWait = null;
+    function _msPremiumSettle() {
+      if (_msPremiumWait) return _msPremiumWait;
+      _msPremiumWait = (async function () {
+        try {
+          var a = window.MockStream && window.MockStream.auth;
+          if (!a || typeof a.checkPremiumRole !== 'function') return;
+          var u = typeof a.getCurrentUser === 'function' ? a.getCurrentUser() : null;
+          if (!u) return;                                        // signed out
+          if (sessionStorage.getItem('vipToken')) return;         // already applied
+          var info = await a.checkPremiumRole();
+          if (!info || info.tier !== 'premium' || (!info.active && !info.isAdmin)) return;
+          if (typeof a.applyPremiumUnlock === 'function') await a.applyPremiumUnlock();
+        } catch (_e) {}
+      })();
+      return _msPremiumWait;
+    }
+    try {
+      window.addEventListener('mockStream:userSignedIn', function () {
+        _msPremiumSettled = false; _msPremiumWait = null;
+      });
+    } catch (_e) {}
 
     // "bugun 21:40" / "ertaga 09:15" / "12-sen 09:15" in the student's own
     // clock. A bare ISO timestamp is useless to them, and "24 hours" is a lie
@@ -6789,6 +6821,19 @@
     }
 
     function _msLimitAllow(skill, pageUrl, category, via) {
+      // Premium first: what the student is decides whether a code is asked
+      // for at all.
+      if (!_msPremiumSettled) {
+        var slowNote = setTimeout(function () { _msLimitBusy(true, 'Hisobingiz tekshirilmoqda…'); }, 400);
+        var settleCap = new Promise(function (res) { setTimeout(res, 3000); });
+        Promise.race([_msPremiumSettle(), settleCap]).then(function () {
+          _msPremiumSettled = true;
+          clearTimeout(slowNote);
+          _msLimitBusy(false);
+          _msGateLaunch(skill, pageUrl, category, via);
+        });
+        return false;
+      }
       var ck = skill + '|' + pageUrl;
       // The replay that follows a cleared check lands here again within
       // milliseconds and must go straight through. (It briefly also demanded a

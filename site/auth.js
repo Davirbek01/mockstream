@@ -95,6 +95,27 @@
     try {
       var resp = await client.auth.getSession();
       var session = resp && resp.data && resp.data.session;
+
+      // A session that cannot be refreshed any more — revoked elsewhere, or a
+      // refresh token that expired — leaves its remains in storage, and the
+      // page then looks signed in while every request is refused. The student
+      // keeps their name on screen but loses premium: their own mocks come
+      // back as "Mock Completed" and the site asks them for an access code
+      // (Davirbek's phone, 2026-09-16; incognito worked, the normal tab did
+      // not). Clear it here so they are simply signed out and can sign in.
+      if (!session) {
+        var leftovers = false;
+        try { leftovers = !!localStorage.getItem('ms_auth_session'); } catch (e) {}
+        if (leftovers) {
+          try { await client.auth.signOut({ scope: 'local' }); } catch (e) {}
+          _clearLocalIdentity();
+          _currentUser = null;
+          _premiumCache = null;
+          _notifyListeners('signed_out', null);
+          try { window.dispatchEvent(new CustomEvent('mockStream:userSignedOut')); } catch (e) {}
+        }
+      }
+
       if (session && session.user) {
         _currentUser = session.user;
         var profile = _extractProfile(session.user);
