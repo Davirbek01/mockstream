@@ -31,7 +31,8 @@ import { createRemoteJWKSet, jwtVerify } from 'npm:jose@5.9.6';
 const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const BUCKET = 'speaking-drafts';
-const TEST_TYPES = ['cefr-speaking', 'ielts-speaking'];
+// A part practice keeps its own draft next to the full mock's (2026-09-16).
+const TEST_TYPES = ['cefr-speaking', 'ielts-speaking', 'cefr-speaking-practice', 'ielts-speaking-practice'];
 const MAX_BYTES = 8 * 1024 * 1024;
 const TOKEN_GRACE_SECONDS = 24 * 60 * 60;
 

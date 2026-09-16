@@ -22,8 +22,8 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=7"></script>
-  <script src="speaking-draft.js?v=2"></script>
+  <script src="session-recovery.js?v=8"></script>
+  <script src="speaking-draft.js?v=3"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
   <script src="./q4-descriptions.js"></script>
@@ -8856,7 +8856,9 @@
           if (!window.SpeakingDraft || !SpeakingDraft.prepareResume) return;
           var idx = await SpeakingDraft.prepareResume({
             save: saveAudioToDB, clear: clearAudioDB, has: hasAudioInDB,
-            total: getAllAudioKeys().length
+            total: getAllAudioKeys().length,
+            first: (window._practiceMode && window._practiceQRange) ? window._practiceQRange[0] : 0,
+            last: (window._practiceMode && window._practiceQRange) ? window._practiceQRange[1] : null
           });
           if (idx >= 0) window._srResumeIndex = idx;
         } catch (e) { console.warn('[speaking-draft] resume prepare failed:', e); }
@@ -8891,7 +8893,7 @@
       // Session Recovery init
       if (window.SessionRecovery) {
         SessionRecovery.init({
-          testType: 'cefr-speaking',
+          testType: window._practiceMode ? 'cefr-speaking-practice' : 'cefr-speaking',
           getUserId: function() { return (document.getElementById('cand')?.value || '').trim() || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
           getTestId: function() { return window.SELECTED_MOCK_NUMBER || ''; },
           getState: function() {
@@ -8901,6 +8903,10 @@
             // — so leaving mid-speaking is resumable + shows the dashboard banner,
             // matching Writing. questionIndex reflects progress (0 = resume at Q1).
             var started = document.querySelectorAll('.q[data-started]').length;
+            // A practice part saves its absolute question index and which part.
+            if (window._practiceMode && window._practiceQRange) {
+              return { questionIndex: window._practiceQRange[0] + started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length, practicePart: window._practicePartId || '' };
+            }
             return { questionIndex: started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length };
           }
         });
@@ -10864,22 +10870,36 @@
         let timerId = null, mode = 'prep', remaining = 0, total = 0, _didResume = false;
 
         // Session recovery: fast-forward past completed questions
-        if (window._srResumeIndex > 0 && !window._practiceMode) {
+        if (window._srResumeIndex > 0) {
           var resumeIdx = window._srResumeIndex;
           window._srResumeIndex = 0;
+          // A practice part resumes within its own questions.
+          var _rPr = (window._practiceMode && window._practiceQRange) ? window._practiceQRange : null;
+          var _rStart = _rPr ? _rPr[0] : 0;
+          if (_rPr && resumeIdx > _rPr[1]) resumeIdx = _rPr[1];
           // Verify audio exists in IndexedDB for each completed question
-          for (var k = 0; k < resumeIdx; k++) {
+          for (var k = _rStart; k < resumeIdx; k++) {
             var hasAudio = await hasAudioInDB('speaking_audio_q' + (k + 1));
             if (!hasAudio) { resumeIdx = k; break; }
           }
-          if (resumeIdx > 0) {
-            for (var k = 0; k < resumeIdx; k++) {
+          if (resumeIdx > _rStart) {
+            if (_rPr) {
+              scoreTotal.textContent = _rPr[1] - _rPr[0] + 1;
+              var _rTop = document.querySelector('.topbar') || document.querySelector('.top-inner') || document.querySelector('.top');
+              if (_rTop) {
+                var _rBadge = document.createElement('span');
+                _rBadge.textContent = '\uD83C\uDFAF Practice';
+                _rBadge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-left:8px;';
+                _rTop.appendChild(_rBadge);
+              }
+            }
+            for (var k = _rStart; k < resumeIdx; k++) {
               var q = qs[k]; if (q) { q.dataset.started = '1'; q.classList.add('done', 'hidden'); }
               // Mark the part intro of each already-completed question as seen, so
               // resuming past Q1 doesn't replay the Part 1 intro at Q4 (Part 1.2).
               if (PART_INTRO_INDEX[k]) _partIntrosShown[PART_INTRO_INDEX[k]] = true;
             }
-            answered = resumeIdx; scoreDone.textContent = answered;
+            answered = resumeIdx - _rStart; scoreDone.textContent = answered;
             runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
             if (loadingOverlay) loadingOverlay.style.display = 'none';
             // Do NOT return here. Execution must continue through the rest of
@@ -11440,9 +11460,9 @@
             await preloadGTTSAudio();
           }
           // Session recovery check
-          // Part practice is not an exam draft: no resume prompt, and it must not
-          // overwrite or clear the full mock's draft.
-          if (window.SessionRecovery && !window._practiceMode) {
+          // A part practice has its own draft type, so it never touches the full
+          // mock's draft.
+          if (window.SessionRecovery) {
             try {
               if (window._speakingAutoResume) {
                 // The local copy may be stale: finished or discarded on another
@@ -11459,7 +11479,8 @@
                 await _restoreSpeakingDraftIfMissing();
               } else {
                 var session = await SessionRecovery.check();
-                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
+                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')
+                    && String(session.session_data.practicePart || '') === String(window._practiceMode ? (window._practicePartId || '') : '')) {
                   // Resume was already chosen on the dashboard banner (?resume=1).
                   var choice = window._speakingResumeRequested ? 'resume' : await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
@@ -11600,18 +11621,18 @@
           //    starts (permission persists across the reload), so no mic-test is
           //    needed. Any failure falls through to the normal gated flow.
           try {
-            var _srRaw = localStorage.getItem('sr_cefr-speaking');
+            var _srRaw = localStorage.getItem('sr_cefr-speaking' + (window._practiceMode ? '-practice' : ''));
             var _srResumeFlag = false;
             try { _srResumeFlag = new URLSearchParams(location.search).get('resume') === '1'; } catch (e) {}
             // A local draft saved under ANOTHER account must not resume here.
             var _srAcct = '';
             try { var _srSess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null'); if (_srSess && _srSess.currentSession) _srSess = _srSess.currentSession; _srAcct = (_srSess && _srSess.user && _srSess.user.email) ? String(_srSess.user.email).toLowerCase() : ''; } catch (e) {}
             if (_srRaw) { try { var _srU = String((JSON.parse(_srRaw) || {}).user_identifier || ''); if (_srU.indexOf('acct:') === 0 && _srU !== 'acct:' + _srAcct) _srRaw = null; } catch (e) { _srRaw = null; } }
-            if (_srRaw && !window._practiceMode) {
+            if (_srRaw) {
               var _srP = JSON.parse(_srRaw);
               var _srSd = _srP && _srP.session_data;
               var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;
-              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && (_srSd.questionIndex || 0) > 0) {
+              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && String(_srSd.practicePart || '') === String(window._practiceMode ? (window._practicePartId || '') : '') && (_srSd.questionIndex || 0) > 0) {
                 window._speakingAutoResume = true;
                 window._srResumeIndex = _srSd.questionIndex || 0;
                 try { candidateDetailsModal.classList.remove('show'); candidateDetailsModal.setAttribute('aria-hidden', 'true'); } catch (e) {}
@@ -11621,7 +11642,7 @@
                 window._speakingAutoResume = false; // no start button — abandon fast path
               }
             }
-            if (_srResumeFlag && !window._practiceMode && !window._speakingAutoResume) {
+            if (_srResumeFlag && !window._speakingAutoResume) {
               window._speakingResumeRequested = true;
               try { candidateDetailsModal.classList.remove('show'); candidateDetailsModal.setAttribute('aria-hidden', 'true'); } catch (e) {}
               window.speakingExamStartTime = window.speakingExamStartTime || Date.now();
@@ -12662,6 +12683,7 @@
 
       /* Practice mode finish */
       function showPracticeFinish() {
+        if (window.SessionRecovery) SessionRecovery.clear();
         try { exitFullscreen(); } catch (e) { } // practice over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         var partNames = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };

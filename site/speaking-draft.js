@@ -31,11 +31,14 @@
   var FN = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/speaking-draft';
   var ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
-  function testType() {
+  function baseType() {
     var p = '';
     try { p = decodeURIComponent(location.pathname).toLowerCase(); } catch (e) { p = location.pathname.toLowerCase(); }
     return p.indexOf('ielts') !== -1 ? 'ielts-speaking' : 'cefr-speaking';
   }
+  // A part practice is its own draft (…-speaking-practice), so it never
+  // replaces the full mock's draft and both can be continued (2026-09-16).
+  function testType() { return baseType() + (practice() ? '-practice' : ''); }
 
   function session() {
     try {
@@ -82,7 +85,7 @@
         p = spe === 'true' ? true : spe === 'false' ? false : sessionStorage.getItem('vipPremiumAi') === 'true';
       }
       var cc = window._centerConfig;
-      var cfgKey = testType() === 'ielts-speaking' ? 'ielts_speaking' : 'cefr_speaking';
+      var cfgKey = baseType() === 'ielts-speaking' ? 'ielts_speaking' : 'cefr_speaking';
       if (p && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && cc && cc.mocks && cc.mocks[cfgKey] === 'regular') p = false;
       return !!p;
     } catch (e) { return false; }
@@ -146,8 +149,7 @@
       if (!q || !blob || !blob.size) return;
       markLocal();
       if (premium()) transcribeNow(q, blob);
-      // Practice parts are not resumable, so only the full exam is uploaded.
-      if (signedIn() && mockKey() && !practice()) upload(q, 'audio', blob);
+      if (signedIn() && mockKey()) upload(q, 'audio', blob);
     } catch (e) {}
   }
 
@@ -212,11 +214,14 @@
   //     Next is pressed), so it is asked again.
   function prepareResume(api) {
     var total = Math.max(1, Number(api.total) || 8);
+    // A practice part covers questions first..last (0-based) only.
+    var first = Math.max(0, Number(api.first) || 0);
+    var last = api.last == null ? total - 1 : Math.max(first, Number(api.last));
     var mine = owner();
     var marker = localOwner();
     var foreign = marker !== null && marker !== mine;
     return Promise.resolve(foreign ? api.clear() : null).then(function () {
-      if (!signedIn() || practice() || !mockKey()) return [];
+      if (!signedIn() || !mockKey()) return [];
       return post({ action: 'list', test_type: testType(), mock: mockKey() }).then(function (r) { return (r && r.files) || []; });
     }).then(function (files) {
       var audio = files.filter(function (f) { return f.kind === 'audio' && f.url; });
@@ -246,18 +251,18 @@
       markLocal();
       var n = 0;
       var step = function (k) {
-        if (k > total) return Promise.resolve(n);
+        if (k > last + 1) return Promise.resolve(n);
         return Promise.resolve(api.has('speaking_audio_q' + k)).then(function (ok) {
           if (!ok) return n;
           n++;
           return step(k + 1);
         });
       };
-      return step(1);
+      return step(first + 1);
     }).then(function (n) {
       // All answered but not submitted: ask the last one again rather than
       // resume past the end of the exam.
-      var idx = Math.min(n, total - 1);
+      var idx = Math.min(first + n, last);
       try { console.info('[speaking-draft] resume at question ' + (idx + 1) + ' (' + n + ' answer(s) on this device)'); } catch (e) {}
       return idx;
     }).catch(function () { return -1; });

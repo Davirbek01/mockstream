@@ -2803,6 +2803,8 @@
           'ielts-writing':   { s:'Writing',   e:'IELTS', a:'#7c3aed', i:'✍️' },
           'cefr-speaking':   { s:'Speaking',  e:'CEFR',  a:'#059669', i:'🎤' },
           'ielts-speaking':  { s:'Speaking',  e:'IELTS', a:'#059669', i:'🎤' },
+          'cefr-speaking-practice':  { s:'Speaking Practice', e:'CEFR',  a:'#059669', i:'🎯' },
+          'ielts-speaking-practice': { s:'Speaking Practice', e:'IELTS', a:'#059669', i:'🎯' },
           'cefr-full-mock':  { s:'Full Mock', e:'CEFR',  a:'#4f46e5', i:'🎯' },
           'ielts-full-mock': { s:'Full Mock', e:'IELTS', a:'#4f46e5', i:'🎯' }
         };
@@ -2818,7 +2820,9 @@
           var t = meta(row.test_type);
           var id = (row.test_id == null ? '' : String(row.test_id)).trim();
           var mk = id ? (/^\d+$/.test(id) ? ('Mock ' + parseInt(id, 10)) : id) : '';
-          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '');
+          var pp = String((row.session_data && row.session_data.practicePart) || '');
+          var PN = { p11: 'Part 1.1', p12: 'Part 1.2', p1: 'Part 1', p2: 'Part 2', p3: 'Part 3' };
+          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '') + (PN[pp] ? (' · ' + PN[pp]) : '');
         }
         // Require the runner-stored resume URL — no guessing which mock to open.
         // ?resume=1 tells the runner the student already chose to continue, so it
@@ -4651,7 +4655,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js?v=7" defer></script>
+  <script src="/session-recovery.js?v=8" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
