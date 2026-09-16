@@ -22,7 +22,7 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=5"></script>
+  <script src="session-recovery.js?v=6"></script>
   <script src="speaking-draft.js?v=2"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
@@ -11695,6 +11695,26 @@
               }
             } catch (e) { console.log('[Landing Pre-validation] Parse error:', e); }
           }
+          // Opened from the dashboard (auto=1) with the student's name already
+          // known and no access code left to ask: the details popup has nothing
+          // to ask either. The landing marker above is one-shot, so without this
+          // a practice part (or a reload) still showed "Enter Details" with the
+          // name filled in (2026-09-16). startBtn still enforces the code.
+          try {
+            const _knownName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+            const _codeLeft = window.mockRequiresPromocode && window.mockRequiresPromocode(formattedMockNumber)
+              && !(window.isPremiumUnlocked && window.isPremiumUnlocked())
+              && sessionStorage.getItem('speakingCodeValidated') !== 'true';
+            if (_knownName && !_codeLeft && new URLSearchParams(location.search).get('auto') === '1') {
+              const candInput = document.getElementById('cand');
+              if (candInput) candInput.value = _knownName;
+              setTimeout(() => {
+                const startBtnEl = document.getElementById('startBtn');
+                if (startBtnEl) startBtnEl.click();
+              }, 300);
+              return;
+            }
+          } catch (e) { /* fall back to the popup */ }
 
           // Check if returning premium user - skip candidate details modal
           const isPremium = window.isPremiumUnlocked && window.isPremiumUnlocked();

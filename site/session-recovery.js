@@ -135,6 +135,14 @@
     _wasSynced: function (tt) {
       try { return localStorage.getItem('sr_synced_' + tt) === '1'; } catch (e) { return false; }
     },
+    // Server reachable, no account row: the local copy is gone elsewhere if the
+    // server ever held it, or if it is older than 2 minutes (a save that has
+    // not landed yet is younger than that).
+    _staleLocal: function (payload, tt) {
+      if (this._wasSynced(tt)) return true;
+      var t = new Date((payload && payload.updated_at) || 0).getTime();
+      return !t || (Date.now() - t) > 120000;
+    },
 
     _syncLocalBackup: async function () {
       if (!this._config) return;
@@ -150,7 +158,7 @@
           return;
         }
         // Removed on another device since? Then drop it instead of re-creating it.
-        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._wasSynced(this._config.testType)) {
+        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, this._config.testType)) {
           var rc = await this._fetch(
             'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
             + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id&limit=1'
@@ -533,7 +541,7 @@
       var self = this;
       locals.forEach(function (p) {
         if (acctRows && p && p.test_type && String(p.user_identifier || '') === 'acct:' + acct
-            && self._wasSynced(p.test_type)
+            && self._staleLocal(p, p.test_type)
             && !acctRows.some(function (x) { return x.test_type === p.test_type; })) {
           self._dropLocal(p.test_type);   // finished or discarded on another device
           return;
