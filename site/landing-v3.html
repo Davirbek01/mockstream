@@ -26,6 +26,20 @@
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="apple-touch-icon" href="/site-config/icons/icon-192.png" />
   <script src="/site-config/pwa-manifest.js"></script>
+  <script>
+  // Support trace: one line per decision on the way from a mock tap to the
+  // runner, kept in sessionStorage (this tab only) and shown on /diag.
+  // Never sent anywhere; no tokens or codes are written.
+  window.msTrace = function (m) {
+    try {
+      var a = JSON.parse(sessionStorage.getItem('ms_trace') || '[]');
+      a.push(new Date().toTimeString().slice(0, 8) + ' ' + String(m).slice(0, 160));
+      if (a.length > 80) a = a.slice(-80);
+      sessionStorage.setItem('ms_trace', JSON.stringify(a));
+    } catch (e) {}
+  };
+  window.msTrace('landing loaded ' + location.pathname + location.search.slice(0, 40));
+  </script>
   <script>(function () { var l = document.querySelector('link[rel="manifest"]'); if (l) { var h = l.getAttribute('href') || ''; if (h && h.charAt(0) !== '/') l.setAttribute('href', '/' + h); } })();</script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
@@ -6218,6 +6232,7 @@
     //              still has the access-code decision to make, and skipping it
     //              would hand a signed-in student the mock with NO code at all
     function _msGateLaunch(skill, pageUrl, category, via) {
+      window.msTrace('launch ' + skill + ' via ' + (via || 'launch'));
       // A full mock has no launcher function — full-mock.html IS the
       // destination, so replaying it is a plain navigation.
       if (skill === 'full_mock') { window.location.href = pageUrl; return; }
@@ -6278,6 +6293,7 @@
     // modal is up and will re-call the launcher itself once sign-in lands.
     function _msGateAllow(skill, pageUrl, category, via) {
       if (_msGateSignedIn()) return true;
+      window.msTrace('gate: not signed in -> sign-in popup (' + skill + ' ' + (via || 'launch') + ')');
       _msOpenSignInGate(skill, pageUrl, category, via);
       return false;
     }
@@ -6828,6 +6844,7 @@
         var settleCap = new Promise(function (res) { setTimeout(res, 3000); });
         Promise.race([_msPremiumSettle(), settleCap]).then(function () {
           _msPremiumSettled = true;
+          try { window.msTrace('premium settled: vipToken=' + (sessionStorage.getItem('vipToken') ? 'yes' : 'no') + ' vipPremiumAi=' + (sessionStorage.getItem('vipPremiumAi') || '-')); } catch (_e) {}
           clearTimeout(slowNote);
           _msLimitBusy(false);
           _msGateLaunch(skill, pageUrl, category, via);
@@ -6876,7 +6893,8 @@
             if (timedOut) return;
             clearTimeout(timer); clearTimeout(slowTimer);
             _msLimitBusy(false);
-            if (!info || info.allowed !== false) { proceed(); return; }
+            if (!info || info.allowed !== false) { window.msTrace('limit: ok (' + (info && info.reason || 'allowed') + ')'); proceed(); return; }
+            window.msTrace('limit: refused ' + (info.scope || ''));
             _msShowLimitReached(skill, info);
           })
           .catch(function () {
@@ -16483,6 +16501,7 @@
       } catch (_e) { return false; }
     }
     function _showListeningTakenAlert() {
+      window.msTrace('listening: "Mock Completed" alert (non-premium path)');
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
       ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
@@ -16561,6 +16580,7 @@
     window.handleListeningMockClick = handleListeningMockClick;
 
     function showListeningAccessCodeModal() {
+      window.msTrace('listening: access-code modal');
       const modal = document.getElementById('listeningAccessCodeModal');
       const input = document.getElementById('listeningAccessCodeInput');
       const error = document.getElementById('listeningAccessCodeError');
@@ -16659,6 +16679,7 @@
     window.closeListeningAccessCodeModal = closeListeningAccessCodeModal;
 
     function _loadListeningMockOrShowMode(pageUrl, category) {
+      window.msTrace('listening mode chooser');
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('listening', pageUrl, category)) return;
       if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('listening', pageUrl, category)) return;
       var isPremium = _isListeningPremiumAi();
@@ -16695,6 +16716,7 @@
       } catch (_e) {}
     }
     function _cefrListeningModeFullMock() {
+      window.msTrace('-> listening full mock');
       var url = _pendingCefrListeningUrl;
       _pendingCefrListeningUrl = null;
       document.getElementById('cefrListeningModeModal').style.display = 'none';
@@ -19182,6 +19204,7 @@
       } catch (_e) { return false; }
     }
     function _showSpeakingTakenAlert() {
+      window.msTrace('speaking: "Mock Completed" alert (non-premium path)');
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
       ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
@@ -19272,6 +19295,7 @@
 
     // ===== Access Code modal =====
     function showSpeakingAccessCodeModal() {
+      window.msTrace('speaking: access-code modal');
       const modal = document.getElementById('speakingAccessCodeModal');
       const input = document.getElementById('speakingAccessCodeInput');
       const error = document.getElementById('speakingAccessCodeError');
@@ -19361,6 +19385,7 @@
 
     // ===== Mode + Part Picker modals =====
     function _launchSpeakingMock(pageUrl, category) {
+      window.msTrace('speaking mode chooser');
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('speaking', pageUrl, category)) return;
       if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('speaking', pageUrl, category)) return;
       _pendingSpeakingLaunch = { pageUrl, category };
@@ -19531,6 +19556,7 @@
     window._msv3ShowLaunchSplash = _msv3ShowLaunchSplash;
 
     function _navigateToRunner(url) {
+      window.msTrace('-> runner ' + String(url).slice(0, 70));
       url = window.__msv3AbsUrl(url);
       try { _msv3ShowLaunchSplash(); } catch (_e) {}
       // Push (not replace) so Back from the runner returns to the /take/<slug>

@@ -89,6 +89,11 @@
     ['CEFR Listening Mock 2', taken('listening', 2)]
   ]);
 
+  // Decision trace written by landing-v3 and exam-lock.js (this tab only)
+  var tr = [];
+  try { tr = JSON.parse(ss('ms_trace') || '[]'); } catch (e) {}
+  card('Oxirgi harakatlar izi (shu tab)', tr.length ? tr.map(function (l) { return ['', l]; }) : [['', 'hali yozuv yo\u2018q \u2014 avval shu tabda mock ochib ko\u2018ring, keyin /diag ga qayting']]);
+
   // Every stored key by name (never a value): what differs from incognito
   var lsKeys = [], ssKeys = [];
   try { for (var i = 0; i < localStorage.length; i++) lsKeys.push(localStorage.key(i)); } catch (e) {}

@@ -362,6 +362,7 @@
       // Signed out, or a token that ran out before this page opened. Either
       // way nothing can be proven about the account here, so nothing is locked.
       try { console.info('[exam-lock] not checked: ' + (storedSession() ? 'sign-in token expired' : 'not signed in')); } catch (e) {}
+      trace('exam-lock: not checked (' + (storedSession() ? 'token expired' : 'not signed in') + ')');
       return;
     }
     call({
@@ -370,6 +371,7 @@
     }, true).then(function (r) {
       if (!r || stopped) return;
       try { console.info('[exam-lock] start: ' + (r.tracked ? 'tracked' : r.allowed === false ? 'blocked' : (r.reason || 'not tracked'))); } catch (e) {}
+      trace('exam-lock start: ' + (r.tracked ? 'tracked' : r.allowed === false ? 'blocked' : (r.reason || 'not tracked')));
       if (r.allowed === false && r.holder) { showBlocked(r.holder); return; }
       if (r.tracked && r.session_id) {
         sessionId = r.session_id;
@@ -722,6 +724,31 @@
     info: function () { return { exam: examInfo(), device: deviceLabel(), center: centerId(), session: sessionId, tracked: !!sessionId }; },
     _preview: { blocked: showBlocked, request: showRequest, ended: showEnded, hide: hide }
   };
+
+  // Support trace (see landing-v3 head + /diag): why did this page leave?
+  function trace(m) {
+    try {
+      var a = JSON.parse(sessionStorage.getItem('ms_trace') || '[]');
+      a.push(new Date().toTimeString().slice(0, 8) + ' ' + String(m).slice(0, 160));
+      if (a.length > 80) a = a.slice(-80);
+      sessionStorage.setItem('ms_trace', JSON.stringify(a));
+    } catch (e) {}
+  }
+  trace('exam page loaded ' + decodeURIComponent(location.pathname).split('/').pop() + location.search.slice(0, 50));
+  function wrapLeave(name) {
+    var orig = window[name];
+    if (typeof orig !== 'function' || orig.__msWrapped) return;
+    var w = function () {
+      var where = '';
+      try { where = (new Error().stack || '').split('\n').slice(2, 4).join(' | ').replace(/https?:\/\/[^\s)]*\//g, ''); } catch (e) {}
+      trace(name + '() called ' + where.slice(0, 140));
+      return orig.apply(this, arguments);
+    };
+    w.__msWrapped = true;
+    window[name] = w;
+  }
+  ['goToLanding', 'goBack', 'returnToLanding'].forEach(wrapLeave);
+  document.addEventListener('DOMContentLoaded', function () { ['goToLanding', 'goBack', 'returnToLanding'].forEach(wrapLeave); });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
