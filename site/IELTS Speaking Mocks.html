@@ -8991,6 +8991,7 @@
           function dismiss() {
             if (dismissed) return;
             dismissed = true;
+            try { if (window.__partIntroTts && window.speechSynthesis) { window.__partIntroTts = false; window.speechSynthesis.cancel(); } } catch (_e) {}
             if (partIntroTimerId) { clearInterval(partIntroTimerId); partIntroTimerId = null; }
             if (partIntroAudio) { partIntroAudio.pause(); partIntroAudio = null; }
             skipBtn.onclick = null;
@@ -9044,6 +9045,47 @@
               }, 50);
             };
 
+            // iPhone, with the microphone stream open: the intro <audio> can
+            // report its metadata and then never advance - no sound, and no
+            // `ended`, so the card stayed up with its bar run out (2026-09-16,
+            // Part 2 and Part 3 on an iPhone; Android and Mac were fine). If it
+            // has data yet is not moving 2.5 s in - or is still not moving at
+            // 7 s - read the card aloud with speech synthesis (which that
+            // iPhone did play) and continue when that ends. And whatever
+            // happens, never hold the exam past the narration's own length + 3 s.
+            const _introStart = Date.now();
+            const _introStuck = (minMs, needData) => setTimeout(() => {
+              if (dismissed || partIntroAudio !== audio) return;
+              if (audio.currentTime > 0.2) return;
+              if (needData && audio.readyState < 3) return;
+              console.warn('[PartIntro] narration did not start after ' + minMs + ' ms, reading the card aloud');
+              try { audio.pause(); } catch (_e) {}
+              partIntroAudio = null;
+              const text = [cfg.title, cfg.subtitle, cfg.desc].filter(Boolean).join('. ');
+              const est = Math.max(6000, text.split(/\s+/).length * 430);
+              const t0 = Date.now();
+              if (partIntroTimerId) clearInterval(partIntroTimerId);
+              partIntroTimerId = setInterval(() => {
+                timerBar.style.width = (Math.max(0, 1 - (Date.now() - t0) / est) * 100) + '%';
+              }, 50);
+              try {
+                if (window.speechSynthesis && window.SpeechSynthesisUtterance) {
+                  const u = new SpeechSynthesisUtterance(text);
+                  u.lang = 'en-GB'; u.rate = 1;
+                  u.onend = () => dismiss(); u.onerror = () => dismiss();
+                  window.speechSynthesis.cancel();
+                  window.__partIntroTts = true;
+                  window.speechSynthesis.speak(u);
+                }
+              } catch (_e) {}
+              setTimeout(() => { if (!dismissed) dismiss(); }, est + 3000);
+            }, Math.max(0, minMs - (Date.now() - _introStart)));
+            _introStuck(2500, true);
+            _introStuck(7000, false);
+            audio.addEventListener('loadedmetadata', () => {
+              const cap = (isFinite(audio.duration) ? audio.duration * 1000 : 20000) + 3000;
+              setTimeout(() => { if (!dismissed && partIntroAudio === audio) { console.warn('[PartIntro] narration never ended, continuing'); dismiss(); } }, cap);
+            });
             audio.play().catch(() => {
               // Autoplay blocked - fall back to timer
               console.warn('Intro card audio autoplay blocked, using fallback timer');

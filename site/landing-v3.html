@@ -2878,6 +2878,20 @@
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
         else render();
+        // A draft started on another device appears without a reload: check
+        // again when this tab comes back into view, and every minute while it
+        // is visible. At most once every 5 s.
+        var _msrLast = 0;
+        function refreshSoon() {
+          if (document.hidden) return;
+          if (Date.now() - _msrLast < 5000) return;
+          _msrLast = Date.now();
+          render();
+        }
+        document.addEventListener('visibilitychange', refreshSoon);
+        window.addEventListener('focus', refreshSoon);
+        window.addEventListener('pageshow', function (e) { if (e.persisted) refreshSoon(); });
+        setInterval(refreshSoon, 60000);
       })();
     </script>
 
