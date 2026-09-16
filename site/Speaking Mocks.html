@@ -22,7 +22,8 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=2"></script>
+  <script src="session-recovery.js?v=8"></script>
+  <script src="speaking-draft.js?v=3"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
   <script src="./q4-descriptions.js"></script>
@@ -8573,6 +8574,12 @@
     // that way on 2026-08-02 despite 1:59 of perfectly good audio.
     // Three attempts with growing backoff; '[Error]' only after all fail.
     async function _transcribeWithRetry(blob, cp, qNum) {
+      // The answer was already transcribed right after it was recorded (or
+      // its transcript came back with a resumed draft): use that.
+      if (window.SpeakingDraft && qNum) {
+        var _early = SpeakingDraft.cachedTranscript(qNum, blob);
+        if (_early) { try { return await _early; } catch (_e) { /* transcribe afresh below */ } }
+      }
       var ATTEMPTS = 3, lastErr = null;
       for (var a = 1; a <= ATTEMPTS; a++) {
         try {
@@ -8841,6 +8848,22 @@
       function hasAudioInDB(key) {
         return getAudioFromDB(key).then(blob => !!blob);
       }
+      // Resuming: make IndexedDB hold THIS exam's answers (dropping another
+      // mock's, fetching what the student recorded on another device) and
+      // resume at the first question without a saved answer.
+      async function _restoreSpeakingDraftIfMissing() {
+        try {
+          if (!window.SpeakingDraft || !SpeakingDraft.prepareResume) return;
+          var idx = await SpeakingDraft.prepareResume({
+            save: saveAudioToDB, clear: clearAudioDB, has: hasAudioInDB,
+            total: getAllAudioKeys().length,
+            first: (window._practiceMode && window._practiceQRange) ? window._practiceQRange[0] : 0,
+            last: (window._practiceMode && window._practiceQRange) ? window._practiceQRange[1] : null
+          });
+          if (idx >= 0) window._srResumeIndex = idx;
+        } catch (e) { console.warn('[speaking-draft] resume prepare failed:', e); }
+      }
+
       // === Download all answers as ZIP ===
       function getAllAudioKeys() {
         // There are 8 questions, keys: speaking_audio_q1 ... speaking_audio_q8
@@ -8870,7 +8893,7 @@
       // Session Recovery init
       if (window.SessionRecovery) {
         SessionRecovery.init({
-          testType: 'cefr-speaking',
+          testType: window._practiceMode ? 'cefr-speaking-practice' : 'cefr-speaking',
           getUserId: function() { return (document.getElementById('cand')?.value || '').trim() || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
           getTestId: function() { return window.SELECTED_MOCK_NUMBER || ''; },
           getState: function() {
@@ -8880,6 +8903,10 @@
             // — so leaving mid-speaking is resumable + shows the dashboard banner,
             // matching Writing. questionIndex reflects progress (0 = resume at Q1).
             var started = document.querySelectorAll('.q[data-started]').length;
+            // A practice part saves its absolute question index and which part.
+            if (window._practiceMode && window._practiceQRange) {
+              return { questionIndex: window._practiceQRange[0] + started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length, practicePart: window._practicePartId || '' };
+            }
             return { questionIndex: started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length };
           }
         });
@@ -9301,6 +9328,7 @@
                 }
                 return saveAudioToDB(key, res.blob)
                   .then(() => updateDownloadButtons())
+                  .then(() => { try { if (window.SpeakingDraft) SpeakingDraft.onSaved(key, res.blob); } catch (_e) {} })
                   .catch(e => alert('Could not save audio: ' + e.message))
                   .finally(done);
               });
@@ -10627,6 +10655,7 @@
           function dismiss() {
             if (dismissed) return;
             dismissed = true;
+            try { if (window.__partIntroTts && window.speechSynthesis) { window.__partIntroTts = false; window.speechSynthesis.cancel(); } } catch (_e) {}
             if (partIntroTimerId) { clearInterval(partIntroTimerId); partIntroTimerId = null; }
             if (partIntroAudio) { partIntroAudio.pause(); partIntroAudio = null; }
             skipBtn.onclick = null;
@@ -10669,6 +10698,47 @@
                 if (elapsed >= fallbackDuration) dismiss();
               }, 50);
             };
+            // iPhone, with the microphone stream open: the intro <audio> can
+            // report its metadata and then never advance - no sound, and no
+            // `ended`, so the card stayed up with its bar run out (2026-09-16,
+            // Part 2 and Part 3 on an iPhone; Android and Mac were fine). If it
+            // has data yet is not moving 2.5 s in - or is still not moving at
+            // 7 s - read the card aloud with speech synthesis (which that
+            // iPhone did play) and continue when that ends. And whatever
+            // happens, never hold the exam past the narration's own length + 3 s.
+            const _introStart = Date.now();
+            const _introStuck = (minMs, needData) => setTimeout(() => {
+              if (dismissed || partIntroAudio !== audio) return;
+              if (audio.currentTime > 0.2) return;
+              if (needData && audio.readyState < 3) return;
+              console.warn('[PartIntro] narration did not start after ' + minMs + ' ms, reading the card aloud');
+              try { audio.pause(); } catch (_e) {}
+              partIntroAudio = null;
+              const text = [cfg.title, cfg.subtitle, cfg.desc].filter(Boolean).join('. ');
+              const est = Math.max(6000, text.split(/\s+/).length * 430);
+              const t0 = Date.now();
+              if (partIntroTimerId) clearInterval(partIntroTimerId);
+              partIntroTimerId = setInterval(() => {
+                timerBar.style.width = (Math.max(0, 1 - (Date.now() - t0) / est) * 100) + '%';
+              }, 50);
+              try {
+                if (window.speechSynthesis && window.SpeechSynthesisUtterance) {
+                  const u = new SpeechSynthesisUtterance(text);
+                  u.lang = 'en-GB'; u.rate = 1;
+                  u.onend = () => dismiss(); u.onerror = () => dismiss();
+                  window.speechSynthesis.cancel();
+                  window.__partIntroTts = true;
+                  window.speechSynthesis.speak(u);
+                }
+              } catch (_e) {}
+              setTimeout(() => { if (!dismissed) dismiss(); }, est + 3000);
+            }, Math.max(0, minMs - (Date.now() - _introStart)));
+            _introStuck(2500, true);
+            _introStuck(7000, false);
+            audio.addEventListener('loadedmetadata', () => {
+              const cap = (isFinite(audio.duration) ? audio.duration * 1000 : 20000) + 3000;
+              setTimeout(() => { if (!dismissed && partIntroAudio === audio) { console.warn('[PartIntro] narration never ended, continuing'); dismiss(); } }, cap);
+            });
             audio.play().catch(() => {
               console.warn('[PartIntro] autoplay blocked, using fallback timer');
               partIntroAudio = null;
@@ -10800,22 +10870,36 @@
         let timerId = null, mode = 'prep', remaining = 0, total = 0, _didResume = false;
 
         // Session recovery: fast-forward past completed questions
-        if (window._srResumeIndex > 0 && !window._practiceMode) {
+        if (window._srResumeIndex > 0) {
           var resumeIdx = window._srResumeIndex;
           window._srResumeIndex = 0;
+          // A practice part resumes within its own questions.
+          var _rPr = (window._practiceMode && window._practiceQRange) ? window._practiceQRange : null;
+          var _rStart = _rPr ? _rPr[0] : 0;
+          if (_rPr && resumeIdx > _rPr[1]) resumeIdx = _rPr[1];
           // Verify audio exists in IndexedDB for each completed question
-          for (var k = 0; k < resumeIdx; k++) {
+          for (var k = _rStart; k < resumeIdx; k++) {
             var hasAudio = await hasAudioInDB('speaking_audio_q' + (k + 1));
             if (!hasAudio) { resumeIdx = k; break; }
           }
-          if (resumeIdx > 0) {
-            for (var k = 0; k < resumeIdx; k++) {
+          if (resumeIdx > _rStart) {
+            if (_rPr) {
+              scoreTotal.textContent = _rPr[1] - _rPr[0] + 1;
+              var _rTop = document.querySelector('.topbar') || document.querySelector('.top-inner') || document.querySelector('.top');
+              if (_rTop) {
+                var _rBadge = document.createElement('span');
+                _rBadge.textContent = '\uD83C\uDFAF Practice';
+                _rBadge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-left:8px;';
+                _rTop.appendChild(_rBadge);
+              }
+            }
+            for (var k = _rStart; k < resumeIdx; k++) {
               var q = qs[k]; if (q) { q.dataset.started = '1'; q.classList.add('done', 'hidden'); }
               // Mark the part intro of each already-completed question as seen, so
               // resuming past Q1 doesn't replay the Part 1 intro at Q4 (Part 1.2).
               if (PART_INTRO_INDEX[k]) _partIntrosShown[PART_INTRO_INDEX[k]] = true;
             }
-            answered = resumeIdx; scoreDone.textContent = answered;
+            answered = resumeIdx - _rStart; scoreDone.textContent = answered;
             runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
             if (loadingOverlay) loadingOverlay.style.display = 'none';
             // Do NOT return here. Execution must continue through the rest of
@@ -11376,20 +11460,33 @@
             await preloadGTTSAudio();
           }
           // Session recovery check
+          // A part practice has its own draft type, so it never touches the full
+          // mock's draft.
           if (window.SessionRecovery) {
             try {
               if (window._speakingAutoResume) {
+                // The local copy may be stale: finished or discarded on another
+                // device. check() drops it in that case.
+                if (!(await SessionRecovery.check())) {
+                  window._speakingAutoResume = false;
+                  window._srResumeIndex = 0;
+                  throw new Error('draft no longer exists');
+                }
                 // Dashboard-banner fast resume — the decision was already made
                 // (skip everything → straight to the recorded question) and
                 // window._srResumeIndex is already set; don't prompt again.
                 _resumeSession = true;
+                await _restoreSpeakingDraftIfMissing();
               } else {
                 var session = await SessionRecovery.check();
-                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
-                  var choice = await SessionRecovery.prompt(session);
+                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')
+                    && String(session.session_data.practicePart || '') === String(window._practiceMode ? (window._practicePartId || '') : '')) {
+                  // Resume was already chosen on the dashboard banner (?resume=1).
+                  var choice = window._speakingResumeRequested ? 'resume' : await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
                     _resumeSession = true;
                     window._srResumeIndex = session.session_data.questionIndex || 0;
+                    await _restoreSpeakingDraftIfMissing();
                   } else {
                     await SessionRecovery.clear();
                     await clearAudioDB();
@@ -11524,12 +11621,18 @@
           //    starts (permission persists across the reload), so no mic-test is
           //    needed. Any failure falls through to the normal gated flow.
           try {
-            var _srRaw = localStorage.getItem('sr_cefr-speaking');
-            if (_srRaw && !window._practiceMode) {
+            var _srRaw = localStorage.getItem('sr_cefr-speaking' + (window._practiceMode ? '-practice' : ''));
+            var _srResumeFlag = false;
+            try { _srResumeFlag = new URLSearchParams(location.search).get('resume') === '1'; } catch (e) {}
+            // A local draft saved under ANOTHER account must not resume here.
+            var _srAcct = '';
+            try { var _srSess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null'); if (_srSess && _srSess.currentSession) _srSess = _srSess.currentSession; _srAcct = (_srSess && _srSess.user && _srSess.user.email) ? String(_srSess.user.email).toLowerCase() : ''; } catch (e) {}
+            if (_srRaw) { try { var _srU = String((JSON.parse(_srRaw) || {}).user_identifier || ''); if (_srU.indexOf('acct:') === 0 && _srU !== 'acct:' + _srAcct) _srRaw = null; } catch (e) { _srRaw = null; } }
+            if (_srRaw) {
               var _srP = JSON.parse(_srRaw);
               var _srSd = _srP && _srP.session_data;
               var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;
-              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && (_srSd.questionIndex || 0) > 0) {
+              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && String(_srSd.practicePart || '') === String(window._practiceMode ? (window._practicePartId || '') : '') && (_srSd.questionIndex || 0) > 0) {
                 window._speakingAutoResume = true;
                 window._srResumeIndex = _srSd.questionIndex || 0;
                 try { candidateDetailsModal.classList.remove('show'); candidateDetailsModal.setAttribute('aria-hidden', 'true'); } catch (e) {}
@@ -11538,6 +11641,14 @@
                 if (_srStartBtn) { setTimeout(function () { _srStartBtn.click(); }, 30); return; }
                 window._speakingAutoResume = false; // no start button — abandon fast path
               }
+            }
+            if (_srResumeFlag && !window._speakingAutoResume) {
+              window._speakingResumeRequested = true;
+              try { candidateDetailsModal.classList.remove('show'); candidateDetailsModal.setAttribute('aria-hidden', 'true'); } catch (e) {}
+              window.speakingExamStartTime = window.speakingExamStartTime || Date.now();
+              var _rqStartBtn = document.getElementById('startBtn');
+              if (_rqStartBtn) { setTimeout(function () { _rqStartBtn.click(); }, 30); return; }
+              window._speakingResumeRequested = false;
             }
           } catch (e) { console.warn('[Resume] fast-path check failed, using normal flow:', e); }
 
@@ -11605,6 +11716,26 @@
               }
             } catch (e) { console.log('[Landing Pre-validation] Parse error:', e); }
           }
+          // Opened from the dashboard (auto=1) with the student's name already
+          // known and no access code left to ask: the details popup has nothing
+          // to ask either. The landing marker above is one-shot, so without this
+          // a practice part (or a reload) still showed "Enter Details" with the
+          // name filled in (2026-09-16). startBtn still enforces the code.
+          try {
+            const _knownName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+            const _codeLeft = window.mockRequiresPromocode && window.mockRequiresPromocode(formattedMockNumber)
+              && !(window.isPremiumUnlocked && window.isPremiumUnlocked())
+              && sessionStorage.getItem('speakingCodeValidated') !== 'true';
+            if (_knownName && !_codeLeft && new URLSearchParams(location.search).get('auto') === '1') {
+              const candInput = document.getElementById('cand');
+              if (candInput) candInput.value = _knownName;
+              setTimeout(() => {
+                const startBtnEl = document.getElementById('startBtn');
+                if (startBtnEl) startBtnEl.click();
+              }, 300);
+              return;
+            }
+          } catch (e) { /* fall back to the popup */ }
 
           // Check if returning premium user - skip candidate details modal
           const isPremium = window.isPremiumUnlocked && window.isPremiumUnlocked();
@@ -12288,16 +12419,8 @@
       // and the Begin button visibility in one place.
       let _speakingMicVerified = false;
       function _showTutorial() {
-        // Dashboard-banner fast resume: don't show the mic-check + intro at all.
-        // Wait until the mock data has loaded, prime the mic in the background,
-        // then jump straight into the recorded question via _beginFlowFromTutorial.
-        if (window._speakingAutoResume) {
-          Promise.resolve(window._speakingMockReadyPromise).then(function () {
-            try { ensureMediaStream(); } catch (e) {}
-            _beginFlowFromTutorial();
-          });
-          return;
-        }
+        // Resuming shows the mic check too, on every device (chosen 2026-09-16:
+        // the same everywhere, and a new device must get mic permission anyway).
         const modal = $('#tutorialModal');
         modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');
@@ -12560,6 +12683,7 @@
 
       /* Practice mode finish */
       function showPracticeFinish() {
+        if (window.SessionRecovery) SessionRecovery.clear();
         try { exitFullscreen(); } catch (e) { } // practice over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         var partNames = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
@@ -16838,7 +16962,7 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
 
             try {
               // Add delay between requests to avoid rate limiting
-              if (i > 0) await new Promise(r => setTimeout(r, 2000));
+              if (i > 0 && !(window.SpeakingDraft && SpeakingDraft.cachedTranscript(qNum, blob))) await new Promise(r => setTimeout(r, 2000));
 
               const transcribedText = await _transcribeWithRetry(blob, _cpTranscribe, qNum);
               transcriptions.push({ questionNum: qNum, text: transcribedText });

@@ -23,6 +23,10 @@
   // session save/restore — fixed here.
   var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
   var SAVE_INTERVAL = 30000;   // 30 seconds
+  // A draft whose exam is still open (saved "live" within this window) is shown
+  // as "in progress" with its start time, not as Continue - the student has
+  // not left it yet (2026-09-16).
+  var LIVE_WINDOW = 75000;
   var EXPIRY_HOURS  = 72;
 
   var SR = {
@@ -64,7 +68,9 @@
     _uid: function () {
       if (!this._config || !this._config.getUserId) return null;
       var acct = this._account();
-      if (acct && !this._isSpeaking(this._config.testType)) return 'acct:' + acct;
+      // Speaking too, since 2026-09-16: its recordings now have a server copy
+      // (speaking-draft.js), so a speaking draft can follow the account.
+      if (acct) return 'acct:' + acct;
       return this._legacyUid();
     },
     _legacyUid: function () {
@@ -92,12 +98,16 @@
     // Shallow-copy the runner's state and stamp the exact URL that reopens this
     // mock, so the dashboard "Continue" banner can resume without guessing the
     // runner page / mock param. Backward-compatible: unknown key, ignored on restore.
-    _enrich: function (state) {
+    _enrich: function (state, live) {
       var sd = {};
       try { for (var k in state) { if (Object.prototype.hasOwnProperty.call(state, k)) sd[k] = state[k]; } }
       catch (e) { sd = state; }
-      try { sd.__resumeUrl = location.pathname + location.search; } catch (e) { /* ignore */ }
+      try { sd.__resumeUrl = location.pathname + location.search.replace(/([?&])resume=1(&|$)/, function (m, a, b) { return b ? a : ''; }); } catch (e) { /* ignore */ }
       try { var a = this._account(); if (a) sd.__account = a; } catch (e) { /* ignore */ }
+      sd.__live = !!live;   // exam page open and in view when this was saved
+      try { sd.__device = localStorage.getItem('ms_device_id') || ''; } catch (e) { /* ignore */ }
+      if (!this._startedAt) this._startedAt = new Date().toISOString();
+      sd.__startedAt = this._startedAt;
       return sd;
     },
 
@@ -119,6 +129,29 @@
     // Only removes the local copy if Supabase confirms a successful upsert.
     // If the table is locked down (401/403/4xx) or the network is offline,
     // the local copy stays so check() can still find it.
+    // "sr_synced_<type>" records that the server has held this draft. If the
+    // server is reachable, holds no row for the account, and the marker is
+    // there, the draft was finished or discarded on another device - so the
+    // local copy is stale and must not come back (2026-09-16). A draft that
+    // never reached the server (taken offline) has no marker and is kept.
+    _markSynced: function (tt) {
+      try { localStorage.setItem('sr_synced_' + tt, '1'); } catch (e) { /* ignore */ }
+    },
+    _dropLocal: function (tt) {
+      try { localStorage.removeItem('sr_' + tt); localStorage.removeItem('sr_synced_' + tt); } catch (e) { /* ignore */ }
+    },
+    _wasSynced: function (tt) {
+      try { return localStorage.getItem('sr_synced_' + tt) === '1'; } catch (e) { return false; }
+    },
+    // Server reachable, no account row: the local copy is gone elsewhere if the
+    // server ever held it, or if it is older than 2 minutes (a save that has
+    // not landed yet is younger than that).
+    _staleLocal: function (payload, tt) {
+      if (this._wasSynced(tt)) return true;
+      var t = new Date((payload && payload.updated_at) || 0).getTime();
+      return !t || (Date.now() - t) > 120000;
+    },
+
     _syncLocalBackup: async function () {
       if (!this._config) return;
       var key = 'sr_' + this._config.testType;
@@ -132,6 +165,17 @@
           localStorage.removeItem(key);
           return;
         }
+        // Removed on another device since? Then drop it instead of re-creating it.
+        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, this._config.testType)) {
+          var rc = await this._fetch(
+            'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
+            + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id&limit=1'
+          );
+          if (rc && rc.ok) {
+            var rows = await rc.json();
+            if (!rows || !rows.length) { this._dropLocal(this._config.testType); return; }
+          }
+        }
         // Try to upsert to Supabase; only clear local copy on success
         var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
@@ -140,6 +184,7 @@
         });
         if (r && r.ok) {
           localStorage.removeItem(key);
+          this._markSynced(this._config.testType);
         }
         // else: leave local copy in place as the source of truth
       } catch (e) { /* network failure — keep local copy */ }
@@ -184,7 +229,14 @@
     // ── Check for existing session ──────────────────────────────────────
     // Returns session object or null. Tries Supabase first; falls back
     // to localStorage if the table is locked down or the network is offline.
+    // The draft found here keeps its original start time when resumed.
     check: async function () {
+      var row = await this._checkRow();
+      try { if (row && row.session_data && row.session_data.__startedAt) this._startedAt = row.session_data.__startedAt; } catch (e) { /* ignore */ }
+      return row;
+    },
+
+    _checkRow: async function () {
       if (!this._config) return null;
       var uid = this._uid();
       if (!uid) return null;
@@ -313,29 +365,31 @@
       var self = this;
 
       // Initial save
-      this.save();
+      this.save(true);
 
-      // Periodic save
+      // Periodic save — "live" while the page is in view
       this._saveTimer = setInterval(function () {
-        if (self._active) self.save();
+        if (self._active) self.save(!document.hidden);
       }, SAVE_INTERVAL);
 
-      // Save when tab becomes hidden (user switches tab / minimizes)
+      // Tab hidden (switched away / phone locked): no longer live, so the
+      // student can continue elsewhere; back in view: live again.
       document.addEventListener('visibilitychange', this._onVisChange = function () {
-        if (document.hidden && self._active) self.save();
+        if (self._active) self.save(!document.hidden);
       });
 
-      // Save on beforeunload (keepalive fetch + localStorage backup)
+      // Save on beforeunload / pagehide (iOS Safari fires only pagehide)
       window.addEventListener('beforeunload', this._onUnload = function () {
         if (self._active) self._saveSync();
       });
+      window.addEventListener('pagehide', this._onUnload);
     },
 
     // ── Async save to Supabase + localStorage fallback ─────────────────
     // Always writes to localStorage first (synchronous, can't fail other
     // than on quota), then tries Supabase. If Supabase 401/403/5xx or the
     // network is offline, the local copy is still there for check() to find.
-    save: async function () {
+    save: async function (live) {
       if (!this._config || !this._active) return;
       var state = this._config.getState();
       if (!state) return;
@@ -346,7 +400,7 @@
         user_identifier: uid,
         test_type: this._config.testType,
         test_id: this._config.getTestId ? this._config.getTestId() : '',
-        session_data: this._enrich(state),
+        session_data: this._enrich(state, live),
         updated_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
@@ -362,6 +416,7 @@
         });
         // If Supabase took it, the local copy can be cleared on next sync.
         // We leave it in place for now — _syncLocalBackup() handles cleanup.
+        if (r && r.ok) this._markSynced(this._config.testType);
       } catch (e) { /* offline — local copy is the source of truth */ }
     },
 
@@ -406,18 +461,21 @@
     // ── Clear session on test completion ────────────────────────────────
     clear: async function () {
       this._active = false;
+      this._startedAt = null;
       if (this._saveTimer) { clearInterval(this._saveTimer); this._saveTimer = null; }
 
       // Remove listeners
       if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
-      if (this._onUnload) window.removeEventListener('beforeunload', this._onUnload);
+      if (this._onUnload) { window.removeEventListener('beforeunload', this._onUnload); window.removeEventListener('pagehide', this._onUnload); }
 
       if (!this._config) return;
       var uid = this._uid();
       var tt = this._config.testType;
 
       // Clear localStorage
-      try { localStorage.removeItem('sr_' + tt); } catch (e) { /* ignore */ }
+      this._dropLocal(tt);
+      // A speaking draft's recordings live on the server as well.
+      try { if (this._isSpeaking(tt) && window.SpeakingDraft) window.SpeakingDraft.clear(tt); } catch (e) { /* ignore */ }
 
       // Delete from Supabase — the account row and the old device row alike
       var ids = [uid, this._legacyUid()].filter(function (x, i, arr) { return x && arr.indexOf(x) === i; });
@@ -465,17 +523,20 @@
       function take(p) {
         if (!p || !p.test_type || !p.expires_at || new Date(p.expires_at).getTime() <= now) return;
         if (!mine(p)) return;
+        // Exam still open on some device: listed, but marked as ongoing.
+        p.__ongoing = !!(p.session_data && p.session_data.__live && (now - new Date(p.updated_at || 0).getTime()) < LIVE_WINDOW);
         var ex = byType[p.test_type];
         if (!ex || new Date(p.updated_at || 0).getTime() > new Date(ex.updated_at || 0).getTime()) byType[p.test_type] = p;
       }
       // 1) localStorage sr_* — written synchronously on EVERY save (before the
       //    Supabase POST, so it survives an offline/blocked backend). Device-local,
       //    so this is the reliable primary source for the dashboard banner.
+      var locals = [];
       try {
         for (var i = 0; i < localStorage.length; i++) {
           var k = localStorage.key(i);
-          if (!k || k.indexOf('sr_') !== 0) continue;
-          try { take(JSON.parse(localStorage.getItem(k))); } catch (e) { /* skip malformed entry */ }
+          if (!k || k.indexOf('sr_') !== 0 || k.indexOf('sr_synced_') === 0) continue;
+          try { locals.push(JSON.parse(localStorage.getItem(k))); } catch (e) { /* skip malformed entry */ }
         }
       } catch (e) { /* ignore */ }
       // 2) Supabase (same device) — adds sessions not in localStorage and keeps
@@ -485,12 +546,29 @@
       var queries = [];
       if (did) queries.push('test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc');
       if (acct) queries.push('test_sessions?user_identifier=eq.' + encodeURIComponent('acct:' + acct) + '&select=*&order=updated_at.desc');
+      var acctRows = null;   // the account's server rows, when that query worked
+      var serverRows = [];
       for (var qi = 0; qi < queries.length; qi++) {
         try {
           var r = await this._fetch(queries[qi]);
-          if (r && r.ok) { var rows = await r.json(); (rows || []).forEach(take); }
+          if (r && r.ok) {
+            var rows = (await r.json()) || [];
+            serverRows = serverRows.concat(rows);
+            if (acct && queries[qi].indexOf('user_identifier=eq.') !== -1) acctRows = rows;
+          }
         } catch (e) { /* ignore — localStorage already covers it */ }
       }
+      var self = this;
+      locals.forEach(function (p) {
+        if (acctRows && p && p.test_type && String(p.user_identifier || '') === 'acct:' + acct
+            && self._staleLocal(p, p.test_type)
+            && !acctRows.some(function (x) { return x.test_type === p.test_type; })) {
+          self._dropLocal(p.test_type);   // finished or discarded on another device
+          return;
+        }
+        take(p);
+      });
+      serverRows.forEach(take);
       var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
       arr.sort(function (a, b) { return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime(); });
       return arr;
@@ -500,7 +578,8 @@
     // else by user_identifier+test_type). Accepts a session ROW.
     discard: function (row) {
       if (!row) return Promise.resolve();
-      try { if (row.test_type) localStorage.removeItem('sr_' + row.test_type); } catch (e) { /* ignore */ }
+      if (row.test_type) this._dropLocal(row.test_type);
+      try { if (this._isSpeaking(row.test_type)) this._clearSpeakingServer(row.test_type); } catch (e) { /* ignore */ }
       if (row.id) return this._deleteById(row.id);
       if (row.user_identifier && row.test_type) {
         return this._fetch(
@@ -510,6 +589,21 @@
         ).catch(function () {});
       }
       return Promise.resolve();
+    },
+
+    // The landing page's Discard does not load speaking-draft.js, so it asks
+    // the function directly.
+    _clearSpeakingServer: function (tt) {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (s && s.currentSession) s = s.currentSession;
+        if (!s || !s.access_token) return;
+        fetch(SUPABASE_URL + '/functions/v1/speaking-draft', {
+          method: 'POST',
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer ' + s.access_token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'clear', test_type: tt })
+        }).catch(function () {});
+      } catch (e) { /* ignore */ }
     },
 
     // ── Generic answer restoration ──────────────────────────────────────

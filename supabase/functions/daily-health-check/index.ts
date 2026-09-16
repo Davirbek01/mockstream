@@ -510,6 +510,19 @@ Deno.serve(async (req) => {
   // Null when RESEND_API_KEY is unset; the section is then simply absent.
   const resend = await resendDay(daysBack);
 
+  // Housekeeping: speaking drafts nobody came back to within 72 hours (their
+  // test_sessions rows expire at the same age). Never allowed to fail the report.
+  try {
+    const { data: stale } = await sb.rpc('speaking_draft_stale_objects', { p_hours: 72, p_limit: 1000 });
+    const names = (stale || []).map((r: { name: string }) => r.name).filter(Boolean);
+    for (let i = 0; i < names.length; i += 100) {
+      await sb.storage.from('speaking-drafts').remove(names.slice(i, i + 100));
+    }
+    if (names.length) console.log('[daily-health-check] removed', names.length, 'stale speaking-draft objects');
+  } catch (e) {
+    console.error('[daily-health-check] speaking-draft sweep failed:', (e as Error).message);
+  }
+
   const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend, cf, examLock || []);
 
   // Keep the last report where the admin panel can read it, the same place

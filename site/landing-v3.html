@@ -2733,8 +2733,8 @@
         <div class="msr-top">
           <span class="msr-ic" id="msrIc">✍️</span>
           <div class="msr-main">
-            <div class="msr-eyebrow">Continue where you left off
-              <span class="msr-badge">RESUME</span>
+            <div class="msr-eyebrow"><span id="msrEyebrowText">Continue where you left off</span>
+              <span class="msr-badge" id="msrBadge">RESUME</span>
               <span class="msr-count" id="msrCount" hidden></span>
             </div>
             <div class="msr-title" id="msrTitle"></div>
@@ -2803,6 +2803,8 @@
           'ielts-writing':   { s:'Writing',   e:'IELTS', a:'#7c3aed', i:'✍️' },
           'cefr-speaking':   { s:'Speaking',  e:'CEFR',  a:'#059669', i:'🎤' },
           'ielts-speaking':  { s:'Speaking',  e:'IELTS', a:'#059669', i:'🎤' },
+          'cefr-speaking-practice':  { s:'Speaking Practice', e:'CEFR',  a:'#059669', i:'🎯' },
+          'ielts-speaking-practice': { s:'Speaking Practice', e:'IELTS', a:'#059669', i:'🎯' },
           'cefr-full-mock':  { s:'Full Mock', e:'CEFR',  a:'#4f46e5', i:'🎯' },
           'ielts-full-mock': { s:'Full Mock', e:'IELTS', a:'#4f46e5', i:'🎯' }
         };
@@ -2818,10 +2820,18 @@
           var t = meta(row.test_type);
           var id = (row.test_id == null ? '' : String(row.test_id)).trim();
           var mk = id ? (/^\d+$/.test(id) ? ('Mock ' + parseInt(id, 10)) : id) : '';
-          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '');
+          var pp = String((row.session_data && row.session_data.practicePart) || '');
+          var PN = { p11: 'Part 1.1', p12: 'Part 1.2', p1: 'Part 1', p2: 'Part 2', p3: 'Part 3' };
+          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '') + (PN[pp] ? (' · ' + PN[pp]) : '');
         }
         // Require the runner-stored resume URL — no guessing which mock to open.
-        function resumeUrl(row) { var sd = row.session_data || {}; return sd.__resumeUrl || null; }
+        // ?resume=1 tells the runner the student already chose to continue, so it
+        // skips the name popup and the "Unfinished Test Found" question.
+        function resumeUrl(row) {
+          var sd = row.session_data || {}; var u = sd.__resumeUrl || null;
+          if (!u) return null;
+          return /[?&]resume=1(&|$)/.test(u) ? u : u + (u.indexOf('?') === -1 ? '?' : '&') + 'resume=1';
+        }
         function detail(sd) {
           if (!sd) return '';
           var n = 0;
@@ -2831,21 +2841,44 @@
           }
           return n ? (' · ' + n + ' answer' + (n !== 1 ? 's' : '') + ' saved') : '';
         }
+        // "Started 23:05" today, "Started 16 Sep, 23:05" otherwise.
+        function startedText(sd) {
+          var d = new Date((sd && sd.__startedAt) || 0);
+          if (!d.getTime()) return 'Open now';
+          var hm = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          var same = d.toDateString() === new Date().toDateString();
+          return 'Started ' + (same ? hm : (d.toLocaleDateString([], { day: 'numeric', month: 'short' }) + ', ' + hm));
+        }
+        function whereText(sd) {
+          var did = ''; try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) {}
+          return (sd && sd.__device && did && sd.__device === did) ? 'open in another tab on this device' : 'open on another device';
+        }
+        var _msrOngoingTimer = null;
         function render() {
           if (!window.SessionRecovery || !SessionRecovery.listActiveOnDevice) return;
           SessionRecovery.listActiveOnDevice().then(function (rows) {
             var sec = document.getElementById('msrResumeSection');
             if (!sec) return;
             rows = (rows || []).filter(function (r) { return resumeUrl(r); });
-            if (!rows.length) { sec.style.display = 'none'; return; }
+            if (!rows.length) { sec.style.display = 'none'; if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; } return; }
             var latest = rows[0], extras = rows.slice(1), t = meta(latest.test_type), sd = latest.session_data || {};
             document.getElementById('msrRail').style.background = t.a;
             var ic = document.getElementById('msrIc'); ic.textContent = t.i; ic.style.background = t.a;
             var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
             var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
             document.getElementById('msrTitle').textContent = titleOf(latest);
-            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd)
-              + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device');
+            var ongoing = !!latest.__ongoing;
+            document.getElementById('msrEyebrowText').textContent = ongoing ? 'Test in progress' : 'Continue where you left off';
+            document.getElementById('msrBadge').textContent = ongoing ? 'LIVE' : 'RESUME';
+            sec.querySelector('.msr-cta').style.display = ongoing ? 'none' : '';
+            document.getElementById('msrMeta').textContent = ongoing
+              ? (startedText(sd) + ' · ' + whereText(sd))
+              : (agoText(latest.updated_at) + detail(sd)
+                + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device'));
+            // While a test is open elsewhere, look again sooner so Continue
+            // appears soon after the student leaves it.
+            if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; }
+            if (rows.some(function (r) { return r.__ongoing; })) _msrOngoingTimer = setTimeout(function () { if (!document.hidden) render(); }, 20000);
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
             rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
@@ -2859,8 +2892,8 @@
               var html = '<span class="cap">Also in progress:</span>';
               extras.forEach(function (r) {
                 var m = meta(r.test_type);
-                html += '<span class="msr-chip" data-url="' + encodeURIComponent(resumeUrl(r) || '') + '">'
-                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + '</span>';
+                html += '<span class="msr-chip" data-url="' + (r.__ongoing ? '' : encodeURIComponent(resumeUrl(r) || '')) + '">'
+                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + (r.__ongoing ? ' · live' : '') + '</span>';
               });
               more.innerHTML = html; more.hidden = false;
               more.querySelectorAll('.msr-chip').forEach(function (ch) {
@@ -2872,6 +2905,20 @@
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
         else render();
+        // A draft started on another device appears without a reload: check
+        // again when this tab comes back into view, and every minute while it
+        // is visible. At most once every 5 s.
+        var _msrLast = 0;
+        function refreshSoon() {
+          if (document.hidden) return;
+          if (Date.now() - _msrLast < 5000) return;
+          _msrLast = Date.now();
+          render();
+        }
+        document.addEventListener('visibilitychange', refreshSoon);
+        window.addEventListener('focus', refreshSoon);
+        window.addEventListener('pageshow', function (e) { if (e.persisted) refreshSoon(); });
+        setInterval(refreshSoon, 60000);
       })();
     </script>
 
@@ -4608,7 +4655,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js?v=2" defer></script>
+  <script src="/session-recovery.js?v=8" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
