@@ -23,6 +23,11 @@
 <h1>Qurilma holati</h1>
 <p class="sub">Faqat shu brauzerda saqlangan ma'lumot. Tokenlar ko'rsatilmaydi. Skrinshot qilib yuboring.</p>
 <div id="out"></div>
+<div class="card">
+  <h2>Tozalash</h2>
+  <p style="margin:0 0 10px;font-size:13px;color:#475569">Shu brauzerda mock-stream.com uchun saqlangan hamma narsani o‘chiradi (kirish, keshlar, service worker). Keyin qayta kirasiz. Incognito bilan bir xil holatga keltiradi.</p>
+  <button id="wipe" style="font:600 14px system-ui;padding:11px 16px;border:0;border-radius:10px;background:#dc2626;color:#fff;width:100%">Saytni tozalash va bosh sahifaga o‘tish</button>
+</div>
 <script src="/center-id.js"></script>
 <script>
 (function () {
@@ -84,6 +89,16 @@
     ['CEFR Listening Mock 2', taken('listening', 2)]
   ]);
 
+  // Every stored key by name (never a value): what differs from incognito
+  var lsKeys = [], ssKeys = [];
+  try { for (var i = 0; i < localStorage.length; i++) lsKeys.push(localStorage.key(i)); } catch (e) {}
+  try { for (var j = 0; j < sessionStorage.length; j++) ssKeys.push(sessionStorage.key(j)); } catch (e) {}
+  lsKeys.sort(); ssKeys.sort();
+  card('Saqlangan kalitlar (faqat nomlari)', [
+    ['localStorage (' + lsKeys.length + ')', lsKeys.join(', ') || '—'],
+    ['sessionStorage (' + ssKeys.length + ')', ssKeys.join(', ') || '—']
+  ]);
+
   // Site / cache
   var rows = [
     ['Markaz', window.__CENTER_ID || '—'],
@@ -92,6 +107,16 @@
     ['Brauzer', navigator.userAgent.replace(/^Mozilla\/5.0 /, '').slice(0, 90)]
   ];
   card('Sayt', rows);
+  document.getElementById('wipe').onclick = async function () {
+    this.disabled = true; this.textContent = 'Tozalanmoqda…';
+    try { localStorage.clear(); } catch (e) {}
+    try { sessionStorage.clear(); } catch (e) {}
+    try { if (window.caches) { var ks = await caches.keys(); await Promise.all(ks.map(function (k) { return caches.delete(k); })); } } catch (e) {}
+    try { if (navigator.serviceWorker) { var rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(function (r) { return r.unregister(); })); } } catch (e) {}
+    try { if (window.indexedDB && indexedDB.databases) { var dbs = await indexedDB.databases(); await Promise.all(dbs.map(function (d) { return new Promise(function (res) { var q = indexedDB.deleteDatabase(d.name); q.onsuccess = q.onerror = q.onblocked = res; }); })); } } catch (e) {}
+    location.replace('/landing-v3.html?wiped=1');
+  };
+
   if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
     navigator.serviceWorker.getRegistrations().then(function (regs) {
       var r = [['Service worker', regs.length ? regs.length + ' ta' : "yo'q"]];
