@@ -22,7 +22,7 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=4"></script>
+  <script src="session-recovery.js?v=5"></script>
   <script src="speaking-draft.js?v=2"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
@@ -9705,9 +9705,18 @@
             await preloadGTTSAudio();
           }
           // Session recovery check
-          if (window.SessionRecovery) {
+          // Part practice is not an exam draft: no resume prompt, and it must not
+          // overwrite or clear the full mock's draft.
+          if (window.SessionRecovery && !window._practiceMode) {
             try {
               if (window._speakingAutoResume) {
+                // The local copy may be stale: finished or discarded on another
+                // device. check() drops it in that case.
+                if (!(await SessionRecovery.check())) {
+                  window._speakingAutoResume = false;
+                  window._srResumeIndex = 0;
+                  throw new Error('draft no longer exists');
+                }
                 // Dashboard-banner fast resume — decision already made (skip
                 // everything → straight to the question); _srResumeIndex is set.
                 _resumeSession = true;
@@ -10611,16 +10620,8 @@
       // primary CTA label, and Begin button visibility in one place.
       let _speakingMicVerified = false;
       function _showTutorial() {
-        // Dashboard-banner fast resume: skip the mic-check + intro entirely,
-        // wait for the mock data, prime the mic in the background, then jump
-        // straight into the recorded question.
-        if (window._speakingAutoResume) {
-          Promise.resolve(window._speakingMockReadyPromise).then(function () {
-            try { ensureMediaStream(); } catch (e) {}
-            _beginFlowFromTutorial();
-          });
-          return;
-        }
+        // Resuming shows the mic check too, on every device (chosen 2026-09-16:
+        // the same everywhere, and a new device must get mic permission anyway).
         const modal = $('#tutorialModal');
         modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');

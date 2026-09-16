@@ -121,6 +121,21 @@
     // Only removes the local copy if Supabase confirms a successful upsert.
     // If the table is locked down (401/403/4xx) or the network is offline,
     // the local copy stays so check() can still find it.
+    // "sr_synced_<type>" records that the server has held this draft. If the
+    // server is reachable, holds no row for the account, and the marker is
+    // there, the draft was finished or discarded on another device - so the
+    // local copy is stale and must not come back (2026-09-16). A draft that
+    // never reached the server (taken offline) has no marker and is kept.
+    _markSynced: function (tt) {
+      try { localStorage.setItem('sr_synced_' + tt, '1'); } catch (e) { /* ignore */ }
+    },
+    _dropLocal: function (tt) {
+      try { localStorage.removeItem('sr_' + tt); localStorage.removeItem('sr_synced_' + tt); } catch (e) { /* ignore */ }
+    },
+    _wasSynced: function (tt) {
+      try { return localStorage.getItem('sr_synced_' + tt) === '1'; } catch (e) { return false; }
+    },
+
     _syncLocalBackup: async function () {
       if (!this._config) return;
       var key = 'sr_' + this._config.testType;
@@ -134,6 +149,17 @@
           localStorage.removeItem(key);
           return;
         }
+        // Removed on another device since? Then drop it instead of re-creating it.
+        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._wasSynced(this._config.testType)) {
+          var rc = await this._fetch(
+            'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
+            + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id&limit=1'
+          );
+          if (rc && rc.ok) {
+            var rows = await rc.json();
+            if (!rows || !rows.length) { this._dropLocal(this._config.testType); return; }
+          }
+        }
         // Try to upsert to Supabase; only clear local copy on success
         var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
@@ -142,6 +168,7 @@
         });
         if (r && r.ok) {
           localStorage.removeItem(key);
+          this._markSynced(this._config.testType);
         }
         // else: leave local copy in place as the source of truth
       } catch (e) { /* network failure — keep local copy */ }
@@ -364,6 +391,7 @@
         });
         // If Supabase took it, the local copy can be cleared on next sync.
         // We leave it in place for now — _syncLocalBackup() handles cleanup.
+        if (r && r.ok) this._markSynced(this._config.testType);
       } catch (e) { /* offline — local copy is the source of truth */ }
     },
 
@@ -419,7 +447,7 @@
       var tt = this._config.testType;
 
       // Clear localStorage
-      try { localStorage.removeItem('sr_' + tt); } catch (e) { /* ignore */ }
+      this._dropLocal(tt);
       // A speaking draft's recordings live on the server as well.
       try { if (this._isSpeaking(tt) && window.SpeakingDraft) window.SpeakingDraft.clear(tt); } catch (e) { /* ignore */ }
 
@@ -475,11 +503,12 @@
       // 1) localStorage sr_* — written synchronously on EVERY save (before the
       //    Supabase POST, so it survives an offline/blocked backend). Device-local,
       //    so this is the reliable primary source for the dashboard banner.
+      var locals = [];
       try {
         for (var i = 0; i < localStorage.length; i++) {
           var k = localStorage.key(i);
-          if (!k || k.indexOf('sr_') !== 0) continue;
-          try { take(JSON.parse(localStorage.getItem(k))); } catch (e) { /* skip malformed entry */ }
+          if (!k || k.indexOf('sr_') !== 0 || k.indexOf('sr_synced_') === 0) continue;
+          try { locals.push(JSON.parse(localStorage.getItem(k))); } catch (e) { /* skip malformed entry */ }
         }
       } catch (e) { /* ignore */ }
       // 2) Supabase (same device) — adds sessions not in localStorage and keeps
@@ -489,12 +518,29 @@
       var queries = [];
       if (did) queries.push('test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc');
       if (acct) queries.push('test_sessions?user_identifier=eq.' + encodeURIComponent('acct:' + acct) + '&select=*&order=updated_at.desc');
+      var acctRows = null;   // the account's server rows, when that query worked
+      var serverRows = [];
       for (var qi = 0; qi < queries.length; qi++) {
         try {
           var r = await this._fetch(queries[qi]);
-          if (r && r.ok) { var rows = await r.json(); (rows || []).forEach(take); }
+          if (r && r.ok) {
+            var rows = (await r.json()) || [];
+            serverRows = serverRows.concat(rows);
+            if (acct && queries[qi].indexOf('user_identifier=eq.') !== -1) acctRows = rows;
+          }
         } catch (e) { /* ignore — localStorage already covers it */ }
       }
+      var self = this;
+      locals.forEach(function (p) {
+        if (acctRows && p && p.test_type && String(p.user_identifier || '') === 'acct:' + acct
+            && self._wasSynced(p.test_type)
+            && !acctRows.some(function (x) { return x.test_type === p.test_type; })) {
+          self._dropLocal(p.test_type);   // finished or discarded on another device
+          return;
+        }
+        take(p);
+      });
+      serverRows.forEach(take);
       var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
       arr.sort(function (a, b) { return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime(); });
       return arr;
@@ -504,7 +550,7 @@
     // else by user_identifier+test_type). Accepts a session ROW.
     discard: function (row) {
       if (!row) return Promise.resolve();
-      try { if (row.test_type) localStorage.removeItem('sr_' + row.test_type); } catch (e) { /* ignore */ }
+      if (row.test_type) this._dropLocal(row.test_type);
       try { if (this._isSpeaking(row.test_type)) this._clearSpeakingServer(row.test_type); } catch (e) { /* ignore */ }
       if (row.id) return this._deleteById(row.id);
       if (row.user_identifier && row.test_type) {
