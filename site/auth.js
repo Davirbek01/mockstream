@@ -95,6 +95,27 @@
     try {
       var resp = await client.auth.getSession();
       var session = resp && resp.data && resp.data.session;
+
+      // A session that cannot be refreshed any more — revoked elsewhere, or a
+      // refresh token that expired — leaves its remains in storage, and the
+      // page then looks signed in while every request is refused. The student
+      // keeps their name on screen but loses premium: their own mocks come
+      // back as "Mock Completed" and the site asks them for an access code
+      // (Davirbek's phone, 2026-09-16; incognito worked, the normal tab did
+      // not). Clear it here so they are simply signed out and can sign in.
+      if (!session) {
+        var leftovers = false;
+        try { leftovers = !!localStorage.getItem('ms_auth_session'); } catch (e) {}
+        if (leftovers) {
+          try { await client.auth.signOut({ scope: 'local' }); } catch (e) {}
+          _clearLocalIdentity();
+          _currentUser = null;
+          _premiumCache = null;
+          _notifyListeners('signed_out', null);
+          try { window.dispatchEvent(new CustomEvent('mockStream:userSignedOut')); } catch (e) {}
+        }
+      }
+
       if (session && session.user) {
         _currentUser = session.user;
         var profile = _extractProfile(session.user);
@@ -133,6 +154,7 @@
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
+          _clearLocalIdentity();
           _notifyListeners('signed_out', null);
           try {
             window.dispatchEvent(new CustomEvent('mockStream:userSignedOut'));
@@ -170,21 +192,33 @@
     }
   }
 
+  // The name, avatar and profile this browser shows for the signed-in
+  // student. Cleared on EVERY way a session ends, not only the button: a
+  // session that dies elsewhere (revoked, expired refresh token) used to
+  // leave the old name on screen while the site already treated the visitor
+  // as signed out — a paying student then got asked for a mock code.
+  function _clearLocalIdentity() {
+    try {
+      sessionStorage.removeItem('CANDIDATE_FULL_NAME');
+      localStorage.removeItem('ms_candidate_name');
+      localStorage.removeItem('CANDIDATE_SURNAME');
+      localStorage.removeItem('CANDIDATE_FIRSTNAME');
+      localStorage.removeItem('ms_avatar_url');
+      localStorage.removeItem('ms_candidate_profile');
+      localStorage.removeItem('ms_auth_provider');
+    } catch (e) {}
+  }
+
   async function signOut() {
     var client = _getClient();
     if (!client) return;
     try {
-      await client.auth.signOut();
-      // Clear local name so they return to guest state
-      try {
-        sessionStorage.removeItem('CANDIDATE_FULL_NAME');
-        localStorage.removeItem('ms_candidate_name');
-        localStorage.removeItem('CANDIDATE_SURNAME');
-        localStorage.removeItem('CANDIDATE_FIRSTNAME');
-        localStorage.removeItem('ms_avatar_url');
-        localStorage.removeItem('ms_candidate_profile');
-        localStorage.removeItem('ms_auth_provider');
-      } catch (e) {}
+      // scope 'local': sign THIS browser out and leave the account's other
+      // devices alone. supabase-js defaults to 'global', which revoked every
+      // session of the account — signing out on a phone silently signed the
+      // laptop out too (2026-09-15).
+      await client.auth.signOut({ scope: 'local' });
+      _clearLocalIdentity();
       _currentUser = null;
       _notifyListeners('signed_out', null);
     } catch (e) {
@@ -271,7 +305,7 @@
         filterParam = 'or=(' + orClauses.map(encodeURIComponent).join(',') + ')';
       }
       var url = SB_URL + '/rest/v1/premium_emails?' + filterParam +
-                '&select=tier,role,center,active,email,telegram_username,telegram_id,expires_at';
+                '&select=tier,role,center,active,email,telegram_username,telegram_id,expires_at,plan';
       var resp = await fetch(url, {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
@@ -299,6 +333,10 @@
         // When the grant ends (null = no end, as for most admins). landing-v3's
         // subscription button shows the time left from it.
         expiresAt: m.expires_at || null,
+        // premium | ultra. Ultra = no per-student limits and no one-exam-at-a-
+        // time lock; honoured on Mock Stream and Record only (the server
+        // decides — this is for showing the student what they have).
+        plan: m.plan === 'ultra' ? 'ultra' : 'premium',
         deviceLimitExceeded: false
       };
 

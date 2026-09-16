@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mock Stream — qurilma holati</title>
+<style>
+  body{font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;margin:0;padding:16px;background:#f1f5f9;color:#0f172a}
+  h1{font-size:18px;margin:0 0 4px}
+  p.sub{margin:0 0 14px;color:#475569;font-size:13px}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin:0 0 12px}
+  .card h2{font-size:14px;margin:0 0 8px}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:13px}
+  .row:last-child{border-bottom:0}
+  .k{color:#64748b}
+  .v{font-weight:600;text-align:right;word-break:break-all}
+  .bad{color:#dc2626}.ok{color:#16a34a}
+  code{font-size:12px}
+</style>
+</head>
+<body>
+<h1>Qurilma holati</h1>
+<p class="sub">Faqat shu brauzerda saqlangan ma'lumot. Tokenlar ko'rsatilmaydi. Skrinshot qilib yuboring.</p>
+<div id="out"></div>
+<div class="card">
+  <h2>Tozalash</h2>
+  <p style="margin:0 0 10px;font-size:13px;color:#475569">Shu brauzerda mock-stream.com uchun saqlangan hamma narsani o‘chiradi (kirish, keshlar, service worker). Keyin qayta kirasiz. Incognito bilan bir xil holatga keltiradi.</p>
+  <button id="wipe" style="font:600 14px system-ui;padding:11px 16px;border:0;border-radius:10px;background:#dc2626;color:#fff;width:100%">Saytni tozalash va bosh sahifaga o‘tish</button>
+</div>
+<script src="/center-id.js"></script>
+<script>
+(function () {
+  var out = document.getElementById('out');
+  function card(title, rows) {
+    var h = '<div class="card"><h2>' + title + '</h2>';
+    rows.forEach(function (r) {
+      h += '<div class="row"><span class="k">' + r[0] + '</span><span class="v ' + (r[2] || '') + '">' + String(r[1]).replace(/</g, '&lt;') + '</span></div>';
+    });
+    out.insertAdjacentHTML('beforeend', h + '</div>');
+  }
+  function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function ss(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+  function when(ms) { var d = new Date(ms); return d.toLocaleString(); }
+
+  // Session
+  var sess = null;
+  try { sess = JSON.parse(ls('ms_auth_session') || 'null'); if (sess && sess.currentSession) sess = sess.currentSession; } catch (e) {}
+  var exp = null, email = '', hasRefresh = false;
+  if (sess) {
+    email = (sess.user && sess.user.email) || '';
+    hasRefresh = !!sess.refresh_token;
+    try { exp = JSON.parse(atob(String(sess.access_token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp * 1000; } catch (e) {}
+  }
+  card('Kirish (sessiya)', [
+    ['Saqlangan sessiya', sess ? 'bor' : "yo'q", sess ? 'ok' : 'bad'],
+    ['Email', email || '—'],
+    ['Token muddati', exp ? when(exp) + (exp < Date.now() ? ' (O\'TGAN)' : '') : '—', exp && exp < Date.now() ? 'bad' : ''],
+    ['Refresh token', hasRefresh ? 'bor' : "yo'q"],
+    ['Keshdagi ism', ls('ms_candidate_name') || '—'],
+    ['Keshdagi profil email', (function () { try { return (JSON.parse(ls('ms_candidate_profile') || 'null') || {}).email || '—'; } catch (e) { return '?'; } })()]
+  ]);
+
+  // Access flags that decide the code prompt / "already taken"
+  card('Kirish huquqi belgilari', [
+    ['__vipKill', ls('__vipKill') || '—', ls('__vipKill') ? 'bad' : ''],
+    ['ms_vip_tier', ls('ms_vip_tier') || '—'],
+    ['ms_vip_email', ls('ms_vip_email') ? 'bor' : '—'],
+    ['ms_admin_email', ls('ms_admin_email') ? 'bor' : '—'],
+    ['vipToken (tab)', ss('vipToken') ? 'bor' : '—'],
+    ['vipSessionAccess (tab)', ss('vipSessionAccess') || '—'],
+    ['vipPremiumAi (tab)', ss('vipPremiumAi') || '—'],
+    ['speakingPremiumEntry (tab)', ss('speakingPremiumEntry') || '—'],
+    ['listeningPremiumEntry (tab)', ss('listeningPremiumEntry') || '—'],
+    ['speakingIndividualCode (tab)', ss('speakingIndividualCode') || '—']
+  ]);
+
+  // "Mock Completed" list kept in this browser
+  var attempts = [];
+  try { attempts = JSON.parse(ls('ms_mock_attempts_v1') || '[]'); } catch (e) {}
+  function taken(skill, n) {
+    return attempts.filter(function (a) { return a.skill === skill && Number(a.mock_number) === n && (a.exam_type || 'cefr') === 'cefr'; }).length;
+  }
+  card('Shu brauzerdagi "topshirilgan" ro\'yxat', [
+    ['Jami yozuv', attempts.length],
+    ['CEFR Speaking Mock 1', taken('speaking', 1)],
+    ['CEFR Speaking Mock 2', taken('speaking', 2)],
+    ['CEFR Listening Mock 1', taken('listening', 1)],
+    ['CEFR Listening Mock 2', taken('listening', 2)]
+  ]);
+
+  // Decision trace written by landing-v3 and exam-lock.js (this tab only)
+  var tr = [];
+  try { tr = JSON.parse(ss('ms_trace') || '[]'); } catch (e) {}
+  card('Oxirgi harakatlar izi (shu tab)', tr.length ? tr.map(function (l) { return ['', l]; }) : [['', 'hali yozuv yo\u2018q \u2014 avval shu tabda mock ochib ko\u2018ring, keyin /diag ga qayting']]);
+
+  // Every stored key by name (never a value): what differs from incognito
+  var lsKeys = [], ssKeys = [];
+  try { for (var i = 0; i < localStorage.length; i++) lsKeys.push(localStorage.key(i)); } catch (e) {}
+  try { for (var j = 0; j < sessionStorage.length; j++) ssKeys.push(sessionStorage.key(j)); } catch (e) {}
+  lsKeys.sort(); ssKeys.sort();
+  card('Saqlangan kalitlar (faqat nomlari)', [
+    ['localStorage (' + lsKeys.length + ')', lsKeys.join(', ') || '—'],
+    ['sessionStorage (' + ssKeys.length + ')', ssKeys.join(', ') || '—']
+  ]);
+
+  // Site / cache
+  var rows = [
+    ['Markaz', window.__CENTER_ID || '—'],
+    ['Qurilma ID', (ls('ms_device_id') || '—').slice(0, 18) + '…'],
+    ['localStorage kalitlari', (function () { try { return localStorage.length; } catch (e) { return '?'; } })()],
+    ['Brauzer', navigator.userAgent.replace(/^Mozilla\/5.0 /, '').slice(0, 90)]
+  ];
+  card('Sayt', rows);
+  document.getElementById('wipe').onclick = async function () {
+    this.disabled = true; this.textContent = 'Tozalanmoqda…';
+    try { localStorage.clear(); } catch (e) {}
+    try { sessionStorage.clear(); } catch (e) {}
+    try { if (window.caches) { var ks = await caches.keys(); await Promise.all(ks.map(function (k) { return caches.delete(k); })); } } catch (e) {}
+    try { if (navigator.serviceWorker) { var rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(function (r) { return r.unregister(); })); } } catch (e) {}
+    try { if (window.indexedDB && indexedDB.databases) { var dbs = await indexedDB.databases(); await Promise.all(dbs.map(function (d) { return new Promise(function (res) { var q = indexedDB.deleteDatabase(d.name); q.onsuccess = q.onerror = q.onblocked = res; }); })); } } catch (e) {}
+    location.replace('/landing-v3.html?wiped=1');
+  };
+
+  if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+    navigator.serviceWorker.getRegistrations().then(function (regs) {
+      var r = [['Service worker', regs.length ? regs.length + ' ta' : "yo'q"]];
+      if (window.caches) {
+        caches.keys().then(function (keys) {
+          r.push(['Kesh nomlari', keys.join(', ') || '—']);
+          card('Kesh', r);
+        });
+      } else card('Kesh', r);
+    });
+  }
+})();
+</script>
+</body>
+</html>

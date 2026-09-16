@@ -141,7 +141,7 @@ When the user says "speaking mock" without qualifier, default to **CEFR** (`Spea
 
 ## Service worker — bump the cache version
 
-`site/sw.js` uses a network-first strategy for HTML/JS and cache-first for icons. The cache name has a version suffix — currently `mockstream-v1041`. **Bump it any time you change the precached shell or want to force clients to drop stale assets** — otherwise users keep serving the old version from cache.
+`site/sw.js` uses a network-first strategy for HTML/JS and cache-first for icons. The cache name has a version suffix — currently `mockstream-v1043`. **Bump it any time you change the precached shell or want to force clients to drop stale assets** — otherwise users keep serving the old version from cache.
 
 ## Smoke / probe scripts (root)
 

@@ -2,6 +2,7 @@
 <html lang="en" translate="no">
 
 <head>
+<script>(function(){try{var a=JSON.parse(sessionStorage.getItem('ms_trace')||'[]');sessionStorage.setItem('ms_runner_ran','1');a.push(new Date().toTimeString().slice(0,8)+' runner html executing '+decodeURIComponent(location.pathname).split('/').pop()+' auto='+(new URLSearchParams(location.search).get('auto')||'-')+' sw='+((navigator.serviceWorker&&navigator.serviceWorker.controller)?'yes':'no'));if(a.length>80)a=a.slice(-80);sessionStorage.setItem('ms_trace',JSON.stringify(a));window.addEventListener('pagehide',function(){try{var b=JSON.parse(sessionStorage.getItem('ms_trace')||'[]');b.push(new Date().toTimeString().slice(0,8)+' runner pagehide');sessionStorage.setItem('ms_trace',JSON.stringify(b));}catch(e){}});}catch(e){}})();</script>
   <meta name="google" content="notranslate">
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
@@ -15,11 +16,12 @@
   <script src="site-config/site-config.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
+  <script src="/exam-lock.js?v=7"></script>
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="exam-review-bar.js"></script>
-  <script src="session-recovery.js"></script>
+  <script src="session-recovery.js?v=2"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

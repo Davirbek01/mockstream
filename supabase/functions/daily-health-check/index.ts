@@ -240,7 +240,31 @@ function concurrencySection(rows: any[]): string[] {
   return L;
 }
 
-function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = [], resend: ResendDay | null = null, cf: CfUsage | null = null): string {
+// The one-exam-at-a-time lock on Premium accounts (2026-09-15): how often a
+// second device was stopped, and how the takeovers it asked for ended. Absent
+// on a day with nothing to count.
+function examLockSection(rows: any[]): string[] {
+  if (!rows || !rows.length) return [];
+  const by = new Map<string, { events: number; accounts: number }>();
+  for (const r of rows) by.set(String(r.kind), { events: Number(r.events || 0), accounts: Number(r.accounts || 0) });
+  const ev = (k: string) => by.get(k)?.events || 0;
+  const blocked = by.get('blocked');
+  const L: string[] = [];
+  L.push(`\u{1F512} <b>One exam at a time (Premium)</b>` +
+         (blocked ? ` — ${blocked.events} second-device start${blocked.events === 1 ? '' : 's'} stopped on ${blocked.accounts} account${blocked.accounts === 1 ? '' : 's'}` : ''));
+  const req = ev('requested');
+  if (req) {
+    const parts = [
+      ['approved', 'approved'], ['auto_approved', 'handed over (idle)'], ['denied', 'refused'],
+      ['no_answer', 'unanswered'], ['released', 'other device had left'],
+    ].filter(([k]) => ev(k) > 0).map(([k, label]) => `${ev(k)} ${label}`);
+    L.push(`  ${req} takeover request${req === 1 ? '' : 's'}${parts.length ? ': ' + parts.join(' · ') : ''}`);
+  }
+  L.push('');
+  return L;
+}
+
+function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null, concurrent: any[] = [], resend: ResendDay | null = null, cf: CfUsage | null = null, examLock: any[] = []): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -299,6 +323,7 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   L.push('');
 
   for (const line of concurrencySection(concurrent)) L.push(line);
+  for (const line of examLockSection(examLock)) L.push(line);
 
   // 2. Telegram delivery
   //
@@ -464,13 +489,14 @@ Deno.serve(async (req) => {
   const dead = body?.skip_sweep === true ? [] : await sweepFunctions();
   // Prices live in a setting, not in this file: a provider changing its rate
   // should be a one-line edit, not a deploy.
-  const [{ data: spend }, { data: priceRow }, { data: concurrent }] = await Promise.all([
+  const [{ data: spend }, { data: priceRow }, { data: concurrent }, { data: examLock }] = await Promise.all([
     sb.rpc('ai_spend_window', { p_days_back: daysBack }),
     sb.from('site_settings').select('value').eq('key', 'ai_price_table').maybeSingle(),
     // Detect-only account sharing. Nothing is blocked and no student is told
     // anything — this is here so the real rate can be watched for a couple of
     // weeks before deciding whether a warning is worth showing at all.
     sb.rpc('concurrent_session_report', { p_days_back: daysBack }),
+    sb.rpc('exam_lock_summary', { p_hours: 24 }),
   ]);
   let prices: any = {};
   try { prices = priceRow ? JSON.parse(priceRow.value) : {}; } catch { /* keep going without costs */ }
@@ -484,7 +510,7 @@ Deno.serve(async (req) => {
   // Null when RESEND_API_KEY is unset; the section is then simply absent.
   const resend = await resendDay(daysBack);
 
-  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend, cf);
+  const text = buildMessage(snap, dead, spend || [], prices, gcp, concurrent || [], resend, cf, examLock || []);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).

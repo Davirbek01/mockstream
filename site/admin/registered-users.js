@@ -276,7 +276,7 @@
         }
         var [cands, premResp] = await Promise.all([
           _fetchAllCandidates(),
-          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active', {
+          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active,plan', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           })
         ]);
@@ -405,7 +405,7 @@
         return '<span class="ru-role-badge ru-role-admin">🛡️ Admin</span>';
       }
       if (p.tier === 'premium') {
-        return '<span class="ru-role-badge ru-role-premium">⭐ Premium</span>';
+        return '<span class="ru-role-badge ru-role-premium">' + (p.plan === 'ultra' ? '💎 Ultra' : '⭐ Premium') + '</span>';
       }
       return '';
     }
@@ -420,7 +420,7 @@
       } else if (p.role === 'admin') {
         label = '🛡️ Admin'; cls = 'ru-role-admin';
       } else if (p.tier === 'premium') {
-        label = '⭐ Premium'; cls = 'ru-role-premium';
+        label = p.plan === 'ultra' ? '💎 Ultra' : '⭐ Premium'; cls = 'ru-role-premium';
       }
       if (!label) return '';
       return '<div style="font-size:11px;margin-top:3px;"><span class="ru-role-badge ' + cls + '">' + label + '</span> <span style="color:#aaa;font-size:10px;">' + p.email.replace(/</g, '&lt;') + '</span></div>';
@@ -582,6 +582,12 @@
       var tier   = (document.getElementById('ruRoleTier') || {}).value || 'premium';
       var role   = (document.getElementById('ruRoleRole') || {}).value || 'user';
       var center = ((document.getElementById('ruRoleCenter') || {}).value || '').trim();
+      // Ultra (no limits, no one-exam lock) exists on Mock Stream + Record only,
+      // and only for premium users — the database refuses anything else.
+      var planPicked = (document.getElementById('ruRolePlan') || {}).value || 'premium';
+      var plan = (planPicked === 'ultra' && tier === 'premium' && role === 'user' &&
+                  ['', 'mock_stream', 'mockstream', 'record'].indexOf(center.toLowerCase()) !== -1)
+                 ? 'ultra' : 'premium';
       var btn    = document.getElementById('ruRoleSaveBtn');
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
       var existing = (window._ruPremiumMap || {})[email];
@@ -591,20 +597,20 @@
           resp = await fetch(SB_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
             method: 'PATCH',
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+            body: JSON.stringify({ tier: tier, role: role, center: center, active: true, plan: plan })
           });
         } else {
           resp = await fetch(SB_URL + '/rest/v1/premium_emails', {
             method: 'POST',
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ email: email, tier: tier, role: role, center: center, active: true })
+            body: JSON.stringify({ email: email, tier: tier, role: role, center: center, active: true, plan: plan })
           });
         }
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         // Update local cache so the next render reflects it
         window._ruPremiumMap = window._ruPremiumMap || {};
-        window._ruPremiumMap[email] = { email: email, tier: tier, role: role, center: center, active: true };
-        _ruRoleMsg('✅ Saved: ' + tier + ' / ' + role + (center ? ' @ ' + center : ''), 'success');
+        window._ruPremiumMap[email] = { email: email, tier: tier, role: role, center: center, active: true, plan: plan };
+        _ruRoleMsg('✅ Saved: ' + (plan === 'ultra' ? '💎 ultra' : tier) + ' / ' + role + (center ? ' @ ' + center : ''), 'success');
         if (btn) { btn.disabled = false; btn.textContent = '💾 Update'; }
       } catch (e) {
         _ruRoleMsg('Failed: ' + e.message, 'error');
@@ -891,16 +897,24 @@
           var _curRole   = _curP ? (_curP.role   || 'user')    : 'user';
           var _curCenter = _curP ? (_curP.center || center)    : center;
           var _curActive = _curP ? !!_curP.active : true;
+          var _curPlan   = _curP && _curP.plan === 'ultra' ? 'ultra' : 'premium';
           html += '<div id="ruRoleBox" style="margin-top:8px;padding:12px;border:1px solid var(--ring,#e5e7eb);border-radius:12px;background:#fafbff;">';
           html += '<div style="font-weight:700;font-size:13px;margin-bottom:8px;">🔑 Premium / Admin Access</div>';
           html += '<div id="ruRoleStatus" style="font-size:11px;color:#666;margin-bottom:8px;">' +
-                  (_curP ? ('Current: <b>' + _curTier + '</b> / <b>' + _curRole + '</b> @ <b>' + (_curCenter || 'all') + '</b>' + (_curActive ? '' : ' (inactive)')) : 'No premium / admin role assigned.') +
+                  (_curP ? ('Current: <b>' + (_curPlan === 'ultra' ? '💎 ultra' : _curTier) + '</b> / <b>' + _curRole + '</b> @ <b>' + (_curCenter || 'all') + '</b>' + (_curActive ? '' : ' (inactive)')) : 'No premium / admin role assigned.') +
                   '</div>';
           html += '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">';
           html += '<select id="ruRoleTier" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">' +
                     '<option value="premium"' + (_curTier==='premium' ? ' selected' : '') + '>premium</option>' +
                     '<option value="free"'    + (_curTier==='free'    ? ' selected' : '') + '>free</option>' +
                   '</select>';
+          // Only offered where Ultra exists; _saveUserRole re-checks tier/role/centre.
+          if (['', 'mock_stream', 'mockstream', 'record'].indexOf(String(_curCenter || '').toLowerCase()) !== -1) {
+            html += '<select id="ruRolePlan" title="Plan: Ultra = no daily limits, several devices at once" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">' +
+                      '<option value="premium"' + (_curPlan==='premium' ? ' selected' : '') + '>⭐ premium plan</option>' +
+                      '<option value="ultra"'   + (_curPlan==='ultra'   ? ' selected' : '') + '>💎 ultra</option>' +
+                    '</select>';
+          }
           html += '<select id="ruRoleRole" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">' +
                     '<option value="user"'  + (_curRole==='user'  ? ' selected' : '') + '>user</option>' +
                     '<option value="admin"' + (_curRole==='admin' ? ' selected' : '') + '>admin</option>' +

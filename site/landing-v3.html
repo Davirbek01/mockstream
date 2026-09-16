@@ -26,6 +26,43 @@
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="apple-touch-icon" href="/site-config/icons/icon-192.png" />
   <script src="/site-config/pwa-manifest.js"></script>
+  <script>
+  // Support trace: one line per decision on the way from a mock tap to the
+  // runner, kept in sessionStorage (this tab only) and shown on /diag.
+  // Never sent anywhere; no tokens or codes are written.
+  window.msTrace = function (m) {
+    try {
+      var a = JSON.parse(sessionStorage.getItem('ms_trace') || '[]');
+      a.push(new Date().toTimeString().slice(0, 8) + ' ' + String(m).slice(0, 160));
+      if (a.length > 80) a = a.slice(-80);
+      sessionStorage.setItem('ms_trace', JSON.stringify(a));
+    } catch (e) {}
+  };
+  window.msTrace('landing loaded ' + location.pathname + location.search.slice(0, 40) + ' sw=' + ((navigator.serviceWorker && navigator.serviceWorker.controller) ? 'yes' : 'no'));
+  // Self-heal: a mock launch that came straight back here without the runner
+  // running (seen on one phone, 2026-09-16: cleared browsing data fixed it).
+  // Wipe this browser's caches + service worker for the site and retry the
+  // same launch once. Sign-in and drafts are untouched.
+  (function () {
+    try {
+      var at = Number(sessionStorage.getItem('ms_launch_at') || 0);
+      var url = sessionStorage.getItem('ms_launch_url') || '';
+      if (!at || !url) return;
+      sessionStorage.removeItem('ms_launch_at');
+      sessionStorage.removeItem('ms_launch_url');
+      if (Date.now() - at > 6000 || sessionStorage.getItem('ms_runner_ran')) return;
+      if (sessionStorage.getItem('ms_heal_done')) { window.msTrace('heal: bounced again after a wipe, giving up'); return; }
+      sessionStorage.setItem('ms_heal_done', '1');
+      window.msTrace('heal: launch bounced without the runner running -> wiping caches, retrying');
+      var jobs = [];
+      try { if (window.caches) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })); } catch (e) {}
+      try { if (navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); })); } catch (e) {}
+      Promise.race([Promise.all(jobs), new Promise(function (res) { setTimeout(res, 2500); })])
+        .then(function () { location.replace(url); }, function () { location.replace(url); });
+    } catch (e) {}
+  })();
+  window.addEventListener('pagehide', function () { window.msTrace('landing pagehide'); });
+  </script>
   <script>(function () { var l = document.querySelector('link[rel="manifest"]'); if (l) { var h = l.getAttribute('href') || ''; if (h && h.charAt(0) !== '/') l.setAttribute('href', '/' + h); } })();</script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
@@ -328,7 +365,7 @@
   </script>
   <!-- ?v= because the subscription button reads checkPremiumRole().expiresAt,
        and Pages serves site/*.js with max-age=14400 -->
-  <script src="/auth.js?v=2" defer></script>
+  <script src="/auth.js?v=5" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
 
@@ -1432,10 +1469,12 @@
     .sub-status-label[hidden], .sub-status-left[hidden], .sub-status-until[hidden], .sub-status-note[hidden] { display: none !important; }
     .topbar-subscribe.is-premium { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%) !important; }
     .topbar-subscribe.is-admin { background: linear-gradient(135deg, #818cf8 0%, #4338ca 100%) !important; }
+    .topbar-subscribe.is-ultra { background: linear-gradient(135deg, #a78bfa 0%, #6d28d9 100%) !important; }
     .topbar-subscribe.is-ending { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important; }
     .sub-status { text-align: center; padding: 20px 16px 18px; border-radius: 16px; margin-bottom: 4px;
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #a7f3d0; }
     .sub-status.is-admin { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border-color: #c7d2fe; }
+    .sub-status.is-ultra { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-color: #ddd6fe; }
     .sub-status.is-ending { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-color: #fed7aa; }
     .sub-status-ico { font-size: 36px; line-height: 1; margin-bottom: 8px; }
     .sub-status-title { font: 800 17px/1.3 'Inter', sans-serif; color: var(--ink); }
@@ -2805,7 +2844,8 @@
             var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
             var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
             document.getElementById('msrTitle').textContent = titleOf(latest);
-            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd) + ' · on this device';
+            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd)
+              + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device');
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
             rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
@@ -4568,7 +4608,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js" defer></script>
+  <script src="/session-recovery.js?v=2" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
@@ -6216,6 +6256,7 @@
     //              still has the access-code decision to make, and skipping it
     //              would hand a signed-in student the mock with NO code at all
     function _msGateLaunch(skill, pageUrl, category, via) {
+      window.msTrace('launch ' + skill + ' via ' + (via || 'launch'));
       // A full mock has no launcher function — full-mock.html IS the
       // destination, so replaying it is a plain navigation.
       if (skill === 'full_mock') { window.location.href = pageUrl; return; }
@@ -6276,6 +6317,7 @@
     // modal is up and will re-call the launcher itself once sign-in lands.
     function _msGateAllow(skill, pageUrl, category, via) {
       if (_msGateSignedIn()) return true;
+      window.msTrace('gate: not signed in -> sign-in popup (' + skill + ' ' + (via || 'launch') + ')');
       _msOpenSignInGate(skill, pageUrl, category, via);
       return false;
     }
@@ -6651,16 +6693,48 @@
       return '';
     }
 
-    function _msLimitBusy(on) {
+    function _msLimitBusy(on, text) {
       var el = document.getElementById('msLimitBusy');
       if (!on) { if (el && el.parentNode) el.parentNode.removeChild(el); return; }
       if (el) return;
       var d = document.createElement('div');
       d.id = 'msLimitBusy';
       d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100011;display:flex;align-items:center;justify-content:center;';
-      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">Tekshirilmoqda…</div>';
+      d.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:16px 22px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.25);">' + (text || 'Tekshirilmoqda…') + '</div>';
       document.body.appendChild(d);
     }
+
+    // ── Wait for the premium answer before judging a mock click ──────────
+    // The premium check is two round trips (premium_emails, then a signed
+    // vipToken from verify-passcode). Until it lands, a paying student looks
+    // like everybody else: their own mocks come back as "Mock Completed" and
+    // the access-code box opens. This holds the click for up to three seconds
+    // - with a notice once it is slow enough to notice - and then launches
+    // whatever the answer was. It never blocks: after three seconds the mock
+    // opens exactly as it used to.
+    var _msPremiumSettled = false;
+    var _msPremiumWait = null;
+    function _msPremiumSettle() {
+      if (_msPremiumWait) return _msPremiumWait;
+      _msPremiumWait = (async function () {
+        try {
+          var a = window.MockStream && window.MockStream.auth;
+          if (!a || typeof a.checkPremiumRole !== 'function') return;
+          var u = typeof a.getCurrentUser === 'function' ? a.getCurrentUser() : null;
+          if (!u) return;                                        // signed out
+          if (sessionStorage.getItem('vipToken')) return;         // already applied
+          var info = await a.checkPremiumRole();
+          if (!info || info.tier !== 'premium' || (!info.active && !info.isAdmin)) return;
+          if (typeof a.applyPremiumUnlock === 'function') await a.applyPremiumUnlock();
+        } catch (_e) {}
+      })();
+      return _msPremiumWait;
+    }
+    try {
+      window.addEventListener('mockStream:userSignedIn', function () {
+        _msPremiumSettled = false; _msPremiumWait = null;
+      });
+    } catch (_e) {}
 
     // "bugun 21:40" / "ertaga 09:15" / "12-sen 09:15" in the student's own
     // clock. A bare ISO timestamp is useless to them, and "24 hours" is a lie
@@ -6756,8 +6830,57 @@
     // flight (or refused) and this will re-call the launcher itself if it
     // clears. Fails OPEN on any error: a limit is a policy, and a broken
     // policy check must not be able to shut a centre's mocks down.
+    // A signed-in student's access token, refreshed first when it has run
+    // out. The exam page this launches cannot refresh it (it has no auth
+    // client), and both check-mock-limit and the one-exam-at-a-time lock on
+    // that page trust only a live token. A landing left open for hours - a
+    // laptop woken from sleep - holds an expired one until supabase-js gets
+    // round to it, so a mock opened right away used to go unidentified.
+    function _msTokenStale(t) {
+      try {
+        var p = JSON.parse(atob(String(t).split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        return !p.exp || p.exp * 1000 < Date.now() + 120000;
+      } catch (_e) { return true; }
+    }
+    function _msFreshAccessToken() {
+      var t = _msLimitAccessToken();
+      if (!t || !_msTokenStale(t)) return Promise.resolve(t);
+      try {
+        var a = window.MockStream && window.MockStream.auth;
+        var c = a && typeof a.getClient === 'function' ? a.getClient() : null;
+        if (!c || !c.auth || typeof c.auth.getSession !== 'function') return Promise.resolve(t);
+        var refreshed = c.auth.getSession()
+          .then(function (r) {
+            var s = r && r.data && r.data.session;
+            return (s && s.access_token) ? s.access_token : _msLimitAccessToken();
+          })
+          .catch(function () { return _msLimitAccessToken(); });
+        var cap = new Promise(function (res) { setTimeout(function () { res(_msLimitAccessToken()); }, 2500); });
+        return Promise.race([refreshed, cap]);
+      } catch (_e) { return Promise.resolve(t); }
+    }
+
     function _msLimitAllow(skill, pageUrl, category, via) {
+      // Premium first: what the student is decides whether a code is asked
+      // for at all.
+      if (!_msPremiumSettled) {
+        var slowNote = setTimeout(function () { _msLimitBusy(true, 'Hisobingiz tekshirilmoqda…'); }, 400);
+        var settleCap = new Promise(function (res) { setTimeout(res, 3000); });
+        Promise.race([_msPremiumSettle(), settleCap]).then(function () {
+          _msPremiumSettled = true;
+          try { window.msTrace('premium settled: vipToken=' + (sessionStorage.getItem('vipToken') ? 'yes' : 'no') + ' vipPremiumAi=' + (sessionStorage.getItem('vipPremiumAi') || '-')); } catch (_e) {}
+          clearTimeout(slowNote);
+          _msLimitBusy(false);
+          _msGateLaunch(skill, pageUrl, category, via);
+        });
+        return false;
+      }
       var ck = skill + '|' + pageUrl;
+      // The replay that follows a cleared check lands here again within
+      // milliseconds and must go straight through. (It briefly also demanded a
+      // live token, which looped - check, relaunch, check - whenever a refresh
+      // could not produce one: a revoked session, or the 90-120 s before
+      // expiry when supabase-js does not refresh yet.)
       if (Date.now() - (_msLimitCleared[ck] || 0) < _MS_LIMIT_TTL) return true;
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var proceed = function () {
@@ -6767,7 +6890,6 @@
       };
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      var token = _msLimitAccessToken();
       // The check runs on every open, including for the centres that have no
       // limit at all — that is what keeps the count server-side, where it
       // cannot be edited. But it usually answers in well under a second, and
@@ -6776,6 +6898,8 @@
       var slowTimer = setTimeout(function () { _msLimitBusy(true); }, 600);
       var timedOut = false;
       var timer = setTimeout(function () { timedOut = true; clearTimeout(slowTimer); proceed(); }, 4000);
+      _msFreshAccessToken().then(function (token) {
+      if (timedOut) return;
       try {
         fetch(SB + '/functions/v1/check-mock-limit', {
           method: 'POST',
@@ -6793,7 +6917,8 @@
             if (timedOut) return;
             clearTimeout(timer); clearTimeout(slowTimer);
             _msLimitBusy(false);
-            if (!info || info.allowed !== false) { proceed(); return; }
+            if (!info || info.allowed !== false) { window.msTrace('limit: ok (' + (info && info.reason || 'allowed') + ')'); proceed(); return; }
+            window.msTrace('limit: refused ' + (info.scope || ''));
             _msShowLimitReached(skill, info);
           })
           .catch(function () {
@@ -6805,6 +6930,7 @@
         clearTimeout(timer); clearTimeout(slowTimer);
         proceed();
       }
+      });
       return false;
     }
 
@@ -7880,6 +8006,8 @@
       //   admin            → "Admin"          · panel: no limit
       //   premium          → "Obuna bo'lgan"  · panel: time left + end date,
       //                      and a renew path once 3 days or less remain
+      //   ultra            → "Ultra"          · panel: time left, no limits,
+      //                      no renew button (Ultra is never sold on the page)
       //   everyone else    → "Obuna bo'lish"  · panel: the offer, as before
       // A grant whose expires_at has passed counts as "everyone else" even
       // while the row is still active=true — the job that flips it runs later,
@@ -7892,6 +8020,13 @@
       var _subSeq = 0;
       var _subStarIcon = (subBtn.querySelector('svg') || {}).outerHTML || '';
       var _subCheckIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      var _subDiamondIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 3h11L22 9l-10 12L2 9z"></path></svg>';
+      // Ultra exists on Mock Stream and Record only; a stray grant elsewhere
+      // shows as the Premium it actually is there.
+      function _subUltraHere() {
+        var c = String(window.__CENTER_ID || 'mock_stream').toLowerCase();
+        return c === 'mock_stream' || c === 'mockstream' || c === 'record';
+      }
       var _subCrownIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 4.1L12 4.5l4.4 7.1L21 7.5 19.2 19H4.8z"></path></svg>';
       function _subEl(id) { return document.getElementById(id); }
       function _subLeftMs() { return _subState.exp ? _subState.exp - Date.now() : Infinity; }
@@ -7927,6 +8062,7 @@
                   // An auth.js cached from before 2026-09-15 has no expiresAt at
                   // all: say "active" without inventing a number.
                   dateKnown: Object.prototype.hasOwnProperty.call(info, 'expiresAt'),
+                  ultra: info.plan === 'ultra' && _subUltraHere(),
                   deviceLimit: !!info.deviceLimitExceeded
                 };
               }
@@ -7940,14 +8076,15 @@
       }
 
       function _subRenderButton() {
-        var k = _subState.kind, ending = _subEnding();
-        var label = k === 'admin' ? 'Admin' : k === 'premium' ? "Obuna bo'lgan" : "Obuna bo'lish";
-        var icon = k === 'admin' ? _subCrownIcon : k === 'premium' ? _subCheckIcon : _subStarIcon;
+        var k = _subState.kind, ending = _subEnding(), ultra = k === 'premium' && !!_subState.ultra;
+        var label = k === 'admin' ? 'Admin' : ultra ? 'Ultra' : k === 'premium' ? "Obuna bo'lgan" : "Obuna bo'lish";
+        var icon = k === 'admin' ? _subCrownIcon : ultra ? _subDiamondIcon : k === 'premium' ? _subCheckIcon : _subStarIcon;
         subBtn.innerHTML = icon + '<span class="ts-label">' + label + '</span>';
         subBtn.title = label;
         subBtn.setAttribute('aria-label', label);
         subBtn.classList.toggle('is-admin', k === 'admin');
-        subBtn.classList.toggle('is-premium', k === 'premium' && !ending);
+        subBtn.classList.toggle('is-premium', k === 'premium' && !ending && !ultra);
+        subBtn.classList.toggle('is-ultra', ultra && !ending);
         subBtn.classList.toggle('is-ending', ending);
         subBtn.hidden = false;
       }
@@ -7984,10 +8121,13 @@
           return;
         }
         var ending = _subEnding();
+        var ultra = !!_subState.ultra;
         st.classList.toggle('is-ending', ending);
-        _subEl('msv3SubTitle').textContent = renewing ? '🔁 Obunani uzaytirish' : '✅ Obunangiz faol';
-        _subEl('msv3SubStatusIco').textContent = ending ? '⏳' : '✅';
-        _subEl('msv3SubStatusTitle').textContent = ending ? 'Obunangiz tugashiga oz qoldi' : 'Premium obunangiz faol';
+        st.classList.toggle('is-ultra', ultra && !ending);
+        _subEl('msv3SubTitle').textContent = renewing ? '🔁 Obunani uzaytirish' : ultra ? '💎 Ultra obuna' : '✅ Obunangiz faol';
+        _subEl('msv3SubStatusIco').textContent = ending ? '⏳' : ultra ? '💎' : '✅';
+        _subEl('msv3SubStatusTitle').textContent = ending ? 'Obunangiz tugashiga oz qoldi'
+          : ultra ? 'Ultra obunangiz faol — cheklovsiz' : 'Premium obunangiz faol';
         if (_subState.exp) {
           lbl.textContent = 'Tugashiga qoldi'; lbl.hidden = false;
           left.textContent = _subLeftText(_subLeftMs()); left.hidden = false;
@@ -7998,14 +8138,17 @@
           left.hidden = !_subState.dateKnown;
         }
         var notes = [];
+        if (ultra) notes.push('Kunlik cheklovlar yo‘q. Bir vaqtning o‘zida bir nechta qurilmada imtihon topshirish mumkin.');
+        if (ultra && ending) notes.push('Obunani uzaytirish uchun markaz administratoriga murojaat qiling.');
         if (_subState.deviceLimit) notes.push('⚠️ Hisobingizga 5 tadan ortiq qurilmadan kirilgan, shuning uchun premium imkoniyatlar vaqtincha yopilgan.');
-        if (ending && !renewing) notes.push('Uzluksiz foydalanish uchun obunani oldindan uzaytiring.');
+        if (ending && !renewing && !ultra) notes.push('Uzluksiz foydalanish uchun obunani oldindan uzaytiring.');
         note.textContent = notes.join(' ');
         note.hidden = !notes.length;
         // Renewing needs somewhere to pay; without a published centre config
         // there is nothing to show behind the button.
         var canPay = !!(_subCfg && (_subCfg.card_number || _subCfg.telegram_username));
-        renew.hidden = !(ending && canPay) || renewing;
+        // Ultra is never sold on the page: its renewal goes through the admin.
+        renew.hidden = !(ending && canPay) || renewing || ultra;
         offer.hidden = !renewing;
       }
 
@@ -16382,6 +16525,7 @@
       } catch (_e) { return false; }
     }
     function _showListeningTakenAlert() {
+      window.msTrace('listening: "Mock Completed" alert (non-premium path)');
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
       ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
@@ -16460,6 +16604,7 @@
     window.handleListeningMockClick = handleListeningMockClick;
 
     function showListeningAccessCodeModal() {
+      window.msTrace('listening: access-code modal');
       const modal = document.getElementById('listeningAccessCodeModal');
       const input = document.getElementById('listeningAccessCodeInput');
       const error = document.getElementById('listeningAccessCodeError');
@@ -16558,6 +16703,7 @@
     window.closeListeningAccessCodeModal = closeListeningAccessCodeModal;
 
     function _loadListeningMockOrShowMode(pageUrl, category) {
+      window.msTrace('listening mode chooser');
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('listening', pageUrl, category)) return;
       if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('listening', pageUrl, category)) return;
       var isPremium = _isListeningPremiumAi();
@@ -16594,6 +16740,7 @@
       } catch (_e) {}
     }
     function _cefrListeningModeFullMock() {
+      window.msTrace('-> listening full mock');
       var url = _pendingCefrListeningUrl;
       _pendingCefrListeningUrl = null;
       document.getElementById('cefrListeningModeModal').style.display = 'none';
@@ -19081,6 +19228,7 @@
       } catch (_e) { return false; }
     }
     function _showSpeakingTakenAlert() {
+      window.msTrace('speaking: "Mock Completed" alert (non-premium path)');
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
       ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
@@ -19171,6 +19319,7 @@
 
     // ===== Access Code modal =====
     function showSpeakingAccessCodeModal() {
+      window.msTrace('speaking: access-code modal');
       const modal = document.getElementById('speakingAccessCodeModal');
       const input = document.getElementById('speakingAccessCodeInput');
       const error = document.getElementById('speakingAccessCodeError');
@@ -19260,6 +19409,7 @@
 
     // ===== Mode + Part Picker modals =====
     function _launchSpeakingMock(pageUrl, category) {
+      window.msTrace('speaking mode chooser');
       if (typeof window._msGateAllow === 'function' && !window._msGateAllow('speaking', pageUrl, category)) return;
       if (typeof window._msLimitAllow === 'function' && !window._msLimitAllow('speaking', pageUrl, category)) return;
       _pendingSpeakingLaunch = { pageUrl, category };
@@ -19375,6 +19525,14 @@
     if (typeof window.__msv3AbsUrl !== 'function') {
       window.__msv3AbsUrl = function (url) {
         if (!url) return url;
+        // Self-heal marker: if this navigation bounces straight back to the
+        // landing without the runner ever running, the head script clears
+        // this browser's caches and retries once (see msHeal in <head>).
+        try {
+          sessionStorage.setItem('ms_launch_at', String(Date.now()));
+          sessionStorage.setItem('ms_launch_url', String(url));
+          sessionStorage.removeItem('ms_runner_ran');
+        } catch (_e) {}
         // Every caller of __msv3AbsUrl is immediately followed by
         // window.location.replace/href — i.e. a runner navigation. Show the
         // launch splash as a side effect so all skill pickers (W/L/R + S)
@@ -19430,6 +19588,7 @@
     window._msv3ShowLaunchSplash = _msv3ShowLaunchSplash;
 
     function _navigateToRunner(url) {
+      window.msTrace('-> runner ' + String(url).slice(0, 70));
       url = window.__msv3AbsUrl(url);
       try { _msv3ShowLaunchSplash(); } catch (_e) {}
       // Push (not replace) so Back from the runner returns to the /take/<slug>

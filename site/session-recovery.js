@@ -42,8 +42,32 @@
       this._config = config;
     },
 
-    // ── User identifier (name + device) ─────────────────────────────────
+    // ── Signed-in account (email) ───────────────────────────────────────
+    // Read straight from supabase-js's stored session: the exam pages do not
+    // load auth.js. Expiry is irrelevant here — this names whose draft it is,
+    // it grants nothing.
+    _account: function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (s && s.currentSession) s = s.currentSession;
+        var em = s && s.user && s.user.email;
+        return em ? String(em).trim().toLowerCase() : '';
+      } catch (e) { return ''; }
+    },
+    _isSpeaking: function (tt) { return /speaking/i.test(String(tt || '')); },
+
+    // ── User identifier ─────────────────────────────────────────────────
+    // Signed in: "acct:<email>" — the draft follows the account to any device
+    // and is invisible to another account on this one. Speaking is the
+    // exception for now (its recordings live only on the device that made
+    // them), so it keeps the device key below. Signed out: "name::device".
     _uid: function () {
+      if (!this._config || !this._config.getUserId) return null;
+      var acct = this._account();
+      if (acct && !this._isSpeaking(this._config.testType)) return 'acct:' + acct;
+      return this._legacyUid();
+    },
+    _legacyUid: function () {
       if (!this._config || !this._config.getUserId) return null;
       var did = localStorage.getItem('ms_device_id');
       if (!did) {
@@ -73,6 +97,7 @@
       try { for (var k in state) { if (Object.prototype.hasOwnProperty.call(state, k)) sd[k] = state[k]; } }
       catch (e) { sd = state; }
       try { sd.__resumeUrl = location.pathname + location.search; } catch (e) { /* ignore */ }
+      try { var a = this._account(); if (a) sd.__account = a; } catch (e) { /* ignore */ }
       return sd;
     },
 
@@ -185,6 +210,26 @@
             return this._readLocal();
           }
           return data[0];
+        }
+        // Nothing under the account key: a draft saved before drafts followed
+        // the account sits under this device's old "name::device" key. Adopt
+        // it — the next save writes it under the account.
+        var legacy = this._legacyUid();
+        if (legacy && legacy !== uid) {
+          try {
+            var r2 = await this._fetch(
+              'test_sessions?user_identifier=eq.' + encodeURIComponent(legacy)
+              + '&test_type=eq.' + encodeURIComponent(this._config.testType)
+              + '&select=*&limit=1'
+            );
+            if (r2.ok) {
+              var d2 = await r2.json();
+              if (d2 && d2.length > 0 && new Date(d2[0].expires_at) >= new Date()) {
+                var sd2 = d2[0].session_data || {};
+                if (!sd2.__account || sd2.__account === this._account()) return d2[0];
+              }
+            }
+          } catch (e) { /* fall through */ }
         }
         // Supabase returned no rows — fall back to local in case a save
         // succeeded only locally (e.g. after the table was locked down)
@@ -374,11 +419,13 @@
       // Clear localStorage
       try { localStorage.removeItem('sr_' + tt); } catch (e) { /* ignore */ }
 
-      // Delete from Supabase
-      if (uid && tt) {
+      // Delete from Supabase — the account row and the old device row alike
+      var ids = [uid, this._legacyUid()].filter(function (x, i, arr) { return x && arr.indexOf(x) === i; });
+      for (var i = 0; i < ids.length; i++) {
+        if (!tt) break;
         try {
           await this._fetch(
-            'test_sessions?user_identifier=eq.' + encodeURIComponent(uid)
+            'test_sessions?user_identifier=eq.' + encodeURIComponent(ids[i])
             + '&test_type=eq.' + encodeURIComponent(tt),
             { method: 'DELETE' }
           );
@@ -397,9 +444,30 @@
     // Keyed by ms_device_id (the tail of user_identifier "name::device"), so it
     // works regardless of which candidate-name key a runner saved under, and is
     // device-scoped for privacy. Returns [] when no device id / none active.
+    // Signed in: the account's drafts (any device) plus this device's
+    // speaking drafts, minus anything stamped with a different account.
+    // Signed out: this device's drafts, minus anything stamped with an account.
     listActiveOnDevice: async function () {
       var now = Date.now();
       var byType = {};
+      var acct = this._account();
+      function mine(row) {
+        var sd = (row && row.session_data) || {};
+        var uidv = String(row && row.user_identifier || '');
+        if (acct) {
+          if (uidv === 'acct:' + acct) return true;
+          if (uidv.indexOf('acct:') === 0) return false;        // another account
+          return !sd.__account || sd.__account === acct;        // device row
+        }
+        if (uidv.indexOf('acct:') === 0) return false;
+        return !sd.__account;
+      }
+      function take(p) {
+        if (!p || !p.test_type || !p.expires_at || new Date(p.expires_at).getTime() <= now) return;
+        if (!mine(p)) return;
+        var ex = byType[p.test_type];
+        if (!ex || new Date(p.updated_at || 0).getTime() > new Date(ex.updated_at || 0).getTime()) byType[p.test_type] = p;
+      }
       // 1) localStorage sr_* — written synchronously on EVERY save (before the
       //    Supabase POST, so it survives an offline/blocked backend). Device-local,
       //    so this is the reliable primary source for the dashboard banner.
@@ -407,31 +475,20 @@
         for (var i = 0; i < localStorage.length; i++) {
           var k = localStorage.key(i);
           if (!k || k.indexOf('sr_') !== 0) continue;
-          try {
-            var p = JSON.parse(localStorage.getItem(k));
-            if (p && p.test_type && p.expires_at && new Date(p.expires_at).getTime() > now) {
-              byType[p.test_type] = p;
-            }
-          } catch (e) { /* skip malformed entry */ }
+          try { take(JSON.parse(localStorage.getItem(k))); } catch (e) { /* skip malformed entry */ }
         }
       } catch (e) { /* ignore */ }
       // 2) Supabase (same device) — adds sessions not in localStorage and keeps
       //    the fresher copy where both exist.
       var did = '';
       try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) { /* ignore */ }
-      if (did) {
+      var queries = [];
+      if (did) queries.push('test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc');
+      if (acct) queries.push('test_sessions?user_identifier=eq.' + encodeURIComponent('acct:' + acct) + '&select=*&order=updated_at.desc');
+      for (var qi = 0; qi < queries.length; qi++) {
         try {
-          var r = await this._fetch(
-            'test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc'
-          );
-          if (r && r.ok) {
-            var rows = await r.json();
-            (rows || []).forEach(function (x) {
-              if (!x || new Date(x.expires_at).getTime() <= now) return;
-              var ex = byType[x.test_type];
-              if (!ex || new Date(x.updated_at).getTime() > new Date(ex.updated_at || 0).getTime()) byType[x.test_type] = x;
-            });
-          }
+          var r = await this._fetch(queries[qi]);
+          if (r && r.ok) { var rows = await r.json(); (rows || []).forEach(take); }
         } catch (e) { /* ignore — localStorage already covers it */ }
       }
       var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
