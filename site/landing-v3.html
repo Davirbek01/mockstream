@@ -2804,6 +2804,12 @@
           'cefr-speaking':   { s:'Speaking',  e:'CEFR',  a:'#059669', i:'🎤' },
           'ielts-speaking':  { s:'Speaking',  e:'IELTS', a:'#059669', i:'🎤' },
           'cefr-speaking-practice':  { s:'Speaking Practice', e:'CEFR',  a:'#059669', i:'🎯' },
+          'cefr-reading-practice':   { s:'Reading Practice',   e:'CEFR',  a:'#d97706', i:'🎯' },
+          'ielts-reading-practice':  { s:'Reading Practice',   e:'IELTS', a:'#d97706', i:'🎯' },
+          'cefr-listening-practice': { s:'Listening Practice', e:'CEFR',  a:'#0284c7', i:'🎯' },
+          'ielts-listening-practice':{ s:'Listening Practice', e:'IELTS', a:'#0284c7', i:'🎯' },
+          'cefr-writing-practice':   { s:'Writing Practice',   e:'CEFR',  a:'#7c3aed', i:'🎯' },
+          'ielts-writing-practice':  { s:'Writing Practice',   e:'IELTS', a:'#7c3aed', i:'🎯' },
           'ielts-speaking-practice': { s:'Speaking Practice', e:'IELTS', a:'#059669', i:'🎯' },
           'cefr-full-mock':  { s:'Full Mock', e:'CEFR',  a:'#4f46e5', i:'🎯' },
           'ielts-full-mock': { s:'Full Mock', e:'IELTS', a:'#4f46e5', i:'🎯' }
@@ -2819,10 +2825,18 @@
         function titleOf(row) {
           var t = meta(row.test_type);
           var id = (row.test_id == null ? '' : String(row.test_id)).trim();
-          var mk = id ? (/^\d+$/.test(id) ? ('Mock ' + parseInt(id, 10)) : id) : '';
+          var sdn = String((row.session_data && row.session_data.mockNumber) || '').trim();
+          // The mock number the page saved; else a numeric id; never an internal
+          // id ("sb348") or a page's fixed file name ("cefr-reading-test-01").
+          var mk = /^\d+$/.test(sdn) ? ('Mock ' + parseInt(sdn, 10))
+            : /^\d+$/.test(id) ? ('Mock ' + parseInt(id, 10))
+            : (id && !/^sb\d/.test(id) && !/test-01$|-01\.js$/.test(id)) ? id : '';
           var pp = String((row.session_data && row.session_data.practicePart) || '');
-          var PN = { p11: 'Part 1.1', p12: 'Part 1.2', p1: 'Part 1', p2: 'Part 2', p3: 'Part 3' };
-          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '') + (PN[pp] ? (' · ' + PN[pp]) : '');
+          var tt = String(row.test_type || '');
+          var PN = /speaking/.test(tt) ? { p11: 'Part 1.1', p12: 'Part 1.2', p1: 'Part 1', p2: 'Part 2', p3: 'Part 3' }
+            : /writing/.test(tt) ? { t11: 'Task 1.1', t12: 'Task 1.2', t1: 'Task 1', t2: 'Task 2' } : null;
+          var pl = !pp ? '' : PN ? (PN[pp] || '') : ((tt === 'ielts-reading-practice' ? 'Passage ' : 'Part ') + pp);
+          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '') + (pl ? (' · ' + pl) : '');
         }
         // Require the runner-stored resume URL — no guessing which mock to open.
         // ?resume=1 tells the runner the student already chose to continue, so it
@@ -4655,7 +4669,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js?v=8" defer></script>
+  <script src="/session-recovery.js?v=9" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few

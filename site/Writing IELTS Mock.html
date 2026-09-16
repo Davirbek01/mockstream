@@ -24,7 +24,7 @@
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=9"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -219,8 +219,8 @@
           window.studentName = candName;
         }
 
-        // ── Practice mode: skip format choice, go straight to computer exam ──
-        if (window._practiceMode) {
+        // ── Practice mode (or a dashboard Resume): skip format choice, go straight to computer exam ──
+        if (window._practiceMode || /[?&]resume=1(&|$)/.test(location.search)) {
           gate.style.display = 'none';
           formatChoice.style.display = 'none';
           // Remove loader
@@ -5406,12 +5406,17 @@
         var _iwMockMatch = _iwMockNum.match && _iwMockNum.match(/(\d+)/);
         var _iwMockId = _iwMockMatch ? _iwMockMatch[1] : '';
         SessionRecovery.init({
-          testType: 'ielts-writing',
+          // A single-task practice is its own draft, next to the full mock's.
+          testType: window._practiceMode ? 'ielts-writing-practice' : 'ielts-writing',
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || studentName || ''; },
-          getTestId: function() { return _iwMockId; },
+          getTestId: function() { return SessionRecovery.sbTestId(_iwMockId); },
           getState: function() {
             if (!timerInterval) return null;
+            var _iwText = String((window._lastSelectedIeltsMock && window._lastSelectedIeltsMock.text) || '');
+            var _iwNum = (_iwText.match(/Mock\s+(\d+)/i) || [])[1] || String(new URLSearchParams(location.search).get('test') || '').replace(/^.*-(\d+)$/, '$1');
             return {
+              mockNumber: /^\d+$/.test(_iwNum) ? _iwNum : '',
+              practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               elapsedSeconds: elapsedSeconds,
               txt_t1: texts.t1 ? texts.t1.value : '',
               txt_t2: texts.t2 ? texts.t2.value : ''
@@ -5420,8 +5425,8 @@
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === _iwMockId) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, _iwMockId, window._practiceMode ? (window._singleTaskParam || '') : '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {

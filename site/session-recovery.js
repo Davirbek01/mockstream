@@ -60,6 +60,41 @@
     },
     _isSpeaking: function (tt) { return /speaking/i.test(String(tt || '')); },
 
+    // The dashboard's Resume adds ?resume=1: the student already chose to
+    // continue, so the page must not ask again.
+    resumeRequested: function () {
+      try { return /[?&]resume=1(&|$)/.test(location.search); } catch (e) { return false; }
+    },
+
+    // Which mock this is. Reading/listening pages used a fixed name for every
+    // mock ("cefr-reading-test-01"), so a draft of Mock 7 was offered - and
+    // restored - on Mock 3 (found 2026-09-17). The Supabase id in the URL is
+    // unique per mock.
+    sbTestId: function (fallback) {
+      try {
+        var sb = new URLSearchParams(location.search).get('sbmock');
+        if (sb) return 'sb' + String(sb).replace(/[^A-Za-z0-9_-]/g, '');
+      } catch (e) { /* ignore */ }
+      return fallback || '';
+    },
+
+    // Is this saved draft the exam open on this page (same mock, same part)?
+    // Drafts saved before sbTestId carry the page's old fixed name; their saved
+    // URL tells which mock and part they were.
+    sameTest: function (session, fallbackId, part) {
+      if (!session) return false;
+      var sd = session.session_data || {};
+      part = String(part || '');
+      if (session.test_id === this.sbTestId(fallbackId)) return String(sd.practicePart || '') === part;
+      var sb = '';
+      try { sb = new URLSearchParams(location.search).get('sbmock') || ''; } catch (e) { /* ignore */ }
+      if (!sb || session.test_id !== fallbackId || sd.practicePart != null) return false;
+      var url = String(sd.__resumeUrl || '');
+      var m = /[?&]sbmock=([^&]+)/.exec(url);
+      var pm = /[?&](?:part|task)=([^&]+)/.exec(url);
+      return !!(m && decodeURIComponent(m[1]) === sb) && (pm ? decodeURIComponent(pm[1]) : '') === part;
+    },
+
     // ── User identifier ─────────────────────────────────────────────────
     // Signed in: "acct:<email>" — the draft follows the account to any device
     // and is invisible to another account on this one. Speaking is the

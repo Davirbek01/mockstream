@@ -22,7 +22,7 @@
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=9"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -7760,7 +7760,7 @@
                   writingCandidateDetailsModal.style.display = 'none';
                   gate.style.display = 'none';
                   var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
-                  if (__paperDisabled && typeof startComputerExam === 'function') {
+                  if ((__paperDisabled || (window.SessionRecovery && SessionRecovery.resumeRequested())) && typeof startComputerExam === 'function') {
                     startComputerExam();
                   } else {
                     formatChoice.style.display = 'flex';
@@ -7784,6 +7784,37 @@
             }
           } catch (e) { console.log('[Landing Pre-validation] Parse error:', e); }
         }
+
+        // Opened from the dashboard with the name known and no access code left
+        // to ask: skip the details popup (2026-09-17, as on the speaking page).
+        // A Resume also skips the paper/computer choice - the draft is a
+        // computer exam. startComputerExam still enforces nothing less.
+        try {
+          const _knownName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || sessionStorage.getItem('premiumUserName') || '').trim();
+          const _codeLeft = window.writingMockRequiresPromocode && window.writingMockRequiresPromocode(paddedMockNumber)
+            && !(window.isPremiumUnlocked && window.isPremiumUnlocked())
+            && sessionStorage.getItem('writingCodeValidated') !== 'true';
+          if (_knownName && !_codeLeft && new URLSearchParams(location.search).get('auto') === '1') {
+            const candInput = document.getElementById('cand');
+            if (candInput) candInput.value = _knownName;
+            const loader = document.getElementById('autoProceedLoader');
+            if (loader) loader.remove();
+            if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+            const _resuming = window.SessionRecovery && SessionRecovery.resumeRequested();
+            setTimeout(() => {
+              writingCandidateDetailsModal.classList.remove('show');
+              writingCandidateDetailsModal.style.display = 'none';
+              gate.style.display = 'none';
+              var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+              if ((_resuming || __paperDisabled) && typeof startComputerExam === 'function') {
+                startComputerExam();
+              } else {
+                formatChoice.style.display = 'flex';
+              }
+            }, 300);
+            return;
+          }
+        } catch (e) { /* fall back to the popup */ }
 
         // Check if returning premium user - skip candidate details modal
         const isPremium = window.isPremiumUnlocked && window.isPremiumUnlocked();
@@ -8760,12 +8791,14 @@
       // Session recovery check (before fullscreen)
       if (window.SessionRecovery) {
         SessionRecovery.init({
-          testType: 'cefr-writing',
+          // A single-task practice is its own draft, next to the full mock's.
+          testType: window._practiceMode ? 'cefr-writing-practice' : 'cefr-writing',
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || (document.getElementById('cand') ? document.getElementById('cand').value : '') || ''; },
-          getTestId: function() { return selectedMockNumber || ''; },
+          getTestId: function() { return SessionRecovery.sbTestId(selectedMockNumber || ''); },
           getState: function() {
             if (!testStarted || !ticking) return null;
             return {
+              practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               remaining: remaining,
               t11: document.getElementById('t11') ? document.getElementById('t11').value : '',
               t12: document.getElementById('t12') ? document.getElementById('t12').value : '',
@@ -8776,8 +8809,8 @@
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === (selectedMockNumber || '')) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, selectedMockNumber || '', window._practiceMode ? (window._singleTaskParam || '') : '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {

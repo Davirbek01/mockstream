@@ -35,7 +35,7 @@
     <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="audio-integrity.js"></script>
-    <script src="session-recovery.js?v=8"></script>
+    <script src="session-recovery.js?v=9"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -6145,7 +6145,7 @@
               try {
                 var session = await SessionRecovery.check();
                 if (session) {
-                  var choice = await SessionRecovery.prompt(session);
+                  var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
                                         _resumeSession = true;
                     var sd = session.session_data;

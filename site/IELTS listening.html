@@ -21,7 +21,7 @@
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="exam-review-bar.js"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=9"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -7927,19 +7927,21 @@
     (async function() {
       if (window.SessionRecovery && !isFullMock) {
         SessionRecovery.init({
-          testType: 'ielts-listening',
+          // A part practice is its own draft, next to the full mock's.
+          testType: window._practicePart ? 'ielts-listening-practice' : 'ielts-listening',
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_NAME') || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
-          getTestId: function() { return testFile; },
+          getTestId: function() { return SessionRecovery.sbTestId(testFile); },
           getState: function() {
             if (!testInProgress || isReviewMode || hasSubmitted) return null;
             collectAnswers();
-            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile };
+            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile,
+              mockNumber: String(window._currentMockNumber || urlParams.get('mock') || ''), practicePart: window._practicePart ? String(window._practicePart) : '' };
           }
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === testFile) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, testFile, window._practicePart || '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {
