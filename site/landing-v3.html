@@ -2733,8 +2733,8 @@
         <div class="msr-top">
           <span class="msr-ic" id="msrIc">✍️</span>
           <div class="msr-main">
-            <div class="msr-eyebrow">Continue where you left off
-              <span class="msr-badge">RESUME</span>
+            <div class="msr-eyebrow"><span id="msrEyebrowText">Continue where you left off</span>
+              <span class="msr-badge" id="msrBadge">RESUME</span>
               <span class="msr-count" id="msrCount" hidden></span>
             </div>
             <div class="msr-title" id="msrTitle"></div>
@@ -2837,21 +2837,44 @@
           }
           return n ? (' · ' + n + ' answer' + (n !== 1 ? 's' : '') + ' saved') : '';
         }
+        // "Started 23:05" today, "Started 16 Sep, 23:05" otherwise.
+        function startedText(sd) {
+          var d = new Date((sd && sd.__startedAt) || 0);
+          if (!d.getTime()) return 'Open now';
+          var hm = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          var same = d.toDateString() === new Date().toDateString();
+          return 'Started ' + (same ? hm : (d.toLocaleDateString([], { day: 'numeric', month: 'short' }) + ', ' + hm));
+        }
+        function whereText(sd) {
+          var did = ''; try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) {}
+          return (sd && sd.__device && did && sd.__device === did) ? 'open in another tab on this device' : 'open on another device';
+        }
+        var _msrOngoingTimer = null;
         function render() {
           if (!window.SessionRecovery || !SessionRecovery.listActiveOnDevice) return;
           SessionRecovery.listActiveOnDevice().then(function (rows) {
             var sec = document.getElementById('msrResumeSection');
             if (!sec) return;
             rows = (rows || []).filter(function (r) { return resumeUrl(r); });
-            if (!rows.length) { sec.style.display = 'none'; return; }
+            if (!rows.length) { sec.style.display = 'none'; if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; } return; }
             var latest = rows[0], extras = rows.slice(1), t = meta(latest.test_type), sd = latest.session_data || {};
             document.getElementById('msrRail').style.background = t.a;
             var ic = document.getElementById('msrIc'); ic.textContent = t.i; ic.style.background = t.a;
             var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
             var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
             document.getElementById('msrTitle').textContent = titleOf(latest);
-            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd)
-              + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device');
+            var ongoing = !!latest.__ongoing;
+            document.getElementById('msrEyebrowText').textContent = ongoing ? 'Test in progress' : 'Continue where you left off';
+            document.getElementById('msrBadge').textContent = ongoing ? 'LIVE' : 'RESUME';
+            sec.querySelector('.msr-cta').style.display = ongoing ? 'none' : '';
+            document.getElementById('msrMeta').textContent = ongoing
+              ? (startedText(sd) + ' · ' + whereText(sd))
+              : (agoText(latest.updated_at) + detail(sd)
+                + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device'));
+            // While a test is open elsewhere, look again sooner so Continue
+            // appears soon after the student leaves it.
+            if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; }
+            if (rows.some(function (r) { return r.__ongoing; })) _msrOngoingTimer = setTimeout(function () { if (!document.hidden) render(); }, 20000);
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
             rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
@@ -2865,8 +2888,8 @@
               var html = '<span class="cap">Also in progress:</span>';
               extras.forEach(function (r) {
                 var m = meta(r.test_type);
-                html += '<span class="msr-chip" data-url="' + encodeURIComponent(resumeUrl(r) || '') + '">'
-                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + '</span>';
+                html += '<span class="msr-chip" data-url="' + (r.__ongoing ? '' : encodeURIComponent(resumeUrl(r) || '')) + '">'
+                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + (r.__ongoing ? ' · live' : '') + '</span>';
               });
               more.innerHTML = html; more.hidden = false;
               more.querySelectorAll('.msr-chip').forEach(function (ch) {
@@ -4628,7 +4651,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js?v=6" defer></script>
+  <script src="/session-recovery.js?v=7" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
