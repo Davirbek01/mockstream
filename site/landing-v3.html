@@ -39,6 +39,28 @@
     } catch (e) {}
   };
   window.msTrace('landing loaded ' + location.pathname + location.search.slice(0, 40) + ' sw=' + ((navigator.serviceWorker && navigator.serviceWorker.controller) ? 'yes' : 'no'));
+  // Self-heal: a mock launch that came straight back here without the runner
+  // running (seen on one phone, 2026-09-16: cleared browsing data fixed it).
+  // Wipe this browser's caches + service worker for the site and retry the
+  // same launch once. Sign-in and drafts are untouched.
+  (function () {
+    try {
+      var at = Number(sessionStorage.getItem('ms_launch_at') || 0);
+      var url = sessionStorage.getItem('ms_launch_url') || '';
+      if (!at || !url) return;
+      sessionStorage.removeItem('ms_launch_at');
+      sessionStorage.removeItem('ms_launch_url');
+      if (Date.now() - at > 6000 || sessionStorage.getItem('ms_runner_ran')) return;
+      if (sessionStorage.getItem('ms_heal_done')) { window.msTrace('heal: bounced again after a wipe, giving up'); return; }
+      sessionStorage.setItem('ms_heal_done', '1');
+      window.msTrace('heal: launch bounced without the runner running -> wiping caches, retrying');
+      var jobs = [];
+      try { if (window.caches) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })); } catch (e) {}
+      try { if (navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); })); } catch (e) {}
+      Promise.race([Promise.all(jobs), new Promise(function (res) { setTimeout(res, 2500); })])
+        .then(function () { location.replace(url); }, function () { location.replace(url); });
+    } catch (e) {}
+  })();
   window.addEventListener('pagehide', function () { window.msTrace('landing pagehide'); });
   </script>
   <script>(function () { var l = document.querySelector('link[rel="manifest"]'); if (l) { var h = l.getAttribute('href') || ''; if (h && h.charAt(0) !== '/') l.setAttribute('href', '/' + h); } })();</script>
@@ -2822,7 +2844,8 @@
             var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
             var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
             document.getElementById('msrTitle').textContent = titleOf(latest);
-            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd) + ' · on this device';
+            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd)
+              + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device');
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
             rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
@@ -4585,7 +4608,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js" defer></script>
+  <script src="/session-recovery.js?v=2" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
@@ -19502,6 +19525,14 @@
     if (typeof window.__msv3AbsUrl !== 'function') {
       window.__msv3AbsUrl = function (url) {
         if (!url) return url;
+        // Self-heal marker: if this navigation bounces straight back to the
+        // landing without the runner ever running, the head script clears
+        // this browser's caches and retries once (see msHeal in <head>).
+        try {
+          sessionStorage.setItem('ms_launch_at', String(Date.now()));
+          sessionStorage.setItem('ms_launch_url', String(url));
+          sessionStorage.removeItem('ms_runner_ran');
+        } catch (_e) {}
         // Every caller of __msv3AbsUrl is immediately followed by
         // window.location.replace/href — i.e. a runner navigation. Show the
         // launch splash as a side effect so all skill pickers (W/L/R + S)

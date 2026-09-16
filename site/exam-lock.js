@@ -735,6 +735,7 @@
     } catch (e) {}
   }
   trace('exam page loaded ' + decodeURIComponent(location.pathname).split('/').pop() + location.search.slice(0, 50));
+  try { sessionStorage.setItem('ms_runner_ran', '1'); } catch (e) {}
   function wrapLeave(name) {
     var orig = window[name];
     if (typeof orig !== 'function' || orig.__msWrapped) return;
