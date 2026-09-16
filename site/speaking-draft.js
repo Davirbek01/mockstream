@@ -45,6 +45,7 @@
   }
   function token() { var s = session(); return (s && s.access_token) ? String(s.access_token) : ''; }
   function signedIn() { var s = session(); return !!(s && s.user && s.user.email && s.access_token); }
+  function account() { var s = session(); return (s && s.user && s.user.email) ? String(s.user.email).toLowerCase() : ''; }
 
   function practice() { return !!window._practiceMode; }
 
@@ -57,6 +58,16 @@
   }
 
   function qFromKey(key) { var m = /q(\d+)$/.exec(String(key || '')); return m ? Number(m[1]) : 0; }
+
+  // IndexedDB keeps speaking_audio_q1..qN with no mock or account attached,
+  // and a finished exam leaves its answers there. This marker says whose
+  // answers they are, so a resume never mistakes another mock's (or another
+  // account's) recordings for this one's. (2026-09-16: an iPhone resumed a
+  // mock at Q4 because Q3 of an older mock was still in IndexedDB.)
+  var OWNER_KEY = 'ms_spk_idb_owner';
+  function owner() { return testType() + '|' + mockKey() + '|' + account(); }
+  function markLocal() { try { localStorage.setItem(OWNER_KEY, owner()); } catch (e) {} }
+  function localOwner() { try { return localStorage.getItem(OWNER_KEY); } catch (e) { return null; } }
 
   // Premium decides whether a transcript is useful at all (regular students
   // are never scored by AI, so transcribing for them would only cost money).
@@ -133,6 +144,7 @@
     try {
       var q = qFromKey(key);
       if (!q || !blob || !blob.size) return;
+      markLocal();
       if (premium()) transcribeNow(q, blob);
       // Practice parts are not resumable, so only the full exam is uploaded.
       if (signedIn() && mockKey() && !practice()) upload(q, 'audio', blob);
@@ -179,6 +191,78 @@
     }).catch(function () { return 0; });
   }
 
+  function fetchTranscript(url, size, q) {
+    return fetch(url).then(function (res) { return res.ok ? res.text() : ''; }).then(function (raw) {
+      try {
+        var t = JSON.parse(raw);
+        if (t && typeof t.text === 'string' && t.text && Number(t.size) === size) {
+          transcripts[q] = { size: size, promise: Promise.resolve(t.text) };
+        }
+      } catch (e) {}
+    }, function () {});
+  }
+
+  // Make IndexedDB hold THIS exam's answers before the page resumes, and say
+  // where to resume. api = { save, clear, has, total }.
+  //   - answers belonging to another mock/account are dropped
+  //   - answers the server has and this device lacks are downloaded (the
+  //     server is the meeting point of every device the student used)
+  //   - resume = the first question without a saved answer. A question left
+  //     half-spoken was never saved (answers save when their time ends or
+  //     Next is pressed), so it is asked again.
+  function prepareResume(api) {
+    var total = Math.max(1, Number(api.total) || 8);
+    var mine = owner();
+    var marker = localOwner();
+    var foreign = marker !== null && marker !== mine;
+    return Promise.resolve(foreign ? api.clear() : null).then(function () {
+      if (!signedIn() || practice() || !mockKey()) return [];
+      return post({ action: 'list', test_type: testType(), mock: mockKey() }).then(function (r) { return (r && r.files) || []; });
+    }).then(function (files) {
+      var audio = files.filter(function (f) { return f.kind === 'audio' && f.url; });
+      var texts = {};
+      files.forEach(function (f) { if (f.kind === 'text' && f.url) texts[f.q] = f.url; });
+      // No marker at all (answers saved before markers existed): when the
+      // server holds this exam, trust the server rather than unknown audio.
+      var wipe = !foreign && marker === null && audio.length > 0;
+      return Promise.resolve(wipe ? api.clear() : null).then(function () {
+        var dropped = foreign || wipe;
+        return audio.reduce(function (chain, f) {
+          return chain.then(function () {
+            return Promise.resolve(dropped ? false : api.has('speaking_audio_q' + f.q)).then(function (present) {
+              if (present) return;
+              return fetch(f.url).then(function (res) { return res.ok ? res.blob() : null; }).then(function (blob) {
+                if (!blob || !blob.size) return;
+                var typed = blob.type && blob.type.indexOf('audio') === 0 ? blob : new Blob([blob], { type: 'audio/webm' });
+                return Promise.resolve(api.save('speaking_audio_q' + f.q, typed)).then(function () {
+                  if (texts[f.q]) return fetchTranscript(texts[f.q], typed.size, f.q);
+                });
+              }).catch(function () {});
+            });
+          });
+        }, Promise.resolve());
+      });
+    }).then(function () {
+      markLocal();
+      var n = 0;
+      var step = function (k) {
+        if (k > total) return Promise.resolve(n);
+        return Promise.resolve(api.has('speaking_audio_q' + k)).then(function (ok) {
+          if (!ok) return n;
+          n++;
+          return step(k + 1);
+        });
+      };
+      return step(1);
+    }).then(function (n) {
+      // All answered but not submitted: ask the last one again rather than
+      // resume past the end of the exam.
+      var idx = Math.min(n, total - 1);
+      try { console.info('[speaking-draft] resume at question ' + (idx + 1) + ' (' + n + ' answer(s) on this device)'); } catch (e) {}
+      return idx;
+    }).catch(function () { return -1; });
+  }
+
   function clear(tt) {
     transcripts = {};
     if (!signedIn()) return Promise.resolve();
@@ -188,6 +272,8 @@
   window.SpeakingDraft = {
     onSaved: onSaved,
     restore: restore,
+    prepareResume: prepareResume,
+    markLocal: markLocal,
     cachedTranscript: cachedTranscript,
     clear: clear,
     _state: function () { return { testType: testType(), mock: mockKey(), signedIn: signedIn(), premium: premium(), transcripts: Object.keys(transcripts) }; }

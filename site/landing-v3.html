@@ -2821,7 +2821,13 @@
           return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '');
         }
         // Require the runner-stored resume URL — no guessing which mock to open.
-        function resumeUrl(row) { var sd = row.session_data || {}; return sd.__resumeUrl || null; }
+        // ?resume=1 tells the runner the student already chose to continue, so it
+        // skips the name popup and the "Unfinished Test Found" question.
+        function resumeUrl(row) {
+          var sd = row.session_data || {}; var u = sd.__resumeUrl || null;
+          if (!u) return null;
+          return /[?&]resume=1(&|$)/.test(u) ? u : u + (u.indexOf('?') === -1 ? '?' : '&') + 'resume=1';
+        }
         function detail(sd) {
           if (!sd) return '';
           var n = 0;
@@ -4608,7 +4614,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
-  <script src="/session-recovery.js?v=3" defer></script>
+  <script src="/session-recovery.js?v=4" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few

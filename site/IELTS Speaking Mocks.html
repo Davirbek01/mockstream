@@ -22,8 +22,8 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=3"></script>
-  <script src="speaking-draft.js?v=1"></script>
+  <script src="session-recovery.js?v=4"></script>
+  <script src="speaking-draft.js?v=2"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
@@ -7032,14 +7032,18 @@
       function hasAudioInDB(key) {
         return getAudioFromDB(key).then(blob => !!blob);
       }
-      // Resuming on a device that does not hold the answers: bring them back
-      // from the account's server draft first, so the resume below finds them.
+      // Resuming: make IndexedDB hold THIS exam's answers (dropping another
+      // mock's, fetching what the student recorded on another device) and
+      // resume at the first question without a saved answer.
       async function _restoreSpeakingDraftIfMissing() {
         try {
-          if (!window.SpeakingDraft) return;
-          if (await hasAudioInDB('speaking_audio_q1')) return;
-          await SpeakingDraft.restore(saveAudioToDB, clearAudioDB, window.SELECTED_MOCK_NUMBER);
-        } catch (e) { console.warn('[speaking-draft] restore failed:', e); }
+          if (!window.SpeakingDraft || !SpeakingDraft.prepareResume) return;
+          var idx = await SpeakingDraft.prepareResume({
+            save: saveAudioToDB, clear: clearAudioDB, has: hasAudioInDB,
+            total: getAllAudioKeys().length
+          });
+          if (idx >= 0) window._srResumeIndex = idx;
+        } catch (e) { console.warn('[speaking-draft] resume prepare failed:', e); }
       }
 
       // === Download all answers as ZIP ===
@@ -9669,7 +9673,8 @@
               } else {
                 var session = await SessionRecovery.check();
                 if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
-                  var choice = await SessionRecovery.prompt(session);
+                  // Resume was already chosen on the dashboard banner (?resume=1).
+                  var choice = window._speakingResumeRequested ? 'resume' : await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
                     _resumeSession = true;
                     window._srResumeIndex = session.session_data.questionIndex || 0;
@@ -9791,6 +9796,12 @@
           //    localStorage read — no race with auto-proceed's click.
           try {
             var _srRaw = localStorage.getItem('sr_ielts-speaking');
+            var _srResumeFlag = false;
+            try { _srResumeFlag = new URLSearchParams(location.search).get('resume') === '1'; } catch (e) {}
+            // A local draft saved under ANOTHER account must not resume here.
+            var _srAcct = '';
+            try { var _srSess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null'); if (_srSess && _srSess.currentSession) _srSess = _srSess.currentSession; _srAcct = (_srSess && _srSess.user && _srSess.user.email) ? String(_srSess.user.email).toLowerCase() : ''; } catch (e) {}
+            if (_srRaw) { try { var _srU = String((JSON.parse(_srRaw) || {}).user_identifier || ''); if (_srU.indexOf('acct:') === 0 && _srU !== 'acct:' + _srAcct) _srRaw = null; } catch (e) { _srRaw = null; } }
             if (_srRaw && !window._practiceMode) {
               var _srP = JSON.parse(_srRaw);
               var _srSd = _srP && _srP.session_data;
@@ -9807,6 +9818,14 @@
                 if (_srStartBtn) { setTimeout(function () { _srStartBtn.click(); }, 30); return; }
                 window._speakingAutoResume = false;
               }
+            }
+            if (_srResumeFlag && !window._practiceMode && !window._speakingAutoResume) {
+              window._speakingResumeRequested = true;
+              try { var _rqCdm = document.getElementById('candidateDetailsModal'); if (_rqCdm) { _rqCdm.classList.remove('show'); _rqCdm.setAttribute('aria-hidden', 'true'); } } catch (e) {}
+              window.speakingExamStartTime = window.speakingExamStartTime || Date.now();
+              var _rqStartBtn = document.getElementById('startBtn');
+              if (_rqStartBtn) { setTimeout(function () { _rqStartBtn.click(); }, 30); return; }
+              window._speakingResumeRequested = false;
             }
           } catch (e) { console.warn('[Resume] fast-path check failed, using normal flow:', e); }
 

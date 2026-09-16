@@ -98,7 +98,7 @@
       var sd = {};
       try { for (var k in state) { if (Object.prototype.hasOwnProperty.call(state, k)) sd[k] = state[k]; } }
       catch (e) { sd = state; }
-      try { sd.__resumeUrl = location.pathname + location.search; } catch (e) { /* ignore */ }
+      try { sd.__resumeUrl = location.pathname + location.search.replace(/([?&])resume=1(&|$)/, function (m, a, b) { return b ? a : ''; }); } catch (e) { /* ignore */ }
       try { var a = this._account(); if (a) sd.__account = a; } catch (e) { /* ignore */ }
       return sd;
     },
