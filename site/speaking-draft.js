@@ -31,6 +31,11 @@
   var FN = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/speaking-draft';
   var ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
+  // The full mocks set their own draft type, attempt key and answer keys
+  // (configure), since their speaking section lives inside a longer exam.
+  var cfg = null;
+  function configure(o) { cfg = o || null; }
+
   function baseType() {
     var p = '';
     try { p = decodeURIComponent(location.pathname).toLowerCase(); } catch (e) { p = location.pathname.toLowerCase(); }
@@ -38,7 +43,10 @@
   }
   // A part practice is its own draft (…-speaking-practice), so it never
   // replaces the full mock's draft and both can be continued (2026-09-16).
-  function testType() { return baseType() + (practice() ? '-practice' : ''); }
+  function testType() {
+    if (cfg && cfg.testType) return cfg.testType;
+    return baseType() + (practice() ? '-practice' : '');
+  }
 
   function session() {
     try {
@@ -53,6 +61,7 @@
   function practice() { return !!window._practiceMode; }
 
   function mockKey() {
+    if (cfg && cfg.mockKey) { try { return String(cfg.mockKey() || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); } catch (e) { return ''; } }
     var n = String(window.SELECTED_MOCK_NUMBER || '').replace(/[^A-Za-z0-9_-]/g, '');
     if (!n) {
       try { var q = new URLSearchParams(location.search); n = String(q.get('num') || q.get('mock') || '').replace(/[^A-Za-z0-9_-]/g, ''); } catch (e) {}
@@ -60,7 +69,10 @@
     return n ? (practice() ? n + '-p' + String(window._practicePartId || '').replace(/[^A-Za-z0-9]/g, '') : n) : '';
   }
 
-  function qFromKey(key) { var m = /q(\d+)$/.exec(String(key || '')); return m ? Number(m[1]) : 0; }
+  function qFromKey(key) {
+    if (cfg && cfg.keyToQ) { try { return Number(cfg.keyToQ(key)) || 0; } catch (e) { return 0; } }
+    var m = /q(\d+)$/.exec(String(key || '')); return m ? Number(m[1]) : 0;
+  }
 
   // IndexedDB keeps speaking_audio_q1..qN with no mock or account attached,
   // and a finished exam leaves its answers there. This marker says whose
@@ -147,8 +159,8 @@
     try {
       var q = qFromKey(key);
       if (!q || !blob || !blob.size) return;
-      markLocal();
-      if (premium()) transcribeNow(q, blob);
+      if (!cfg) markLocal();
+      if (!cfg && premium()) transcribeNow(q, blob);
       if (signedIn() && mockKey()) upload(q, 'audio', blob);
     } catch (e) {}
   }
@@ -268,6 +280,21 @@
     }).catch(function () { return -1; });
   }
 
+  // Every answer the account's draft holds for this attempt, downloaded:
+  // resolves to [{ q, blob }] ([] when signed out, empty or failing).
+  function downloadAll() {
+    if (!signedIn() || !mockKey()) return Promise.resolve([]);
+    return post({ action: 'list', test_type: testType(), mock: mockKey() }).then(function (r) {
+      var audio = ((r && r.files) || []).filter(function (f) { return f.kind === 'audio' && f.url; });
+      return Promise.all(audio.map(function (f) {
+        return fetch(f.url).then(function (res) { return res.ok ? res.blob() : null; }).then(function (blob) {
+          if (!blob || !blob.size) return null;
+          return { q: f.q, blob: blob.type && blob.type.indexOf('audio') === 0 ? blob : new Blob([blob], { type: 'audio/webm' }) };
+        }).catch(function () { return null; });
+      }));
+    }).then(function (list) { return (list || []).filter(Boolean); }).catch(function () { return []; });
+  }
+
   function clear(tt) {
     transcripts = {};
     if (!signedIn()) return Promise.resolve();
@@ -278,6 +305,8 @@
     onSaved: onSaved,
     restore: restore,
     prepareResume: prepareResume,
+    configure: configure,
+    downloadAll: downloadAll,
     markLocal: markLocal,
     cachedTranscript: cachedTranscript,
     clear: clear,

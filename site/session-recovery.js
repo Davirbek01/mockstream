@@ -58,7 +58,8 @@
         return em ? String(em).trim().toLowerCase() : '';
       } catch (e) { return ''; }
     },
-    _isSpeaking: function (tt) { return /speaking/i.test(String(tt || '')); },
+    // Types whose recordings have a server draft (the full mocks' speaking too).
+    _isSpeaking: function (tt) { return /speaking|full-mock/i.test(String(tt || '')); },
 
     // The dashboard's Resume adds ?resume=1: the student already chose to
     // continue, so the page must not ask again.

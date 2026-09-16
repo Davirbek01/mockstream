@@ -32,7 +32,8 @@ const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const BUCKET = 'speaking-drafts';
 // A part practice keeps its own draft next to the full mock's (2026-09-16).
-const TEST_TYPES = ['cefr-speaking', 'ielts-speaking', 'cefr-speaking-practice', 'ielts-speaking-practice'];
+// The full mocks' speaking sections too, keyed by the attempt's reference (2026-09-17).
+const TEST_TYPES = ['cefr-speaking', 'ielts-speaking', 'cefr-speaking-practice', 'ielts-speaking-practice', 'cefr-full-mock', 'ielts-full-mock'];
 const MAX_BYTES = 8 * 1024 * 1024;
 const TOKEN_GRACE_SECONDS = 24 * 60 * 60;
 

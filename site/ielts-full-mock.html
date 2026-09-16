@@ -33,7 +33,8 @@
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="audio-integrity.js"></script>
     <script src="./scoring-tier.js"></script>
-    <script src="session-recovery.js?v=9"></script>
+    <script src="session-recovery.js?v=10"></script>
+    <script src="speaking-draft.js?v=4"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'IELTS Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -4558,6 +4559,7 @@
 
         // Session Recovery init for IELTS full mock
         if (window.SessionRecovery) {
+          if (window.SpeakingDraft) SpeakingDraft.configure({ testType: 'ielts-full-mock', mockKey: function () { return state.referenceNumber; }, keyToQ: function (k) { var m = /^S-(\d+)$/.exec(String(k)); return m ? Number(m[1]) + 1 : 0; } });
           SessionRecovery.init({
             testType: 'ielts-full-mock',
             getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
@@ -5476,6 +5478,20 @@
                     state.scores = sd.scores || state.scores;
                     state.scaledScores = sd.scaledScores || state.scaledScores;
                     state.isPremiumVip = sd.isPremiumVip || false;
+                    // Recordings were in memory only (saved as {} in the draft).
+                    // Bring them back from the account's draft and continue the
+                    // speaking section at the first unanswered question (2026-09-17).
+                    if (!state.answers) state.answers = {};
+                    state.answers.speaking = {};
+                    if (state.step === 3) {
+                      try {
+                        var _ifFiles = window.SpeakingDraft ? await SpeakingDraft.downloadAll() : [];
+                        _ifFiles.forEach(function (f) { state.answers.speaking['S-' + (f.q - 1)] = f.blob; });
+                        var _ifN = 0;
+                        while (state.answers.speaking['S-' + _ifN]) _ifN++;
+                        window._fmSpeakingStartAt = _ifN;
+                      } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
+                    }
                     window._srResumeData = sd;
                     showIeltsModTutorial(state.step);
                     SessionRecovery.start();
@@ -7992,8 +8008,10 @@
                 fmSetDial(fmQ('.fm-dial.speak', det), speakSec, speakSec);
             });
 
-            // Start the automated flow
-            fmRunQuestion(0);
+            // Start the automated flow (a resumed exam starts at its first unanswered question)
+            var _startAt = Math.max(0, Math.min(window._fmSpeakingStartAt || 0, fmQA('.fm-sq').length - 1));
+            window._fmSpeakingStartAt = 0;
+            fmRunQuestion(_startAt);
         }
 
         // Run a single question in the automated flow
@@ -8388,6 +8406,7 @@
                                          ' stray bytes before the header');
                         }
                         state.answers.speaking[key] = res.blob;
+                        try { if (window.SpeakingDraft) SpeakingDraft.onSaved(key, res.blob); } catch (_e) {}
                         done();
                     });
                 };

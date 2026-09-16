@@ -35,7 +35,8 @@
     <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="audio-integrity.js"></script>
-    <script src="session-recovery.js?v=9"></script>
+    <script src="session-recovery.js?v=10"></script>
+    <script src="speaking-draft.js?v=4"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -4710,6 +4711,7 @@
 
         // Session Recovery init for full mock
         if (window.SessionRecovery) {
+          if (window.SpeakingDraft) SpeakingDraft.configure({ testType: 'cefr-full-mock', mockKey: function () { return state.referenceNumber; }, keyToQ: function (k) { var m = /^q(\d+)$/.exec(String(k)); return m ? m[1] : 0; } });
           SessionRecovery.init({
             testType: 'cefr-full-mock',
             getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
@@ -6158,6 +6160,23 @@
                     state.isPremiumVip = sd.isPremiumVip || false;
                     state.writingTaskPrompts = sd.writingTaskPrompts || null;
                     state.speakingQuestionPrompts = sd.speakingQuestionPrompts || null;
+                    // Speaking section: the recordings may have been made on
+                    // another device. The account's draft is the full set, so it
+                    // replaces what this device holds; then continue at the first
+                    // question without an answer (2026-09-17).
+                    if (state.step === 3) {
+                      try {
+                        var _fmFiles = window.SpeakingDraft ? await SpeakingDraft.downloadAll() : [];
+                        if (_fmFiles.length) {
+                          await clearSpeakingAudioDB();
+                          for (var _fi = 0; _fi < _fmFiles.length; _fi++) await saveSpeakingAudio('q' + _fmFiles[_fi].q, _fmFiles[_fi].blob);
+                        }
+                        var _fmN = 0;
+                        while (await getSpeakingAudio('q' + (_fmN + 1))) _fmN++;
+                        var _fmTotal = (state.speakingQuestionPrompts && state.speakingQuestionPrompts.length) || 8;
+                        sd.speakingCurrentQ = Math.min(_fmN, _fmTotal - 1);
+                      } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
+                    }
                     window._srResumeData = sd;
                     showModuleTutorial(state.step);
                     SessionRecovery.start();
@@ -8241,6 +8260,7 @@
                                 console.warn(`[Speaking] ${key}: trimmed ${res.offset} stray bytes before the header`);
                             }
                             return saveSpeakingAudio(key, res.blob)
+                                .then(() => { try { if (window.SpeakingDraft) SpeakingDraft.onSaved(key, res.blob); } catch (_e) {} })
                                 .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
                                 .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
                                 .finally(finishStop);
