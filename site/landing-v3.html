@@ -38,7 +38,8 @@
       sessionStorage.setItem('ms_trace', JSON.stringify(a));
     } catch (e) {}
   };
-  window.msTrace('landing loaded ' + location.pathname + location.search.slice(0, 40));
+  window.msTrace('landing loaded ' + location.pathname + location.search.slice(0, 40) + ' sw=' + ((navigator.serviceWorker && navigator.serviceWorker.controller) ? 'yes' : 'no'));
+  window.addEventListener('pagehide', function () { window.msTrace('landing pagehide'); });
   </script>
   <script>(function () { var l = document.querySelector('link[rel="manifest"]'); if (l) { var h = l.getAttribute('href') || ''; if (h && h.charAt(0) !== '/') l.setAttribute('href', '/' + h); } })();</script>
   <script>
