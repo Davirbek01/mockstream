@@ -19,7 +19,7 @@
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="exam-review-bar.js"></script>
-  <script src="session-recovery.js?v=11"></script>
+  <script src="session-recovery.js?v=12"></script>
   <script src="back-guard.js?v=1"></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <!-- Load global settings -->
@@ -7165,15 +7165,14 @@
               font-size: 24px;
               margin-bottom: 15px;
               font-weight: 700;
-            ">Wait! Test in Progress</h2>
+            ">Testdan chiqmoqchimisiz?</h2>
             <p style="
               color: #94a3b8;
               font-size: 16px;
               line-height: 1.6;
               margin-bottom: 30px;
             ">
-              Are you sure you want to leave?<br>
-              <strong style="color: #f87171;">Your progress will be lost!</strong>
+              Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.
             </p>
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
               <button id="leaveStayBtn" style="
@@ -7187,7 +7186,7 @@
                 background: linear-gradient(135deg, #0d9488, #0f766e);
                 color: white;
                 box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
-              ">✓ Continue Test</button>
+              ">✓ Testni davom ettirish</button>
               <button id="leaveConfirmBtn" style="
                 padding: 14px 35px;
                 border: 2px solid #475569;
@@ -7198,7 +7197,7 @@
                 transition: all 0.3s ease;
                 background: transparent;
                 color: #94a3b8;
-              ">Leave Anyway</button>
+              ">Hozircha chiqish</button>
             </div>
           </div>
         </div>

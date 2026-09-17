@@ -734,4 +734,30 @@
   };
 
   window.SessionRecovery = SR;
+
+  // Leave warnings say where the saved test can be continued: a signed-in
+  // student's draft follows the account, a guest's stays on this device.
+  // The exam pages mark that phrase with data-ms-leave-where; some build the
+  // warning only when it is first shown, so watch the body for it too.
+  function fillLeaveWhere(root) {
+    try {
+      var els = (root || document).querySelectorAll ? (root || document).querySelectorAll('[data-ms-leave-where]') : [];
+      if (!els.length) return;
+      var txt = SR._account() ? 'shu yoki boshqa qurilmada' : 'shu qurilmada';
+      for (var i = 0; i < els.length; i++) els[i].textContent = txt;
+    } catch (e) { /* ignore */ }
+  }
+  function watchLeaveWarnings() {
+    fillLeaveWhere(document);
+    try {
+      new MutationObserver(function (list) {
+        for (var i = 0; i < list.length; i++) {
+          var added = list[i].addedNodes;
+          for (var j = 0; j < added.length; j++) if (added[j].nodeType === 1) fillLeaveWhere(added[j]);
+        }
+      }).observe(document.body, { childList: true });
+    } catch (e) { /* ignore */ }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watchLeaveWarnings);
+  else watchLeaveWarnings();
 })();
