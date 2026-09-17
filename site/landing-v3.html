@@ -2901,6 +2901,18 @@
           var did = ''; try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) {}
           return (sd && sd.__device && did && sd.__device === did) ? 'open in another tab on this device' : 'open on another device';
         }
+        // Refresh a stale sign-in token first, as the normal launchers do: the
+        // exam page cannot refresh it, and with an expired token the one-exam
+        // lock never registers the exam on that device (2026-09-17: a Resume
+        // from a long-open home tab went untracked, so a second device was not
+        // blocked).
+        function goResume(u) {
+          var go = function () { window.location.href = u; };
+          try {
+            if (typeof window._msFreshAccessToken === 'function') { window._msFreshAccessToken().then(go, go); return; }
+          } catch (e) { /* fall through */ }
+          go();
+        }
         var _msrOngoingTimer = null;
         function render() {
           if (!window.SessionRecovery || !SessionRecovery.listActiveOnDevice) return;
@@ -2932,7 +2944,7 @@
             if (rows.some(function (r) { return r.__ongoing; })) _msrOngoingTimer = setTimeout(function () { if (!document.hidden) render(); }, 20000);
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
-            rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
+            rb.onclick = function () { var u = resumeUrl(latest); if (u) goResume(u); };
             var db = document.getElementById('msrDiscard');
             db.disabled = false;
             db.onclick = function () { db.disabled = true; Promise.resolve(SessionRecovery.discard(latest)).then(render).catch(render); };
@@ -2948,7 +2960,7 @@
               });
               more.innerHTML = html; more.hidden = false;
               more.querySelectorAll('.msr-chip').forEach(function (ch) {
-                ch.onclick = function () { var u = decodeURIComponent(ch.getAttribute('data-url') || ''); if (u) window.location.href = u; };
+                ch.onclick = function () { var u = decodeURIComponent(ch.getAttribute('data-url') || ''); if (u) goResume(u); };
               });
             } else { more.hidden = true; more.innerHTML = ''; }
             sec.style.display = '';
@@ -6957,6 +6969,8 @@
         return Promise.race([refreshed, cap]);
       } catch (_e) { return Promise.resolve(t); }
     }
+    // The Continue banner uses it too (see its resume click).
+    window._msFreshAccessToken = _msFreshAccessToken;
 
     function _msLimitAllow(skill, pageUrl, category, via) {
       // Premium first: what the student is decides whether a code is asked
