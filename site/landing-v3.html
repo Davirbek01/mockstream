@@ -2721,9 +2721,43 @@
         border-radius:20px; padding:5px 12px 5px 6px; font-size:12.5px; font-weight:650; color:#0f172a; cursor:pointer; }
       .msr-chip .cd { width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center;
         color:#fff; font-size:11px; }
+      /* Live / paused state (2026-09-17): a corner signal on the icon and an
+         animated badge, so the card says at a glance whether the test is open
+         somewhere right now or waiting to be continued. */
+      .msr-ic { position:relative; }
+      .msr-state { position:absolute; top:-7px; right:-7px; width:22px; height:22px; border-radius:50%;
+        border:3px solid #fff; display:none; align-items:center; justify-content:center; gap:2px; box-sizing:border-box; }
+      .msr-card.is-live .msr-state.live, .msr-card.is-paused .msr-state.paused { display:flex; }
+      .msr-state.live { background:#ef4444; }
+      .msr-state.live::after { content:''; position:absolute; inset:-3px; border-radius:50%; border:2px solid #ef4444;
+        animation:msrPing 1.5s cubic-bezier(0,0,.2,1) infinite; }
+      .msr-state.paused { background:#f59e0b; animation:msrBreathe 2.6s ease-in-out infinite; }
+      .msr-state.paused i { width:3px; height:8px; background:#fff; border-radius:1px; }
+      .msr-badge { display:inline-flex; align-items:center; gap:5px; }
+      .msr-badge .bd-dot { width:6px; height:6px; border-radius:50%; background:#fff; display:none; animation:msrBlink 1.1s ease-in-out infinite; }
+      .msr-badge .bd-pause { display:none; gap:1.5px; }
+      .msr-badge .bd-pause i { width:2px; height:7px; background:#fff; border-radius:1px; }
+      .msr-card.is-live .msr-badge .bd-dot { display:inline-block; }
+      .msr-card.is-paused .msr-badge .bd-pause { display:inline-flex; }
+      .msr-card.is-live { box-shadow:0 0 0 1px rgba(239,68,68,.18), 0 14px 34px -20px rgba(239,68,68,.55); }
+      .msr-chip .live-dot { width:7px; height:7px; border-radius:50%; background:#ef4444; animation:msrBlink 1.1s ease-in-out infinite; }
+      @keyframes msrPing { 0% { transform:scale(.7); opacity:.85; } 100% { transform:scale(1.55); opacity:0; } }
+      @keyframes msrBreathe { 0%,100% { transform:scale(1); } 50% { transform:scale(1.14); } }
+      @keyframes msrBlink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+      @media (prefers-reduced-motion: reduce) {
+        .msr-state.live::after, .msr-state.paused, .msr-badge .bd-dot, .msr-chip .live-dot { animation:none; }
+      }
       @media (max-width:640px){
-        .msr-top { flex-wrap:wrap; }
-        .msr-cta { margin-top:8px; width:100%; justify-content:flex-end; }
+        /* Phone: a smaller icon shares the first row with the wording, instead of
+           taking a row of its own (2026-09-17); the buttons get the full width below. */
+        .msr-top { flex-wrap:wrap; align-items:flex-start; gap:12px; }
+        .msr-ic { width:40px; height:40px; border-radius:11px; font-size:19px; margin-top:2px; }
+        .msr-state { width:18px; height:18px; top:-6px; right:-6px; border-width:2.5px; }
+        .msr-state.paused i { width:2.5px; height:6px; }
+        .msr-main { flex:1 1 calc(100% - 52px); }
+        .msr-eyebrow { font-size:10px; gap:6px; }
+        .msr-title { font-size:17px; margin-top:3px; }
+        .msr-cta { margin-top:4px; width:100%; justify-content:flex-end; }
         .msr-resume { flex:1; justify-content:center; }
       }
     </style>
@@ -2731,10 +2765,10 @@
       <div class="msr-card">
         <span class="msr-rail" id="msrRail"></span>
         <div class="msr-top">
-          <span class="msr-ic" id="msrIc">✍️</span>
+          <span class="msr-ic"><span id="msrIc">✍️</span><span class="msr-state live" aria-hidden="true"></span><span class="msr-state paused" aria-hidden="true"><i></i><i></i></span></span>
           <div class="msr-main">
             <div class="msr-eyebrow"><span id="msrEyebrowText">Continue where you left off</span>
-              <span class="msr-badge" id="msrBadge">RESUME</span>
+              <span class="msr-badge" id="msrBadgeWrap"><span class="bd-dot"></span><span class="bd-pause"><i></i><i></i></span><span id="msrBadge">RESUME</span></span>
               <span class="msr-count" id="msrCount" hidden></span>
             </div>
             <div class="msr-title" id="msrTitle"></div>
@@ -2877,13 +2911,16 @@
             if (!rows.length) { sec.style.display = 'none'; if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; } return; }
             var latest = rows[0], extras = rows.slice(1), t = meta(latest.test_type), sd = latest.session_data || {};
             document.getElementById('msrRail').style.background = t.a;
-            var ic = document.getElementById('msrIc'); ic.textContent = t.i; ic.style.background = t.a;
+            var ic = document.getElementById('msrIc'); ic.textContent = t.i; ic.parentNode.style.background = t.a;
             var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
             var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
             document.getElementById('msrTitle').textContent = titleOf(latest);
             var ongoing = !!latest.__ongoing;
             document.getElementById('msrEyebrowText').textContent = ongoing ? 'Test in progress' : 'Continue where you left off';
-            document.getElementById('msrBadge').textContent = ongoing ? 'LIVE' : 'RESUME';
+            document.getElementById('msrBadge').textContent = ongoing ? 'LIVE' : 'PAUSED';
+            var card = sec.querySelector('.msr-card');
+            card.classList.toggle('is-live', ongoing); card.classList.toggle('is-paused', !ongoing);
+            if (bd) bd.style.background = ongoing ? '#ef4444' : t.a;
             sec.querySelector('.msr-cta').style.display = ongoing ? 'none' : '';
             document.getElementById('msrMeta').textContent = ongoing
               ? (startedText(sd) + ' · ' + whereText(sd))
@@ -2907,7 +2944,7 @@
               extras.forEach(function (r) {
                 var m = meta(r.test_type);
                 html += '<span class="msr-chip" data-url="' + (r.__ongoing ? '' : encodeURIComponent(resumeUrl(r) || '')) + '">'
-                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + (r.__ongoing ? ' · live' : '') + '</span>';
+                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + (r.__ongoing ? '<span class="live-dot" title="Open now"></span>' : '') + '</span>';
               });
               more.innerHTML = html; more.hidden = false;
               more.querySelectorAll('.msr-chip').forEach(function (ch) {
