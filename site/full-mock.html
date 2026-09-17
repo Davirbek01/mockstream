@@ -4940,6 +4940,13 @@
                     }
                     if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
                     if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof speakingMediaRecorder !== 'undefined' && speakingMediaRecorder) {
+                            if (speakingMediaRecorder.stream) speakingMediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = false; });
+                            if (speakingMediaRecorder.state === 'recording') speakingMediaRecorder.pause();
+                        }
+                    } catch (_e) {}
                 }
                 toggleMenu(false);
                 pauseOverlay.classList.add('show');
@@ -4952,6 +4959,13 @@
                 startTimer();
                 if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
                 if (mod === 'SPEAKING') {
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof speakingMediaRecorder !== 'undefined' && speakingMediaRecorder) {
+                            if (speakingMediaRecorder.stream) speakingMediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = true; });
+                            if (speakingMediaRecorder.state === 'paused') speakingMediaRecorder.resume();
+                        }
+                    } catch (_e) {}
                     if (typeof speakingState !== 'undefined' && speakingState._wasPaused && speakingState.isRunning) {
                         speakingState._wasPaused = false;
                         speakingState.timerInterval = setInterval(() => {

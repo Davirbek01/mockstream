@@ -4750,6 +4750,13 @@
                     if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
                     if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
                     if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && !fmPartIntroAudio.paused) fmPartIntroAudio.pause();
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof mediaRecorder !== 'undefined' && mediaRecorder) {
+                            if (mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = false; });
+                            if (mediaRecorder.state === 'recording') mediaRecorder.pause();
+                        }
+                    } catch (_e) {}
                 }
                 toggleMenu(false);
                 pauseOverlay.classList.add('show');
@@ -4762,6 +4769,13 @@
                 startTimer();
                 if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
                 if (mod === 'SPEAKING') {
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof mediaRecorder !== 'undefined' && mediaRecorder) {
+                            if (mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = true; });
+                            if (mediaRecorder.state === 'paused') mediaRecorder.resume();
+                        }
+                    } catch (_e) {}
                     if (typeof speakingPaused !== 'undefined') speakingPaused = false;
                     if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && currentSpeakingAudio.paused && currentSpeakingAudio.currentTime > 0) currentSpeakingAudio.play().catch(() => {});
                     if (window.speechSynthesis && window.speechSynthesis.paused) window.speechSynthesis.resume();
