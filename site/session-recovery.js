@@ -201,15 +201,28 @@
           localStorage.removeItem(key);
           return;
         }
-        // Removed on another device since? Then drop it instead of re-creating it.
-        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, this._config.testType)) {
-          var rc = await this._fetch(
-            'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
-            + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id&limit=1'
-          );
-          if (rc && rc.ok) {
-            var rows = await rc.json();
-            if (!rows || !rows.length) { this._dropLocal(this._config.testType); return; }
+        // Compare with the server first. Another device may have saved newer
+        // progress since this copy was written - uploading it would overwrite
+        // that (2026-09-17: words typed on an iPhone and on Windows vanished
+        // when the exam was resumed on a Mac that still held its own older
+        // copy). And a synced copy the server no longer has was finished or
+        // discarded elsewhere.
+        var tt = this._config.testType;
+        var rc = await this._fetch(
+          'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
+          + '&test_type=eq.' + encodeURIComponent(tt) + '&select=updated_at&limit=1'
+        );
+        if (rc && rc.ok) {
+          var rows = await rc.json();
+          if (rows && rows.length) {
+            if (new Date(rows[0].updated_at).getTime() >= new Date(payload.updated_at || 0).getTime()) {
+              localStorage.removeItem(key);   // the server's copy is the newer one
+              this._markSynced(tt);
+              return;
+            }
+          } else if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, tt)) {
+            this._dropLocal(tt);
+            return;
           }
         }
         // Try to upsert to Supabase; only clear local copy on success
@@ -408,6 +421,18 @@
         if (self._active) self.save(!document.hidden);
       }, SAVE_INTERVAL);
 
+      // Save soon after the student types or answers (1.5 s after the last
+      // change, and at least every 10 s while they keep going), so what is
+      // on screen is what another device resumes - not a copy up to 30 s old.
+      var inputTimer = null;
+      document.addEventListener('input', this._onInput = function () {
+        if (!self._active) return;
+        if (inputTimer) clearTimeout(inputTimer);
+        if (Date.now() - (self._lastSaveAt || 0) > 10000) { self.save(!document.hidden); return; }
+        inputTimer = setTimeout(function () { inputTimer = null; if (self._active) self.save(!document.hidden); }, 1500);
+      }, true);
+      document.addEventListener('change', this._onInput, true);
+
       // Tab hidden (switched away / phone locked): no longer live, so the
       // student can continue elsewhere; back in view: live again.
       document.addEventListener('visibilitychange', this._onVisChange = function () {
@@ -443,12 +468,17 @@
 
       // Always persist to localStorage first — survives backend outages
       this._writeLocal(payload);
+      this._lastSaveAt = Date.now();
 
       try {
+        var body = JSON.stringify(payload);
         var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: { 'Prefer': 'resolution=merge-duplicates' },
-          body: JSON.stringify(payload)
+          body: body,
+          // Leaving the page (hidden): let the request outlive it, as iOS
+          // suspends the tab right away. keepalive bodies are capped at 64 KB.
+          keepalive: !live && body.length < 60000
         });
         // If Supabase took it, the local copy can be cleared on next sync.
         // We leave it in place for now — _syncLocalBackup() handles cleanup.
@@ -502,6 +532,7 @@
 
       // Remove listeners
       if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
+      if (this._onInput) { document.removeEventListener('input', this._onInput, true); document.removeEventListener('change', this._onInput, true); }
       if (this._onUnload) { window.removeEventListener('beforeunload', this._onUnload); window.removeEventListener('pagehide', this._onUnload); }
 
       if (!this._config) return;
