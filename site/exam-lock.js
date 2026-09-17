@@ -383,8 +383,8 @@
   }
 
   function showBlocked(holder, statusHtml) {
-    // Nothing on this page may keep playing behind the notice.
-    try { document.querySelectorAll('audio, video').forEach(function (m) { try { m.pause(); } catch (e) {} }); } catch (e) {}
+    // Nothing on this page may keep playing - or start - behind the notice.
+    freezeExam();
     show(
       '<div class="card">' +
         '<div class="ico">🔒</div>' +
@@ -491,6 +491,20 @@
 
   function proceed(newSessionId) {
     clearWaits();
+    // Allowed after being blocked: start the exam afresh rather than thaw a
+    // flow that stood frozen half-way (a saved draft resumes as usual).
+    // A real reload would not do: exam pages treat a reload as leaving and send
+    // the student home. Open the same page again under a fresh URL instead,
+    // without asking "leave this page?".
+    if (frozen) {
+      try {
+        window.__okToLeave = true;
+        var u = new URL(location.href);
+        u.searchParams.set('lockok', String(Date.now()));
+        location.replace(u.toString());
+        return;
+      } catch (e) {}
+    }
     hide();
     if (newSessionId) {
       sessionId = newSessionId;
@@ -567,6 +581,61 @@
     }
   ];
   var heldPauser = null, heldMedia = [], heldSpeech = false;
+
+  // ---------------------------------------------------------------- freeze
+  // Blocked (another device holds the exam) or ended (handed over): nothing on
+  // this page may go on behind the notice. Pausing the <audio> elements in the
+  // page was not enough - speaking plays its part intro and questions through
+  // detached Audio objects and speech synthesis, and its timers kept running
+  // (2026-09-17, Android blocked while Windows held a reading test). So every
+  // media element that ever plays is remembered, nothing may start playing or
+  // speaking while frozen, and the runner's own pause is pressed; this repeats
+  // until the notice goes. A blocked page that is then allowed reloads, so the
+  // exam starts cleanly instead of from wherever the frozen flow stood.
+  var frozen = false, freezeTimer = null, seenMedia = [];
+  (function hookPlayback() {
+    try {
+      var P = window.HTMLMediaElement && HTMLMediaElement.prototype;
+      if (P && P.play && !P.play.__msLock) {
+        var origPlay = P.play;
+        var play = function () {
+          try { if (seenMedia.indexOf(this) === -1) { seenMedia.push(this); if (seenMedia.length > 80) seenMedia.shift(); } } catch (e) {}
+          if (frozen && this !== alertAudio) { try { this.pause(); } catch (e) {} return Promise.resolve(); }
+          return origPlay.apply(this, arguments);
+        };
+        play.__msLock = true;
+        P.play = play;
+      }
+    } catch (e) {}
+    try {
+      var ss = window.speechSynthesis;
+      if (ss && typeof ss.speak === 'function' && !ss.speak.__msLock) {
+        var origSpeak = ss.speak.bind(ss);
+        var speak = function (u) { if (frozen) return; return origSpeak(u); };
+        speak.__msLock = true;
+        ss.speak = speak;
+      }
+    } catch (e) {}
+  })();
+
+  function freezeTick() {
+    try {
+      seenMedia.concat([].slice.call(document.querySelectorAll('audio, video'))).forEach(function (m) {
+        if (m !== alertAudio && !m.paused) { try { m.pause(); } catch (e) {} }
+      });
+    } catch (e) {}
+    try { if (window.speechSynthesis && (window.speechSynthesis.speaking || window.speechSynthesis.pending)) window.speechSynthesis.cancel(); } catch (e) {}
+    try {
+      for (var i = 0; i < PAUSERS.length; i++) {
+        if (PAUSERS[i].match()) { if (!PAUSERS[i].isPaused()) PAUSERS[i].pause(); break; }
+      }
+    } catch (e) {}
+  }
+  function freezeExam() {
+    frozen = true;
+    freezeTick();
+    if (!freezeTimer) freezeTimer = setInterval(freezeTick, 400);
+  }
 
   function holdExam() {
     if (heldPauser || heldMedia.length || heldSpeech) return;
@@ -683,6 +752,7 @@
     stopBeats();
     clearWaits();
     stopMedia();
+    freezeExam();
     sessionId = null;
     var lead = reason === 'expired'
       ? 'Bu qurilma bilan aloqa uzilgan paytda hisobingiz orqali boshqa qurilmada imtihon boshlandi.'
