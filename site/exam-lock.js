@@ -593,6 +593,16 @@
   // until the notice goes. A blocked page that is then allowed reloads, so the
   // exam starts cleanly instead of from wherever the frozen flow stood.
   var frozen = false, freezeTimer = null, seenMedia = [];
+  var ENDED_KEY = 'ms_lock_ended';
+  // Going home after a hand-over must not stop on the page's own
+  // "leave this page?" guard (some keep their flag in a closure). This
+  // listener is added before any page script's, so it runs first.
+  var leavingHome = false;
+  try {
+    window.addEventListener('beforeunload', function (e) {
+      if (leavingHome) { try { e.stopImmediatePropagation(); } catch (x) {} }
+    }, true);
+  } catch (e) {}
   (function hookPlayback() {
     try {
       var P = window.HTMLMediaElement && HTMLMediaElement.prototype;
@@ -755,24 +765,66 @@
     freezeExam();
     // The exam lives on the other device now: this page must not keep saving
     // its stale answers over that device's draft.
+    var hadDraft = false;
+    try { hadDraft = !!(window.SessionRecovery && window.SessionRecovery._active); } catch (e) {}
     try { if (window.SessionRecovery && window.SessionRecovery.detach) window.SessionRecovery.detach(); } catch (e) {}
     sessionId = null;
-    var lead = reason === 'expired'
+    // Leave the exam page at once and explain on the home page: a stale exam
+    // left open behind the notice only confused things - it kept saving and
+    // brought back drafts that had been discarded (2026-09-17).
+    try {
+      sessionStorage.setItem(ENDED_KEY, JSON.stringify({
+        reason: reason, approved: approvedHere, at: Date.now(), exam: info ? info.label : '', saved: hadDraft,
+        by: by ? { device_label: by.device_label, platform: by.platform, ip: by.ip, country: by.country } : null
+      }));
+      leavingHome = true;
+      window.__okToLeave = true;
+      location.replace('/landing-v3.html');
+      return;
+    } catch (e) { /* stay and show the notice here */ }
+    renderEnded(reason, approvedHere, by, true);
+  }
+
+  function endedLead(reason, approved) {
+    return reason === 'expired'
       ? 'Bu qurilma bilan aloqa uzilgan paytda hisobingiz orqali boshqa qurilmada imtihon boshlandi.'
-      : approvedHere
+      : approved
         ? 'Siz ruxsat berganingizdan so‘ng imtihon boshqa qurilmaga o‘tkazildi. Bu qurilmada imtihon to‘xtatildi.'
         : 'Boshqa qurilmadan kelgan so‘rovga 1 daqiqa ichida javob berilmagani sababli imtihon o‘sha qurilmaga o‘tkazildi.';
+  }
+
+  // onExamPage: the notice on the exam page itself (button goes home);
+  // otherwise the home page after the automatic return (button closes it).
+  function renderEnded(reason, approved, by, onExamPage, examLabel, saved) {
+    var lead = endedLead(reason, approved);
+    // The draft of the exam that was running here stays on the account.
+    if (saved) lead += ' Bu qurilmadagi javoblaringiz saqlangan — keyinroq bosh sahifadagi Resume orqali davom ettirishingiz mumkin.';
     show(
       '<div class="card">' +
         '<div class="ico red">⛔</div>' +
         '<h2>Imtihon boshqa qurilmada davom etmoqda</h2>' +
         '<p>' + lead + '</p>' +
-        (by ? rows([['Qurilma', deviceText(by)], ['IP manzil', ipText(by), true]]) : '') +
+        (by || examLabel ? rows([].concat(
+          examLabel ? [['Imtihon', examLabel]] : [],
+          by ? [['Qurilma', deviceText(by)], ['IP manzil', ipText(by), true]] : []
+        )) : '') +
         '<div class="note">Premium obunada bir vaqtning o‘zida faqat bitta qurilmada imtihon topshirish mumkin.</div>' +
-        '<div class="btns"><button class="primary" id="home">Bosh sahifaga qaytish</button></div>' +
+        '<div class="btns"><button class="primary" id="home">' + (onExamPage ? 'Bosh sahifaga qaytish' : 'Tushunarli') + '</button></div>' +
       '</div>'
     );
-    $('home').onclick = goHome;
+    $('home').onclick = onExamPage ? goHome : hide;
+  }
+
+  // Home page: the notice of an exam that was just handed over.
+  function showPendingEnded() {
+    try {
+      var raw = sessionStorage.getItem(ENDED_KEY);
+      if (!raw) return;
+      sessionStorage.removeItem(ENDED_KEY);
+      var d = JSON.parse(raw);
+      if (!d || !(Date.now() - Number(d.at) < 5 * 60 * 1000)) return;
+      renderEnded(d.reason, !!d.approved, d.by, false, d.exam || '', !!d.saved);
+    } catch (e) {}
   }
 
   // ---------------------------------------------------------------- page life
@@ -806,6 +858,12 @@
       if (a.length > 80) a = a.slice(-80);
       sessionStorage.setItem('ms_trace', JSON.stringify(a));
     } catch (e) {}
+  }
+  // Also loaded on the home page, only to show a hand-over notice there.
+  if (!examInfo()) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showPendingEnded);
+    else showPendingEnded();
+    return;
   }
   trace('exam page loaded ' + decodeURIComponent(location.pathname).split('/').pop() + location.search.slice(0, 50));
   try { sessionStorage.setItem('ms_runner_ran', '1'); } catch (e) {}
