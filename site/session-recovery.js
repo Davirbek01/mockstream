@@ -92,7 +92,7 @@
       if (!sb || session.test_id !== fallbackId || sd.practicePart != null) return false;
       var url = String(sd.__resumeUrl || '');
       var m = /[?&]sbmock=([^&]+)/.exec(url);
-      var pm = /[?&](?:part|task)=([^&]+)/.exec(url);
+      var pm = /[?&](?:part|task|passage)=([^&]+)/.exec(url);
       return !!(m && decodeURIComponent(m[1]) === sb) && (pm ? decodeURIComponent(pm[1]) : '') === part;
     },
 

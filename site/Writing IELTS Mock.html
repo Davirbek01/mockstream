@@ -6098,8 +6098,8 @@
         return;
       }
 
-      // Clear session recovery on submit
-      if (window.SessionRecovery) SessionRecovery.clear();
+      // Clear session recovery on submit (practice: after its word check below)
+      if (window.SessionRecovery && !window._practiceMode) SessionRecovery.clear();
 
       /* Processing spinner overlay — prevents premature tab close */
       if (!document.getElementById('processingOverlay')) {
@@ -6124,6 +6124,10 @@
             '✍️', 7000);
           return;
         }
+
+        // Submitted: the practice draft is done. After the word check, so a
+        // refused submit keeps the draft and its saving (2026-09-17).
+        if (window.SessionRecovery) SessionRecovery.clear();
 
         // Stop timer
         clearInterval(timerInterval);

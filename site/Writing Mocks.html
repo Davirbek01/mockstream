@@ -14588,6 +14588,10 @@ ${_wReportSpec}`;
         return;
       }
 
+      // Submitted: the practice draft is done, so no Continue banner for it
+      // (it stayed after submit and AI scoring - 2026-09-17).
+      if (window.SessionRecovery) SessionRecovery.clear();
+
       // Stop timer and record elapsed time
       clearInterval(ticking);
       var elapsed = remaining; // In practice mode, remaining counts UP
@@ -14892,8 +14896,6 @@ ${_wReportSpec}`;
     /* ===== Submit ===== */
     async function submitNow(auto = false) {
       if (window._practiceMode) return submitPractice();
-      // Clear session recovery on submit
-      if (window.SessionRecovery) SessionRecovery.clear();
       const student = ($('#cand').value || '').trim();
       if (!student) {
         showCefrNotification('Name Required', 'Please enter your full name before submitting your work.', '👤', 7000);
@@ -14926,6 +14928,10 @@ ${_wReportSpec}`;
         showCefrNotification('Task 2 Too Short', `Task 2 requires at least 150 words to submit.\n\nYour current word count: ${t2Words} words.\nYou need ${150 - t2Words} more words.`, '✍️', 7000);
         return;
       }
+
+      // Submitted: the draft is done. Only now - a refused submit (a task too
+      // short) keeps the draft and its saving (2026-09-17).
+      if (window.SessionRecovery) SessionRecovery.clear();
 
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
