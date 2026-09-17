@@ -8784,8 +8784,8 @@
           badge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-right:6px;';
           tc.prepend(badge);
         }
-        startTimer();
-        return;
+        // Practice continues below: it has its own resumable draft (it used
+        // to return here, before the draft was ever set up - 2026-09-17).
       }
 
       // Session recovery check (before fullscreen)
@@ -8796,7 +8796,8 @@
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || (document.getElementById('cand') ? document.getElementById('cand').value : '') || ''; },
           getTestId: function() { return SessionRecovery.sbTestId(selectedMockNumber || ''); },
           getState: function() {
-            if (!testStarted || !ticking) return null;
+            // Practice never sets testStarted (no anti-cheat there).
+            if ((!testStarted && !window._practiceMode) || !ticking) return null;
             return {
               practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               remaining: remaining,
@@ -8827,6 +8828,7 @@
         remaining = window._srResumeData.remaining;
       }
 
+      if (!window._practiceMode) {
       // Activate anti-cheat policy
       testStarted = true;
       console.log(' Anti-cheat policy activated');
@@ -8834,9 +8836,14 @@
       // Mark clipboard as suspicious initially
       clipboardSuspicious = true;
       copySource = null;
+      }
 
       // Start the exam
       startTimer();
+      // Practice counts up from 0 inside startTimer: put the resumed time back.
+      if (window._practiceMode && window._srResumeData && window._srResumeData.remaining != null) {
+        remaining = window._srResumeData.remaining;
+      }
 
       // Session recovery: restore textarea content and start auto-save
       if (window._srResumeData) {

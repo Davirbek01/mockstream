@@ -5393,9 +5393,8 @@
           badge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-right:6px;';
           timerControl.prepend(badge);
         }
-
-        startTimer();
-        return; // Skip fullscreen & anti-cheat for practice
+        // Practice continues below (no fullscreen): it has its own resumable
+        // draft - it used to return here before the draft was set up (2026-09-17).
       }
 
       // ═══════ FULL MOCK LOGIC ═══════
@@ -5444,9 +5443,13 @@
       }
 
       startTimer();
+      // Practice counts up from 0 inside startTimer: put the resumed time back.
+      if (window._practiceMode && window._srResumeData && window._srResumeData.elapsedSeconds != null) {
+        elapsedSeconds = window._srResumeData.elapsedSeconds;
+      }
 
-      // Request fullscreen
-      enterFullscreen();
+      // Request fullscreen (not for practice)
+      if (!window._practiceMode) enterFullscreen();
 
       // Session recovery: restore textarea content and start auto-save
       if (window._srResumeData) {
