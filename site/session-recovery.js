@@ -565,6 +565,21 @@
     },
 
     // ── Clear session on test completion ────────────────────────────────
+    // Stop saving from this page but leave the draft where it is. Used when the
+    // exam moved to another device (exam-lock "ended"): the page underneath is
+    // stale, and saving its old answers would overwrite the progress being made
+    // on the device that took over (2026-09-17).
+    detach: function () {
+      if (!this._active) return;
+      this._active = false;
+      this._serverUid = null;
+      if (this._saveTimer) { clearInterval(this._saveTimer); this._saveTimer = null; }
+      if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
+      if (this._onInput) { document.removeEventListener('input', this._onInput, true); document.removeEventListener('change', this._onInput, true); }
+      if (this._onUnload) { window.removeEventListener('beforeunload', this._onUnload); window.removeEventListener('pagehide', this._onUnload); }
+      if (this._config) this._dropLocal(this._config.testType);
+    },
+
     // The draft was discarded or finished on another device while this page
     // was still open: stop saving, forget the local copy, and say so.
     _removedElsewhere: function () {

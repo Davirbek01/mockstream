@@ -753,6 +753,9 @@
     clearWaits();
     stopMedia();
     freezeExam();
+    // The exam lives on the other device now: this page must not keep saving
+    // its stale answers over that device's draft.
+    try { if (window.SessionRecovery && window.SessionRecovery.detach) window.SessionRecovery.detach(); } catch (e) {}
     sessionId = null;
     var lead = reason === 'expired'
       ? 'Bu qurilma bilan aloqa uzilgan paytda hisobingiz orqali boshqa qurilmada imtihon boshlandi.'
