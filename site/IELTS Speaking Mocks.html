@@ -7564,6 +7564,12 @@
         bars.forEach(b => { b.style.animation = 'none'; b.style.transition = 'height 70ms ease-out'; });
         const N = bars.length, bins = _wfData.length;
         const loop = () => {
+          // Paused: the wave rests - nothing is being recorded.
+          if (document.body.classList.contains('is-paused')) {
+            for (let i = 0; i < N; i++) bars[i].style.height = '18%';
+            _wfRAF = requestAnimationFrame(loop);
+            return;
+          }
           _wfAnalyser.getByteFrequencyData(_wfData);
           for (let i = 0; i < N; i++) {
             const idx = 1 + Math.floor((i / N) * (bins * 0.6));
@@ -8714,6 +8720,18 @@
         if (currentAudio) { try { paused ? currentAudio.pause() : currentAudio.play(); } catch (e) { } }
         if (currentUtterance && 'speechSynthesis' in window) {
           try { paused ? window.speechSynthesis.pause() : window.speechSynthesis.resume(); } catch (e) { }
+        }
+        // Pause/resume microphone recording. The track itself is switched off
+        // too, so nothing is captured while paused even if a recorder was not
+        // yet running or ignores pause() (2026-09-17: the wave kept reacting to
+        // the student's voice under the pause overlay).
+        try {
+          if (mediaRecorder && mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = !paused; });
+        } catch (e) { }
+        if (mediaRecorder && mediaRecorder.state === 'recording' && paused) {
+          try { mediaRecorder.pause(); console.log('🎙️ Microphone paused'); } catch (e) { }
+        } else if (mediaRecorder && mediaRecorder.state === 'paused' && !paused) {
+          try { mediaRecorder.resume(); console.log('🎙️ Microphone resumed'); } catch (e) { }
         }
         if (!paused) ensureAudio();
       }
