@@ -22,7 +22,7 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=12"></script>
+  <script src="session-recovery.js?v=13"></script>
   <script src="back-guard.js?v=1"></script>
   <script src="speaking-draft.js?v=4"></script>
   <script src="./ai-proxy-interceptor.js"></script>
@@ -11641,7 +11641,9 @@
             var _srAcct = '';
             try { var _srSess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null'); if (_srSess && _srSess.currentSession) _srSess = _srSess.currentSession; _srAcct = (_srSess && _srSess.user && _srSess.user.email) ? String(_srSess.user.email).toLowerCase() : ''; } catch (e) {}
             if (_srRaw) { try { var _srU = String((JSON.parse(_srRaw) || {}).user_identifier || ''); if (_srU.indexOf('acct:') === 0 && _srU !== 'acct:' + _srAcct) _srRaw = null; } catch (e) { _srRaw = null; } }
-            if (_srRaw) {
+            // Only a dashboard Resume continues a draft; opening the mock any other
+            // way starts it afresh (2026-09-17).
+            if (_srRaw && _srResumeFlag) {
               var _srP = JSON.parse(_srRaw);
               var _srSd = _srP && _srP.session_data;
               var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;

@@ -342,7 +342,17 @@
 
     // ── Show resume / start-fresh popup ─────────────────────────────────
     // Returns a Promise that resolves to 'resume' or 'fresh'
-    prompt: function (session) {
+    // No "Unfinished Test Found" question any more (2026-09-17). A draft is
+    // continued only through the home page's Resume (?resume=1, which the pages
+    // check before ever calling this); opening a mock any other way starts it
+    // afresh and drops that draft. Every page still calls prompt(); it now
+    // answers 'fresh' at once. The old dialog is kept below as _promptDialog
+    // in case a page ever needs to ask again.
+    prompt: function () {
+      return Promise.resolve('fresh');
+    },
+
+    _promptDialog: function (session) {
       return new Promise(function (resolve) {
         var sd = session.session_data || {};
         var updated = new Date(session.updated_at);
