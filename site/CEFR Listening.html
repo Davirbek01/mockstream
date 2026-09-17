@@ -5060,7 +5060,11 @@
           var rd = window._srResumeData;
           timeRemaining = rd.timeRemaining != null ? rd.timeRemaining : timeRemaining;
           updateTimerDisplay();
-          if (rd.currentPart != null) { showPart(rd.currentPart); }
+          // Continue where the recording was: that part, at that second.
+          if (rd.audioTime > 0 && rd.audioPart != null && window._lsAudioSeek) {
+            showPart(rd.audioPart);
+            window._lsAudioSeek(rd.audioPart, rd.audioTime);
+          } else if (rd.currentPart != null) { showPart(rd.currentPart); }
           if (rd.userAnswers) {
             userAnswers = rd.userAnswers;
             SessionRecovery.restoreAnswers(rd.userAnswers);
@@ -7016,7 +7020,9 @@
           getState: function() {
             if (!testInProgress || isReviewMode || hasSubmitted) return null;
             collectAnswers();
+            var _au = window._lsAudioState ? window._lsAudioState() : null;
             return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile,
+              audioPart: _au ? _au.part : null, audioTime: _au ? _au.t : 0,
               mockNumber: String(window._currentMockNumber || urlParams.get('mock') || ''), practicePart: window._practicePart ? String(window._practicePart) : '' };
           }
         });
@@ -7808,6 +7814,28 @@
       let currentLoadedPart = 0;
       let soundingPartIndex = 0;
       let hasPerPartAudio = false;
+
+      // Where the audio is, so a resumed test - on any device - continues the
+      // recording from there instead of the start of the part (2026-09-17).
+      window._lsAudioState = function () {
+        try {
+          var bg = !!(hiddenAudio && !hiddenAudio.paused);
+          var el = (!audio.paused || !bg) ? audio : hiddenAudio;
+          var t = Number(el.currentTime) || 0;
+          if (!(t > 0)) return null;
+          return { part: el === audio ? currentLoadedPart : soundingPartIndex, t: Math.floor(t * 10) / 10 };
+        } catch (e) { return null; }
+      };
+      window._lsAudioSeek = function (partIndex, t) {
+        try {
+          window.loadPartAudio(partIndex, false);
+          var go = function () { try { audio.currentTime = t; } catch (e) { /* ignore */ } };
+          // After loadPartAudio's own seek to the part start, whether the file
+          // is already loaded or still loading.
+          setTimeout(go, 0);
+          audio.addEventListener('loadedmetadata', function () { setTimeout(go, 0); }, { once: true });
+        } catch (e) { /* ignore */ }
+      };
 
       function checkPerPartAudio() {
         if (window.TEST_DATA && window.TEST_DATA.parts) {
