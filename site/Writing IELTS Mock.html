@@ -18,13 +18,14 @@
   <script src="score-boost.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
-  <script src="/exam-lock.js?v=7"></script>
+  <script src="/exam-lock.js?v=8"></script>
   <script src="code-persistence.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=13"></script>
+  <script src="back-guard.js?v=1"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -219,8 +220,8 @@
           window.studentName = candName;
         }
 
-        // ── Practice mode: skip format choice, go straight to computer exam ──
-        if (window._practiceMode) {
+        // ── Practice mode (or a dashboard Resume): skip format choice, go straight to computer exam ──
+        if (window._practiceMode || /[?&]resume=1(&|$)/.test(location.search)) {
           gate.style.display = 'none';
           formatChoice.style.display = 'none';
           // Remove loader
@@ -5393,9 +5394,9 @@
           badge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-right:6px;';
           timerControl.prepend(badge);
         }
-
-        startTimer();
-        return; // Skip fullscreen & anti-cheat for practice
+        // Practice continues below, with fullscreen like the full mock: it has
+        // its own resumable draft - it used to return here before the draft
+        // was set up (2026-09-17).
       }
 
       // ═══════ FULL MOCK LOGIC ═══════
@@ -5406,12 +5407,17 @@
         var _iwMockMatch = _iwMockNum.match && _iwMockNum.match(/(\d+)/);
         var _iwMockId = _iwMockMatch ? _iwMockMatch[1] : '';
         SessionRecovery.init({
-          testType: 'ielts-writing',
+          // A single-task practice is its own draft, next to the full mock's.
+          testType: window._practiceMode ? 'ielts-writing-practice' : 'ielts-writing',
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || studentName || ''; },
-          getTestId: function() { return _iwMockId; },
+          getTestId: function() { return SessionRecovery.sbTestId(_iwMockId); },
           getState: function() {
             if (!timerInterval) return null;
+            var _iwText = String((window._lastSelectedIeltsMock && window._lastSelectedIeltsMock.text) || '');
+            var _iwNum = (_iwText.match(/Mock\s+(\d+)/i) || [])[1] || String(new URLSearchParams(location.search).get('test') || '').replace(/^.*-(\d+)$/, '$1');
             return {
+              mockNumber: /^\d+$/.test(_iwNum) ? _iwNum : '',
+              practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               elapsedSeconds: elapsedSeconds,
               txt_t1: texts.t1 ? texts.t1.value : '',
               txt_t2: texts.t2 ? texts.t2.value : ''
@@ -5420,8 +5426,8 @@
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === _iwMockId) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, _iwMockId, window._practiceMode ? (window._singleTaskParam || '') : '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {
@@ -5439,6 +5445,10 @@
       }
 
       startTimer();
+      // Practice counts up from 0 inside startTimer: put the resumed time back.
+      if (window._practiceMode && window._srResumeData && window._srResumeData.elapsedSeconds != null) {
+        elapsedSeconds = window._srResumeData.elapsedSeconds;
+      }
 
       // Request fullscreen
       enterFullscreen();
@@ -6088,8 +6098,8 @@
         return;
       }
 
-      // Clear session recovery on submit
-      if (window.SessionRecovery) SessionRecovery.clear();
+      // Clear session recovery on submit (practice: after its word check below)
+      if (window.SessionRecovery && !window._practiceMode) SessionRecovery.clear();
 
       /* Processing spinner overlay — prevents premature tab close */
       if (!document.getElementById('processingOverlay')) {
@@ -6114,6 +6124,10 @@
             '✍️', 7000);
           return;
         }
+
+        // Submitted: the practice draft is done. After the word check, so a
+        // refused submit keeps the draft and its saving (2026-09-17).
+        if (window.SessionRecovery) SessionRecovery.clear();
 
         // Stop timer
         clearInterval(timerInterval);
@@ -11862,15 +11876,14 @@ ${_wSpec}
             font-size: 24px;
             margin-bottom: 15px;
             font-weight: 700;
-          ">Wait! Test in Progress</h2>
+          ">Testdan chiqmoqchimisiz?</h2>
           <p style="
             color: #94a3b8;
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 30px;
           ">
-            Are you sure you want to leave?<br>
-            <strong style="color: #f87171;">Your progress will be lost!</strong>
+            Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.
           </p>
           <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
             <button id="leaveStayBtn" style="
@@ -11884,7 +11897,7 @@ ${_wSpec}
               background: linear-gradient(135deg, #116a60, #0d5049);
               color: white;
               box-shadow: 0 4px 15px rgba(17, 106, 96, 0.3);
-            ">✓ Continue Test</button>
+            ">✓ Testni davom ettirish</button>
             <button id="leaveConfirmBtn" style="
               padding: 14px 35px;
               border: 2px solid #475569;
@@ -11895,7 +11908,7 @@ ${_wSpec}
               transition: all 0.3s ease;
               background: transparent;
               color: #94a3b8;
-            ">Leave Anyway</button>
+            ">Hozircha chiqish</button>
           </div>
         </div>
       </div>

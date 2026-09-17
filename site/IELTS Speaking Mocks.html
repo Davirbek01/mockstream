@@ -22,12 +22,13 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=8"></script>
-  <script src="speaking-draft.js?v=3"></script>
+  <script src="session-recovery.js?v=13"></script>
+  <script src="back-guard.js?v=1"></script>
+  <script src="speaking-draft.js?v=4"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
-  <script src="/exam-lock.js?v=7"></script>
+  <script src="/exam-lock.js?v=8"></script>
   <script src="code-persistence.js" defer></script>
   <meta charset="utf-8" />
   <meta content="width=device-width,initial-scale=1" name="viewport" />
@@ -7563,6 +7564,12 @@
         bars.forEach(b => { b.style.animation = 'none'; b.style.transition = 'height 70ms ease-out'; });
         const N = bars.length, bins = _wfData.length;
         const loop = () => {
+          // Paused: the wave rests - nothing is being recorded.
+          if (document.body.classList.contains('is-paused')) {
+            for (let i = 0; i < N; i++) bars[i].style.height = '18%';
+            _wfRAF = requestAnimationFrame(loop);
+            return;
+          }
           _wfAnalyser.getByteFrequencyData(_wfData);
           for (let i = 0; i < N; i++) {
             const idx = 1 + Math.floor((i / N) * (bins * 0.6));
@@ -8713,6 +8720,18 @@
         if (currentAudio) { try { paused ? currentAudio.pause() : currentAudio.play(); } catch (e) { } }
         if (currentUtterance && 'speechSynthesis' in window) {
           try { paused ? window.speechSynthesis.pause() : window.speechSynthesis.resume(); } catch (e) { }
+        }
+        // Pause/resume microphone recording. The track itself is switched off
+        // too, so nothing is captured while paused even if a recorder was not
+        // yet running or ignores pause() (2026-09-17: the wave kept reacting to
+        // the student's voice under the pause overlay).
+        try {
+          if (mediaRecorder && mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = !paused; });
+        } catch (e) { }
+        if (mediaRecorder && mediaRecorder.state === 'recording' && paused) {
+          try { mediaRecorder.pause(); console.log('🎙️ Microphone paused'); } catch (e) { }
+        } else if (mediaRecorder && mediaRecorder.state === 'paused' && !paused) {
+          try { mediaRecorder.resume(); console.log('🎙️ Microphone resumed'); } catch (e) { }
         }
         if (!paused) ensureAudio();
       }
@@ -9874,7 +9893,9 @@
             var _srAcct = '';
             try { var _srSess = JSON.parse(localStorage.getItem('ms_auth_session') || 'null'); if (_srSess && _srSess.currentSession) _srSess = _srSess.currentSession; _srAcct = (_srSess && _srSess.user && _srSess.user.email) ? String(_srSess.user.email).toLowerCase() : ''; } catch (e) {}
             if (_srRaw) { try { var _srU = String((JSON.parse(_srRaw) || {}).user_identifier || ''); if (_srU.indexOf('acct:') === 0 && _srU !== 'acct:' + _srAcct) _srRaw = null; } catch (e) { _srRaw = null; } }
-            if (_srRaw) {
+            // Only a dashboard Resume continues a draft; opening the mock any other
+            // way starts it afresh (2026-09-17).
+            if (_srRaw && _srResumeFlag) {
               var _srP = JSON.parse(_srRaw);
               var _srSd = _srP && _srP.session_data;
               var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;
@@ -16858,14 +16879,11 @@ Please contact your instructor or upgrade to the full version with speech recogn
           <div style="width:80px;height:80px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(239,68,68,0.4);">
             <span style="font-size:40px;">⚠️</span>
           </div>
-          <h2 style="color:white;font-size:22px;font-weight:800;margin-bottom:12px;">Wait! Don't Leave!</h2>
-          <p style="color:#94a3b8;font-size:15px;line-height:1.6;margin-bottom:24px;">Leaving or refreshing this page will <strong style="color:#f87171;">permanently delete</strong> all your recorded answers and progress.</p>
-          <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:14px;margin-bottom:24px;">
-            <p style="color:#fca5a5;font-size:13px;margin:0;">💡 Please complete your test first, then you can safely close the page.</p>
-          </div>
+          <h2 style="color:white;font-size:22px;font-weight:800;margin-bottom:12px;">Testdan chiqmoqchimisiz?</h2>
+          <p style="color:#94a3b8;font-size:15px;line-height:1.6;margin-bottom:24px;">Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.</p>
           <div style="display:flex;gap:12px;">
-            <button id="leaveWarningStay" style="flex:1;padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(16,185,129,0.3);transition:transform 0.2s;">✓ Stay & Continue</button>
-            <button id="leaveWarningLeave" style="flex:1;padding:14px 20px;border:2px solid #475569;border-radius:12px;background:transparent;color:#94a3b8;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;">Leave Anyway</button>
+            <button id="leaveWarningStay" style="flex:1;padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(16,185,129,0.3);transition:transform 0.2s;">✓ Testni davom ettirish</button>
+            <button id="leaveWarningLeave" style="flex:1;padding:14px 20px;border:2px solid #475569;border-radius:12px;background:transparent;color:#94a3b8;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;">Hozircha chiqish</button>
           </div>
         </div>
       `;

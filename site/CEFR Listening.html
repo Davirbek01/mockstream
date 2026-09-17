@@ -16,12 +16,13 @@
   <script src="site-config/site-config.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
-  <script src="/exam-lock.js?v=7"></script>
+  <script src="/exam-lock.js?v=8"></script>
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="exam-review-bar.js"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=13"></script>
+  <script src="back-guard.js?v=1"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -5059,7 +5060,11 @@
           var rd = window._srResumeData;
           timeRemaining = rd.timeRemaining != null ? rd.timeRemaining : timeRemaining;
           updateTimerDisplay();
-          if (rd.currentPart != null) { showPart(rd.currentPart); }
+          // Continue where the recording was: that part, at that second.
+          if (rd.audioTime > 0 && rd.audioPart != null && window._lsAudioSeek) {
+            showPart(rd.audioPart);
+            window._lsAudioSeek(rd.audioPart, rd.audioTime);
+          } else if (rd.currentPart != null) { showPart(rd.currentPart); }
           if (rd.userAnswers) {
             userAnswers = rd.userAnswers;
             SessionRecovery.restoreAnswers(rd.userAnswers);
@@ -7008,19 +7013,23 @@
     (async function() {
       if (window.SessionRecovery) {
         SessionRecovery.init({
-          testType: 'cefr-listening',
+          // A part practice is its own draft, next to the full mock's.
+          testType: window._practicePart ? 'cefr-listening-practice' : 'cefr-listening',
           getUserId: function() { return sessionStorage.getItem('cefrListeningCandidateName') || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
-          getTestId: function() { return testFile; },
+          getTestId: function() { return SessionRecovery.sbTestId(testFile); },
           getState: function() {
             if (!testInProgress || isReviewMode || hasSubmitted) return null;
             collectAnswers();
-            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile };
+            var _au = window._lsAudioState ? window._lsAudioState() : null;
+            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile,
+              audioPart: _au ? _au.part : null, audioTime: _au ? _au.t : 0,
+              mockNumber: String(window._currentMockNumber || urlParams.get('mock') || ''), practicePart: window._practicePart ? String(window._practicePart) : '' };
           }
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === testFile) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, testFile, window._practicePart || '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {
@@ -7806,6 +7815,28 @@
       let soundingPartIndex = 0;
       let hasPerPartAudio = false;
 
+      // Where the audio is, so a resumed test - on any device - continues the
+      // recording from there instead of the start of the part (2026-09-17).
+      window._lsAudioState = function () {
+        try {
+          var bg = !!(hiddenAudio && !hiddenAudio.paused);
+          var el = (!audio.paused || !bg) ? audio : hiddenAudio;
+          var t = Number(el.currentTime) || 0;
+          if (!(t > 0)) return null;
+          return { part: el === audio ? currentLoadedPart : soundingPartIndex, t: Math.floor(t * 10) / 10 };
+        } catch (e) { return null; }
+      };
+      window._lsAudioSeek = function (partIndex, t) {
+        try {
+          window.loadPartAudio(partIndex, false);
+          var go = function () { try { audio.currentTime = t; } catch (e) { /* ignore */ } };
+          // After loadPartAudio's own seek to the part start, whether the file
+          // is already loaded or still loading.
+          setTimeout(go, 0);
+          audio.addEventListener('loadedmetadata', function () { setTimeout(go, 0); }, { once: true });
+        } catch (e) { /* ignore */ }
+      };
+
       function checkPerPartAudio() {
         if (window.TEST_DATA && window.TEST_DATA.parts) {
           hasPerPartAudio = window.TEST_DATA.parts.some(p => p.audioFile && p.audioFile.trim() !== '');
@@ -8389,15 +8420,14 @@
               font-size: 24px;
               margin-bottom: 15px;
               font-weight: 700;
-            ">Wait! Test in Progress</h2>
+            ">Testdan chiqmoqchimisiz?</h2>
             <p style="
               color: #94a3b8;
               font-size: 16px;
               line-height: 1.6;
               margin-bottom: 30px;
             ">
-              Are you sure you want to leave?<br>
-              <strong style="color: #f87171;">Your progress will be lost!</strong>
+              Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.
             </p>
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
               <button id="leaveStayBtn" style="
@@ -8411,7 +8441,7 @@
                 background: linear-gradient(135deg, #0d9488, #0f766e);
                 color: white;
                 box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
-              ">✓ Continue Test</button>
+              ">✓ Testni davom ettirish</button>
               <button id="leaveConfirmBtn" style="
                 padding: 14px 35px;
                 border: 2px solid #475569;
@@ -8422,7 +8452,7 @@
                 transition: all 0.3s ease;
                 background: transparent;
                 color: #94a3b8;
-              ">Leave Anyway</button>
+              ">Hozircha chiqish</button>
             </div>
           </div>
         </div>

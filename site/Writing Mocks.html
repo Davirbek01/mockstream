@@ -16,13 +16,14 @@
   <script src="score-boost.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
-  <script src="/exam-lock.js?v=7"></script>
+  <script src="/exam-lock.js?v=8"></script>
   <script src="code-persistence.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
-  <script src="session-recovery.js?v=8"></script>
+  <script src="session-recovery.js?v=13"></script>
+  <script src="back-guard.js?v=1"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -7760,7 +7761,7 @@
                   writingCandidateDetailsModal.style.display = 'none';
                   gate.style.display = 'none';
                   var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
-                  if (__paperDisabled && typeof startComputerExam === 'function') {
+                  if ((__paperDisabled || (window.SessionRecovery && SessionRecovery.resumeRequested())) && typeof startComputerExam === 'function') {
                     startComputerExam();
                   } else {
                     formatChoice.style.display = 'flex';
@@ -7784,6 +7785,37 @@
             }
           } catch (e) { console.log('[Landing Pre-validation] Parse error:', e); }
         }
+
+        // Opened from the dashboard with the name known and no access code left
+        // to ask: skip the details popup (2026-09-17, as on the speaking page).
+        // A Resume also skips the paper/computer choice - the draft is a
+        // computer exam. startComputerExam still enforces nothing less.
+        try {
+          const _knownName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || sessionStorage.getItem('premiumUserName') || '').trim();
+          const _codeLeft = window.writingMockRequiresPromocode && window.writingMockRequiresPromocode(paddedMockNumber)
+            && !(window.isPremiumUnlocked && window.isPremiumUnlocked())
+            && sessionStorage.getItem('writingCodeValidated') !== 'true';
+          if (_knownName && !_codeLeft && new URLSearchParams(location.search).get('auto') === '1') {
+            const candInput = document.getElementById('cand');
+            if (candInput) candInput.value = _knownName;
+            const loader = document.getElementById('autoProceedLoader');
+            if (loader) loader.remove();
+            if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+            const _resuming = window.SessionRecovery && SessionRecovery.resumeRequested();
+            setTimeout(() => {
+              writingCandidateDetailsModal.classList.remove('show');
+              writingCandidateDetailsModal.style.display = 'none';
+              gate.style.display = 'none';
+              var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+              if ((_resuming || __paperDisabled) && typeof startComputerExam === 'function') {
+                startComputerExam();
+              } else {
+                formatChoice.style.display = 'flex';
+              }
+            }, 300);
+            return;
+          }
+        } catch (e) { /* fall back to the popup */ }
 
         // Check if returning premium user - skip candidate details modal
         const isPremium = window.isPremiumUnlocked && window.isPremiumUnlocked();
@@ -8734,7 +8766,7 @@
       }
 
       if (window._practiceMode) {
-        // Practice mode: show only selected task, no fullscreen/anti-cheat
+        // Practice mode: show only the selected task (anti-cheat and fullscreen as in the full mock)
         var tid = window._singleTaskId;
         document.querySelectorAll('.task-nav-btn').forEach(function(b) {
           if (b.dataset.task !== tid) b.style.display = 'none';
@@ -8753,19 +8785,21 @@
           badge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-right:6px;';
           tc.prepend(badge);
         }
-        startTimer();
-        return;
+        // Practice continues below: it has its own resumable draft (it used
+        // to return here, before the draft was ever set up - 2026-09-17).
       }
 
       // Session recovery check (before fullscreen)
       if (window.SessionRecovery) {
         SessionRecovery.init({
-          testType: 'cefr-writing',
+          // A single-task practice is its own draft, next to the full mock's.
+          testType: window._practiceMode ? 'cefr-writing-practice' : 'cefr-writing',
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || (document.getElementById('cand') ? document.getElementById('cand').value : '') || ''; },
-          getTestId: function() { return selectedMockNumber || ''; },
+          getTestId: function() { return SessionRecovery.sbTestId(selectedMockNumber || ''); },
           getState: function() {
             if (!testStarted || !ticking) return null;
             return {
+              practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               remaining: remaining,
               t11: document.getElementById('t11') ? document.getElementById('t11').value : '',
               t12: document.getElementById('t12') ? document.getElementById('t12').value : '',
@@ -8776,8 +8810,8 @@
         });
         try {
           var session = await SessionRecovery.check();
-          if (session && session.test_id === (selectedMockNumber || '')) {
-            var choice = await SessionRecovery.prompt(session);
+          if (SessionRecovery.sameTest(session, selectedMockNumber || '', window._practiceMode ? (window._singleTaskParam || '') : '')) {
+            var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {
@@ -8794,7 +8828,7 @@
         remaining = window._srResumeData.remaining;
       }
 
-      // Activate anti-cheat policy
+      // Activate anti-cheat policy (practice too, same as the full mock - 2026-09-17)
       testStarted = true;
       console.log(' Anti-cheat policy activated');
 
@@ -8804,6 +8838,10 @@
 
       // Start the exam
       startTimer();
+      // Practice counts up from 0 inside startTimer: put the resumed time back.
+      if (window._practiceMode && window._srResumeData && window._srResumeData.remaining != null) {
+        remaining = window._srResumeData.remaining;
+      }
 
       // Session recovery: restore textarea content and start auto-save
       if (window._srResumeData) {
@@ -9224,14 +9262,11 @@
         <div style="width:80px;height:80px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(239,68,68,0.4);">
           <span style="font-size:40px;">⚠️</span>
         </div>
-        <h2 style="color:white;font-size:22px;font-weight:800;margin-bottom:12px;">Wait! Don't Leave!</h2>
-        <p style="color:#94a3b8;font-size:15px;line-height:1.6;margin-bottom:24px;">Leaving or refreshing this page will <strong style="color:#f87171;">permanently delete</strong> all your written answers and progress.</p>
-        <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:14px;margin-bottom:24px;">
-          <p style="color:#fca5a5;font-size:13px;margin:0;">💡 Please complete your test first, then you can safely close the page.</p>
-        </div>
+        <h2 style="color:white;font-size:22px;font-weight:800;margin-bottom:12px;">Testdan chiqmoqchimisiz?</h2>
+        <p style="color:#94a3b8;font-size:15px;line-height:1.6;margin-bottom:24px;">Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.</p>
         <div style="display:flex;gap:12px;">
-          <button id="leaveWarningStay" style="flex:1;padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(16,185,129,0.3);transition:transform 0.2s;">✓ Stay & Continue</button>
-          <button id="leaveWarningLeave" style="flex:1;padding:14px 20px;border:2px solid #475569;border-radius:12px;background:transparent;color:#94a3b8;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;">Leave Anyway</button>
+          <button id="leaveWarningStay" style="flex:1;padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(16,185,129,0.3);transition:transform 0.2s;">✓ Testni davom ettirish</button>
+          <button id="leaveWarningLeave" style="flex:1;padding:14px 20px;border:2px solid #475569;border-radius:12px;background:transparent;color:#94a3b8;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;">Hozircha chiqish</button>
         </div>
       </div>
     `;
@@ -14553,6 +14588,10 @@ ${_wReportSpec}`;
         return;
       }
 
+      // Submitted: the practice draft is done, so no Continue banner for it
+      // (it stayed after submit and AI scoring - 2026-09-17).
+      if (window.SessionRecovery) SessionRecovery.clear();
+
       // Stop timer and record elapsed time
       clearInterval(ticking);
       var elapsed = remaining; // In practice mode, remaining counts UP
@@ -14857,8 +14896,6 @@ ${_wReportSpec}`;
     /* ===== Submit ===== */
     async function submitNow(auto = false) {
       if (window._practiceMode) return submitPractice();
-      // Clear session recovery on submit
-      if (window.SessionRecovery) SessionRecovery.clear();
       const student = ($('#cand').value || '').trim();
       if (!student) {
         showCefrNotification('Name Required', 'Please enter your full name before submitting your work.', '👤', 7000);
@@ -14891,6 +14928,10 @@ ${_wReportSpec}`;
         showCefrNotification('Task 2 Too Short', `Task 2 requires at least 150 words to submit.\n\nYour current word count: ${t2Words} words.\nYou need ${150 - t2Words} more words.`, '✍️', 7000);
         return;
       }
+
+      // Submitted: the draft is done. Only now - a refused submit (a task too
+      // short) keeps the draft and its saving (2026-09-17).
+      if (window.SessionRecovery) SessionRecovery.clear();
 
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;

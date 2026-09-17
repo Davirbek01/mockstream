@@ -58,7 +58,43 @@
         return em ? String(em).trim().toLowerCase() : '';
       } catch (e) { return ''; }
     },
-    _isSpeaking: function (tt) { return /speaking/i.test(String(tt || '')); },
+    // Types whose recordings have a server draft (the full mocks' speaking too).
+    _isSpeaking: function (tt) { return /speaking|full-mock/i.test(String(tt || '')); },
+
+    // The dashboard's Resume adds ?resume=1: the student already chose to
+    // continue, so the page must not ask again.
+    resumeRequested: function () {
+      try { return /[?&]resume=1(&|$)/.test(location.search); } catch (e) { return false; }
+    },
+
+    // Which mock this is. Reading/listening pages used a fixed name for every
+    // mock ("cefr-reading-test-01"), so a draft of Mock 7 was offered - and
+    // restored - on Mock 3 (found 2026-09-17). The Supabase id in the URL is
+    // unique per mock.
+    sbTestId: function (fallback) {
+      try {
+        var sb = new URLSearchParams(location.search).get('sbmock');
+        if (sb) return 'sb' + String(sb).replace(/[^A-Za-z0-9_-]/g, '');
+      } catch (e) { /* ignore */ }
+      return fallback || '';
+    },
+
+    // Is this saved draft the exam open on this page (same mock, same part)?
+    // Drafts saved before sbTestId carry the page's old fixed name; their saved
+    // URL tells which mock and part they were.
+    sameTest: function (session, fallbackId, part) {
+      if (!session) return false;
+      var sd = session.session_data || {};
+      part = String(part || '');
+      if (session.test_id === this.sbTestId(fallbackId)) return String(sd.practicePart || '') === part;
+      var sb = '';
+      try { sb = new URLSearchParams(location.search).get('sbmock') || ''; } catch (e) { /* ignore */ }
+      if (!sb || session.test_id !== fallbackId || sd.practicePart != null) return false;
+      var url = String(sd.__resumeUrl || '');
+      var m = /[?&]sbmock=([^&]+)/.exec(url);
+      var pm = /[?&](?:part|task|passage)=([^&]+)/.exec(url);
+      return !!(m && decodeURIComponent(m[1]) === sb) && (pm ? decodeURIComponent(pm[1]) : '') === part;
+    },
 
     // ── User identifier ─────────────────────────────────────────────────
     // Signed in: "acct:<email>" — the draft follows the account to any device
@@ -165,15 +201,28 @@
           localStorage.removeItem(key);
           return;
         }
-        // Removed on another device since? Then drop it instead of re-creating it.
-        if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, this._config.testType)) {
-          var rc = await this._fetch(
-            'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
-            + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id&limit=1'
-          );
-          if (rc && rc.ok) {
-            var rows = await rc.json();
-            if (!rows || !rows.length) { this._dropLocal(this._config.testType); return; }
+        // Compare with the server first. Another device may have saved newer
+        // progress since this copy was written - uploading it would overwrite
+        // that (2026-09-17: words typed on an iPhone and on Windows vanished
+        // when the exam was resumed on a Mac that still held its own older
+        // copy). And a synced copy the server no longer has was finished or
+        // discarded elsewhere.
+        var tt = this._config.testType;
+        var rc = await this._fetch(
+          'test_sessions?user_identifier=eq.' + encodeURIComponent(payload.user_identifier)
+          + '&test_type=eq.' + encodeURIComponent(tt) + '&select=updated_at&limit=1'
+        );
+        if (rc && rc.ok) {
+          var rows = await rc.json();
+          if (rows && rows.length) {
+            if (new Date(rows[0].updated_at).getTime() >= new Date(payload.updated_at || 0).getTime()) {
+              localStorage.removeItem(key);   // the server's copy is the newer one
+              this._markSynced(tt);
+              return;
+            }
+          } else if (String(payload.user_identifier || '').indexOf('acct:') === 0 && this._staleLocal(payload, tt)) {
+            this._dropLocal(tt);
+            return;
           }
         }
         // Try to upsert to Supabase; only clear local copy on success
@@ -293,7 +342,17 @@
 
     // ── Show resume / start-fresh popup ─────────────────────────────────
     // Returns a Promise that resolves to 'resume' or 'fresh'
-    prompt: function (session) {
+    // No "Unfinished Test Found" question any more (2026-09-17). A draft is
+    // continued only through the home page's Resume (?resume=1, which the pages
+    // check before ever calling this); opening a mock any other way starts it
+    // afresh and drops that draft. Every page still calls prompt(); it now
+    // answers 'fresh' at once. The old dialog is kept below as _promptDialog
+    // in case a page ever needs to ask again.
+    prompt: function () {
+      return Promise.resolve('fresh');
+    },
+
+    _promptDialog: function (session) {
       return new Promise(function (resolve) {
         var sd = session.session_data || {};
         var updated = new Date(session.updated_at);
@@ -372,6 +431,18 @@
         if (self._active) self.save(!document.hidden);
       }, SAVE_INTERVAL);
 
+      // Save soon after the student types or answers (1.5 s after the last
+      // change, and at least every 10 s while they keep going), so what is
+      // on screen is what another device resumes - not a copy up to 30 s old.
+      var inputTimer = null;
+      document.addEventListener('input', this._onInput = function () {
+        if (!self._active) return;
+        if (inputTimer) clearTimeout(inputTimer);
+        if (Date.now() - (self._lastSaveAt || 0) > 10000) { self.save(!document.hidden); return; }
+        inputTimer = setTimeout(function () { inputTimer = null; if (self._active) self.save(!document.hidden); }, 1500);
+      }, true);
+      document.addEventListener('change', this._onInput, true);
+
       // Tab hidden (switched away / phone locked): no longer live, so the
       // student can continue elsewhere; back in view: live again.
       document.addEventListener('visibilitychange', this._onVisChange = function () {
@@ -407,12 +478,17 @@
 
       // Always persist to localStorage first — survives backend outages
       this._writeLocal(payload);
+      this._lastSaveAt = Date.now();
 
       try {
+        var body = JSON.stringify(payload);
         var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: { 'Prefer': 'resolution=merge-duplicates' },
-          body: JSON.stringify(payload)
+          body: body,
+          // Leaving the page (hidden): let the request outlive it, as iOS
+          // suspends the tab right away. keepalive bodies are capped at 64 KB.
+          keepalive: !live && body.length < 60000
         });
         // If Supabase took it, the local copy can be cleared on next sync.
         // We leave it in place for now — _syncLocalBackup() handles cleanup.
@@ -466,6 +542,7 @@
 
       // Remove listeners
       if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
+      if (this._onInput) { document.removeEventListener('input', this._onInput, true); document.removeEventListener('change', this._onInput, true); }
       if (this._onUnload) { window.removeEventListener('beforeunload', this._onUnload); window.removeEventListener('pagehide', this._onUnload); }
 
       if (!this._config) return;
@@ -667,4 +744,30 @@
   };
 
   window.SessionRecovery = SR;
+
+  // Leave warnings say where the saved test can be continued: a signed-in
+  // student's draft follows the account, a guest's stays on this device.
+  // The exam pages mark that phrase with data-ms-leave-where; some build the
+  // warning only when it is first shown, so watch the body for it too.
+  function fillLeaveWhere(root) {
+    try {
+      var els = (root || document).querySelectorAll ? (root || document).querySelectorAll('[data-ms-leave-where]') : [];
+      if (!els.length) return;
+      var txt = SR._account() ? 'shu yoki boshqa qurilmada' : 'shu qurilmada';
+      for (var i = 0; i < els.length; i++) els[i].textContent = txt;
+    } catch (e) { /* ignore */ }
+  }
+  function watchLeaveWarnings() {
+    fillLeaveWhere(document);
+    try {
+      new MutationObserver(function (list) {
+        for (var i = 0; i < list.length; i++) {
+          var added = list[i].addedNodes;
+          for (var j = 0; j < added.length; j++) if (added[j].nodeType === 1) fillLeaveWhere(added[j]);
+        }
+      }).observe(document.body, { childList: true });
+    } catch (e) { /* ignore */ }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watchLeaveWarnings);
+  else watchLeaveWarnings();
 })();

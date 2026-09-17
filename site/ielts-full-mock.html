@@ -4,7 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="premium-gate.js"></script>
-  <script src="/exam-lock.js?v=7"></script>
+  <script src="/exam-lock.js?v=8"></script>
   <script src="./ai-proxy-interceptor.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,8 @@
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="audio-integrity.js"></script>
     <script src="./scoring-tier.js"></script>
-    <script src="session-recovery.js?v=8"></script>
+    <script src="session-recovery.js?v=13"></script>
+    <script src="speaking-draft.js?v=4"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'IELTS Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -4558,6 +4559,7 @@
 
         // Session Recovery init for IELTS full mock
         if (window.SessionRecovery) {
+          if (window.SpeakingDraft) SpeakingDraft.configure({ testType: 'ielts-full-mock', mockKey: function () { return state.referenceNumber; }, keyToQ: function (k) { var m = /^S-(\d+)$/.exec(String(k)); return m ? Number(m[1]) + 1 : 0; } });
           SessionRecovery.init({
             testType: 'ielts-full-mock',
             getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
@@ -4748,6 +4750,13 @@
                     if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
                     if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
                     if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && !fmPartIntroAudio.paused) fmPartIntroAudio.pause();
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof mediaRecorder !== 'undefined' && mediaRecorder) {
+                            if (mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = false; });
+                            if (mediaRecorder.state === 'recording') mediaRecorder.pause();
+                        }
+                    } catch (_e) {}
                 }
                 toggleMenu(false);
                 pauseOverlay.classList.add('show');
@@ -4760,6 +4769,13 @@
                 startTimer();
                 if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
                 if (mod === 'SPEAKING') {
+                    // Microphone too: a paused exam records nothing (2026-09-17).
+                    try {
+                        if (typeof mediaRecorder !== 'undefined' && mediaRecorder) {
+                            if (mediaRecorder.stream) mediaRecorder.stream.getAudioTracks().forEach(function (t) { t.enabled = true; });
+                            if (mediaRecorder.state === 'paused') mediaRecorder.resume();
+                        }
+                    } catch (_e) {}
                     if (typeof speakingPaused !== 'undefined') speakingPaused = false;
                     if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && currentSpeakingAudio.paused && currentSpeakingAudio.currentTime > 0) currentSpeakingAudio.play().catch(() => {});
                     if (window.speechSynthesis && window.speechSynthesis.paused) window.speechSynthesis.resume();
@@ -5465,7 +5481,7 @@
               try {
                 var session = await SessionRecovery.check();
                 if (session) {
-                  var choice = await SessionRecovery.prompt(session);
+                  var choice = SessionRecovery.resumeRequested() ? 'resume' : await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
                                         _resumeSession = true;
                     var sd = session.session_data;
@@ -5476,6 +5492,20 @@
                     state.scores = sd.scores || state.scores;
                     state.scaledScores = sd.scaledScores || state.scaledScores;
                     state.isPremiumVip = sd.isPremiumVip || false;
+                    // Recordings were in memory only (saved as {} in the draft).
+                    // Bring them back from the account's draft and continue the
+                    // speaking section at the first unanswered question (2026-09-17).
+                    if (!state.answers) state.answers = {};
+                    state.answers.speaking = {};
+                    if (state.step === 3) {
+                      try {
+                        var _ifFiles = window.SpeakingDraft ? await SpeakingDraft.downloadAll() : [];
+                        _ifFiles.forEach(function (f) { state.answers.speaking['S-' + (f.q - 1)] = f.blob; });
+                        var _ifN = 0;
+                        while (state.answers.speaking['S-' + _ifN]) _ifN++;
+                        window._fmSpeakingStartAt = _ifN;
+                      } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
+                    }
                     window._srResumeData = sd;
                     showIeltsModTutorial(state.step);
                     SessionRecovery.start();
@@ -7992,8 +8022,10 @@
                 fmSetDial(fmQ('.fm-dial.speak', det), speakSec, speakSec);
             });
 
-            // Start the automated flow
-            fmRunQuestion(0);
+            // Start the automated flow (a resumed exam starts at its first unanswered question)
+            var _startAt = Math.max(0, Math.min(window._fmSpeakingStartAt || 0, fmQA('.fm-sq').length - 1));
+            window._fmSpeakingStartAt = 0;
+            fmRunQuestion(_startAt);
         }
 
         // Run a single question in the automated flow
@@ -8388,6 +8420,7 @@
                                          ' stray bytes before the header');
                         }
                         state.answers.speaking[key] = res.blob;
+                        try { if (window.SpeakingDraft) SpeakingDraft.onSaved(key, res.blob); } catch (_e) {}
                         done();
                     });
                 };
@@ -10684,7 +10717,7 @@ function _iframeNav(url){
 }
 function openHomeSidebar(){var m=document.getElementById('mobToolsMenu'),o=document.getElementById('mobMenuOverlay');if(m)m.classList.remove('show');if(o)o.classList.remove('show');document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
 function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
-function createLeaveWarningModal(){if(document.getElementById('leaveWarningModal'))return;var html='<div id="leaveWarningModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;justify-content:center;align-items:center;backdrop-filter:blur(5px);"><div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);animation:lwPop 0.3s ease-out;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 10px 30px rgba(245,158,11,0.3);"><span style="font-size:40px;">⚠️</span></div><h2 style="color:#f8fafc;font-size:24px;margin-bottom:15px;font-weight:700;">Leave Exam?</h2><p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:30px;">Are you sure you want to leave?<br><strong style="color:#f87171;">Your progress will be lost!</strong></p><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><button id="lwStayBtn" style="padding:14px 35px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:linear-gradient(135deg,#0d9488,#0f766e);color:white;box-shadow:0 4px 15px rgba(13,148,136,0.3);">✓ Continue Exam</button><button id="lwLeaveBtn" style="padding:14px 35px;border:2px solid #475569;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:transparent;color:#94a3b8;">Leave Anyway</button></div></div></div><style>@keyframes lwPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}#lwStayBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,0.4)}#lwLeaveBtn:hover{background:#334155;border-color:#64748b;color:#e2e8f0}</style>';document.body.insertAdjacentHTML('beforeend',html);document.getElementById('lwStayBtn').addEventListener('click',function(){hideLeaveWarningModal();});document.getElementById('lwLeaveBtn').addEventListener('click',function(){window.__okToLeave=true;var a=window.__pendingLeaveAction;hideLeaveWarningModal();if(typeof a==='function'){a();}});}
+function createLeaveWarningModal(){if(document.getElementById('leaveWarningModal'))return;var html='<div id="leaveWarningModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;justify-content:center;align-items:center;backdrop-filter:blur(5px);"><div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);animation:lwPop 0.3s ease-out;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 10px 30px rgba(245,158,11,0.3);"><span style="font-size:40px;">⚠️</span></div><h2 style="color:#f8fafc;font-size:24px;margin-bottom:15px;font-weight:700;">Testdan chiqmoqchimisiz?</h2><p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:30px;">Javoblaringiz saqlanadi. Keyinroq bosh sahifadagi <strong style="color:#34d399;">Resume</strong> tugmasi orqali <span data-ms-leave-where>shu yoki boshqa qurilmada</span> davom ettirishingiz mumkin.</p><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><button id="lwStayBtn" style="padding:14px 35px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:linear-gradient(135deg,#0d9488,#0f766e);color:white;box-shadow:0 4px 15px rgba(13,148,136,0.3);">✓ Testni davom ettirish</button><button id="lwLeaveBtn" style="padding:14px 35px;border:2px solid #475569;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:transparent;color:#94a3b8;">Hozircha chiqish</button></div></div></div><style>@keyframes lwPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}#lwStayBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,0.4)}#lwLeaveBtn:hover{background:#334155;border-color:#64748b;color:#e2e8f0}</style>';document.body.insertAdjacentHTML('beforeend',html);document.getElementById('lwStayBtn').addEventListener('click',function(){hideLeaveWarningModal();});document.getElementById('lwLeaveBtn').addEventListener('click',function(){window.__okToLeave=true;var a=window.__pendingLeaveAction;hideLeaveWarningModal();if(typeof a==='function'){a();}});}
 function showLeaveWarningModal(){try{if(typeof closeHomeSidebar==='function')closeHomeSidebar();}catch(_e){}createLeaveWarningModal();var m=document.getElementById('leaveWarningModal');if(m)m.style.display='flex';}
 function hideLeaveWarningModal(){var m=document.getElementById('leaveWarningModal');if(m)m.style.display='none';window.__pendingLeaveAction=null;}
 function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.getElementById('mobToolsMenu'),to=document.getElementById('mobMenuOverlay');if(tm)tm.classList.remove('show');if(to)to.classList.remove('show');window.__pendingLeaveAction=(typeof leaveAction==='function')?leaveAction:null;showLeaveWarningModal();}
