@@ -482,23 +482,41 @@
 
       try {
         var body = JSON.stringify(payload);
+        var keep = !live && body.length < 60000;
+        // Once this page's draft is on the server, only UPDATE it. If the row
+        // has gone, it was discarded (or finished) on another device - an
+        // upsert would bring it straight back, which is exactly what a tab
+        // left open elsewhere did (2026-09-17: Discard never stuck).
+        if (this._serverUid && this._serverUid === uid) {
+          var rp = await this._fetch(
+            'test_sessions?user_identifier=eq.' + encodeURIComponent(uid)
+            + '&test_type=eq.' + encodeURIComponent(this._config.testType) + '&select=id',
+            { method: 'PATCH', headers: { 'Prefer': 'return=representation' }, body: body, keepalive: keep }
+          );
+          if (rp && rp.ok) {
+            var upd = await rp.json();
+            if (!upd || !upd.length) { this._removedElsewhere(); return; }
+            this._markSynced(this._config.testType);
+          }
+          return;
+        }
         var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: { 'Prefer': 'resolution=merge-duplicates' },
           body: body,
           // Leaving the page (hidden): let the request outlive it, as iOS
           // suspends the tab right away. keepalive bodies are capped at 64 KB.
-          keepalive: !live && body.length < 60000
+          keepalive: keep
         });
         // If Supabase took it, the local copy can be cleared on next sync.
         // We leave it in place for now — _syncLocalBackup() handles cleanup.
-        if (r && r.ok) this._markSynced(this._config.testType);
+        if (r && r.ok) { this._markSynced(this._config.testType); this._serverUid = uid; }
       } catch (e) { /* offline — local copy is the source of truth */ }
     },
 
     // ── Sync save for beforeunload ──────────────────────────────────────
     _saveSync: function () {
-      if (!this._config) return;
+      if (!this._config || !this._active) return;
       var state = this._config.getState();
       if (!state) return;
       var uid = this._uid();
@@ -518,8 +536,20 @@
         localStorage.setItem('sr_' + this._config.testType, JSON.stringify(payload));
       } catch (e) { /* ignore */ }
 
-      // Also attempt a keepalive fetch (may succeed in modern browsers)
+      // Also attempt a keepalive fetch (may succeed in modern browsers). Update
+      // only, once the draft is on the server, so leaving the page cannot
+      // re-create a draft that was discarded elsewhere.
       try {
+        if (this._serverUid && this._serverUid === uid) {
+          fetch(SUPABASE_URL + '/rest/v1/test_sessions?user_identifier=eq.' + encodeURIComponent(uid)
+            + '&test_type=eq.' + encodeURIComponent(this._config.testType), {
+            method: 'PATCH',
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          });
+          return;
+        }
         fetch(SUPABASE_URL + '/rest/v1/test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: {
@@ -535,8 +565,32 @@
     },
 
     // ── Clear session on test completion ────────────────────────────────
+    // The draft was discarded or finished on another device while this page
+    // was still open: stop saving, forget the local copy, and say so.
+    _removedElsewhere: function () {
+      if (!this._active) return;
+      this._active = false;
+      this._serverUid = null;
+      if (this._saveTimer) { clearInterval(this._saveTimer); this._saveTimer = null; }
+      if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
+      if (this._onInput) { document.removeEventListener('input', this._onInput, true); document.removeEventListener('change', this._onInput, true); }
+      if (this._onUnload) { window.removeEventListener('beforeunload', this._onUnload); window.removeEventListener('pagehide', this._onUnload); }
+      if (this._config) this._dropLocal(this._config.testType);
+      try {
+        var t = document.createElement('div');
+        t.setAttribute('role', 'status');
+        t.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483000;max-width:min(92vw,520px);'
+          + 'background:#1e293b;color:#f8fafc;padding:14px 18px;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.35);'
+          + 'font:600 14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;';
+        t.textContent = 'Bu test boshqa qurilmada o‘chirildi yoki topshirildi. Bu sahifadagi javoblar endi saqlanmaydi.';
+        document.body.appendChild(t);
+        setTimeout(function () { try { t.remove(); } catch (e) { /* ignore */ } }, 15000);
+      } catch (e) { /* ignore */ }
+    },
+
     clear: async function () {
       this._active = false;
+      this._serverUid = null;
       this._startedAt = null;
       if (this._saveTimer) { clearInterval(this._saveTimer); this._saveTimer = null; }
 
