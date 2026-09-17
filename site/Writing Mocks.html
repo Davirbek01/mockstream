@@ -8765,7 +8765,7 @@
       }
 
       if (window._practiceMode) {
-        // Practice mode: show only selected task, no fullscreen/anti-cheat
+        // Practice mode: show only the selected task (anti-cheat and fullscreen as in the full mock)
         var tid = window._singleTaskId;
         document.querySelectorAll('.task-nav-btn').forEach(function(b) {
           if (b.dataset.task !== tid) b.style.display = 'none';
@@ -8796,8 +8796,7 @@
           getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || (document.getElementById('cand') ? document.getElementById('cand').value : '') || ''; },
           getTestId: function() { return SessionRecovery.sbTestId(selectedMockNumber || ''); },
           getState: function() {
-            // Practice never sets testStarted (no anti-cheat there).
-            if ((!testStarted && !window._practiceMode) || !ticking) return null;
+            if (!testStarted || !ticking) return null;
             return {
               practicePart: window._practiceMode ? String(window._singleTaskParam || '') : '',
               remaining: remaining,
@@ -8828,15 +8827,13 @@
         remaining = window._srResumeData.remaining;
       }
 
-      if (!window._practiceMode) {
-      // Activate anti-cheat policy
+      // Activate anti-cheat policy (practice too, same as the full mock - 2026-09-17)
       testStarted = true;
       console.log(' Anti-cheat policy activated');
 
       // Mark clipboard as suspicious initially
       clipboardSuspicious = true;
       copySource = null;
-      }
 
       // Start the exam
       startTimer();

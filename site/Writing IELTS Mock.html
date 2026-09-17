@@ -5393,8 +5393,9 @@
           badge.style.cssText = 'background:#f59e0b;color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-right:6px;';
           timerControl.prepend(badge);
         }
-        // Practice continues below (no fullscreen): it has its own resumable
-        // draft - it used to return here before the draft was set up (2026-09-17).
+        // Practice continues below, with fullscreen like the full mock: it has
+        // its own resumable draft - it used to return here before the draft
+        // was set up (2026-09-17).
       }
 
       // ═══════ FULL MOCK LOGIC ═══════
@@ -5448,8 +5449,8 @@
         elapsedSeconds = window._srResumeData.elapsedSeconds;
       }
 
-      // Request fullscreen (not for practice)
-      if (!window._practiceMode) enterFullscreen();
+      // Request fullscreen
+      enterFullscreen();
 
       // Session recovery: restore textarea content and start auto-save
       if (window._srResumeData) {
