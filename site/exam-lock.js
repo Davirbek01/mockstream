@@ -369,7 +369,15 @@
       action: 'start', center: centerId(), device_key: dkey, platform: 'web',
       device_label: deviceLabel(), exam_key: info.key, exam_label: info.label, practice: info.practice
     }, true).then(function (r) {
-      if (!r || stopped) return;
+      if (!r) return;
+      // The page went away while `start` was in flight. Dropping the reply
+      // leaves the server holding an exam nobody is in, and every other device
+      // - the same student's phone included - is blocked until it expires
+      // 150 s later. End it now instead (2026-09-18).
+      if (stopped) {
+        if (r.session_id) call({ action: 'end', session_id: r.session_id, device_key: dkey, reason: 'closed' }, false);
+        return;
+      }
       try { console.info('[exam-lock] start: ' + (r.tracked ? 'tracked' : r.allowed === false ? 'blocked' : (r.reason || 'not tracked'))); } catch (e) {}
       trace('exam-lock start: ' + (r.tracked ? 'tracked' : r.allowed === false ? 'blocked' : (r.reason || 'not tracked')));
       if (r.allowed === false && r.holder) { showBlocked(r.holder); return; }
