@@ -757,8 +757,23 @@
     // qId → answer value
     restoreAnswers: function (answers) {
       if (!answers || typeof answers !== 'object') return;
+      // `#1` is not a valid CSS id selector, and querySelector THROWS on it.
+      // Before 2026-09-18 that exception escaped restoreAnswers, took the whole
+      // initializeTest() with it, and the page then neither showed the restored
+      // answers nor started autosaving - the draft looked lost and stayed
+      // "paused" on every other device. One question can no longer do that:
+      // every key is restored in its own try/catch and ids are escaped.
+      var esc = function (v) {
+        try { return window.CSS && CSS.escape ? CSS.escape(v) : String(v).replace(/[^A-Za-z0-9_-]/g, '\$&'); }
+        catch (e) { return String(v); }
+      };
       Object.keys(answers).forEach(function (qId) {
-        var val = answers[qId];
+        try { SR._restoreOne(qId, answers[qId], esc); } catch (e) { /* one answer, not the exam */ }
+      });
+    },
+
+    _restoreOne: function (qId, val, esc) {
+      (function () {
         if (val === null || val === undefined || val === '') return;
         var valStr = String(val);
 
@@ -795,7 +810,7 @@
         }
 
         // 5. Textarea (writing tests)
-        var ta = document.querySelector('textarea[data-q="' + qId + '"], textarea#' + qId);
+        var ta = document.querySelector('textarea[data-q="' + qId + '"], textarea#' + esc(qId));
         if (ta) {
           ta.value = valStr;
           ta.dispatchEvent(new Event('input', { bubbles: true }));
@@ -808,7 +823,7 @@
           byId.value = valStr;
           byId.dispatchEvent(new Event('input', { bubbles: true }));
         }
-      });
+      })();
     }
   };
 
