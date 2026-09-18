@@ -777,6 +777,39 @@
         if (val === null || val === undefined || val === '') return;
         var valStr = String(val);
 
+        // 0. The CEFR Reading page keys its answers `data-question` (not
+        // data-q), names its radios `q<id>`, and assigns matching/heading
+        // answers through its own helpers. Without these branches a resumed
+        // reading mock showed EVERY gap empty - the answers were in the page's
+        // `userAnswers` (so the score was right) but nothing was on screen.
+        // (2026-09-18, reported from a desktop→website resume.)
+        var mhSlot = document.querySelector('.mh-slot[data-qid="' + qId + '"]');
+        if (mhSlot && typeof window._mhAssign === 'function') {
+          window._mhAssign(qId, valStr);
+          return;
+        }
+        var rsOpt = document.querySelector('#rs-menu-' + esc(qId) + ' .rich-select-option[data-letter="' + valStr + '"]');
+        if (rsOpt && typeof window.selectRichOption === 'function') {
+          window.selectRichOption(qId, valStr, rsOpt);
+          return;
+        }
+        var qRadio = document.querySelector('input[type="radio"][name="q' + qId + '"][value="' + valStr + '"]');
+        if (qRadio) { qRadio.click(); return; }
+        var qLabel = document.querySelector('[data-question="' + qId + '"][data-value="' + valStr + '"]');
+        if (qLabel) { qLabel.click(); return; }
+        var qInput = document.querySelector('input[data-question="' + qId + '"], textarea[data-question="' + qId + '"]');
+        if (qInput && qInput.tagName === 'TEXTAREA') {
+          qInput.value = valStr;
+          qInput.dispatchEvent(new Event('input', { bubbles: true }));
+          return;
+        }
+        if (qInput && (qInput.type === 'text' || qInput.type === '')) {
+          qInput.value = valStr;
+          qInput.dispatchEvent(new Event('input', { bubbles: true }));
+          qInput.dispatchEvent(new Event('change', { bubbles: true }));
+          return;
+        }
+
         // 1. MCQ / option items  [data-q][data-val]
         var found = false;
         document.querySelectorAll('[data-q="' + qId + '"]').forEach(function (el) {
