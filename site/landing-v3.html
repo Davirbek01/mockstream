@@ -2914,6 +2914,7 @@
           go();
         }
         var _msrOngoingTimer = null;
+        var _msrShownOngoingAt = 0;
         function render() {
           if (!window.SessionRecovery || !SessionRecovery.listActiveOnDevice) return;
           SessionRecovery.listActiveOnDevice().then(function (rows) {
@@ -2939,9 +2940,17 @@
               : (agoText(latest.updated_at) + detail(sd)
                 + (String(latest.user_identifier || '').indexOf('acct:') === 0 ? ' · your account' : ' · on this device'));
             // While a test is open elsewhere, look again sooner so Continue
-            // appears soon after the student leaves it.
+            // appears soon after the student leaves it. The FIRST re-check is
+            // quick: leaving an exam saves "paused" with a keepalive request
+            // that often lands a moment after this dashboard has already read
+            // the row, and waiting 20 s for that made a test the student had
+            // just closed sit there as LIVE.
             if (_msrOngoingTimer) { clearTimeout(_msrOngoingTimer); _msrOngoingTimer = null; }
-            if (rows.some(function (r) { return r.__ongoing; })) _msrOngoingTimer = setTimeout(function () { if (!document.hidden) render(); }, 20000);
+            if (rows.some(function (r) { return r.__ongoing; })) {
+              var quick = Date.now() - _msrShownOngoingAt > 15000;
+              _msrShownOngoingAt = Date.now();
+              _msrOngoingTimer = setTimeout(function () { if (!document.hidden) render(); }, quick ? 4000 : 20000);
+            } else { _msrShownOngoingAt = 0; }
             var rb = document.getElementById('msrResume');
             rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
             rb.onclick = function () { var u = resumeUrl(latest); if (u) goResume(u); };
