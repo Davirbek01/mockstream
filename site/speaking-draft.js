@@ -155,10 +155,22 @@
   }
 
   // ---------------------------------------------------------------- hooks
+  // A page that opened this mock WITHOUT resuming runs a fresh attempt, but the
+  // recordings on the server still belong to the attempt another device may be
+  // resuming. They are dropped only when THIS attempt produces its first answer
+  // - so the two can never mix, and nothing is lost if the student walks away
+  // from the fresh page instead (2026-09-19).
+  var wipePending = false;
+  function wipeBeforeNextSave() { wipePending = true; }
+
   function onSaved(key, blob) {
     try {
       var q = qFromKey(key);
       if (!q || !blob || !blob.size) return;
+      if (wipePending) {
+        wipePending = false;
+        try { clear(testType()); } catch (e) { /* ignore */ }
+      }
       if (!cfg) markLocal();
       if (!cfg && premium()) transcribeNow(q, blob);
       if (signedIn() && mockKey()) upload(q, 'audio', blob);
@@ -302,6 +314,7 @@
   }
 
   window.SpeakingDraft = {
+    wipeBeforeNextSave: wipeBeforeNextSave,
     onSaved: onSaved,
     restore: restore,
     prepareResume: prepareResume,

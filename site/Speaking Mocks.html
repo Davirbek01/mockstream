@@ -22,9 +22,9 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
-  <script src="session-recovery.js?v=19"></script>
+  <script src="session-recovery.js?v=20"></script>
   <script src="back-guard.js?v=1"></script>
-  <script src="speaking-draft.js?v=4"></script>
+  <script src="speaking-draft.js?v=5"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
   <script src="./q4-descriptions.js"></script>
@@ -11492,7 +11492,7 @@
                 await _restoreSpeakingDraftIfMissing();
               } else {
                 var session = await SessionRecovery.check();
-                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')
+                if (session && SessionRecovery.sameMockNumber(session.session_data.mockNumber, window.SELECTED_MOCK_NUMBER || '01')
                     && String(session.session_data.practicePart || '') === String(window._practiceMode ? (window._practicePartId || '') : '')) {
                   // Resume was already chosen on the dashboard banner (?resume=1).
                   var choice = window._speakingResumeRequested ? 'resume' : await SessionRecovery.prompt(session);
@@ -11501,11 +11501,11 @@
                     window._srResumeIndex = session.session_data.questionIndex || 0;
                     await _restoreSpeakingDraftIfMissing();
                   } else {
-                    await SessionRecovery.clear();
+                    await SessionRecovery.startFresh();
                     await clearAudioDB();
                   }
                 } else if (session) {
-                  await SessionRecovery.clear();
+                  await SessionRecovery.startFresh();
                   await clearAudioDB();
                 }
               }
