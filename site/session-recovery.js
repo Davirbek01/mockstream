@@ -30,6 +30,9 @@
   // How long a hidden (covered / background) window still counts as "in the
   // exam". Longer than a glance, shorter than walking away.
   var HIDDEN_GRACE = 120000;
+  var BC_NAME = 'ms_exam_live';
+  // How long to wait for an exam tab on THIS device to answer the ping.
+  var PING_MS = 700;
   var EXPIRY_HOURS  = 72;
 
   var SR = {
@@ -97,6 +100,29 @@
       var m = /[?&]sbmock=([^&]+)/.exec(url);
       var pm = /[?&](?:part|task|passage)=([^&]+)/.exec(url);
       return !!(m && decodeURIComponent(m[1]) === sb) && (pm ? decodeURIComponent(pm[1]) : '') === part;
+    },
+
+    /** Which exams are open in a tab on THIS device right now? Resolves to a
+     *  map of test types that answered within PING_MS. A tab Chrome has frozen
+     *  (or one that was closed without getting to save) answers nothing, which
+     *  is exactly what "not live any more" looks like. */
+    probeLiveTabs: function () {
+      return new Promise(function (resolve) {
+        var found = {};
+        var bc;
+        try {
+          if (typeof BroadcastChannel !== 'function') return resolve(found);
+          bc = new BroadcastChannel(BC_NAME);
+        } catch (e) { return resolve(found); }
+        bc.onmessage = function (e) {
+          if (e && e.data && e.data.k === 'pong' && e.data.t) found[e.data.t] = true;
+        };
+        try { bc.postMessage({ k: 'ping' }); } catch (e) { /* ignore */ }
+        setTimeout(function () {
+          try { bc.close(); } catch (e) { /* ignore */ }
+          resolve(found);
+        }, PING_MS);
+      });
     },
 
     // ── User identifier ─────────────────────────────────────────────────
@@ -468,6 +494,19 @@
         self.save(true);
       });
 
+      // A dashboard in another tab asks "is anyone actually in this exam?" -
+      // the only honest way to tell a LIVE exam from a tab Chrome froze or
+      // closed without letting it save. A frozen or gone tab cannot answer.
+      try {
+        if (typeof BroadcastChannel === 'function') {
+          self._bc = new BroadcastChannel(BC_NAME);
+          self._bc.onmessage = function (e) {
+            if (!self._active || !e || !e.data || e.data.k !== 'ping') return;
+            try { self._bc.postMessage({ k: 'pong', t: self._config.testType }); } catch (err) { /* ignore */ }
+          };
+        }
+      } catch (e) { /* no BroadcastChannel: the 75-second window still applies */ }
+
       // Save on beforeunload / pagehide (iOS Safari fires only pagehide)
       window.addEventListener('beforeunload', this._onUnload = function () {
         if (self._active) self._saveSync();
@@ -591,6 +630,7 @@
     detach: function () {
       if (!this._active) return;
       this._active = false;
+      try { if (this._bc) { this._bc.close(); this._bc = null; } } catch (e) { /* ignore */ }
       this._serverUid = null;
       if (this._saveTimer) { clearInterval(this._saveTimer); this._saveTimer = null; }
       if (this._onVisChange) document.removeEventListener('visibilitychange', this._onVisChange);
@@ -736,6 +776,16 @@
       serverRows.forEach(take);
       var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
       arr.sort(function (a, b) { return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime(); });
+      // An exam stamped LIVE by THIS device: ask the tab. If nothing answers,
+      // the tab is gone or frozen, so the draft is paused - no waiting out the
+      // 75-second window for a test the student has already closed.
+      var mineLive = arr.filter(function (r) {
+        return r.__ongoing && r.session_data && r.session_data.__device && r.session_data.__device === did;
+      });
+      if (mineLive.length) {
+        var open = await this.probeLiveTabs();
+        mineLive.forEach(function (r) { if (!open[r.test_type]) r.__ongoing = false; });
+      }
       return arr;
     },
 
