@@ -27,6 +27,9 @@
   // as "in progress" with its start time, not as Continue - the student has
   // not left it yet (2026-09-16).
   var LIVE_WINDOW = 75000;
+  // How long a hidden (covered / background) window still counts as "in the
+  // exam". Longer than a glance, shorter than walking away.
+  var HIDDEN_GRACE = 120000;
   var EXPIRY_HOURS  = 72;
 
   var SR = {
@@ -424,11 +427,23 @@
       var self = this;
 
       // Initial save
+      this._lastVisibleAt = Date.now();
       this.save(true);
 
-      // Periodic save — "live" while the page is in view
+      // "Live" means the student is IN this exam - not that the window happens
+      // to be on top. Covering it with another app, or glancing at a phone,
+      // marked the draft paused at once and the other devices' banners flipped
+      // to "Resume" while the exam was still open here (2026-09-18). A window
+      // out of sight stays live for two minutes; after that the student really
+      // has gone elsewhere, and leaving the page says so straight away.
+      var liveNow = function () {
+        if (!document.hidden) { self._lastVisibleAt = Date.now(); return true; }
+        return Date.now() - (self._lastVisibleAt || 0) < HIDDEN_GRACE;
+      };
+
+      // Periodic save — "live" while the student is still in this exam
       this._saveTimer = setInterval(function () {
-        if (self._active) self.save(!document.hidden);
+        if (self._active) self.save(liveNow());
       }, SAVE_INTERVAL);
 
       // Save soon after the student types or answers (1.5 s after the last
@@ -438,15 +453,19 @@
       document.addEventListener('input', this._onInput = function () {
         if (!self._active) return;
         if (inputTimer) clearTimeout(inputTimer);
-        if (Date.now() - (self._lastSaveAt || 0) > 10000) { self.save(!document.hidden); return; }
-        inputTimer = setTimeout(function () { inputTimer = null; if (self._active) self.save(!document.hidden); }, 1500);
+        if (Date.now() - (self._lastSaveAt || 0) > 10000) { self.save(liveNow()); return; }
+        inputTimer = setTimeout(function () { inputTimer = null; if (self._active) self.save(liveNow()); }, 1500);
       }, true);
       document.addEventListener('change', this._onInput, true);
 
-      // Tab hidden (switched away / phone locked): no longer live, so the
-      // student can continue elsewhere; back in view: live again.
+      // Back in view: live again, and the grace clock restarts. Going out of
+      // view is NOT saved as paused - the periodic save decides that once the
+      // window has been away long enough.
       document.addEventListener('visibilitychange', this._onVisChange = function () {
-        if (self._active) self.save(!document.hidden);
+        if (!self._active) return;
+        if (document.hidden) { self.save(liveNow()); return; }
+        self._lastVisibleAt = Date.now();
+        self.save(true);
       });
 
       // Save on beforeunload / pagehide (iOS Safari fires only pagehide)
