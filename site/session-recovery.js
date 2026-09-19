@@ -77,6 +77,19 @@
     // mock ("cefr-reading-test-01"), so a draft of Mock 7 was offered - and
     // restored - on Mock 3 (found 2026-09-17). The Supabase id in the URL is
     // unique per mock.
+    /** Do these two mock numbers mean the same mock? The website writes them
+     *  padded ("03"), the apps wrote them bare ("3"), and a strict === made a
+     *  speaking page treat the other platform's draft as another mock's - and
+     *  DELETE it, recordings included (2026-09-19). Compare as numbers when
+     *  both are numeric, as text otherwise. */
+    sameMockNumber: function (a, b) {
+      var x = String(a == null ? '' : a).trim();
+      var y = String(b == null ? '' : b).trim();
+      if (x === y) return true;
+      if (/^\d+$/.test(x) && /^\d+$/.test(y)) return parseInt(x, 10) === parseInt(y, 10);
+      return false;
+    },
+
     sbTestId: function (fallback) {
       try {
         var sb = new URLSearchParams(location.search).get('sbmock');
@@ -369,16 +382,20 @@
       }
     },
 
-    // ── Show resume / start-fresh popup ─────────────────────────────────
-    // Returns a Promise that resolves to 'resume' or 'fresh'
-    // No "Unfinished Test Found" question any more (2026-09-17). A draft is
-    // continued only through the home page's Resume (?resume=1, which the pages
-    // check before ever calling this); opening a mock any other way starts it
-    // afresh and drops that draft. Every page still calls prompt(); it now
-    // answers 'fresh' at once. The old dialog is kept below as _promptDialog
-    // in case a page ever needs to ask again.
+    // ── Resume or start fresh ───────────────────────────────────────────
+    // Returns a Promise that resolves to 'resume' or 'fresh'.
+    //
+    // There is no "Unfinished Test Found" question any more (2026-09-17), and
+    // since 2026-09-19 an unfinished attempt of THIS mock is simply continued,
+    // however the student reached it - the dashboard's Resume, the mock picker,
+    // a link, another device. Starting the same mock again from scratch is the
+    // banner's Discard, an explicit act, rather than a side effect of opening
+    // it. (The pages only reach this once they have matched the draft to the
+    // mock on screen; a draft for a DIFFERENT mock still takes the fresh path.)
+    // The old dialog is kept below as _promptDialog in case a page ever needs
+    // to ask again.
     prompt: function () {
-      return Promise.resolve('fresh');
+      return Promise.resolve('resume');
     },
 
     _promptDialog: function (session) {
@@ -620,6 +637,24 @@
           keepalive: true
         });
       } catch (e) { /* ignore */ }
+    },
+
+    /** The student opened this mock WITHOUT pressing Resume, so this page runs
+     *  a fresh attempt - but the draft itself is not theirs to throw away: the
+     *  same account may be mid-exam on another device, and for speaking the
+     *  recordings live on the server (2026-09-19: a mock reopened on one
+     *  device wiped the answers every other device was resuming from).
+     *
+     *  So: forget the LOCAL copy, keep the server row (this page's first save
+     *  overwrites it anyway), and tell the speaking draft to wipe its folder
+     *  once - just before this attempt's first answer lands, so old and new
+     *  recordings can never mix. */
+    startFresh: function () {
+      if (!this._config) return Promise.resolve();
+      var tt = this._config.testType;
+      this._dropLocal(tt);
+      try { if (this._isSpeaking(tt) && window.SpeakingDraft && window.SpeakingDraft.wipeBeforeNextSave) window.SpeakingDraft.wipeBeforeNextSave(); } catch (e) { /* ignore */ }
+      return Promise.resolve();
     },
 
     // ── Clear session on test completion ────────────────────────────────

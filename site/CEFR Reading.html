@@ -19,7 +19,7 @@
   <script src="supabase-send.js"></script>
   <script src="attempt-payload.js"></script>
   <script src="exam-review-bar.js"></script>
-  <script src="session-recovery.js?v=19"></script>
+  <script src="session-recovery.js?v=20"></script>
   <script src="back-guard.js?v=1"></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <!-- Load global settings -->
@@ -6527,10 +6527,10 @@
             if (choice === 'resume') {
               window._srResumeData = session.session_data;
             } else {
-              await SessionRecovery.clear();
+              await SessionRecovery.startFresh();
             }
           } else if (session) {
-            await SessionRecovery.clear();
+            await SessionRecovery.startFresh();
           }
         } catch(e) { console.warn('Session recovery check failed:', e); }
       }
