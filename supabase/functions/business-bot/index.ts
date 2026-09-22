@@ -100,15 +100,44 @@ async function saveConfig(next: Config): Promise<void> {
   }
 }
 
-async function call(method: string, body: Record<string, unknown>): Promise<Record<string, any>> {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** One Telegram call, with Telegram's own back-off honoured.
+ *
+ *  A bot may send roughly 30 messages a second. When a teacher posts "write 5
+ *  for the PDF" to 80k followers, the answers arrive in a burst and Telegram
+ *  starts refusing with 429 + `retry_after`. Giving up there would quietly
+ *  leave students with nothing, so we wait exactly as long as Telegram asks
+ *  and try again (twice at most - the webhook must still answer promptly).
+ *  Server-side 5xx gets the same treatment on a short fixed delay. */
+async function call(method: string, body: Record<string, unknown>, attempt = 1): Promise<Record<string, any>> {
   try {
     const r = await fetch(`${API}/${method}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    return await r.json();
+    const j = await r.json();
+    if (!j?.ok && attempt <= 3) {
+      const wait = j?.parameters?.retry_after;
+      if (r.status === 429 && typeof wait === 'number') {
+        console.warn(`[business-bot] ${method} rate limited, waiting ${wait}s (try ${attempt})`);
+        await sleep(Math.min(wait, 25) * 1000 + 250);
+        return call(method, body, attempt + 1);
+      }
+      if (r.status >= 500) {
+        await sleep(attempt * 800);
+        return call(method, body, attempt + 1);
+      }
+    }
+    return j;
   } catch (e) {
+    // A dropped connection is worth one more go; a student's file should not
+    // be lost to a blip.
+    if (attempt <= 2) {
+      await sleep(attempt * 800);
+      return call(method, body, attempt + 1);
+    }
     console.error(`[business-bot] ${method} failed:`, (e as Error)?.message);
     return { ok: false };
   }
