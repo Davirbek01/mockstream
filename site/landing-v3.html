@@ -23000,12 +23000,17 @@
         mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
                        android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
                        store: true },
-        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
-        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
-        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
-        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
-        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
-        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' }
+        // iosSoon: the public link is alive and correct, but every clone's
+        // TestFlight build expired on 2026-08-21 (Apple retires a build 90 days
+        // after upload), so the link answers "Beta Not Found" until a new build
+        // clears beta review. Show the card without a button rather than send
+        // students to a dead invite; drop the flag once the build is live.
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd', iosSoon: true },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy', iosSoon: true },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E', iosSoon: true },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W', iosSoon: true },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd', iosSoon: true },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w', iosSoon: true }
       };
 
       var appsBuilt = false;
@@ -23101,10 +23106,25 @@
                'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.',
                ownShots ? '/images/apps/phone-home.png' : '', '', 'droid', 'android') +
           card('appCardIos',
-               'iPhone / iPad', mob.store ? 'On the App Store.' : 'Through TestFlight, Apple own installer for pre-release apps.',
+               'iPhone / iPad',
+               mob.store ? 'On the App Store.'
+                 : mob.iosSoon ? 'A new build is on its way to TestFlight. The invite opens again as soon as Apple releases it — the Windows, macOS and Android apps are unaffected.'
+                 : 'Through TestFlight, Apple own installer for pre-release apps.',
                ownShots ? '/images/apps/phone-report.png' : '', '', 'ios', 'apple');
 
-        if (mob.ios) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
+        if (mob.ios && !mob.iosSoon) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
+        if (mob.iosSoon) {
+          var iosCard = document.getElementById('appCardIos');
+          var iosBtns = iosCard && iosCard.querySelector('.app-btns');
+          if (iosBtns) {
+            var soon = document.createElement('span');
+            soon.className = 'app-btn ghost';
+            soon.style.opacity = '.6';
+            soon.style.cursor = 'default';
+            soon.textContent = 'Coming shortly';
+            iosBtns.appendChild(soon);
+          }
+        }
         if (mob.android) btn('appCardDroid', 'Google Play', mob.android);
 
         if (!base) return;
@@ -23140,6 +23160,8 @@
         if (note) {
           note.textContent = mob.store
             ? 'Signing in with the same account keeps your results together across every device.'
+            : mob.iosSoon
+            ? 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once. The iPhone invite is being renewed and returns in a day or two; until then the same mocks run in the browser, on Windows, on macOS and on Android, and your results stay in sync.'
             : 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once, and iPhone goes through TestFlight. Your results stay in sync either way.';
         }
       }
