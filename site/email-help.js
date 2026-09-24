@@ -55,6 +55,23 @@
     'iclod.com': 'icloud.com',  'icloud.co': 'icloud.com'
   };
 
+  // The shape a real mailbox actually has, deliberately tighter than the RFC.
+  // '^', '!', '#' and the rest are legal in a standard no provider implements,
+  // and every address we have seen carrying one was a slip of the keyboard —
+  // "shodiyonabotirova^@gmail.com" bounced on 2026-09-23. A bounce is not a
+  // retry: Resend suppresses that address permanently, so the student loses
+  // email sign-in for good. Catching the shape before the send is the only
+  // place this can be stopped.
+  var SHAPE = /^[a-z0-9]([a-z0-9._%+-]*[a-z0-9])?@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$/;
+
+  /** True when the address is worth sending to. Never rewrites anything. */
+  function valid(email) {
+    var s = String(email || '').trim().toLowerCase();
+    if (!SHAPE.test(s)) return false;
+    if (s.indexOf('..') >= 0) return false;          // a@b..com is nobody's address
+    return true;
+  }
+
   /** Classic Levenshtein, bailing out once it is clearly too far. */
   function distance(a, b) {
     if (a === b) return 0;
@@ -272,6 +289,7 @@
   }
 
   window.MsEmail = {
+    valid: valid,
     suggest: suggest,
     sendError: sendError,
     attachTypoHint: attachTypoHint,

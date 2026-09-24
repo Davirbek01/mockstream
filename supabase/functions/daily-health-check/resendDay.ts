@@ -22,6 +22,13 @@ const API = 'https://api.resend.com/emails';
 const TZ_OFFSET_MS = 5 * 60 * 60 * 1000;
 /** 100 per page; twelve pages is 1,200 emails, far past any real day. */
 const MAX_PAGES = 12;
+/** Enough to act on without turning the digest into a mailing list. */
+const MAX_NAMED = 12;
+
+/** The digest is sent as Telegram HTML, so an address has to be safe to embed. */
+function esc(s: string) {
+  return String(s).replace(/[<>&]/g, (c) => (c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&amp;'));
+}
 
 export interface ResendDay {
   /** Emails Resend accepted from us during the day. */
@@ -33,6 +40,20 @@ export interface ResendDay {
   pending: number;
   /** True when the page cap was reached before the day was fully walked. */
   truncated: boolean;
+  /**
+   * Who was locked out. A count tells us a problem exists; the addresses are
+   * what anyone can actually act on — Resend never accepts these again, so
+   * somebody has to reach those students another way.
+   */
+  bouncedTo: string[];
+  complainedTo: string[];
+}
+
+/** Resend puts the recipient in `to`, which is an array even for one address. */
+function recipient(row: any): string {
+  const to = row?.to;
+  const first = Array.isArray(to) ? to[0] : to;
+  return typeof first === 'string' ? first.trim() : '';
 }
 
 /** Start of the Tashkent day `daysBack` days ago, as a UTC instant. */
@@ -52,6 +73,7 @@ export async function resendDay(daysBack: number): Promise<ResendDay | null> {
   const { start, end } = windowFor(daysBack);
   const out: ResendDay = {
     sent: 0, delivered: 0, bounced: 0, complained: 0, pending: 0, truncated: false,
+    bouncedTo: [], complainedTo: [],
   };
 
   let after = '';
@@ -78,8 +100,19 @@ export async function resendDay(daysBack: number): Promise<ResendDay | null> {
       out.sent++;
       switch (String(row?.last_event || '').toLowerCase()) {
         case 'delivered': case 'opened': case 'clicked': out.delivered++; break;
-        case 'bounced': out.bounced++; break;
-        case 'complained': out.complained++; break;
+        case 'bounced': {
+          out.bounced++;
+          // One address can bounce several times in a day; name it once.
+          const who = recipient(row);
+          if (who && !out.bouncedTo.includes(who)) out.bouncedTo.push(who);
+          break;
+        }
+        case 'complained': {
+          out.complained++;
+          const who = recipient(row);
+          if (who && !out.complainedTo.includes(who)) out.complainedTo.push(who);
+          break;
+        }
         default: out.pending++; break;                    // sent / queued / delivery_delayed
       }
     }
@@ -114,6 +147,12 @@ export function resendSection(r: ResendDay | null): string[] {
     // student who cannot sign in by email again and has no way to find out.
     L.push(`  ⚠️ ${r.bounced} bounced${r.complained ? ` · ${r.complained} marked spam` : ''}` +
            ` (${pct}%) — each one is suppressed permanently`);
+    // Name them. A count cannot be acted on; an address can — these students
+    // have to be reached by Telegram or told to sign in another way.
+    const who = [...r.bouncedTo, ...r.complainedTo];
+    const shown = who.slice(0, MAX_NAMED);
+    for (const addr of shown) L.push(`   ${esc(addr)}`);
+    if (who.length > shown.length) L.push(`   +${who.length - shown.length} more`);
   }
 
   // Pro is $20/mo for 50,000. Free is 3,000/mo AND 100/day, and it was the

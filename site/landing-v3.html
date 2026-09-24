@@ -4705,7 +4705,7 @@
   <script src="/premium-gate.js" defer></script>
   <script src="/code-persistence.js" defer></script>
   <script src="/mock-code-verifier.js?v=3"></script>
-  <script src="/email-help.js?v=3" defer></script>
+  <script src="/email-help.js?v=4" defer></script>
   <script src="/email-code-modal.js?v=1" defer></script>
   <script>
     // "Did you mean …?" under both email boxes. 40+ addresses are already
@@ -6735,7 +6735,9 @@
         if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
             window.MsEmail.needsTypoConfirm(emailInput, sendEmail)) return;
         var email = ((emailInput && emailInput.value) || '').trim().toLowerCase();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
+        if (!(window.MsEmail && window.MsEmail.valid
+                ? window.MsEmail.valid(email)
+                : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
         // A code for this address went out under a minute ago. Sending again
         // would cancel it while it is still on its way — open the box for it.
         try {
@@ -7312,7 +7314,9 @@
         if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
             window.MsEmail.needsTypoConfirm(input, send)) return;
         var email = (input.value || '').trim().toLowerCase();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
+        if (!(window.MsEmail && window.MsEmail.valid
+                ? window.MsEmail.valid(email)
+                : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
         // Sending again inside a minute would cancel the code still on its way.
         try {
           if (Date.now() - parseInt(localStorage.getItem('ms_email_cd_' + email) || '0', 10) < 60000) {
@@ -7435,6 +7439,15 @@
     }
 
     async function _v3HandleMagicLink(email) {
+      // The sidebar reaches here through a loose "does it look like an email"
+      // branch, so the real shape check belongs at the send itself. A bad
+      // address is not a failed attempt — it bounces, and Resend then refuses
+      // that address forever.
+      if (window.MsEmail && window.MsEmail.valid && !window.MsEmail.valid(email)) {
+        _v3VipShowStatus('❌ To‘g‘ri email kiriting', 'error');
+        _v3VipResetUi();
+        return;
+      }
       // 60-second per-email client cooldown — stops accidental double-clicks
       // burning Supabase's tight 2-emails/hour built-in mailer budget.
       var cdKey = 'msv3_mlink_cd_' + email;
