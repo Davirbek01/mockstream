@@ -139,7 +139,7 @@
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js?v=5"></script>
-  <script src="email-help.js?v=3"></script>
+  <script src="email-help.js?v=4"></script>
   <script src="email-code-modal.js?v=1"></script>
   <script>
     if (window.SITE_CONFIG) {
@@ -5293,7 +5293,9 @@
       if (window.MsEmail && window.MsEmail.needsTypoConfirm &&
           window.MsEmail.needsTypoConfirm(inp, submitWelcomeEmail)) return;
       var email = (inp && inp.value || '').trim().toLowerCase();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (!(window.MsEmail && window.MsEmail.valid
+              ? window.MsEmail.valid(email)
+              : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
         _welcomeEmailStatus('❌ To\'g\'ri email kiriting', 'err');
         if (inp) inp.classList.add('invalid');
         return;
