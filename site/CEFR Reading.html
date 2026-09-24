@@ -7390,7 +7390,13 @@
         if (!mc) return;
 
         mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');
-        if (zoomIndex > 0) {
+        // The reading-settings stepper (A− / A+) writes #mainContainer's zoom
+        // as an INLINE style on every load, and inline beats any class rule —
+        // so adding zoom-1 here changed the badge and nothing else. Drive that
+        // same state instead, and the two controls stay in step.
+        if (typeof window._ltSetZoom === 'function') {
+          window._ltSetZoom(Math.round(zoomLevels[zoomIndex] * 100));
+        } else if (zoomIndex > 0) {
           mc.classList.add('zoom-' + zoomIndex);
         }
 
@@ -7725,6 +7731,10 @@ document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').
     });
   }
   window._ltFont = function (d) { st.pct = Math.max(MIN, Math.min(MAX, st.pct + d * STEP)); save(); applySize(); };
+  // The 🔍 magnifier cycles the same scale. It has to come through here: this
+  // panel owns the inline zoom, so anything setting a class fights it and
+  // loses silently.
+  window._ltSetZoom = function (pct) { st.pct = Math.max(MIN, Math.min(MAX, Math.round(pct))); save(); applySize(); };
   window._ltTheme = function (t) { st.theme = t; save(); applyTheme(); };
 
   function mountSettings() {
