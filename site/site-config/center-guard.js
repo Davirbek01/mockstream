@@ -130,7 +130,11 @@
     window._centerAccess = {
       globalAccess: cc.globalAccess || 'off',
       skillAccess:  cc.skillAccess  || {},
-      mockAccess:   cc.mockAccess   || {}
+      mockAccess:   cc.mockAccess   || {},
+      // Which mock of each set a student may sit once without a code, as
+      // {"cefr_speaking": 1, ...}. Absent means the centre offers none, and
+      // free-mock.js then does nothing at all.
+      freeMocks:    cc.freeMocks    || {}
     };
     try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     // ─── 1. ACTIVE CHECK ────────────────────────────────────────────────
@@ -635,7 +639,11 @@
     window._centerAccess = {
       globalAccess: cc.globalAccess || 'off',
       skillAccess:  cc.skillAccess  || {},
-      mockAccess:   cc.mockAccess   || {}
+      mockAccess:   cc.mockAccess   || {},
+      // Which mock of each set a student may sit once without a code, as
+      // {"cefr_speaking": 1, ...}. Absent means the centre offers none, and
+      // free-mock.js then does nothing at all.
+      freeMocks:    cc.freeMocks    || {}
     };
     try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     var mockKey = _cgDetectMockKey();
