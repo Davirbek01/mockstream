@@ -153,6 +153,11 @@
       '.ms-lockbadge .t{font-size:12px;font-weight:700;}',
       '.ms-freeflag{background:#f59e0b;color:#241a00;font-weight:800;font-size:11px;',
       '  letter-spacing:.05em;padding:4px 9px;border-radius:999px;margin-left:4px;}',
+      '.ms-usedbar{display:flex;align-items:center;justify-content:space-between;gap:10px;',
+      '  background:#fff7ed;border:1px solid #fed7aa;border-radius:11px;',
+      '  padding:9px 12px;margin:8px 0 2px;cursor:pointer;}',
+      '.ms-usedbar-t{font-size:12.5px;font-weight:700;color:#9a3412;}',
+      '.ms-usedbar-a{font-size:12.5px;font-weight:800;color:#c2410c;white-space:nowrap;}',
       '#msFreeUpsell{position:fixed;inset:0;z-index:2147483100;display:flex;',
       '  align-items:center;justify-content:center;padding:18px;}',
       '#msFreeUpsell .ms-up-back{position:absolute;inset:0;background:rgba(15,23,42,.55);}',
@@ -230,13 +235,23 @@
       var free = freeNumber(s.exam, s.skill);
       var isFree = free !== null && mock === free;
 
-      if (isFree && stillAvailable(s.exam, s.skill)) { unlockCard(card, true); continue; }
+      // The free mock stays open whatever its state. Blurring it once it is
+      // spent would hide the one thing that makes the offer land: the student
+      // sat this mock and can see exactly what they got. So the card keeps its
+      // topics and carries a notice instead.
+      if (isFree) {
+        var left = stillAvailable(s.exam, s.skill);
+        unlockCard(card, left);
+        if (left) clearUsedBanner(card); else showUsedBanner(card);
+        continue;
+      }
       lockCard(card);
     }
   }
 
   function unlockCard(card, markFree) {
     card.classList.remove('ms-locked');
+    if (markFree) clearUsedBanner(card);
     var b = card.querySelector('.ms-lockbadge');
     if (b) b.remove();
     if (markFree && !card.querySelector('.ms-freeflag')) {
@@ -248,6 +263,28 @@
         head.appendChild(f);
       }
     }
+  }
+
+  function clearUsedBanner(card) {
+    var b = card.querySelector('.ms-usedbar');
+    if (b) b.remove();
+  }
+
+  /** Says what happened, on the card, without taking anything away. */
+  function showUsedBanner(card) {
+    if (card.querySelector('.ms-usedbar')) return;
+    var bar = document.createElement('div');
+    bar.className = 'ms-usedbar';
+    bar.innerHTML = '<span class="ms-usedbar-t">Bepul urinishingiz ishlatilgan</span>' +
+                    '<span class="ms-usedbar-a">Kod olish →</span>';
+    bar.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      showUpsell(card);
+    });
+    var foot = card.querySelector('.ilet-card-foot, .cret-card-foot, .iret-card-foot');
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(bar, foot);
+    else card.appendChild(bar);
   }
 
   function lockCard(card) {
