@@ -30,6 +30,9 @@
 (function () {
   'use strict';
 
+  var TAKE_SEL = '.ilet-take, .cret-take, .iret-take';
+  var CARD_SEL = '.ilet-card, .cret-card, .iret-card';
+
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -224,7 +227,7 @@
     // here costs nothing and keeps them present whenever a card is drawn.
     publishUnlocks();
     installStyle();
-    var cards = document.querySelectorAll('.ilet-card, .cret-card, .iret-card');
+    var cards = document.querySelectorAll(CARD_SEL);
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
       var s = setOfCard(card);
@@ -361,7 +364,7 @@
     // close it and let the card's own gate open, exactly as before.
     wrap.querySelector('#msUpHaveCode').addEventListener('click', function () {
       closeUpsell();
-      var btn = card && card.querySelector('.ilet-take');
+      var btn = card && card.querySelector(TAKE_SEL);
       if (btn) { upsellBypass = true; btn.click(); upsellBypass = false; }
     });
     document.addEventListener('keydown', function esc(e) {
@@ -375,9 +378,13 @@
 
   document.addEventListener('click', function (e) {
     if (!cfg || !who) return;
-    var btn = e.target && e.target.closest && e.target.closest('.ilet-take');
+    // The reading pickers name their button differently: cret-take / iret-take
+    // against ilet-take everywhere else. Watching only one of the three meant
+    // the free reading mock could be sat again and again, because the click
+    // that should have spent it was never seen.
+    var btn = e.target && e.target.closest && e.target.closest(TAKE_SEL);
     if (!btn) return;
-    var card = btn.closest('.ilet-card, .cret-card, .iret-card');
+    var card = btn.closest(CARD_SEL);
     if (!card) return;
     var s = setOfCard(card);
     if (!s) return;
