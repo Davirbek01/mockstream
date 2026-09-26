@@ -93,7 +93,38 @@
     window.__okToLeave = true;
   }
 
-  window.ExamBackGuard = { arm: arm, release: release, running: examRunning };
+  /* ── Stop the gesture before it starts ────────────────────────────────────
+   * The history cushion above catches a swipe that navigates. It cannot catch
+   * the other case: in a home-screen web app a swipe with nothing behind it
+   * closes the app outright — iOS shows the splash and the student lands back
+   * on the picker, mid-exam, with nothing fired that a page could have heard.
+   *
+   * WebKit does give one way to refuse it. The edge swipe only begins if the
+   * touch that starts it goes unclaimed, so a non-passive touchstart in the
+   * edge strip that calls preventDefault() stops the gesture from starting at
+   * all. It costs the outer few millimetres of the screen during an exam,
+   * where there is nothing to tap, and only while the exam is running.
+   */
+  var EDGE = 24;   // px from either side — wide enough to catch the gesture,
+                   // narrow enough that nothing real lives there
+  document.addEventListener('touchstart', function (e) {
+    if (!examRunning()) return;
+    if (!e.touches || e.touches.length !== 1) return;     // never fight a pinch
+    var x = e.touches[0].clientX;
+    if (x > EDGE && x < (window.innerWidth - EDGE)) return;
+    // Inside the strip: claim the touch so no back/forward swipe can begin.
+    if (e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  window.ExamBackGuard = { arm: arm, release: release, running: examRunning, EDGE: EDGE };
+
+  // Horizontal overscroll is the other way a swipe turns into navigation on
+  // some builds; nothing in an exam scrolls sideways, so refuse it outright.
+  try {
+    var st = document.createElement('style');
+    st.textContent = 'html,body{overscroll-behavior-x:none;}';
+    (document.head || document.documentElement).appendChild(st);
+  } catch (e) { }
 
   // Arm as soon as the page is usable, and again once the exam actually
   // starts — pages flip their own flag at different moments.
