@@ -54,11 +54,16 @@
     return '';
   }
 
-  function rpc(fn, body) {
+  function rpc(fn, body, keepalive) {
+    // keepalive matters for the claim: clicking the card starts the exam, the
+    // browser leaves this page immediately, and an ordinary fetch is cancelled
+    // on the way out. The claim then never lands and the free mock can be sat
+    // again and again — which is exactly what happened on the first day.
     return fetch(SB_URL + '/rest/v1/rpc/' + fn, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      keepalive: !!keepalive
     }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
   }
 
@@ -205,6 +210,10 @@
 
   function paintCards() {
     if (!cfg) return;
+    // Until the answer about this account is back, say nothing: locking on an
+    // unknown would put a lock over the student's own free mock for as long as
+    // the query takes, and show it lifting a moment later.
+    if (who && usedSets === null) return;
     // center-guard rebuilds window._centerAccess from scratch more than once,
     // which drops the unlocks published before its last pass. Publishing again
     // here costs nothing and keeps them present whenever a card is drawn.
@@ -344,7 +353,7 @@
     // Spend it. The insert is the lock, so two devices racing still yield one.
     var key = setKey(s.exam, s.skill);
     if (usedSets.indexOf(key) === -1) usedSets.push(key);
-    rpc('claim_free_mock', { p_user: who, p_set: key, p_mock: mock });
+    rpc('claim_free_mock', { p_user: who, p_set: key, p_mock: mock }, true);
   }, true);
 
   /* ── start ───────────────────────────────────────────────────────────── */
