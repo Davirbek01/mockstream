@@ -322,7 +322,7 @@
     bar.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      showUpsell(card);
+      showUpsell(card, 'used');   // the banner only exists on a spent free mock
     });
     var foot = card.querySelector('.ilet-card-foot, .cret-card-foot, .iret-card-foot');
     if (foot && foot.parentNode) foot.parentNode.insertBefore(bar, foot);
@@ -380,8 +380,12 @@
     if (m) m.remove();
   }
 
-  function showUpsell(card) {
+  function showUpsell(card, kind) {
     closeUpsell();
+    // Two ways to arrive here, and they need different first sentences: the
+    // student spent their free sitting on this mock, or they pressed a mock
+    // that was locked from the start. The offer below is the same either way.
+    var spent = kind !== 'locked';
     var link = centreContact();
     // Where the centre sells a subscription, send them to that panel: it
     // carries the price, the card number and the centre's own Telegram, and
@@ -396,8 +400,12 @@
     wrap.innerHTML =
       '<div class="ms-up-back"></div>' +
       '<div class="ms-up-box">' +
-        '<h3>Bepul urinishingiz ishlatilgan</h3>' +
-        '<p>Bu mokni topshirdingiz va tahlilingizni oldingiz. Qolgan moklar kod bilan ochiladi.</p>' +
+        (spent
+          ? '<h3>Bepul urinishingiz ishlatilgan</h3>' +
+            '<p>Bu mokni topshirdingiz va tahlilingizni oldingiz. Qolgan moklar kod bilan ochiladi.</p>'
+          : '<h3>Bu mok kod bilan ochiladi</h3>' +
+            '<p>Har to‘plamdagi birinchi mok bepul — uni hozir topshirib ko‘rishingiz mumkin. ' +
+            'Qolganlari uchun kod yoki obuna kerak.</p>') +
         '<ul class="ms-up-gains">' +
           '<li><span>✓</span>8 ta to‘plam — CEFR va IELTS, to‘rttala ko‘nikma</li>' +
           '<li><span>✓</span>Har to‘plamda o‘nlab variant</li>' +
@@ -455,14 +463,27 @@
     if (!card) return;
     var s = setOfCard(card);
     if (!s) return;
+    if (everythingOpen() || skillOpen(s.skill)) return;      // everything is open anyway
+    if (upsellBypass) return;                                // they said they have a code
+
     var mock = parseInt(card.getAttribute('data-mock'), 10);
-    if (freeNumber(s.exam, s.skill) !== mock) return;
-    if (everythingOpen() || skillOpen(s.skill)) return;      // not a free sitting at all
-    if (!stillAvailable(s.exam, s.skill)) {
-      if (upsellBypass) return;                              // they said they have a code
+    var isFree = freeNumber(s.exam, s.skill) === mock;
+
+    // Any locked mock makes the same offer. The code gate is still one click
+    // away behind "Kodim bor", but it is no longer the first thing a student
+    // meets — it asks for something they may not have and explains nothing.
+    if (!isFree) {
+      if (/-card-disabled/.test(card.className)) return;      // "Coming soon"
       e.preventDefault();
       e.stopPropagation();
-      showUpsell(card);
+      showUpsell(card, 'locked');
+      return;
+    }
+
+    if (!stillAvailable(s.exam, s.skill)) {
+      e.preventDefault();
+      e.stopPropagation();
+      showUpsell(card, 'used');
       return;
     }
 
