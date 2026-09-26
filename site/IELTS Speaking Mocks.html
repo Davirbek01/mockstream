@@ -7393,7 +7393,7 @@
         return isMobile && !isTablet;
       }
 
-      async function ensureMediaStream() {
+      async function ensureMediaStream(fresh) {
         // A cached stream can be dead by the time the exam starts, and it does
         // not look dead: the REC dot lights, the timer runs, and the answer
         // comes out at 0 bytes. iOS ends or mutes a capture track whenever the
@@ -7402,6 +7402,22 @@
         // then record nothing, with the live waveform flat as the giveaway.
         // So the cached stream is checked before it is handed back, never
         // trusted because it once worked.
+        //
+        // `fresh` goes further and throws the stream away on purpose. Holding a
+        // live microphone across the question's own audio is what breaks the
+        // first answer on an iPhone: capture keeps the session in
+        // play-and-record, the prompt comes out of the earpiece instead of the
+        // speaker — students hear it "like a phone call" — and the capture is
+        // interrupted, so question 1 records nothing while question 2 onwards
+        // is fine. Taking the microphone only once the audio has finished costs
+        // one silent re-request per question and no permission prompt.
+        if (mediaStream && fresh) {
+          try { mediaStream.getTracks().forEach(x => x.stop()); } catch (e) { }
+          mediaStream = null;
+          try { stopWaveform(); } catch (e) { }
+          try { if (_wfCtx && _wfCtx.close) _wfCtx.close(); } catch (e) { }
+          _wfAnalyser = null; _wfCtx = null;
+        }
         if (mediaStream) {
           const t = mediaStream.getAudioTracks()[0];
           if (!t || t.readyState !== 'live' || t.muted) {
@@ -7476,7 +7492,8 @@
           console.warn('Could not clear previous audio for', key, e && e.message ? e.message : e);
         });
 
-        ensureMediaStream().then(stream => {
+        // A fresh capture for every question: see ensureMediaStream.
+        ensureMediaStream(true).then(stream => {
           if (!stream) return;
 
           try {
