@@ -342,6 +342,9 @@ window._siteTelegramChannel = window.SITE_CONFIG.telegramChannel;
   var me = scripts[scripts.length - 1];
   var basePath = me.src ? me.src.substring(0, me.src.lastIndexOf('/') + 1) : 'site-config/';
   var s = document.createElement('script');
-  s.src = basePath + 'center-guard.js';
+  // Versioned on purpose: Cloudflare Pages ignores _headers, so an unversioned
+  // src is held by the browser indefinitely — a guard change then ships to the
+  // server and never reaches the page. Bump this when center-guard.js changes.
+  s.src = basePath + 'center-guard.js?v=2';
   me.parentNode.insertBefore(s, me.nextSibling);
 })();
