@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Swipe test · Mock Stream</title>
+<!--
+  An edge swipe on an iPhone can be two different things, and the fix is
+  different for each:
+
+    - the BROWSER going back. It fires popstate, so the exam pages can catch
+      it, put the history entry back and ask before anything is lost.
+
+    - iOS switching AWAY from the app. No popstate — the page is simply put in
+      the background. Nothing a web page runs can refuse that.
+
+  From the outside the two look identical: the screen slides aside and the exam
+  is gone. This page tells them apart by counting what actually fires, and it
+  keeps the count across a background trip so the numbers are still there when
+  you come back.
+-->
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+         margin: 0; padding: 20px; background: #f8fafc; color: #0f172a; }
+  @media (prefers-color-scheme: dark) { body { background: #0b1220; color: #e2e8f0; } }
+  h1 { font-size: 19px; margin: 0 0 4px; }
+  p.lead { color: #64748b; margin: 0 0 16px; }
+  .n { display: flex; justify-content: space-between; align-items: baseline;
+       border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; margin: 8px 0; }
+  @media (prefers-color-scheme: dark) { .n { border-color: #334155; } }
+  .n b { font-size: 26px; font-variant-numeric: tabular-nums; }
+  .verdict { margin: 16px 0; padding: 14px; border-radius: 12px; font-weight: 700; }
+  .browser { background: #dcfce7; color: #166534; }
+  .os { background: #fee2e2; color: #991b1b; }
+  .none { background: #e2e8f0; color: #475569; }
+  @media (prefers-color-scheme: dark) {
+    .browser { background: #052e16; color: #86efac; }
+    .os { background: #450a0a; color: #fca5a5; }
+    .none { background: #1e293b; color: #94a3b8; }
+  }
+  #log { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
+         white-space: pre-wrap; color: #64748b; margin-top: 14px; }
+  button { font: inherit; font-weight: 700; padding: 12px 18px; border: 0; border-radius: 10px;
+           background: #475569; color: #fff; width: 100%; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>Swipe test</h1>
+<p class="lead">Swipe from the left edge as you would during an exam, then come back here and read the numbers.</p>
+
+<div class="n"><span>popstate <small>(browser went back)</small></span><b id="pop">0</b></div>
+<div class="n"><span>pagehide <small>(page sent to the background)</small></span><b id="hide">0</b></div>
+<div class="n"><span>hidden <small>(visibility lost)</small></span><b id="vis">0</b></div>
+
+<div class="verdict none" id="verdict">Swipe once, then come back.</div>
+<div id="mode"></div>
+<div id="log"></div>
+<button id="reset">Reset the counters</button>
+
+<script>
+(function () {
+  'use strict';
+
+  var KEY = 'ms_swipe_test';
+  var s = { pop: 0, hide: 0, vis: 0, log: [] };
+  try { s = JSON.parse(sessionStorage.getItem(KEY)) || s; } catch (e) { }
+
+  function save() { try { sessionStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { } }
+
+  function note(what) {
+    var t = new Date().toTimeString().slice(0, 8);
+    s.log.unshift(t + '  ' + what);
+    s.log = s.log.slice(0, 12);
+  }
+
+  function paint() {
+    document.getElementById('pop').textContent = s.pop;
+    document.getElementById('hide').textContent = s.hide;
+    document.getElementById('vis').textContent = s.vis;
+    document.getElementById('log').textContent = s.log.join('\n');
+
+    var v = document.getElementById('verdict');
+    if (!s.pop && !s.hide && !s.vis) {
+      v.className = 'verdict none';
+      v.textContent = 'Swipe once, then come back.';
+    } else if (s.pop > 0) {
+      v.className = 'verdict browser';
+      v.textContent = 'The BROWSER went back — this is the kind an exam page can catch and refuse.';
+    } else {
+      v.className = 'verdict os';
+      v.textContent = 'iOS switched away from the app — no navigation happened, so no web page can block it. ' +
+                      'The exam is not lost; it is in the background.';
+    }
+
+    document.getElementById('mode').textContent =
+      'Display mode: ' + (window.matchMedia('(display-mode: standalone)').matches ||
+                          window.navigator.standalone ? 'home-screen app (standalone)' : 'browser tab') +
+      ' · history length: ' + history.length;
+  }
+
+  // Three guard entries, exactly like the exam pages keep.
+  try {
+    for (var i = 0; i < 3; i++) history.pushState({ swipeTest: i }, '', location.href);
+  } catch (e) { note('pushState refused: ' + e.message); }
+
+  window.addEventListener('popstate', function () {
+    s.pop++; note('popstate — browser back'); save(); paint();
+    try { history.pushState({ swipeTest: 'topup' }, '', location.href); } catch (e) { }
+  });
+  window.addEventListener('pagehide', function () { s.hide++; note('pagehide — backgrounded'); save(); });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { s.vis++; note('hidden'); save(); }
+    else { paint(); }
+  });
+  window.addEventListener('pageshow', function () { paint(); });
+
+  document.getElementById('reset').addEventListener('click', function () {
+    s = { pop: 0, hide: 0, vis: 0, log: [] }; save(); paint();
+  });
+
+  paint();
+})();
+</script>
+</body>
+</html>
