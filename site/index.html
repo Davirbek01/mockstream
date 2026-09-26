@@ -139,7 +139,7 @@
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js?v=5"></script>
-  <script src="email-help.js?v=4"></script>
+  <script src="email-help.js?v=5"></script>
   <script src="email-code-modal.js?v=1"></script>
   <script>
     if (window.SITE_CONFIG) {
@@ -5297,6 +5297,13 @@
               ? window.MsEmail.valid(email)
               : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
         _welcomeEmailStatus('❌ To\'g\'ri email kiriting', 'err');
+        if (inp) inp.classList.add('invalid');
+        return;
+      }
+      // Already bounced once — Resend will not deliver here again, so a
+      // cheerful "code sent" would just be something to wait on forever.
+      if (window.MsEmail && window.MsEmail.isSuppressed && await window.MsEmail.isSuppressed(email)) {
+        _welcomeEmailStatus(window.MsEmail.suppressedMessage, 'err');
         if (inp) inp.classList.add('invalid');
         return;
       }

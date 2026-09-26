@@ -4705,7 +4705,7 @@
   <script src="/premium-gate.js" defer></script>
   <script src="/code-persistence.js" defer></script>
   <script src="/mock-code-verifier.js?v=3"></script>
-  <script src="/email-help.js?v=4" defer></script>
+  <script src="/email-help.js?v=5" defer></script>
   <script src="/email-code-modal.js?v=1" defer></script>
   <script>
     // "Did you mean …?" under both email boxes. 40+ addresses are already
@@ -6738,6 +6738,10 @@
         if (!(window.MsEmail && window.MsEmail.valid
                 ? window.MsEmail.valid(email)
                 : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) { _status('❌ To‘g‘ri email kiriting', 'err'); return; }
+        // Already bounced once — Resend will not deliver here again.
+        if (window.MsEmail && window.MsEmail.isSuppressed && await window.MsEmail.isSuppressed(email)) {
+          _status(window.MsEmail.suppressedMessage, 'err'); return;
+        }
         // A code for this address went out under a minute ago. Sending again
         // would cancel it while it is still on its way — open the box for it.
         try {
@@ -7317,6 +7321,10 @@
         if (!(window.MsEmail && window.MsEmail.valid
                 ? window.MsEmail.valid(email)
                 : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
+        // Already bounced once — Resend will not deliver here again.
+        if (window.MsEmail && window.MsEmail.isSuppressed && await window.MsEmail.isSuppressed(email)) {
+          _status(window.MsEmail.suppressedMessage, 'err'); return;
+        }
         // Sending again inside a minute would cancel the code still on its way.
         try {
           if (Date.now() - parseInt(localStorage.getItem('ms_email_cd_' + email) || '0', 10) < 60000) {
@@ -7445,6 +7453,13 @@
       // that address forever.
       if (window.MsEmail && window.MsEmail.valid && !window.MsEmail.valid(email)) {
         _v3VipShowStatus('❌ To‘g‘ri email kiriting', 'error');
+        _v3VipResetUi();
+        return;
+      }
+      // Already bounced once — Resend will not deliver here again, so saying
+      // "code sent" would be a lie the student waits on.
+      if (window.MsEmail && window.MsEmail.isSuppressed && await window.MsEmail.isSuppressed(email)) {
+        _v3VipShowStatus(window.MsEmail.suppressedMessage, 'error');
         _v3VipResetUi();
         return;
       }

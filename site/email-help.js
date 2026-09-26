@@ -288,8 +288,38 @@
     return true;
   }
 
+  // Addresses that have already bounced. Resend suppresses one permanently
+  // after a single bounce, so sending again cannot work — but the page used
+  // to say "code sent, check your inbox" all the same, and the student waited
+  // for something that was never coming. Ask the server first.
+  var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+  /**
+   * True when we know mail to this address bounced. Answers false on any
+   * error: a network blip must never stand between a student and sign-in.
+   */
+  function isSuppressed(email) {
+    var s = String(email || '').trim().toLowerCase();
+    if (!s) return Promise.resolve(false);
+    return fetch(SB_URL + '/rest/v1/rpc/_email_is_suppressed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+      body: JSON.stringify({ p_email: s }),
+    })
+      .then(function (r) { return r.ok ? r.json() : false; })
+      .then(function (v) { return v === true; })
+      .catch(function () { return false; });
+  }
+
+  /** What to tell them. Naming the way out matters more than naming the fault. */
+  var SUPPRESSED_MSG = '❌ Bu manzilga xat yetib bormadi — pochta qaytarib yubordi. ' +
+                       'Google yoki Telegram bilan kiring, yoki boshqa email yozing.';
+
   window.MsEmail = {
     valid: valid,
+    isSuppressed: isSuppressed,
+    suppressedMessage: SUPPRESSED_MSG,
     suggest: suggest,
     sendError: sendError,
     attachTypoHint: attachTypoHint,
