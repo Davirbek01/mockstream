@@ -457,8 +457,16 @@
       if (superCount) roleStats.push('⚡ ' + superCount + ' super admin');
       statsEl.textContent = list.length + ' users — ' + statsArr.join(' · ') + (roleStats.length ? ' — ' + roleStats.join(' · ') : '');
 
+      // The list is now the whole registry — 16.5k people after the auth
+      // backfill, not the 230 rows this panel was written for. Drawing a card
+      // for each one freezes the phone it is most often opened on, so only the
+      // first page is drawn; the counts above still describe everybody, and the
+      // search box filters the full set rather than what is on screen.
+      var CAP = 300;
+      var shown = list.length > CAP ? list.slice(0, CAP) : list;
+
       var html = '';
-      list.forEach(function(c) {
+      shown.forEach(function(c) {
         var name = c.student_name || 'Unknown';
         var parts = name.trim().split(/\s+/);
         var initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : name.substring(0, 2).toUpperCase();
@@ -489,6 +497,11 @@
             '<span class="ru-center-badge ' + badgeClass + '">' + center.replace(/</g, '&lt;') + '</span>' +
           '</div></div>';
       });
+      if (list.length > CAP) {
+        html += '<div class="ru-empty" style="padding:18px 8px;">' +
+                'Showing the first ' + CAP + ' of ' + list.length +
+                ' — search by name, email or centre to find someone.</div>';
+      }
       container.innerHTML = html;
     }
 
