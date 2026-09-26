@@ -492,6 +492,21 @@
       container.innerHTML = html;
     }
 
+    /**
+     * The signed-in admin's own token.
+     *
+     * The block action used to travel on the publishable key, which is why the
+     * table had to allow anon writes at all — and why anyone holding that key
+     * could block any student. The RPC checks is_any_admin(), so it needs the
+     * caller's real session, not the anonymous one.
+     */
+    function _ruAccessToken() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        return (s && s.access_token) || '';
+      } catch (e) { return ''; }
+    }
+
     async function _toggleBlockUser(studentName, center, currentlyBlocked) {
       var action = currentlyBlocked ? 'unblock' : 'block';
       if (!confirm('Are you sure you want to ' + action + ' "' + studentName + '"?')) return;
@@ -500,17 +515,22 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(studentName) + '&center=eq.' + encodeURIComponent(center), {
-          method: 'PATCH',
+        var tok = _ruAccessToken();
+        if (!tok) throw new Error('Sign in again — your admin session has expired.');
+        var resp = await fetch(SB_URL + '/rest/v1/rpc/set_candidate_blocked', {
+          method: 'POST',
           headers: {
             'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
+            'Authorization': 'Bearer ' + tok,
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ blocked: !currentlyBlocked })
+          body: JSON.stringify({
+            p_student_name: studentName,
+            p_center: center,
+            p_blocked: !currentlyBlocked
+          })
         });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status + ' — ' + (await resp.text()).slice(0, 120));
         // Update button in-place
         var newBlocked = !currentlyBlocked;
         if (btn) {
