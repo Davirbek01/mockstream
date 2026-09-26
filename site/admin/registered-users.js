@@ -61,6 +61,7 @@
       '.ru-role-premium{background:#fff3e0;color:#e65100;border:1px solid #ffcc80;}',
       '.ru-role-admin{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}',
       '.ru-role-super-admin{background:#ede7f6;color:#4527a0;border:1px solid #b39ddb;}',
+      '.ru-role-expired{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;}',
       '.ru-back-btn{background:none;border:none;font-size:14px;cursor:pointer;color:#6366f1;font-weight:600;display:flex;align-items:center;gap:4px;}',
       '.ru-back-btn:hover{text-decoration:underline;}',
       '.ru-result-card{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);transition:all .15s ease;cursor:pointer;}',
@@ -181,7 +182,9 @@
             '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
             '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
             '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
-            '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="premium" onclick="_setRuTab(\'premium\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⭐ Premium <span data-rucount="premium"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="expired" onclick="_setRuTab(\'expired\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⏳ Expired <span data-rucount="expired"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="admin" onclick="_setRuTab(\'admin\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🛡️ Admin <span data-rucount="admin"></span></button>' +
           '</div>' +
           '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#333);"><option value="">All centres</option></select>' +
           '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;">' +
@@ -206,7 +209,9 @@
           '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
           '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
           '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="premium" onclick="_setRuTab(\'premium\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⭐ Premium <span data-rucount="premium"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="expired" onclick="_setRuTab(\'expired\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⏳ Expired <span data-rucount="expired"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="admin" onclick="_setRuTab(\'admin\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🛡️ Admin <span data-rucount="admin"></span></button>' +
         '</div>' +
         '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()"><option value="">All centres</option></select>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
@@ -281,7 +286,7 @@
         }
         var [cands, premResp] = await Promise.all([
           _fetchAllCandidates(),
-          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active,plan', {
+          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active,plan,expires_at', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           })
         ]);
@@ -361,18 +366,26 @@
     function _ruTabFilter(c) {
       if (_ruTab === 'google')   return _ruIsGoogle(c);
       if (_ruTab === 'telegram') return _ruIsTelegram(c);
-      if (_ruTab === 'guest')    return _ruIsGuest(c);
+      if (_ruTab === 'premium')  return _ruIsPremium(c);
+      if (_ruTab === 'expired')  return _ruIsExpired(c);
+      if (_ruTab === 'admin')    return _ruIsAdminUser(c);
+      // 'guest' went with the anon-insert hole that created those rows; an old
+      // tab id left in an open panel should not empty the list.
       return true;
     }
 
     function _updateRuTabCounts() {
-      var counts = { all: _ruData.length, google: 0, telegram: 0, guest: 0 };
+      var counts = { all: _ruData.length, google: 0, telegram: 0, premium: 0, expired: 0, admin: 0 };
       _ruData.forEach(function(c) {
         if (_ruIsTelegram(c))    counts.telegram++;
         else if (_ruIsGoogle(c)) counts.google++;
-        else                     counts.guest++;
+        // Entitlement does not depend on how somebody signed in, so these are
+        // counted alongside the sign-in tabs rather than instead of them.
+        if (_ruIsPremium(c))     counts.premium++;
+        if (_ruIsExpired(c))     counts.expired++;
+        if (_ruIsAdminUser(c))   counts.admin++;
       });
-      ['all','google','telegram','guest'].forEach(function(k) {
+      ['all','google','telegram','premium','expired','admin'].forEach(function(k) {
         var el = document.querySelector('#ruTabs [data-rucount="' + k + '"]');
         if (el) el.textContent = '(' + counts[k] + ')';
       });
@@ -432,10 +445,48 @@
       _renderRuList(filtered);
     }
 
+    /**
+     * `active = false` is what the nightly expiry job leaves behind, and the
+     * panel used to treat that as "no entitlement at all" — so 201 people who
+     * had paid and lapsed looked identical to someone who never bought
+     * anything. That is precisely the list worth having, so it gets its own
+     * grey badge carrying the date it ran out.
+     */
+    function _ruExpiredLabel(p) {
+      var when = '';
+      if (p.expires_at) {
+        var d = new Date(p.expires_at);
+        if (!isNaN(d)) when = ' ' + d.getDate() + ' ' + _RU_MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+      }
+      return '⏳ Expired' + when;
+    }
+
+    function _ruIsExpired(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && !p.active && p.role !== 'admin');
+    }
+
+    function _ruIsPremium(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && p.active && p.role !== 'admin' && p.tier === 'premium');
+    }
+
+    function _ruIsAdminUser(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && p.active && p.role === 'admin');
+    }
+
     function _getRoleBadge(email) {
       if (!email || !window._ruPremiumMap) return '';
       var p = window._ruPremiumMap[email.toLowerCase()];
-      if (!p || !p.active) return '';
+      if (!p) return '';
+      if (!p.active) {
+        if (p.role === 'admin') return '';
+        return '<span class="ru-role-badge ru-role-expired">' + _ruExpiredLabel(p) + '</span>';
+      }
       if (p.role === 'admin' && (!p.center || p.center === '')) {
         return '<span class="ru-role-badge ru-role-super-admin">⚡ Super Admin</span>';
       }
@@ -451,9 +502,12 @@
     function _getRoleBadgeDetail(email) {
       if (!email || !window._ruPremiumMap) return '';
       var p = window._ruPremiumMap[email.toLowerCase()];
-      if (!p || !p.active) return '';
+      if (!p) return '';
       var label = '', cls = '';
-      if (p.role === 'admin' && (!p.center || p.center === '')) {
+      if (!p.active) {
+        if (p.role === 'admin') return '';
+        label = _ruExpiredLabel(p); cls = 'ru-role-expired';
+      } else if (p.role === 'admin' && (!p.center || p.center === '')) {
         label = '⚡ Super Admin'; cls = 'ru-role-super-admin';
       } else if (p.role === 'admin') {
         label = '🛡️ Admin'; cls = 'ru-role-admin';
