@@ -8201,11 +8201,18 @@
         }
 
         // Request microphone access
-        async function ensureSpeakingMediaStream() {
+        async function ensureSpeakingMediaStream(fresh) {
             // iOS ends or mutes a capture track whenever the audio session
             // flips to playback — the mic check's own sample playback does it —
             // and the dead stream still looks alive: REC lights, the timer
             // runs, the answer arrives at 0 bytes. Check before reusing.
+            // `fresh` drops the stream on purpose. Holding a live microphone
+            // across the question's own audio is what silences the first answer
+            // on an iPhone — see the speaking pages for the full account.
+            if (speakingMediaStream && fresh) {
+                try { speakingMediaStream.getTracks().forEach(x => x.stop()); } catch (e) { }
+                speakingMediaStream = null;
+            }
             if (speakingMediaStream) {
                 const t = speakingMediaStream.getAudioTracks()[0];
                 if (!t || t.readyState !== 'live' || t.muted) {
@@ -8240,7 +8247,8 @@
             // Remove stale clip for this question before saving a new answer.
             try { await deleteSpeakingAudio(key); } catch (e) { console.warn('[Speaking] Could not clear old clip for', key, e); }
 
-            const stream = await ensureSpeakingMediaStream();
+            // A fresh capture for every question: see ensureSpeakingMediaStream.
+            const stream = await ensureSpeakingMediaStream(true);
             if (!stream) return;
 
             try {
