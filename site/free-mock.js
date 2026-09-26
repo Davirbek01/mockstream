@@ -113,7 +113,13 @@
         if (usedSets.indexOf(k) !== -1) return;
         var n = cfg[k];
         if (!(typeof n === 'number' && n > 0)) return;
-        ca.mockAccess[parts[0] + '_' + parts[1] + '_' + n] = { tier: 'premium', free: true };
+        // Both spellings of the number. The launch paths look this key up with
+        // whatever they happen to hold: reading and speaking pad it to two
+        // digits ('01') before asking, writing and listening do not. Publishing
+        // one form meant the free reading mock still asked for a code.
+        var entry = { tier: 'premium', free: true };
+        ca.mockAccess[parts[0] + '_' + parts[1] + '_' + n] = entry;
+        ca.mockAccess[parts[0] + '_' + parts[1] + '_' + String(n).padStart(2, '0')] = entry;
       });
     } catch (e) { }
   }
