@@ -9208,7 +9208,7 @@
         return isMobile && !isTablet;
       }
 
-      async function ensureMediaStream() {
+      async function ensureMediaStream(fresh) {
         // A cached stream can be dead by the time the exam starts, and it does
         // not look dead: the REC dot lights, the timer runs, and the answer
         // comes out at 0 bytes. iOS ends or mutes a capture track whenever the
@@ -9217,6 +9217,22 @@
         // then record nothing, with the live waveform flat as the giveaway.
         // So the cached stream is checked before it is handed back, never
         // trusted because it once worked.
+        //
+        // `fresh` goes further and throws the stream away on purpose. Holding a
+        // live microphone across the question's own audio is what breaks the
+        // first answer on an iPhone: capture keeps the session in
+        // play-and-record, the prompt comes out of the earpiece instead of the
+        // speaker — students hear it "like a phone call" — and the capture is
+        // interrupted, so question 1 records nothing while question 2 onwards
+        // is fine. Taking the microphone only once the audio has finished costs
+        // one silent re-request per question and no permission prompt.
+        if (mediaStream && fresh) {
+          try { mediaStream.getTracks().forEach(x => x.stop()); } catch (e) { }
+          mediaStream = null;
+          try { stopWaveform(); } catch (e) { }
+          try { if (_wfCtx && _wfCtx.close) _wfCtx.close(); } catch (e) { }
+          _wfAnalyser = null; _wfCtx = null;
+        }
         if (mediaStream) {
           const t = mediaStream.getAudioTracks()[0];
           if (!t || t.readyState !== 'live' || t.muted) {
@@ -9287,7 +9303,8 @@
         } catch (e) { /* never block the exam on a dialog */ }
       }
 
-      function startRecording(qIndex) {
+      function startRecording(qIndex, attempt) {
+        attempt = attempt || 0;
         currentQIndex = qIndex;
         const chunks = [];   // this recording's own — never shared, see above
         const key = 'speaking_audio_q' + (qIndex + 1);
@@ -9297,7 +9314,8 @@
           console.warn('Could not clear previous audio for', key, e && e.message ? e.message : e);
         });
 
-        ensureMediaStream().then(stream => {
+        // A fresh capture for every question: see ensureMediaStream.
+        ensureMediaStream(true).then(stream => {
           if (!stream) return;
 
           try {
@@ -9309,10 +9327,20 @@
             const options = mimeType ? { mimeType: mimeType, audioBitsPerSecond: 48000 } : { audioBitsPerSecond: 48000 };
 
             const rec = mediaRecorder = new MediaRecorder(stream, options);
+            // Set when the watchdog below decides this recording is dead and
+            // is replacing it — onstop must then not save or warn, because a
+            // second, working recording is already on its way.
+            let abandoned = false;
+            let watchdog = null;
             rec.ondataavailable = e => {
-              if (e.data.size > 0) chunks.push(e.data);
+              if (e.data.size > 0) {
+                if (watchdog) { clearTimeout(watchdog); watchdog = null; }
+                chunks.push(e.data);
+              }
             };
             rec.onstop = () => {
+              if (watchdog) { clearTimeout(watchdog); watchdog = null; }
+              if (abandoned) return;
               const blob = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' });
               const done = () => {
                 const r = _audioStopResolve;
@@ -9363,6 +9391,28 @@
             // answer is lost. iPhones were losing 5.5% of speaking attempts this
             // way, against 0% on Android.
             mediaRecorder.start(1000);
+            // A track can say "live" and still carry nothing. iOS reconfigures
+            // the audio session whenever playback starts or is cut short — and
+            // the intro cards are exactly that: skipping them with Continue, or
+            // skipping the prep with Start speaking, leaves a stream that looks
+            // healthy and delivers silence. The timeslice is one second, so by
+            // 2.2s a working recording has handed over at least one chunk. If
+            // none arrived, this stream is dead: take a new one and start this
+            // question again. Once only — a genuinely silent room must not loop.
+            if (attempt === 0) {
+              watchdog = setTimeout(() => {
+                if (chunks.length > 0) return;
+                console.warn('[Recording] nothing after 2.2s on q' + (qIndex + 1) + ' — stream is dead, restarting');
+                abandoned = true;
+                try { rec.stop(); } catch (e) { }
+                try { mediaStream && mediaStream.getTracks().forEach(t => t.stop()); } catch (e) { }
+                mediaStream = null;
+                try { stopWaveform(); } catch (e) { }
+                try { if (_wfCtx && _wfCtx.close) _wfCtx.close(); } catch (e) { }
+                _wfAnalyser = null; _wfCtx = null;
+                startRecording(qIndex, 1);
+              }, 2200);
+            }
             // Start the live voice-responsive waveform for this question's .rec.
             try {
               ensureWaveformAnalyser(stream);
