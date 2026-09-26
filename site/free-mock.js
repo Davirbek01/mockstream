@@ -360,6 +360,21 @@
     return c.brandName || 'markazingiz';
   }
 
+  /** Shut whichever mock picker is open, using its own close function. */
+  function closeOpenPicker() {
+    var prefixes = ['cspet', 'ispet', 'cwet', 'iwet', 'cret', 'iret', 'clet', 'ilet'];
+    for (var i = 0; i < prefixes.length; i++) {
+      var ov = document.getElementById(prefixes[i] + 'Picker');
+      if (!ov) continue;
+      var shown = getComputedStyle(ov).display !== 'none' && ov.getAttribute('aria-hidden') !== 'true';
+      if (!shown) continue;
+      var fn = window[prefixes[i] + 'Close'];
+      if (typeof fn === 'function') { try { fn({ keepUrl: true }); } catch (e) { try { fn(); } catch (e2) { } } }
+      return prefixes[i];
+    }
+    return null;
+  }
+
   function closeUpsell() {
     var m = document.getElementById('msFreeUpsell');
     if (m) m.remove();
@@ -402,8 +417,12 @@
     var subBtn = wrap.querySelector('#msUpSubscribe');
     if (subBtn) subBtn.addEventListener('click', function () {
       closeUpsell();
+      // The picker sits at z-index 100003 and the subscription panel at 10000,
+      // so opening the panel from inside a picker puts it behind one — the
+      // button looked dead. Close the picker first, then open the panel.
+      closeOpenPicker();
       var t = document.getElementById('topbarSubscribeBtn');
-      if (t) t.click();
+      if (t) setTimeout(function () { t.click(); }, 60);
       else if (link) window.open(link, '_blank', 'noopener');
     });
     wrap.querySelector('.ms-up-back').addEventListener('click', closeUpsell);
