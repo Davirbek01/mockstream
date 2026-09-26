@@ -843,10 +843,16 @@ function startExam(){
   runQuestion(0);
 }
 
-async function ensureMediaStream(){
+async function ensureMediaStream(fresh){
   // iOS ends or mutes a capture track when the audio session flips to
   // playback, and the dead stream still looks alive — recording gives 0 bytes.
   // Check before reusing rather than trusting that it worked once.
+  // `fresh` drops the stream on purpose: holding a live microphone across the
+  // question's own audio silences the first answer on an iPhone.
+  if(mediaStream && fresh){
+    try{ mediaStream.getTracks().forEach(function(x){ x.stop(); }); }catch(e){}
+    mediaStream = null;
+  }
   if(mediaStream){
     var t = mediaStream.getAudioTracks()[0];
     if(t && t.readyState === 'live' && !t.muted) return mediaStream;
@@ -1017,7 +1023,7 @@ function startTimers(idx){
 
 function startRecording(idx){
   audioChunks = [];
-  ensureMediaStream().then(function(stream){
+  ensureMediaStream(true).then(function(stream){
     if(!stream) return;
     try{
       var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'';

@@ -8358,11 +8358,18 @@
         }
 
         let fmMediaStream = null;
-        async function fmEnsureMediaStream() {
+        async function fmEnsureMediaStream(fresh) {
             // `active` is not enough: a stream stays active while its only
             // track is muted, which is exactly what iOS does when the audio
             // session flips to playback (the mic check plays the sample back).
             // The recorder then writes 0 bytes over a live-looking REC.
+            // `fresh` drops the stream on purpose. Holding a live microphone
+            // across the question's own audio is what silences the first answer
+            // on an iPhone — see the speaking pages for the full account.
+            if (fmMediaStream && fresh) {
+                try { fmMediaStream.getTracks().forEach(function (x) { x.stop(); }); } catch (e) { }
+                fmMediaStream = null;
+            }
             if (fmMediaStream) {
                 const t = fmMediaStream.getAudioTracks()[0];
                 if (t && t.readyState === 'live' && !t.muted) return fmMediaStream;
@@ -8390,7 +8397,8 @@
             const key = `S-${qIdx}`;
             delete state.answers.speaking[key];
             const chunks = [];   // this recording's own - never shared, see above
-            const stream = await fmEnsureMediaStream();
+            // A fresh capture for every question: see fmEnsureMediaStream.
+            const stream = await fmEnsureMediaStream(true);
             if (!stream) return;
             try {
                 const mimeType = fmGetSupportedMimeType();
