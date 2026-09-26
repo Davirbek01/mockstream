@@ -44,6 +44,7 @@
       '.ru-card-info{flex:1;min-width:0;}',
       '.ru-card-name{font-weight:600;font-size:14px;margin-bottom:2px;}',
       '.ru-card-detail{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.ru-center-select{margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#333);}',
       '.ru-center-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;color:#fff;margin-top:4px;text-transform:capitalize;}',
       '.ru-center-badge.mock_stream{background:linear-gradient(135deg,#6366f1,#818cf8);}',
       '.ru-center-badge.bek{background:linear-gradient(135deg,#f59e0b,#d97706);}',
@@ -60,6 +61,7 @@
       '.ru-role-premium{background:#fff3e0;color:#e65100;border:1px solid #ffcc80;}',
       '.ru-role-admin{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}',
       '.ru-role-super-admin{background:#ede7f6;color:#4527a0;border:1px solid #b39ddb;}',
+      '.ru-role-expired{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;}',
       '.ru-back-btn{background:none;border:none;font-size:14px;cursor:pointer;color:#6366f1;font-weight:600;display:flex;align-items:center;gap:4px;}',
       '.ru-back-btn:hover{text-decoration:underline;}',
       '.ru-result-card{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);transition:all .15s ease;cursor:pointer;}',
@@ -180,8 +182,11 @@
             '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
             '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
             '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
-            '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="premium" onclick="_setRuTab(\'premium\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⭐ Premium <span data-rucount="premium"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="expired" onclick="_setRuTab(\'expired\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⏳ Expired <span data-rucount="expired"></span></button>' +
+            '<button type="button" class="ru-tab-btn" data-rutab="admin" onclick="_setRuTab(\'admin\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🛡️ Admin <span data-rucount="admin"></span></button>' +
           '</div>' +
+          '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#333);"><option value="">All centres</option></select>' +
           '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;">' +
           '<div class="ru-stats" id="ruStats" style="padding:0 14px 8px;font-size:12px;color:var(--ink-muted,#64748b);"></div>' +
           '<div class="ru-list" id="ruList" style="padding:0 14px 14px;max-height:60vh;overflow-y:auto;"><div class="ru-empty" style="text-align:center;padding:40px;color:#888;">Loading...</div></div>' +
@@ -204,8 +209,11 @@
           '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
           '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
           '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="premium" onclick="_setRuTab(\'premium\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⭐ Premium <span data-rucount="premium"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="expired" onclick="_setRuTab(\'expired\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">⏳ Expired <span data-rucount="expired"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="admin" onclick="_setRuTab(\'admin\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🛡️ Admin <span data-rucount="admin"></span></button>' +
         '</div>' +
+        '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()"><option value="">All centres</option></select>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
         '<div class="ru-stats" id="ruStats"></div>' +
         '<div class="ru-list" id="ruList"><div class="ru-empty">Loading...</div></div>' +
@@ -228,6 +236,8 @@
       if (overlay) overlay.classList.add('active');
       document.getElementById('ruList').innerHTML = '<div class="ru-empty">Loading...</div>';
       document.getElementById('ruSearch').value = '';
+      var _cs = document.getElementById('ruCenter');
+      if (_cs) _cs.value = '';
       document.getElementById('ruStats').textContent = '';
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -255,7 +265,7 @@
           var PAGE = 1000, from = 0, all = [];
           for (var guard = 0; guard < 50; guard++) {   // 50k ceiling, never infinite
             var resp = await fetch(
-              SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc',
+              SB_URL + '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc',
               { headers: {
                   'apikey': SB_KEY,
                   'Authorization': 'Bearer ' + token,
@@ -276,7 +286,7 @@
         }
         var [cands, premResp] = await Promise.all([
           _fetchAllCandidates(),
-          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active,plan', {
+          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active,plan,expires_at', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           })
         ]);
@@ -312,6 +322,7 @@
         console.warn('[RegisteredUsers] Fetch error:', e);
       }
       _updateRuTabCounts();
+      _populateRuCentres();
       _renderRuList(_ruData.filter(_ruTabFilter));
     }
 
@@ -355,26 +366,66 @@
     function _ruTabFilter(c) {
       if (_ruTab === 'google')   return _ruIsGoogle(c);
       if (_ruTab === 'telegram') return _ruIsTelegram(c);
-      if (_ruTab === 'guest')    return _ruIsGuest(c);
+      if (_ruTab === 'premium')  return _ruIsPremium(c);
+      if (_ruTab === 'expired')  return _ruIsExpired(c);
+      if (_ruTab === 'admin')    return _ruIsAdminUser(c);
+      // 'guest' went with the anon-insert hole that created those rows; an old
+      // tab id left in an open panel should not empty the list.
       return true;
     }
 
     function _updateRuTabCounts() {
-      var counts = { all: _ruData.length, google: 0, telegram: 0, guest: 0 };
+      var counts = { all: _ruData.length, google: 0, telegram: 0, premium: 0, expired: 0, admin: 0 };
       _ruData.forEach(function(c) {
         if (_ruIsTelegram(c))    counts.telegram++;
         else if (_ruIsGoogle(c)) counts.google++;
-        else                     counts.guest++;
+        // Entitlement does not depend on how somebody signed in, so these are
+        // counted alongside the sign-in tabs rather than instead of them.
+        if (_ruIsPremium(c))     counts.premium++;
+        if (_ruIsExpired(c))     counts.expired++;
+        if (_ruIsAdminUser(c))   counts.admin++;
       });
-      ['all','google','telegram','guest'].forEach(function(k) {
+      ['all','google','telegram','premium','expired','admin'].forEach(function(k) {
         var el = document.querySelector('#ruTabs [data-rucount="' + k + '"]');
         if (el) el.textContent = '(' + counts[k] + ')';
       });
     }
 
+    /**
+     * The centre list is built from the data rather than hardcoded, so a centre
+     * that only exists in old rows (`mockstream`, the un-underscored spelling)
+     * and `unknown` — the 8.5k who registered but have not sat a mock, so no
+     * result ever named their site — both show up instead of quietly vanishing.
+     */
+    function _populateRuCentres() {
+      var sel = document.getElementById('ruCenter');
+      if (!sel) return;
+      var keep = sel.value || '';
+      var counts = {};
+      _ruData.forEach(function(c) {
+        var k = c.center || 'unknown';
+        counts[k] = (counts[k] || 0) + 1;
+      });
+      var keys = Object.keys(counts).sort(function(a, b) { return counts[b] - counts[a]; });
+      var html = '<option value="">All centres (' + _ruData.length + ')</option>';
+      keys.forEach(function(k) {
+        html += '<option value="' + k.replace(/"/g, '&quot;') + '">' +
+                k.replace(/</g, '&lt;') + ' (' + counts[k] + ')</option>';
+      });
+      sel.innerHTML = html;
+      if (keep && counts[keep]) sel.value = keep;
+    }
+
+    function _ruCentreFilter(c) {
+      var sel = document.getElementById('ruCenter');
+      var want = sel ? (sel.value || '') : '';
+      if (!want) return true;
+      return (c.center || 'unknown') === want;
+    }
+
     function _filterRuList() {
       var q = (document.getElementById('ruSearch').value || '').toLowerCase().trim();
-      var base = _ruData.filter(_ruTabFilter);
+      var base = _ruData.filter(_ruTabFilter).filter(_ruCentreFilter);
       if (!q) { _renderRuList(base); return; }
       var filtered = base.filter(function(c) {
         var match = (c.student_name || '').toLowerCase().indexOf(q) !== -1 ||
@@ -394,10 +445,48 @@
       _renderRuList(filtered);
     }
 
+    /**
+     * `active = false` is what the nightly expiry job leaves behind, and the
+     * panel used to treat that as "no entitlement at all" — so 201 people who
+     * had paid and lapsed looked identical to someone who never bought
+     * anything. That is precisely the list worth having, so it gets its own
+     * grey badge carrying the date it ran out.
+     */
+    function _ruExpiredLabel(p) {
+      var when = '';
+      if (p.expires_at) {
+        var d = new Date(p.expires_at);
+        if (!isNaN(d)) when = ' ' + d.getDate() + ' ' + _RU_MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+      }
+      return '⏳ Expired' + when;
+    }
+
+    function _ruIsExpired(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && !p.active && p.role !== 'admin');
+    }
+
+    function _ruIsPremium(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && p.active && p.role !== 'admin' && p.tier === 'premium');
+    }
+
+    function _ruIsAdminUser(c) {
+      if (!c.email || !window._ruPremiumMap) return false;
+      var p = window._ruPremiumMap[c.email.toLowerCase()];
+      return !!(p && p.active && p.role === 'admin');
+    }
+
     function _getRoleBadge(email) {
       if (!email || !window._ruPremiumMap) return '';
       var p = window._ruPremiumMap[email.toLowerCase()];
-      if (!p || !p.active) return '';
+      if (!p) return '';
+      if (!p.active) {
+        if (p.role === 'admin') return '';
+        return '<span class="ru-role-badge ru-role-expired">' + _ruExpiredLabel(p) + '</span>';
+      }
       if (p.role === 'admin' && (!p.center || p.center === '')) {
         return '<span class="ru-role-badge ru-role-super-admin">⚡ Super Admin</span>';
       }
@@ -413,9 +502,12 @@
     function _getRoleBadgeDetail(email) {
       if (!email || !window._ruPremiumMap) return '';
       var p = window._ruPremiumMap[email.toLowerCase()];
-      if (!p || !p.active) return '';
+      if (!p) return '';
       var label = '', cls = '';
-      if (p.role === 'admin' && (!p.center || p.center === '')) {
+      if (!p.active) {
+        if (p.role === 'admin') return '';
+        label = _ruExpiredLabel(p); cls = 'ru-role-expired';
+      } else if (p.role === 'admin' && (!p.center || p.center === '')) {
         label = '⚡ Super Admin'; cls = 'ru-role-super-admin';
       } else if (p.role === 'admin') {
         label = '🛡️ Admin'; cls = 'ru-role-admin';
@@ -424,6 +516,53 @@
       }
       if (!label) return '';
       return '<div style="font-size:11px;margin-top:3px;"><span class="ru-role-badge ' + cls + '">' + label + '</span> <span style="color:#aaa;font-size:10px;">' + p.email.replace(/</g, '&lt;') + '</span></div>';
+    }
+
+    var _RU_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function _ruStamp(d) {
+      return d.getDate() + ' ' + _RU_MONTHS[d.getMonth()] + ' ' + d.getFullYear() + ', ' +
+             String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    /**
+     * "Today 12:04" beats "27 Sep 2026, 12:04" for the question this line is
+     * actually asked: is this person still around? Recent days get named, and
+     * anything older falls back to the date, which is what you want when the
+     * answer is "not for a while".
+     */
+    function _ruWhen(d) {
+      var now = new Date();
+      var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var days = Math.floor((midnight - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+      var clock = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      if (days <= 0) {
+        var mins = Math.floor((now - d) / 60000);
+        if (mins < 1)  return 'just now';
+        if (mins < 60) return mins + ' min ago';
+        return 'today ' + clock;
+      }
+      if (days === 1) return 'yesterday ' + clock;
+      if (days < 7)   return days + ' days ago';
+      return _ruStamp(d);
+    }
+
+    /**
+     * Two facts, each labelled, because one timestamp could not carry both:
+     * when they first arrived, and when they were last here. `last_seen_at` is
+     * kept from sign-ins, submitted results and opened mocks; it is empty only
+     * for someone who has not been back since the account was made.
+     */
+    function _ruWhenLine(c) {
+      var out = [];
+      if (c.created_at) out.push('🗓 Joined ' + _ruStamp(new Date(c.created_at)));
+      if (c.last_seen_at) {
+        var d = new Date(c.last_seen_at);
+        var fresh = (Date.now() - d.getTime()) < 24 * 60 * 60 * 1000;
+        out.push('<span style="color:' + (fresh ? '#059669' : 'inherit') + ';font-weight:' +
+                 (fresh ? '700' : '400') + ';">👁 Last seen ' + _ruWhen(d) + '</span>');
+      }
+      return out.join(' &nbsp;·&nbsp; ');
     }
 
     function _renderRuList(list) {
@@ -451,14 +590,35 @@
           else if (p.tier === 'premium') premCount++;
         });
       }
+      // How many of the people on screen have actually been here lately — the
+      // number the centre owners ask for, and the one a raw total hides.
+      var dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+      var weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      var active24 = 0, active7 = 0;
+      list.forEach(function(c) {
+        if (!c.last_seen_at) return;
+        var t = new Date(c.last_seen_at).getTime();
+        if (t >= dayAgo) active24++;
+        if (t >= weekAgo) active7++;
+      });
+
       var roleStats = [];
+      if (active7)  roleStats.push('👁 ' + active24 + ' today · ' + active7 + ' this week');
       if (premCount) roleStats.push('⭐ ' + premCount + ' premium');
       if (adminCount) roleStats.push('🛡️ ' + adminCount + ' admin');
       if (superCount) roleStats.push('⚡ ' + superCount + ' super admin');
       statsEl.textContent = list.length + ' users — ' + statsArr.join(' · ') + (roleStats.length ? ' — ' + roleStats.join(' · ') : '');
 
+      // The list is now the whole registry — 16.5k people after the auth
+      // backfill, not the 230 rows this panel was written for. Drawing a card
+      // for each one freezes the phone it is most often opened on, so only the
+      // first page is drawn; the counts above still describe everybody, and the
+      // search box filters the full set rather than what is on screen.
+      var CAP = 300;
+      var shown = list.length > CAP ? list.slice(0, CAP) : list;
+
       var html = '';
-      list.forEach(function(c) {
+      shown.forEach(function(c) {
         var name = c.student_name || 'Unknown';
         var parts = name.trim().split(/\s+/);
         var initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : name.substring(0, 2).toUpperCase();
@@ -475,20 +635,21 @@
         var _aiKey = (c.email || c.student_name || '').toLowerCase();
         var _aiToday = (window._ruAiTodayMap && window._ruAiTodayMap[_aiKey]) || 0;
         if (_aiToday > 0) details.push('🤖 ' + _aiToday + ' AI today');
-        var updatedStr = '';
-        if (c.updated_at) {
-          var _ud = new Date(c.updated_at);
-          updatedStr = '🕐 ' + _ud.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][_ud.getMonth()] + ' ' + _ud.getFullYear() + ', ' + String(_ud.getHours()).padStart(2,'0') + ':' + String(_ud.getMinutes()).padStart(2,'0');
-        }
+        var updatedStr = _ruWhenLine(c);
         html += '<div class="ru-card' + (c.blocked ? ' ru-card-blocked' : '') + '" onclick="_viewUserResults(\'' + name.replace(/'/g, "\\'").replace(/</g, '&lt;') + '\')">' +
           '<div class="ru-card-avatar">' + avatarInner + '</div>' +
           '<div class="ru-card-info">' +
             '<div class="ru-card-name">' + name.replace(/</g, '&lt;') + (c.blocked ? ' <span style="color:#e53935;font-size:11px;font-weight:700;">🚫 BLOCKED</span>' : '') + _getRoleBadge(c.email) + '</div>' +
             (details.length ? '<div class="ru-card-detail">' + details.join(' &nbsp;·&nbsp; ').replace(/</g, '&lt;') + '</div>' : '') +
-            (updatedStr ? '<div style="font-size:11px;color:#aaa;margin-top:1px;">' + updatedStr + '</div>' : '') +
+            (updatedStr ? '<div style="font-size:11px;color:#94a3b8;margin-top:2px;">' + updatedStr + '</div>' : '') +
             '<span class="ru-center-badge ' + badgeClass + '">' + center.replace(/</g, '&lt;') + '</span>' +
           '</div></div>';
       });
+      if (list.length > CAP) {
+        html += '<div class="ru-empty" style="padding:18px 8px;">' +
+                'Showing the first ' + CAP + ' of ' + list.length +
+                ' — search by name, email or centre to find someone.</div>';
+      }
       container.innerHTML = html;
     }
 
@@ -825,6 +986,8 @@
       var listEl = document.getElementById('ruList');
       // Save scroll state
       searchEl.style.display = 'none';
+      var centreEl = document.getElementById('ruCenter');
+      if (centreEl) centreEl.style.display = 'none';
       var tabsEl = document.getElementById('ruTabs');
       if (tabsEl) tabsEl.style.display = 'none';
       statsEl.innerHTML = '<button class="ru-back-btn" onclick="_backToUsersList()">← Back to Users</button>';
@@ -1177,6 +1340,8 @@
       var searchEl = document.getElementById('ruSearch');
       searchEl.style.display = '';
       searchEl.value = '';
+      var centreEl = document.getElementById('ruCenter');
+      if (centreEl) centreEl.style.display = '';
       var tabsEl = document.getElementById('ruTabs');
       if (tabsEl) tabsEl.style.display = '';
       var headerH3 = document.querySelector('.ru-header h3');
