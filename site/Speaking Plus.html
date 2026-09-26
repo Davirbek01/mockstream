@@ -844,7 +844,15 @@ function startExam(){
 }
 
 async function ensureMediaStream(){
-  if(mediaStream) return mediaStream;
+  // iOS ends or mutes a capture track when the audio session flips to
+  // playback, and the dead stream still looks alive — recording gives 0 bytes.
+  // Check before reusing rather than trusting that it worked once.
+  if(mediaStream){
+    var t = mediaStream.getAudioTracks()[0];
+    if(t && t.readyState === 'live' && !t.muted) return mediaStream;
+    try{ mediaStream.getTracks().forEach(function(x){ x.stop(); }); }catch(e){}
+    mediaStream = null;
+  }
   try{
     mediaStream = await navigator.mediaDevices.getUserMedia({audio:true});
   }catch(e){
