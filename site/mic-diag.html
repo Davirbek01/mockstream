@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microphone diagnosis · Mock Stream</title>
+<!--
+  Why this page exists
+  --------------------
+  iPhones on the website are finishing a speaking answer with a 0-byte
+  recording, while the same page on Android records normally. The exam page
+  cannot tell us WHICH part of its recording setup breaks, because it only
+  ever runs one combination.
+
+  This runs three, one after another, on the device that actually fails:
+
+    A  MediaRecorder on its own
+    B  MediaRecorder + an AudioContext analyser reading the SAME stream
+       (this is what the live waveform on the exam page does)
+    C  MediaRecorder + an analyser reading a CLONED stream
+
+  Whichever of the three comes back empty names the cause. Nothing here is
+  saved or uploaded; the clips exist only in the page and are dropped when it
+  closes.
+-->
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         margin: 0; padding: 20px; background: #f8fafc; color: #0f172a; }
+  @media (prefers-color-scheme: dark) { body { background: #0b1220; color: #e2e8f0; } }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.lead { margin: 0 0 20px; color: #64748b; }
+  button { font: inherit; font-weight: 700; padding: 14px 20px; border-radius: 12px;
+           border: 0; background: #0ea5e9; color: #fff; width: 100%; }
+  button[disabled] { opacity: .5; }
+  .test { border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; margin: 10px 0;
+          background: rgba(255,255,255,.6); }
+  @media (prefers-color-scheme: dark) { .test { background: rgba(255,255,255,.04); border-color: #334155; } }
+  .test h2 { font-size: 15px; margin: 0 0 4px; }
+  .test .r { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+  .ok { color: #16a34a; font-weight: 700; }
+  .bad { color: #dc2626; font-weight: 700; }
+  .muted { color: #64748b; }
+  #env { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
+         white-space: pre-wrap; word-break: break-word; color: #64748b; margin-top: 18px; }
+  #copy { background: #475569; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Microphone diagnosis</h1>
+<p class="lead">Three 5-second recordings, one after another. Speak normally through all of them.
+Nothing is uploaded or saved.</p>
+
+<button id="go">Start — allow the microphone</button>
+
+<div class="test" id="tA"><h2>A · Recorder alone</h2><div class="r muted">waiting</div></div>
+<div class="test" id="tB"><h2>B · Recorder + waveform on the same stream</h2><div class="r muted">waiting</div></div>
+<div class="test" id="tC"><h2>C · Recorder + waveform on a cloned stream</h2><div class="r muted">waiting</div></div>
+
+<button id="copy" hidden>Copy the result</button>
+<div id="env"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var TYPES = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/wav'];
+
+  function pickMime() {
+    for (var i = 0; i < TYPES.length; i++) {
+      try { if (window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(TYPES[i])) return TYPES[i]; }
+      catch (e) { /* keep looking */ }
+    }
+    return '';
+  }
+
+  function supportMap() {
+    return TYPES.map(function (t) {
+      var ok = false;
+      try { ok = !!(window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)); } catch (e) {}
+      return t + ' = ' + ok;
+    }).join('\n');
+  }
+
+  function say(id, html, cls) {
+    var el = document.querySelector('#' + id + ' .r');
+    el.className = 'r' + (cls ? ' ' + cls : '');
+    el.innerHTML = html;
+  }
+
+  /**
+   * One 5-second recording. `wire` decides what, if anything, also listens to
+   * the microphone while the recorder runs — that is the whole experiment.
+   */
+  function record(stream, wire) {
+    return new Promise(function (resolve) {
+      var mime = pickMime();
+      var chunks = [], events = 0, extra = null;
+      var rec;
+      try {
+        rec = new MediaRecorder(stream, mime ? { mimeType: mime, audioBitsPerSecond: 48000 }
+                                             : { audioBitsPerSecond: 48000 });
+      } catch (e) {
+        resolve({ error: 'MediaRecorder refused: ' + e.message, mime: mime });
+        return;
+      }
+
+      rec.ondataavailable = function (e) { events++; if (e.data && e.data.size > 0) chunks.push(e.data); };
+      rec.onerror = function (e) { resolve({ error: 'recorder error: ' + (e.error && e.error.name), mime: mime }); };
+      rec.onstop = function () {
+        var blob = new Blob(chunks, { type: rec.mimeType || mime || 'audio/webm' });
+        if (extra && extra.close) { try { extra.close(); } catch (e) {} }
+        var track = stream.getAudioTracks()[0];
+        resolve({
+          bytes: blob.size,
+          events: events,
+          mime: rec.mimeType || mime || '(default)',
+          muted: track ? track.muted : null,
+          state: track ? track.readyState : null
+        });
+      };
+
+      try { extra = wire ? wire(stream) : null; } catch (e) { /* the recording is what matters */ }
+      // A timeslice, exactly as the exam page uses it.
+      rec.start(1000);
+      setTimeout(function () { try { rec.stop(); } catch (e) {} }, 5000);
+    });
+  }
+
+  /** What the exam page's live waveform does: an analyser on the SAME stream. */
+  function analyserOn(s) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    var ctx = new AC();
+    var src = ctx.createMediaStreamSource(s);
+    var an = ctx.createAnalyser();
+    an.fftSize = 64;
+    src.connect(an);
+    return { close: function () { try { ctx.close(); } catch (e) {} } };
+  }
+
+  function verdict(r) {
+    if (r.error) return ['<span class="bad">' + r.error + '</span>', 'bad'];
+    var good = r.bytes >= 1024;
+    return [
+      '<span class="' + (good ? 'ok' : 'bad') + '">' + (good ? 'recorded' : 'EMPTY') + '</span> · ' +
+      r.bytes.toLocaleString() + ' bytes · ' + r.events + ' chunk(s) · ' + r.mime +
+      (r.muted ? ' · <span class="bad">track muted</span>' : '') +
+      (r.state && r.state !== 'live' ? ' · track ' + r.state : ''),
+      good ? 'ok' : 'bad'
+    ];
+  }
+
+  var results = {};
+
+  document.getElementById('go').addEventListener('click', async function () {
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Recording A…';
+
+    var stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      say('tA', '<span class="bad">microphone refused: ' + e.name + '</span>', 'bad');
+      btn.disabled = false;
+      btn.textContent = 'Try again';
+      return;
+    }
+
+    say('tA', 'recording…');
+    results.A = await record(stream, null);
+    var a = verdict(results.A); say('tA', a[0], a[1]);
+
+    btn.textContent = 'Recording B…';
+    say('tB', 'recording…');
+    results.B = await record(stream, analyserOn);
+    var b = verdict(results.B); say('tB', b[0], b[1]);
+
+    btn.textContent = 'Recording C…';
+    say('tC', 'recording…');
+    results.C = await record(stream, function (s) {
+      var clone = s.clone();
+      var h = analyserOn(clone);
+      return { close: function () {
+        if (h) h.close();
+        clone.getTracks().forEach(function (t) { t.stop(); });
+      } };
+    });
+    var c = verdict(results.C); say('tC', c[0], c[1]);
+
+    stream.getTracks().forEach(function (t) { t.stop(); });
+    btn.textContent = 'Done';
+    document.getElementById('copy').hidden = false;
+  });
+
+  var env = [
+    'userAgent: ' + navigator.userAgent,
+    'MediaRecorder: ' + (typeof MediaRecorder !== 'undefined'),
+    'chosen mime: ' + (pickMime() || '(browser default)'),
+    supportMap()
+  ].join('\n');
+  document.getElementById('env').textContent = env;
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var out = ['Mic diagnosis'];
+    ['A', 'B', 'C'].forEach(function (k) {
+      var r = results[k];
+      out.push(k + ': ' + (r ? (r.error || (r.bytes + ' bytes, ' + r.events + ' chunks, ' + r.mime +
+              (r.muted ? ', MUTED' : ''))) : 'not run'));
+    });
+    out.push(env);
+    var text = out.join('\n');
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function () { document.getElementById('copy').textContent = 'Copied'; })
+      .catch(function () { window.prompt('Copy this:', text); });
+  });
+})();
+</script>
+</body>
+</html>

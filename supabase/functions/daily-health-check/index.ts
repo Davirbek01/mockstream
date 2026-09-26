@@ -510,6 +510,24 @@ Deno.serve(async (req) => {
   // Null when RESEND_API_KEY is unset; the section is then simply absent.
   const resend = await resendDay(daysBack);
 
+  // Remember who bounced. Resend refuses these addresses from now on, so the
+  // sign-in page has to be able to say so instead of promising a code that
+  // cannot arrive. Never allowed to fail the report.
+  if (resend) {
+    const locked = [
+      ...resend.bouncedTo.map((e) => [e, 'bounced'] as const),
+      ...resend.complainedTo.map((e) => [e, 'complained'] as const),
+    ];
+    for (const [email, reason] of locked) {
+      try {
+        await sb.rpc('_record_suppressed_email', { p_email: email, p_reason: reason });
+      } catch (e) {
+        console.error('[daily-health-check] could not record', email, (e as Error).message);
+      }
+    }
+    if (locked.length) console.log('[daily-health-check] recorded', locked.length, 'suppressed address(es)');
+  }
+
   // Housekeeping: speaking drafts nobody came back to within 72 hours (their
   // test_sessions rows expire at the same age). Never allowed to fail the report.
   try {
