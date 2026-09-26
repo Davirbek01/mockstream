@@ -9209,6 +9209,29 @@
       }
 
       async function ensureMediaStream() {
+        // A cached stream can be dead by the time the exam starts, and it does
+        // not look dead: the REC dot lights, the timer runs, and the answer
+        // comes out at 0 bytes. iOS ends or mutes a capture track whenever the
+        // audio session flips to playback — the mic check's own "tap to listen"
+        // does exactly that, which is why a phone can pass the mic test and
+        // then record nothing, with the live waveform flat as the giveaway.
+        // So the cached stream is checked before it is handed back, never
+        // trusted because it once worked.
+        if (mediaStream) {
+          const t = mediaStream.getAudioTracks()[0];
+          if (!t || t.readyState !== 'live' || t.muted) {
+            console.warn('[Media Access] cached stream is not usable (' +
+              (t ? 'readyState=' + t.readyState + ', muted=' + t.muted : 'no audio track') +
+              ') — asking for a fresh one');
+            try { mediaStream.getTracks().forEach(x => x.stop()); } catch (e) { /* already gone */ }
+            mediaStream = null;
+            // The analyser is bound to the stream that just died; drop it so
+            // the waveform rebinds to the new one instead of staying flat.
+            try { stopWaveform(); } catch (e) { }
+            try { if (_wfCtx && _wfCtx.close) _wfCtx.close(); } catch (e) { }
+            _wfAnalyser = null; _wfCtx = null;
+          }
+        }
         if (!mediaStream) {
           try {
             // Check if getUserMedia is available
