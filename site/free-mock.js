@@ -141,7 +141,28 @@
       '.ms-lockbadge .i{font-size:18px;line-height:1;}',
       '.ms-lockbadge .t{font-size:12px;font-weight:700;}',
       '.ms-freeflag{background:#f59e0b;color:#241a00;font-weight:800;font-size:11px;',
-      '  letter-spacing:.05em;padding:4px 9px;border-radius:999px;margin-left:4px;}'
+      '  letter-spacing:.05em;padding:4px 9px;border-radius:999px;margin-left:4px;}',
+      '#msFreeUpsell{position:fixed;inset:0;z-index:2147483100;display:flex;',
+      '  align-items:center;justify-content:center;padding:18px;}',
+      '#msFreeUpsell .ms-up-back{position:absolute;inset:0;background:rgba(15,23,42,.55);}',
+      '#msFreeUpsell .ms-up-box{position:relative;background:#fff;color:#0f172a;border-radius:18px;',
+      '  padding:24px 22px 18px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);',
+      '  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;}',
+      '#msFreeUpsell h3{margin:0 0 6px;font-size:19px;}',
+      '#msFreeUpsell p{margin:0 0 14px;color:#64748b;font-size:14px;}',
+      '#msFreeUpsell .ms-up-gains{list-style:none;margin:0 0 18px;padding:0;display:flex;',
+      '  flex-direction:column;gap:8px;font-size:14px;}',
+      '#msFreeUpsell .ms-up-gains li{display:flex;gap:9px;align-items:flex-start;}',
+      '#msFreeUpsell .ms-up-gains span{color:#059669;font-weight:800;}',
+      '#msFreeUpsell .ms-up-cta{display:flex;gap:10px;flex-wrap:wrap;}',
+      '#msFreeUpsell .ms-up-primary{background:#059669;color:#fff;border:0;border-radius:11px;',
+      '  padding:12px 18px;font-weight:700;text-decoration:none;display:inline-block;}',
+      '#msFreeUpsell .ms-up-ghost{background:transparent;border:1px solid #e2e8f0;color:#0f172a;',
+      '  border-radius:11px;padding:12px 16px;font:600 14px/1 inherit;cursor:pointer;}',
+      '#msFreeUpsell .ms-up-foot{margin:14px 0 0;font-size:13px;}',
+      '#msFreeUpsell .ms-up-foot a{color:#7c3aed;}',
+      '#msFreeUpsell .ms-up-x{position:absolute;top:10px;right:12px;background:none;border:0;',
+      '  font-size:22px;line-height:1;color:#94a3b8;cursor:pointer;}'
     ].join('\n');
     (document.head || document.documentElement).appendChild(st);
   }
@@ -223,6 +244,72 @@
     }
   }
 
+
+  /* ── when the free sitting is spent ───────────────────────────────────────
+   * The code gate is the right answer for a mock the student never had. It is
+   * the wrong one here: they sat this exact mock, read their own analysis, and
+   * came back to it. Telling them "enter a code" explains nothing and asks for
+   * something they may not know how to get. So this says what happened, what a
+   * code opens, and where to get one — with the code box still there for
+   * anyone who already has one.
+   */
+  function centreContact() {
+    var c = (window.SITE_CONFIG || {});
+    return c.adminTelegram || c.telegramUrl || '';
+  }
+  function centreName() {
+    var c = (window.SITE_CONFIG || {});
+    return c.brandName || 'markazingiz';
+  }
+
+  function closeUpsell() {
+    var m = document.getElementById('msFreeUpsell');
+    if (m) m.remove();
+  }
+
+  function showUpsell(card) {
+    closeUpsell();
+    var link = centreContact();
+    var wrap = document.createElement('div');
+    wrap.id = 'msFreeUpsell';
+    wrap.setAttribute('role', 'dialog');
+    wrap.setAttribute('aria-modal', 'true');
+    wrap.setAttribute('aria-label', 'Bepul urinish ishlatilgan');
+    wrap.innerHTML =
+      '<div class="ms-up-back"></div>' +
+      '<div class="ms-up-box">' +
+        '<h3>Bepul urinishingiz ishlatilgan</h3>' +
+        '<p>Bu mokni topshirdingiz va tahlilingizni oldingiz. Qolgan moklar kod bilan ochiladi.</p>' +
+        '<ul class="ms-up-gains">' +
+          '<li><span>✓</span>8 ta to‘plam — CEFR va IELTS, to‘rttala ko‘nikma</li>' +
+          '<li><span>✓</span>Har to‘plamda o‘nlab variant</li>' +
+          '<li><span>✓</span>Har topshiriqda to‘liq AI tahlili</li>' +
+        '</ul>' +
+        '<div class="ms-up-cta">' +
+          (link ? '<a class="ms-up-primary" href="' + link + '" target="_blank" rel="noopener">Kod olish</a>' : '') +
+          '<button type="button" class="ms-up-ghost" id="msUpHaveCode">Kodim bor</button>' +
+        '</div>' +
+        '<p class="ms-up-foot"><a href="/results/my-results.html">Oldingi natijangizni ko‘ring →</a></p>' +
+        '<button type="button" class="ms-up-x" aria-label="Yopish">×</button>' +
+      '</div>';
+    document.body.appendChild(wrap);
+
+    wrap.querySelector('.ms-up-back').addEventListener('click', closeUpsell);
+    wrap.querySelector('.ms-up-x').addEventListener('click', closeUpsell);
+    // Someone who already has a code should not be trapped behind the offer:
+    // close it and let the card's own gate open, exactly as before.
+    wrap.querySelector('#msUpHaveCode').addEventListener('click', function () {
+      closeUpsell();
+      var btn = card && card.querySelector('.ilet-take');
+      if (btn) { upsellBypass = true; btn.click(); upsellBypass = false; }
+    });
+    document.addEventListener('keydown', function esc(e) {
+      if (e.key === 'Escape') { closeUpsell(); document.removeEventListener('keydown', esc); }
+    });
+  }
+
+  var upsellBypass = false;
+
   /* ── spending the claim ──────────────────────────────────────────────── */
 
   document.addEventListener('click', function (e) {
@@ -236,7 +323,13 @@
     var mock = parseInt(card.getAttribute('data-mock'), 10);
     if (freeNumber(s.exam, s.skill) !== mock) return;
     if (everythingOpen() || skillOpen(s.skill)) return;      // not a free sitting at all
-    if (!stillAvailable(s.exam, s.skill)) return;            // already spent; the code gate handles it
+    if (!stillAvailable(s.exam, s.skill)) {
+      if (upsellBypass) return;                              // they said they have a code
+      e.preventDefault();
+      e.stopPropagation();
+      showUpsell(card);
+      return;
+    }
 
     // Spend it. The insert is the lock, so two devices racing still yield one.
     var key = setKey(s.exam, s.skill);
