@@ -205,6 +205,10 @@
 
   function paintCards() {
     if (!cfg) return;
+    // center-guard rebuilds window._centerAccess from scratch more than once,
+    // which drops the unlocks published before its last pass. Publishing again
+    // here costs nothing and keeps them present whenever a card is drawn.
+    publishUnlocks();
     installStyle();
     var cards = document.querySelectorAll('.ilet-card, .cret-card, .iret-card');
     for (var i = 0; i < cards.length; i++) {
@@ -386,6 +390,11 @@
   };
 
   // The centre's config decides everything here, so wait for it.
-  document.addEventListener('mockStream:centerConfigLoaded', function () { setTimeout(start, 0); });
+  document.addEventListener('mockStream:centerConfigLoaded', function () {
+    // Fires on each of center-guard's passes: restart if this is the first,
+    // otherwise just put the unlocks back into the object it just replaced.
+    if (!cfg) { setTimeout(start, 0); }
+    else { setTimeout(function () { publishUnlocks(); paintCards(); }, 0); }
+  });
   if (window._centerAccess && window._centerAccess.freeMocks) setTimeout(start, 0);
 })();
