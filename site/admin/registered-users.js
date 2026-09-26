@@ -260,7 +260,7 @@
           var PAGE = 1000, from = 0, all = [];
           for (var guard = 0; guard < 50; guard++) {   // 50k ceiling, never infinite
             var resp = await fetch(
-              SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc',
+              SB_URL + '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc',
               { headers: {
                   'apikey': SB_KEY,
                   'Authorization': 'Bearer ' + token,
@@ -464,6 +464,53 @@
       return '<div style="font-size:11px;margin-top:3px;"><span class="ru-role-badge ' + cls + '">' + label + '</span> <span style="color:#aaa;font-size:10px;">' + p.email.replace(/</g, '&lt;') + '</span></div>';
     }
 
+    var _RU_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function _ruStamp(d) {
+      return d.getDate() + ' ' + _RU_MONTHS[d.getMonth()] + ' ' + d.getFullYear() + ', ' +
+             String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    /**
+     * "Today 12:04" beats "27 Sep 2026, 12:04" for the question this line is
+     * actually asked: is this person still around? Recent days get named, and
+     * anything older falls back to the date, which is what you want when the
+     * answer is "not for a while".
+     */
+    function _ruWhen(d) {
+      var now = new Date();
+      var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var days = Math.floor((midnight - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+      var clock = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      if (days <= 0) {
+        var mins = Math.floor((now - d) / 60000);
+        if (mins < 1)  return 'just now';
+        if (mins < 60) return mins + ' min ago';
+        return 'today ' + clock;
+      }
+      if (days === 1) return 'yesterday ' + clock;
+      if (days < 7)   return days + ' days ago';
+      return _ruStamp(d);
+    }
+
+    /**
+     * Two facts, each labelled, because one timestamp could not carry both:
+     * when they first arrived, and when they were last here. `last_seen_at` is
+     * kept from sign-ins, submitted results and opened mocks; it is empty only
+     * for someone who has not been back since the account was made.
+     */
+    function _ruWhenLine(c) {
+      var out = [];
+      if (c.created_at) out.push('🗓 Joined ' + _ruStamp(new Date(c.created_at)));
+      if (c.last_seen_at) {
+        var d = new Date(c.last_seen_at);
+        var fresh = (Date.now() - d.getTime()) < 24 * 60 * 60 * 1000;
+        out.push('<span style="color:' + (fresh ? '#059669' : 'inherit') + ';font-weight:' +
+                 (fresh ? '700' : '400') + ';">👁 Last seen ' + _ruWhen(d) + '</span>');
+      }
+      return out.join(' &nbsp;·&nbsp; ');
+    }
+
     function _renderRuList(list) {
       var container = document.getElementById('ruList');
       var statsEl = document.getElementById('ruStats');
@@ -489,7 +536,20 @@
           else if (p.tier === 'premium') premCount++;
         });
       }
+      // How many of the people on screen have actually been here lately — the
+      // number the centre owners ask for, and the one a raw total hides.
+      var dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+      var weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      var active24 = 0, active7 = 0;
+      list.forEach(function(c) {
+        if (!c.last_seen_at) return;
+        var t = new Date(c.last_seen_at).getTime();
+        if (t >= dayAgo) active24++;
+        if (t >= weekAgo) active7++;
+      });
+
       var roleStats = [];
+      if (active7)  roleStats.push('👁 ' + active24 + ' today · ' + active7 + ' this week');
       if (premCount) roleStats.push('⭐ ' + premCount + ' premium');
       if (adminCount) roleStats.push('🛡️ ' + adminCount + ' admin');
       if (superCount) roleStats.push('⚡ ' + superCount + ' super admin');
@@ -521,17 +581,13 @@
         var _aiKey = (c.email || c.student_name || '').toLowerCase();
         var _aiToday = (window._ruAiTodayMap && window._ruAiTodayMap[_aiKey]) || 0;
         if (_aiToday > 0) details.push('🤖 ' + _aiToday + ' AI today');
-        var updatedStr = '';
-        if (c.updated_at) {
-          var _ud = new Date(c.updated_at);
-          updatedStr = '🕐 ' + _ud.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][_ud.getMonth()] + ' ' + _ud.getFullYear() + ', ' + String(_ud.getHours()).padStart(2,'0') + ':' + String(_ud.getMinutes()).padStart(2,'0');
-        }
+        var updatedStr = _ruWhenLine(c);
         html += '<div class="ru-card' + (c.blocked ? ' ru-card-blocked' : '') + '" onclick="_viewUserResults(\'' + name.replace(/'/g, "\\'").replace(/</g, '&lt;') + '\')">' +
           '<div class="ru-card-avatar">' + avatarInner + '</div>' +
           '<div class="ru-card-info">' +
             '<div class="ru-card-name">' + name.replace(/</g, '&lt;') + (c.blocked ? ' <span style="color:#e53935;font-size:11px;font-weight:700;">🚫 BLOCKED</span>' : '') + _getRoleBadge(c.email) + '</div>' +
             (details.length ? '<div class="ru-card-detail">' + details.join(' &nbsp;·&nbsp; ').replace(/</g, '&lt;') + '</div>' : '') +
-            (updatedStr ? '<div style="font-size:11px;color:#aaa;margin-top:1px;">' + updatedStr + '</div>' : '') +
+            (updatedStr ? '<div style="font-size:11px;color:#94a3b8;margin-top:2px;">' + updatedStr + '</div>' : '') +
             '<span class="ru-center-badge ' + badgeClass + '">' + center.replace(/</g, '&lt;') + '</span>' +
           '</div></div>';
       });
