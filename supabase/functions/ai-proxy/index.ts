@@ -258,15 +258,31 @@ async function isIpBlocked(ip: string): Promise<boolean> {
 }
 
 // Gate 6: per-account block. Admins flip candidates.blocked = true from the
-// Registered Users panel. Lookup is by Google email (case-insensitive),
-// scoped to the same center the user is currently submitting from so a
-// block on one center can't accidentally lock the same email on another.
-async function isEmailBlocked(email: string, centerId: string): Promise<boolean> {
+// Registered Users panel. Lookup is by email, case-insensitive.
+//
+// Centre-blind, deliberately. Scoping the block to the centre the submission
+// came from had two holes: the same account simply opened one of the other six
+// sites, and — since the registry was backfilled from auth.users — 8,533 rows
+// carry centre 'unknown' (registered, never sat a mock, so nothing ever
+// recorded which site they belong to), which no centre id can ever match, so
+// blocking any of them did nothing at all.
+//
+// It also no longer breaks on a duplicate: one email can own several rows (the
+// table is unique on name+centre, not on email, and people re-register under a
+// changed spelling of their name), and the old `maybeSingle()` ERRORED on more
+// than one match — which returned no data, so blocking somebody twice silently
+// unblocked them. That was live: sodikbeknazarov4@gmail.com held four blocked
+// rows.
+//
+// The landing page asks the same question through the same function, so the
+// notice a student sees before the exam and the refusal at the end can never
+// disagree. (An ILIKE here would have been wrong: 3,373 of these emails are the
+// Telegram synthetics, `tg_<id>@...`, and `_` is an ILIKE wildcard.)
+async function isEmailBlocked(email: string, _centerId: string): Promise<boolean> {
   if (!email) return false;
-  let q = sb.from('candidates').select('blocked').eq('email', email).eq('blocked', true);
-  if (centerId) q = q.eq('center', centerId);
-  const { data } = await q.maybeSingle();
-  return !!data;
+  const { data, error } = await sb.rpc('is_account_blocked', { p_email: email });
+  if (error) return false;   // never bar somebody because the lookup failed
+  return data === true;
 }
 
 async function getCenterGate(centerId: string): Promise<{ allowed: boolean; dailyCap: number; perStudentCap: number; plus: Record<string, boolean> }> {

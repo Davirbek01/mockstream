@@ -2526,6 +2526,7 @@
     }
   </style>
   <script src="/free-mock.js?v=14" defer></script>
+  <script src="/block-guard.js?v=1" defer></script>
 </head>
 <body>
   <div class="brand-stripe"></div>
@@ -6438,6 +6439,15 @@
     // Returns true when the caller may proceed. A false return means the gate
     // modal is up and will re-call the launcher itself once sign-in lands.
     function _msGateAllow(skill, pageUrl, category, via) {
+      // A blocked account may sign in and read its own past reports; what it
+      // may not do is start another sitting. Checked here because this is the
+      // one function all eleven launch paths already pass through.
+      try {
+        if (window.MsBlockGuard && !window.MsBlockGuard.allow()) {
+          window.msTrace('gate: account blocked -> notice (' + skill + ')');
+          return false;
+        }
+      } catch (_e) {}
       if (_msGateSignedIn()) return true;
       window.msTrace('gate: not signed in -> sign-in popup (' + skill + ' ' + (via || 'launch') + ')');
       _msOpenSignInGate(skill, pageUrl, category, via);
