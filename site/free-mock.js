@@ -175,6 +175,10 @@
     st.textContent = [
       /* Blur the topics, never the card's identity: the number, title, date and
          how many people sat it all stay readable. */
+      // The topic pills sit above the part list — "Part 1 · education" — and
+      // gave the mock's subject away while the list beneath it was blurred.
+      // Scoped to a locked card, so the picker's own filter chips are untouched.
+      '.ms-locked [class*="-pill"],',
       '.ms-locked .ilet-sections,',
       '.ms-locked .ilet-mock-sections,',
       '.ms-locked .iret-passages,',
