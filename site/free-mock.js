@@ -252,6 +252,11 @@
   function unlockCard(card, markFree) {
     card.classList.remove('ms-locked');
     if (markFree) clearUsedBanner(card);
+    else {
+      // The sitting is spent: the badge would be a promise the card cannot keep.
+      var stale = card.querySelector('.ms-freeflag');
+      if (stale) stale.remove();
+    }
     var b = card.querySelector('.ms-lockbadge');
     if (b) b.remove();
     if (markFree && !card.querySelector('.ms-freeflag')) {
