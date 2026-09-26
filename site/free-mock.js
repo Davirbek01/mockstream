@@ -52,10 +52,25 @@
     // The Telegram sign-in stores its own account the same way the rest of the
     // site reads it back.
     try {
-      var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
-      if (s && s.email) return String(s.email).toLowerCase();
+      var ses = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      var em = ses && (ses.email || (ses.user && ses.user.email));
+      if (em) return String(em).toLowerCase();
     } catch (e) { }
     return '';
+  }
+
+  /**
+   * The account, resolved when it is actually needed.
+   *
+   * start() runs as soon as the centre config lands, which is before auth.js
+   * has resolved the session — so reading the account once, there, left it
+   * empty for the rest of the page. Every claim then returned early and the
+   * free mock could be sat again and again, while the card showed the spent
+   * notice because "no account" and "already used" looked the same.
+   */
+  function ensureWho() {
+    if (!who) who = identity();
+    return who;
   }
 
   function rpc(fn, body, keepalive) {
@@ -410,7 +425,7 @@
   /* ── spending the claim ──────────────────────────────────────────────── */
 
   document.addEventListener('click', function (e) {
-    if (!cfg || !who) return;
+    if (!cfg || !ensureWho()) return;
     // The reading pickers name their button differently: cret-take / iret-take
     // against ilet-take everywhere else. Watching only one of the three meant
     // the free reading mock could be sat again and again, because the click
@@ -448,10 +463,25 @@
     installStyle();
     loadSub();
 
-    if (!who) {                             // a guest gets the teaser, not the gift
+    if (!who) {
+      // Either a guest, or auth.js has not finished yet — the two are
+      // indistinguishable this early, so treat it as a guest for now (locks,
+      // no free mock) and look again for a while. Whoever it turns out to be,
+      // the cards are repainted once the answer is real.
       usedSets = [];
       paintCards();
       watch();
+      var tries = 0;
+      var iv = setInterval(function () {
+        if (++tries > 30) { clearInterval(iv); return; }   // ~15s
+        if (!ensureWho()) return;
+        clearInterval(iv);
+        rpc('free_mocks_used', { p_user: who }).then(function (list) {
+          usedSets = Array.isArray(list) ? list : [];
+          publishUnlocks();
+          paintCards();
+        });
+      }, 500);
       return;
     }
     rpc('free_mocks_used', { p_user: who }).then(function (list) {
