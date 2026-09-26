@@ -37,6 +37,7 @@
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
   var cfg = null;        // { cefr_speaking: 1, ... }
+  var subSold = null;    // does this centre publish a subscription? null = not asked
   var usedSets = null;   // ['cefr_reading', ...] — null until known
   var who = '';          // the signed-in account, '' for a guest
 
@@ -68,6 +69,23 @@
       body: JSON.stringify(body),
       keepalive: !!keepalive
     }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+
+  /**
+   * Three centres publish a subscription panel with their price, card and
+   * Telegram; the rest have nothing behind it. Asking the same table the
+   * topbar button asks keeps the two in step — a centre that publishes one
+   * tomorrow starts getting it here with no change.
+   */
+  function loadSub() {
+    var id = window.__CENTER_ID || '';
+    if (!id) { subSold = false; return Promise.resolve(false); }
+    return fetch(SB_URL + '/rest/v1/center_subscription?select=center_id&status=eq.published&center_id=eq.' +
+                 encodeURIComponent(id) + '&limit=1',
+                 { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) { subSold = !!(rows && rows.length); return subSold; })
+      .catch(function () { subSold = false; return false; });
   }
 
   /* ── what counts as unlocked already ─────────────────────────────────── */
@@ -284,7 +302,8 @@
     var bar = document.createElement('div');
     bar.className = 'ms-usedbar';
     bar.innerHTML = '<span class="ms-usedbar-t">Bepul urinishingiz ishlatilgan</span>' +
-                    '<span class="ms-usedbar-a">Kod olish →</span>';
+                    '<span class="ms-usedbar-a">' +
+                    (subSold ? 'Obuna bo‘lish' : 'Kod olish') + ' →</span>';
     bar.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -334,6 +353,11 @@
   function showUpsell(card) {
     closeUpsell();
     var link = centreContact();
+    // Where the centre sells a subscription, send them to that panel: it
+    // carries the price, the card number and the centre's own Telegram, and
+    // it is the page students are already shown everywhere else. Only centres
+    // without one fall back to a bare Telegram link.
+    var toPanel = subSold && !!document.getElementById('topbarSubscribeBtn');
     var wrap = document.createElement('div');
     wrap.id = 'msFreeUpsell';
     wrap.setAttribute('role', 'dialog');
@@ -350,7 +374,9 @@
           '<li><span>✓</span>Har topshiriqda to‘liq AI tahlili</li>' +
         '</ul>' +
         '<div class="ms-up-cta">' +
-          (link ? '<a class="ms-up-primary" href="' + link + '" target="_blank" rel="noopener">Kod olish</a>' : '') +
+          (toPanel
+            ? '<button type="button" class="ms-up-primary" id="msUpSubscribe">Obuna bo‘lish</button>'
+            : (link ? '<a class="ms-up-primary" href="' + link + '" target="_blank" rel="noopener">Kod olish</a>' : '')) +
           '<button type="button" class="ms-up-ghost" id="msUpHaveCode">Kodim bor</button>' +
         '</div>' +
         '<p class="ms-up-foot"><a href="/results/my-results.html">Oldingi natijangizni ko‘ring →</a></p>' +
@@ -358,6 +384,13 @@
       '</div>';
     document.body.appendChild(wrap);
 
+    var subBtn = wrap.querySelector('#msUpSubscribe');
+    if (subBtn) subBtn.addEventListener('click', function () {
+      closeUpsell();
+      var t = document.getElementById('topbarSubscribeBtn');
+      if (t) t.click();
+      else if (link) window.open(link, '_blank', 'noopener');
+    });
     wrap.querySelector('.ms-up-back').addEventListener('click', closeUpsell);
     wrap.querySelector('.ms-up-x').addEventListener('click', closeUpsell);
     // Someone who already has a code should not be trapped behind the offer:
@@ -413,6 +446,7 @@
     if (!cfg) return;                       // centre offers none — do nothing
     who = identity();
     installStyle();
+    loadSub();
 
     if (!who) {                             // a guest gets the teaser, not the gift
       usedSets = [];
