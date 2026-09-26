@@ -8202,6 +8202,18 @@
 
         // Request microphone access
         async function ensureSpeakingMediaStream() {
+            // iOS ends or mutes a capture track whenever the audio session
+            // flips to playback — the mic check's own sample playback does it —
+            // and the dead stream still looks alive: REC lights, the timer
+            // runs, the answer arrives at 0 bytes. Check before reusing.
+            if (speakingMediaStream) {
+                const t = speakingMediaStream.getAudioTracks()[0];
+                if (!t || t.readyState !== 'live' || t.muted) {
+                    console.warn('[Speaking] cached stream unusable — requesting a fresh one');
+                    try { speakingMediaStream.getTracks().forEach(x => x.stop()); } catch (e) { }
+                    speakingMediaStream = null;
+                }
+            }
             if (!speakingMediaStream) {
                 try {
                     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {

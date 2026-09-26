@@ -8359,7 +8359,17 @@
 
         let fmMediaStream = null;
         async function fmEnsureMediaStream() {
-            if (fmMediaStream && fmMediaStream.active) return fmMediaStream;
+            // `active` is not enough: a stream stays active while its only
+            // track is muted, which is exactly what iOS does when the audio
+            // session flips to playback (the mic check plays the sample back).
+            // The recorder then writes 0 bytes over a live-looking REC.
+            if (fmMediaStream) {
+                const t = fmMediaStream.getAudioTracks()[0];
+                if (t && t.readyState === 'live' && !t.muted) return fmMediaStream;
+                console.warn('[Mic] cached stream unusable — requesting a fresh one');
+                try { fmMediaStream.getTracks().forEach(function (x) { x.stop(); }); } catch (e) { }
+                fmMediaStream = null;
+            }
             try {
                 fmMediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 return fmMediaStream;
