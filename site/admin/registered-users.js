@@ -44,6 +44,7 @@
       '.ru-card-info{flex:1;min-width:0;}',
       '.ru-card-name{font-weight:600;font-size:14px;margin-bottom:2px;}',
       '.ru-card-detail{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.ru-center-select{margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#333);}',
       '.ru-center-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;color:#fff;margin-top:4px;text-transform:capitalize;}',
       '.ru-center-badge.mock_stream{background:linear-gradient(135deg,#6366f1,#818cf8);}',
       '.ru-center-badge.bek{background:linear-gradient(135deg,#f59e0b,#d97706);}',
@@ -182,6 +183,7 @@
             '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
             '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
           '</div>' +
+          '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#333);"><option value="">All centres</option></select>' +
           '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()" style="margin:0 14px 8px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;width:calc(100% - 28px);box-sizing:border-box;">' +
           '<div class="ru-stats" id="ruStats" style="padding:0 14px 8px;font-size:12px;color:var(--ink-muted,#64748b);"></div>' +
           '<div class="ru-list" id="ruList" style="padding:0 14px 14px;max-height:60vh;overflow-y:auto;"><div class="ru-empty" style="text-align:center;padding:40px;color:#888;">Loading...</div></div>' +
@@ -206,6 +208,7 @@
           '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
           '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
         '</div>' +
+        '<select class="ru-center-select" id="ruCenter" onchange="_filterRuList()"><option value="">All centres</option></select>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
         '<div class="ru-stats" id="ruStats"></div>' +
         '<div class="ru-list" id="ruList"><div class="ru-empty">Loading...</div></div>' +
@@ -228,6 +231,8 @@
       if (overlay) overlay.classList.add('active');
       document.getElementById('ruList').innerHTML = '<div class="ru-empty">Loading...</div>';
       document.getElementById('ruSearch').value = '';
+      var _cs = document.getElementById('ruCenter');
+      if (_cs) _cs.value = '';
       document.getElementById('ruStats').textContent = '';
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -312,6 +317,7 @@
         console.warn('[RegisteredUsers] Fetch error:', e);
       }
       _updateRuTabCounts();
+      _populateRuCentres();
       _renderRuList(_ruData.filter(_ruTabFilter));
     }
 
@@ -372,9 +378,41 @@
       });
     }
 
+    /**
+     * The centre list is built from the data rather than hardcoded, so a centre
+     * that only exists in old rows (`mockstream`, the un-underscored spelling)
+     * and `unknown` — the 8.5k who registered but have not sat a mock, so no
+     * result ever named their site — both show up instead of quietly vanishing.
+     */
+    function _populateRuCentres() {
+      var sel = document.getElementById('ruCenter');
+      if (!sel) return;
+      var keep = sel.value || '';
+      var counts = {};
+      _ruData.forEach(function(c) {
+        var k = c.center || 'unknown';
+        counts[k] = (counts[k] || 0) + 1;
+      });
+      var keys = Object.keys(counts).sort(function(a, b) { return counts[b] - counts[a]; });
+      var html = '<option value="">All centres (' + _ruData.length + ')</option>';
+      keys.forEach(function(k) {
+        html += '<option value="' + k.replace(/"/g, '&quot;') + '">' +
+                k.replace(/</g, '&lt;') + ' (' + counts[k] + ')</option>';
+      });
+      sel.innerHTML = html;
+      if (keep && counts[keep]) sel.value = keep;
+    }
+
+    function _ruCentreFilter(c) {
+      var sel = document.getElementById('ruCenter');
+      var want = sel ? (sel.value || '') : '';
+      if (!want) return true;
+      return (c.center || 'unknown') === want;
+    }
+
     function _filterRuList() {
       var q = (document.getElementById('ruSearch').value || '').toLowerCase().trim();
-      var base = _ruData.filter(_ruTabFilter);
+      var base = _ruData.filter(_ruTabFilter).filter(_ruCentreFilter);
       if (!q) { _renderRuList(base); return; }
       var filtered = base.filter(function(c) {
         var match = (c.student_name || '').toLowerCase().indexOf(q) !== -1 ||
@@ -838,6 +876,8 @@
       var listEl = document.getElementById('ruList');
       // Save scroll state
       searchEl.style.display = 'none';
+      var centreEl = document.getElementById('ruCenter');
+      if (centreEl) centreEl.style.display = 'none';
       var tabsEl = document.getElementById('ruTabs');
       if (tabsEl) tabsEl.style.display = 'none';
       statsEl.innerHTML = '<button class="ru-back-btn" onclick="_backToUsersList()">← Back to Users</button>';
@@ -1190,6 +1230,8 @@
       var searchEl = document.getElementById('ruSearch');
       searchEl.style.display = '';
       searchEl.value = '';
+      var centreEl = document.getElementById('ruCenter');
+      if (centreEl) centreEl.style.display = '';
       var tabsEl = document.getElementById('ruTabs');
       if (tabsEl) tabsEl.style.display = '';
       var headerH3 = document.querySelector('.ru-header h3');
