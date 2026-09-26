@@ -116,7 +116,71 @@
     if (e.cancelable) e.preventDefault();
   }, { passive: false });
 
-  window.ExamBackGuard = { arm: arm, release: release, running: examRunning, EDGE: EDGE };
+  /* ── A way out, now that the swipe has none ───────────────────────────────
+   * Refusing the gesture leaves a phone with no exit at all: there is no
+   * browser chrome in a home-screen web app, and the pages' own exit controls
+   * assume a mouse or a visible toolbar. So the guard puts one back, in the
+   * place the gesture used to live — a thin tab on the left edge — and routes
+   * it through whatever confirmation the page already shows, so leaving looks
+   * the same however it was asked for.
+   */
+  var exitBtn = null;
+
+  function leaveToPicker() {
+    var go = function () {
+      try { window.__okToLeave = true; } catch (e) { }
+      window.location.replace('/landing-v3.html');
+    };
+    // The page's own "are you sure", with our destination.
+    if (typeof window.promptFriendlyLeave === 'function') {
+      try { window.promptFriendlyLeave(go); return; } catch (e) { }
+    }
+    if (typeof window.showLeaveWarningModal === 'function') {
+      try { window.showLeaveWarningModal(); return; } catch (e) { }
+    }
+    if (window.confirm('Imtihondan chiqasizmi?\n\nJavoblaringiz saqlanmasligi mumkin.')) go();
+  }
+
+  function showExitTab() {
+    if (exitBtn || !document.body) return;
+    // Only where the gesture was taken away: a pointer has the browser's own
+    // back button and needs no help.
+    if (!window.matchMedia || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    exitBtn = document.createElement('button');
+    exitBtn.type = 'button';
+    exitBtn.id = 'msExamExitTab';
+    exitBtn.setAttribute('aria-label', 'Exit the exam');
+    exitBtn.textContent = '‹';
+    exitBtn.style.cssText = [
+      'position:fixed', 'left:0', 'top:50%', 'transform:translateY(-50%)',
+      'width:26px', 'height:64px', 'padding:0',
+      'border:0', 'border-radius:0 12px 12px 0',
+      'background:rgba(15,23,42,.42)', 'color:#fff',
+      'font:700 22px/1 -apple-system,system-ui,sans-serif',
+      'display:flex', 'align-items:center', 'justify-content:center',
+      'z-index:2147483000', '-webkit-tap-highlight-color:transparent',
+      'padding-left:env(safe-area-inset-left,0px)'
+    ].join(';');
+    exitBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      leaveToPicker();
+    });
+    // The edge listener above claims touches in this strip, so the tab has to
+    // claim its own back or it would never see one.
+    exitBtn.addEventListener('touchstart', function (e) { e.stopPropagation(); }, { passive: true });
+    document.body.appendChild(exitBtn);
+  }
+
+  function hideExitTab() {
+    if (exitBtn && exitBtn.parentNode) exitBtn.parentNode.removeChild(exitBtn);
+    exitBtn = null;
+  }
+
+  window.ExamBackGuard = {
+    arm: arm, release: release, running: examRunning, EDGE: EDGE,
+    showExit: showExitTab, hideExit: hideExitTab
+  };
 
   // Horizontal overscroll is the other way a swipe turns into navigation on
   // some builds; nothing in an exam scrolls sideways, so refuse it outright.
@@ -138,6 +202,11 @@
   var tries = 0;
   var iv = setInterval(function () {
     if (++tries > 60) { clearInterval(iv); return; }
-    if (examRunning()) { topUp(); clearInterval(iv); }
+    if (examRunning()) { topUp(); showExitTab(); clearInterval(iv); }
   }, 1000);
+
+  // And keep it honest afterwards: once the exam is over the tab goes away.
+  setInterval(function () {
+    if (exitBtn && !examRunning()) hideExitTab();
+  }, 2000);
 })();
