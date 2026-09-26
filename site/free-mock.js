@@ -128,12 +128,12 @@
     st.textContent = [
       /* Blur the topics, never the card's identity: the number, title, date and
          how many people sat it all stay readable. */
-      '.ilet-card.ms-locked .ilet-sections,',
-      '.ilet-card.ms-locked .ilet-mock-sections,',
-      '.ilet-card.ms-locked .iret-passages,',
-      '.ilet-card.ms-locked .cret-parts{',
+      '.ms-locked .ilet-sections,',
+      '.ms-locked .ilet-mock-sections,',
+      '.ms-locked .iret-passages,',
+      '.ms-locked .cret-parts{',
       '  filter:blur(5px);opacity:.55;user-select:none;pointer-events:none;}',
-      '.ilet-card.ms-locked{position:relative;}',
+      '.ms-locked{position:relative;}',
       '.ms-lockbadge{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);',
       '  display:flex;flex-direction:column;align-items:center;gap:5px;',
       '  background:rgba(15,23,42,.86);color:#fff;border-radius:14px;padding:11px 15px;',
@@ -146,9 +146,28 @@
     (document.head || document.documentElement).appendChild(st);
   }
 
-  /** Which set a rendered picker belongs to, read off the card's own link. */
+  /**
+   * Which set a card belongs to.
+   *
+   * Its id is the only thing every picker agrees on: the eight renderers each
+   * stamp their own prefix (cspet-card-01, cret-card-1, iwet-card-3 …). The
+   * first attempt read data-file instead, which the two speaking pickers never
+   * write and which reading spells differently — so speaking and reading were
+   * silently skipped while writing and listening worked.
+   */
+  var PREFIX = {
+    cspet: ['cefr', 'speaking'],  ispet: ['ielts', 'speaking'],
+    cwet:  ['cefr', 'writing'],   iwet:  ['ielts', 'writing'],
+    cret:  ['cefr', 'reading'],   iret:  ['ielts', 'reading'],
+    clet:  ['cefr', 'listening'], ilet:  ['ielts', 'listening']
+  };
+
   function setOfCard(card) {
+    var m = /^([a-z]+)-card-/.exec(card.id || '');
+    if (m && PREFIX[m[1]]) return { exam: PREFIX[m[1]][0], skill: PREFIX[m[1]][1] };
+    // Older markup that carries the page it opens.
     var f = (card.getAttribute('data-file') || '').toLowerCase();
+    if (!f) return null;
     var exam = f.indexOf('ielts') !== -1 ? 'ielts' : 'cefr';
     var skill = f.indexOf('speaking') !== -1 ? 'speaking'
               : f.indexOf('writing') !== -1 ? 'writing'
@@ -160,7 +179,7 @@
   function paintCards() {
     if (!cfg) return;
     installStyle();
-    var cards = document.querySelectorAll('.ilet-card');
+    var cards = document.querySelectorAll('.ilet-card, .cret-card, .iret-card');
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
       var s = setOfCard(card);
@@ -181,7 +200,7 @@
     var b = card.querySelector('.ms-lockbadge');
     if (b) b.remove();
     if (markFree && !card.querySelector('.ms-freeflag')) {
-      var head = card.querySelector('.ilet-card-head');
+      var head = card.querySelector('.ilet-card-head, .cret-card-head, .iret-card-head');
       if (head) {
         var f = document.createElement('span');
         f.className = 'ms-freeflag';
@@ -192,7 +211,7 @@
   }
 
   function lockCard(card) {
-    if (card.classList.contains('ilet-card-disabled')) return;   // "Coming soon" already says it
+    if (/-card-disabled/.test(card.className)) return;   // "Coming soon" already says it
     card.classList.add('ms-locked');
     var flag = card.querySelector('.ms-freeflag');
     if (flag) flag.remove();
@@ -210,7 +229,7 @@
     if (!cfg || !who) return;
     var btn = e.target && e.target.closest && e.target.closest('.ilet-take');
     if (!btn) return;
-    var card = btn.closest('.ilet-card');
+    var card = btn.closest('.ilet-card, .cret-card, .iret-card');
     if (!card) return;
     var s = setOfCard(card);
     if (!s) return;
