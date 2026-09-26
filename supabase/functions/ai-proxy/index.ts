@@ -522,7 +522,7 @@ Deno.serve(async (req) => {
   if (await isEmailBlocked(userEmail, centerId)) {
     logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'blocked_email', errorMessage: userEmail });
     return jsonErr(403, 'blocked_email',
-      `Account ${userEmail} is blocked for center ${centerId}.`);
+      `Account ${userEmail} is blocked.`);
   }
 
   // -------- gate 2: center whitelist --------
