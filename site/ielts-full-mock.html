@@ -3919,6 +3919,7 @@
             }
         }
     </style>
+  <script src="/exam-back-guard.js?v=3" defer></script>
 </head>
 
 <body>
@@ -5462,6 +5463,8 @@
 
         async function confirmTutorialAndStart() {
             state.examStarted = true;
+            // The shared back-guard cannot see into `state`; mirror it.
+            window.__examInProgress = true;
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
             var _resumeSession = false;
