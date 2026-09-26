@@ -3890,6 +3890,7 @@
             }
         }
     </style>
+  <script src="/exam-back-guard.js?v=1" defer></script>
 </head>
 
 <body>
@@ -4623,6 +4624,8 @@
 
             // Mark exam as started
             state.examStarted = true;
+            // The shared back-guard cannot see into `state`; mirror it.
+            window.__examInProgress = true;
             state.examStartTime = new Date();
 
             // Generate test IDs if not already done
@@ -6140,6 +6143,8 @@
 
         async function confirmTutorialAndStart() {
             state.examStarted = true;
+            // The shared back-guard cannot see into `state`; mirror it.
+            window.__examInProgress = true;
             state.examStartTime = new Date();
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
