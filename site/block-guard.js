@@ -25,6 +25,20 @@
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
+  // On the landing page the guard answers a question ("may this launch go
+  // ahead?"). On a runner page — an exam, a flashcard set, an article — there
+  // is no question left to ask: the student is already there, having arrived by
+  // a saved link, a bookmark, a shared URL or a tab that was open before the
+  // block. So those pages load it with data-runner and it turns the student
+  // round by itself. Without this the whole guard is one bookmark deep.
+  var IS_RUNNER = (function () {
+    try {
+      var el = document.currentScript ||
+               document.querySelector('script[src*="block-guard.js"]');
+      return !!(el && el.getAttribute('data-runner') !== null);
+    } catch (e) { return false; }
+  })();
+
   var blocked = false;         // last known answer; false until proven otherwise
   var checkedFor = '';         // the email that answer belongs to
   var inFlight = null;
@@ -102,8 +116,9 @@
     return c.adminTelegram || c.telegramUrl || '';
   }
 
-  function showModal() {
+  function showModal(opts) {
     if (document.getElementById('msBlockedModal')) return;
+    var leave = !!(opts && opts.leave);
 
     var contact = centreContact();
     var d = document.createElement('div');
@@ -134,12 +149,17 @@
             : '') +
           '<button type="button" id="msBlockedClose" style="flex:1;padding:11px 0;border:0;' +
             'border-radius:11px;background:#e2e8f0;color:#334155;font-weight:700;font-size:14px;' +
-            'cursor:pointer;">Yopish</button>' +
+            'cursor:pointer;">' + (leave ? 'Bosh sahifa' : 'Yopish') + '</button>' +
         '</div>' +
       '</div>';
 
-    function close() { if (d.parentNode) d.parentNode.removeChild(d); }
-    d.addEventListener('click', function (e) { if (e.target === d) close(); });
+    function close() {
+      if (leave) { window.location.replace('/landing-v3.html'); return; }
+      if (d.parentNode) d.parentNode.removeChild(d);
+    }
+    // On a runner page the notice is the end of the road, so tapping the
+    // backdrop must not dismiss it into a page they may not use.
+    if (!leave) d.addEventListener('click', function (e) { if (e.target === d) close(); });
     document.body.appendChild(d);
     var btn = document.getElementById('msBlockedClose');
     if (btn) btn.addEventListener('click', close);
@@ -156,10 +176,16 @@
     refresh: refresh, isBlocked: isBlocked, showModal: showModal, allow: allow
   };
 
+  function enforceOnRunner() {
+    if (!IS_RUNNER) return;
+    refresh().then(function (v) { if (v) showModal({ leave: true }); });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { refresh(); });
+    document.addEventListener('DOMContentLoaded', function () { refresh(); enforceOnRunner(); });
   } else {
     refresh();
+    enforceOnRunner();
   }
 
   // Sign-in lands after the first check, and an admin may lift the block while
@@ -170,7 +196,7 @@
     });
   } catch (e) { }
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) refresh();
+    if (!document.hidden) { refresh(); enforceOnRunner(); }
   });
-  setInterval(refresh, 5 * 60 * 1000);
+  setInterval(function () { refresh(); enforceOnRunner(); }, 5 * 60 * 1000);
 })();
