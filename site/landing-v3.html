@@ -5143,6 +5143,10 @@
       return examType + '-' + skill;
     }
     function navToPicker(slug) {
+      // Everything a blocked account must not start goes through one of four
+      // doors; this is the widest. `_msGateAllow` covers the eleven main mock
+      // launchers, and these cover the rest.
+      try { if (window.MsBlockGuard && !window.MsBlockGuard.allow()) return; } catch (_e) {}
       // Engine migration — speaking pickers (cspet, ispet) open inline on
       // v3 when their open fn is defined. The legacy handoff URL stays as
       // the fallback so a missing/broken inline picker just degrades to
@@ -17928,6 +17932,7 @@
         btn.innerHTML = '<span class="cm-num">' + n + '</span><span class="cm-label">Test ' + n + '</span><span class="cm-arrow">→</span>';
         (function (mockN) {
           btn.onclick = function () {
+            try { if (window.MsBlockGuard && !window.MsBlockGuard.allow()) return; } catch (_e) {}
             closeCambridgeModal();
             var paperPath;
             if (type === 'rw') paperPath = e.code + ' Reading & Writing Mocks.html';
@@ -18316,6 +18321,10 @@
       return String(s || '').replace(/\d+$/, '');
     }
     function _learnRunnerUrl(category, item, level) {
+      // Both learn openers build their URL here, so one check covers articles,
+      // flashcards, grammar and vocabulary. Returning null leaves the student
+      // where they were, with the notice explaining why.
+      try { if (window.MsBlockGuard && !window.MsBlockGuard.allow()) return null; } catch (_e) {}
       if (category === 'articles') {
         var artNum = (item.file.match(/article=([^&]+)/) || [])[1];
         if (!artNum) return null;
@@ -19041,6 +19050,8 @@
     function _pickSpkPlusMs() {
       var msBtn = document.getElementById('spkPlusMs');
       if (msBtn && msBtn.disabled) return;
+      try { if (window.MsBlockGuard && !window.MsBlockGuard.allow()) return; } catch (_e) {}
+
       _closeSpkPlusChooser();
       window.location.href = '/speaking-realtime.html';
     }
