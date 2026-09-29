@@ -6266,7 +6266,17 @@
                     // Normally confirmMockSelection preloads these. A resume
                     // skips that screen — it must not re-pick the mocks or
                     // record a second attempt — so the audio is fetched here.
-                    try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
+                    //
+                    // Only when the student is actually still in Listening.
+                    // The modules run in order, so resuming into Reading,
+                    // Writing or Speaking means Listening is behind them: the
+                    // fetch is wasted, and its progress overlay flashes the
+                    // Listening screen on the way to where they left off,
+                    // which is exactly the "it started over" impression this
+                    // resume path exists to remove.
+                    if (state.step === 0) {
+                      try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
+                    }
                     showModuleTutorial(state.step);
                     SessionRecovery.start();
                     return;
