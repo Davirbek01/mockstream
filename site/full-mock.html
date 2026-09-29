@@ -5247,6 +5247,13 @@
         // check, the proctoring photo — live outside the function that decides
         // it, where a var inside confirmTutorialAndStart was invisible.
         var _resumeSession = false;
+        // Which module the student was actually inside when they resumed.
+        // Skipping the intro belongs to THAT module only: every module they
+        // reach afterwards is new to them, so it still gets its tutorial —
+        // and Speaking still gets its mic check and proctoring photo. Keyed
+        // on the step, not a session-wide flag, which silently swallowed the
+        // Speaking mic check for anyone resuming into Writing.
+        var _fmResumeStep = -1;
 
         let tutCurrentStepIdx = 0;
         let tutCurrentPage = 0;
@@ -5276,7 +5283,7 @@
             tutCurrentPage = 0;
             // Resuming: the student has already read this and is part-way through
             // the module. Replaying it reads as "the exam started over".
-            if (_resumeSession) return finishTutorial();
+            if (_resumeSession && stepIdx === _fmResumeStep) return finishTutorial();
             const data = MOD_TUTORIAL_DATA[stepIdx];
             if (!data) return startModule(); // Fallback
 
@@ -5355,7 +5362,7 @@
             // mock. On resume the photo was taken at the beginning and the mic
             // was pre-authorised above, so asking again only looks like the exam
             // restarting from scratch.
-            if (state.step === 3 && !_resumeSession) {
+            if (state.step === 3 && !(_resumeSession && _fmResumeStep === 3)) {
                 showMicCheck();
             } else {
                 startModule();
@@ -6277,6 +6284,8 @@
                     if (state.step === 0) {
                       try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
                     }
+                    // Only this module's intro is skipped — see _fmResumeStep.
+                    _fmResumeStep = state.step;
                     showModuleTutorial(state.step);
                     SessionRecovery.start();
                     return;

@@ -5546,6 +5546,8 @@
                       } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
                     }
                     window._srResumeData = sd;
+                    // Only this module's intro is skipped — see _ifmResumeStep.
+                    _ifmResumeStep = state.step;
                     showIeltsModTutorial(state.step);
                     SessionRecovery.start();
                     return;
@@ -5681,6 +5683,13 @@
         // same reasoning. Declared out here because the screens that must not
         // replay live outside the function that decides it.
         var _resumeSession = false;
+        // Which module the student was actually inside when they resumed.
+        // Skipping the intro belongs to THAT module only: every module they
+        // reach afterwards is new to them, so it still gets its tutorial —
+        // and Speaking still gets its mic check and proctoring photo. Keyed
+        // on the step, not a session-wide flag, which silently swallowed the
+        // Speaking mic check for anyone resuming into Writing.
+        var _ifmResumeStep = -1;
 
         /** A student who pressed Resume arrives with ?resume=1. Sending them back
          *  through mock selection re-picks the four mocks, mints a new reference
@@ -5698,7 +5707,7 @@
 
         function showIeltsModTutorial(stepIdx) {
             // Resuming: already read, and they are part-way through the module.
-            if (_resumeSession) { imtStepIdx = stepIdx; return imtFinish(); }
+            if (_resumeSession && stepIdx === _ifmResumeStep) { imtStepIdx = stepIdx; return imtFinish(); }
             imtStepIdx = stepIdx;
             imtPageIdx = 0;
             const data = IELTS_MOD_TUTORIAL[stepIdx];
@@ -5756,7 +5765,7 @@
             // Mic check and the proctoring photo behind it belong to the start of
             // an attempt. candidatePhoto lives in memory only, so on a resume it
             // is empty and the photo screen would appear again.
-            if (state.step === 3 && !_resumeSession) {
+            if (state.step === 3 && !(_resumeSession && _ifmResumeStep === 3)) {
                 ieltsShowMicCheck();
                 return;
             }
