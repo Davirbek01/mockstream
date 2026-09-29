@@ -5333,6 +5333,7 @@
                 state.candidateName = result.name;
                 document.getElementById('display-name').textContent = result.name;
                 document.getElementById('gate').style.display = 'none';
+                if (_ifmSkipSetupOnResume()) return;
                 document.getElementById('mock-selection-overlay').style.display = 'flex';
                 console.log('[VIP] Bypassed IELTS gate. Premium AI:', state.isPremiumVip);
                 return;
@@ -5447,7 +5448,8 @@
 
                 const _fmProceed = function () {
                     document.getElementById('gate').style.display = 'none';
-                    document.getElementById('mock-selection-overlay').style.display = 'flex';
+                    if (_ifmSkipSetupOnResume()) return;
+                document.getElementById('mock-selection-overlay').style.display = 'flex';
                 };
                 if (window.PremiumGate && PremiumGate.showTierNotice) {
                     PremiumGate.showTierNotice({ tier: premium ? 'premium' : 'regular', skill: 'fullmock', onContinue: _fmProceed });
@@ -5469,7 +5471,7 @@
             window.__examInProgress = true;
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
-            var _resumeSession = false;
+            _resumeSession = false;
 
             // Test IDs are already set from mock selection, no need to randomize
             // Support URL override for direct access
@@ -5643,7 +5645,28 @@
         let imtStepIdx = 0, imtPageIdx = 0, imtTimer = null, imtProgInterval = null, imtStart = 0;
         const IMT_AUTO_SEC = 10;
 
+        // True for the whole of a resumed attempt — see the CEFR full mock for the
+        // same reasoning. Declared out here because the screens that must not
+        // replay live outside the function that decides it.
+        var _resumeSession = false;
+
+        /** A student who pressed Resume arrives with ?resume=1. Sending them back
+         *  through mock selection re-picks the four mocks, mints a new reference
+         *  number and records a SECOND attempt against their allowance — and it
+         *  looks, from the outside, exactly like starting over. Returns true when
+         *  it has taken over. */
+        function _ifmSkipSetupOnResume() {
+            try {
+                if (!window.SessionRecovery || !SessionRecovery.resumeRequested()) return false;
+            } catch (_e) { return false; }
+            document.getElementById('mock-selection-overlay').style.display = 'none';
+            confirmTutorialAndStart();
+            return true;
+        }
+
         function showIeltsModTutorial(stepIdx) {
+            // Resuming: already read, and they are part-way through the module.
+            if (_resumeSession) { imtStepIdx = stepIdx; return imtFinish(); }
             imtStepIdx = stepIdx;
             imtPageIdx = 0;
             const data = IELTS_MOD_TUTORIAL[stepIdx];
@@ -5698,8 +5721,10 @@
             document.getElementById('imt-progress').style.width = '100%';
             document.getElementById('ielts-mod-tut-overlay').style.display = 'none';
 
-            // If speaking module (step 3), show mic check first
-            if (state.step === 3) {
+            // Mic check and the proctoring photo behind it belong to the start of
+            // an attempt. candidatePhoto lives in memory only, so on a resume it
+            // is empty and the photo screen would appear again.
+            if (state.step === 3 && !_resumeSession) {
                 ieltsShowMicCheck();
                 return;
             }

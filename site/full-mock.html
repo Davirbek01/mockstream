@@ -5242,15 +5242,41 @@
             }
         ];
 
+        // True for the whole of a resumed attempt. Declared out here because the
+        // screens that must NOT replay on a resume — the module intro, the mic
+        // check, the proctoring photo — live outside the function that decides
+        // it, where a var inside confirmTutorialAndStart was invisible.
+        var _resumeSession = false;
+
         let tutCurrentStepIdx = 0;
         let tutCurrentPage = 0;
         let tutTimer = null;
         let tutProgressInterval = null;
         let tutStartTime = 0;
 
+        /** A student who pressed Resume on the dashboard arrives with ?resume=1.
+         *  Sending them through mock selection again would re-pick the four
+         *  mocks, mint a new reference number and record a SECOND full-mock
+         *  attempt against their allowance — and it reads, from the outside,
+         *  exactly like the exam starting over. confirmTutorialAndStart holds
+         *  the restore, so hand straight to it and let it place them.
+         *  Returns true when it took over. */
+        function _fmSkipSetupOnResume() {
+            try {
+                if (!window.SessionRecovery || !SessionRecovery.resumeRequested()) return false;
+            } catch (_e) { return false; }
+            document.getElementById('mock-selection-overlay').style.display = 'none';
+            document.getElementById('tutorial-overlay').style.display = 'none';
+            confirmTutorialAndStart();
+            return true;
+        }
+
         function showModuleTutorial(stepIdx) {
             tutCurrentStepIdx = stepIdx;
             tutCurrentPage = 0;
+            // Resuming: the student has already read this and is part-way through
+            // the module. Replaying it reads as "the exam started over".
+            if (_resumeSession) return finishTutorial();
             const data = MOD_TUTORIAL_DATA[stepIdx];
             if (!data) return startModule(); // Fallback
 
@@ -5325,7 +5351,11 @@
             // Re-sync progress bar to full at the very end
             document.getElementById('mod-tut-progress').style.width = '100%';
 
-            if (state.step === 3) {
+            // Mic check and the proctoring photo belong to the START of a full
+            // mock. On resume the photo was taken at the beginning and the mic
+            // was pre-authorised above, so asking again only looks like the exam
+            // restarting from scratch.
+            if (state.step === 3 && !_resumeSession) {
                 showMicCheck();
             } else {
                 startModule();
@@ -5961,6 +5991,7 @@
                 state.candidateName = result.name;
                 document.getElementById('display-name').textContent = result.name;
                 document.getElementById('gate').style.display = 'none';
+                if (_fmSkipSetupOnResume()) return;
                 document.getElementById('mock-selection-overlay').style.display = 'flex';
                 console.log('[VIP] Bypassed gate. Premium AI:', state.isPremiumVip);
                 return;
@@ -6084,6 +6115,7 @@
 
                 const _fmProceed = function () {
                     document.getElementById('gate').style.display = 'none';
+                    if (_fmSkipSetupOnResume()) return;
                     document.getElementById('mock-selection-overlay').style.display = 'flex';
                 };
                 if (window.PremiumGate && PremiumGate.showTierNotice) {
@@ -6150,7 +6182,7 @@
             state.examStartTime = new Date();
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
-            var _resumeSession = false;
+            _resumeSession = false;
 
             // Test IDs and reference number already generated on gate screen
             console.log('Starting exam with pre-configured tests:', state.testIds);
@@ -6199,6 +6231,10 @@
                       } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
                     }
                     window._srResumeData = sd;
+                    // Normally confirmMockSelection preloads these. A resume
+                    // skips that screen — it must not re-pick the mocks or
+                    // record a second attempt — so the audio is fetched here.
+                    try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
                     showModuleTutorial(state.step);
                     SessionRecovery.start();
                     return;
