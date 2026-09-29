@@ -5287,6 +5287,38 @@
             else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
             else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
         }
+        // ===== RESUME: don't make them re-enter what we already know =====
+        // A resume already carries the candidate's name and passcode — the
+        // prefill above fills both in. Showing the entry gate anyway reads as
+        // "you're starting over", which is the one thing a resume exists to
+        // avoid. Press the button for them.
+        //
+        // Only when BOTH fields are genuinely filled: if either is empty the
+        // student really does need to type it, so leave the gate alone. And if
+        // the passcode turns out to be refused, put the gate back rather than
+        // stranding them on a hidden screen.
+        (function _ifmAutoStartOnResume() {
+            function go() {
+                try {
+                    if (!window.SessionRecovery || !SessionRecovery.resumeRequested()) return;
+                } catch (_e) { return; }
+                var nameEl = document.getElementById('candidate-name-input');
+                var passEl = document.getElementById('passcode-input');
+                var btn    = document.getElementById('start-exam-btn');
+                var gate   = document.getElementById('gate');
+                if (!btn || !nameEl || !passEl || !gate) return;
+                if (!nameEl.value.trim() || !passEl.value.trim()) return;
+                gate.style.display = 'none';
+                btn.click();
+                setTimeout(function () {
+                    var err = document.getElementById('passcode-error');
+                    if (err && err.style.display !== 'none') gate.style.display = 'flex';
+                }, 3000);
+            }
+            if (document.readyState === 'complete') go();
+            else window.addEventListener('load', go);
+        })();
+
         function exitFullscreen() {
             if (document.exitFullscreen) document.exitFullscreen();
             else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
@@ -5514,6 +5546,8 @@
                       } catch (_e) { console.warn('[Speaking] draft restore failed:', _e); }
                     }
                     window._srResumeData = sd;
+                    // Only this module's intro is skipped — see _ifmResumeStep.
+                    _ifmResumeStep = state.step;
                     showIeltsModTutorial(state.step);
                     SessionRecovery.start();
                     return;
@@ -5649,6 +5683,13 @@
         // same reasoning. Declared out here because the screens that must not
         // replay live outside the function that decides it.
         var _resumeSession = false;
+        // Which module the student was actually inside when they resumed.
+        // Skipping the intro belongs to THAT module only: every module they
+        // reach afterwards is new to them, so it still gets its tutorial —
+        // and Speaking still gets its mic check and proctoring photo. Keyed
+        // on the step, not a session-wide flag, which silently swallowed the
+        // Speaking mic check for anyone resuming into Writing.
+        var _ifmResumeStep = -1;
 
         /** A student who pressed Resume arrives with ?resume=1. Sending them back
          *  through mock selection re-picks the four mocks, mints a new reference
@@ -5666,7 +5707,7 @@
 
         function showIeltsModTutorial(stepIdx) {
             // Resuming: already read, and they are part-way through the module.
-            if (_resumeSession) { imtStepIdx = stepIdx; return imtFinish(); }
+            if (_resumeSession && stepIdx === _ifmResumeStep) { imtStepIdx = stepIdx; return imtFinish(); }
             imtStepIdx = stepIdx;
             imtPageIdx = 0;
             const data = IELTS_MOD_TUTORIAL[stepIdx];
@@ -5724,7 +5765,7 @@
             // Mic check and the proctoring photo behind it belong to the start of
             // an attempt. candidatePhoto lives in memory only, so on a resume it
             // is empty and the photo screen would appear again.
-            if (state.step === 3 && !_resumeSession) {
+            if (state.step === 3 && !(_resumeSession && _ifmResumeStep === 3)) {
                 ieltsShowMicCheck();
                 return;
             }

@@ -5247,6 +5247,13 @@
         // check, the proctoring photo — live outside the function that decides
         // it, where a var inside confirmTutorialAndStart was invisible.
         var _resumeSession = false;
+        // Which module the student was actually inside when they resumed.
+        // Skipping the intro belongs to THAT module only: every module they
+        // reach afterwards is new to them, so it still gets its tutorial —
+        // and Speaking still gets its mic check and proctoring photo. Keyed
+        // on the step, not a session-wide flag, which silently swallowed the
+        // Speaking mic check for anyone resuming into Writing.
+        var _fmResumeStep = -1;
 
         let tutCurrentStepIdx = 0;
         let tutCurrentPage = 0;
@@ -5276,7 +5283,7 @@
             tutCurrentPage = 0;
             // Resuming: the student has already read this and is part-way through
             // the module. Replaying it reads as "the exam started over".
-            if (_resumeSession) return finishTutorial();
+            if (_resumeSession && stepIdx === _fmResumeStep) return finishTutorial();
             const data = MOD_TUTORIAL_DATA[stepIdx];
             if (!data) return startModule(); // Fallback
 
@@ -5355,7 +5362,7 @@
             // mock. On resume the photo was taken at the beginning and the mic
             // was pre-authorised above, so asking again only looks like the exam
             // restarting from scratch.
-            if (state.step === 3 && !_resumeSession) {
+            if (state.step === 3 && !(_resumeSession && _fmResumeStep === 3)) {
                 showMicCheck();
             } else {
                 startModule();
@@ -5936,6 +5943,38 @@
             }
         })();
 
+        // ===== RESUME: don't make them re-enter what we already know =====
+        // A resume already carries the candidate's name and passcode — the
+        // prefill above fills both in. Showing the entry gate anyway reads as
+        // "you're starting over", which is the one thing a resume exists to
+        // avoid. Press the button for them.
+        //
+        // Only when BOTH fields are genuinely filled: if either is empty the
+        // student really does need to type it, so leave the gate alone. And if
+        // the passcode turns out to be refused, put the gate back rather than
+        // stranding them on a hidden screen.
+        (function _fmAutoStartOnResume() {
+            function go() {
+                try {
+                    if (!window.SessionRecovery || !SessionRecovery.resumeRequested()) return;
+                } catch (_e) { return; }
+                var nameEl = document.getElementById('candidate-name-input');
+                var passEl = document.getElementById('passcode-input');
+                var btn    = document.getElementById('start-exam-btn');
+                var gate   = document.getElementById('gate');
+                if (!btn || !nameEl || !passEl || !gate) return;
+                if (!nameEl.value.trim() || !passEl.value.trim()) return;
+                gate.style.display = 'none';
+                btn.click();
+                setTimeout(function () {
+                    var err = document.getElementById('passcode-error');
+                    if (err && err.style.display !== 'none') gate.style.display = 'flex';
+                }, 3000);
+            }
+            if (document.readyState === 'complete') go();
+            else window.addEventListener('load', go);
+        })();
+
         // Fullscreen toggle (manual only — no auto-fullscreen)
         function enterFullscreen() {
             var elem = document.documentElement;
@@ -6234,7 +6273,19 @@
                     // Normally confirmMockSelection preloads these. A resume
                     // skips that screen — it must not re-pick the mocks or
                     // record a second attempt — so the audio is fetched here.
-                    try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
+                    //
+                    // Only when the student is actually still in Listening.
+                    // The modules run in order, so resuming into Reading,
+                    // Writing or Speaking means Listening is behind them: the
+                    // fetch is wasted, and its progress overlay flashes the
+                    // Listening screen on the way to where they left off,
+                    // which is exactly the "it started over" impression this
+                    // resume path exists to remove.
+                    if (state.step === 0) {
+                      try { await preloadListeningAudios(state.testIds.listening); } catch (_e) { console.warn('[Full Mock] resume preload failed:', _e); }
+                    }
+                    // Only this module's intro is skipped — see _fmResumeStep.
+                    _fmResumeStep = state.step;
                     showModuleTutorial(state.step);
                     SessionRecovery.start();
                     return;
