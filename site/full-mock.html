@@ -5936,6 +5936,38 @@
             }
         })();
 
+        // ===== RESUME: don't make them re-enter what we already know =====
+        // A resume already carries the candidate's name and passcode — the
+        // prefill above fills both in. Showing the entry gate anyway reads as
+        // "you're starting over", which is the one thing a resume exists to
+        // avoid. Press the button for them.
+        //
+        // Only when BOTH fields are genuinely filled: if either is empty the
+        // student really does need to type it, so leave the gate alone. And if
+        // the passcode turns out to be refused, put the gate back rather than
+        // stranding them on a hidden screen.
+        (function _fmAutoStartOnResume() {
+            function go() {
+                try {
+                    if (!window.SessionRecovery || !SessionRecovery.resumeRequested()) return;
+                } catch (_e) { return; }
+                var nameEl = document.getElementById('candidate-name-input');
+                var passEl = document.getElementById('passcode-input');
+                var btn    = document.getElementById('start-exam-btn');
+                var gate   = document.getElementById('gate');
+                if (!btn || !nameEl || !passEl || !gate) return;
+                if (!nameEl.value.trim() || !passEl.value.trim()) return;
+                gate.style.display = 'none';
+                btn.click();
+                setTimeout(function () {
+                    var err = document.getElementById('passcode-error');
+                    if (err && err.style.display !== 'none') gate.style.display = 'flex';
+                }, 3000);
+            }
+            if (document.readyState === 'complete') go();
+            else window.addEventListener('load', go);
+        })();
+
         // Fullscreen toggle (manual only — no auto-fullscreen)
         function enterFullscreen() {
             var elem = document.documentElement;
