@@ -18,8 +18,8 @@
   // here as its batch lands.
   var PDF_BASE = 'https://audio.mock-stream.com/pdf';
   var READY = {
-    'cefr-speaking': { questions: true, samples: false },
-    'cefr-writing':  { questions: true, samples: false },
+    'cefr-speaking': { questions: true, samples: true },
+    'cefr-writing':  { questions: true, samples: true },
   };
   var isReady = function (type, variant) {
     var r = READY[type];
@@ -168,7 +168,7 @@
     var btns = '<button class="mpm-btn" id="mpm-dl">⬇ ' + (hasSamples ? 'Questions PDF' : 'Download PDF') + '</button>';
     if (hasSamples) {
       btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2)</button>'
-        + '<p class="mpm-btn-note">Samples = B2 model answers with key vocabulary.</p>';
+        + '<p class="mpm-btn-note">Samples = B2–C1 model answers with key vocabulary.</p>';
     }
     pick.querySelector('.mpm-pick').innerHTML =
       '<label>Select a mock</label><select id="mpm-sel">' + opts + '</select>' + btns;
