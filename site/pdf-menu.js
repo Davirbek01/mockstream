@@ -17,7 +17,13 @@
   // cefr-listening 34 is published and has no PDF, while the seven
   // deactivated cefr-reading papers are listed so their numbers stay
   // visible. The file is rebuilt after every upload.
-  //   { "cefr-reading": { "questions": [1,2,...], "samples": [] }, ... }
+  //   { "cefr-reading": { "questions": [1,2,...], "samples": [],
+  //                        "missing": [39,41,...] }, ... }
+  // "missing" holds the numbers that must still be listed although no file
+  // exists. It has to come from the manifest, not from the mock's status:
+  // RLS hides deactivated rows from the publishable key, and opening that up
+  // would also expose them to the 23 `mock_tests?id=eq.` lookups in the exam
+  // pages, which do not filter on status.
   var PDF_BASE = 'https://audio.mock-stream.com/pdf';
   var MANIFEST = null;
 
@@ -169,6 +175,16 @@
       if (r.ok) rows = await r.json();
     } catch (_e) {}
 
+    // Deactivated papers never arrive in `rows` — RLS filters them out — so
+    // their numbers are folded in from the manifest. Without this the gaps
+    // would just be absent, which is the one thing they must not be.
+    var known = {};
+    rows.forEach(function (m) { known[Number(m.mock_number)] = 1; });
+    (((MANIFEST || {})[type] || {}).missing || []).forEach(function (n) {
+      if (!known[Number(n)]) rows.push({ mock_number: Number(n), status: 'deactivated' });
+    });
+    rows.sort(function (a, b) { return Number(a.mock_number) - Number(b.mock_number); });
+
     if (!rows.length){
       pick.querySelector('.mpm-pick').innerHTML = '<label>No mocks found for this skill.</label>';
       return;
@@ -187,8 +203,9 @@
     var hasSamples = anyOf(type, 'samples');
     var btns = '<button class="mpm-btn" id="mpm-dl">⬇ ' + (hasSamples ? 'Questions PDF' : 'Download PDF') + '</button>';
     if (hasSamples) {
-      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2–C1)</button>'
-        + '<p class="mpm-btn-note">Samples = B2–C1 model answers with key vocabulary.</p>';
+      var band = exam === 'ielts' ? 'Band 7–7.5' : 'B2–C1';
+      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (' + band + ')</button>'
+        + '<p class="mpm-btn-note">Samples = ' + band + ' model answers with key vocabulary.</p>';
     }
     if (missing) {
       btns += '<p class="mpm-btn-note">' + missing + ' ta mokda PDF yo‘q — ular nostandart yoki chala, '
