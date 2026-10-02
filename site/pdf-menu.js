@@ -167,7 +167,7 @@
     var hasSamples = isReady(type, 'samples');
     var btns = '<button class="mpm-btn" id="mpm-dl">⬇ ' + (hasSamples ? 'Questions PDF' : 'Download PDF') + '</button>';
     if (hasSamples) {
-      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2)</button>'
+      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2–C1)</button>'
         + '<p class="mpm-btn-note">Samples = B2–C1 model answers with key vocabulary.</p>';
     }
     pick.querySelector('.mpm-pick').innerHTML =
