@@ -3,16 +3,48 @@
 // Flow: pick exam+skill -> pick a published mock -> fetch the mock-pdf Netlify
 // function (server-side headless-Chrome render of print-mock.html) -> download.
 (function () {
-  // ── PAUSED 2026-09-10 ──────────────────────────────────
-  // The download calls /.netlify/functions/mock-pdf, a headless-Chromium
-  // render that exists only on Netlify. mock-stream.com is moving to
-  // Cloudflare Pages, which has no equivalent on the free plan, so the
-  // button is held rather than left to fail with a 404 an admin cannot
-  // interpret. It comes back when the pre-generated PDFs land in R2 —
-  // one file per mock, named with the mock's updated_at.
+  // ── Pre-generated PDFs on R2 (replaces the Netlify function) ──────────
+  // The old download called /.netlify/functions/mock-pdf, a headless-Chromium
+  // render that only ever existed on Netlify. The sites moved to Cloudflare
+  // Pages, which does not run it, and the request quietly returned the
+  // landing page with HTTP 200 — an admin got a 244 KB "PDF" and no error.
   //
-  // To restore: set FROZEN to false. Nothing else was removed.
-  var FROZEN = true;
+  // Now the papers are rendered once, up front, and served as static files:
+  //   https://audio.mock-stream.com/pdf/<mock_type>/mock-NN.pdf
+  // No server, no cold start, no timeout — the file arrives immediately.
+  //
+  // MANIFEST is the source of truth for what exists, not the mock's status:
+  // cefr-listening 34 is published and has no PDF, while the seven
+  // deactivated cefr-reading papers are listed so their numbers stay
+  // visible. The file is rebuilt after every upload.
+  //   { "cefr-reading": { "questions": [1,2,...], "samples": [],
+  //                        "missing": [39,41,...] }, ... }
+  // "missing" holds the numbers that must still be listed although no file
+  // exists. It has to come from the manifest, not from the mock's status:
+  // RLS hides deactivated rows from the publishable key, and opening that up
+  // would also expose them to the 23 `mock_tests?id=eq.` lookups in the exam
+  // pages, which do not filter on status.
+  var PDF_BASE = 'https://audio.mock-stream.com/pdf';
+  var MANIFEST = null;
+
+  async function manifest(){
+    if (MANIFEST) return MANIFEST;
+    try {
+      var r = await fetch(PDF_BASE + '/manifest.json', { cache: 'no-cache' });
+      MANIFEST = r.ok ? await r.json() : {};
+    } catch (_e) { MANIFEST = {}; }
+    return MANIFEST;
+  }
+  function has(type, variant, number){
+    var m = (MANIFEST || {})[type];
+    if (!m) return false;
+    var list = m[variant === 'samples' ? 'samples' : 'questions'] || [];
+    return list.indexOf(Number(number)) !== -1;
+  }
+  function anyOf(type, variant){
+    var m = (MANIFEST || {})[type];
+    return !!(m && (m[variant === 'samples' ? 'samples' : 'questions'] || []).length);
+  }
 
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -84,9 +116,9 @@
 
   function open(){
     inject();
-    if (FROZEN) { showFrozen(); }
-    else { showHome(); }
+    showHome();
     el('mpm-overlay').classList.add('show');
+    manifest();   // fonda yuklanadi, ko'nikma tanlangunicha ulguradi
   }
 
   // Says what is happening and when it returns. An admin who clicks this
@@ -120,60 +152,112 @@
       + '<div class="mpm-msg" id="mpm-msg"></div>';
     el('mpm-back').addEventListener('click', showHome);
 
+    await manifest();
+    if (!anyOf(type)) {
+      var ready = Object.keys(MANIFEST || {}).filter(function (t) { return anyOf(t); })
+        .map(function (t) { return t.replace('-', ' ').toUpperCase(); }).join(', ');
+      pick.querySelector('.mpm-pick').innerHTML =
+        '<label>Bu ko‘nikma hali tayyor emas</label>'
+        + '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:6px 0 0;">'
+        + 'PDF’lar ko‘nikma bo‘yicha navbat bilan tayyorlanmoqda. '
+        + 'Hozircha tayyor: <b>' + (ready || '—') + '</b>.</p>';
+      return;
+    }
+
     var rows = [];
     try {
+      // Deactivated mocks are listed too. Their numbers stay visible so the
+      // gaps are explained rather than silently missing, and when a sound
+      // paper replaces one its PDF simply appears.
       var r = await fetch(SB_URL + '/rest/v1/mock_tests?mock_type=eq.' + encodeURIComponent(type)
-        + '&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+        + '&status=in.(published,deactivated)&select=mock_number,title,status&order=mock_number.asc',
         { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } });
       if (r.ok) rows = await r.json();
     } catch (_e) {}
 
+    // Deactivated papers never arrive in `rows` — RLS filters them out — so
+    // their numbers are folded in from the manifest. Without this the gaps
+    // would just be absent, which is the one thing they must not be.
+    var known = {};
+    rows.forEach(function (m) { known[Number(m.mock_number)] = 1; });
+    (((MANIFEST || {})[type] || {}).missing || []).forEach(function (n) {
+      if (!known[Number(n)]) rows.push({ mock_number: Number(n), status: 'deactivated' });
+    });
+    rows.sort(function (a, b) { return Number(a.mock_number) - Number(b.mock_number); });
+
     if (!rows.length){
-      pick.querySelector('.mpm-pick').innerHTML = '<label>No published mocks found for this skill.</label>';
+      pick.querySelector('.mpm-pick').innerHTML = '<label>No mocks found for this skill.</label>';
       return;
     }
+
+    var missing = 0;
     var opts = rows.map(function (m) {
-      var label = (m.title && m.title.trim()) ? m.title : (skill.label + ' Mock ' + String(m.mock_number).padStart(2, '0'));
-      return '<option value="' + m.id + '">' + label.replace(/</g, '&lt;') + '</option>';
+      var n = Number(m.mock_number);
+      var label = skill.label + ' Mock ' + String(n).padStart(2, '0');
+      var ok = has(type, null, n);
+      if (!ok) missing++;
+      return '<option value="' + n + '"' + (ok ? '' : ' data-nopdf="1"') + '>'
+        + label + (ok ? '' : ' — PDF mavjud emas') + '</option>';
     }).join('');
-    // CEFR Writing & Speaking also offer a separate B2 model-answer booklet.
-    var hasSamples = (type === 'cefr-writing' || type === 'cefr-speaking');
+
+    var hasSamples = anyOf(type, 'samples');
     var btns = '<button class="mpm-btn" id="mpm-dl">⬇ ' + (hasSamples ? 'Questions PDF' : 'Download PDF') + '</button>';
     if (hasSamples) {
-      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2)</button>'
-        + '<p class="mpm-btn-note">Samples = B2 model answers with key vocabulary.</p>';
+      var band = exam === 'ielts' ? 'Band 7–7.5' : 'B2–C1';
+      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (' + band + ')</button>'
+        + '<p class="mpm-btn-note">Samples = ' + band + ' model answers with key vocabulary.</p>';
+    }
+    if (missing) {
+      btns += '<p class="mpm-btn-note">' + missing + ' ta mokda PDF yo‘q — ular nostandart yoki chala, '
+        + 'o‘rniga yaroqli mok qo‘yilganda PDF ham paydo bo‘ladi.</p>';
     }
     pick.querySelector('.mpm-pick').innerHTML =
       '<label>Select a mock</label><select id="mpm-sel">' + opts + '</select>' + btns;
+
+    // Keeps the buttons honest: a mock with no file cannot be downloaded.
+    var sel = el('mpm-sel');
+    function sync(){
+      var o = sel.options[sel.selectedIndex];
+      var no = !!(o && o.getAttribute('data-nopdf'));
+      el('mpm-dl').disabled = no;
+      var sb = el('mpm-dl-s'); if (sb) sb.disabled = no || !has(type, 'samples', sel.value);
+      var msg = el('mpm-msg');
+      if (no) { msg.className = 'mpm-msg'; msg.textContent = 'Bu mok uchun PDF tayyorlanmagan.'; }
+      else if (msg.textContent === 'Bu mok uchun PDF tayyorlanmagan.') msg.textContent = '';
+    }
+    sel.addEventListener('change', sync);
+    sync();
+
     el('mpm-dl').addEventListener('click', function () { download(type, el('mpm-sel').value, null, this); });
     if (hasSamples) el('mpm-dl-s').addEventListener('click', function () { download(type, el('mpm-sel').value, 'samples', this); });
   }
 
-  async function download(type, id, variant, btn){
+  async function download(type, number, variant, btn){
     btn = btn || el('mpm-dl'); var msg = el('mpm-msg');
     var orig = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Generating PDF…';
-    msg.className = 'mpm-msg'; msg.textContent = 'This can take a few seconds.';
-    var url = '/.netlify/functions/mock-pdf?type=' + encodeURIComponent(type) + '&id=' + encodeURIComponent(id);
-    // Reading & Listening papers get an Answer Key appended at the end (print-mock.html
-    // renders it on &key=1). Speaking/Writing have no objective key, so it's omitted.
-    if (/reading|listening/.test(type)) url += '&key=1';
-    // Samples variant → B2 model-answer booklet instead of the question paper.
-    if (variant === 'samples') url += '&variant=samples';
+    btn.disabled = true; btn.textContent = 'Downloading…';
+    msg.className = 'mpm-msg'; msg.textContent = '';
+
+    var nn = String(number).padStart(2, '0');
+    var name = 'mock-' + nn + (variant === 'samples' ? '-samples' : '') + '.pdf';
+    var url = PDF_BASE + '/' + type + '/' + name;
+    var fname = type + '-' + name;
+
     try {
       var r = await fetch(url);
-      if (!r.ok) throw new Error('Server returned ' + r.status);
+      if (r.status === 404) throw new Error('Bu mok uchun PDF hali yuklanmagan');
+      if (!r.ok) throw new Error('Server ' + r.status);
       var blob = await r.blob();
-      var cd = r.headers.get('Content-Disposition') || '';
-      var m = /filename="?([^"]+)"?/.exec(cd);
-      var fname = (m && m[1]) ? m[1] : (type + '.pdf');
+      // Serving a 244 KB landing page as a PDF is exactly how the old path
+      // failed, so check what actually arrived before handing it over.
+      if (blob.type && blob.type.indexOf('pdf') === -1) throw new Error('PDF emas (' + blob.type + ')');
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob); a.download = fname;
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
-      msg.className = 'mpm-msg ok'; msg.textContent = '✓ Downloaded ' + fname;
+      msg.className = 'mpm-msg ok'; msg.textContent = '✓ ' + fname;
     } catch (e) {
-      msg.className = 'mpm-msg err'; msg.textContent = '✗ ' + (e.message || 'Download failed') + '. Please try again.';
+      msg.className = 'mpm-msg err'; msg.textContent = '✗ ' + (e.message || 'Yuklab bo‘lmadi');
     } finally {
       btn.disabled = false; btn.textContent = orig;
     }
