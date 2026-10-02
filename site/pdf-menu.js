@@ -1,7 +1,7 @@
 // pdf-menu.js — unified "Download mock PDFs" menu for the v3 sidebar.
 // Admin gating is done by the caller (landing-v3 mirrors its other admin rows).
-// Flow: pick exam+skill -> pick a published mock -> fetch the mock-pdf Netlify
-// function (server-side headless-Chrome render of print-mock.html) -> download.
+// Flow: pick exam+skill -> pick a published mock -> ask sign-mock-pdf for a
+// short-lived presigned URL -> download the blob from it.
 (function () {
   // ── Pre-generated PDFs on R2 (replaces the Netlify function) ──────────
   // The old download called /.netlify/functions/mock-pdf, a headless-Chromium
@@ -9,9 +9,11 @@
   // Pages, which does not run it, and the request quietly returned the
   // landing page with HTTP 200 — an admin got a 244 KB "PDF" and no error.
   //
-  // Now the papers are rendered once, up front, and served as static files:
-  //   https://audio.mock-stream.com/pdf/<mock_type>/mock-NN.pdf
-  // No server, no cold start, no timeout — the file arrives immediately.
+  // Now the papers are rendered once, up front, and stored on R2 as
+  //   pdf/<mock_type>/mock-NN.pdf
+  // No server, no cold start, no timeout. They are NOT fetched from the public
+  // domain any more — see signedUrl() below for why that route is closed.
+  // PDF_BASE now only reaches the manifest, which lists numbers, not content.
   //
   // MANIFEST is the source of truth for what exists, not the mock's status:
   // cefr-listening 34 is published and has no PDF, while the seven
@@ -232,6 +234,46 @@
     if (hasSamples) el('mpm-dl-s').addEventListener('click', function () { download(type, el('mpm-sel').value, 'samples', this); });
   }
 
+  // The papers are no longer fetched from a public URL. `audio.mock-stream.com`
+  // cannot be made private — exam audio lives in the same bucket and R2 grants
+  // public access per BUCKET, not per prefix — so the public route to
+  // `/pdf/*.pdf` is blocked at the edge and the file is fetched from the S3
+  // endpoint with a 60-second presigned URL instead.
+  //
+  // The admin padlock on the sidebar was never protection: it hid this menu,
+  // while the files sat on a guessable path that `manifest.json` indexed in
+  // full. `sign-mock-pdf` re-checks the caller's JWT server-side, applies a
+  // daily quota and logs every grant.
+  async function signedUrl(type, number, variant){
+    var token = null;
+    try {
+      var c = window.MockStream && window.MockStream.auth
+        && typeof window.MockStream.auth.getClient === 'function'
+        ? window.MockStream.auth.getClient() : null;
+      if (c && c.auth && typeof c.auth.getSession === 'function') {
+        var sess = await c.auth.getSession();
+        token = sess && sess.data && sess.data.session && sess.data.session.access_token;
+      }
+    } catch (_e) {}
+    if (!token) throw new Error('Admin hisobi bilan qayta kiring');
+
+    var r = await fetch(SB_URL + '/functions/v1/sign-mock-pdf', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: type, number: Number(number), variant: variant })
+    });
+    var j = null;
+    try { j = await r.json(); } catch (_e) {}
+    if (!r.ok || !j || !j.url) {
+      throw new Error((j && j.error) || ('Ruxsat olinmadi (' + r.status + ')'));
+    }
+    if (typeof j.used === 'number' && typeof j.quota === 'number' && j.used >= j.quota - 3) {
+      var m = el('mpm-msg');
+      if (m) { m.className = 'mpm-msg'; m.textContent = 'Kunlik chegara: ' + j.used + '/' + j.quota; }
+    }
+    return j.url;
+  }
+
   async function download(type, number, variant, btn){
     btn = btn || el('mpm-dl'); var msg = el('mpm-msg');
     var orig = btn.textContent;
@@ -240,10 +282,10 @@
 
     var nn = String(number).padStart(2, '0');
     var name = 'mock-' + nn + (variant === 'samples' ? '-samples' : '') + '.pdf';
-    var url = PDF_BASE + '/' + type + '/' + name;
     var fname = type + '-' + name;
 
     try {
+      var url = await signedUrl(type, number, variant);
       var r = await fetch(url);
       if (r.status === 404) throw new Error('Bu mok uchun PDF hali yuklanmagan');
       if (!r.ok) throw new Error('Server ' + r.status);
