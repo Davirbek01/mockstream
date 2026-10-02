@@ -19,6 +19,7 @@
   var PDF_BASE = 'https://audio.mock-stream.com/pdf';
   var READY = {
     'cefr-speaking': { questions: true, samples: false },
+    'cefr-writing':  { questions: true, samples: false },
   };
   var isReady = function (type, variant) {
     var r = READY[type];
