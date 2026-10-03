@@ -239,7 +239,7 @@
   // markup has no such dependency: whenever the script arrives, it fills in
   // whatever is already on the page, and the observer catches lists that
   // render later.
-  function upgrade(root) {
+  function upgradeSlots(root) {
     var slots = (root || document).querySelectorAll
       ? (root || document).querySelectorAll('.mpc-slot') : [];
     for (var i = 0; i < slots.length; i++) {
@@ -255,11 +255,11 @@
 
   function watch() {
     style();
-    upgrade(document);
+    upgradeSlots(document);
     try {
       new MutationObserver(function (muts) {
         for (var i = 0; i < muts.length; i++) {
-          if (muts[i].addedNodes && muts[i].addedNodes.length) { upgrade(document); return; }
+          if (muts[i].addedNodes && muts[i].addedNodes.length) { upgradeSlots(document); return; }
         }
       }).observe(document.body, { childList: true, subtree: true });
     } catch (_e) {}
@@ -275,7 +275,7 @@
         + ' aria-label="Mock ' + n + ' PDF">PDF</button>';
     },
     close: close,
-    upgrade: function () { upgrade(document); }
+    upgrade: function () { upgradeSlots(document); }
   };
 
   if (document.readyState === 'loading') {
