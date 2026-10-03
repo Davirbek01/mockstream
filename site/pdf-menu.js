@@ -32,7 +32,13 @@
   async function manifest(){
     if (MANIFEST) return MANIFEST;
     try {
-      var r = await fetch(PDF_BASE + '/manifest.json', { cache: 'no-cache' });
+      // `cache: 'no-cache'` is not enough here — measured against the live
+      // bucket, it kept returning the previous manifest (64 papers, seven
+      // listed as missing) minutes after the new one was uploaded, while the
+      // same URL with a changing query string returned the current file. So
+      // an admin would upload a PDF and still be told it does not exist.
+      var r = await fetch(PDF_BASE + '/manifest.json?v=' + Date.now(),
+                          { cache: 'no-store' });
       MANIFEST = r.ok ? await r.json() : {};
     } catch (_e) { MANIFEST = {}; }
     return MANIFEST;
