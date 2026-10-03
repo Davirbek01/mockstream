@@ -49,7 +49,8 @@
       // border, radius, padding and purple — so the card foot reads as one
       // row of controls rather than two unrelated shapes.
       '.mpc-btn{background:transparent;border:1px solid #c4b5fd;color:#6d28d9;',
-      'border-radius:8px;padding:6px 10px;font-size:14px;line-height:1;',
+      'border-radius:8px;padding:6px 10px;font-size:12.5px;line-height:1;',
+      'font-weight:800;letter-spacing:.03em;',
       'cursor:pointer;margin-right:8px;white-space:nowrap;',
       'transition:background 120ms ease,border-color 120ms ease;}',
       '.mpc-btn:hover{background:#f5f3ff;border-color:#6d28d9;}',
@@ -216,9 +217,12 @@
 
   window.MockPdfCard = {
     btn: function (type, n) {
+      // Labelled "PDF", not a 📄 glyph. The first person to see the icon asked
+      // what it was for — 🔗 reads as share, a page emoji reads as nothing.
+      // The pill has room for three characters, so it may as well say them.
       return '<button type="button" class="mpc-btn" data-mpc-type="' + type
-        + '" data-mpc-mock="' + n + '" title="PDF yuklab olish"'
-        + ' aria-label="Mock ' + n + ' PDF">📄</button>';
+        + '" data-mpc-mock="' + n + '" title="Shu mokning PDF nusxasi"'
+        + ' aria-label="Mock ' + n + ' PDF">PDF</button>';
     },
     close: close
   };
