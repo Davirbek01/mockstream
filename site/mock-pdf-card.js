@@ -59,7 +59,12 @@
       // pull the pair apart, so the margin moves to the PDF button and the
       // two travel to the right edge together, side by side.
       '.mpc-btn + button[class$="-take"]{margin-left:0;}',
-      '.mpc-pop{position:absolute;z-index:99999;min-width:214px;background:#fff;',
+      // Fixed, and above the picker. The picker is `position:fixed; inset:0;
+      // z-index:100003` — a full-screen layer over the landing page. An
+      // absolutely positioned menu at z-index 99999 opened *underneath* it, at
+      // page coordinates, so from inside the picker the click looked like it
+      // had done nothing; the menu was waiting on the landing page behind.
+      '.mpc-pop{position:fixed;z-index:100010;min-width:214px;background:#fff;',
       'border:1px solid #e2e8f0;border-radius:12px;padding:6px;',
       'box-shadow:0 12px 32px rgba(15,23,42,.16);font-size:13.5px;}',
       '.mpc-item{display:flex;align-items:center;gap:8px;width:100%;border:0;',
@@ -86,12 +91,14 @@
     pop.style.visibility = 'hidden';
     document.body.appendChild(pop);
     var w = pop.offsetWidth, h = pop.offsetHeight;
-    var left = Math.min(r.left + window.scrollX, window.scrollX + window.innerWidth - w - 10);
-    var top = r.bottom + window.scrollY + 6;
+    // Viewport coordinates, not page ones: the menu is fixed, like the picker
+    // it opens over, so scroll offsets must not be added.
+    var left = Math.min(r.left, window.innerWidth - w - 10);
+    var top = r.bottom + 6;
     // Not enough room underneath — hang it above the button instead.
-    if (r.bottom + h + 12 > window.innerHeight) top = r.top + window.scrollY - h - 6;
-    pop.style.left = Math.max(window.scrollX + 8, left) + 'px';
-    pop.style.top = top + 'px';
+    if (r.bottom + h + 12 > window.innerHeight) top = r.top - h - 6;
+    pop.style.left = Math.max(8, left) + 'px';
+    pop.style.top = Math.max(8, top) + 'px';
     pop.style.visibility = '';
   }
 
