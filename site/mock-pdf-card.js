@@ -214,10 +214,40 @@
   // Injected at load, not on first open: the buttons are painted with the card
   // long before anyone clicks one, and without this they sat on the card as
   // bare default buttons — square, grey, nothing like the share pill beside them.
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', style);
-  } else {
+  // The cards write a plain <span class="mpc-slot"> and this upgrades it.
+  //
+  // They used to call MockPdfCard.btn() while building their HTML, which meant
+  // the button existed only if this deferred script had already run. The CEFR
+  // Speaking list renders during page init, before that — so its cards came out
+  // with a share button and no PDF button at all, silently, because the guard
+  // `window.MockPdfCard ? … : ''` turned into an empty string. A slot in the
+  // markup has no such dependency: whenever the script arrives, it fills in
+  // whatever is already on the page, and the observer catches lists that
+  // render later.
+  function upgrade(root) {
+    var slots = (root || document).querySelectorAll
+      ? (root || document).querySelectorAll('.mpc-slot') : [];
+    for (var i = 0; i < slots.length; i++) {
+      var sl = slots[i];
+      var type = sl.getAttribute('data-mpc-type');
+      var n = sl.getAttribute('data-mpc-mock');
+      if (!type || !n) { sl.remove(); continue; }
+      var tmp = document.createElement('div');
+      tmp.innerHTML = window.MockPdfCard.btn(type, n);
+      sl.parentNode.replaceChild(tmp.firstChild, sl);
+    }
+  }
+
+  function watch() {
     style();
+    upgrade(document);
+    try {
+      new MutationObserver(function (muts) {
+        for (var i = 0; i < muts.length; i++) {
+          if (muts[i].addedNodes && muts[i].addedNodes.length) { upgrade(document); return; }
+        }
+      }).observe(document.body, { childList: true, subtree: true });
+    } catch (_e) {}
   }
 
   window.MockPdfCard = {
@@ -229,6 +259,13 @@
         + '" data-mpc-mock="' + n + '" title="Shu mokning PDF nusxasi"'
         + ' aria-label="Mock ' + n + ' PDF">PDF</button>';
     },
-    close: close
+    close: close,
+    upgrade: function () { upgrade(document); }
   };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watch);
+  } else {
+    watch();
+  }
 })();

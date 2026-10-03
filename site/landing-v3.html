@@ -4729,7 +4729,7 @@
     })();
   </script>
   <script src="/pdf-menu.js?v=3" defer></script>
-  <script src="/mock-pdf-card.js?v=3" defer></script>
+  <script src="/mock-pdf-card.js?v=4" defer></script>
   <script src="/session-recovery.js?v=20" defer></script>
   <!-- Shows the "exam moved to another device" notice after an exam page sends the student home. -->
   <script src="/exam-lock.js?v=11" defer></script>
@@ -11638,7 +11638,7 @@
         +   '</ul>'
         +   '<div class="ilet-card-foot">'
         +     '<button type="button" class="cspet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
-        +     (window.MockPdfCard ? MockPdfCard.btn('cefr-speaking', padded) : '')
+        +     '<span class="mpc-slot" data-mpc-type="cefr-speaking" data-mpc-mock="' + padded + '"></span>'
         +     '<button type="button" class="ilet-take">Begin →</button>'
         +   '</div>'
         + '</article>';
@@ -12301,7 +12301,7 @@
         +   '</ul>'
         +   '<div class="ilet-card-foot">'
         +     '<button type="button" class="ispet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
-        +     (window.MockPdfCard ? MockPdfCard.btn('ielts-speaking', padded) : '')
+        +     '<span class="mpc-slot" data-mpc-type="ielts-speaking" data-mpc-mock="' + padded + '"></span>'
         +     '<button type="button" class="ilet-take">Begin →</button>'
         +   '</div>'
         + '</article>';
@@ -12867,7 +12867,7 @@
         : '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('cefr-writing', mockNum) : '') + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="cefr-writing" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const topicBlob = [
         meta.part1Topic, meta.part1Chip, meta.t2Genre, meta.t2Chip,
@@ -13597,7 +13597,7 @@
         : '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('ielts-writing', mockNum) : '') + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="ielts-writing" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const t1Chart = tasks[0] ? (tasks[0].chartType  || '') : '';
       const t1Data  = tasks[0] ? (tasks[0].dataNature || '') : '';
@@ -14684,7 +14684,7 @@
         : '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="cret-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('cefr-reading', mockNum) : '') + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="cefr-reading" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const crStats = _cretStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
       const CR_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
@@ -15642,7 +15642,7 @@
         : '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="iret-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('ielts-reading', mockNum) : '') + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="ielts-reading" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const irStats = _iretStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
       const IR_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
@@ -16325,7 +16325,7 @@
         : '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('cefr-listening', mockNum) : '') + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="cefr-listening" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const clExamLabel = (function fmtClet(iso) {
         if (!iso) return '';
@@ -17334,7 +17334,7 @@
         : '<button type="button" class="ilet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : (shareBtnHtml + (window.MockPdfCard ? MockPdfCard.btn('ielts-listening', mockNum) : '') + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
+        : (shareBtnHtml + '<span class="mpc-slot" data-mpc-type="ielts-listening" data-mpc-mock="' + mockNum + '"></span>' + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Begin →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       const ilExamLabel = (function fmtIlet(iso) {
         if (!iso) return '';
