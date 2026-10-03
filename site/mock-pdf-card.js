@@ -205,6 +205,15 @@
   window.addEventListener('resize', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 
+  // Injected at load, not on first open: the buttons are painted with the card
+  // long before anyone clicks one, and without this they sat on the card as
+  // bare default buttons — square, grey, nothing like the share pill beside them.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', style);
+  } else {
+    style();
+  }
+
   window.MockPdfCard = {
     btn: function (type, n) {
       return '<button type="button" class="mpc-btn" data-mpc-type="' + type
