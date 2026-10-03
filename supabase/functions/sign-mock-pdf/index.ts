@@ -4,10 +4,14 @@
 // Hands an entitled caller ONE short-lived presigned URL for ONE mock PDF,
 // logs the grant, and enforces a daily quota.
 //
-// Who may download:
-//   admin    — premium_emails.role='admin'            (quota PDF_DAILY_QUOTA)
-//   premium  — tier='premium' | plan='premium'|'ultra'(PDF_DAILY_QUOTA_PREMIUM)
-//   vip      — signed VIP token with p (premium_ai)=true (PDF_DAILY_QUOTA_VIP)
+// Who may download, and how much per 24h PER SKILL (a mock counts once —
+// its questions and its model answers together, not twice):
+//   superadmin — admin with no centre: no limit
+//   admin      — clone admin:        PDF_QUOTA_ADMIN   (3)
+//   premium    — premium/ultra:      PDF_QUOTA_PREMIUM (1)
+//   vip        — signed VIP token with premium_ai=true: PDF_QUOTA_VIP (1)
+//   free       — the centre's free mock, for anyone, and it does NOT consume
+//                the caller's own allowance
 //
 // An ordinary mock code also carries a VIP token, but with p=false. It opens
 // the exam, NOT the paper, so it is refused with 402 and the client turns that
@@ -54,15 +58,20 @@ const R2_BUCKET  = Deno.env.get('PDF_R2_BUCKET') || 'mockstream-audio';
 const R2_PREFIX  = Deno.env.get('PDF_R2_PREFIX') ?? 'pdf/';
 const EXPIRES    = 60; // sekund — havola almashishga yaramasligi uchun qisqa
 
-// Kuniga nechta ALOHIDA ish. Admin o'qituvchi — unga ko'proq kerak;
-// o'quvchiga esa mashq uchun yetarli miqdor.
-const QUOTA = {
-  admin:   parseInt(Deno.env.get('PDF_DAILY_QUOTA') || '20', 10),
-  premium: parseInt(Deno.env.get('PDF_DAILY_QUOTA_PREMIUM') || '10', 10),
-  vip:     parseInt(Deno.env.get('PDF_DAILY_QUOTA_VIP') || '10', 10),
-  // Bepul mok IP bo'yicha hisoblanadi (hisob yo'q). Baribir faqat bepul
-  // moklargina ochiladi, shuning uchun chegara keng.
-  free:    parseInt(Deno.env.get('PDF_DAILY_QUOTA_FREE') || '12', 10),
+// Kvota HAR KO'NIKMA (mock_type) bo'yicha alohida hisoblanadi va birligi —
+// MOK, variant emas: bitta mokning savollari va namunaviy javoblari birgalikda
+// bitta sanaladi. Shunda to'rtta ko'nikmadan kuniga to'rtta mok manbasi chiqadi,
+// bitta ko'nikmadan to'rttasi emas.
+//
+// Super adminda cheklov yo'q (markazi bo'lmagan admin); klon admini kuniga
+// uchta mok; premium, ultra va VIP bittadan.
+const PER_SKILL: Record<string, number> = {
+  superadmin: Infinity,
+  admin:   parseInt(Deno.env.get('PDF_QUOTA_ADMIN')   || '3', 10),
+  premium: parseInt(Deno.env.get('PDF_QUOTA_PREMIUM') || '1', 10),
+  vip:     parseInt(Deno.env.get('PDF_QUOTA_VIP')     || '1', 10),
+  // Bepul mok baribir har to'plamda bitta, shuning uchun bittadan yetarli.
+  free:    parseInt(Deno.env.get('PDF_QUOTA_FREE')    || '1', 10),
 };
 
 // VIP tokeni verify-passcode tomonidan imzolanadi; validate-vip-token bilan
@@ -92,7 +101,8 @@ const TYPES = new Set([
   'ielts-reading', 'ielts-listening', 'ielts-speaking', 'ielts-writing',
 ]);
 
-interface Who { label: string; center: string; kind: 'admin' | 'premium' | 'vip' | 'free' }
+type Kind = 'superadmin' | 'admin' | 'premium' | 'vip' | 'free';
+interface Who { label: string; center: string; kind: Kind }
 
 // ── Bepul mok ──────────────────────────────────────────────────────────────
 // Har to'plamdan bittasi kodsiz ishlanadi, ya'ni uning PDF'i ham hamma uchun
@@ -229,7 +239,9 @@ async function account(req: Request): Promise<Who | null> {
     const label = r.email || (r.telegram_username ? '@' + r.telegram_username
                                                   : 'tg:' + r.telegram_id);
     if (r.role === 'admin') {
-      return { label, center: r.center || '', kind: 'admin' };   // eng keng huquq
+      // Markazi yo'q admin — super admin, unga cheklov qo'yilmaydi.
+      return { label, center: r.center || '',
+               kind: (r.center ? 'admin' : 'superadmin') };
     }
     // Premium ham, ultra ham yuklay oladi. `tier` eski ustun, `plan` yangisi —
     // ikkalasi ham qaraladi, chunki bazada ikkala shakl ham uchraydi.
@@ -282,19 +294,21 @@ Deno.serve(async (req) => {
     }
   }
 
-  // Har to'plamdan bittasi kodsiz ishlanadi — uning varag'i ham hamma uchun
-  // ochiq bo'lishi kerak. Tekshiruv oxirida turadi: huquqi bor odam baribir
-  // o'z turiga ko'ra hisoblanadi, bu yo'l faqat boshqa hech narsasi
-  // yo'qlarga ochiladi.
-  if (!who) {
-    const center = String(body.center || '').trim().slice(0, 40);
-    if (await isFree(center, type, num)) {
-      who = {
-        label: 'free:' + (req.headers.get('cf-connecting-ip')
-                          || req.headers.get('x-forwarded-for') || '?'),
-        center, kind: 'free',
-      };
-    }
+  // Har to'plamdan bittasi kodsiz ishlanadi, ya'ni uning varag'i ham hamma
+  // uchun ochiq. Bu HUQUQI BOR odamga ham tegishli: premiumning kunlik yagona
+  // o'rni hammaga tekin beriladigan mokka sarflanmasligi kerak. Shuning uchun
+  // bepul mok kimdan kelishidan qat'i nazar 'free' chelagiga tushadi va
+  // foydalanuvchining o'z chegarasini yemaydi.
+  const center = String(body.center || '').trim().slice(0, 40);
+  const free = await isFree(center || (who ? who.center : ''), type, num);
+  if (free) {
+    who = {
+      label: who ? who.label
+                 : 'free:' + (req.headers.get('cf-connecting-ip')
+                              || req.headers.get('x-forwarded-for') || '?'),
+      center: who ? who.center : center,
+      kind: 'free',
+    };
   }
 
   if (!who) {
@@ -305,25 +319,32 @@ Deno.serve(async (req) => {
       upgrade: true,
     });
   }
-  const quota = QUOTA[who.kind];
+  const quota = PER_SKILL[who.kind];
 
-  // Quota counts DISTINCT papers over 24h, so re-downloading the same file
-  // (a failed save, a second device) does not burn a fresh slot.
-  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-  const { data: recent } = await sb
-    .from('pdf_download_log')
-    .select('mock_type, mock_number, variant')
-    .eq('admin_email', who.label)
-    .gte('at', since);
+  // Sanoq SHU ko'nikma ichida va MOK birligida: variant qaralmaydi, ya'ni
+  // savollarni olib, keyin namunaviy javoblarni olish bitta o'rin yeydi.
+  // Bir xil mokni qayta yuklash ham yangi o'rin yemaydi (saqlanmay qolgan
+  // bo'lsa yoki ikkinchi qurilmada ochsa).
+  let used = 0;
+  if (Number.isFinite(quota)) {
+    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+    const { data: recent } = await sb
+      .from('pdf_download_log')
+      .select('mock_number')
+      .eq('admin_email', who.label)
+      .eq('mock_type', type)
+      .gte('at', since);
 
-  const seen = new Set((recent || []).map(
-    (r) => `${r.mock_type}/${r.mock_number}/${r.variant || ''}`));
-  const mine = `${type}/${num}/${variant || ''}`;
-  if (!seen.has(mine) && seen.size >= quota) {
-    return json(429, {
-      error: `Kunlik chegara: 24 soatda ${quota} ta PDF. Keyinroq urinib ko'ring.`,
-      used: seen.size, quota,
-    });
+    const seen = new Set((recent || []).map((r) => Number(r.mock_number)));
+    used = seen.size;
+    if (!seen.has(num) && seen.size >= quota) {
+      return json(429, {
+        error: `Kunlik chegara: bu ko'nikmadan 24 soatda ${quota} ta mok. `
+             + `Keyinroq urinib ko'ring.`,
+        used, quota, scope: type,
+      });
+    }
+    if (!seen.has(num)) used += 1;
   }
 
   const name = `mock-${String(num).padStart(2, '0')}${variant ? '-samples' : ''}.pdf`;
@@ -369,8 +390,9 @@ Deno.serve(async (req) => {
   return json(200, {
     url: signedUrl,
     expiresIn: EXPIRES,
-    used: seen.has(mine) ? seen.size : seen.size + 1,
-    quota,
+    used,
+    quota: Number.isFinite(quota) ? quota : null,
     kind: who.kind,
+    scope: type,
   });
 });
