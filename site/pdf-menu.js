@@ -273,9 +273,17 @@
     if (!r.ok || !j || !j.url) {
       throw new Error((j && j.error) || ('Ruxsat olinmadi (' + r.status + ')'));
     }
-    if (typeof j.used === 'number' && typeof j.quota === 'number' && j.used >= j.quota - 3) {
+    // Only once the skill's allowance is spent. The quota is now per skill and
+    // small (3 for a clone admin, 1 for premium), so warning three short of it
+    // would fire on every single download. A super-admin has no quota at all
+    // and `quota` comes back null.
+    if (typeof j.used === 'number' && typeof j.quota === 'number' && j.used >= j.quota) {
       var m = el('mpm-msg');
-      if (m) { m.className = 'mpm-msg'; m.textContent = 'Kunlik chegara: ' + j.used + '/' + j.quota; }
+      if (m) {
+        m.className = 'mpm-msg';
+        m.textContent = 'Bu ko‘nikmadan bugungi chegara ishlatildi ('
+          + j.used + '/' + j.quota + ').';
+      }
     }
     return j.url;
   }
