@@ -1,8 +1,18 @@
 // =====================================================================
 // Supabase Edge Function: sign-mock-pdf
 // ---------------------------------------------------------------------
-// Hands an admin ONE short-lived presigned URL for ONE mock PDF, logs
-// the grant, and enforces a daily quota.
+// Hands an entitled caller ONE short-lived presigned URL for ONE mock PDF,
+// logs the grant, and enforces a daily quota.
+//
+// Who may download:
+//   admin    — premium_emails.role='admin'            (quota PDF_DAILY_QUOTA)
+//   premium  — tier='premium' | plan='premium'|'ultra'(PDF_DAILY_QUOTA_PREMIUM)
+//   vip      — signed VIP token with p (premium_ai)=true (PDF_DAILY_QUOTA_VIP)
+//
+// An ordinary mock code also carries a VIP token, but with p=false. It opens
+// the exam, NOT the paper, so it is refused with 402 and the client turns that
+// into the "this is a premium feature" prompt. Keeping that distinction here,
+// on the server, is the whole point — the button is visible to everyone.
 //
 // Why this exists: the PDFs were served from the public custom domain
 // `audio.mock-stream.com/pdf/<type>/mock-NN.pdf`. The admin padlock on
@@ -42,8 +52,19 @@ const R2_KEY     = Deno.env.get('PDF_R2_ACCESS_KEY_ID') || '';
 const R2_SECRET  = Deno.env.get('PDF_R2_SECRET_ACCESS_KEY') || '';
 const R2_BUCKET  = Deno.env.get('PDF_R2_BUCKET') || 'mockstream-audio';
 const R2_PREFIX  = Deno.env.get('PDF_R2_PREFIX') ?? 'pdf/';
-const QUOTA      = parseInt(Deno.env.get('PDF_DAILY_QUOTA') || '20', 10);
 const EXPIRES    = 60; // sekund — havola almashishga yaramasligi uchun qisqa
+
+// Kuniga nechta ALOHIDA ish. Admin o'qituvchi — unga ko'proq kerak;
+// o'quvchiga esa mashq uchun yetarli miqdor.
+const QUOTA = {
+  admin:   parseInt(Deno.env.get('PDF_DAILY_QUOTA') || '20', 10),
+  premium: parseInt(Deno.env.get('PDF_DAILY_QUOTA_PREMIUM') || '10', 10),
+  vip:     parseInt(Deno.env.get('PDF_DAILY_QUOTA_VIP') || '10', 10),
+};
+
+// VIP tokeni verify-passcode tomonidan imzolanadi; validate-vip-token bilan
+// bir xil sir. Payload: { c: center, r: role, p: premium_ai, exp }.
+const VIP_TOKEN_SECRET = Deno.env.get('VIP_TOKEN_SECRET') || '';
 
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
@@ -68,12 +89,59 @@ const TYPES = new Set([
   'ielts-reading', 'ielts-listening', 'ielts-speaking', 'ielts-writing',
 ]);
 
-interface Admin { email: string | null; center: string; label: string }
+interface Who { label: string; center: string; kind: 'admin' | 'premium' | 'vip' }
+
+// ── VIP tokeni ─────────────────────────────────────────────────────────────
+// Oddiy mok kodi ham, premium VIP ham token oladi; farqi payloaddagi `p`
+// (premium_ai) bayrog'ida. Yuklash FAQAT p=true bo'lganda beriladi —
+// oddiy kod bilan kirgan o'quvchi PDF ola olmasligi kerak.
+function b64urlDecode(s: string): Uint8Array {
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+  while (s.length % 4) s += '=';
+  const bin = atob(s);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function ctEq(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a[i] ^ b[i];
+  return d === 0;
+}
+
+async function vipClaims(token: string | null) {
+  if (!VIP_TOKEN_SECRET || !token || !token.includes('.')) return null;
+  const [payloadB64, sigB64] = token.split('.', 2);
+  if (!payloadB64 || !sigB64) return null;
+  try {
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(VIP_TOKEN_SECRET),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const want = new Uint8Array(await crypto.subtle.sign(
+      'HMAC', key, new TextEncoder().encode(payloadB64)));
+    if (!ctEq(want, b64urlDecode(sigB64))) return null;
+    const claims = JSON.parse(new TextDecoder().decode(b64urlDecode(payloadB64)));
+    if (typeof claims.exp === 'number' && claims.exp * 1000 < Date.now()) return null;
+    return claims as { c?: string; r?: string; p?: boolean; exp?: number };
+  } catch {
+    return null;
+  }
+}
+
+// Bir xil VIP kodi bitta kvota chelagiga tushsin: token payloadidan barqaror
+// qisqa barmoq izi olinadi (kodning o'zi hech qayerda saqlanmaydi).
+async function vipTag(payloadB64: string): Promise<string> {
+  const h = new Uint8Array(await crypto.subtle.digest(
+    'SHA-256', new TextEncoder().encode(payloadB64)));
+  return 'vip:' + Array.from(h.slice(0, 6)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
 
 // The JWT is the only trustworthy identity here. A clone admin may have no
 // email at all (Telegram sign-in), so match the same three ways the client's
 // checkPremiumRole does: email, @username, numeric id.
-async function admin(req: Request): Promise<Admin | null> {
+async function account(req: Request): Promise<Who | null> {
   const m = (req.headers.get('authorization') || '').match(/^Bearer\s+(.+)$/i);
   if (!m) return null;
 
@@ -107,21 +175,26 @@ async function admin(req: Request): Promise<Admin | null> {
 
   const { data: rows } = await sb
     .from('premium_emails')
-    .select('email, role, center, active, expires_at, telegram_username, telegram_id')
+    .select('email, role, tier, plan, center, active, expires_at, telegram_username, telegram_id')
     .or(ors.join(','));
 
   const now = Date.now();
+  let best: Who | null = null;
   for (const r of rows || []) {
-    if (r.role !== 'admin' || !r.active) continue;
+    if (!r.active) continue;
     if (r.expires_at && Date.parse(r.expires_at) < now) continue;
-    return {
-      email: r.email || null,
-      center: r.center || '',
-      label: r.email || (r.telegram_username ? '@' + r.telegram_username
-                                             : 'tg:' + r.telegram_id),
-    };
+    const label = r.email || (r.telegram_username ? '@' + r.telegram_username
+                                                  : 'tg:' + r.telegram_id);
+    if (r.role === 'admin') {
+      return { label, center: r.center || '', kind: 'admin' };   // eng keng huquq
+    }
+    // Premium ham, ultra ham yuklay oladi. `tier` eski ustun, `plan` yangisi —
+    // ikkalasi ham qaraladi, chunki bazada ikkala shakl ham uchraydi.
+    if (r.tier === 'premium' || r.plan === 'premium' || r.plan === 'ultra') {
+      best = best || { label, center: r.center || '', kind: 'premium' };
+    }
   }
-  return null;
+  return best;
 }
 
 Deno.serve(async (req) => {
@@ -132,10 +205,31 @@ Deno.serve(async (req) => {
     return json(500, { error: 'R2 credentials are not configured' });
   }
 
-  const who = await admin(req);
+  // Avval hisob (admin / premium / ultra), bo'lmasa VIP tokeni.
+  let who = await account(req);
   if (!who) {
-    return json(403, { error: 'Mock PDFs are for admins only. Sign in with your admin account.' });
+    const tok = req.headers.get('x-vip-token');
+    const claims = await vipClaims(tok);
+    if (claims) {
+      if (claims.p !== true) {
+        // Oddiy mok kodi ham token oladi, lekin u faqat imtihonga kirish
+        // uchun. PDF yuklash premium imkoniyati.
+        return json(402, {
+          error: 'PDF yuklab olish premium imkoniyat. Oddiy mok kodi buni ochmaydi.',
+          upgrade: true,
+        });
+      }
+      who = { label: await vipTag((tok || '').split('.', 1)[0]),
+              center: claims.c || '', kind: 'vip' };
+    }
   }
+  if (!who) {
+    return json(402, {
+      error: 'PDF yuklab olish premium imkoniyat. Premium yoki VIP kirish kerak.',
+      upgrade: true,
+    });
+  }
+  const quota = QUOTA[who.kind];
 
   let body: { type?: string; number?: number | string; variant?: string | null };
   try { body = await req.json(); } catch { return json(400, { error: 'bad JSON' }); }
@@ -161,10 +255,10 @@ Deno.serve(async (req) => {
   const seen = new Set((recent || []).map(
     (r) => `${r.mock_type}/${r.mock_number}/${r.variant || ''}`));
   const mine = `${type}/${num}/${variant || ''}`;
-  if (!seen.has(mine) && seen.size >= QUOTA) {
+  if (!seen.has(mine) && seen.size >= quota) {
     return json(429, {
-      error: `Kunlik chegara: 24 soatda ${QUOTA} ta PDF. Keyinroq urinib ko'ring.`,
-      used: seen.size, quota: QUOTA,
+      error: `Kunlik chegara: 24 soatda ${quota} ta PDF. Keyinroq urinib ko'ring.`,
+      used: seen.size, quota,
     });
   }
 
@@ -212,6 +306,7 @@ Deno.serve(async (req) => {
     url: signedUrl,
     expiresIn: EXPIRES,
     used: seen.has(mine) ? seen.size : seen.size + 1,
-    quota: QUOTA,
+    quota,
+    kind: who.kind,
   });
 });

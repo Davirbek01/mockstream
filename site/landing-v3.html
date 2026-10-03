@@ -4729,6 +4729,7 @@
     })();
   </script>
   <script src="/pdf-menu.js" defer></script>
+  <script src="/mock-pdf-card.js" defer></script>
   <script src="/session-recovery.js?v=20" defer></script>
   <!-- Shows the "exam moved to another device" notice after an exam page sends the student home. -->
   <script src="/exam-lock.js?v=11" defer></script>
@@ -11636,6 +11637,7 @@
         +     partRow('3',   meta.p3Topic,  'Discussion turn (not tagged)')
         +   '</ul>'
         +   '<div class="ilet-card-foot">'
+        +     (window.MockPdfCard ? MockPdfCard.btn('cefr-speaking', padded) : '')
         +     '<button type="button" class="cspet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
         +     '<button type="button" class="ilet-take">Take Test →</button>'
         +   '</div>'
@@ -12298,6 +12300,7 @@
         +     partRow(3, meta.p3Topic)
         +   '</ul>'
         +   '<div class="ilet-card-foot">'
+        +     (window.MockPdfCard ? MockPdfCard.btn('ielts-speaking', padded) : '')
         +     '<button type="button" class="ispet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
         +     '<button type="button" class="ilet-take">Take Test →</button>'
         +   '</div>'
@@ -12861,7 +12864,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('cefr-writing', mockNum) : '')
+           + '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
@@ -13591,7 +13595,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('ielts-writing', mockNum) : '')
+           + '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
@@ -14678,7 +14683,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('cefr-reading', mockNum) : '')
+           + '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="cret-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>');
@@ -15636,7 +15642,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('ielts-reading', mockNum) : '')
+           + '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="iret-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>');
@@ -16319,7 +16326,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('cefr-listening', mockNum) : '')
+           + '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
@@ -17328,7 +17336,8 @@
         : '';
       const shareBtnHtml = noneReady
         ? ''
-        : '<button type="button" class="ilet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+        : ((window.MockPdfCard ? MockPdfCard.btn('ielts-listening', mockNum) : '')
+           + '<button type="button" class="ilet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>');
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
