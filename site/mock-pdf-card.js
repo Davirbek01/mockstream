@@ -49,9 +49,12 @@
       // instead of green, so the two read as a pair of equal actions.
       '.mpc-btn{padding:9px 18px;border:none;border-radius:10px;color:#fff;',
       'background:linear-gradient(135deg,#8b5cf6,#6d28d9);',
-      'font-size:13.5px;font-weight:700;line-height:1.25;cursor:pointer;',
+      // No line-height and no right margin on purpose: the start button sets
+      // neither, and the card foot is a flex row with gap:10px. Setting them
+      // made this button 35px tall against Begin's 40, with an 18px gap.
+      'font-size:13.5px;font-weight:700;cursor:pointer;',
       'white-space:nowrap;box-shadow:0 3px 10px rgba(109,40,217,.3);',
-      'transition:all .15s;margin-left:auto;margin-right:8px;}',
+      'transition:all .15s;margin-left:auto;}',
       '.mpc-btn:hover{transform:translateY(-1px);',
       'box-shadow:0 6px 16px rgba(109,40,217,.4);}',
       // The start button carries `margin-left:auto` to sit hard right. With a
