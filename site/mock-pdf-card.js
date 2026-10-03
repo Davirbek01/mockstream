@@ -45,15 +45,20 @@
     var s = document.createElement('style');
     s.id = 'mpc-style';
     s.textContent = [
-      // Deliberately the same pill as the share button beside it — same
-      // border, radius, padding and purple — so the card foot reads as one
-      // row of controls rather than two unrelated shapes.
-      '.mpc-btn{background:transparent;border:1px solid #c4b5fd;color:#6d28d9;',
-      'border-radius:8px;padding:6px 10px;font-size:12.5px;line-height:1;',
-      'font-weight:800;letter-spacing:.03em;',
-      'cursor:pointer;margin-right:8px;white-space:nowrap;',
-      'transition:background 120ms ease,border-color 120ms ease;}',
-      '.mpc-btn:hover{background:#f5f3ff;border-color:#6d28d9;}',
+      // Same metrics as the start button — padding, radius, font — in purple
+      // instead of green, so the two read as a pair of equal actions.
+      '.mpc-btn{padding:9px 18px;border:none;border-radius:10px;color:#fff;',
+      'background:linear-gradient(135deg,#8b5cf6,#6d28d9);',
+      'font-size:13.5px;font-weight:700;line-height:1.25;cursor:pointer;',
+      'white-space:nowrap;box-shadow:0 3px 10px rgba(109,40,217,.3);',
+      'transition:all .15s;margin-left:auto;margin-right:8px;}',
+      '.mpc-btn:hover{transform:translateY(-1px);',
+      'box-shadow:0 6px 16px rgba(109,40,217,.4);}',
+      // The start button carries `margin-left:auto` to sit hard right. With a
+      // second button in front of it that auto margin would split the gap and
+      // pull the pair apart, so the margin moves to the PDF button and the
+      // two travel to the right edge together, side by side.
+      '.mpc-btn + button[class$="-take"]{margin-left:0;}',
       '.mpc-pop{position:absolute;z-index:99999;min-width:214px;background:#fff;',
       'border:1px solid #e2e8f0;border-radius:12px;padding:6px;',
       'box-shadow:0 12px 32px rgba(15,23,42,.16);font-size:13.5px;}',
