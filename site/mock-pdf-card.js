@@ -172,7 +172,12 @@
     try {
       var r = await fetch(SB_URL + '/functions/v1/sign-mock-pdf', {
         method: 'POST', headers: headers,
-        body: JSON.stringify({ type: type, number: n, variant: variant })
+        // The centre decides which mock of each set is free, so the server
+        // needs to know which one is asking.
+        body: JSON.stringify({
+          type: type, number: n, variant: variant,
+          center: (window.__CENTER_ID || '')
+        })
       });
       var j = null;
       try { j = await r.json(); } catch (_e) {}
