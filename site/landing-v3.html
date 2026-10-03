@@ -1304,7 +1304,12 @@
       background: rgba(15, 23, 42, 0.45);
       backdrop-filter: saturate(180%) blur(6px);
       -webkit-backdrop-filter: saturate(180%) blur(6px);
-      z-index: 10000;
+      /* Above the mock pickers (.ilet/.cret/.iret-overlay, 100003) and the
+         learn overlay (100005). At 10000 these three dialogs — Help, Terms and
+         Subscribe — opened BEHIND an open picker: from the mock list the
+         button appeared dead, while the panel sat underneath waiting. Found
+         via the PDF card's upgrade prompt, but it was never specific to it. */
+      z-index: 100020;
       display: flex;
       align-items: center;
       justify-content: center;
