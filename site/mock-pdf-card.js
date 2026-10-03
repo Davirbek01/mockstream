@@ -45,11 +45,14 @@
     var s = document.createElement('style');
     s.id = 'mpc-style';
     s.textContent = [
-      '.mpc-btn{display:inline-flex;align-items:center;justify-content:center;',
-      'width:34px;height:34px;border-radius:10px;border:1px solid #e2e8f0;',
-      'background:#fff;cursor:pointer;font-size:15px;line-height:1;padding:0;',
-      'transition:background .15s,border-color .15s;}',
-      '.mpc-btn:hover{background:#f8fafc;border-color:#cbd5e1;}',
+      // Deliberately the same pill as the share button beside it — same
+      // border, radius, padding and purple — so the card foot reads as one
+      // row of controls rather than two unrelated shapes.
+      '.mpc-btn{background:transparent;border:1px solid #c4b5fd;color:#6d28d9;',
+      'border-radius:8px;padding:6px 10px;font-size:14px;line-height:1;',
+      'cursor:pointer;margin-right:8px;white-space:nowrap;',
+      'transition:background 120ms ease,border-color 120ms ease;}',
+      '.mpc-btn:hover{background:#f5f3ff;border-color:#6d28d9;}',
       '.mpc-pop{position:absolute;z-index:99999;min-width:214px;background:#fff;',
       'border:1px solid #e2e8f0;border-radius:12px;padding:6px;',
       'box-shadow:0 12px 32px rgba(15,23,42,.16);font-size:13.5px;}',
