@@ -320,7 +320,20 @@
       'background:rgba(255,255,255,.14);color:#fff;font-size:18px;}',
       '.idc-nav button:hover:not(:disabled){background:rgba(255,255,255,.26);}',
       '.idc-nav button:disabled{opacity:.3;cursor:default;}',
-      '@media (max-width:760px){.idc-nav{display:none;}}',
+      // Phone: the reel takes the whole screen. A 9:16 box centred on a
+      // 94%-opaque backdrop left the picker grid glowing through above and
+      // below it, which is not what a reel looks like. The arrows go (swipe
+      // replaces them) and so does ✕ — the system Back closes the player, and
+      // on a phone a close button is one more thing covering the clip. ✕ stays
+      // on desktop, where there is no Back gesture over a modal.
+      '@media (max-width:760px){',
+      '.idc-player{background:#000;}',
+      '.idc-frame{position:absolute;inset:0;height:auto;max-width:none;aspect-ratio:auto;}',
+      '.idc-stage{border-radius:0;}',
+      '.idc-nav,.idc-x{display:none;}',
+      '.idc-info{padding-bottom:calc(18px + env(safe-area-inset-bottom));}',
+      '.idc-count{top:calc(14px + env(safe-area-inset-top));}',
+      '}',
       '.idc-count{position:absolute;top:14px;left:14px;z-index:3;color:#fff;',
       'font-size:12px;font-weight:700;background:rgba(2,6,23,.55);padding:4px 10px;',
       'border-radius:999px;}',
@@ -605,11 +618,44 @@
     return !!(el && el.classList.contains('open'));
   }
 
+  // ── fullscreen (phones only) ──────────────────────────────────────────────
+  // The CSS above already makes the overlay cover the viewport, which is as
+  // far as iOS Safari can go — it has no element fullscreen, only the native
+  // video player, and that would replace our panes and swipe wholesale. Where
+  // element fullscreen does exist (Android Chrome) we take it too, so the
+  // browser's own chrome gets out of the way.
+  var fsOn = false;
+  function isPhone() {
+    try { return matchMedia('(max-width:760px)').matches; } catch (_e) { return false; }
+  }
+  function enterFs(el) {
+    if (!isPhone() || !el.requestFullscreen) return;
+    try {
+      var p = el.requestFullscreen();
+      fsOn = true;
+      if (p && p.catch) p.catch(function () { fsOn = false; });
+    } catch (_e) { fsOn = false; }
+  }
+  function exitFs() {
+    if (!fsOn) return;
+    fsOn = false;                 // set first: the change event must ignore this
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch (_e) {}
+  }
+  document.addEventListener('fullscreenchange', function () {
+    // Android's Back leaves fullscreen WITHOUT firing popstate. Treat that as
+    // the dismissal it is meant to be — otherwise the player sits there with
+    // no ✕ on it and takes a second press to get rid of.
+    if (!fsOn || document.fullscreenElement) return;
+    fsOn = false;
+    if (isOpen()) close();
+  });
+
   function close() {
     var el = document.getElementById('idcPlayer');
     if (!el) return;
     var was = el.classList.contains('open');
     finishSettle();
+    exitFs();
     drag = null;
     panes.forEach(function (p) {
       try { p.v.pause(); p.v.removeAttribute('src'); p.v.load(); } catch (_e) {}
@@ -683,6 +729,7 @@
     panes.forEach(function (p) { p.el.classList.remove('settle'); setY(p, 0); });
     fill(panes[cur], it);
     el.classList.add('open');
+    enterFs(el);   // same task as the tap that opened it, or the request is refused
     try { history.pushState({ picker: 'learn', cat: 'idioms', clip: 1 }, ''); } catch (_e) {}
     activate(n);
   }
