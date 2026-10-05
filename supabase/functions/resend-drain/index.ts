@@ -50,6 +50,7 @@ const CENTER_HOST: Record<string, string> = {
   muzaffars: 'muzaffars-english.netlify.app',
   achievers: 'achievers-mocks.netlify.app',
   record: 'multilevelrecord.com',
+  max: 'multilevelmax.com',
 };
 const routingId = (c: string) => (c === 'mock_stream' ? 'mockstream' : c);
 

@@ -28,7 +28,7 @@
   // falls back to the default Mock Stream manifest.
   var KNOWN = {
     mock_stream: 1, bek: 1, niners: 1, global: 1,
-    muzaffars: 1, record: 1, achievers: 1
+    muzaffars: 1, record: 1, achievers: 1, max: 1
   };
   if (!KNOWN[slug]) slug = 'mock_stream';
 
@@ -61,7 +61,8 @@
     global:      { title: 'Global Education LC',icon: '/site-config/icons-global/icon-192.png' },
     muzaffars:   { title: 'Muzaffars English',  icon: '/site-config/icons-muzaffars/icon-192.png' },
     achievers:   { title: 'Achievers',          icon: 'https://audio.mock-stream.com/img/ibb/GfTQMD79/image.png' },
-    record:      { title: 'Multilevel Record',  icon: 'https://audio.mock-stream.com/img/ibb/5xn3Cxms/image.png' }
+    record:      { title: 'Multilevel Record',  icon: 'https://audio.mock-stream.com/img/ibb/5xn3Cxms/image.png' },
+    max:         { title: 'Multilevel Max',     icon: '/site-config/icons-max/icon-192.png' }
   };
   var brand = APPLE[slug] || APPLE.mock_stream;
 

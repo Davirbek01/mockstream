@@ -23,7 +23,8 @@
     'global':      'Global Education',
     'muzaffars':   'Muzaffars English',
     'achievers':   'Achievers Mocks',
-    'record':      'Multilevel Record'
+    'record':      'Multilevel Record',
+    'max':         'Multilevel Max'
   };
   function _label(cid) {
     if (!cid) return 'Unknown / legacy';

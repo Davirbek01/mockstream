@@ -29,6 +29,7 @@ const TOKEN_ENV_BY_CENTER: Record<string, string> = {
   muzaffars: 'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',
   achievers: 'TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS', // env name keeps the historic misspelling
   record: 'TELEGRAM_LOGIN_BOT_TOKEN_RECORD',
+  max: 'TELEGRAM_LOGIN_BOT_TOKEN_MAX',
 };
 
 const CORS = {

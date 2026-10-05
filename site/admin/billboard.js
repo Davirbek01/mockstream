@@ -20,7 +20,8 @@
     { id: 'global',      label: 'Global Education' },
     { id: 'muzaffars',   label: 'Muzaffars English' },
     { id: 'achievers',   label: 'Achievers Mocks' },
-    { id: 'record',      label: 'Multilevel Record' }
+    { id: 'record',      label: 'Multilevel Record' },
+    { id: 'max',         label: 'Multilevel Max' }
   ];
   function centerLabel(cid) {
     for (var i = 0; i < CENTERS.length; i++) if (CENTERS[i].id === cid) return CENTERS[i].label;
