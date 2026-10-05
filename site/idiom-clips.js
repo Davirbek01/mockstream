@@ -289,6 +289,14 @@
       'background:#0f172a;display:block;opacity:0;transition:opacity .25s;',
       'pointer-events:none;z-index:1;}',
       '.idc-prev.on{opacity:1;}',
+      // Tap-to-unmute, shown only while that card is the one playing. A web
+      // page cannot see the phone's volume keys — there is no API for it,
+      // which is why every web feed uses a speaker button instead.
+      '.idc-sound{position:absolute;top:8px;right:8px;z-index:3;width:30px;height:30px;',
+      'border:0;border-radius:50%;background:rgba(2,6,23,.6);color:#fff;cursor:pointer;',
+      'display:flex;align-items:center;justify-content:center;padding:0;',
+      '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
+      '.idc-sound:hover{background:rgba(2,6,23,.82);}',
       '.idc-badge{position:absolute;top:8px;left:8px;z-index:2;padding:3px 8px;border-radius:999px;',
       'font-size:10px;font-weight:800;letter-spacing:.04em;color:#fff;background:rgba(15,23,42,.72);}',
       '.idc-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;',
@@ -611,6 +619,19 @@
   // the card has held focus for DWELL ms (so a fast scroll starts nothing),
   // and it is skipped entirely on a metered or slow connection.
   var DWELL = 380;
+  // Sticky across the session, like Instagram's: unmute once and the clips you
+  // scroll to afterwards keep the sound.
+  var soundOn = false;
+  try { soundOn = localStorage.getItem('ms_idc_sound') === '1'; } catch (_e) {}
+  var SND = {
+    on: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"'
+      + ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>'
+      + '<path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
+    off: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"'
+      + ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 5 6"/><path d="m21 9-5 6"/></svg>'
+  };
   var prevVid = null, prevCard = null, prevTimer = null, obs = null;
   var vis = new Map();      // card element -> how much of it is on screen
 
@@ -628,10 +649,41 @@
     return !!(o && o.classList.contains('learn-open'));
   }
 
+  function soundBtn() {
+    var b = document.getElementById('idcSound');
+    if (!b) {
+      b = document.createElement('button');
+      b.id = 'idcSound';
+      b.className = 'idc-sound';
+      b.type = 'button';
+      b.setAttribute('data-sound', '1');
+    }
+    b.innerHTML = soundOn ? SND.on : SND.off;
+    b.title = soundOn ? 'Sound on' : 'Sound off';
+    b.setAttribute('aria-label', b.title);
+    return b;
+  }
+
+  function toggleSound() {
+    soundOn = !soundOn;
+    try { localStorage.setItem('ms_idc_sound', soundOn ? '1' : '0'); } catch (_e) {}
+    soundBtn();
+    if (!prevVid) return;
+    prevVid.muted = !soundOn;
+    // Turning it ON is a tap, so the browser lets the sound through; it can
+    // still refuse, in which case fall back rather than killing playback.
+    prevVid.play().catch(function () {
+      prevVid.muted = true;
+      prevVid.play().catch(function () {});
+    });
+  }
+
   function stopPreview() {
     clearTimeout(prevTimer);
     prevTimer = null;
     prevCard = null;
+    var b = document.getElementById('idcSound');
+    if (b && b.parentNode) b.parentNode.removeChild(b);
     if (!prevVid) return;
     try {
       prevVid.pause();
@@ -665,12 +717,24 @@
       prevVid.addEventListener('playing', function () { prevVid.classList.add('on'); });
     }
     prevVid.classList.remove('on');
+    prevVid.muted = !soundOn;
     prevVid.poster = posterUrl(it.f);
     // insert straight after the poster so the badge and counters stay on top
     thumb.insertBefore(prevVid, img ? img.nextSibling : thumb.firstChild);
+    thumb.appendChild(soundBtn());
     prevVid.src = clipUrl(it.f);
     prevCard = card;
-    prevVid.play().catch(function () { stopPreview(); });
+    prevVid.play().catch(function () {
+      // Autoplay with sound needs more credit with the browser than a tap
+      // always buys, so an unmuted start that is refused retries muted rather
+      // than leaving a dead card. The preference itself is left alone.
+      if (!prevVid.muted) {
+        prevVid.muted = true;
+        prevVid.play().catch(function () { stopPreview(); });
+        return;
+      }
+      stopPreview();
+    });
   }
 
   function schedule(card) {
@@ -1115,6 +1179,13 @@
     // Matched by ATTRIBUTE, not class: the player's rail buttons carry the
     // same data-cmt / data-like hooks but none of the cards' pill classes, and
     // keying off .idc-cmt / .idc-like left every rail button dead.
+    var sb = t.closest('[data-sound]');
+    if (sb) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleSound();
+      return;
+    }
     var cb = t.closest('[data-cmt]');
     if (cb) {
       e.preventDefault();
