@@ -115,6 +115,7 @@ Deno.serve(async (req) => {
     muzaffars:   ['TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS'],
     achievers:   ['TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS'],
     record:      ['TELEGRAM_LOGIN_BOT_TOKEN_RECORD'],
+    max:         ['TELEGRAM_LOGIN_BOT_TOKEN_MAX'],
   };
   const envNames = TOKEN_ENVS_BY_CENTER[center];
   if (!envNames) return jerr(400, 'unknown_center', center);

@@ -524,6 +524,7 @@ const PREM_CENTERS: ReadonlyArray<{ id: string; label: string }> = [
   { id: 'niners',     label: "Niner's Academy" },
   { id: 'muzaffars',  label: "Muzaffar's English" },
   { id: 'achievers',  label: "Achievers' Mocks" },
+  { id: 'max',        label: 'Multilevel Max' },
 ];
 function premCenterLabel(id: string): string {
   return PREM_CENTERS.find(c => c.id === id)?.label || id;

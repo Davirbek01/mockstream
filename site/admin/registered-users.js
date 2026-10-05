@@ -53,6 +53,7 @@
       '.ru-center-badge.muzaffars{background:linear-gradient(135deg,#8b5cf6,#7c3aed);}',
       '.ru-center-badge.achievers{background:linear-gradient(135deg,#14b8a6,#0d9488);}',
       '.ru-center-badge.record{background:linear-gradient(135deg,#0ea5e9,#0284c7);}',
+      '.ru-center-badge.max{background:linear-gradient(135deg,#0068f8,#011c49);}',
       '.ru-center-badge.mockstream{background:linear-gradient(135deg,#6366f1,#818cf8);}',
       '.ru-center-badge.unknown{background:#888;}',
       '.ru-empty{text-align:center;padding:32px 0;color:#aaa;font-size:14px;}',

@@ -34,7 +34,8 @@
     'global':      'Global Education',
     'muzaffars':   'Muzaffars English',
     'achievers':   'Achievers Mocks',
-    'record':      'Multilevel Record'
+    'record':      'Multilevel Record',
+    'max':         'Multilevel Max'
   };
   // Every skill a report exists for. Each format was fetched through
   // report-locked before being offered here: writing and listening are a
@@ -76,7 +77,8 @@
     'global':      'asrolingo.com',
     'muzaffars':   'muzaffars-english.netlify.app',
     'achievers':   'achievers-mocks.netlify.app',
-    'record':      'multilevelrecord.com'
+    'record':      'multilevelrecord.com',
+    'max':         'multilevelmax.com'
   };
   function viewLink(row) {
     var host = CENTER_HOST[row.center];

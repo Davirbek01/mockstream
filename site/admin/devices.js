@@ -26,7 +26,8 @@
     'global':     'Global Education',
     'muzaffars':  'Muzaffars English',
     'achievers':  'Achievers Mocks',
-    'record':     'Multilevel Record'
+    'record':     'Multilevel Record',
+    'max':        'Multilevel Max'
   };
   var PLATFORM_ICON = { web: '🌐', android: '🤖', ios: '🍎', windows: '🪟', mac: '💻' };
   var DEFAULT_LIMIT = 3;

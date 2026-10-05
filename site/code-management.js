@@ -404,7 +404,8 @@
     global: 'asrolingo.com',
     muzaffars: 'muzaffars-english.netlify.app',
     achievers: 'achievers-mocks.netlify.app',
-    record: 'multilevelrecord.com'
+    record: 'multilevelrecord.com',
+    max: 'multilevelmax.com'
   };
   function vipLink(code) {
     var host = VIP_LINK_HOST[window.__CENTER_ID || 'mock_stream'] || location.host;

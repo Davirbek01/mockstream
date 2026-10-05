@@ -163,6 +163,7 @@ Deno.serve(async (req) => {
     muzaffars:  ['MUZAFFARS_CENTER_BOT_TOKEN'],
     achievers:  ['ACHIEVERS_CENTER_BOT_TOKEN'],
     record:     ['RECORD_CENTER_BOT_TOKEN'],
+    max:        ['MAX_CENTER_BOT_TOKEN'],
   };
   const envNames = TOKEN_ENVS_BY_CENTER[center];
   if (!envNames) return jerr(400, 'unknown_center', center);
