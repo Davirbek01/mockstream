@@ -23093,17 +23093,20 @@
         mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
                        android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
                        store: true },
-        // iosSoon: the public link is alive and correct, but every clone's
-        // TestFlight build expired on 2026-08-21 (Apple retires a build 90 days
-        // after upload), so the link answers "Beta Not Found" until a new build
-        // clears beta review. Show the card without a button rather than send
-        // students to a dead invite; drop the flag once the build is live.
-        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd', iosSoon: true },
-        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy', iosSoon: true },
-        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E', iosSoon: true },
-        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W', iosSoon: true },
-        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd', iosSoon: true },
-        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w', iosSoon: true }
+        // The clone invites are live again. They had been flagged iosSoon
+        // because every clone's build died on 2026-08-21 — not the 90-day
+        // retirement it looked like, but an unaccepted Beta agreement in App
+        // Store Connect, which makes beta review refuse with
+        // BETA_CONTRACT_MISSING and takes TestFlight down with it. That cleared
+        // on 2026-10-05: all six builds were resubmitted and came back
+        // APPROVED. The iosSoon branch below stays, since a build does retire
+        // 90 days after upload and the flag is how we hide a dead invite.
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' }
       };
 
       var appsBuilt = false;
