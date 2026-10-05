@@ -608,6 +608,14 @@
     close: close,
     // Called when the picker switches to one of the four catalogue
     // categories, so the Liked chip does not linger over their grids.
-    leave: function () { likedBtn(false); likedOnly = false; close(); }
+    leave: function () {
+      likedBtn(false);
+      likedOnly = false;
+      close();
+      // The Liked filter rewrites the shared empty-state line; put the
+      // original back or an Articles search with no hits shows it.
+      var msg = document.querySelector('#learnEmpty .learn-empty-msg');
+      if (msg && msg._idcOrig) msg.textContent = msg._idcOrig;
+    }
   };
 })();
