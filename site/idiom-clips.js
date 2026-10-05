@@ -64,7 +64,11 @@
     if (items) return items;
     if (loading) return loading;
     loading = (async function () {
-      var r = await fetch(CATALOG + '?v=1', { cache: 'no-store' });
+      // Cached on purpose: the landing page fetches this at idle just to fill
+      // the tool card's count, so no-store would re-download 44 KB on every
+      // visit. ⚠️ Adding clips means bumping the ?v= below — Pages ignores
+      // _headers, so the query string is the only cache key that moves.
+      var r = await fetch(CATALOG + '?v=1');
       var raw = r.ok ? await r.json() : [];
       // Free picks are the first N of each label IN CATALOGUE ORDER, so the
       // same clips are free for everyone and stay free as the set grows.
@@ -1105,6 +1109,30 @@
     }
     b.classList.toggle('on', likedOnly);
   }
+
+  // ── tool-card count pill ──────────────────────────────────────────────────
+  // The other three categories read an in-page catalogue array, so their badge
+  // fills itself; the clips catalogue is a JSON file, which left Idiom Clips
+  // as the one card with an empty pill. Fetched at idle, which also warms the
+  // cache for the first open. The sidebar copy of the tools grid has its ids
+  // rewritten to data-ltc-copy, and it is built on its own schedule, so the
+  // badge is written a few times rather than once.
+  function badge() {
+    load().then(function (list) {
+      var txt = list.length + ' clips';
+      function paint() {
+        var el = document.getElementById('ltCountIdioms');
+        if (el) el.textContent = txt;
+        document.querySelectorAll('[data-ltc-copy="ltCountIdioms"]')
+          .forEach(function (c) { c.textContent = txt; });
+      }
+      paint();
+      setTimeout(paint, 2000);
+      setTimeout(paint, 5000);
+    }).catch(function () {});
+  }
+  if (window.requestIdleCallback) requestIdleCallback(badge, { timeout: 4000 });
+  else setTimeout(badge, 1500);
 
   window.IdiomClips = {
     // Mirrors openLearningCategory's chrome so the overlay looks the same,
