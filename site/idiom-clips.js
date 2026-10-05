@@ -281,9 +281,17 @@
       // 9:16 so the poster is never letterboxed inside the card.
       '.idc-thumb{position:relative;aspect-ratio:9/16;background:#0f172a;overflow:hidden;}',
       '.idc-thumb img{width:100%;height:100%;object-fit:cover;display:block;}',
-      '.idc-badge{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:999px;',
+      // The in-grid preview. One of these exists at a time and is moved from
+      // card to card. pointer-events:none so the tap still reaches the card
+      // and opens the full player. It is 9:16 like the thumb, so cover is an
+      // exact fit — unlike the poster, which is a 560x286 crop.
+      '.idc-prev{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;',
+      'background:#0f172a;display:block;opacity:0;transition:opacity .25s;',
+      'pointer-events:none;z-index:1;}',
+      '.idc-prev.on{opacity:1;}',
+      '.idc-badge{position:absolute;top:8px;left:8px;z-index:2;padding:3px 8px;border-radius:999px;',
       'font-size:10px;font-weight:800;letter-spacing:.04em;color:#fff;background:rgba(15,23,42,.72);}',
-      '.idc-lock{position:absolute;inset:0;display:flex;align-items:center;',
+      '.idc-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;',
       'justify-content:center;flex-direction:column;gap:6px;color:#fff;font-weight:700;',
       'font-size:12px;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);}',
       '.idc-lock span{font-size:22px;}',
@@ -292,12 +300,12 @@
       '.idc-src{font-size:11.5px;color:#64748b;margin-top:3px;}',
       // Views sit on the poster (bottom-left, like the article cards' eye),
       // the like button opposite them so a tap on it never opens the clip.
-      '.idc-stat{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;',
+      '.idc-stat{position:absolute;left:8px;bottom:8px;z-index:2;display:inline-flex;align-items:center;',
       'gap:4px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;',
       'background:rgba(2,6,23,.6);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
       // Comment and like sit together bottom-right; the group is one element
       // so neither has to know how wide the other is.
-      '.idc-acts{position:absolute;right:8px;bottom:8px;display:flex;gap:6px;align-items:center;}',
+      '.idc-acts{position:absolute;right:8px;bottom:8px;z-index:2;display:flex;gap:6px;align-items:center;}',
       '.idc-like,.idc-cmt{display:inline-flex;align-items:center;',
       'gap:4px;padding:3px 9px;border:0;border-radius:999px;font-size:11px;font-weight:800;',
       'cursor:pointer;color:#fff;background:rgba(2,6,23,.6);line-height:1.5;',
@@ -546,6 +554,7 @@
     if (count) count.textContent = String(list.length);
     playList = list;
     if (!list.length) {
+      stopPreview();
       grid.innerHTML = '';
       if (empty) {
         empty.style.display = '';
@@ -561,6 +570,7 @@
     }
     if (empty) empty.style.display = 'none';
     grid.innerHTML = list.map(cardHtml).join('');
+    armPreviews();   // the old cards are gone; observe the new ones
   }
 
   // ── list order ────────────────────────────────────────────────────────────
@@ -589,6 +599,147 @@
     return list;
   }
   function renderCurrent() { render(current()); }
+
+  // ── in-grid preview ────────────────────────────────────────
+  // The card the reader is looking at plays itself, muted, the way Instagram's
+  // grid does. Tapping still opens the full player — this only removes the
+  // first of the two taps it used to take to see anything move.
+  //
+  // ⚠️ THE COST IS REAL: these clips are ~19s at 1.1 Mbps, so five seconds of
+  // preview is about 0.7 MB. Scrolling a 301-card grid could burn a phone's
+  // data allowance, so: exactly ONE preview is ever live, it only starts after
+  // the card has held focus for DWELL ms (so a fast scroll starts nothing),
+  // and it is skipped entirely on a metered or slow connection.
+  var DWELL = 380;
+  var prevVid = null, prevCard = null, prevTimer = null, obs = null;
+  var vis = new Map();      // card element -> how much of it is on screen
+
+  function previewsAllowed() {
+    try {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+      var c = navigator.connection;
+      if (c && (c.saveData || /^(slow-2g|2g)$/.test(c.effectiveType || ''))) return false;
+    } catch (_e) {}
+    return true;
+  }
+
+  function pickerOpen() {
+    var o = document.getElementById('learnPicker');
+    return !!(o && o.classList.contains('learn-open'));
+  }
+
+  function stopPreview() {
+    clearTimeout(prevTimer);
+    prevTimer = null;
+    prevCard = null;
+    if (!prevVid) return;
+    try {
+      prevVid.pause();
+      prevVid.removeAttribute('src');
+      prevVid.load();        // drop the stream rather than leave it buffering
+    } catch (_e) {}
+    if (prevVid.parentNode) prevVid.parentNode.removeChild(prevVid);
+    prevVid.classList.remove('on');
+  }
+
+  function startPreview(card) {
+    var i = Number(card.getAttribute('data-i'));
+    var it = null;
+    for (var n = 0; n < playList.length; n++) if (playList[n].i === i) { it = playList[n]; break; }
+    if (!it || locked(it)) return;
+    var thumb = card.querySelector('.idc-thumb');
+    var img = thumb && thumb.querySelector('img');
+    if (!thumb) return;
+    if (!prevVid) {
+      prevVid = document.createElement('video');
+      prevVid.className = 'idc-prev';
+      prevVid.muted = true;
+      prevVid.loop = true;
+      prevVid.playsInline = true;
+      // The attributes matter as well as the properties: iOS only honours
+      // muted autoplay when both are on the element itself.
+      prevVid.setAttribute('muted', '');
+      prevVid.setAttribute('playsinline', '');
+      prevVid.setAttribute('disablepictureinpicture', '');
+      prevVid.preload = 'auto';
+      prevVid.addEventListener('playing', function () { prevVid.classList.add('on'); });
+    }
+    prevVid.classList.remove('on');
+    prevVid.poster = posterUrl(it.f);
+    // insert straight after the poster so the badge and counters stay on top
+    thumb.insertBefore(prevVid, img ? img.nextSibling : thumb.firstChild);
+    prevVid.src = clipUrl(it.f);
+    prevCard = card;
+    prevVid.play().catch(function () { stopPreview(); });
+  }
+
+  function schedule(card) {
+    if (card === prevCard) return;
+    clearTimeout(prevTimer);
+    stopPreview();
+    if (!card) return;
+    prevCard = card;                 // claimed now so a repeat tick is a no-op
+    prevTimer = setTimeout(function () {
+      prevTimer = null;
+      var c = prevCard;
+      prevCard = null;
+      if (c && pickerOpen() && !isOpen()) startPreview(c);
+    }, DWELL);
+  }
+
+  // The card the eye is on: the most visible one, ties broken by whichever
+  // sits closest to the middle of the screen.
+  function pickFocus() {
+    if (!pickerOpen() || isOpen()) { stopPreview(); return; }
+    var best = null, bestScore = -1, mid = innerHeight / 2;
+    vis.forEach(function (ratio, card) {
+      if (ratio < 0.55 || !card.isConnected) return;
+      var r = card.getBoundingClientRect();
+      var score = ratio * 1000 - Math.abs((r.top + r.bottom) / 2 - mid);
+      if (score > bestScore) { bestScore = score; best = card; }
+    });
+    schedule(best);
+  }
+
+  // Desktop has a dozen cards on screen at once, so "the one you are looking
+  // at" is the one under the cursor; a phone shows one or two, so there it is
+  // the one in the middle of the screen.
+  function hoverMode() {
+    try { return matchMedia('(hover: hover) and (pointer: fine)').matches; }
+    catch (_e) { return false; }
+  }
+
+  function armPreviews() {
+    if (!previewsAllowed()) return;
+    stopPreview();
+    vis.clear();
+    if (hoverMode()) return;          // hover is handled by delegation below
+    if (!obs) {
+      obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) vis.set(e.target, e.intersectionRatio);
+          else vis.delete(e.target);
+        });
+        pickFocus();
+      }, { threshold: [0, 0.25, 0.55, 0.8, 1] });
+    }
+    obs.disconnect();
+    document.querySelectorAll('#learnGrid .idc-card').forEach(function (c) { obs.observe(c); });
+  }
+
+  document.addEventListener('mouseover', function (e) {
+    if (!hoverMode() || !previewsAllowed() || isOpen()) return;
+    var c = e.target && e.target.closest ? e.target.closest('.idc-card') : null;
+    if (c && c !== prevCard && pickerOpen()) schedule(c);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (!hoverMode()) return;
+    var c = e.target && e.target.closest ? e.target.closest('.idc-card') : null;
+    if (c && !c.contains(e.relatedTarget)) stopPreview();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopPreview();
+  });
 
   // ── player ──────────────────────────────────────────────
   // TWO panes, ping-ponged. A single <video> cannot slide one clip out while
@@ -848,6 +999,8 @@
     });
     el.classList.remove('open');
     playIdx = -1;
+    // Back on the grid: let the card under the eye pick up again.
+    setTimeout(function () { if (pickerOpen()) pickFocus(); }, 60);
     // The player owns a history entry of its own (see play()), so closing it
     // by ✕, backdrop or Escape has to unwind that entry — otherwise the next
     // Back press lands on the entry a closed player left behind and appears
@@ -905,6 +1058,7 @@
     var it = playList[n];
     if (!it) return;
     if (locked(it)) { upsell(); return; }
+    stopPreview();          // one video at a time, never the grid and the player
     style();
     var el = stage();
     if (el.classList.contains('open')) { go(n, n > playIdx ? 1 : -1); return; }
@@ -1286,6 +1440,7 @@
     // Called when the picker switches to one of the four catalogue
     // categories, so the Liked chip does not linger over their grids.
     leave: function () {
+      stopPreview();
       likedBtn(false);
       likedOnly = false;
       close();
