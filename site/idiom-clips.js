@@ -326,7 +326,12 @@
       // padding-right clears the action rail, which sits over the video's
       // bottom-right corner, exactly where Shorts puts it. The arrows
       // ours are on the left because the ▲▼ arrows own the right side).
-      '.idc-info{position:absolute;left:0;right:0;bottom:0;padding:16px 78px 18px 16px;',
+      // pointer-events:none so the video's own controls underneath stay
+      // reachable; the caption has no interactive children of its own since
+      // the stats moved to the rail. Its bottom is set from JS — see
+      // placeChrome(), which keeps it off the control bar.
+      '.idc-info{position:absolute;left:0;right:0;bottom:54px;pointer-events:none;',
+      'padding:16px 78px 18px 16px;',
       'color:#fff;background:linear-gradient(transparent,rgba(2,6,23,.86) 42%);}',
       '.idc-info b{display:block;font-size:19px;line-height:1.25;}',
       '.idc-info .m{font-size:13.5px;opacity:.92;margin-top:5px;line-height:1.45;}',
@@ -451,6 +456,41 @@
     return '<svg viewBox="0 0 24 24" width="' + px + '" height="' + px + '" fill="none"'
       + ' stroke="currentColor" stroke-width="2.1"><path d="M1.6 12S5.3 5.4 12 5.4 22.4 12'
       + ' 22.4 12 18.7 18.6 12 18.6 1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>';
+  }
+
+  // Where the film picture sits inside the 1080x1920 template, measured from
+  // frames pulled off R2 on 2026-10-05: it runs from 24.5% to ~56% of the video
+  // height, the rest being the title card above and the meaning box below. The
+  // rail is hung off the BOTTOM of that picture so the buttons sit beside the
+  // footage instead of down on the letterbox black.
+  var FILM_BOTTOM = 0.56;
+  var CTRL_BAR = 54;        // the native <video controls> strip
+
+  // The video is object-fit:contain, so on a screen taller than 9:16 it is
+  // letterboxed and the stage's bottom edge is nowhere near the clip's. Both
+  // the rail and the caption are therefore placed from the VIDEO's own box,
+  // not the stage's.
+  function placeChrome(p) {
+    if (!p || !p.v || !p.rail) return;
+    var bw = p.v.clientWidth, bh = p.v.clientHeight;
+    if (!bw || !bh) return;
+    var vw = p.v.videoWidth || 1080, vh = p.v.videoHeight || 1920;
+    var sc = Math.min(bw / vw, bh / vh);
+    var dh = vh * sc;                      // displayed video height
+    var pad = Math.max(0, (bh - dh) / 2);  // one letterbox band
+    // Caption: clear of the control bar, and never sitting on the black.
+    var cap = Math.max(CTRL_BAR, Math.round(pad) + 6);
+    p.info.style.bottom = cap + 'px';
+    // Rail: bottom aligned with the bottom edge of the film picture.
+    var rail = Math.round(bh - (pad + dh * FILM_BOTTOM));
+    var rh = p.rail.firstChild ? p.rail.firstChild.offsetHeight : 200;
+    rail = Math.max(cap + 10, Math.min(rail, bh - rh - 16));
+    var r = p.rail.querySelector('.idc-rail');
+    if (r) r.style.bottom = rail + 'px';
+  }
+
+  function placeAll() {
+    panes.forEach(placeChrome);
   }
 
   // The player's rail. Mirrors statHtml's data hooks exactly, so the one click
@@ -593,6 +633,7 @@
       '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
       + '<div class="s">' + esc(it.s) + '</div>';
     p.rail.innerHTML = railHtml(it);
+    placeChrome(p);   // again on loadedmetadata, once the real size is known
   }
 
   // The next index in direction d, walking past anything locked rather than
@@ -651,6 +692,14 @@
       return { el: p, v: p.querySelector('video'), info: p.querySelector('.idc-info'),
                rail: p.querySelector('.idc-rail-slot') };
     });
+    // videoWidth is 0 until metadata lands, and the letterbox changes with the
+    // viewport, so the chrome is placed again on each of these.
+    panes.forEach(function (p) {
+      p.v.addEventListener('loadedmetadata', function () { placeChrome(p); });
+    });
+    window.addEventListener('resize', placeAll);
+    window.addEventListener('orientationchange', function () { setTimeout(placeAll, 250); });
+    document.addEventListener('fullscreenchange', function () { setTimeout(placeAll, 120); });
     el.addEventListener('click', function (e) {
       if (e.target === el) close();           // backdrop
     });
@@ -661,18 +710,20 @@
     // ── swipe ───────────────────────────────────────────
     var st = el.querySelector('.idc-stage');
 
-    function down(y) {
+    function down(x, y) {
       if (commentsOpen()) { drag = null; return; }
       finishSettle();
-      drag = { y0: y, dy: 0, dir: 0, n: -1, H: st.offsetHeight || 1 };
+      drag = { x0: x, y0: y, dy: 0, dx: 0, dir: 0, n: -1, H: st.offsetHeight || 1 };
     }
-    function move(y, e) {
+    function move(x, y, e) {
       if (!drag) return;
       drag.dy = y - drag.y0;
+      drag.dx = x - drag.x0;
       if (!drag.dir) {
-        // Claim the gesture only once it is clearly vertical, so a tap still
-        // reaches the video's own controls.
-        if (Math.abs(drag.dy) < 10) return;
+        // Claim the gesture only once it is clearly vertical. Comparing against
+        // the horizontal travel is what keeps dragging the scrub bar working:
+        // a seek is mostly sideways, and swallowing it left no way to rewind.
+        if (Math.abs(drag.dy) < 10 || Math.abs(drag.dy) <= Math.abs(drag.dx)) return;
         drag.dir = drag.dy < 0 ? 1 : -1;      // finger up = next clip
         drag.n = nextIdx(drag.dir);
         panes[cur].el.classList.remove('settle');
@@ -718,11 +769,11 @@
     }
 
     st.addEventListener('touchstart', function (e) {
-      if (e.touches && e.touches.length === 1) down(e.touches[0].clientY);
+      if (e.touches && e.touches.length === 1) down(e.touches[0].clientX, e.touches[0].clientY);
       else drag = null;
     }, { passive: true });
     st.addEventListener('touchmove', function (e) {
-      if (e.touches && e.touches.length === 1) move(e.touches[0].clientY, e);
+      if (e.touches && e.touches.length === 1) move(e.touches[0].clientX, e.touches[0].clientY, e);
     }, { passive: false });
     st.addEventListener('touchend', up, { passive: true });
     st.addEventListener('touchcancel', function () { drag = null; }, { passive: true });
