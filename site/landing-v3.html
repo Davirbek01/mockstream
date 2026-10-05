@@ -4486,6 +4486,19 @@
           </div>
           <div class="tool-arrow">→</div>
         </a>
+        <a class="tool-card" href="javascript:void(0)" data-learn="idioms">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #f472b6, #db2777);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="7" y="2" width="10" height="20" rx="2"></rect>
+              <polygon points="11 9 15 12 11 15" fill="currentColor" stroke="none"></polygon>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Idiom Clips</div>
+            <div class="tool-sub"><span class="tool-sub-text">Short clips from film &amp; TV</span> <span class="tool-count" id="ltCountIdioms"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
         <a class="tool-card" href="javascript:void(0)" data-learn="tests">
           <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4735,6 +4748,7 @@
   </script>
   <script src="/pdf-menu.js?v=4" defer></script>
   <script src="/mock-pdf-card.js?v=8" defer></script>
+  <script src="/idiom-clips.js?v=1" defer></script>
   <script src="/session-recovery.js?v=20" defer></script>
   <!-- Shows the "exam moved to another device" notice after an exam page sends the student home. -->
   <script src="/exam-lock.js?v=11" defer></script>
@@ -18274,7 +18288,10 @@
       grammar:    { items: GRAMMAR_TESTS,    icon: '📖', title: 'Grammar Tests',     desc: 'Choose a grammar topic to practice' },
       vocabulary: { items: VOCAB_TESTS,      icon: '📚', title: 'Vocabulary Tests',  desc: 'Choose a vocabulary topic to test' },
       articles:   { items: READING_ARTICLES, icon: '📰', title: 'Reading Articles',  desc: 'Tap an article to read and learn vocabulary' },
-      flashcards: { items: [],               icon: '🃏', title: 'Flashcard Decks',   desc: 'Choose a topic to study' }
+      flashcards: { items: [],               icon: '🃏', title: 'Flashcard Decks',   desc: 'Choose a topic to study' },
+      // Clips render themselves (idiom-clips.js) — `items` stays empty so the
+      // shared chrome has an entry to look up and history restore still works.
+      idioms:     { items: [],               icon: '🎬', title: 'Idiom Clips',      desc: 'Short clips of idioms as they are really spoken' }
     };
     // FLASHCARD_TOPICS — assigned after declaration to keep this section
     // readable. Items with a .levels object get B1/B2/C1 buttons; items
@@ -18367,6 +18384,14 @@
     function openLearningCategory(category, opts) {
       var cat = _LEARN_CATALOGS[category];
       if (!cat) return;
+      // Clips carry none of what the four catalogue categories carry — no
+      // levels, no view counts, no grid/list mode — so they draw their own
+      // cards rather than adding branches to _renderLearnGrid.
+      if (category === 'idioms' && window.IdiomClips) {
+        _learnCurrentCategory = category;
+        _learnCurrentItems = [];
+        return window.IdiomClips.open(opts);
+      }
       _learnCurrentCategory = category;
       _learnCurrentItems = cat.items || [];
       document.getElementById('learnTitleIcon').textContent = cat.icon;
@@ -18761,6 +18786,9 @@
       document.getElementById('learnCount').textContent = items.length;
     }
     function _filterLearningList(query) {
+      if (_learnCurrentCategory === 'idioms' && window.IdiomClips) {
+        return window.IdiomClips.filter(query);
+      }
       var q = (query || '').toLowerCase().trim();
       if (!q) { _renderLearnGrid(_learnCurrentItems); return; }
       _renderLearnGrid(_learnCurrentItems.filter(function (item) {
@@ -18808,6 +18836,7 @@
         if (key === 'flashcards') openLearningCategory('flashcards');
         else if (key === 'tests') showTestsSubmenu();
         else if (key === 'articles') openLearningCategory('articles');
+        else if (key === 'idioms') openLearningCategory('idioms');
       });
     });
 
