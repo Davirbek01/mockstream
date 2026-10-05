@@ -63,16 +63,43 @@
   }
 
   // ── entitlement ───────────────────────────────────────────────────────────
-  // Same signals the rest of the page uses. Deliberately read at click time,
-  // not cached: a student can unlock premium in another tab mid-session.
+  // Read at click time, not cached: premium can be unlocked in another tab.
+  function currentEmail() {
+    var em = '';
+    try {
+      var a = window.MockStream && window.MockStream.auth;
+      var u = a && a.getCurrentUser ? a.getCurrentUser() : null;
+      if (u && u.email) em = u.email;
+    } catch (_e) {}
+    if (!em) {
+      try {
+        var s = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        var su = s && (s.user || (s.currentSession && s.currentSession.user));
+        if (su && su.email) em = su.email;
+      } catch (_e) {}
+    }
+    return String(em || '').trim().toLowerCase();
+  }
+
   function entitled() {
+    // A VIP code unlocks the session it was typed into. sessionStorage dies
+    // with the tab, so this one needs no owner check.
     try {
       if (sessionStorage.getItem('vipPremiumAi') === 'true') return true;
     } catch (_e) {}
+    // ms_vip_tier / ms_vip_email / ms_admin_email are per BROWSER and survive
+    // sign-out, so they only count for whoever is signed in RIGHT NOW. Caught
+    // in testing: a browser where an admin had signed in days earlier played
+    // every locked clip. The subscribe button hit the same trap on 2026-09-12
+    // and was fixed the same way — only a live session counts.
+    var me = currentEmail();
+    if (!me) return false;
     try {
-      var t = localStorage.getItem('ms_vip_tier');
-      if (t === 'premium' || t === 'ultra') return true;
-      if (localStorage.getItem('ms_admin_email')) return true;
+      var tier = localStorage.getItem('ms_vip_tier');
+      var vipEmail = String(localStorage.getItem('ms_vip_email') || '').trim().toLowerCase();
+      if ((tier === 'premium' || tier === 'ultra') && vipEmail && vipEmail === me) return true;
+      var adminEmail = String(localStorage.getItem('ms_admin_email') || '').trim().toLowerCase();
+      if (adminEmail && adminEmail === me) return true;
     } catch (_e) {}
     return false;
   }
