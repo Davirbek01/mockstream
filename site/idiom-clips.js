@@ -629,9 +629,11 @@
     p.item = it;
     p.v.poster = posterUrl(it.f);
     p.v.src = clipUrl(it.f);
+    // Idiom and source only. The meaning is already burned into the clip, in
+    // its own teal box, so repeating it here just covered the footage twice
+    // over. (it.m still feeds the search and the cards.)
     p.info.innerHTML =
-      '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
-      + '<div class="s">' + esc(it.s) + '</div>';
+      '<b>' + esc(it.u) + '</b><div class="s">' + esc(it.s) + '</div>';
     p.rail.innerHTML = railHtml(it);
     placeChrome(p);   // again on loadedmetadata, once the real size is known
   }
@@ -956,14 +958,17 @@
       if (row) removeComment(row.getAttribute('data-cid'), row);
       return;
     }
-    var cb = t.closest('.idc-cmt');
+    // Matched by ATTRIBUTE, not class: the player's rail buttons carry the
+    // same data-cmt / data-like hooks but none of the cards' pill classes, and
+    // keying off .idc-cmt / .idc-like left every rail button dead.
+    var cb = t.closest('[data-cmt]');
     if (cb) {
       e.preventDefault();
       e.stopPropagation();
       openComments(cb.getAttribute('data-cmt'));
       return;
     }
-    var lb = t.closest('.idc-like');
+    var lb = t.closest('[data-like]');
     if (lb) {
       e.preventDefault();
       e.stopPropagation();
