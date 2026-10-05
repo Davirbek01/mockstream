@@ -639,6 +639,12 @@
   // Arrow keys, the nav buttons and the wheel all animate exactly like a
   // swipe, so the clip never changes without the motion that says which way.
   function step(d) {
+    // Land any transition still running FIRST. nextIdx() reads playIdx, which
+    // only advances when a transition commits — computing the target before
+    // settling made a second press inside those 340ms resolve to the clip
+    // already on its way in, so the press was swallowed (three quick taps
+    // moved two clips).
+    finishSettle();
     var n = nextIdx(d);
     if (n === -1) return;
     go(n, d);
@@ -647,6 +653,7 @@
   function go(n, dir) {
     if (!isOpen()) { play(n); return; }
     finishSettle();
+    if (n === playIdx) return;
     drag = null;
     var a = panes[cur], b = panes[1 - cur];
     var H = a.el.offsetHeight || 1;
