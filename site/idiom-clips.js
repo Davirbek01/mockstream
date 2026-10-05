@@ -44,6 +44,7 @@
   var views = {};          // key -> all-time views
   var likeCounts = {};     // key -> like total
   var myLikes = {};        // key -> true, for the signed-in account only
+  var cmtCounts = {};      // key -> number of comments
   var likedOnly = false;
   var statsOnce = false;
   var fromPop = false;     // close() was reached through popstate
@@ -165,12 +166,14 @@
     var r = await Promise.all([
       rpc('learn_view_counts', { p_kind: 'idiom' }),
       rpc('learn_like_counts', { p_kind: 'idiom' }),
+      rpc('learn_comment_counts', { p_kind: 'idiom' }),
       tk ? rpc('learn_my_likes', { p_kind: 'idiom' }, tk) : Promise.resolve(null)
     ]);
     if (r[0] && typeof r[0] === 'object') views = r[0];
     if (r[1] && typeof r[1] === 'object') likeCounts = r[1];
+    if (r[2] && typeof r[2] === 'object') cmtCounts = r[2];
     myLikes = {};
-    if (Array.isArray(r[2])) r[2].forEach(function (k) { myLikes[String(k)] = true; });
+    if (Array.isArray(r[3])) r[3].forEach(function (k) { myLikes[String(k)] = true; });
   }
 
   // Same once-per-key-per-day guard as flashcards.html / test.html, sharing
@@ -209,8 +212,10 @@
       if (el.getAttribute('data-sk') !== key) return;
       var vv = el.querySelector('.idc-v');
       var lv = el.querySelector('.idc-l');
+      var cv = el.querySelector('.idc-c');
       if (vv) vv.textContent = v;
       if (lv) lv.textContent = l;
+      if (cv) cv.textContent = nice(cmtCounts[key]);
       var b = el.querySelector('.idc-like');
       if (b) {
         b.classList.toggle('on', mine);
@@ -280,12 +285,16 @@
       '.idc-stat{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;',
       'gap:4px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;',
       'background:rgba(2,6,23,.6);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
-      '.idc-like{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;',
+      // Comment and like sit together bottom-right; the group is one element
+      // so neither has to know how wide the other is.
+      '.idc-acts{position:absolute;right:8px;bottom:8px;display:flex;gap:6px;align-items:center;}',
+      '.idc-like,.idc-cmt{display:inline-flex;align-items:center;',
       'gap:4px;padding:3px 9px;border:0;border-radius:999px;font-size:11px;font-weight:800;',
       'cursor:pointer;color:#fff;background:rgba(2,6,23,.6);line-height:1.5;',
       '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
-      '.idc-like:hover{background:rgba(2,6,23,.8);}',
+      '.idc-like:hover,.idc-cmt:hover{background:rgba(2,6,23,.8);}',
       '.idc-like.on{background:#e11d48;}',
+      '.idc-v,.idc-l,.idc-c{font-style:normal;}',
       // The player sits above the Learn overlay (z-index 100005). Anything
       // lower opens behind it and looks like a dead click.
       '.idc-player{position:fixed;inset:0;z-index:100030;background:rgba(2,6,23,.94);',
@@ -310,7 +319,8 @@
       '.idc-info .m{font-size:13.5px;opacity:.92;margin-top:5px;line-height:1.45;}',
       '.idc-info .s{font-size:11.5px;opacity:.72;margin-top:6px;}',
       '.idc-prow{display:flex;align-items:center;gap:10px;margin-top:10px;}',
-      '.idc-prow .idc-stat,.idc-prow .idc-like{position:static;font-size:12px;padding:5px 11px;}',
+      '.idc-prow .idc-stat,.idc-prow .idc-acts{position:static;}',
+      '.idc-prow .idc-stat,.idc-prow .idc-like,.idc-prow .idc-cmt{font-size:12px;padding:5px 11px;}',
       '.idc-x{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;',
       'border:0;border-radius:50%;background:rgba(2,6,23,.6);color:#fff;font-size:19px;',
       'cursor:pointer;line-height:1;}',
@@ -343,6 +353,52 @@
       'border-radius:999px;padding:8px 13px;font-size:13px;font-weight:800;cursor:pointer;',
       'white-space:nowrap;}',
       '#idcLikedBtn.on{background:#e11d48;border-color:#e11d48;color:#fff;}',
+      // Comment sheet. It is parented to the PLAYER while the player is open,
+      // because on Android the player may be the fullscreen element and only
+      // that element's own subtree is painted — a sheet on <body> would simply
+      // not appear. z-index sits above the player (100030), below the toast.
+      '.idc-cwrap{position:fixed;inset:0;z-index:100035;display:none;}',
+      '.idc-cwrap.open{display:block;}',
+      '.idc-cwrap .idc-bd{position:absolute;inset:0;background:rgba(2,6,23,.55);}',
+      '.idc-sheet{position:absolute;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;',
+      'max-height:78%;display:flex;flex-direction:column;background:#fff;color:#0f172a;',
+      'border-radius:18px 18px 0 0;box-shadow:0 -14px 40px rgba(2,6,23,.45);',
+      'transform:translateY(100%);transition:transform .28s cubic-bezier(.22,.61,.36,1);}',
+      '.idc-cwrap.in .idc-sheet{transform:translateY(0);}',
+      '.idc-shead{display:flex;align-items:center;gap:9px;padding:14px 16px 10px;',
+      'border-bottom:1px solid #eef2f7;}',
+      '.idc-shead b{font-size:15px;}',
+      '.idc-shead .n{font-size:12px;font-weight:800;color:#64748b;background:#f1f5f9;',
+      'padding:2px 9px;border-radius:999px;}',
+      '.idc-shead button{margin-left:auto;border:0;background:#f1f5f9;color:#0f172a;',
+      'width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;line-height:1;}',
+      '.idc-clist{overflow:auto;-webkit-overflow-scrolling:touch;padding:6px 16px 10px;',
+      'flex:1 1 auto;min-height:90px;}',
+      '.idc-crow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9;}',
+      '.idc-crow:last-child{border-bottom:0;}',
+      '.idc-cav{flex:0 0 32px;width:32px;height:32px;border-radius:50%;display:flex;',
+      'align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;}',
+      '.idc-cmain{flex:1 1 auto;min-width:0;}',
+      '.idc-cwho{font-size:12.5px;font-weight:800;color:#0f172a;}',
+      '.idc-cwho i{font-style:normal;font-weight:600;color:#94a3b8;margin-left:6px;}',
+      '.idc-cbody{font-size:14px;line-height:1.45;margin-top:2px;white-space:pre-wrap;',
+      'word-break:break-word;}',
+      '.idc-cdel{flex:0 0 auto;border:0;background:none;color:#cbd5e1;font-size:15px;',
+      'cursor:pointer;padding:0 2px;line-height:1;}',
+      '.idc-cdel:hover{color:#e11d48;}',
+      '.idc-cempty{color:#94a3b8;font-size:13.5px;text-align:center;padding:26px 0;}',
+      '.idc-cbox{border-top:1px solid #eef2f7;padding:10px 12px calc(12px + env(safe-area-inset-bottom));}',
+      '.idc-cbox textarea{width:100%;box-sizing:border-box;border:1px solid #e2e8f0;',
+      'border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;resize:none;',
+      'min-height:42px;max-height:120px;outline:none;background:#fff;color:#0f172a;}',
+      '.idc-cbox textarea:focus{border-color:#6366f1;}',
+      '.idc-crow2{display:flex;align-items:center;gap:10px;margin-top:8px;}',
+      '.idc-cnum{font-size:11.5px;color:#94a3b8;}',
+      '.idc-cerr{font-size:12px;color:#e11d48;font-weight:700;}',
+      '.idc-csend{margin-left:auto;border:0;border-radius:999px;background:#6366f1;color:#fff;',
+      'font-weight:800;font-size:13.5px;padding:9px 18px;cursor:pointer;}',
+      '.idc-csend:disabled{opacity:.45;cursor:default;}',
+      '.idc-csignin{color:#64748b;font-size:13.5px;text-align:center;padding:4px 0 6px;}',
       '.idc-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);',
       'z-index:100040;background:#0f172a;color:#fff;padding:11px 18px;border-radius:999px;',
       'font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.22s;',
@@ -355,14 +411,23 @@
   var EYE = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"'
     + ' stroke-width="2.1"><path d="M1.6 12S5.3 5.4 12 5.4 22.4 12 22.4 12 18.7 18.6 12 18.6'
     + ' 1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>';
+  var SPEECH = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none"'
+    + ' stroke="currentColor" stroke-width="2.1" stroke-linejoin="round">'
+    + '<path d="M21 11.6c0 3.8-4 6.9-9 6.9-.9 0-1.8-.1-2.6-.3L4 20.4l1.3-3.4C3.9 15.6 3 13.7'
+    + ' 3 11.6c0-3.8 4-6.9 9-6.9s9 3.1 9 6.9Z"/></svg>';
 
   function statHtml(it) {
-    return '<span class="idc-stat">' + EYE + '<i class="idc-v" style="font-style:normal">'
+    return '<span class="idc-stat">' + EYE + '<i class="idc-v">'
       + nice(views[it.k]) + '</i></span>'
+      + '<span class="idc-acts">'
+      + '<button class="idc-cmt" type="button" data-cmt="' + esc(it.k) + '"'
+      + ' title="Comments">' + SPEECH + '<i class="idc-c">'
+      + nice(cmtCounts[it.k]) + '</i></button>'
       + '<button class="idc-like' + (myLikes[it.k] ? ' on' : '') + '" type="button"'
       + ' data-like="' + esc(it.k) + '" aria-pressed="' + (myLikes[it.k] ? 'true' : 'false')
       + '" title="' + (myLikes[it.k] ? 'Liked' : 'Like') + '">♥'
-      + '<i class="idc-l" style="font-style:normal">' + nice(likeCounts[it.k]) + '</i></button>';
+      + '<i class="idc-l">' + nice(likeCounts[it.k]) + '</i></button>'
+      + '</span>';
   }
 
   function cardHtml(it) {
@@ -537,6 +602,7 @@
     var st = el.querySelector('.idc-stage');
 
     function down(y) {
+      if (commentsOpen()) { drag = null; return; }
       finishSettle();
       drag = { y0: y, dy: 0, dir: 0, n: -1, H: st.offsetHeight || 1 };
     }
@@ -654,6 +720,11 @@
     var el = document.getElementById('idcPlayer');
     if (!el) return;
     var was = el.classList.contains('open');
+    if (commentsOpen()) {
+      var w = document.getElementById('idcCwrap');
+      w.classList.remove('in', 'open');
+      cmtKey = null;
+    }
     finishSettle();
     exitFs();
     drag = null;
@@ -735,6 +806,10 @@
   }
 
   document.addEventListener('keydown', function (e) {
+    if (commentsOpen()) {
+      if (e.key === 'Escape') { closeComments(); e.preventDefault(); }
+      return;        // arrows must not change the clip while someone is typing
+    }
     if (!isOpen()) return;
     if (e.key === 'Escape') { close(); e.preventDefault(); }
     else if (e.key === 'ArrowDown') { step(1); e.preventDefault(); }
@@ -746,6 +821,13 @@
   // state it leaves behind is still {picker:'learn',cat:'idioms'}, that one
   // sees the overlay already open on the same category and does nothing.
   window.addEventListener('popstate', function () {
+    // The sheet sits on top of the player, so Back peels it off first.
+    if (commentsOpen()) {
+      fromPop = true;
+      closeComments();
+      fromPop = false;
+      return;
+    }
     if (!isOpen()) return;
     fromPop = true;
     close();
@@ -755,6 +837,21 @@
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!t || !t.closest) return;
+    var del = t.closest('.idc-cdel');
+    if (del) {
+      e.preventDefault();
+      e.stopPropagation();
+      var row = del.closest('.idc-crow');
+      if (row) removeComment(row.getAttribute('data-cid'), row);
+      return;
+    }
+    var cb = t.closest('.idc-cmt');
+    if (cb) {
+      e.preventDefault();
+      e.stopPropagation();
+      openComments(cb.getAttribute('data-cmt'));
+      return;
+    }
     var lb = t.closest('.idc-like');
     if (lb) {
       e.preventDefault();
@@ -771,6 +868,222 @@
     if (locked(playList[at])) { upsell(); return; }
     play(at);
   }, true);
+
+  // ── comments ────────────────────────────────────────────
+  // One discussion per clip, shared by all seven centres, published with no
+  // approval step (both decided 2026-10-05). Everything that matters is
+  // enforced in learn_comment_add, not here: length, links, the rate limits,
+  // and above all the author name, which is read from the JWT so nobody can
+  // post under someone else's. The client only reports what the server says.
+  var cmtKey = null;
+  var cmtBusy = false;
+
+  function ago(iso) {
+    var t = Date.parse(iso);
+    if (!isFinite(t)) return '';
+    var s = Math.max(0, (Date.now() - t) / 1000);
+    if (s < 60) return 'now';
+    if (s < 3600) return Math.floor(s / 60) + 'm';
+    if (s < 86400) return Math.floor(s / 3600) + 'h';
+    if (s < 604800) return Math.floor(s / 86400) + 'd';
+    try { return new Date(t).toLocaleDateString(); } catch (_e) { return ''; }
+  }
+
+  // Only a hint for the UI — learn_comment_delete re-checks with is_any_admin()
+  // server-side, so a wrong guess here costs a failed request, nothing more.
+  function isAdminViewer() {
+    try {
+      var me = currentEmail();
+      var a = String(localStorage.getItem('ms_admin_email') || '').trim().toLowerCase();
+      return !!(me && a && a === me);
+    } catch (_e) { return false; }
+  }
+
+  var AVC = ['#6366f1', '#0ea5e9', '#10b981', '#f59e0b', '#e11d48', '#8b5cf6', '#14b8a6'];
+  function avatar(name) {
+    var n = String(name || '?').trim();
+    var h = 0;
+    for (var i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+    return '<span class="idc-cav" style="background:' + AVC[h % AVC.length] + '">'
+      + esc(n.charAt(0).toUpperCase() || '?') + '</span>';
+  }
+
+  function sheet() {
+    var el = document.getElementById('idcCwrap');
+    if (el) return el;
+    el = document.createElement('div');
+    el.id = 'idcCwrap';
+    el.className = 'idc-cwrap';
+    el.innerHTML =
+      '<div class="idc-bd"></div>'
+      + '<div class="idc-sheet">'
+      + '<div class="idc-shead"><b>Comments</b><span class="n" id="idcCTotal">0</span>'
+      + '<button type="button" id="idcCClose" aria-label="Close">✕</button></div>'
+      + '<div class="idc-clist" id="idcCList"></div>'
+      + '<div class="idc-cbox" id="idcCBox"></div>'
+      + '</div>';
+    document.body.appendChild(el);
+    el.querySelector('.idc-bd').addEventListener('click', function () { closeComments(); });
+    el.querySelector('#idcCClose').addEventListener('click', function () { closeComments(); });
+    return el;
+  }
+
+  function rowHtml(c, admin) {
+    var canDel = c.mine || admin;
+    return '<div class="idc-crow" data-cid="' + esc(c.id) + '">'
+      + avatar(c.author)
+      + '<div class="idc-cmain"><div class="idc-cwho">' + esc(c.author)
+      + '<i>' + esc(ago(c.at)) + '</i></div>'
+      + '<div class="idc-cbody">' + esc(c.body) + '</div></div>'
+      + (canDel ? '<button class="idc-cdel" type="button" title="Delete">✕</button>' : '')
+      + '</div>';
+  }
+
+  function paintList(rows, total) {
+    var list = document.getElementById('idcCList');
+    var admin = isAdminViewer();
+    document.getElementById('idcCTotal').textContent = nice(total);
+    list.innerHTML = rows.length
+      ? rows.map(function (c) { return rowHtml(c, admin); }).join('')
+      : '<div class="idc-cempty">No comments yet — say the first thing.</div>';
+  }
+
+  async function paintBox() {
+    var box = document.getElementById('idcCBox');
+    var tk = await jwt();
+    if (!tk) {
+      box.innerHTML = '<div class="idc-csignin">Sign in to join the conversation.</div>';
+      return;
+    }
+    box.innerHTML =
+      '<textarea id="idcCText" maxlength="400" rows="1" placeholder="Add a comment…"></textarea>'
+      + '<div class="idc-crow2"><span class="idc-cnum" id="idcCNum">0/400</span>'
+      + '<span class="idc-cerr" id="idcCErr"></span>'
+      + '<button class="idc-csend" id="idcCSend" type="button" disabled>Post</button></div>';
+    var ta = document.getElementById('idcCText');
+    var send = document.getElementById('idcCSend');
+    ta.addEventListener('input', function () {
+      document.getElementById('idcCNum').textContent = ta.value.length + '/400';
+      document.getElementById('idcCErr').textContent = '';
+      send.disabled = !ta.value.trim();
+      ta.style.height = 'auto';
+      ta.style.height = Math.min(120, ta.scrollHeight) + 'px';
+    });
+    ta.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); post(); }
+    });
+    send.addEventListener('click', post);
+  }
+
+  // The server speaks in short codes; turn them into something a student can
+  // act on rather than showing the raw message.
+  var CERR = {
+    'sign in required': 'Sign in first.',
+    'no links': 'Links are not allowed here.',
+    'too fast': 'Give it a few seconds between comments.',
+    'limit reached for this clip': 'You already have 3 comments on this clip.',
+    'hourly limit': 'That is enough for one hour.',
+    'too long': 'Keep it under 400 characters.',
+    'empty': 'Write something first.'
+  };
+
+  async function post() {
+    if (cmtBusy || !cmtKey) return;
+    var ta = document.getElementById('idcCText');
+    var send = document.getElementById('idcCSend');
+    var err = document.getElementById('idcCErr');
+    var body = (ta.value || '').trim();
+    if (!body) return;
+    var tk = await jwt();
+    if (!tk) { paintBox(); return; }
+    cmtBusy = true;
+    send.disabled = true;
+    err.textContent = '';
+    var center = '';
+    try { center = String(window.__CENTER_ID || ''); } catch (_e) {}
+    var r = await fetch(SB + '/rest/v1/rpc/learn_comment_add', {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + tk,
+                 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_kind: 'idiom', p_key: cmtKey, p_body: body, p_center: center })
+    }).then(function (x) { return x.json().then(function (j) { return { ok: x.ok, j: j }; }); })
+      .catch(function () { return { ok: false, j: null }; });
+    cmtBusy = false;
+    if (!r.ok) {
+      var m = (r.j && r.j.message) || '';
+      err.textContent = CERR[m] || 'Could not post that.';
+      send.disabled = false;
+      return;
+    }
+    ta.value = '';
+    ta.style.height = 'auto';
+    document.getElementById('idcCNum').textContent = '0/400';
+    cmtCounts[cmtKey] = (Number(cmtCounts[cmtKey]) || 0) + 1;
+    paintStats(cmtKey);
+    await refresh();
+  }
+
+  async function refresh() {
+    var tk = await jwt();   // the token is what decides which rows are "mine"
+    var r = await rpc('learn_comments_list',
+                      { p_kind: 'idiom', p_key: cmtKey, p_limit: 100 }, tk);
+    var rows = (r && r.rows) || [];
+    var total = (r && r.total) || 0;
+    cmtCounts[cmtKey] = total;
+    paintStats(cmtKey);
+    paintList(rows, total);
+  }
+
+  async function removeComment(id, el) {
+    var tk = await jwt();
+    if (!tk) return;
+    var ok = await rpc('learn_comment_delete', { p_id: id }, tk);
+    if (ok !== true) return;
+    el.remove();
+    cmtCounts[cmtKey] = Math.max(0, (Number(cmtCounts[cmtKey]) || 1) - 1);
+    document.getElementById('idcCTotal').textContent = nice(cmtCounts[cmtKey]);
+    paintStats(cmtKey);
+    if (!document.querySelector('#idcCList .idc-crow')) {
+      document.getElementById('idcCList').innerHTML =
+        '<div class="idc-cempty">No comments yet — say the first thing.</div>';
+    }
+  }
+
+  function openComments(key) {
+    style();
+    var el = sheet();
+    cmtKey = key;
+    // Re-parent: while the player is open the sheet must live INSIDE it, or on
+    // Android it is invisible whenever the player holds the fullscreen.
+    var host = isOpen() ? document.getElementById('idcPlayer') : document.body;
+    if (el.parentNode !== host) host.appendChild(el);
+    document.getElementById('idcCList').innerHTML =
+      '<div class="idc-cempty">Loading…</div>';
+    document.getElementById('idcCTotal').textContent = nice(cmtCounts[key]);
+    el.classList.add('open');
+    void el.offsetHeight;          // so the sheet slides up rather than appearing
+    el.classList.add('in');
+    try { history.pushState({ picker: 'learn', cat: 'idioms', clip: isOpen() ? 1 : 0, cmt: 1 }, ''); }
+    catch (_e) {}
+    paintBox();
+    refresh();
+  }
+
+  function commentsOpen() {
+    var el = document.getElementById('idcCwrap');
+    return !!(el && el.classList.contains('open'));
+  }
+
+  function closeComments() {
+    var el = document.getElementById('idcCwrap');
+    if (!el || !el.classList.contains('open')) return;
+    el.classList.remove('in');
+    setTimeout(function () { el.classList.remove('open'); }, 280);
+    cmtKey = null;
+    if (!fromPop) {
+      try { if (history.state && history.state.cmt) history.back(); } catch (_e) {}
+    }
+  }
 
   // ── "Liked" header toggle ─────────────────────────────────────────────────
   function likedBtn(show) {
