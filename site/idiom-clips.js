@@ -220,7 +220,7 @@
       if (vv) vv.textContent = v;
       if (lv) lv.textContent = l;
       if (cv) cv.textContent = nice(cmtCounts[key]);
-      var b = el.querySelector('.idc-like');
+      var b = el.querySelector('[data-like]');
       if (b) {
         b.classList.toggle('on', mine);
         b.setAttribute('aria-pressed', mine ? 'true' : 'false');
@@ -317,14 +317,33 @@
       '.idc-pane.idle{visibility:hidden;pointer-events:none;}',
       '.idc-pane.settle{transition:transform .34s cubic-bezier(.22,.61,.36,1);}',
       '.idc-pane video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}',
-      '.idc-info{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 18px;',
+      // padding-right clears the action rail, which sits over the video's
+      // bottom-right corner, exactly where Shorts puts it. The arrows
+      // ours are on the left because the ▲▼ arrows own the right side).
+      '.idc-info{position:absolute;left:0;right:0;bottom:0;padding:16px 78px 18px 16px;',
       'color:#fff;background:linear-gradient(transparent,rgba(2,6,23,.86) 42%);}',
       '.idc-info b{display:block;font-size:19px;line-height:1.25;}',
       '.idc-info .m{font-size:13.5px;opacity:.92;margin-top:5px;line-height:1.45;}',
       '.idc-info .s{font-size:11.5px;opacity:.72;margin-top:6px;}',
-      '.idc-prow{display:flex;align-items:center;gap:10px;margin-top:10px;}',
-      '.idc-prow .idc-stat,.idc-prow .idc-acts{position:static;}',
-      '.idc-prow .idc-stat,.idc-prow .idc-like,.idc-prow .idc-cmt{font-size:12px;padding:5px 11px;}',
+      // The player's like / comment / views, as a vertical rail instead of a
+      // row under the caption. Same data-like / data-cmt hooks as the cards,
+      // so one click delegation and one paintStats serve both.
+      '.idc-rail{position:absolute;right:12px;bottom:14px;z-index:2;display:flex;',
+      'flex-direction:column;align-items:center;gap:15px;}',
+      '.idc-rail .it{display:flex;flex-direction:column;align-items:center;gap:3px;',
+      'border:0;background:none;padding:0;color:#fff;cursor:pointer;font:inherit;}',
+      '.idc-rail .st{cursor:default;}',
+      '.idc-rail .ic{width:46px;height:46px;border-radius:50%;display:flex;',
+      'align-items:center;justify-content:center;font-size:21px;line-height:1;',
+      'background:rgba(2,6,23,.45);-webkit-backdrop-filter:blur(6px);',
+      'backdrop-filter:blur(6px);transition:background .15s,transform .15s;}',
+      '.idc-rail .it:hover .ic{background:rgba(2,6,23,.7);}',
+      '.idc-rail .it:active .ic{transform:scale(.9);}',
+      '.idc-rail .it.on .ic{background:#e11d48;}',
+      '.idc-rail .n{font-size:11.5px;font-weight:800;',
+      'text-shadow:0 1px 3px rgba(2,6,23,.65);}',
+      '@media (max-width:420px){.idc-rail{gap:12px;bottom:10px;}',
+      '.idc-rail .ic{width:42px;height:42px;font-size:19px;}}',
       '.idc-x{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;',
       'border:0;border-radius:50%;background:rgba(2,6,23,.6);color:#fff;font-size:19px;',
       'cursor:pointer;line-height:1;}',
@@ -346,6 +365,7 @@
       '.idc-stage{border-radius:0;}',
       '.idc-nav,.idc-x{display:none;}',
       '.idc-info{padding-bottom:calc(18px + env(safe-area-inset-bottom));}',
+      '.idc-rail{bottom:calc(14px + env(safe-area-inset-bottom));}',
       '.idc-count{top:calc(14px + env(safe-area-inset-top));}',
       '}',
       '.idc-count{position:absolute;top:14px;left:14px;z-index:3;color:#fff;',
@@ -415,6 +435,35 @@
   var EYE = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"'
     + ' stroke-width="2.1"><path d="M1.6 12S5.3 5.4 12 5.4 22.4 12 22.4 12 18.7 18.6 12 18.6'
     + ' 1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>';
+  function svgSpeech(px) {
+    return '<svg viewBox="0 0 24 24" width="' + px + '" height="' + px + '" fill="none"'
+      + ' stroke="currentColor" stroke-width="2.1" stroke-linejoin="round">'
+      + '<path d="M21 11.6c0 3.8-4 6.9-9 6.9-.9 0-1.8-.1-2.6-.3L4 20.4l1.3-3.4C3.9 15.6 3 13.7'
+      + ' 3 11.6c0-3.8 4-6.9 9-6.9s9 3.1 9 6.9Z"/></svg>';
+  }
+  function svgEye(px) {
+    return '<svg viewBox="0 0 24 24" width="' + px + '" height="' + px + '" fill="none"'
+      + ' stroke="currentColor" stroke-width="2.1"><path d="M1.6 12S5.3 5.4 12 5.4 22.4 12'
+      + ' 22.4 12 18.7 18.6 12 18.6 1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>';
+  }
+
+  // The player's rail. Mirrors statHtml's data hooks exactly, so the one click
+  // delegation and the one paintStats keep serving both shapes.
+  function railHtml(it) {
+    var mine = !!myLikes[it.k];
+    return '<div class="idc-rail" data-sk="' + esc(it.k) + '">'
+      + '<button class="it' + (mine ? ' on' : '') + '" type="button" data-like="'
+      + esc(it.k) + '" aria-pressed="' + (mine ? 'true' : 'false') + '" title="'
+      + (mine ? 'Liked' : 'Like') + '"><span class="ic">♥</span>'
+      + '<span class="n idc-l">' + nice(likeCounts[it.k]) + '</span></button>'
+      + '<button class="it" type="button" data-cmt="' + esc(it.k) + '" title="Comments">'
+      + '<span class="ic">' + svgSpeech(21) + '</span>'
+      + '<span class="n idc-c">' + nice(cmtCounts[it.k]) + '</span></button>'
+      + '<span class="it st" title="Views"><span class="ic">' + svgEye(21) + '</span>'
+      + '<span class="n idc-v">' + nice(views[it.k]) + '</span></span>'
+      + '</div>';
+  }
+
   var SPEECH = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none"'
     + ' stroke="currentColor" stroke-width="2.1" stroke-linejoin="round">'
     + '<path d="M21 11.6c0 3.8-4 6.9-9 6.9-.9 0-1.8-.1-2.6-.3L4 20.4l1.3-3.4C3.9 15.6 3 13.7'
@@ -536,8 +585,8 @@
     p.v.src = clipUrl(it.f);
     p.info.innerHTML =
       '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
-      + '<div class="s">' + esc(it.s) + '</div>'
-      + '<div class="idc-prow" data-sk="' + esc(it.k) + '">' + statHtml(it) + '</div>';
+      + '<div class="s">' + esc(it.s) + '</div>';
+    p.rail.innerHTML = railHtml(it);
   }
 
   // The next index in direction d, walking past anything locked rather than
@@ -581,7 +630,7 @@
     el.id = 'idcPlayer';
     el.className = 'idc-player';
     var pane = '<div class="idc-pane idle"><video playsinline controls preload="metadata">'
-      + '</video><div class="idc-info"></div></div>';
+      + '</video><div class="idc-rail-slot"></div><div class="idc-info"></div></div>';
     el.innerHTML =
       '<div class="idc-frame">'
       + '<div class="idc-stage">' + pane + pane
@@ -593,7 +642,8 @@
       + '</div>';
     document.body.appendChild(el);
     panes = Array.prototype.map.call(el.querySelectorAll('.idc-pane'), function (p) {
-      return { el: p, v: p.querySelector('video'), info: p.querySelector('.idc-info') };
+      return { el: p, v: p.querySelector('video'), info: p.querySelector('.idc-info'),
+               rail: p.querySelector('.idc-rail-slot') };
     });
     el.addEventListener('click', function (e) {
       if (e.target === el) close();           // backdrop
