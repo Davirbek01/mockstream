@@ -9,28 +9,44 @@
 // that bucket: same origin, no CORS, and it versions with the deploy.
 //
 // This file renders its own cards instead of going through _renderLearnGrid.
-// That function is woven through the other four categories — levels, view
-// counts, grid/list modes, per-category key rules — and a clip has none of
-// that. It borrows the overlay chrome (title, count, search box) and nothing
-// else, which keeps the change inside landing-v3.html down to one category
-// entry and two delegation branches.
+// That function is woven through the other four categories — levels, grid/list
+// modes, per-category key rules — and a clip has none of that. It borrows the
+// overlay chrome (title, count, search box) and nothing else, which keeps the
+// change inside landing-v3.html down to one category entry and two delegation
+// branches.
 //
-// ACCESS: the first FREE_PER_LABEL of each label are open; the rest ask for
-// premium. ⚠️ That gate is advisory, not enforced — the clips are public
-// objects on R2 and anyone reading devtools can fetch one directly. Making it
-// real would mean the treatment the mock PDFs got (close the public route,
-// hand out signed URLs), but that same bucket also serves sozlar.com's own
-// idioms page, so closing it would break that site. The gate is here to point
-// people at the subscription, not to stop a determined download.
+// ACCESS: open to everyone (FREE_FOR_ALL). The per-label gate below is kept
+// intact but switched off — if usage grows enough to justify putting clips
+// behind the subscription, flip the flag back and nothing else changes.
+// ⚠️ The gate was never enforceable anyway: the clips are public objects on R2
+// and anyone reading devtools can fetch one directly. Making it real would
+// mean the treatment the mock PDFs got (close the public route, hand out
+// signed URLs), but that same bucket also serves sozlar.com's own idioms page.
+//
+// STATS: views and likes both key on the clip's FILE NAME minus .mp4 — not on
+// the idiom text, because 12 of the 301 idioms have two clips each and would
+// otherwise share one counter. Views go through the same learn_views table and
+// learn_view_bump RPC the other four categories use ('idiom' kind added
+// 2026-10-05, with no mock_tests lookup since the catalogue is a JSON file).
+// Likes live in learn_likes, are per account, and need a signed-in user.
 (function () {
   var BASE = 'https://iboralar.sozlar.com/v';
   var CATALOG = '/idiom-catalog.json';
+  var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
   var FREE_PER_LABEL = 10;
+  var FREE_FOR_ALL = true;   // flip to false to re-arm the premium gate
 
-  var items = null;        // [{u,l,m,s,f,free,i}]
+  var items = null;        // [{u,l,m,s,f,free,i,k}]
   var loading = null;
   var playIdx = -1;
   var playList = [];
+  var views = {};          // key -> all-time views
+  var likeCounts = {};     // key -> like total
+  var myLikes = {};        // key -> true, for the signed-in account only
+  var likedOnly = false;
+  var statsOnce = false;
+  var fromPop = false;     // close() was reached through popstate
 
   function esc(s) {
     return String(s == null ? '' : s)
@@ -51,10 +67,13 @@
       var raw = r.ok ? await r.json() : [];
       // Free picks are the first N of each label IN CATALOGUE ORDER, so the
       // same clips are free for everyone and stay free as the set grows.
+      // Inert while FREE_FOR_ALL is on, but computed either way so flipping
+      // the flag needs no reload.
       var seen = {};
       items = raw.map(function (x, i) {
         var n = (seen[x.l] = (seen[x.l] || 0) + 1);
         return { u: x.u, l: x.l, m: x.m, s: x.s, f: x.f,
+                 k: String(x.f).replace(/\.mp4$/i, ''),
                  free: n <= FREE_PER_LABEL, i: i };
       });
       return items;
@@ -62,7 +81,9 @@
     return loading;
   }
 
-  // ── entitlement ───────────────────────────────────────────────────────────
+  function locked(it) { return !FREE_FOR_ALL && !it.free && !entitled(); }
+
+  // ── identity ──────────────────────────────────────────────────────────────
   // Read at click time, not cached: premium can be unlocked in another tab.
   function currentEmail() {
     var em = '';
@@ -79,6 +100,18 @@
       } catch (_e) {}
     }
     return String(em || '').trim().toLowerCase();
+  }
+
+  // The signed-in user's Supabase JWT. learn_likes is RLS'd to auth.uid(), so
+  // the anon key cannot read or write it — a like needs this token or nothing.
+  async function jwt() {
+    try {
+      var a = window.MockStream && window.MockStream.auth;
+      var c = a && a.getClient ? a.getClient() : null;
+      if (!c || !c.auth || !c.auth.getSession) return '';
+      var s = await c.auth.getSession();
+      return (s && s.data && s.data.session && s.data.session.access_token) || '';
+    } catch (_e) { return ''; }
   }
 
   function entitled() {
@@ -104,6 +137,123 @@
     return false;
   }
 
+  // ── stats ─────────────────────────────────────────────────────────────────
+  function rpc(fn, body, token) {
+    var t = token || SB_KEY;
+    return fetch(SB + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + t,
+                 'Content-Type': 'application/json' },
+      body: JSON.stringify(body || {})
+    }).then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+
+  function nice(n) {
+    n = Number(n) || 0;
+    if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k';
+    return String(n);
+  }
+
+  // Totals are public (learn_like_counts is security definer and returns only
+  // counts, never who liked what); the "mine" list needs the user's token.
+  async function loadStats(force) {
+    if (statsOnce && !force) return;
+    statsOnce = true;
+    var tk = await jwt();
+    var r = await Promise.all([
+      rpc('learn_view_counts', { p_kind: 'idiom' }),
+      rpc('learn_like_counts', { p_kind: 'idiom' }),
+      tk ? rpc('learn_my_likes', { p_kind: 'idiom' }, tk) : Promise.resolve(null)
+    ]);
+    if (r[0] && typeof r[0] === 'object') views = r[0];
+    if (r[1] && typeof r[1] === 'object') likeCounts = r[1];
+    myLikes = {};
+    if (Array.isArray(r[2])) r[2].forEach(function (k) { myLikes[String(k)] = true; });
+  }
+
+  // Same once-per-key-per-day guard as flashcards.html / test.html, sharing
+  // the same localStorage record so one reader cannot inflate a count.
+  function bumpView(it) {
+    try {
+      var d = new Date();
+      var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var seen = {};
+      try { seen = JSON.parse(localStorage.getItem('_learnViewsSeen') || '{}') || {}; } catch (_e) {}
+      if (seen.date !== today) seen = { date: today, keys: [] };
+      var tag = 'idiom:' + it.k;
+      if (seen.keys.indexOf(tag) !== -1) return;
+      seen.keys.push(tag);
+      try { localStorage.setItem('_learnViewsSeen', JSON.stringify(seen)); } catch (_e) {}
+      views[it.k] = (Number(views[it.k]) || 0) + 1;
+      paintStats(it.k);
+      fetch(SB + '/rest/v1/rpc/learn_view_bump', {
+        method: 'POST',
+        headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY,
+                   'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_kind: 'idiom', p_key: it.k }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (_e) {}
+  }
+
+  // Repaint one clip's numbers wherever they appear (its card, the player)
+  // instead of re-rendering the grid — a like must not reshuffle the list.
+  function paintStats(key) {
+    var v = nice(views[key]), l = nice(likeCounts[key]), mine = !!myLikes[key];
+    // Matched by reading the attribute rather than through an attribute
+    // selector: a key is a file name, so it carries spaces, commas, colons
+    // and apostrophes that would all need escaping inside the selector.
+    document.querySelectorAll('[data-sk]').forEach(function (el) {
+      if (el.getAttribute('data-sk') !== key) return;
+      var vv = el.querySelector('.idc-v');
+      var lv = el.querySelector('.idc-l');
+      if (vv) vv.textContent = v;
+      if (lv) lv.textContent = l;
+      var b = el.querySelector('.idc-like');
+      if (b) {
+        b.classList.toggle('on', mine);
+        b.setAttribute('aria-pressed', mine ? 'true' : 'false');
+        b.title = mine ? 'Liked' : 'Like';
+      }
+    });
+  }
+
+  async function toggleLike(key) {
+    var tk = await jwt();
+    if (!tk) { signInNudge(); return; }
+    var was = !!myLikes[key];
+    // Optimistic, then corrected by the server's own answer.
+    myLikes[key] = !was;
+    likeCounts[key] = Math.max(0, (Number(likeCounts[key]) || 0) + (was ? -1 : 1));
+    paintStats(key);
+    var r = await rpc('learn_like_toggle', { p_kind: 'idiom', p_key: key }, tk);
+    if (r === true || r === false) {
+      if (r !== myLikes[key]) {
+        likeCounts[key] = Math.max(0, (Number(likeCounts[key]) || 0) + (r ? 1 : -1));
+        myLikes[key] = r;
+      }
+      if (!r) delete myLikes[key];
+      paintStats(key);
+    }
+    if (likedOnly) renderCurrent();
+  }
+
+  function signInNudge() {
+    var el = document.getElementById('idcToast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'idcToast';
+      el.className = 'idc-toast';
+      document.body.appendChild(el);
+    }
+    el.textContent = 'Sign in to save your liked clips.';
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+
   function style() {
     if (document.getElementById('idc-style')) return;
     var s = document.createElement('style');
@@ -125,6 +275,17 @@
       '.idc-meta{padding:9px 11px 11px;}',
       '.idc-unit{font-weight:800;font-size:14px;color:#0f172a;line-height:1.3;}',
       '.idc-src{font-size:11.5px;color:#64748b;margin-top:3px;}',
+      // Views sit on the poster (bottom-left, like the article cards' eye),
+      // the like button opposite them so a tap on it never opens the clip.
+      '.idc-stat{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;',
+      'gap:4px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;',
+      'background:rgba(2,6,23,.6);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
+      '.idc-like{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;',
+      'gap:4px;padding:3px 9px;border:0;border-radius:999px;font-size:11px;font-weight:800;',
+      'cursor:pointer;color:#fff;background:rgba(2,6,23,.6);line-height:1.5;',
+      '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
+      '.idc-like:hover{background:rgba(2,6,23,.8);}',
+      '.idc-like.on{background:#e11d48;}',
       // The player sits above the Learn overlay (z-index 100005). Anything
       // lower opens behind it and looks like a dead click.
       '.idc-player{position:fixed;inset:0;z-index:100030;background:rgba(2,6,23,.94);',
@@ -138,6 +299,8 @@
       '.idc-info b{display:block;font-size:19px;line-height:1.25;}',
       '.idc-info .m{font-size:13.5px;opacity:.92;margin-top:5px;line-height:1.45;}',
       '.idc-info .s{font-size:11.5px;opacity:.72;margin-top:6px;}',
+      '.idc-prow{display:flex;align-items:center;gap:10px;margin-top:10px;}',
+      '.idc-prow .idc-stat,.idc-prow .idc-like{position:static;font-size:12px;padding:5px 11px;}',
       '.idc-x{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;',
       'border:0;border-radius:50%;background:rgba(2,6,23,.6);color:#fff;font-size:19px;',
       'cursor:pointer;line-height:1;}',
@@ -148,18 +311,41 @@
       '@media (max-width:760px){.idc-nav{display:none;}}',
       '.idc-count{position:absolute;top:14px;left:14px;z-index:3;color:#fff;',
       'font-size:12px;font-weight:700;background:rgba(2,6,23,.55);padding:4px 10px;',
-      'border-radius:999px;}'
+      'border-radius:999px;}',
+      // "Liked" toggle, dropped into the overlay header beside the search box
+      // and removed again when another category opens.
+      '#idcLikedBtn{border:1px solid #e2e8f0;background:#fff;color:#0f172a;',
+      'border-radius:999px;padding:8px 13px;font-size:13px;font-weight:800;cursor:pointer;',
+      'white-space:nowrap;}',
+      '#idcLikedBtn.on{background:#e11d48;border-color:#e11d48;color:#fff;}',
+      '.idc-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);',
+      'z-index:100040;background:#0f172a;color:#fff;padding:11px 18px;border-radius:999px;',
+      'font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.22s;',
+      'box-shadow:0 12px 30px rgba(2,6,23,.4);}',
+      '.idc-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}'
     ].join('');
     document.head.appendChild(s);
   }
 
+  var EYE = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"'
+    + ' stroke-width="2.1"><path d="M1.6 12S5.3 5.4 12 5.4 22.4 12 22.4 12 18.7 18.6 12 18.6'
+    + ' 1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>';
+
+  function statHtml(it) {
+    return '<span class="idc-stat">' + EYE + '<i class="idc-v" style="font-style:normal">'
+      + nice(views[it.k]) + '</i></span>'
+      + '<button class="idc-like' + (myLikes[it.k] ? ' on' : '') + '" type="button"'
+      + ' data-like="' + esc(it.k) + '" aria-pressed="' + (myLikes[it.k] ? 'true' : 'false')
+      + '" title="' + (myLikes[it.k] ? 'Liked' : 'Like') + '">♥'
+      + '<i class="idc-l" style="font-style:normal">' + nice(likeCounts[it.k]) + '</i></button>';
+  }
+
   function cardHtml(it) {
-    var lock = it.free ? '' :
-      '<div class="idc-lock"><span>🔒</span>Premium</div>';
-    return '<article class="idc-card" data-i="' + it.i + '">'
+    var lock = locked(it) ? '<div class="idc-lock"><span>🔒</span>Premium</div>' : '';
+    return '<article class="idc-card" data-i="' + it.i + '" data-sk="' + esc(it.k) + '">'
       + '<div class="idc-thumb">'
       + '<img loading="lazy" src="' + esc(posterUrl(it.f)) + '" alt="">'
-      + '<span class="idc-badge">' + esc(it.l) + '</span>' + lock
+      + '<span class="idc-badge">' + esc(it.l) + '</span>' + lock + statHtml(it)
       + '</div><div class="idc-meta"><div class="idc-unit">' + esc(it.u) + '</div>'
       + '<div class="idc-src">' + esc(it.s) + '</div></div></article>';
   }
@@ -169,15 +355,51 @@
     var empty = document.getElementById('learnEmpty');
     var count = document.getElementById('learnCount');
     if (count) count.textContent = String(list.length);
+    playList = list;
     if (!list.length) {
       grid.innerHTML = '';
-      if (empty) empty.style.display = '';
+      if (empty) {
+        empty.style.display = '';
+        var msg = empty.querySelector('.learn-empty-msg');
+        if (msg) {
+          msg._idcOrig = msg._idcOrig || msg.textContent;
+          msg.textContent = likedOnly
+            ? 'No liked clips yet — tap ♥ on a clip to save it here.'
+            : msg._idcOrig;
+        }
+      }
       return;
     }
     if (empty) empty.style.display = 'none';
     grid.innerHTML = list.map(cardHtml).join('');
-    playList = list;
   }
+
+  // ── list order ────────────────────────────────────────────────────────────
+  // Shuffled on every entry, so the first screen is not the same three shows
+  // each time. The order is held for the session the overlay is open, so
+  // search and the Liked filter do not reshuffle under the user.
+  var order = null;
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  var lastQuery = '';
+  function current() {
+    var list = order || [];
+    var q = lastQuery;
+    if (likedOnly) list = list.filter(function (x) { return !!myLikes[x.k]; });
+    if (q) {
+      list = list.filter(function (x) {
+        return (x.u + ' ' + x.m + ' ' + x.s + ' ' + x.l).toLowerCase().indexOf(q) !== -1;
+      });
+    }
+    return list;
+  }
+  function renderCurrent() { render(current()); }
 
   // ── player ────────────────────────────────────────────────────────────────
   function stage() {
@@ -199,7 +421,7 @@
     el.addEventListener('click', function (e) {
       if (e.target === el) close();           // backdrop
     });
-    el.querySelector('#idcClose').addEventListener('click', close);
+    el.querySelector('#idcClose').addEventListener('click', function () { close(); });
     el.querySelector('#idcPrev').addEventListener('click', function () { step(-1); });
     el.querySelector('#idcNext').addEventListener('click', function () { step(1); });
 
@@ -219,12 +441,29 @@
     return el;
   }
 
+  function isOpen() {
+    var el = document.getElementById('idcPlayer');
+    return !!(el && el.classList.contains('open'));
+  }
+
   function close() {
     var el = document.getElementById('idcPlayer');
     if (!el) return;
+    var was = el.classList.contains('open');
     var v = document.getElementById('idcVideo');
     try { v.pause(); v.removeAttribute('src'); v.load(); } catch (_e) {}
     el.classList.remove('open');
+    playIdx = -1;
+    // The player owns a history entry of its own (see play()), so closing it
+    // by ✕, backdrop or Escape has to unwind that entry — otherwise the next
+    // Back press lands on the entry a closed player left behind and appears
+    // to do nothing. When close() came FROM popstate the entry is already
+    // gone and calling back() again would exit the picker too.
+    if (was && !fromPop) {
+      try {
+        if (history.state && history.state.clip) history.back();
+      } catch (_e) {}
+    }
   }
 
   function upsell() {
@@ -236,7 +475,7 @@
   function step(d) {
     var n = playIdx + d;
     // Walk past anything locked rather than dead-ending on it.
-    while (n >= 0 && n < playList.length && !playList[n].free && !entitled()) n += d;
+    while (n >= 0 && n < playList.length && locked(playList[n])) n += d;
     if (n < 0 || n >= playList.length) return;
     play(n);
   }
@@ -244,7 +483,8 @@
   function play(n) {
     var it = playList[n];
     if (!it) return;
-    if (!it.free && !entitled()) { upsell(); return; }
+    if (locked(it)) { upsell(); return; }
+    var first = !isOpen();
     playIdx = n;
     style();
     var el = stage();
@@ -253,33 +493,81 @@
     v.src = clipUrl(it.f);
     document.getElementById('idcInfo').innerHTML =
       '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
-      + '<div class="s">' + esc(it.s) + '</div>';
+      + '<div class="s">' + esc(it.s) + '</div>'
+      + '<div class="idc-prow" data-sk="' + esc(it.k) + '">' + statHtml(it) + '</div>';
     document.getElementById('idcCount').textContent = (n + 1) + ' / ' + playList.length;
     document.getElementById('idcPrev').disabled = n <= 0;
     document.getElementById('idcNext').disabled = n >= playList.length - 1;
     el.classList.add('open');
+    // One history entry for the whole player, replaced as the user swipes —
+    // otherwise Back would walk 300 clips before it reached the grid.
+    try {
+      var st = { picker: 'learn', cat: 'idioms', clip: 1 };
+      if (first) history.pushState(st, '');
+      else history.replaceState(st, '');
+    } catch (_e) {}
+    bumpView(it);
     v.play().catch(function () {});   // a blocked autoplay is not an error
   }
 
   document.addEventListener('keydown', function (e) {
-    var el = document.getElementById('idcPlayer');
-    if (!el || !el.classList.contains('open')) return;
+    if (!isOpen()) return;
     if (e.key === 'Escape') { close(); e.preventDefault(); }
     else if (e.key === 'ArrowDown') { step(1); e.preventDefault(); }
     else if (e.key === 'ArrowUp') { step(-1); e.preventDefault(); }
   });
 
+  // Browser / Android / Telegram back closes the player, not the picker. This
+  // listener runs alongside the landing's own learn-state handler; because the
+  // state it leaves behind is still {picker:'learn',cat:'idioms'}, that one
+  // sees the overlay already open on the same category and does nothing.
+  window.addEventListener('popstate', function () {
+    if (!isOpen()) return;
+    fromPop = true;
+    close();
+    fromPop = false;
+  });
+
   document.addEventListener('click', function (e) {
-    var c = e.target && e.target.closest ? e.target.closest('.idc-card') : null;
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var lb = t.closest('.idc-like');
+    if (lb) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleLike(lb.getAttribute('data-like'));
+      return;
+    }
+    var c = t.closest('.idc-card');
     if (!c) return;
     e.preventDefault();
     var i = Number(c.getAttribute('data-i'));
     var at = playList.findIndex(function (x) { return x.i === i; });
     if (at === -1) return;
-    var it = playList[at];
-    if (!it.free && !entitled()) { upsell(); return; }
+    if (locked(playList[at])) { upsell(); return; }
     play(at);
   }, true);
+
+  // ── "Liked" header toggle ─────────────────────────────────────────────────
+  function likedBtn(show) {
+    var host = document.querySelector('#learnPicker .learn-header-tools');
+    var b = document.getElementById('idcLikedBtn');
+    if (!show) { if (b) b.remove(); return; }
+    if (!host) return;
+    if (!b) {
+      b = document.createElement('button');
+      b.id = 'idcLikedBtn';
+      b.type = 'button';
+      b.innerHTML = '♥ Liked';
+      b.addEventListener('click', function () {
+        likedOnly = !likedOnly;
+        b.classList.toggle('on', likedOnly);
+        renderCurrent();
+      });
+      host.appendChild(b);
+    }
+    b.classList.toggle('on', likedOnly);
+  }
 
   window.IdiomClips = {
     // Mirrors openLearningCategory's chrome so the overlay looks the same,
@@ -292,25 +580,34 @@
       if (tt) tt.textContent = 'Idiom Clips';
       var s = document.getElementById('learnSearch');
       if (s) s.value = '';
+      lastQuery = '';
+      likedOnly = false;
       var grid = document.getElementById('learnGrid');
       if (grid) grid.innerHTML = '';
       var overlay = document.getElementById('learnPicker');
       overlay.classList.add('learn-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      likedBtn(true);
       if (!(opts && opts.fromRestore)) {
         try { history.pushState({ picker: 'learn', cat: 'idioms' }, ''); } catch (_e) {}
       }
-      render(await load());
+      order = shuffle((await load()).slice());
+      renderCurrent();
+      // Numbers arrive a moment later; the grid is already usable without
+      // them, so nothing waits on this.
+      await loadStats(true);
+      renderCurrent();
     },
     filter: async function (q) {
-      var all = await load();
-      q = (q || '').toLowerCase().trim();
-      if (!q) { render(all); return; }
-      render(all.filter(function (x) {
-        return (x.u + ' ' + x.m + ' ' + x.s + ' ' + x.l).toLowerCase().indexOf(q) !== -1;
-      }));
+      await load();
+      lastQuery = (q || '').toLowerCase().trim();
+      if (!order) order = shuffle(items.slice());
+      renderCurrent();
     },
-    close: close
+    close: close,
+    // Called when the picker switches to one of the four catalogue
+    // categories, so the Liked chip does not linger over their grids.
+    leave: function () { likedBtn(false); likedOnly = false; close(); }
   };
 })();

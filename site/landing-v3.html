@@ -4748,7 +4748,7 @@
   </script>
   <script src="/pdf-menu.js?v=4" defer></script>
   <script src="/mock-pdf-card.js?v=8" defer></script>
-  <script src="/idiom-clips.js?v=2" defer></script>
+  <script src="/idiom-clips.js?v=3" defer></script>
   <script src="/session-recovery.js?v=20" defer></script>
   <!-- Shows the "exam moved to another device" notice after an exam page sends the student home. -->
   <script src="/exam-lock.js?v=11" defer></script>
@@ -18392,6 +18392,9 @@
         _learnCurrentItems = [];
         return window.IdiomClips.open(opts);
       }
+      // Leaving the clips: drop their Liked chip and shut any open player, so
+      // neither survives over an Articles / Grammar grid.
+      if (window.IdiomClips && window.IdiomClips.leave) window.IdiomClips.leave();
       _learnCurrentCategory = category;
       _learnCurrentItems = cat.items || [];
       document.getElementById('learnTitleIcon').textContent = cat.icon;
@@ -18823,11 +18826,13 @@
     window.showTestsSubmenu = showTestsSubmenu;
     window.closeTestsSubmenu = closeTestsSubmenu;
     window._pickTestType = _pickTestType;
-    // Hook search input
-    (function _wireLearnSearch() {
-      var s = document.getElementById('learnSearch');
-      if (s) s.addEventListener('input', function () { _filterLearningList(this.value); });
-    })();
+    // Hook search input. Delegated from the document, NOT bound to the input
+    // directly: this script block sits ABOVE #learnSearch in the file, so at
+    // the time it runs getElementById returns null — the old direct binding
+    // silently attached to nothing and search was dead in every category.
+    document.addEventListener('input', function (e) {
+      if (e.target && e.target.id === 'learnSearch') _filterLearningList(e.target.value);
+    });
     // Wire tool cards (Flashcards now opens picker too — has its own catalog).
     document.querySelectorAll('.tool-card[data-learn]').forEach(function (a) {
       var key = a.getAttribute('data-learn');
