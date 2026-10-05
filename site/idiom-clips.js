@@ -56,8 +56,14 @@
   }
 
   function clipUrl(f) { return BASE + '/clips/' + encodeURIComponent(f); }
+  // ⚠️ The render pipeline STRIPS ' , and & from poster names while the clip
+  // keeps them, so a straight .mp4 -> .jpg swap missed 18 of the 301 and those
+  // cards showed a black rectangle. Checked against R2 on 2026-10-05: 283/301
+  // without this rule, 301/301 with it. ("Lilo & Stitch" becomes "Lilo  Stitch"
+  // — the & goes but its spaces stay, so do not collapse whitespace here.)
   function posterUrl(f) {
-    return BASE + '/posters/' + encodeURIComponent(f.replace(/\.mp4$/i, '.jpg'));
+    return BASE + '/posters/'
+      + encodeURIComponent(f.replace(/\.mp4$/i, '').replace(/[',&]/g, '') + '.jpg');
   }
 
   async function load() {
