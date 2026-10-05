@@ -291,9 +291,19 @@
       '.idc-player{position:fixed;inset:0;z-index:100030;background:rgba(2,6,23,.94);',
       'display:none;align-items:center;justify-content:center;}',
       '.idc-player.open{display:flex;}',
-      '.idc-stage{position:relative;height:min(92vh,980px);aspect-ratio:9/16;',
-      'max-width:94vw;border-radius:16px;overflow:hidden;background:#000;}',
-      '.idc-stage video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}',
+      // The frame carries the 9:16 box; the stage inside it does the clipping.
+      // They are separate because the stage must hide the pane sliding in from
+      // off-screen, and overflow:hidden on the element the arrows hang off
+      // (right:-56px) clipped the arrows away too.
+      '.idc-frame{position:relative;height:min(92vh,980px);aspect-ratio:9/16;max-width:94vw;}',
+      '.idc-stage{position:absolute;inset:0;border-radius:16px;overflow:hidden;',
+      'background:#000;}',
+      // One pane per clip, stacked. Both are on screen during a swipe, which
+      // is the whole point — see the player section below.
+      '.idc-pane{position:absolute;inset:0;will-change:transform;}',
+      '.idc-pane.idle{visibility:hidden;pointer-events:none;}',
+      '.idc-pane.settle{transition:transform .34s cubic-bezier(.22,.61,.36,1);}',
+      '.idc-pane video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}',
       '.idc-info{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 18px;',
       'color:#fff;background:linear-gradient(transparent,rgba(2,6,23,.86) 42%);}',
       '.idc-info b{display:block;font-size:19px;line-height:1.25;}',
@@ -304,9 +314,11 @@
       '.idc-x{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;',
       'border:0;border-radius:50%;background:rgba(2,6,23,.6);color:#fff;font-size:19px;',
       'cursor:pointer;line-height:1;}',
-      '.idc-nav{position:absolute;right:-56px;display:flex;flex-direction:column;gap:10px;}',
+      '.idc-nav{position:absolute;right:-56px;top:50%;transform:translateY(-50%);',
+      'display:flex;flex-direction:column;gap:10px;}',
       '.idc-nav button{width:44px;height:44px;border:0;border-radius:50%;cursor:pointer;',
       'background:rgba(255,255,255,.14);color:#fff;font-size:18px;}',
+      '.idc-nav button:hover:not(:disabled){background:rgba(255,255,255,.26);}',
       '.idc-nav button:disabled{opacity:.3;cursor:default;}',
       '@media (max-width:760px){.idc-nav{display:none;}}',
       '.idc-count{position:absolute;top:14px;left:14px;z-index:3;color:#fff;',
@@ -401,23 +413,106 @@
   }
   function renderCurrent() { render(current()); }
 
-  // ── player ────────────────────────────────────────────────────────────────
+  // ── player ──────────────────────────────────────────────
+  // TWO panes, ping-ponged. A single <video> cannot slide one clip out while
+  // the next slides in: it would have to drop its source first, so the whole
+  // transition would be a black rectangle. Each pane therefore owns a video
+  // and its own caption, and a swipe moves both together — the drag follows
+  // the finger and on release either completes or springs back, the gesture
+  // people already know from Shorts and Reels.
+  var DUR = 340;           // must match .idc-pane.settle's transition
+  var panes = [];          // [{el, v, info, item}]
+  var cur = 0;             // which pane is on screen
+  var settling = null;     // { t, done } — a transition still in flight
+  var drag = null;
+
+  function reduced() {
+    try { return matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    catch (_e) { return false; }
+  }
+
+  function setY(p, y) { p.el.style.transform = 'translate3d(0,' + y + 'px,0)'; }
+
+  // Every transition ends through here, so a gesture that interrupts one can
+  // land it instantly instead of fighting it.
+  function settle(done) {
+    var s = { done: done };
+    s.t = setTimeout(function () { settling = null; done(); }, reduced() ? 0 : DUR);
+    settling = s;
+  }
+  function finishSettle() {
+    if (!settling) return;
+    var s = settling;
+    settling = null;
+    clearTimeout(s.t);
+    s.done();
+  }
+
+  function fill(p, it) {
+    p.item = it;
+    p.v.poster = posterUrl(it.f);
+    p.v.src = clipUrl(it.f);
+    p.info.innerHTML =
+      '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
+      + '<div class="s">' + esc(it.s) + '</div>'
+      + '<div class="idc-prow" data-sk="' + esc(it.k) + '">' + statHtml(it) + '</div>';
+  }
+
+  // The next index in direction d, walking past anything locked rather than
+  // dead-ending on it. -1 when there is nothing left that way.
+  function nextIdx(d) {
+    var n = playIdx + d;
+    while (n >= 0 && n < playList.length && locked(playList[n])) n += d;
+    return (n < 0 || n >= playList.length) ? -1 : n;
+  }
+
+  function activate(n) {
+    playIdx = n;
+    var a = panes[cur], b = panes[1 - cur];
+    a.el.classList.remove('idle');
+    b.el.classList.add('idle');
+    try { b.v.pause(); } catch (_e) {}
+    document.getElementById('idcCount').textContent = (n + 1) + ' / ' + playList.length;
+    document.getElementById('idcPrev').disabled = nextIdx(-1) === -1;
+    document.getElementById('idcNext').disabled = nextIdx(1) === -1;
+    // One history entry for the whole player, replaced as the reader moves —
+    // otherwise Back would walk 300 clips before it reached the grid.
+    try { history.replaceState({ picker: 'learn', cat: 'idioms', clip: 1 }, ''); } catch (_e) {}
+    bumpView(playList[n]);
+    a.v.play().catch(function () {});   // a blocked autoplay is not an error
+  }
+
+  function commit(n) {
+    var out = panes[cur], inn = panes[1 - cur];
+    out.el.classList.remove('settle');
+    inn.el.classList.remove('settle');
+    setY(out, 0);
+    setY(inn, 0);
+    cur = 1 - cur;
+    activate(n);        // marks the outgoing pane idle, so its reset is unseen
+  }
+
   function stage() {
     var el = document.getElementById('idcPlayer');
     if (el) return el;
     el = document.createElement('div');
     el.id = 'idcPlayer';
     el.className = 'idc-player';
+    var pane = '<div class="idc-pane idle"><video playsinline controls preload="metadata">'
+      + '</video><div class="idc-info"></div></div>';
     el.innerHTML =
-      '<div class="idc-stage">'
+      '<div class="idc-frame">'
+      + '<div class="idc-stage">' + pane + pane
       + '<span class="idc-count" id="idcCount"></span>'
       + '<button class="idc-x" id="idcClose" aria-label="Close">✕</button>'
-      + '<video id="idcVideo" playsinline controls preload="metadata"></video>'
-      + '<div class="idc-info" id="idcInfo"></div>'
+      + '</div>'
       + '<div class="idc-nav"><button id="idcPrev" aria-label="Previous">▲</button>'
       + '<button id="idcNext" aria-label="Next">▼</button></div>'
       + '</div>';
     document.body.appendChild(el);
+    panes = Array.prototype.map.call(el.querySelectorAll('.idc-pane'), function (p) {
+      return { el: p, v: p.querySelector('video'), info: p.querySelector('.idc-info') };
+    });
     el.addEventListener('click', function (e) {
       if (e.target === el) close();           // backdrop
     });
@@ -425,18 +520,82 @@
     el.querySelector('#idcPrev').addEventListener('click', function () { step(-1); });
     el.querySelector('#idcNext').addEventListener('click', function () { step(1); });
 
-    // Swipe up/down — the gesture people already use on Shorts and Reels.
-    var y0 = null;
+    // ── swipe ───────────────────────────────────────────
     var st = el.querySelector('.idc-stage');
+
+    function down(y) {
+      finishSettle();
+      drag = { y0: y, dy: 0, dir: 0, n: -1, H: st.offsetHeight || 1 };
+    }
+    function move(y, e) {
+      if (!drag) return;
+      drag.dy = y - drag.y0;
+      if (!drag.dir) {
+        // Claim the gesture only once it is clearly vertical, so a tap still
+        // reaches the video's own controls.
+        if (Math.abs(drag.dy) < 10) return;
+        drag.dir = drag.dy < 0 ? 1 : -1;      // finger up = next clip
+        drag.n = nextIdx(drag.dir);
+        panes[cur].el.classList.remove('settle');
+        if (drag.n !== -1) {
+          var b = panes[1 - cur];
+          fill(b, playList[drag.n]);
+          b.el.classList.remove('idle');
+          b.el.classList.remove('settle');
+        }
+      }
+      if (e && e.cancelable) e.preventDefault();
+      // At the ends there is no neighbour to reveal, so the pane gives a
+      // little and comes back rather than exposing the backdrop.
+      var dy = drag.n === -1 ? drag.dy * 0.28 : drag.dy;
+      setY(panes[cur], dy);
+      if (drag.n !== -1) setY(panes[1 - cur], dy + drag.dir * drag.H);
+    }
+    function up() {
+      if (!drag) return;
+      var d = drag;
+      drag = null;
+      if (!d.dir) return;
+      var a = panes[cur], b = panes[1 - cur];
+      a.el.classList.add('settle');
+      if (d.n !== -1) b.el.classList.add('settle');
+      if (d.n !== -1 && Math.abs(d.dy) > Math.max(56, d.H * 0.16)) {
+        setY(a, -d.dir * d.H);
+        setY(b, 0);
+        settle(function () { commit(d.n); });
+      } else {
+        setY(a, 0);
+        if (d.n !== -1) setY(b, d.dir * d.H);
+        settle(function () {
+          a.el.classList.remove('settle');
+          b.el.classList.remove('settle');
+          if (d.n !== -1) {
+            b.el.classList.add('idle');
+            setY(b, 0);
+            try { b.v.pause(); } catch (_e) {}
+          }
+        });
+      }
+    }
+
     st.addEventListener('touchstart', function (e) {
-      y0 = e.touches && e.touches.length === 1 ? e.touches[0].clientY : null;
+      if (e.touches && e.touches.length === 1) down(e.touches[0].clientY);
+      else drag = null;
     }, { passive: true });
-    st.addEventListener('touchend', function (e) {
-      if (y0 == null) return;
-      var y1 = (e.changedTouches && e.changedTouches[0] || {}).clientY;
-      var d = y0 - y1;
-      y0 = null;
-      if (Math.abs(d) > 60) step(d > 0 ? 1 : -1);
+    st.addEventListener('touchmove', function (e) {
+      if (e.touches && e.touches.length === 1) move(e.touches[0].clientY, e);
+    }, { passive: false });
+    st.addEventListener('touchend', up, { passive: true });
+    st.addEventListener('touchcancel', function () { drag = null; }, { passive: true });
+
+    // Trackpad / wheel, one clip per gesture.
+    var wlock = 0;
+    el.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) < 8) return;
+      var now = Date.now();
+      if (now < wlock) return;
+      wlock = now + DUR + 60;
+      step(e.deltaY > 0 ? 1 : -1);
     }, { passive: true });
     return el;
   }
@@ -450,8 +609,13 @@
     var el = document.getElementById('idcPlayer');
     if (!el) return;
     var was = el.classList.contains('open');
-    var v = document.getElementById('idcVideo');
-    try { v.pause(); v.removeAttribute('src'); v.load(); } catch (_e) {}
+    finishSettle();
+    drag = null;
+    panes.forEach(function (p) {
+      try { p.v.pause(); p.v.removeAttribute('src'); p.v.load(); } catch (_e) {}
+      p.el.classList.remove('settle');
+      setY(p, 0);
+    });
     el.classList.remove('open');
     playIdx = -1;
     // The player owns a history entry of its own (see play()), so closing it
@@ -472,42 +636,48 @@
     if (b) b.click();
   }
 
+  // Arrow keys, the nav buttons and the wheel all animate exactly like a
+  // swipe, so the clip never changes without the motion that says which way.
   function step(d) {
-    var n = playIdx + d;
-    // Walk past anything locked rather than dead-ending on it.
-    while (n >= 0 && n < playList.length && locked(playList[n])) n += d;
-    if (n < 0 || n >= playList.length) return;
-    play(n);
+    var n = nextIdx(d);
+    if (n === -1) return;
+    go(n, d);
+  }
+
+  function go(n, dir) {
+    if (!isOpen()) { play(n); return; }
+    finishSettle();
+    drag = null;
+    var a = panes[cur], b = panes[1 - cur];
+    var H = a.el.offsetHeight || 1;
+    fill(b, playList[n]);
+    b.el.classList.remove('idle');
+    if (reduced()) { commit(n); return; }
+    a.el.classList.remove('settle');
+    b.el.classList.remove('settle');
+    setY(b, dir > 0 ? H : -H);
+    void b.el.offsetHeight;        // start from off-screen, not from 0
+    a.el.classList.add('settle');
+    b.el.classList.add('settle');
+    setY(a, dir > 0 ? -H : H);
+    setY(b, 0);
+    settle(function () { commit(n); });
   }
 
   function play(n) {
     var it = playList[n];
     if (!it) return;
     if (locked(it)) { upsell(); return; }
-    var first = !isOpen();
-    playIdx = n;
     style();
     var el = stage();
-    var v = document.getElementById('idcVideo');
-    v.poster = posterUrl(it.f);
-    v.src = clipUrl(it.f);
-    document.getElementById('idcInfo').innerHTML =
-      '<b>' + esc(it.u) + '</b><div class="m">' + esc(it.m) + '</div>'
-      + '<div class="s">' + esc(it.s) + '</div>'
-      + '<div class="idc-prow" data-sk="' + esc(it.k) + '">' + statHtml(it) + '</div>';
-    document.getElementById('idcCount').textContent = (n + 1) + ' / ' + playList.length;
-    document.getElementById('idcPrev').disabled = n <= 0;
-    document.getElementById('idcNext').disabled = n >= playList.length - 1;
+    if (el.classList.contains('open')) { go(n, n > playIdx ? 1 : -1); return; }
+    finishSettle();
+    drag = null;
+    panes.forEach(function (p) { p.el.classList.remove('settle'); setY(p, 0); });
+    fill(panes[cur], it);
     el.classList.add('open');
-    // One history entry for the whole player, replaced as the user swipes —
-    // otherwise Back would walk 300 clips before it reached the grid.
-    try {
-      var st = { picker: 'learn', cat: 'idioms', clip: 1 };
-      if (first) history.pushState(st, '');
-      else history.replaceState(st, '');
-    } catch (_e) {}
-    bumpView(it);
-    v.play().catch(function () {});   // a blocked autoplay is not an error
+    try { history.pushState({ picker: 'learn', cat: 'idioms', clip: 1 }, ''); } catch (_e) {}
+    activate(n);
   }
 
   document.addEventListener('keydown', function (e) {
