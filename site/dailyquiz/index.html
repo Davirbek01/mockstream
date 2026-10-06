@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Quiz — Mock Stream</title>
+<meta name="description" content="Kunlik 10 ta savol — grammatika va lug'at. Har kuni hammaga bir xil." />
+<style>
+  :root{
+    --bg:#f4f1fb; --card:#fff; --ink:#15161c; --dim:#6b6f80; --line:#e9e4f5;
+    --brand:#7c3aed; --brand2:#5b21b6; --ok:#0f9d58; --bad:#d93025; --soft:#f7f5fd;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);line-height:1.55;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:18px 16px 60px}
+  .wrap{max-width:720px;margin:0 auto}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .back{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:700;
+    color:var(--brand2);background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 14px}
+  .back:hover{background:var(--soft)}
+  .sp{flex:1}
+  .streak{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px}
+  h1{font-size:1.9rem;letter-spacing:-.02em;font-weight:800}
+  .sub{color:var(--dim);margin-top:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:18px;
+    box-shadow:0 8px 30px rgba(84,56,160,.07)}
+  .levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .levels button{flex:1 1 150px;padding:11px 12px;border:1px solid var(--line);background:#fff;border-radius:12px;
+    font-weight:700;font-size:14px;color:var(--dim);cursor:pointer}
+  .levels button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+  .meta{display:flex;justify-content:space-between;align-items:center;color:var(--dim);font-size:14px;font-weight:700}
+  .bar{height:6px;background:var(--soft);border-radius:999px;margin:12px 0 18px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--brand);transition:width .25s}
+  .qtype{color:var(--brand2);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+  .q{font-size:1.25rem;font-weight:700;margin:8px 0 18px}
+  .q b{color:var(--brand2)}
+  .opts{display:grid;gap:10px}
+  .opts button{text-align:left;padding:14px 16px;border:1.5px solid var(--line);background:#fff;border-radius:14px;
+    font-size:1rem;font-weight:600;cursor:pointer;transition:.12s}
+  .opts button:hover:not(:disabled){border-color:var(--brand);background:var(--soft)}
+  .opts button:disabled{cursor:default}
+  .opts button.right{border-color:var(--ok);background:#e9f7ee;color:#0b6b3c}
+  .opts button.wrong{border-color:var(--bad);background:#fdecea;color:#a3160d}
+  .fb{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--soft);border:1px solid var(--line);
+    font-size:.95rem;display:none}
+  .fb.on{display:block}
+  .fb .lead{font-weight:800;margin-bottom:4px}
+  .next{margin-top:16px;width:100%;padding:14px;border:0;border-radius:14px;background:var(--brand);color:#fff;
+    font-size:1rem;font-weight:800;cursor:pointer}
+  .next:hover{background:var(--brand2)}
+  .score{font-size:3rem;font-weight:800;letter-spacing:-.03em}
+  .review{margin-top:14px;display:grid;gap:10px}
+  .review a{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;background:#fff}
+  .review a:hover{background:var(--soft)}
+  .review .t{font-weight:700;font-size:.95rem}
+  .review .s{color:var(--dim);font-size:.85rem;margin-top:2px}
+  .note{color:var(--dim);font-size:.88rem;margin-top:16px}
+  .err{color:var(--bad);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="/landing-v3?tab=learn">← Learn</a>
+    <span class="sp"></span>
+    <span class="streak" id="streak">🔥 0</span>
+  </div>
+  <h1>Daily Quiz</h1>
+  <p class="sub" id="sub">Har kuni 10 ta savol — hamma uchun bir xil.</p>
+  <div id="stage"></div>
+</div>
+
+<script>
+/* ============================================================================
+   Daily Quiz — ten questions a day, THE SAME ONES FOR EVERYONE.
+   ----------------------------------------------------------------------------
+   The shared set is the whole point: students compare answers, and a league
+   over it is fair because everyone met the same questions. So the picks come
+   from a PRNG seeded on the date, never Math.random — one date plus one level
+   always yields the same ten, on every device, with nothing stored server-side.
+
+   No new content ships with this: the questions are the existing grammar and
+   vocabulary bank (744 topics x 30 questions). One question is taken from each
+   of ten different topics, and a missed one links to that topic's full test.
+   ========================================================================== */
+var SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+var N_Q = 10, N_GRAMMAR = 7;           /* 7 grammar + 3 vocabulary */
+var LEVELS = [
+  ['intermediate',       'Intermediate',       'B1–B2'],
+  ['upper-intermediate', 'Upper-intermediate', 'B2–C1'],
+  ['advanced',           'Advanced',           'C1–C2']
+];
+
+/* The day has to flip at one moment for everyone, or "today's quiz" means a
+   different set either side of midnight. Fixed +05, the centres' timezone. */
+function todayKey() {
+  var d = new Date(Date.now() + 5 * 3600 * 1000);
+  return d.toISOString().slice(0, 10);
+}
+/* Seeded PRNG (xmur3 + mulberry32): small, and identical in every browser. */
+function seedFrom(str) {
+  var h = 1779033703 ^ str.length;
+  for (var i = 0; i < str.length; i++) {
+    h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return h >>> 0;
+}
+function rng(seed) {
+  var a = seed >>> 0;
+  return function () {
+    a = (a + 0x6D2B79F5) >>> 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function pick(arr, n, r) {            /* deterministic sample, no replacement */
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(r() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a.slice(0, n);
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+function $(id) { return document.getElementById(id); }
+
+/* ── storage: the streak, and today's finished result ────────────────────── */
+var LS_STREAK = 'ms_dq_streak';
+function getStreak() {
+  try { return JSON.parse(localStorage.getItem(LS_STREAK)) || { last: '', n: 0 }; }
+  catch (e) { return { last: '', n: 0 }; }
+}
+function bumpStreak(day) {
+  var s = getStreak();
+  if (s.last === day) return s;                      /* already counted today */
+  var y = new Date(new Date(day + 'T00:00:00Z').getTime() - 86400000)
+            .toISOString().slice(0, 10);
+  s = { last: day, n: s.last === y ? (s.n || 0) + 1 : 1 };
+  try { localStorage.setItem(LS_STREAK, JSON.stringify(s)); } catch (e) {}
+  return s;
+}
+function resultKey(day, lvl) { return 'ms_dq_' + day + '_' + lvl; }
+function savedResult(day, lvl) {
+  try { return JSON.parse(localStorage.getItem(resultKey(day, lvl))); } catch (e) { return null; }
+}
+function saveResult(day, lvl, res) {
+  try { localStorage.setItem(resultKey(day, lvl), JSON.stringify(res)); } catch (e) {}
+}
+function paintStreak() {
+  var s = getStreak();
+  $('streak').textContent = '🔥 ' + (s.n || 0);
+  $('streak').title = s.n ? ('Ketma-ket ' + s.n + ' kun') : 'Hali seriya yo‘q';
+}
+
+/* ── level choice ────────────────────────────────────────────────────────── */
+var LS_LEVEL = 'ms_dq_level';
+function getLevel() {
+  try { return localStorage.getItem(LS_LEVEL) || 'upper-intermediate'; }
+  catch (e) { return 'upper-intermediate'; }
+}
+function setLevel(l) { try { localStorage.setItem(LS_LEVEL, l); } catch (e) {} }
+
+/* ── data ────────────────────────────────────────────────────────────────── */
+function api(path) {
+  return fetch(SB + '/rest/v1/' + path, { headers: { apikey: KEY } })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+}
+/* The catalogue is slugs only — ~248 rows for one level, a few KB. */
+function catalogue(level) {
+  return api('mock_tests?select=mock_type,slug:mock_data->>slug'
+    + '&mock_type=in.(grammar,vocabulary)&mock_data->>level=eq.' + encodeURIComponent(level));
+}
+function topics(slugs) {
+  return api('mock_tests?select=mock_type,mock_data&mock_data->>slug=in.('
+    + slugs.map(encodeURIComponent).join(',') + ')');
+}
+
+function buildQuiz(level, day) {
+  return catalogue(level).then(function (rows) {
+    /* sort() so the pool order never depends on what the API happened to return */
+    var g = rows.filter(function (x) { return x.mock_type === 'grammar'; })
+                .map(function (x) { return x.slug; }).sort();
+    var v = rows.filter(function (x) { return x.mock_type === 'vocabulary'; })
+                .map(function (x) { return x.slug; }).sort();
+    if (g.length + v.length < N_Q) throw new Error('bank too small');
+    var r = rng(seedFrom(day + '|' + level));
+    var nG = Math.min(N_GRAMMAR, g.length), nV = Math.min(N_Q - nG, v.length);
+    var chosen = pick(g, nG, r).concat(pick(v, nV, r));
+    return topics(chosen).then(function (rows2) {
+      var by = {};
+      rows2.forEach(function (row) {
+        var d = typeof row.mock_data === 'string' ? JSON.parse(row.mock_data) : row.mock_data;
+        by[d.slug] = { type: row.mock_type, data: d };
+      });
+      var out = [];
+      chosen.forEach(function (slug) {
+        var t = by[slug];
+        if (!t || !t.data.questions || !t.data.questions.length) return;
+        var qs = t.data.questions;
+        var q = qs[Math.floor(r() * qs.length)];
+        if (!q || !q.options || !q.options.length) return;
+        out.push({
+          slug: slug, kind: t.type,
+          topic: t.data.displayName || t.data.topicBase || slug,
+          q: q,
+          opts: pick(q.options, q.options.length, r)   /* order is seeded too */
+        });
+      });
+      return out;
+    });
+  });
+}
+
+/* ── screens ─────────────────────────────────────────────────────────────── */
+var day = todayKey(), level = getLevel(), quiz = null, qi = 0, right = 0, missed = [];
+
+function reviewList(items, sub) {
+  return '<div class="review">' + items.map(function (m) {
+    return '<a href="/test.html?test=' + esc(m.slug) + '&type=' + esc(m.kind) + '">' +
+      '<div class="t">' + esc(m.topic) + '</div>' +
+      '<div class="s">' + esc(sub) + '</div></a>';
+  }).join('') + '</div>';
+}
+
+function screenStart() {
+  var done = savedResult(day, level);
+  var lvl = LEVELS.filter(function (l) { return l[0] === level; })[0] || LEVELS[1];
+  $('stage').innerHTML =
+    '<div class="card">' +
+      '<div class="meta"><span>' + day + '</span><span>' + N_Q + ' ta savol</span></div>' +
+      '<p style="margin-top:10px">Bugungi savollar <b>hamma uchun bir xil</b>. Darajangizni tanlang:</p>' +
+      '<div class="levels" id="lv"></div>' +
+      (done
+        ? '<p class="note">Bugungi quizni yechib bo‘lgansiz: <b>' + done.right + '/' + done.total +
+          '</b>. Yangi savollar ertaga.</p>' +
+          (done.missed && done.missed.length ? reviewList(done.missed, 'Shu mavzuni takrorlang') : '')
+        : '<button class="next" id="go">Boshlash</button>') +
+    '</div>';
+  var lv = $('lv');
+  LEVELS.forEach(function (l) {
+    var b = document.createElement('button');
+    b.textContent = l[1];
+    b.setAttribute('aria-pressed', String(l[0] === level));
+    b.onclick = function () { level = l[0]; setLevel(l[0]); screenStart(); };
+    lv.appendChild(b);
+  });
+  if ($('go')) $('go').onclick = start;
+  $('sub').textContent = lvl[1] + ' · ' + lvl[2] + ' — har kuni 10 ta savol, hamma uchun bir xil.';
+}
+
+function start() {
+  $('stage').innerHTML = '<div class="card">Yuklanmoqda…</div>';
+  buildQuiz(level, day).then(function (list) {
+    if (!list.length) throw new Error('empty');
+    quiz = list; qi = 0; right = 0; missed = [];
+    showQ();
+  }).catch(function () {
+    $('stage').innerHTML = '<div class="card"><p class="err">Savollarni yuklab bo‘lmadi.</p>' +
+      '<p class="note">Internet aloqasini tekshirib, qayta urinib ko‘ring.</p>' +
+      '<button class="next" id="retry">Qayta urinish</button></div>';
+    $('retry').onclick = function () { location.reload(); };
+  });
+}
+
+function showQ() {
+  var item = quiz[qi], q = item.q;
+  var pct = Math.round(qi / quiz.length * 100);
+  $('stage').innerHTML =
+    '<div class="card">' +
+      '<div class="meta"><span>' + (item.kind === 'grammar' ? 'Grammar' : 'Vocabulary') + '</span>' +
+      '<span>' + (qi + 1) + ' / ' + quiz.length + '</span></div>' +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="qtype">' + esc(q.type || '') + '</div>' +
+      '<div class="q">' + (q.question || '') + '</div>' +
+      '<div class="opts" id="opts"></div>' +
+      '<div class="fb" id="fb"></div>' +
+      '<button class="next" id="next" style="display:none">' +
+        (qi + 1 === quiz.length ? 'Natija →' : 'Keyingi →') + '</button>' +
+    '</div>';
+  item.opts.forEach(function (o) {
+    var b = document.createElement('button');
+    b.textContent = o;
+    b.onclick = function () { answer(o, b); };
+    $('opts').appendChild(b);
+  });
+  $('next').onclick = function () { qi++; if (qi < quiz.length) { showQ(); } else { finish(); } };
+}
+
+function answer(choice, btn) {
+  var item = quiz[qi], q = item.q, ok = choice === q.correct;
+  var all = $('opts').querySelectorAll('button');
+  for (var i = 0; i < all.length; i++) {
+    all[i].disabled = true;
+    if (all[i].textContent === q.correct) all[i].className = 'right';
+  }
+  if (ok) { right++; }
+  else { btn.className = 'wrong'; missed.push({ slug: item.slug, kind: item.kind, topic: item.topic }); }
+  var fb = $('fb');
+  fb.className = 'fb on';
+  fb.innerHTML = '<div class="lead">' + (ok ? '✅ To‘g‘ri' : '❌ To‘g‘ri javob: ' + esc(q.correct)) + '</div>' +
+    (q.def ? esc(q.def) : '');
+  $('next').style.display = 'block';
+}
+
+function finish() {
+  var s = bumpStreak(day);
+  saveResult(day, level, { right: right, total: quiz.length, missed: missed });
+  paintStreak();
+  var verdict = right === quiz.length ? 'Mukammal!'
+              : right >= quiz.length * 0.7 ? 'Yaxshi natija.'
+              : 'Takrorlash foydali bo‘ladi.';
+  $('stage').innerHTML =
+    '<div class="card" style="text-align:center">' +
+      '<div class="score">' + right + '/' + quiz.length + '</div>' +
+      '<p class="sub">' + verdict + '</p>' +
+      '<p class="note">🔥 Ketma-ket ' + s.n + ' kun. Yangi savollar ertaga.</p>' +
+    '</div>' +
+    (missed.length
+      ? '<div class="card"><b>Takrorlash uchun</b>' + reviewList(missed, 'To‘liq testni yechish') + '</div>'
+      : '');
+}
+
+paintStreak();
+screenStart();
+</script>
+</body>
+</html>
