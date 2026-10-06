@@ -23091,6 +23091,7 @@
         muzaffars:   'muzaffars-desktop-releases',
         max:         'multilevelmax-desktop-releases'
       };
+      var APK_R2 = 'https://audio.mock-stream.com/apps/android/';
       var APPS_MOBILE = {
         mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
                        android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
@@ -23103,16 +23104,22 @@
         // on 2026-10-05: all six builds were resubmitted and came back
         // APPROVED. The iosSoon branch below stays, since a build does retire
         // 90 days after upload and the flag is how we hide a dead invite.
-        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
-        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
-        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
-        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
-        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
-        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' },
+        // `apk` is the CURRENT build on R2. Without it this tab listed the
+        // centre's GCS bucket and took the first .apk it found — which is
+        // still each clone's 1.0.0 from July, because releases have gone to
+        // R2 since 2026-09-12. So the Apps tab was handing out a build five
+        // versions behind the one apps.html serves. R2 also has free egress;
+        // the GCS listing stays as the fallback.
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd', apk: APK_R2 + 'bek/MockStream-bek-1.1.0.apk' },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy', apk: APK_R2 + 'record/MockStream-record-1.1.0.apk' },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E', apk: APK_R2 + 'niners/MockStream-niners-1.1.0.apk' },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W', apk: APK_R2 + 'global/MockStream-global-1.1.0.apk' },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd', apk: APK_R2 + 'achievers/MockStream-achievers-1.1.0.apk' },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w', apk: APK_R2 + 'muzaffars/MockStream-muzaffars-1.1.0.apk' },
         // Multilevel Max opened 2026-10-05 with Windows, macOS and Android.
         // Its iPhone app has not been built yet — no TestFlight invite has
         // ever existed, so `iosSoon` (which promises a renewal) would lie.
-        max:       { iosNew: true }
+        max:       { iosNew: true, apk: APK_R2 + 'max/MockStream-max-1.1.0.apk' }
       };
 
       var appsBuilt = false;
@@ -23247,8 +23254,10 @@
         fromYml(base + 'latest.yml', /^path:\s*(\S+\.exe)\s*$/m, 'appCardWin', 'Download');
         fromYml(base + 'latest-mac.yml', /url:\s*(\S+\.dmg)/, 'appCardMac', 'Download');
 
-        // Android sideload: find the APK rather than assume its name.
-        if (!mob.store) {
+        // Android sideload: the pinned R2 build when we have one, else fall
+        // back to whatever .apk the bucket still holds.
+        if (mob.apk) btn('appCardDroid', 'Download APK', mob.apk);
+        else if (!mob.store) {
           fetch('https://storage.googleapis.com/storage/v1/b/' + bucket + '/o?fields=items(name)&maxResults=200')
             .then(function (r) { return r.ok ? r.json() : null; })
             .then(function (j) {
