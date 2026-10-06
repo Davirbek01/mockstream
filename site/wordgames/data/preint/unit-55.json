@@ -1,0 +1,646 @@
+{
+ "book": "preint",
+ "unit": 55,
+ "title": "Email and the Internet",
+ "title_uz": "Elektron pochta va internet",
+ "words": [
+  {
+   "id": "check_email",
+   "en": "check your email",
+   "uz": "pochtani tekshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning before breakfast, I check my email to see if the teacher has sent the homework.",
+   "gap": "check my email",
+   "alt": [
+    "check my email",
+    "checks her email",
+    "checked my email",
+    "checking my email"
+   ]
+  },
+  {
+   "id": "essential",
+   "en": "essential",
+   "uz": "zarur (juda muhim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A charger is essential on a long train journey if you want to watch films on your phone.",
+   "gap": "essential",
+   "alt": []
+  },
+  {
+   "id": "immediately",
+   "en": "immediately",
+   "uz": "darhol",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I opened the email from the university immediately, without even taking off my coat.",
+   "gap": "immediately",
+   "alt": []
+  },
+  {
+   "id": "reply_to",
+   "en": "reply to",
+   "uz": "javob yozmoq (xatga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sorry I didn't reply to your email yesterday; I was at football training.",
+   "gap": "reply to",
+   "alt": [
+    "replies to",
+    "replied to",
+    "replying to"
+   ]
+  },
+  {
+   "id": "delete",
+   "en": "delete",
+   "uz": "o‘chirmoq (faylni, xatni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My inbox is full, so I need to delete all the old messages.",
+   "gap": "delete",
+   "alt": [
+    "deletes",
+    "deleted",
+    "deleting"
+   ]
+  },
+  {
+   "id": "spam",
+   "en": "spam",
+   "uz": "keraksiz reklama xatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "My email program moves spam into a separate folder, so I never even see it.",
+   "gap": "spam",
+   "alt": []
+  },
+  {
+   "id": "attachment",
+   "en": "attachment",
+   "uz": "ilova qilingan fayl",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've sent you the photos as an attachment, so you can save them on your phone.",
+   "gap": "attachment",
+   "alt": [
+    "attachments"
+   ]
+  },
+  {
+   "id": "receive",
+   "en": "receive",
+   "uz": "olmoq (xat, xabar)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Did you receive my email with the photos, or should I send it again?",
+   "gap": "receive",
+   "alt": [
+    "receives",
+    "received",
+    "receiving"
+   ]
+  },
+  {
+   "id": "email_address",
+   "en": "email address",
+   "uz": "elektron pochta manzili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write your email address clearly on the form so the school can send you the results.",
+   "gap": "email address",
+   "alt": [
+    "email addresses"
+   ]
+  },
+  {
+   "id": "connect",
+   "en": "connect",
+   "uz": "ulamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the hotel, you need the Wi-Fi password to connect your phone to the internet.",
+   "gap": "connect",
+   "alt": [
+    "connects",
+    "connected",
+    "connecting"
+   ]
+  },
+  {
+   "id": "access",
+   "en": "access",
+   "uz": "foydalanish imkoniyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "All students have free access to the library's online books.",
+   "gap": "access",
+   "alt": []
+  },
+  {
+   "id": "go_online",
+   "en": "go online",
+   "uz": "internetga kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There was no internet in my aunt's village until last year; now everyone there can go online.",
+   "gap": "go online",
+   "alt": [
+    "goes online",
+    "went online",
+    "going online"
+   ]
+  },
+  {
+   "id": "browse",
+   "en": "browse",
+   "uz": "ko‘zdan kechirmoq (saytlarni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the evenings Kamron likes to browse cooking websites for new recipes.",
+   "gap": "browse",
+   "alt": [
+    "browses",
+    "browsed",
+    "browsing"
+   ]
+  },
+  {
+   "id": "browser",
+   "en": "browser",
+   "uz": "brauzer",
+   "pos": "noun",
+   "img": false,
+   "ex": "Open your web browser and type the address of the school website.",
+   "gap": "browser",
+   "alt": [
+    "browsers"
+   ]
+  },
+  {
+   "id": "website",
+   "en": "website",
+   "uz": "internet sahifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has a new website where parents can see the timetable and the homework.",
+   "gap": "website",
+   "alt": [
+    "websites"
+   ]
+  },
+  {
+   "id": "link",
+   "en": "link",
+   "uz": "havola",
+   "pos": "noun",
+   "img": false,
+   "ex": "Click on the link in the message to watch the video of our concert.",
+   "gap": "link",
+   "alt": [
+    "links"
+   ]
+  },
+  {
+   "id": "click_on",
+   "en": "click on",
+   "uz": "bosmoq (sichqoncha bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To see the bigger picture, click on the small photo.",
+   "gap": "click on",
+   "alt": [
+    "clicks on",
+    "clicked on",
+    "clicking on"
+   ]
+  },
+  {
+   "id": "search_the_internet",
+   "en": "search the internet",
+   "uz": "internetdan qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For her history project, Lobar searched the internet for old photos of Angren.",
+   "gap": "searched the internet",
+   "alt": [
+    "searches the internet",
+    "searched the internet",
+    "searching the internet"
+   ]
+  },
+  {
+   "id": "download",
+   "en": "download",
+   "uz": "yuklab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can download the songs to your phone and listen to them without the internet.",
+   "gap": "download",
+   "alt": [
+    "downloads",
+    "downloaded",
+    "downloading"
+   ]
+  },
+  {
+   "id": "upload",
+   "en": "upload",
+   "uz": "yuklamoq (internetga joylash)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bekzod uploaded a video of his goal so his friends could watch it.",
+   "gap": "uploaded",
+   "alt": [
+    "uploads",
+    "uploaded",
+    "uploading"
+   ]
+  },
+  {
+   "id": "video_clip",
+   "en": "video clip",
+   "uz": "videolavha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madina sent the family chat a short video clip of her baby's first steps.",
+   "gap": "video clip",
+   "alt": [
+    "video clips"
+   ]
+  },
+  {
+   "id": "add_to_basket",
+   "en": "add to basket",
+   "uz": "savatga qo‘shmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Choose your size, click 'add to basket', and then go to the checkout.",
+   "gap": "add to basket",
+   "alt": []
+  },
+  {
+   "id": "credit_card",
+   "en": "credit card",
+   "uz": "kredit karta",
+   "pos": "noun",
+   "img": true,
+   "ex": "You can pay online with a credit card or in cash when the parcel arrives.",
+   "gap": "credit card",
+   "alt": [
+    "credit cards"
+   ]
+  },
+  {
+   "id": "blog",
+   "en": "blog",
+   "uz": "shaxsiy internet kundalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher writes a blog about her trips around Central Asia.",
+   "gap": "blog",
+   "alt": [
+    "blogs"
+   ]
+  },
+  {
+   "id": "blogger",
+   "en": "blogger",
+   "uz": "internet kundalik muallifi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shohjahon is a food blogger; every week he writes about a new restaurant in Nurafshon.",
+   "gap": "blogger",
+   "alt": [
+    "bloggers"
+   ]
+  },
+  {
+   "id": "surf_the_web",
+   "en": "surf the web",
+   "uz": "internetda kezmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of doing his homework, Ulugbek spent three hours surfing the web.",
+   "gap": "surfing the web",
+   "alt": [
+    "surfs the web",
+    "surfed the web",
+    "surfing the web"
+   ]
+  },
+  {
+   "id": "social_networking_site",
+   "en": "social networking site",
+   "uz": "ijtimoiy tarmoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has its own page on a social networking site, where it posts photos from every sports day.",
+   "gap": "social networking site",
+   "alt": [
+    "social networking sites"
+   ]
+  },
+  {
+   "id": "post_comment",
+   "en": "post a comment",
+   "uz": "izoh qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Under the video of our school concert, a former student posted a comment: 'Well done, everyone!'",
+   "gap": "posted a comment",
+   "alt": [
+    "posts a comment",
+    "posted a comment",
+    "posting a comment"
+   ]
+  },
+  {
+   "id": "instant_messaging",
+   "en": "instant messaging",
+   "uz": "tezkor xabar almashish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to instant messaging, I can chat with my friend in Kuala Lumpur as if she were in the next room.",
+   "gap": "instant messaging",
+   "alt": []
+  },
+  {
+   "id": "email_n",
+   "en": "email",
+   "uz": "elektron xat",
+   "pos": "noun",
+   "img": false,
+   "ex": "I get about thirty emails a day, and most of them are from shops.",
+   "gap": "emails",
+   "alt": [
+    "emails"
+   ]
+  },
+  {
+   "id": "send",
+   "en": "send",
+   "uz": "jo‘natmoq (yubormoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you send me the photos from the trip? I want to print some.",
+   "gap": "send",
+   "alt": [
+    "sends",
+    "sent",
+    "sending"
+   ]
+  },
+  {
+   "id": "regularly",
+   "en": "regularly",
+   "uz": "muntazam ravishda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Shahzoda checks her bank account online regularly, at least twice a week.",
+   "gap": "regularly",
+   "alt": []
+  },
+  {
+   "id": "junk_mail",
+   "en": "junk mail",
+   "uz": "keraksiz pochta (axlat xatlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I never open junk mail; I just get rid of it without reading it.",
+   "gap": "junk mail",
+   "alt": []
+  },
+  {
+   "id": "isp",
+   "en": "ISP",
+   "uz": "internet provayderi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our ISP sent a man to fix the cable, and the internet came back in an hour.",
+   "gap": "ISP",
+   "alt": [
+    "ISPs",
+    "Internet service provider"
+   ]
+  },
+  {
+   "id": "go_on_the_internet",
+   "en": "go on the Internet",
+   "uz": "internetga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There's no Wi-Fi at the camp, so the children can't go on the Internet for a whole week.",
+   "gap": "go on the Internet",
+   "alt": [
+    "goes on the Internet",
+    "went on the Internet",
+    "going on the Internet"
+   ]
+  },
+  {
+   "id": "do_an_internet_search",
+   "en": "do an Internet search",
+   "uz": "internetda qidiruv o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before buying the bike, Anvar did an Internet search to compare prices in different shops.",
+   "gap": "did an Internet search",
+   "alt": [
+    "does an Internet search",
+    "did an Internet search",
+    "doing an Internet search"
+   ]
+  },
+  {
+   "id": "buy_online",
+   "en": "buy online",
+   "uz": "internet orqali sotib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "These days more and more people buy online instead of going to the shops.",
+   "gap": "buy online",
+   "alt": [
+    "buys online",
+    "bought online",
+    "buying online"
+   ]
+  },
+  {
+   "id": "take_out_insurance",
+   "en": "take out insurance",
+   "uz": "sug‘urta rasmiylashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before their trip to Georgia, Ilhom and Gulya took out insurance in case they got ill abroad.",
+   "gap": "took out insurance",
+   "alt": [
+    "takes out insurance",
+    "took out insurance",
+    "taking out insurance"
+   ]
+  },
+  {
+   "id": "in_real_time",
+   "en": "in real time",
+   "uz": "real vaqt rejimida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The app shows the buses on a map in real time, so you know exactly when yours is coming.",
+   "gap": "in real time",
+   "alt": []
+  },
+  {
+   "id": "at_sign",
+   "en": "at",
+   "uz": "@ belgisining o‘qilishi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you read the address info@book.uz aloud, the sign @ is said as 'at'.",
+   "gap": "at",
+   "alt": []
+  },
+  {
+   "id": "dot",
+   "en": "dot",
+   "uz": "nuqta (manzilda o‘qilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In an email address, the full stop in 'gmail.com' is read as 'dot'.",
+   "gap": "dot",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "browse",
+   "surf_the_web"
+  ],
+  [
+   "browse",
+   "search_the_internet"
+  ],
+  [
+   "link",
+   "attachment"
+  ],
+  [
+   "download",
+   "upload"
+  ],
+  [
+   "download",
+   "install"
+  ],
+  [
+   "reply_to",
+   "delete"
+  ],
+  [
+   "blog",
+   "blogger"
+  ],
+  [
+   "go_online",
+   "connect"
+  ],
+  [
+   "website",
+   "blog"
+  ],
+  [
+   "click_on",
+   "double_click"
+  ],
+  [
+   "receive",
+   "download"
+  ],
+  [
+   "website",
+   "social_networking_site"
+  ],
+  [
+   "go_online",
+   "surf_the_web"
+  ],
+  [
+   "email_n",
+   "attachment"
+  ],
+  [
+   "junk_mail",
+   "spam"
+  ],
+  [
+   "go_on_the_internet",
+   "go_online"
+  ],
+  [
+   "go_on_the_internet",
+   "surf_the_web"
+  ],
+  [
+   "go_on_the_internet",
+   "browse"
+  ],
+  [
+   "go_on_the_internet",
+   "search_the_internet"
+  ],
+  [
+   "do_an_internet_search",
+   "search_the_internet"
+  ],
+  [
+   "do_an_internet_search",
+   "browse"
+  ],
+  [
+   "buy_online",
+   "go_online"
+  ],
+  [
+   "buy_online",
+   "browse"
+  ],
+  [
+   "buy_online",
+   "surf_the_web"
+  ],
+  [
+   "in_real_time",
+   "immediately"
+  ],
+  [
+   "at_sign",
+   "dot"
+  ],
+  [
+   "send",
+   "reply_to"
+  ],
+  [
+   "send",
+   "receive"
+  ],
+  [
+   "send",
+   "download"
+  ],
+  [
+   "send",
+   "upload"
+  ],
+  [
+   "go_on_the_internet",
+   "connect"
+  ],
+  [
+   "go_on_the_internet",
+   "download"
+  ]
+ ]
+}

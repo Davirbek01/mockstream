@@ -1,0 +1,453 @@
+{
+ "book": "preint",
+ "unit": 38,
+ "title": "Working in an office",
+ "title_uz": "Ofisda ishlash",
+ "words": [
+  {
+   "id": "calendar",
+   "en": "calendar",
+   "uz": "taqvim (devoriy kalendar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a big calendar on the wall with all the school holidays marked in red.",
+   "gap": "calendar",
+   "alt": [
+    "calendars"
+   ]
+  },
+  {
+   "id": "noticeboard",
+   "en": "noticeboard",
+   "uz": "e’lonlar taxtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new timetable is pinned on the noticeboard next to the staff room.",
+   "gap": "noticeboard",
+   "alt": [
+    "notice board",
+    "noticeboards"
+   ]
+  },
+  {
+   "id": "calculator",
+   "en": "calculator",
+   "uz": "kalkulyator",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can I borrow your calculator? I need to add up all these bills.",
+   "gap": "calculator",
+   "alt": [
+    "calculators"
+   ]
+  },
+  {
+   "id": "photocopier",
+   "en": "photocopier",
+   "uz": "nusxa ko‘chirish apparati",
+   "pos": "noun",
+   "img": true,
+   "ex": "Could you make twenty copies of this worksheet on the photocopier?",
+   "gap": "photocopier",
+   "alt": [
+    "photocopiers"
+   ]
+  },
+  {
+   "id": "diary",
+   "en": "diary",
+   "uz": "ish kundaligi (rejalar daftari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My boss writes all her meetings in a small diary that she keeps in her bag.",
+   "gap": "diary",
+   "alt": [
+    "diaries"
+   ]
+  },
+  {
+   "id": "file",
+   "en": "file",
+   "uz": "hujjat jildi (papka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The secretary keeps each student's documents in a separate file with their name on it.",
+   "gap": "file",
+   "alt": [
+    "files"
+   ]
+  },
+  {
+   "id": "keyboard",
+   "en": "keyboard",
+   "uz": "klaviatura",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some of the letters on my keyboard are stuck, so I can't type my password.",
+   "gap": "keyboard",
+   "alt": [
+    "keyboards"
+   ]
+  },
+  {
+   "id": "bin",
+   "en": "bin",
+   "uz": "axlat qutisi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Please don't throw old paper in the bin; we put it in the recycling box.",
+   "gap": "bin",
+   "alt": [
+    "bins",
+    "rubbish bin"
+   ]
+  },
+  {
+   "id": "filing_cabinet",
+   "en": "filing cabinet",
+   "uz": "hujjatlar javoni (tortmali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old exam papers are in the bottom drawer of the grey filing cabinet.",
+   "gap": "filing cabinet",
+   "alt": [
+    "filing cabinets"
+   ]
+  },
+  {
+   "id": "printer",
+   "en": "printer",
+   "uz": "printer (chop etish qurilmasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The printer in the library prints in colour, but it's very slow.",
+   "gap": "printer",
+   "alt": [
+    "printers"
+   ]
+  },
+  {
+   "id": "produce",
+   "en": "produce",
+   "uz": "ishlab chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This small factory in Kokand produces wooden toys and puzzles.",
+   "gap": "produces",
+   "alt": [
+    "produces",
+    "produced",
+    "producing"
+   ]
+  },
+  {
+   "id": "production",
+   "en": "production",
+   "uz": "ishlab chiqarish (jarayoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The factory stopped production for a week to repair its machines.",
+   "gap": "production",
+   "alt": []
+  },
+  {
+   "id": "paperwork",
+   "en": "paperwork",
+   "uz": "qog‘oz ishlari (hisobot, blankalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you can open a shop, there's a lot of paperwork: forms, licences and tax documents.",
+   "gap": "paperwork",
+   "alt": []
+  },
+  {
+   "id": "type",
+   "en": "type",
+   "uz": "(klaviaturada) matn termoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Feruza can type very fast without looking at her fingers.",
+   "gap": "type",
+   "alt": [
+    "types",
+    "typed",
+    "typing"
+   ]
+  },
+  {
+   "id": "invoice",
+   "en": "invoice",
+   "uz": "hisob-faktura (to‘lov hujjati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builder sent us an invoice for the new windows, and we have to pay it by Friday.",
+   "gap": "invoice",
+   "alt": [
+    "invoices"
+   ]
+  },
+  {
+   "id": "arrange",
+   "en": "arrange",
+   "uz": "tashkil qilmoq (kelishib olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our teacher arranged a visit to a chocolate factory for the whole class.",
+   "gap": "arranged",
+   "alt": [
+    "arranges",
+    "arranged",
+    "arranging"
+   ]
+  },
+  {
+   "id": "appointment",
+   "en": "appointment",
+   "uz": "oldindan belgilangan uchrashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika made an appointment with the eye doctor because the board looked blurry.",
+   "gap": "appointment",
+   "alt": [
+    "appointments"
+   ]
+  },
+  {
+   "id": "attendance",
+   "en": "attendance",
+   "uz": "davomat (qatnashish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bobur got a prize for perfect attendance: he didn't miss a single day of school all year.",
+   "gap": "attendance",
+   "alt": []
+  },
+  {
+   "id": "show_round",
+   "en": "show round",
+   "uz": "aylantirib ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the first day of school, new students are shown round the building by older pupils.",
+   "gap": "shown round",
+   "alt": [
+    "shows round",
+    "showed round",
+    "shown round",
+    "showing round",
+    "show around"
+   ]
+  },
+  {
+   "id": "break_down",
+   "en": "break down",
+   "uz": "buzilib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our old washing machine broke down in the middle of a wash, and the kitchen floor was full of water.",
+   "gap": "broke down",
+   "alt": [
+    "breaks down",
+    "broke down",
+    "broken down",
+    "breaking down"
+   ]
+  },
+  {
+   "id": "run_out_of",
+   "en": "run out of",
+   "uz": "…tugab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We ran out of milk, so I had my tea black this morning.",
+   "gap": "ran out of",
+   "alt": [
+    "runs out of",
+    "ran out of",
+    "running out of"
+   ]
+  },
+  {
+   "id": "colleague",
+   "en": "colleague",
+   "uz": "hamkasb",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad and his colleagues from the hospital play football every Saturday.",
+   "gap": "colleagues",
+   "alt": [
+    "colleagues"
+   ]
+  },
+  {
+   "id": "absent",
+   "en": "absent",
+   "uz": "kelmagan (ishda/darsda yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Five students were absent today because they had a high temperature.",
+   "gap": "absent",
+   "alt": []
+  },
+  {
+   "id": "loads_of",
+   "en": "loads of",
+   "uz": "juda ko‘p (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry, we've got loads of time before the train leaves.",
+   "gap": "loads of",
+   "alt": []
+  },
+  {
+   "id": "organise_event",
+   "en": "organise",
+   "uz": "uyushtirmoq (tadbirni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every December, Diyor organises a football tournament for the kids in his mahalla.",
+   "gap": "organises",
+   "alt": [
+    "organises",
+    "organised",
+    "organising",
+    "organize",
+    "organizes",
+    "organized"
+   ]
+  },
+  {
+   "id": "organisation",
+   "en": "organisation",
+   "uz": "tashkilot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Red Crescent is an organisation that helps people after floods and earthquakes.",
+   "gap": "organisation",
+   "alt": [
+    "organisations",
+    "organization"
+   ]
+  },
+  {
+   "id": "arrangement",
+   "en": "arrangement",
+   "uz": "kelishuv (oldindan tayyorgarlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We've made all the arrangements for the school trip: the bus, the tickets and the lunch.",
+   "gap": "arrangements",
+   "alt": [
+    "arrangements"
+   ]
+  },
+  {
+   "id": "factory",
+   "en": "factory",
+   "uz": "zavod (fabrika)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hundreds of new cars leave the factory in Asaka every day.",
+   "gap": "factory",
+   "alt": [
+    "factories"
+   ]
+  },
+  {
+   "id": "meeting",
+   "en": "meeting",
+   "uz": "majlis (yig‘ilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teachers have a meeting every Monday after lessons to plan the week.",
+   "gap": "meeting",
+   "alt": [
+    "meetings"
+   ]
+  },
+  {
+   "id": "task",
+   "en": "task",
+   "uz": "vazifa (topshiriq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My first task every morning at the office is to check the post.",
+   "gap": "task",
+   "alt": [
+    "tasks"
+   ]
+  },
+  {
+   "id": "off_absent",
+   "en": "off",
+   "uz": "ishda yo‘q (kasal yoki ta’tilda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ms Hakimova is off today with a bad cold, so another teacher is taking her class.",
+   "gap": "off",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "calendar",
+   "diary"
+  ],
+  [
+   "photocopier",
+   "printer"
+  ],
+  [
+   "file",
+   "filing_cabinet"
+  ],
+  [
+   "produce",
+   "production"
+  ],
+  [
+   "paperwork",
+   "invoice"
+  ],
+  [
+   "keyboard",
+   "type"
+  ],
+  [
+   "produce",
+   "deliver"
+  ],
+  [
+   "colleague",
+   "employee"
+  ],
+  [
+   "calendar",
+   "noticeboard"
+  ],
+  [
+   "organise_event",
+   "arrange"
+  ],
+  [
+   "off_absent",
+   "absent"
+  ],
+  [
+   "meeting",
+   "appointment"
+  ],
+  [
+   "arrangement",
+   "arrange"
+  ],
+  [
+   "firm_company",
+   "organisation"
+  ],
+  [
+   "factory",
+   "bakery"
+  ]
+ ]
+}

@@ -1,0 +1,415 @@
+{
+ "book": "advanced",
+ "unit": 16,
+ "title": "Free time: relaxation and leisure",
+ "title_uz": "Bo‘sh vaqt: dam olish va hordiq",
+ "words": [
+  {
+   "id": "rewarding_pastime",
+   "en": "rewarding",
+   "uz": "ko‘ngilga qoniqish beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It only takes two hours every Saturday, but volunteering at the animal shelter in Yunusabad is the most rewarding thing I do: I come home feeling I've really made a difference.",
+   "gap": "rewarding",
+   "alt": []
+  },
+  {
+   "id": "fruitful",
+   "en": "fruitful",
+   "uz": "samarali (yaxshi natija beradigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our partnership with a school in Termez has been very fruitful: together we've recorded a twenty-episode podcast series.",
+   "gap": "fruitful",
+   "alt": []
+  },
+  {
+   "id": "lucrative_pursuit",
+   "en": "lucrative",
+   "uz": "katta daromad keltiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Baking birthday cakes to order started as a hobby for Feruza, but it has become so lucrative that she now earns more from it than from her teaching job.",
+   "gap": "lucrative",
+   "alt": []
+  },
+  {
+   "id": "therapeutic",
+   "en": "therapeutic",
+   "uz": "shifobaxsh (tan va ruhga foydali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The rehabilitation centre teaches carpet weaving because the doctors find it therapeutic for patients recovering from long illnesses.",
+   "gap": "therapeutic",
+   "alt": []
+  },
+  {
+   "id": "relaxing",
+   "en": "relaxing",
+   "uz": "hordiq chiqaradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a week of exams, a slow walk through the botanical garden was exactly the relaxing break I needed.",
+   "gap": "relaxing",
+   "alt": []
+  },
+  {
+   "id": "calming",
+   "en": "calming",
+   "uz": "asabni tinchlantiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Whenever I'm nervous before a test, my mother makes me a cup of mint tea; it has a calming effect, and my hands stop shaking.",
+   "gap": "calming",
+   "alt": []
+  },
+  {
+   "id": "time_consuming",
+   "en": "time-consuming",
+   "uz": "ko‘p vaqt oladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Editing the school newspaper is far more time-consuming than I expected; proofreading alone leaves me barely any time for homework.",
+   "gap": "time-consuming",
+   "alt": [
+    "time consuming"
+   ]
+  },
+  {
+   "id": "culture_vulture",
+   "en": "culture vulture",
+   "uz": "madaniyat ishqibozi (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A true culture vulture, my uncle plans every trip abroad around concerts, exhibitions and old libraries rather than beaches.",
+   "gap": "culture vulture",
+   "alt": [
+    "culture vultures"
+   ]
+  },
+  {
+   "id": "couch_potato",
+   "en": "couch potato",
+   "uz": "divandan turmaydigan dangasa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since he got a games console, my brother has turned into a real couch potato; he hasn't been outside for a walk in weeks.",
+   "gap": "couch potato",
+   "alt": [
+    "couch potatoes"
+   ]
+  },
+  {
+   "id": "amateur",
+   "en": "amateur",
+   "uz": "havaskor (kasbiy emas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamol plays the doira in a folk band purely as an amateur; during the day he works as an engineer.",
+   "gap": "amateur",
+   "alt": [
+    "amateurs"
+   ]
+  },
+  {
+   "id": "dabbler",
+   "en": "dabbler",
+   "uz": "har ishni boshlab, tashlab ketadigan",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodira is a bit of a dabbler: last month it was pottery, this month it's the guitar, and next month it'll probably be chess.",
+   "gap": "dabbler",
+   "alt": [
+    "dabblers"
+   ]
+  },
+  {
+   "id": "chores",
+   "en": "chores",
+   "uz": "uy yumushlari (zerikarli ishlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't come to the cinema until I've done my chores: washing the dishes, sweeping the yard and taking out the rubbish.",
+   "gap": "chores",
+   "alt": [
+    "chore"
+   ]
+  },
+  {
+   "id": "shopaholic",
+   "en": "shopaholic",
+   "uz": "xarid qilishga ruju qo‘ygan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Being a real shopaholic, Zarina came home from the Samarqand Darvoza mall with three scarves she will never wear.",
+   "gap": "shopaholic",
+   "alt": [
+    "shopaholics"
+   ]
+  },
+  {
+   "id": "be_heavily_into",
+   "en": "be heavily into",
+   "uz": "nimagadir qattiq qiziqib qolgan bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "These days Sardor is heavily into mountain biking and spends every weekend on the trails in the hills near Parkent.",
+   "gap": "heavily into",
+   "alt": [
+    "heavily into",
+    "is heavily into",
+    "are heavily into",
+    "was heavily into"
+   ]
+  },
+  {
+   "id": "go_off",
+   "en": "go off",
+   "uz": "(nimadan) ko‘ngli sovimoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bekzod went off football when his team lost twelve matches in a row, and now he only watches tennis.",
+   "gap": "went off",
+   "alt": [
+    "went off",
+    "gone off",
+    "goes off",
+    "going off"
+   ]
+  },
+  {
+   "id": "take_up",
+   "en": "take up",
+   "uz": "(yangi mashg‘ulotni) boshlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After retiring from the bank, Mr Yusupov took up calligraphy, and now his work hangs in a small gallery in Kokand.",
+   "gap": "took up",
+   "alt": [
+    "took up",
+    "taken up",
+    "takes up",
+    "taking up"
+   ]
+  },
+  {
+   "id": "lock_yourself_away",
+   "en": "lock yourself away",
+   "uz": "o‘zini xonaga qamab olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the maths olympiad, Aziz locked himself away in his room for a week and solved hundreds of problems.",
+   "gap": "locked himself away",
+   "alt": [
+    "locked himself away",
+    "locks himself away",
+    "locked herself away",
+    "locks herself away"
+   ]
+  },
+  {
+   "id": "be_hooked_on",
+   "en": "be hooked on",
+   "uz": "nimagadir o‘rganib, qaram bo‘lib qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since the World Cup started, my little sister has been totally hooked on collecting football stickers and swaps them at school every day.",
+   "gap": "hooked on",
+   "alt": [
+    "hooked on",
+    "is hooked on",
+    "got hooked on",
+    "was hooked on"
+   ]
+  },
+  {
+   "id": "get_up_to",
+   "en": "get up to",
+   "uz": "(bo‘sh vaqtda) nima qilib yurmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "So what did you get up to during the Navruz holidays? Did you go anywhere nice?",
+   "gap": "get up to",
+   "alt": [
+    "got up to",
+    "gets up to",
+    "getting up to"
+   ]
+  },
+  {
+   "id": "hectic",
+   "en": "hectic",
+   "uz": "tig‘iz (tinimsiz band)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With concerts, birthdays and football matches, my cousin has such a hectic social life that she needs an app to keep track of it.",
+   "gap": "hectic",
+   "alt": []
+  },
+  {
+   "id": "full_diary",
+   "en": "full diary",
+   "uz": "band jadval (rejalar to‘la)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'd love to help with the project, but with music lessons, football practice and exams, I've got a very full diary until Friday.",
+   "gap": "full diary",
+   "alt": []
+  },
+  {
+   "id": "keen_participant",
+   "en": "keen participant",
+   "uz": "faol ishtirokchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour Mrs Rashidova is a keen participant in every community clean-up, from planting trees along the canal to painting the playground fence.",
+   "gap": "keen participant",
+   "alt": [
+    "keen participants"
+   ]
+  },
+  {
+   "id": "lawn",
+   "en": "lawn",
+   "uz": "maysazor (o‘tloq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please keep off the lawn; the new grass was only planted last week.",
+   "gap": "lawn",
+   "alt": [
+    "lawns"
+   ]
+  },
+  {
+   "id": "mow",
+   "en": "mow",
+   "uz": "(o‘tni) o‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every Saturday morning, Mr Karimov mows the football pitch behind the school before the matches start.",
+   "gap": "mows",
+   "alt": [
+    "mows",
+    "mowed",
+    "mowing",
+    "mown"
+   ]
+  },
+  {
+   "id": "professional",
+   "en": "professional",
+   "uz": "kasb sifatida shug‘ullanuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After winning the national junior title, Diyora turned professional and now earns her living from tennis.",
+   "gap": "professional",
+   "alt": [
+    "professionals"
+   ]
+  },
+  {
+   "id": "alcoholic",
+   "en": "alcoholic",
+   "uz": "ichkilikka mubtalo odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "The charity runs a support group where recovering alcoholics can talk openly about their problems.",
+   "gap": "alcoholics",
+   "alt": [
+    "alcoholics"
+   ]
+  },
+  {
+   "id": "chocaholic",
+   "en": "chocaholic",
+   "uz": "shokoladga o‘ch odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola admits she is a chocaholic: there is always a bar of something sweet hidden in her desk drawer.",
+   "gap": "chocaholic",
+   "alt": [
+    "chocoholic",
+    "chocaholics"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "rewarding_pastime",
+   "fruitful"
+  ],
+  [
+   "rewarding_pastime",
+   "therapeutic"
+  ],
+  [
+   "fruitful",
+   "lucrative_pursuit"
+  ],
+  [
+   "fruitful",
+   "time_consuming"
+  ],
+  [
+   "therapeutic",
+   "relaxing"
+  ],
+  [
+   "therapeutic",
+   "calming"
+  ],
+  [
+   "relaxing",
+   "calming"
+  ],
+  [
+   "time_consuming",
+   "hectic"
+  ],
+  [
+   "amateur",
+   "dabbler"
+  ],
+  [
+   "be_heavily_into",
+   "be_hooked_on"
+  ],
+  [
+   "couch_potato",
+   "culture_vulture"
+  ],
+  [
+   "rewarding_pastime",
+   "relaxing"
+  ],
+  [
+   "rewarding_pastime",
+   "calming"
+  ],
+  [
+   "professional",
+   "amateur"
+  ],
+  [
+   "alcoholic",
+   "shopaholic"
+  ],
+  [
+   "chocaholic",
+   "shopaholic"
+  ],
+  [
+   "alcoholic",
+   "chocaholic"
+  ],
+  [
+   "lawn",
+   "mow"
+  ],
+  [
+   "mow",
+   "chores"
+  ]
+ ]
+}

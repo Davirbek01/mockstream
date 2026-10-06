@@ -1,0 +1,845 @@
+{
+ "book": "preint",
+ "unit": 41,
+ "title": "Sport and leisure",
+ "title_uz": "Sport va bo‘sh vaqt",
+ "words": [
+  {
+   "id": "goalkeeper",
+   "en": "goalkeeper",
+   "uz": "darvozabon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our goalkeeper dived to the left, caught the ball with both hands and saved the penalty.",
+   "gap": "goalkeeper",
+   "alt": [
+    "goalkeepers"
+   ]
+  },
+  {
+   "id": "net",
+   "en": "net",
+   "uz": "to‘r (darvoza to‘ri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ball flew past the defenders and hit the back of the net, and the whole stadium jumped up.",
+   "gap": "net",
+   "alt": [
+    "nets"
+   ]
+  },
+  {
+   "id": "skis",
+   "en": "skis",
+   "uz": "chang‘i (juft)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dilshod fixed his boots to his skis and slowly went down the first snowy hill.",
+   "gap": "skis",
+   "alt": [
+    "ski"
+   ]
+  },
+  {
+   "id": "stick",
+   "en": "stick",
+   "uz": "xokkey tayoqchasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur swung his stick and hit the puck straight past the goalkeeper.",
+   "gap": "stick",
+   "alt": [
+    "sticks"
+   ]
+  },
+  {
+   "id": "swimming_costume",
+   "en": "swimming costume",
+   "uz": "cho‘milish kiyimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't forget to pack your swimming costume and a towel; the hotel has an outdoor pool.",
+   "gap": "swimming costume",
+   "alt": [
+    "swimming costumes"
+   ]
+  },
+  {
+   "id": "athletics",
+   "en": "athletics",
+   "uz": "yengil atletika",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the school sports day, Sevara won three athletics events: the long jump, the 200 metres and the relay.",
+   "gap": "athletics",
+   "alt": []
+  },
+  {
+   "id": "athlete",
+   "en": "athlete",
+   "uz": "yengil atletikachi / sportchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young athlete from Andijan cleared 2.10 metres and won the high jump.",
+   "gap": "athlete",
+   "alt": [
+    "athletes"
+   ]
+  },
+  {
+   "id": "track",
+   "en": "track",
+   "uz": "yugurish yo‘lakchasi (poyga yo‘li)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The runners walked out onto the red track and got ready for the 400 metres.",
+   "gap": "track",
+   "alt": [
+    "tracks"
+   ]
+  },
+  {
+   "id": "motor_racing",
+   "en": "motor racing",
+   "uz": "avtopoyga",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shavkat is crazy about fast cars, so he watches motor racing on TV every weekend.",
+   "gap": "motor racing",
+   "alt": []
+  },
+  {
+   "id": "racing_driver",
+   "en": "racing driver",
+   "uz": "poygachi haydovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The racing driver had a problem with his tyres on the last lap but still finished second.",
+   "gap": "racing driver",
+   "alt": [
+    "racing drivers"
+   ]
+  },
+  {
+   "id": "swimmer",
+   "en": "swimmer",
+   "uz": "suzuvchi (sportchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ozoda trains in the pool every morning before school because she wants to be a professional swimmer.",
+   "gap": "swimmer",
+   "alt": [
+    "swimmers"
+   ]
+  },
+  {
+   "id": "pool",
+   "en": "pool",
+   "uz": "basseyn",
+   "pos": "noun",
+   "img": true,
+   "ex": "Swimming lessons are on Thursdays in the indoor pool next to the school.",
+   "gap": "pool",
+   "alt": [
+    "pools",
+    "swimming pool"
+   ]
+  },
+  {
+   "id": "boxing",
+   "en": "boxing",
+   "uz": "boks",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ruslan has done boxing for six years, and he wears his lucky red gloves in every fight.",
+   "gap": "boxing",
+   "alt": []
+  },
+  {
+   "id": "boxer",
+   "en": "boxer",
+   "uz": "bokschi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the fight, the two boxers touched gloves and waited for the bell.",
+   "gap": "boxers",
+   "alt": [
+    "boxers"
+   ]
+  },
+  {
+   "id": "boxing_ring",
+   "en": "boxing ring",
+   "uz": "boks ringi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The two fighters climbed into the boxing ring, and the crowd started cheering.",
+   "gap": "boxing ring",
+   "alt": [
+    "boxing rings"
+   ]
+  },
+  {
+   "id": "skiing",
+   "en": "skiing",
+   "uz": "chang‘i sporti (chang‘ida uchish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every January our family goes skiing on the snowy slopes near Chimgan.",
+   "gap": "skiing",
+   "alt": []
+  },
+  {
+   "id": "skier",
+   "en": "skier",
+   "uz": "chang‘ichi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The skier lost one of her poles halfway down the mountain but slid to the bottom safely.",
+   "gap": "skier",
+   "alt": [
+    "skiers"
+   ]
+  },
+  {
+   "id": "ski_slope",
+   "en": "ski slope",
+   "uz": "chang‘i qiyaligi (trassasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The beginners stayed on the easy ski slopes near the hotel, while their instructor took the lift to the top.",
+   "gap": "ski slopes",
+   "alt": [
+    "ski slopes"
+   ]
+  },
+  {
+   "id": "footballer",
+   "en": "footballer",
+   "uz": "futbolchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jahongir is a footballer for a club in Namangan: he trains every morning and plays a match every Sunday.",
+   "gap": "footballer",
+   "alt": [
+    "footballers"
+   ]
+  },
+  {
+   "id": "pitch",
+   "en": "pitch",
+   "uz": "futbol maydoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the heavy rain, the football pitch was so muddy that the match was cancelled.",
+   "gap": "pitch",
+   "alt": [
+    "pitches"
+   ]
+  },
+  {
+   "id": "ice_hockey",
+   "en": "ice hockey",
+   "uz": "xokkey (muz ustida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Iroda's twin brothers play ice hockey, so their hallway is always full of pads, sticks and helmets.",
+   "gap": "ice hockey",
+   "alt": []
+  },
+  {
+   "id": "rink",
+   "en": "rink",
+   "uz": "muz maydoni (konkida uchish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturdays we go skating at the indoor rink in the shopping mall.",
+   "gap": "rink",
+   "alt": [
+    "rinks",
+    "ice rink"
+   ]
+  },
+  {
+   "id": "golf_course",
+   "en": "golf course",
+   "uz": "golf maydoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel by the lake has its own golf course, so guests can play eighteen holes before breakfast.",
+   "gap": "golf course",
+   "alt": [
+    "golf courses"
+   ]
+  },
+  {
+   "id": "basketball_court",
+   "en": "basketball court",
+   "uz": "basketbol maydonchasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The boys practise shooting hoops on the basketball court behind the school until it gets dark.",
+   "gap": "basketball court",
+   "alt": [
+    "basketball courts"
+   ]
+  },
+  {
+   "id": "sailing",
+   "en": "sailing",
+   "uz": "yelkanli qayiqda suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "On holiday by the sea we did a bit of sailing; the wind pushed our little boat right across the bay.",
+   "gap": "sailing",
+   "alt": []
+  },
+  {
+   "id": "tent",
+   "en": "tent",
+   "uz": "chodir",
+   "pos": "noun",
+   "img": true,
+   "ex": "It rained all night, but we stayed warm and dry inside our tent.",
+   "gap": "tent",
+   "alt": [
+    "tents"
+   ]
+  },
+  {
+   "id": "camping",
+   "en": "camping",
+   "uz": "chodirda dam olish (kemping)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every August our scout group goes camping near Zaamin and sleeps under the stars.",
+   "gap": "camping",
+   "alt": []
+  },
+  {
+   "id": "rock_climbing",
+   "en": "rock climbing",
+   "uz": "qoyaga tirmashib chiqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you want to try rock climbing, you need strong fingers, a helmet and a good rope.",
+   "gap": "rock climbing",
+   "alt": []
+  },
+  {
+   "id": "jogging",
+   "en": "jogging",
+   "uz": "sog‘liq uchun yengil yugurish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning before work, Mr Usmonov goes jogging around the park for twenty minutes.",
+   "gap": "jogging",
+   "alt": []
+  },
+  {
+   "id": "yoga",
+   "en": "yoga",
+   "uz": "yoga",
+   "pos": "noun",
+   "img": false,
+   "ex": "Munisa does yoga on a mat in her bedroom; she says it helps her relax and stretch.",
+   "gap": "yoga",
+   "alt": []
+  },
+  {
+   "id": "work_out",
+   "en": "work out",
+   "uz": "sport zalida mashq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since he joined the football club, Sanjar works out with weights for an hour after every training session.",
+   "gap": "works out",
+   "alt": [
+    "works out",
+    "worked out",
+    "working out"
+   ]
+  },
+  {
+   "id": "keep_fit",
+   "en": "keep fit",
+   "uz": "sog‘lom va chiniqqan bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Walking to school and back every day helps me keep fit.",
+   "gap": "keep fit",
+   "alt": [
+    "keeps fit",
+    "kept fit",
+    "keeping fit"
+   ]
+  },
+  {
+   "id": "for_fun",
+   "en": "for fun",
+   "uz": "shunchaki zavq uchun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Aziz isn't in a team; he just plays tennis with his neighbours for fun.",
+   "gap": "for fun",
+   "alt": []
+  },
+  {
+   "id": "golfer",
+   "en": "golfer",
+   "uz": "golfchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The golfer took a club from her bag, hit the ball gently, and it rolled into the hole.",
+   "gap": "golfer",
+   "alt": [
+    "golfers"
+   ]
+  },
+  {
+   "id": "gym",
+   "en": "gym",
+   "uz": "sport zali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has a new gym with running machines, weights and a climbing wall.",
+   "gap": "gym",
+   "alt": [
+    "gyms"
+   ]
+  },
+  {
+   "id": "sport",
+   "en": "sport",
+   "uz": "jismoniy musobaqa turi (tennis, kurash…)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Which sport do you enjoy most: tennis, judo or volleyball?",
+   "gap": "sport",
+   "alt": [
+    "sports"
+   ]
+  },
+  {
+   "id": "run_sport",
+   "en": "run",
+   "uz": "yugurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In a single match, a professional footballer can run about ten kilometres.",
+   "gap": "run",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "jump",
+   "en": "jump",
+   "uz": "sakramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bekzod can jump over a bar that is higher than his own head.",
+   "gap": "jump",
+   "alt": [
+    "jumps",
+    "jumped",
+    "jumping"
+   ]
+  },
+  {
+   "id": "throw",
+   "en": "throw",
+   "uz": "uloqtirmoq (otmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the javelin event, athletes throw a long spear as far as they can.",
+   "gap": "throw",
+   "alt": [
+    "throws",
+    "threw",
+    "thrown",
+    "throwing"
+   ]
+  },
+  {
+   "id": "race_verb",
+   "en": "race",
+   "uz": "poygada qatnashmoq (musobaqalashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sunday morning, forty cyclists will race through the city centre, and the fastest one wins a new bike.",
+   "gap": "race",
+   "alt": [
+    "races",
+    "raced",
+    "racing"
+   ]
+  },
+  {
+   "id": "drive_race",
+   "en": "drive",
+   "uz": "(mashina) haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A Formula 1 car is very hard to drive: one small mistake at 300 km/h and you crash.",
+   "gap": "drive",
+   "alt": [
+    "drives",
+    "drove",
+    "driven",
+    "driving"
+   ]
+  },
+  {
+   "id": "swim",
+   "en": "swim",
+   "uz": "suzmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you swim fifty metres underwater without coming up for air?",
+   "gap": "swim",
+   "alt": [
+    "swims",
+    "swam",
+    "swum"
+   ]
+  },
+  {
+   "id": "box_sport",
+   "en": "box",
+   "uz": "ringda musht bilan bellashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Anvar learned to box at a club near his flat, and now he fights in the ring with heavy gloves on.",
+   "gap": "box",
+   "alt": [
+    "boxes",
+    "boxed"
+   ]
+  },
+  {
+   "id": "ski_verb",
+   "en": "ski",
+   "uz": "chang‘ida uchmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In winter Nilufar puts on her boots and goggles and likes to ski down the snowy mountain at Beldersoy.",
+   "gap": "ski",
+   "alt": [
+    "skied"
+   ]
+  },
+  {
+   "id": "play_sport",
+   "en": "play",
+   "uz": "o‘ynamoq (sport o‘yini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every Friday after work, the office staff play basketball in the car park.",
+   "gap": "play",
+   "alt": [
+    "plays",
+    "played",
+    "playing"
+   ]
+  },
+  {
+   "id": "football",
+   "en": "football",
+   "uz": "darvozaga to‘p tepish o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the beach, the children made two goals out of sand and played football until sunset.",
+   "gap": "football",
+   "alt": []
+  },
+  {
+   "id": "golf",
+   "en": "golf",
+   "uz": "to‘pni chuqurchaga urish o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "To play golf, you need a set of clubs, a small white ball and plenty of patience.",
+   "gap": "golf",
+   "alt": []
+  },
+  {
+   "id": "basketball",
+   "en": "basketball",
+   "uz": "to‘pni savatga tashlash o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tall players have an advantage in basketball because the hoop is just over three metres high.",
+   "gap": "basketball",
+   "alt": []
+  },
+  {
+   "id": "swimming_sport",
+   "en": "swimming",
+   "uz": "suzish (sport turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora took swimming lessons at the sports centre and can now do twenty lengths without stopping.",
+   "gap": "swimming",
+   "alt": []
+  },
+  {
+   "id": "ice_hockey_player",
+   "en": "ice hockey player",
+   "uz": "muzda shayba o‘ynovchi sportchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ice hockey player skated slowly to the bench, took off his helmet and drank some water.",
+   "gap": "ice hockey player",
+   "alt": [
+    "ice hockey players"
+   ]
+  },
+  {
+   "id": "basketball_player",
+   "en": "basketball player",
+   "uz": "savatga to‘p tashlovchi o‘yinchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At 2.20 metres tall, the basketball player could drop the ball into the hoop without even jumping.",
+   "gap": "basketball player",
+   "alt": [
+    "basketball players"
+   ]
+  },
+  {
+   "id": "sail",
+   "en": "sail",
+   "uz": "yelkanli qayiqni boshqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the yacht club by the lake, children learn to sail small boats using only the wind.",
+   "gap": "sail",
+   "alt": [
+    "sails",
+    "sailed",
+    "sailing"
+   ]
+  },
+  {
+   "id": "leisure",
+   "en": "leisure",
+   "uz": "bo‘sh vaqt (dam olish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her leisure time, the head teacher paints pictures and grows roses.",
+   "gap": "leisure",
+   "alt": []
+  },
+  {
+   "id": "for_pleasure",
+   "en": "for pleasure",
+   "uz": "huzur qilish uchun (zavqlanib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rustam doesn't race any more; these days he only rides his bike for pleasure at weekends.",
+   "gap": "for pleasure",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "goalkeeper",
+   "footballer"
+  ],
+  [
+   "athlete",
+   "footballer"
+  ],
+  [
+   "athlete",
+   "swimmer"
+  ],
+  [
+   "athlete",
+   "boxer"
+  ],
+  [
+   "athlete",
+   "skier"
+  ],
+  [
+   "track",
+   "pitch"
+  ],
+  [
+   "pitch",
+   "basketball_court"
+  ],
+  [
+   "camping",
+   "rock_climbing"
+  ],
+  [
+   "jogging",
+   "athletics"
+  ],
+  [
+   "skiing",
+   "ski_slope"
+  ],
+  [
+   "boxing",
+   "boxing_ring"
+  ],
+  [
+   "goalkeeper",
+   "captain"
+  ],
+  [
+   "footballer",
+   "captain"
+  ],
+  [
+   "athlete",
+   "champion"
+  ],
+  [
+   "athlete",
+   "winner"
+  ],
+  [
+   "swimmer",
+   "champion"
+  ],
+  [
+   "boxer",
+   "champion"
+  ],
+  [
+   "golfer",
+   "athlete"
+  ],
+  [
+   "golfer",
+   "footballer"
+  ],
+  [
+   "golf_course",
+   "pitch"
+  ],
+  [
+   "work_out",
+   "keep_fit"
+  ],
+  [
+   "tent",
+   "camping"
+  ],
+  [
+   "goalkeeper",
+   "net"
+  ],
+  [
+   "goalkeeper",
+   "pitch"
+  ],
+  [
+   "basketball_court",
+   "gym"
+  ],
+  [
+   "skiing",
+   "camping"
+  ],
+  [
+   "skiing",
+   "rock_climbing"
+  ],
+  [
+   "skiing",
+   "jogging"
+  ],
+  [
+   "run_sport",
+   "race_verb"
+  ],
+  [
+   "drive_race",
+   "race_verb"
+  ],
+  [
+   "swim",
+   "sail"
+  ],
+  [
+   "ski_verb",
+   "skis"
+  ],
+  [
+   "ski_verb",
+   "skiing"
+  ],
+  [
+   "ski_verb",
+   "skier"
+  ],
+  [
+   "swimming_sport",
+   "swim"
+  ],
+  [
+   "swimming_sport",
+   "swimmer"
+  ],
+  [
+   "sail",
+   "sailing"
+  ],
+  [
+   "for_fun",
+   "for_pleasure"
+  ],
+  [
+   "footballer",
+   "ice_hockey_player"
+  ],
+  [
+   "footballer",
+   "basketball_player"
+  ],
+  [
+   "athlete",
+   "ice_hockey_player"
+  ],
+  [
+   "athlete",
+   "basketball_player"
+  ],
+  [
+   "ice_hockey_player",
+   "ice_hockey"
+  ],
+  [
+   "basketball_player",
+   "basketball"
+  ],
+  [
+   "football",
+   "footballer"
+  ],
+  [
+   "race_verb",
+   "race_contest"
+  ],
+  [
+   "leisure",
+   "for_pleasure"
+  ],
+  [
+   "sport",
+   "game"
+  ],
+  [
+   "sail",
+   "race_verb"
+  ]
+ ]
+}

@@ -1,0 +1,801 @@
+{
+ "book": "upper",
+ "unit": 73,
+ "title": "Abstract nouns",
+ "title_uz": "Mavhum otlar",
+ "words": [
+  {
+   "id": "affection",
+   "en": "affection",
+   "uz": "mehr (iliq his)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cats often show affection by rubbing their heads against your legs.",
+   "gap": "affection",
+   "alt": []
+  },
+  {
+   "id": "carelessness",
+   "en": "carelessness",
+   "uz": "beparvolik",
+   "pos": "noun",
+   "img": false,
+   "ex": "One moment of carelessness — looking at his phone while crossing the road — and he was knocked off his feet by a bicycle.",
+   "gap": "carelessness",
+   "alt": []
+  },
+  {
+   "id": "curiosity",
+   "en": "curiosity",
+   "uz": "qiziquvchanlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Out of curiosity, I opened the old wooden box in the cupboard to see what was inside.",
+   "gap": "curiosity",
+   "alt": []
+  },
+  {
+   "id": "generosity",
+   "en": "generosity",
+   "uz": "saxiylik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to the generosity of local businesses, the school was able to buy twenty new computers.",
+   "gap": "generosity",
+   "alt": []
+  },
+  {
+   "id": "politeness",
+   "en": "politeness",
+   "uz": "xushmuomalalik, odob",
+   "pos": "noun",
+   "img": false,
+   "ex": "We teach the little ones basic politeness: to say 'please', 'thank you' and 'excuse me'.",
+   "gap": "politeness",
+   "alt": []
+  },
+  {
+   "id": "laziness",
+   "en": "laziness",
+   "uz": "dangasalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "He's clever, but laziness is his real problem: he stays in bed until noon and never finishes anything.",
+   "gap": "laziness",
+   "alt": []
+  },
+  {
+   "id": "eagerness",
+   "en": "eagerness",
+   "uz": "intiqlik, ishtiyoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her eagerness to get to the front of the queue, she pushed past everyone else.",
+   "gap": "eagerness",
+   "alt": []
+  },
+  {
+   "id": "creativity",
+   "en": "creativity",
+   "uz": "ijodkorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Art and music lessons help children develop their creativity and imagination.",
+   "gap": "creativity",
+   "alt": []
+  },
+  {
+   "id": "popularity",
+   "en": "popularity",
+   "uz": "ommaviylik (ko‘pchilikka yoqishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The popularity of electric scooters has grown fast in our city: you see them on every corner.",
+   "gap": "popularity",
+   "alt": []
+  },
+  {
+   "id": "retirement",
+   "en": "retirement",
+   "uz": "nafaqaga chiqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After forty years at the same school, our maths teacher is looking forward to her retirement next spring.",
+   "gap": "retirement",
+   "alt": []
+  },
+  {
+   "id": "frustration",
+   "en": "frustration",
+   "uz": "alam (uddalay olmaganidan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He banged the table in frustration when his computer crashed for the third time that evening.",
+   "gap": "frustration",
+   "alt": []
+  },
+  {
+   "id": "disagreement",
+   "en": "disagreement",
+   "uz": "kelishmovchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a disagreement between the two teams about whether the ball had crossed the line.",
+   "gap": "disagreement",
+   "alt": [
+    "disagreements"
+   ]
+  },
+  {
+   "id": "expectation",
+   "en": "expectation",
+   "uz": "kutilgan natija (umid)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film was good, but it didn't quite live up to my expectations.",
+   "gap": "expectations",
+   "alt": [
+    "expectations"
+   ]
+  },
+  {
+   "id": "improvement",
+   "en": "improvement",
+   "uz": "yaxshilanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "There has been a big improvement in your handwriting since September — well done!",
+   "gap": "improvement",
+   "alt": [
+    "improvements"
+   ]
+  },
+  {
+   "id": "amazement",
+   "en": "amazement",
+   "uz": "hayrat",
+   "pos": "noun",
+   "img": false,
+   "ex": "To our amazement, the tiny girl lifted the heavy suitcase all by herself.",
+   "gap": "amazement",
+   "alt": []
+  },
+  {
+   "id": "sensitivity",
+   "en": "sensitivity",
+   "uz": "ta’sirchanlik (…ga sezgirlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sevara's eyes have a strong sensitivity to bright light, so she wears dark glasses even in spring.",
+   "gap": "sensitivity",
+   "alt": []
+  },
+  {
+   "id": "kindness",
+   "en": "kindness",
+   "uz": "yaxshilik (boshqaga yordam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old lady next door never forgot the kindness of the boy who helped her up the icy steps.",
+   "gap": "kindness",
+   "alt": []
+  },
+  {
+   "id": "weakness",
+   "en": "weakness",
+   "uz": "zaif tomon (kamchilik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her only weakness as a footballer is her left foot: she can hardly kick with it at all.",
+   "gap": "weakness",
+   "alt": [
+    "weaknesses"
+   ]
+  },
+  {
+   "id": "collection",
+   "en": "collection",
+   "uz": "to‘plam (yig‘ma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school librarian has a collection of over two thousand old stamps from all over the world.",
+   "gap": "collection",
+   "alt": [
+    "collections"
+   ]
+  },
+  {
+   "id": "investment",
+   "en": "investment",
+   "uz": "sarmoya (foyda keltiruvchi sarf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good dictionary is a smart investment for any language learner: you'll use it for years.",
+   "gap": "investment",
+   "alt": [
+    "investments"
+   ]
+  },
+  {
+   "id": "reduction",
+   "en": "reduction",
+   "uz": "chegirma, kamaytirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a 20% reduction on all winter coats in the sale this week.",
+   "gap": "reduction",
+   "alt": [
+    "reductions"
+   ]
+  },
+  {
+   "id": "hostility",
+   "en": "hostility",
+   "uz": "adovat, dushmanlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two neighbours haven't spoken for years, and you can feel the hostility whenever they pass in the street.",
+   "gap": "hostility",
+   "alt": []
+  },
+  {
+   "id": "authority",
+   "en": "authority",
+   "uz": "vakolat (qaror qilish huquqi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only the head teacher has the authority to close the school because of heavy snow.",
+   "gap": "authority",
+   "alt": []
+  },
+  {
+   "id": "consciousness",
+   "en": "consciousness",
+   "uz": "hush (es-hush)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He slipped on the ice, hit his head and lost consciousness for a few seconds.",
+   "gap": "consciousness",
+   "alt": []
+  },
+  {
+   "id": "combination",
+   "en": "combination",
+   "uz": "uyg‘unlik, birikma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Green tea with lemon and honey is my favourite combination on a cold day.",
+   "gap": "combination",
+   "alt": [
+    "combinations"
+   ]
+  },
+  {
+   "id": "boredom",
+   "en": "boredom",
+   "uz": "zerikish",
+   "pos": "noun",
+   "img": false,
+   "ex": "To fight the boredom of the long train journey, we played word games.",
+   "gap": "boredom",
+   "alt": []
+  },
+  {
+   "id": "freedom",
+   "en": "freedom",
+   "uz": "erkinlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "University students enjoy a lot more freedom than school pupils: no uniforms and no bells.",
+   "gap": "freedom",
+   "alt": []
+  },
+  {
+   "id": "wisdom",
+   "en": "wisdom",
+   "uz": "donolik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old fisherman's wisdom came from sixty years of watching the sea and the sky.",
+   "gap": "wisdom",
+   "alt": []
+  },
+  {
+   "id": "strength",
+   "en": "strength",
+   "uz": "jismoniy kuch",
+   "pos": "noun",
+   "img": false,
+   "ex": "You need a lot of strength to carry a big water bottle up five flights of stairs.",
+   "gap": "strength",
+   "alt": []
+  },
+  {
+   "id": "warmth",
+   "en": "warmth",
+   "uz": "samimiyat, iliqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The warmth of the welcome at the guesthouse made us feel at home immediately.",
+   "gap": "warmth",
+   "alt": []
+  },
+  {
+   "id": "stardom",
+   "en": "stardom",
+   "uz": "yulduzlik maqomi (shon-shuhrat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young singer shot to stardom after one video of her went viral.",
+   "gap": "stardom",
+   "alt": []
+  },
+  {
+   "id": "kingdom",
+   "en": "kingdom",
+   "uz": "qirollik (podsholik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the fairy tale, the old king ruled a small kingdom between the mountains and the sea.",
+   "gap": "kingdom",
+   "alt": [
+    "kingdoms"
+   ]
+  },
+  {
+   "id": "adulthood",
+   "en": "adulthood",
+   "uz": "voyaga yetganlik davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "On her eighteenth birthday, Lola joked that adulthood meant paying for her own phone.",
+   "gap": "adulthood",
+   "alt": []
+  },
+  {
+   "id": "neighbourhood",
+   "en": "neighbourhood",
+   "uz": "atrof-mahalla, tuman",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's a quiet neighbourhood with lots of parks and a good school nearby.",
+   "gap": "neighbourhood",
+   "alt": [
+    "neighborhood",
+    "neighbourhoods"
+   ]
+  },
+  {
+   "id": "companionship",
+   "en": "companionship",
+   "uz": "hamrohlik (yolg‘iz qolmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many elderly people who live alone get a pet for companionship.",
+   "gap": "companionship",
+   "alt": []
+  },
+  {
+   "id": "apprenticeship",
+   "en": "apprenticeship",
+   "uz": "shogirdlik (hunar o‘rganish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During her apprenticeship at a tailor's shop, Madina learned to cut and sew a suit by hand.",
+   "gap": "apprenticeship",
+   "alt": [
+    "apprenticeships"
+   ]
+  },
+  {
+   "id": "partnership",
+   "en": "partnership",
+   "uz": "sheriklik (biznesda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two friends signed a partnership agreement and agreed to share the profits of their bakery fifty-fifty.",
+   "gap": "partnership",
+   "alt": [
+    "partnerships"
+   ]
+  },
+  {
+   "id": "ownership",
+   "en": "ownership",
+   "uz": "egalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel is now under new ownership: a big company bought it last year.",
+   "gap": "ownership",
+   "alt": []
+  },
+  {
+   "id": "relationship",
+   "en": "relationship",
+   "uz": "o‘zaro munosabat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ms Saidova has a great relationship with her students: they trust her completely.",
+   "gap": "relationship",
+   "alt": [
+    "relationships"
+   ]
+  },
+  {
+   "id": "advice",
+   "en": "advice",
+   "uz": "maslahat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My older sister gave me some good advice: always read the question twice before you answer.",
+   "gap": "advice",
+   "alt": []
+  },
+  {
+   "id": "intention",
+   "en": "intention",
+   "uz": "niyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "I had no intention of staying up late, but the film was too exciting to stop.",
+   "gap": "intention",
+   "alt": [
+    "intentions"
+   ]
+  },
+  {
+   "id": "belief",
+   "en": "belief",
+   "uz": "ishonch, e’tiqod (qat’iy fikr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our PE teacher has a firm belief that a cold shower in the morning cures almost everything.",
+   "gap": "belief",
+   "alt": [
+    "beliefs"
+   ]
+  },
+  {
+   "id": "principle",
+   "en": "principle",
+   "uz": "tamoyil (qat’iy qoida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I never copy other people's homework; for me, it's a matter of principle.",
+   "gap": "principle",
+   "alt": [
+    "principles"
+   ]
+  },
+  {
+   "id": "sight",
+   "en": "sight",
+   "uz": "ko‘rish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour's sight is getting worse, so he needs stronger glasses to read the newspaper.",
+   "gap": "sight",
+   "alt": []
+  },
+  {
+   "id": "luck",
+   "en": "luck",
+   "uz": "omad",
+   "pos": "noun",
+   "img": false,
+   "ex": "We missed the bus, but by pure luck a neighbour drove past and gave us a lift.",
+   "gap": "luck",
+   "alt": []
+  },
+  {
+   "id": "temptation",
+   "en": "temptation",
+   "uz": "vasvasa",
+   "pos": "noun",
+   "img": false,
+   "ex": "With a box of chocolates on the table, the temptation to eat just one more is almost too strong.",
+   "gap": "temptation",
+   "alt": []
+  },
+  {
+   "id": "fear",
+   "en": "fear",
+   "uz": "qo‘rquv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her fear of heights means she never goes out on the balcony of her tenth-floor flat.",
+   "gap": "fear",
+   "alt": [
+    "fears"
+   ]
+  },
+  {
+   "id": "justice",
+   "en": "justice",
+   "uz": "adolat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The families went to court because they wanted justice, not money.",
+   "gap": "justice",
+   "alt": []
+  },
+  {
+   "id": "injustice",
+   "en": "injustice",
+   "uz": "adolatsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Paying women less than men for exactly the same job is a clear injustice.",
+   "gap": "injustice",
+   "alt": [
+    "injustices"
+   ]
+  },
+  {
+   "id": "pen",
+   "en": "pen",
+   "uz": "ruchka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can I borrow a pen? Mine has run out of ink.",
+   "gap": "pen",
+   "alt": [
+    "pens"
+   ]
+  },
+  {
+   "id": "bed",
+   "en": "bed",
+   "uz": "karavot (o‘rin)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The hotel room had two single beds and a small table by the window.",
+   "gap": "beds",
+   "alt": [
+    "beds"
+   ]
+  },
+  {
+   "id": "activity",
+   "en": "activity",
+   "uz": "mashg‘ulot, faoliyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The summer camp offers lots of outdoor activities, like rafting, archery and horse riding.",
+   "gap": "activities",
+   "alt": [
+    "activities"
+   ]
+  },
+  {
+   "id": "adjustment",
+   "en": "adjustment",
+   "uz": "moslashtirish (kichik tuzatish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tailor made a few small adjustments to the jacket so that the sleeves were exactly the right length.",
+   "gap": "adjustments",
+   "alt": [
+    "adjustments"
+   ]
+  },
+  {
+   "id": "friendliness",
+   "en": "friendliness",
+   "uz": "do‘stona muomala",
+   "pos": "noun",
+   "img": false,
+   "ex": "The friendliness of the villagers surprised us: strangers smiled, chatted and invited us in for tea like old friends.",
+   "gap": "friendliness",
+   "alt": []
+  },
+  {
+   "id": "limitation",
+   "en": "limitation",
+   "uz": "cheklov (imkoniyat chegarasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The free version of the app has one big limitation: you can only save three files.",
+   "gap": "limitation",
+   "alt": [
+    "limitations"
+   ]
+  },
+  {
+   "id": "breadth_size",
+   "en": "breadth",
+   "uz": "kenglik (ikki cheti oralig‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The river is about two hundred metres in breadth at this point, so the bridge across it is quite long.",
+   "gap": "breadth",
+   "alt": []
+  },
+  {
+   "id": "martyrdom",
+   "en": "martyrdom",
+   "uz": "shahidlik (e’tiqod uchun o‘lim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old church window shows the martyrdom of a saint who died rather than give up his beliefs.",
+   "gap": "martyrdom",
+   "alt": []
+  },
+  {
+   "id": "womanhood",
+   "en": "womanhood",
+   "uz": "ayollik (qizning ayolga aylanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many cultures, a special ceremony marks a girl's passage into womanhood.",
+   "gap": "womanhood",
+   "alt": []
+  },
+  {
+   "id": "manhood",
+   "en": "manhood",
+   "uz": "erkaklik (o‘smirning erkakka aylanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the old tribe, a boy's first hunt was seen as his first step into manhood.",
+   "gap": "manhood",
+   "alt": []
+  },
+  {
+   "id": "electrician",
+   "en": "electrician",
+   "uz": "elektr ustasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We called an electrician because every time we switched on the kettle, all the lights went out.",
+   "gap": "electrician",
+   "alt": [
+    "electricians"
+   ]
+  },
+  {
+   "id": "anger",
+   "en": "anger",
+   "uz": "jahl, achchiq",
+   "pos": "noun",
+   "img": false,
+   "ex": "She managed to control her anger and answered the rude customer politely.",
+   "gap": "anger",
+   "alt": []
+  },
+  {
+   "id": "rage",
+   "en": "rage",
+   "uz": "qattiq g‘azab (o‘zini yo‘qotib)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When he found a deep scratch on his new car, he flew into a rage and kicked the tyre.",
+   "gap": "rage",
+   "alt": []
+  },
+  {
+   "id": "faith",
+   "en": "faith",
+   "uz": "to‘la ishonch (…ga suyanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I have complete faith in our goalkeeper: he never lets us down in a penalty shoot-out.",
+   "gap": "faith",
+   "alt": []
+  },
+  {
+   "id": "humour",
+   "en": "humour",
+   "uz": "hazil-mutoyiba",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history teacher's dry humour makes even long lists of dates fun to learn.",
+   "gap": "humour",
+   "alt": [
+    "humor"
+   ]
+  },
+  {
+   "id": "idea",
+   "en": "idea",
+   "uz": "g‘oya, taklif",
+   "pos": "noun",
+   "img": false,
+   "ex": "Whose idea was it to go camping in November? My tent is full of ice!",
+   "gap": "idea",
+   "alt": [
+    "ideas"
+   ]
+  },
+  {
+   "id": "thought",
+   "en": "thought",
+   "uz": "o‘y, xayol",
+   "pos": "noun",
+   "img": false,
+   "ex": "I was lost in thought and didn't hear the teacher call my name.",
+   "gap": "thought",
+   "alt": [
+    "thoughts"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "warmth",
+   "generosity"
+  ],
+  [
+   "kindness",
+   "generosity"
+  ],
+  [
+   "kindness",
+   "warmth"
+  ],
+  [
+   "kindness",
+   "affection"
+  ],
+  [
+   "curiosity",
+   "boredom"
+  ],
+  [
+   "adjustment",
+   "improvement"
+  ],
+  [
+   "friendliness",
+   "warmth"
+  ],
+  [
+   "friendliness",
+   "kindness"
+  ],
+  [
+   "limitation",
+   "weakness"
+  ],
+  [
+   "womanhood",
+   "adulthood"
+  ],
+  [
+   "manhood",
+   "adulthood"
+  ],
+  [
+   "anger",
+   "rage"
+  ],
+  [
+   "anger",
+   "frustration"
+  ],
+  [
+   "faith",
+   "belief"
+  ],
+  [
+   "idea",
+   "thought"
+  ],
+  [
+   "idea",
+   "advice"
+  ],
+  [
+   "idea",
+   "intention"
+  ],
+  [
+   "generosity",
+   "friendliness"
+  ],
+  [
+   "frustration",
+   "rage"
+  ]
+ ]
+}

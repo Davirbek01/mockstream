@@ -1,0 +1,440 @@
+{
+ "book": "preint",
+ "unit": 39,
+ "title": "Running a company",
+ "title_uz": "Kompaniyani boshqarish",
+ "words": [
+  {
+   "id": "achieve",
+   "en": "achieve",
+   "uz": "(mehnat bilan) erishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our volleyball team achieved its best result ever this year: second place in the region.",
+   "gap": "achieved",
+   "alt": [
+    "achieves",
+    "achieved",
+    "achieving"
+   ]
+  },
+  {
+   "id": "achievement",
+   "en": "achievement",
+   "uz": "yutuq (erishilgan natija)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Getting into the national chess final was a big achievement for a twelve-year-old from a village school.",
+   "gap": "achievement",
+   "alt": [
+    "achievements"
+   ]
+  },
+  {
+   "id": "a_great_deal",
+   "en": "a great deal",
+   "uz": "juda ko‘p (anchagina)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ozoda has learnt a great deal about computers since she joined the coding club.",
+   "gap": "a great deal",
+   "alt": []
+  },
+  {
+   "id": "bakery",
+   "en": "bakery",
+   "uz": "novvoyxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning we buy hot bread from the bakery at the end of our street.",
+   "gap": "bakery",
+   "alt": [
+    "bakeries"
+   ]
+  },
+  {
+   "id": "family_business",
+   "en": "family business",
+   "uz": "oilaviy biznes",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shoe shop is a family business: the father, his two sons and his daughter all work there.",
+   "gap": "family business",
+   "alt": []
+  },
+  {
+   "id": "currently",
+   "en": "currently",
+   "uz": "hozirda (ayni paytda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our school is currently looking for a new chemistry teacher.",
+   "gap": "currently",
+   "alt": []
+  },
+  {
+   "id": "aim",
+   "en": "aim",
+   "uz": "maqsad (ko‘zlangan natija)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The aim of the project is to plant ten thousand trees in the city.",
+   "gap": "aim",
+   "alt": [
+    "aims"
+   ]
+  },
+  {
+   "id": "variety",
+   "en": "variety",
+   "uz": "xilma-xillik (turli xil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The stall sells a variety of dried fruit and nuts, from raisins to almonds.",
+   "gap": "variety",
+   "alt": []
+  },
+  {
+   "id": "quality",
+   "en": "quality",
+   "uz": "sifat",
+   "pos": "noun",
+   "img": false,
+   "ex": "These trainers were cheap, but the quality is terrible: they broke after a week.",
+   "gap": "quality",
+   "alt": []
+  },
+  {
+   "id": "demand",
+   "en": "demand",
+   "uz": "talab (xaridorgirlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In summer there is a big demand for ice cream and cold drinks.",
+   "gap": "demand",
+   "alt": []
+  },
+  {
+   "id": "expert",
+   "en": "expert",
+   "uz": "mutaxassis (ekspert)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum invited an expert to check whether the old coins were real.",
+   "gap": "expert",
+   "alt": [
+    "experts"
+   ]
+  },
+  {
+   "id": "daily",
+   "en": "daily",
+   "uz": "har kuni (kundalik)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Fresh milk is delivered to the school canteen daily, except on Sundays.",
+   "gap": "daily",
+   "alt": []
+  },
+  {
+   "id": "deliver",
+   "en": "deliver",
+   "uz": "yetkazib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The shop delivers fresh vegetables to your door within two hours.",
+   "gap": "delivers",
+   "alt": [
+    "delivers",
+    "delivered",
+    "delivering"
+   ]
+  },
+  {
+   "id": "expand",
+   "en": "expand",
+   "uz": "kengaymoq (kattalashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The small coffee shop expanded quickly and now has eight cafés across the country.",
+   "gap": "expanded",
+   "alt": [
+    "expands",
+    "expanded",
+    "expanding"
+   ]
+  },
+  {
+   "id": "formerly",
+   "en": "formerly",
+   "uz": "ilgari (oldin)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The library building was formerly a cinema.",
+   "gap": "formerly",
+   "alt": []
+  },
+  {
+   "id": "take_over",
+   "en": "take over",
+   "uz": "(boshqa kompaniyani) egallab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A big supermarket chain took over the small local shop last year.",
+   "gap": "took over",
+   "alt": [
+    "takes over",
+    "took over",
+    "taken over",
+    "taking over"
+   ]
+  },
+  {
+   "id": "take_up",
+   "en": "take up",
+   "uz": "(yangi lavozimga) kirishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mrs Alimova will take up her new job as head teacher in September.",
+   "gap": "take up",
+   "alt": [
+    "takes up",
+    "took up",
+    "taken up",
+    "taking up"
+   ]
+  },
+  {
+   "id": "headquarters",
+   "en": "headquarters",
+   "uz": "bosh ofis (bosh qarorgoh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company has offices in five cities, but its headquarters are in the capital.",
+   "gap": "headquarters",
+   "alt": []
+  },
+  {
+   "id": "company_branch",
+   "en": "branch",
+   "uz": "filial (kompaniya bo‘limi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank is opening a new branch near our school next month.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "contact",
+   "en": "contact",
+   "uz": "tanish (foydali aloqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a journalist, Ziyoda has useful contacts in many hospitals and universities.",
+   "gap": "contacts",
+   "alt": [
+    "contacts"
+   ]
+  },
+  {
+   "id": "client",
+   "en": "client",
+   "uz": "mijoz (xizmatdan foydalanuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour designs logos, and most of her clients are small cafés and shops.",
+   "gap": "clients",
+   "alt": [
+    "clients"
+   ]
+  },
+  {
+   "id": "attract_attention",
+   "en": "attract attention",
+   "uz": "e’tiborni tortmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bright yellow sign attracts attention from the other side of the street.",
+   "gap": "attracts attention",
+   "alt": [
+    "attracts attention",
+    "attracted attention",
+    "attracting attention"
+   ]
+  },
+  {
+   "id": "ambition",
+   "en": "ambition",
+   "uz": "katta orzu (intilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her ambition is to become the first doctor in her family.",
+   "gap": "ambition",
+   "alt": [
+    "ambitions"
+   ]
+  },
+  {
+   "id": "image",
+   "en": "image",
+   "uz": "obro‘, imij (tashqi taassurot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football club wants to improve its image after its fans started fights at the stadium.",
+   "gap": "image",
+   "alt": []
+  },
+  {
+   "id": "former",
+   "en": "former",
+   "uz": "sobiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new sports shop is owned by a former tennis player.",
+   "gap": "former",
+   "alt": []
+  },
+  {
+   "id": "employee",
+   "en": "employee",
+   "uz": "xodim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company has forty employees and plans to hire ten more this year.",
+   "gap": "employees",
+   "alt": [
+    "employees"
+   ]
+  },
+  {
+   "id": "firm_company",
+   "en": "firm",
+   "uz": "kompaniya (korxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister works for a small law firm that helps families buy and sell houses.",
+   "gap": "firm",
+   "alt": [
+    "firms"
+   ]
+  },
+  {
+   "id": "position",
+   "en": "position",
+   "uz": "lavozim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Komil applied for the position of head chef at a new hotel in Nukus.",
+   "gap": "position",
+   "alt": [
+    "positions"
+   ]
+  },
+  {
+   "id": "partner_business",
+   "en": "partner",
+   "uz": "hamkor (firma sherigi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bahrom and his business partner each own half of the printing company.",
+   "gap": "partner",
+   "alt": [
+    "partners"
+   ]
+  },
+  {
+   "id": "ex_wife",
+   "en": "ex-wife",
+   "uz": "sobiq xotini",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actor and his ex-wife divorced ten years ago, but they are still good friends.",
+   "gap": "ex-wife",
+   "alt": [
+    "ex-wives",
+    "ex wife"
+   ]
+  },
+  {
+   "id": "ex_boyfriend",
+   "en": "ex-boyfriend",
+   "uz": "sobiq yigiti (sevgilisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After they broke up, Nora deleted all the photos of her ex-boyfriend.",
+   "gap": "ex-boyfriend",
+   "alt": [
+    "ex-boyfriends",
+    "ex boyfriend"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "aim",
+   "ambition"
+  ],
+  [
+   "achieve",
+   "achievement"
+  ],
+  [
+   "formerly",
+   "former"
+  ],
+  [
+   "headquarters",
+   "company_branch"
+  ],
+  [
+   "contact",
+   "client"
+  ],
+  [
+   "take_over",
+   "take_up"
+  ],
+  [
+   "expert",
+   "employee"
+  ],
+  [
+   "currently",
+   "daily"
+  ],
+  [
+   "quality",
+   "value"
+  ],
+  [
+   "achievement",
+   "ambition"
+  ],
+  [
+   "firm_company",
+   "family_business"
+  ],
+  [
+   "ex_wife",
+   "ex_boyfriend"
+  ],
+  [
+   "ex_wife",
+   "former"
+  ],
+  [
+   "partner_business",
+   "contact"
+  ],
+  [
+   "partner_business",
+   "client"
+  ],
+  [
+   "partner_business",
+   "colleague"
+  ]
+ ]
+}

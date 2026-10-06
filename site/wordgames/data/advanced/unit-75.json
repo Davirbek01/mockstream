@@ -1,0 +1,595 @@
+{
+ "book": "advanced",
+ "unit": 75,
+ "title": "A pat on the back: complimenting and praising",
+ "title_uz": "Yelkaga qoqish: maqtov va olqish",
+ "words": [
+  {
+   "id": "pay_compliments",
+   "en": "pay compliments",
+   "uz": "maqtov so‘zlar aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our coach rarely paid compliments, so when she said 'Well played', we knew she really meant it.",
+   "gap": "paid compliments",
+   "alt": [
+    "paid compliments",
+    "pays compliments",
+    "paying compliments",
+    "pay someone a compliment"
+   ]
+  },
+  {
+   "id": "compliment_on",
+   "en": "compliment someone on",
+   "uz": "biror narsasi uchun maqtamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The judges complimented Zarina on her clear pronunciation.",
+   "gap": "complimented",
+   "alt": [
+    "complimented",
+    "compliments",
+    "complimenting",
+    "compliment"
+   ]
+  },
+  {
+   "id": "fish_for_compliments",
+   "en": "fish for compliments",
+   "uz": "maqtov kutib gapirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Munisa kept saying her cake was a disaster, but I think she was just fishing for compliments.",
+   "gap": "fishing for compliments",
+   "alt": [
+    "fishing for compliments",
+    "fished for compliments",
+    "fishes for compliments"
+   ]
+  },
+  {
+   "id": "take_as_compliment",
+   "en": "take it as a compliment",
+   "uz": "maqtov deb qabul qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When my students say my tests are hard but fair, I take it as a compliment.",
+   "gap": "take it as a compliment",
+   "alt": [
+    "took it as a compliment",
+    "takes it as a compliment",
+    "taking it as a compliment"
+   ]
+  },
+  {
+   "id": "back_handed_compliment",
+   "en": "back-handed compliment",
+   "uz": "kesatiqli maqtov (zaharxanda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Your essay was surprisingly good for someone who never reads,' said Doniyor: a back-handed compliment meant to sting.",
+   "gap": "back-handed compliment",
+   "alt": [
+    "backhanded compliment",
+    "back-handed compliments"
+   ]
+  },
+  {
+   "id": "double_edged_compliment",
+   "en": "double-edged compliment",
+   "uz": "ikki ma’noli maqtov (beg‘araz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'You look much younger in real life than in your photos,' the fan said innocently, a double-edged compliment that left the singer unsure whether to smile.",
+   "gap": "double-edged compliment",
+   "alt": [
+    "double-edged compliments"
+   ]
+  },
+  {
+   "id": "praiseworthy",
+   "en": "praiseworthy",
+   "uz": "maqtovga loyiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Collecting litter along the riverbank every Saturday is a truly praiseworthy effort by the students.",
+   "gap": "praiseworthy",
+   "alt": []
+  },
+  {
+   "id": "praise_to_the_skies",
+   "en": "praise to the skies",
+   "uz": "osmonga ko‘tarib maqtamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new cable car has been praised to the skies by tourists, who love the views over the valley.",
+   "gap": "praised to the skies",
+   "alt": [
+    "praised to the skies",
+    "praises to the skies",
+    "praising to the skies"
+   ]
+  },
+  {
+   "id": "sing_praises",
+   "en": "sing someone's praises",
+   "uz": "tinmay maqtab yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Everyone who has stayed at the little guesthouse in Kokand sings its praises: clean rooms, friendly hosts and wonderful breakfasts.",
+   "gap": "sings its praises",
+   "alt": [
+    "sings its praises",
+    "sing its praises",
+    "sang its praises",
+    "singing its praises",
+    "sing the praises of"
+   ]
+  },
+  {
+   "id": "heap_praise_on",
+   "en": "heap praise on",
+   "uz": "maqtovga ko‘mib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Critics have heaped praise on the new city museum, calling it the most beautiful building in town.",
+   "gap": "heaped praise on",
+   "alt": [
+    "heaped praise on",
+    "heaps praise on",
+    "heaping praise on",
+    "shower praise on",
+    "showered praise on",
+    "showers praise on",
+    "showering praise on"
+   ]
+  },
+  {
+   "id": "damn_with_faint_praise",
+   "en": "damn with faint praise",
+   "uz": "sovuq maqtov bilan kamsitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "'It was... fine, I suppose,' said the director about the actor's performance, damning him with faint praise.",
+   "gap": "damning him with faint praise",
+   "alt": [
+    "damning him with faint praise",
+    "damned with faint praise",
+    "damning with faint praise"
+   ]
+  },
+  {
+   "id": "pay_tribute_to",
+   "en": "pay tribute to",
+   "uz": "hurmat bajo keltirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hundreds of former pupils came together to pay tribute to the teacher who had run the village school for forty years.",
+   "gap": "pay tribute to",
+   "alt": [
+    "paid tribute to",
+    "pays tribute to",
+    "paying tribute to"
+   ]
+  },
+  {
+   "id": "extol_virtues",
+   "en": "extol the virtues of",
+   "uz": "fazilatlarini ulug‘lamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In every lesson our biology teacher extols the virtues of eating fresh fruit and vegetables.",
+   "gap": "extols the virtues of",
+   "alt": [
+    "extols the virtues of",
+    "extolled the virtues of",
+    "extolling the virtues of"
+   ]
+  },
+  {
+   "id": "pat_on_the_back",
+   "en": "pat on the back",
+   "uz": "yelkaga qoqib maqtash",
+   "pos": "noun",
+   "img": false,
+   "ex": "You finished your first marathon in under four hours, so give yourself a pat on the back!",
+   "gap": "pat on the back",
+   "alt": []
+  },
+  {
+   "id": "earn_plaudits",
+   "en": "earn plaudits",
+   "uz": "olqishlarga sazovor bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The young director's first film earned plaudits at festivals in Berlin and Busan.",
+   "gap": "earned plaudits",
+   "alt": [
+    "earned plaudits",
+    "earns plaudits",
+    "win plaudits",
+    "won plaudits"
+   ]
+  },
+  {
+   "id": "laudable",
+   "en": "laudable",
+   "uz": "tahsinga sazovor (xatti-harakat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cutting plastic use in the canteen is a laudable aim, but it will need everyone's help.",
+   "gap": "laudable",
+   "alt": []
+  },
+  {
+   "id": "laudatory",
+   "en": "laudatory",
+   "uz": "maqtovli (fikr, sharh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The visitors' book was full of laudatory comments such as 'Brilliant!' and 'Unforgettable!'",
+   "gap": "laudatory",
+   "alt": []
+  },
+  {
+   "id": "flatter",
+   "en": "flatter",
+   "uz": "xushomad qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Timur flatters the manager constantly, hoping it will help him get promoted.",
+   "gap": "flatters",
+   "alt": [
+    "flatters",
+    "flattered",
+    "flattering"
+   ]
+  },
+  {
+   "id": "flattery",
+   "en": "flattery",
+   "uz": "xushomad",
+   "pos": "noun",
+   "img": false,
+   "ex": "No amount of flattery will persuade our maths teacher to cancel Friday's test.",
+   "gap": "flattery",
+   "alt": []
+  },
+  {
+   "id": "suck_up_to",
+   "en": "suck up to",
+   "uz": "… ga yaltoqlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Rustam is always sucking up to the team captain so that he gets picked first.",
+   "gap": "sucking up to",
+   "alt": [
+    "sucking up to",
+    "sucks up to",
+    "sucked up to"
+   ]
+  },
+  {
+   "id": "lick_boots",
+   "en": "lick someone's boots",
+   "uz": "oyog‘ini yalamoq (laganbardorlik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "He'll lick anyone's boots if he thinks it will help his career.",
+   "gap": "lick anyone's boots",
+   "alt": [
+    "lick anyone's boots",
+    "licks someone's boots",
+    "licked someone's boots"
+   ]
+  },
+  {
+   "id": "smarmy",
+   "en": "smarmy",
+   "uz": "ilonday yaltoq (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The smarmy salesman kept telling us how clever and stylish we were, but we didn't believe a word.",
+   "gap": "smarmy",
+   "alt": []
+  },
+  {
+   "id": "crawler",
+   "en": "crawler",
+   "uz": "laganbardor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody trusts Bek in the office; he's a real crawler who agrees with everything the boss says.",
+   "gap": "crawler",
+   "alt": [
+    "crawlers"
+   ]
+  },
+  {
+   "id": "obsequious",
+   "en": "obsequious",
+   "uz": "haddan ortiq xizmatkorona",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel staff were almost obsequious, bowing and thanking us every time we walked past reception.",
+   "gap": "obsequious",
+   "alt": []
+  },
+  {
+   "id": "give_praise_to",
+   "en": "give praise to",
+   "uz": "hamdu sano aytmoq (Xudoga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the old hymn, the villagers give praise to God for the rain that saved their harvest.",
+   "gap": "give praise to",
+   "alt": [
+    "gave praise to",
+    "gives praise to",
+    "giving praise to"
+   ]
+  },
+  {
+   "id": "widely_praised",
+   "en": "widely praised",
+   "uz": "ko‘pchilik tomonidan maqtalgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her debut album was widely praised by critics in more than thirty countries.",
+   "gap": "widely praised",
+   "alt": []
+  },
+  {
+   "id": "highly_praised",
+   "en": "highly praised",
+   "uz": "juda yuqori baholangan (maqtalgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new nurse has been highly praised by her patients for her patience and kindness.",
+   "gap": "highly praised",
+   "alt": []
+  },
+  {
+   "id": "toast_of",
+   "en": "be the toast of",
+   "uz": "…ning sevimlisiga aylanmoq (shuhrat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After winning gold in Paris, the young boxer was the toast of his home town for months.",
+   "gap": "the toast of",
+   "alt": [
+    "the toast of",
+    "is the toast of",
+    "was the toast of"
+   ]
+  },
+  {
+   "id": "pat_someone_on_the_back",
+   "en": "pat someone on the back",
+   "uz": "yelkasiga qoqib maqtamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Yusuf scored his first goal for the school, the captain ran over and patted him on the back.",
+   "gap": "patted him on the back",
+   "alt": [
+    "patted him on the back",
+    "patted me on the back",
+    "patted her on the back",
+    "pats him on the back"
+   ]
+  },
+  {
+   "id": "make_up_to",
+   "en": "make up to",
+   "uz": "…ga xushomad bilan yaqinlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ever since he heard about the new manager's job, Kamron has been making up to the director at every meeting.",
+   "gap": "making up to",
+   "alt": [
+    "making up to",
+    "made up to",
+    "makes up to"
+   ]
+  },
+  {
+   "id": "crawl_flatter",
+   "en": "crawl",
+   "uz": "laganbardorlik qilmoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stop crawling to the teacher; everyone can see you just want a better mark.",
+   "gap": "crawling",
+   "alt": [
+    "crawling",
+    "crawled",
+    "crawls"
+   ]
+  },
+  {
+   "id": "slimy",
+   "en": "slimy",
+   "uz": "yog‘ tilli, yaltoqi (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I didn't like the slimy way the estate agent kept praising my 'excellent taste' while raising the price.",
+   "gap": "slimy",
+   "alt": []
+  },
+  {
+   "id": "flatterer",
+   "en": "flatterer",
+   "uz": "xushomadgo‘y",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't trust Komila's compliments; she's a born flatterer who says the same thing to everyone.",
+   "gap": "flatterer",
+   "alt": [
+    "flatterers"
+   ]
+  },
+  {
+   "id": "servile",
+   "en": "servile",
+   "uz": "qulday itoatkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film tells the story of a servile butler who never once disagrees with his rich employer.",
+   "gap": "servile",
+   "alt": []
+  },
+  {
+   "id": "flatter_figure",
+   "en": "flatter",
+   "uz": "(kiyim, rang) chiroyli ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That deep green colour really flatters your eyes; you should wear it more often.",
+   "gap": "flatters",
+   "alt": [
+    "flatters",
+    "flattered",
+    "flattering"
+   ]
+  },
+  {
+   "id": "flattery_nowhere",
+   "en": "Flattery will get you nowhere!",
+   "uz": "Xushomad bilan hech narsaga erisholmaysiz!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'You're the best teacher in the school!' 'Thank you, but flattery will get you nowhere: the test is still on Monday.'",
+   "gap": "flattery will get you nowhere",
+   "alt": [
+    "flattery will get you nowhere"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "pay_compliments",
+   "compliment_on"
+  ],
+  [
+   "back_handed_compliment",
+   "double_edged_compliment"
+  ],
+  [
+   "praiseworthy",
+   "laudable"
+  ],
+  [
+   "praise_to_the_skies",
+   "sing_praises"
+  ],
+  [
+   "praise_to_the_skies",
+   "heap_praise_on"
+  ],
+  [
+   "flatter",
+   "suck_up_to"
+  ],
+  [
+   "flatter",
+   "lick_boots"
+  ],
+  [
+   "suck_up_to",
+   "lick_boots"
+  ],
+  [
+   "smarmy",
+   "obsequious"
+  ],
+  [
+   "give_praise_to",
+   "pay_tribute_to"
+  ],
+  [
+   "widely_praised",
+   "highly_praised"
+  ],
+  [
+   "widely_praised",
+   "praise_to_the_skies"
+  ],
+  [
+   "highly_praised",
+   "praise_to_the_skies"
+  ],
+  [
+   "pat_someone_on_the_back",
+   "pat_on_the_back"
+  ],
+  [
+   "make_up_to",
+   "suck_up_to"
+  ],
+  [
+   "make_up_to",
+   "flatter"
+  ],
+  [
+   "make_up_to",
+   "lick_boots"
+  ],
+  [
+   "make_up_to",
+   "crawl_flatter"
+  ],
+  [
+   "crawl_flatter",
+   "suck_up_to"
+  ],
+  [
+   "crawl_flatter",
+   "flatter"
+  ],
+  [
+   "crawl_flatter",
+   "lick_boots"
+  ],
+  [
+   "crawl_flatter",
+   "crawler"
+  ],
+  [
+   "slimy",
+   "smarmy"
+  ],
+  [
+   "flatterer",
+   "crawler"
+  ],
+  [
+   "servile",
+   "obsequious"
+  ],
+  [
+   "flatter_figure",
+   "flatter"
+  ],
+  [
+   "widely_praised",
+   "compliment_on"
+  ],
+  [
+   "highly_praised",
+   "compliment_on"
+  ],
+  [
+   "slimy",
+   "obsequious"
+  ],
+  [
+   "slimy",
+   "servile"
+  ],
+  [
+   "servile",
+   "smarmy"
+  ]
+ ]
+}

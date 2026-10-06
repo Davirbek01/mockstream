@@ -1,0 +1,508 @@
+{
+ "book": "advanced",
+ "unit": 63,
+ "title": "Sounds: listen up!",
+ "title_uz": "Tovushlar: quloq soling!",
+ "words": [
+  {
+   "id": "silent",
+   "en": "silent",
+   "uz": "indamaydigan (ovoz chiqarmay)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Asked who had left the tap running in the science lab, the whole class stayed silent and stared at their shoes.",
+   "gap": "silent",
+   "alt": []
+  },
+  {
+   "id": "quiet",
+   "en": "quiet",
+   "uz": "tinch / kam harakatli (osoyishta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was a quiet afternoon at the bookshop, with only five or six customers in four hours.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "silent_film",
+   "en": "silent film",
+   "uz": "ovozsiz kino",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our film club showed an old silent film, and a pianist played live music to go with the pictures on the screen.",
+   "gap": "silent film",
+   "alt": [
+    "silent films",
+    "silent movie",
+    "silent movies"
+   ]
+  },
+  {
+   "id": "noiselessly",
+   "en": "noiselessly",
+   "uz": "shovqinsiz (sharpasiz)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The cat moved noiselessly along the top of the fence, and the sparrows never noticed it.",
+   "gap": "noiselessly",
+   "alt": []
+  },
+  {
+   "id": "soundlessly",
+   "en": "soundlessly",
+   "uz": "tovushsiz (kutilmaganda jimgina)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The huge owl swooped soundlessly down onto the field and was gone again in a second.",
+   "gap": "soundlessly",
+   "alt": []
+  },
+  {
+   "id": "slam",
+   "en": "slam",
+   "uz": "qarsillab yopilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Annoyed at losing the argument, my sister went into her room and slammed the door so hard that a picture fell off the wall.",
+   "gap": "slammed",
+   "alt": [
+    "slammed",
+    "slams",
+    "slamming"
+   ]
+  },
+  {
+   "id": "squeak",
+   "en": "squeak",
+   "uz": "chiyillamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My shopping trolley had one wheel that squeaked like a mouse at every turn.",
+   "gap": "squeaked",
+   "alt": [
+    "squeaked",
+    "squeaks",
+    "squeaking"
+   ]
+  },
+  {
+   "id": "creak",
+   "en": "creak",
+   "uz": "g‘ijirlamoq (yog‘och / eshik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old rope bridge across the gorge creaked with every step we took.",
+   "gap": "creaked",
+   "alt": [
+    "creaked",
+    "creaks",
+    "creaking"
+   ]
+  },
+  {
+   "id": "pound",
+   "en": "pound",
+   "uz": "gup-gup urib turmoq (musiqa)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bass from the disco in the sports hall was pounding so hard that the windows of our classroom shook.",
+   "gap": "pounding",
+   "alt": [
+    "pounded",
+    "pounds",
+    "pounding"
+   ]
+  },
+  {
+   "id": "sizzle",
+   "en": "sizzle",
+   "uz": "jizillamoq (qovurilganda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Onions sizzled in the pan while Feruza chopped the carrots.",
+   "gap": "sizzled",
+   "alt": [
+    "sizzled",
+    "sizzles",
+    "sizzling"
+   ]
+  },
+  {
+   "id": "ring_out",
+   "en": "ring out",
+   "uz": "baland yangramoq (o‘q ovozi)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "A loud bang rang out as the first firework exploded high above the square.",
+   "gap": "rang out",
+   "alt": [
+    "rang out",
+    "rings out",
+    "ringing out"
+   ]
+  },
+  {
+   "id": "crash_waves",
+   "en": "crash",
+   "uz": "shovullab urilmoq (to‘lqin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The wind on the reservoir was so strong that waves crashed over the little pier and soaked our shoes.",
+   "gap": "crashed",
+   "alt": [
+    "crashed",
+    "crashes",
+    "crashing"
+   ]
+  },
+  {
+   "id": "hoot",
+   "en": "hoot",
+   "uz": "signal chalmoq (mashina)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stuck behind a slow donkey cart on the village road, the impatient driver hooted again and again.",
+   "gap": "hooted",
+   "alt": [
+    "hooted",
+    "hoots",
+    "hooting"
+   ]
+  },
+  {
+   "id": "wail",
+   "en": "wail",
+   "uz": "uvillamoq (sirena)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Somewhere across the city a fire engine's siren wailed, rising and falling as it raced to the scene.",
+   "gap": "wailed",
+   "alt": [
+    "wailed",
+    "wails",
+    "wailing"
+   ]
+  },
+  {
+   "id": "hammer",
+   "en": "hammer",
+   "uz": "eshikni gursillatib qoqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Somebody was hammering at the front door, shouting that our car alarm was going off.",
+   "gap": "hammering",
+   "alt": [
+    "hammered",
+    "hammers",
+    "hammering"
+   ]
+  },
+  {
+   "id": "eerie",
+   "en": "eerie",
+   "uz": "vahimali (sirli-qo‘rqinchli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the storm warning, the usually busy beach was deserted, and its eerie stillness made us want to leave.",
+   "gap": "eerie",
+   "alt": []
+  },
+  {
+   "id": "deafening",
+   "en": "deafening",
+   "uz": "quloqni kar qiluvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The noise of the drums at the festival was so deafening that we couldn't hear each other speak.",
+   "gap": "deafening",
+   "alt": []
+  },
+  {
+   "id": "grating",
+   "en": "grating",
+   "uz": "asabga tegadigan (qirillagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The grating scrape of the chalk on the board made half the class cover their ears.",
+   "gap": "grating",
+   "alt": []
+  },
+  {
+   "id": "piercing",
+   "en": "piercing",
+   "uz": "quloqni teshguday o‘tkir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Suddenly a piercing scream from the playground made us all cover our ears: a little girl had seen a snake.",
+   "gap": "piercing",
+   "alt": []
+  },
+  {
+   "id": "high_pitched",
+   "en": "high-pitched",
+   "uz": "ingichka / baland (ovoz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new smoke alarm gives a short high-pitched beep, like a tiny whistle, whenever its battery is low.",
+   "gap": "high-pitched",
+   "alt": [
+    "high pitched"
+   ]
+  },
+  {
+   "id": "faint",
+   "en": "faint",
+   "uz": "zo‘rg‘a eshitiladigan (sust)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We heard a faint knock at the door and almost didn't answer it.",
+   "gap": "faint",
+   "alt": []
+  },
+  {
+   "id": "inaudible",
+   "en": "inaudible",
+   "uz": "eshitib bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The microphone wasn't working, so the speaker's voice was inaudible at the back of the hall.",
+   "gap": "inaudible",
+   "alt": []
+  },
+  {
+   "id": "hear_a_pin_drop",
+   "en": "hear a pin drop",
+   "uz": "chivin uchsa eshitiladigan jimlik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the head read out the exam results, you could have heard a pin drop in the hall.",
+   "gap": "heard a pin drop",
+   "alt": [
+    "heard a pin drop"
+   ]
+  },
+  {
+   "id": "hear_myself_think",
+   "en": "hear myself think",
+   "uz": "shovqindan fikrlay olmaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The drilling next door is so loud that I can't hear myself think, let alone finish my essay.",
+   "gap": "hear myself think",
+   "alt": []
+  },
+  {
+   "id": "peace_and_quiet",
+   "en": "peace and quiet",
+   "uz": "tinchlik va osoyishtalik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After three days at a crowded summer camp, all Javohir wanted was some peace and quiet in his own room.",
+   "gap": "peace and quiet",
+   "alt": []
+  },
+  {
+   "id": "quiet_as_a_mouse",
+   "en": "as quiet as a mouse",
+   "uz": "sichqondek jimgina",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother crept downstairs as quiet as a mouse to look for the sweets.",
+   "gap": "as quiet as a mouse",
+   "alt": []
+  },
+  {
+   "id": "quiet_noise",
+   "en": "quiet",
+   "uz": "jimjit (shovqinsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Once the last tram has gone by, our street is so quiet that you can hear the river from the bedroom.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "quiet_person",
+   "en": "quiet",
+   "uz": "kamgap (ko‘p gapirmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Farhod is a quiet boy who rarely says much in class, but his written work is brilliant.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "toot",
+   "en": "toot",
+   "uz": "qisqa bip-bip qilib signal bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As he pulled up outside the gate, the taxi driver tooted twice to let us know he was there.",
+   "gap": "tooted",
+   "alt": [
+    "tooted",
+    "toots",
+    "tooting"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "silent",
+   "quiet"
+  ],
+  [
+   "silent",
+   "quiet_as_a_mouse"
+  ],
+  [
+   "quiet",
+   "quiet_as_a_mouse"
+  ],
+  [
+   "quiet",
+   "peace_and_quiet"
+  ],
+  [
+   "noiselessly",
+   "soundlessly"
+  ],
+  [
+   "squeak",
+   "creak"
+  ],
+  [
+   "pound",
+   "hammer"
+  ],
+  [
+   "pound",
+   "crash_waves"
+  ],
+  [
+   "slam",
+   "crash_waves"
+  ],
+  [
+   "deafening",
+   "piercing"
+  ],
+  [
+   "piercing",
+   "high_pitched"
+  ],
+  [
+   "faint",
+   "quiet"
+  ],
+  [
+   "faint",
+   "inaudible"
+  ],
+  [
+   "silent",
+   "inaudible"
+  ],
+  [
+   "quiet_as_a_mouse",
+   "noiselessly"
+  ],
+  [
+   "soundlessly",
+   "quiet_as_a_mouse"
+  ],
+  [
+   "deafening",
+   "grating"
+  ],
+  [
+   "grating",
+   "high_pitched"
+  ],
+  [
+   "grating",
+   "piercing"
+  ],
+  [
+   "faint",
+   "high_pitched"
+  ],
+  [
+   "slam",
+   "hammer"
+  ],
+  [
+   "wail",
+   "ring_out"
+  ],
+  [
+   "quiet_noise",
+   "quiet"
+  ],
+  [
+   "quiet_noise",
+   "quiet_person"
+  ],
+  [
+   "quiet_noise",
+   "silent"
+  ],
+  [
+   "quiet_noise",
+   "eerie"
+  ],
+  [
+   "quiet_noise",
+   "quiet_as_a_mouse"
+  ],
+  [
+   "quiet_noise",
+   "peace_and_quiet"
+  ],
+  [
+   "quiet_noise",
+   "faint"
+  ],
+  [
+   "quiet_noise",
+   "inaudible"
+  ],
+  [
+   "quiet_person",
+   "quiet"
+  ],
+  [
+   "quiet_person",
+   "silent"
+  ],
+  [
+   "quiet_person",
+   "quiet_as_a_mouse"
+  ],
+  [
+   "quiet_person",
+   "peace_and_quiet"
+  ],
+  [
+   "toot",
+   "hoot"
+  ],
+  [
+   "quiet_noise",
+   "noiselessly"
+  ],
+  [
+   "quiet_person",
+   "inaudible"
+  ],
+  [
+   "quiet_person",
+   "faint"
+  ],
+  [
+   "quiet_person",
+   "eerie"
+  ]
+ ]
+}

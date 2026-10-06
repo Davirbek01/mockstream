@@ -1,0 +1,420 @@
+{
+ "book": "upper",
+ "unit": 49,
+ "title": "Emotions and moods",
+ "title_uz": "His-tuyg‘u va kayfiyat",
+ "words": [
+  {
+   "id": "on_cloud_nine",
+   "en": "on cloud nine",
+   "uz": "boshi osmonga yetgan, behad xursand",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Ever since she got the letter offering her a university place, my older sister has been on cloud nine.",
+   "gap": "on cloud nine",
+   "alt": []
+  },
+  {
+   "id": "in_high_spirits",
+   "en": "in high spirits",
+   "uz": "kayfiyati chog‘, ko‘tarinki ruhda",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The children were in high spirits on the bus to summer camp, singing and laughing all the way.",
+   "gap": "in high spirits",
+   "alt": []
+  },
+  {
+   "id": "keep_your_chin_up",
+   "en": "keep your chin up",
+   "uz": "ruhini tushirmaslik",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Lola broke her leg just before the holidays, but she's keeping her chin up and even jokes about her plaster.",
+   "gap": "keeping her chin up",
+   "alt": [
+    "keeping her chin up",
+    "keeping his chin up",
+    "keep my chin up",
+    "kept her chin up"
+   ]
+  },
+  {
+   "id": "happy_as_larry",
+   "en": "as happy as Larry",
+   "uz": "behad mamnun, xursand-xurram",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Give my little brother a big box of building bricks and he's as happy as Larry for hours.",
+   "gap": "as happy as Larry",
+   "alt": []
+  },
+  {
+   "id": "long_face",
+   "en": "a long face",
+   "uz": "ma’yus, osilib tushgan yuz",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Bobur came home with a long face because the class trip to the mountains had been cancelled.",
+   "gap": "a long face",
+   "alt": [
+    "long face"
+   ]
+  },
+  {
+   "id": "down_in_the_dumps",
+   "en": "down in the dumps",
+   "uz": "dili siyoh, tushkun",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Dilnoza has been a bit down in the dumps since her best friend moved to another city.",
+   "gap": "down in the dumps",
+   "alt": []
+  },
+  {
+   "id": "in_a_bad_mood",
+   "en": "in a bad mood",
+   "uz": "kayfiyati yo‘q, jahli chiqib turgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't ask the coach for a day off now; he's in a bad mood because we lost 3–0 this morning.",
+   "gap": "in a bad mood",
+   "alt": []
+  },
+  {
+   "id": "bear_with_sore_head",
+   "en": "like a bear with a sore head",
+   "uz": "hammaga o‘dag‘aylaydigan, jizzaki",
+   "pos": "idiom",
+   "img": false,
+   "ex": "My older brother is like a bear with a sore head every morning until he's had his first cup of tea.",
+   "gap": "like a bear with a sore head",
+   "alt": []
+  },
+  {
+   "id": "throw_a_wobbly",
+   "en": "throw a wobbly",
+   "uz": "jazavaga tushmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When the shop had no blue balloons left, my four-year-old niece threw a wobbly in the middle of the supermarket.",
+   "gap": "threw a wobbly",
+   "alt": [
+    "throws a wobbly",
+    "threw a wobbly",
+    "throwing a wobbly"
+   ]
+  },
+  {
+   "id": "done_in",
+   "en": "done in",
+   "uz": "holdan toygan, charchab o‘lgan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "After helping our class teacher carry boxes of books up to the library all afternoon, I was completely done in.",
+   "gap": "done in",
+   "alt": []
+  },
+  {
+   "id": "under_the_weather",
+   "en": "under the weather",
+   "uz": "tobi yo‘q, sal betob",
+   "pos": "idiom",
+   "img": false,
+   "ex": "I'm feeling a bit under the weather; I think I've caught a cold from someone in my class, so I'll skip football practice.",
+   "gap": "under the weather",
+   "alt": []
+  },
+  {
+   "id": "on_top_form",
+   "en": "on top form",
+   "uz": "eng yaxshi holatida, avjida",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Our goalkeeper was on top form yesterday and saved three penalties in a row.",
+   "gap": "on top form",
+   "alt": []
+  },
+  {
+   "id": "head_is_spinning",
+   "en": "head is spinning",
+   "uz": "boshi aylanmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "After three rides on the merry-go-round, my head was spinning and I had to sit down on a bench.",
+   "gap": "head was spinning",
+   "alt": [
+    "head was spinning",
+    "head's spinning"
+   ]
+  },
+  {
+   "id": "at_deaths_door",
+   "en": "at death's door",
+   "uz": "o‘lim to‘shagida (mubolag‘a)",
+   "pos": "idiom",
+   "img": false,
+   "ex": "My brother had flu last week and moaned so much you'd think he was at death's door, but it was only a high temperature.",
+   "gap": "at death's door",
+   "alt": []
+  },
+  {
+   "id": "fit_as_a_fiddle",
+   "en": "as fit as a fiddle",
+   "uz": "sog‘-salomat, baquvvat",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Mr Karimov, who runs the bookshop on our corner, is ninety but still as fit as a fiddle: he cycles to work every morning.",
+   "gap": "as fit as a fiddle",
+   "alt": []
+  },
+  {
+   "id": "scared_stiff",
+   "en": "scared stiff",
+   "uz": "qo‘rqib qotib qolgan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "My little sister was scared stiff when a huge stray dog ran towards her, and she couldn't move a step.",
+   "gap": "scared stiff",
+   "alt": []
+  },
+  {
+   "id": "frighten_the_life_out_of",
+   "en": "frighten the life out of",
+   "uz": "o‘takasini yorib yubormoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "My little brother hid behind the kitchen door and jumped out at me; he frightened the life out of me!",
+   "gap": "frightened the life out of",
+   "alt": [
+    "frightened the life out of",
+    "frightens the life out of"
+   ]
+  },
+  {
+   "id": "shaking_in_boots",
+   "en": "shake in your boots",
+   "uz": "qo‘rquvdan dir-dir titramoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Before the oral exam, most of the class were shaking in their boots, though they all passed in the end.",
+   "gap": "shaking in their boots",
+   "alt": [
+    "shaking in their boots",
+    "shaking in my boots",
+    "shook in his boots"
+   ]
+  },
+  {
+   "id": "scared_out_of_wits",
+   "en": "scared out of your wits",
+   "uz": "qo‘rqqanidan esi chiqib ketgan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The thunder was so loud that our poor cat was scared out of her wits and hid under the bed.",
+   "gap": "scared out of her wits",
+   "alt": [
+    "scared out of his wits",
+    "scared out of her wits",
+    "scared out of my wits"
+   ]
+  },
+  {
+   "id": "jump_out_of_skin",
+   "en": "jump out of your skin",
+   "uz": "cho‘chib sapchib ketmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When a balloon suddenly popped right behind me, I nearly jumped out of my skin.",
+   "gap": "jumped out of my skin",
+   "alt": [
+    "jumped out of my skin",
+    "jumped out of her skin",
+    "jump out of my skin"
+   ]
+  },
+  {
+   "id": "get_carried_away",
+   "en": "get carried away",
+   "uz": "berilib ketib me’yorni yo‘qotmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Don't get carried away and spend all your birthday money in the first shop you see.",
+   "gap": "get carried away",
+   "alt": [
+    "got carried away",
+    "gets carried away"
+   ]
+  },
+  {
+   "id": "keep_a_cool_head",
+   "en": "keep a cool head",
+   "uz": "sovuqqonlikni saqlamoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When the lift got stuck between floors, Zarina kept a cool head, pressed the alarm button and calmly told the rest of us to wait.",
+   "gap": "kept a cool head",
+   "alt": [
+    "kept a cool head",
+    "keeps a cool head"
+   ]
+  },
+  {
+   "id": "take_as_it_comes",
+   "en": "take it as it comes",
+   "uz": "har narsani xotirjam qabul qilmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "On a long journey, plans change all the time, so it's best to relax and take it as it comes.",
+   "gap": "take it as it comes",
+   "alt": [
+    "take everything as it comes",
+    "takes it as it comes",
+    "took it as it comes",
+    "taking it as it comes",
+    "takes everything as it comes",
+    "took everything as it comes",
+    "taking everything as it comes"
+   ]
+  },
+  {
+   "id": "things_looking_up",
+   "en": "things are looking up",
+   "uz": "ishlar yaxshi tomonga ketyapti",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Bahodir found a part-time job last week and his injured knee is finally better, so things are looking up for him at last.",
+   "gap": "things are looking up",
+   "alt": [
+    "things were looking up"
+   ]
+  },
+  {
+   "id": "swell_with_pride",
+   "en": "swell with pride",
+   "uz": "g‘ururdan ko‘ksi tog‘dek ko‘tarilmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When Nigora walked onto the stage to collect her prize, her father swelled with pride.",
+   "gap": "swelled with pride",
+   "alt": [
+    "swelled with pride",
+    "swells with pride"
+   ]
+  },
+  {
+   "id": "on_top_of_the_world",
+   "en": "on top of the world",
+   "uz": "xursandligi ichiga sig‘magan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When the judges announced that our team had won the national debate final, I felt on top of the world.",
+   "gap": "on top of the world",
+   "alt": []
+  },
+  {
+   "id": "happy_as_can_be",
+   "en": "as happy as can be",
+   "uz": "baxtiyor, bundan ortiq xursand bo‘lmas",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Since she moved to a little house by the sea, my old neighbour has been as happy as can be.",
+   "gap": "as happy as can be",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "on_cloud_nine",
+   "on_top_of_the_world"
+  ],
+  [
+   "on_cloud_nine",
+   "happy_as_larry"
+  ],
+  [
+   "on_cloud_nine",
+   "in_high_spirits"
+  ],
+  [
+   "happy_as_larry",
+   "on_top_of_the_world"
+  ],
+  [
+   "in_high_spirits",
+   "happy_as_larry"
+  ],
+  [
+   "in_high_spirits",
+   "on_top_of_the_world"
+  ],
+  [
+   "long_face",
+   "down_in_the_dumps"
+  ],
+  [
+   "in_a_bad_mood",
+   "bear_with_sore_head"
+  ],
+  [
+   "in_a_bad_mood",
+   "down_in_the_dumps"
+  ],
+  [
+   "on_top_form",
+   "fit_as_a_fiddle"
+  ],
+  [
+   "scared_stiff",
+   "shaking_in_boots"
+  ],
+  [
+   "scared_stiff",
+   "scared_out_of_wits"
+  ],
+  [
+   "shaking_in_boots",
+   "scared_out_of_wits"
+  ],
+  [
+   "frighten_the_life_out_of",
+   "jump_out_of_skin"
+  ],
+  [
+   "keep_a_cool_head",
+   "take_as_it_comes"
+  ],
+  [
+   "keep_a_cool_head",
+   "keep_your_chin_up"
+  ],
+  [
+   "on_top_form",
+   "on_the_ball"
+  ],
+  [
+   "at_deaths_door",
+   "critically_ill"
+  ],
+  [
+   "happy_as_can_be",
+   "happy_as_larry"
+  ],
+  [
+   "happy_as_can_be",
+   "on_cloud_nine"
+  ],
+  [
+   "happy_as_can_be",
+   "on_top_of_the_world"
+  ],
+  [
+   "happy_as_can_be",
+   "in_high_spirits"
+  ],
+  [
+   "happy_as_can_be",
+   "keep_your_chin_up"
+  ]
+ ]
+}

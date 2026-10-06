@@ -1,0 +1,490 @@
+{
+ "book": "advanced",
+ "unit": 49,
+ "title": "Advertising",
+ "title_uz": "Reklama",
+ "words": [
+  {
+   "id": "innovative",
+   "en": "innovative",
+   "uz": "yangicha, ixtirochilik ruhidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Judges at the science fair praised the team's innovative idea of using old phone batteries to power garden lights.",
+   "gap": "innovative",
+   "alt": []
+  },
+  {
+   "id": "unsurpassed",
+   "en": "unsurpassed",
+   "uz": "tengsiz (undan ustuni yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Locals claim that the view of the valley from this hill is unsurpassed anywhere in the region.",
+   "gap": "unsurpassed",
+   "alt": []
+  },
+  {
+   "id": "leave_standing",
+   "en": "leave others standing",
+   "uz": "boshqalarni ancha ortda qoldirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Its battery life leaves others standing: it lasts two full days on a single charge.",
+   "gap": "leaves others standing",
+   "alt": [
+    "leaves others standing",
+    "left others standing"
+   ]
+  },
+  {
+   "id": "put_in_the_shade",
+   "en": "put others in the shade",
+   "uz": "boshqalarni soyada qoldirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Of all the phone cameras I tested, this one puts others in the shade.",
+   "gap": "puts others in the shade",
+   "alt": [
+    "puts others in the shade"
+   ]
+  },
+  {
+   "id": "rock_bottom",
+   "en": "rock-bottom",
+   "uz": "eng past (arzon) darajadagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shop is closing down, so everything is being sold at rock-bottom prices this week.",
+   "gap": "rock-bottom",
+   "alt": [
+    "rock bottom"
+   ]
+  },
+  {
+   "id": "slash",
+   "en": "slash",
+   "uz": "(narxni) keskin tushirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The airline has slashed its winter fares by half to attract more passengers.",
+   "gap": "slashed",
+   "alt": [
+    "slashed",
+    "slashes",
+    "slashing"
+   ]
+  },
+  {
+   "id": "galore",
+   "en": "galore",
+   "uz": "mo‘l-ko‘l (behisob)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the last day of the sale there were bargains galore, and the queue stretched round the corner.",
+   "gap": "galore",
+   "alt": []
+  },
+  {
+   "id": "discount",
+   "en": "discount",
+   "uz": "chegirma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students get a 20% discount at the cinema on weekday mornings.",
+   "gap": "discount",
+   "alt": [
+    "discounts"
+   ]
+  },
+  {
+   "id": "pamper",
+   "en": "pamper",
+   "uz": "(o‘zini) erkalamoq, huzur qildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a long week of exams, Nigora decided to pamper herself with a bubble bath and a good book.",
+   "gap": "pamper",
+   "alt": [
+    "pampered",
+    "pampers",
+    "pampering"
+   ]
+  },
+  {
+   "id": "indulge",
+   "en": "indulge",
+   "uz": "(yoqqan narsaga) erk bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On holiday I always indulge in far too much ice cream.",
+   "gap": "indulge",
+   "alt": [
+    "indulged",
+    "indulges",
+    "indulging"
+   ]
+  },
+  {
+   "id": "sumptuous",
+   "en": "sumptuous",
+   "uz": "to‘kin va dabdabali (dasturxon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel serves a sumptuous breakfast of fresh pastries, fruit, cheese and mountain honey.",
+   "gap": "sumptuous",
+   "alt": []
+  },
+  {
+   "id": "opulent",
+   "en": "opulent",
+   "uz": "hashamatli (boy-badavlat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film star's opulent lifestyle included a private jet and villas on three continents.",
+   "gap": "opulent",
+   "alt": []
+  },
+  {
+   "id": "lap_of_luxury",
+   "en": "in the lap of luxury",
+   "uz": "hashamat og‘ushida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For one week on the cruise ship, we lived in the lap of luxury.",
+   "gap": "in the lap of luxury",
+   "alt": []
+  },
+  {
+   "id": "ergonomically_designed",
+   "en": "ergonomically designed",
+   "uz": "tanaga qulay qilib loyihalangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our office bought ergonomically designed chairs to protect people's backs during long working days.",
+   "gap": "ergonomically designed",
+   "alt": []
+  },
+  {
+   "id": "medically_proven",
+   "en": "medically proven",
+   "uz": "tibbiy jihatdan isbotlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be wary of adverts that say a cream is medically proven to remove wrinkles in a week.",
+   "gap": "medically proven",
+   "alt": []
+  },
+  {
+   "id": "state_of_the_art",
+   "en": "state-of-the-art",
+   "uz": "eng ilg‘or texnologiyali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new children's hospital has state-of-the-art scanners that work twice as fast as the old ones.",
+   "gap": "state-of-the-art",
+   "alt": [
+    "state of the art"
+   ]
+  },
+  {
+   "id": "turn_heads",
+   "en": "turn heads",
+   "uz": "hammaning e’tiborini tortmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Her bright orange coat turned heads as she walked through the market.",
+   "gap": "turned heads",
+   "alt": [
+    "turned heads",
+    "turns heads",
+    "turning heads"
+   ]
+  },
+  {
+   "id": "tantalisingly",
+   "en": "tantalisingly",
+   "uz": "vasvasaga solib (havas uyg‘otib)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The smell of fresh bread drifted tantalisingly from the bakery while we waited for the bus.",
+   "gap": "tantalisingly",
+   "alt": [
+    "tantalizingly"
+   ]
+  },
+  {
+   "id": "glossy",
+   "en": "glossy",
+   "uz": "yaltiroq (sog‘lom ko‘rinishli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Regular brushing keeps a cat's fur soft and glossy.",
+   "gap": "glossy",
+   "alt": []
+  },
+  {
+   "id": "radiant",
+   "en": "radiant",
+   "uz": "yashnab turgan (nurafshon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a week of fresh mountain air and long sleeps, her skin looked radiant.",
+   "gap": "radiant",
+   "alt": []
+  },
+  {
+   "id": "commercial",
+   "en": "commercial",
+   "uz": "teleradio reklama roligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the football final, a thirty-second TV commercial costs a fortune.",
+   "gap": "commercial",
+   "alt": [
+    "commercials"
+   ]
+  },
+  {
+   "id": "billboard",
+   "en": "billboard",
+   "uz": "katta reklama taxtasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A huge billboard beside the motorway shows a smiling family eating ice cream.",
+   "gap": "billboard",
+   "alt": [
+    "billboards"
+   ]
+  },
+  {
+   "id": "poster",
+   "en": "poster",
+   "uz": "plakat (afisha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We stuck posters for the school concert on every noticeboard in the building.",
+   "gap": "posters",
+   "alt": [
+    "posters"
+   ]
+  },
+  {
+   "id": "logo",
+   "en": "logo",
+   "uz": "firma belgisi (emblema)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's logo, a small blue bird, appears on every product it sells.",
+   "gap": "logo",
+   "alt": [
+    "logos"
+   ]
+  },
+  {
+   "id": "trailer",
+   "en": "trailer",
+   "uz": "film anonsi (qisqa parchalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trailer for the new cartoon has already been watched five million times.",
+   "gap": "trailer",
+   "alt": [
+    "trailers"
+   ]
+  },
+  {
+   "id": "sponsorship",
+   "en": "sponsorship",
+   "uz": "homiylik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to sponsorship from a juice company, the youth football team got brand-new kits.",
+   "gap": "sponsorship",
+   "alt": []
+  },
+  {
+   "id": "banner",
+   "en": "banner",
+   "uz": "uzun reklama matosi (transparant)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A long banner stretched across the stadium entrance with the sponsor's name in huge letters.",
+   "gap": "banner",
+   "alt": [
+    "banners"
+   ]
+  },
+  {
+   "id": "sky_writing",
+   "en": "sky-writing",
+   "uz": "osmonga tutun bilan yozish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Crowds on the beach looked up as a small plane spelled out the name of a phone company in sky-writing.",
+   "gap": "sky-writing",
+   "alt": [
+    "skywriting"
+   ]
+  },
+  {
+   "id": "sandwich_board",
+   "en": "sandwich board",
+   "uz": "ko‘krak-yelka reklama taxtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A man wearing a sandwich board walked up and down the street, advertising a new barber's shop.",
+   "gap": "sandwich board",
+   "alt": [
+    "sandwich boards"
+   ]
+  },
+  {
+   "id": "pop_up",
+   "en": "pop-up",
+   "uz": "qalqib chiquvchi reklama oynasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I closed the website because every few seconds another pop-up appeared on the screen.",
+   "gap": "pop-up",
+   "alt": [
+    "pop-ups",
+    "popup"
+   ]
+  },
+  {
+   "id": "plug",
+   "en": "plug",
+   "uz": "(asarini) maqtab tanishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Halfway through the cooking show, the chef stopped to plug the restaurant she's opening next month.",
+   "gap": "plug",
+   "alt": [
+    "plugged",
+    "plugs",
+    "plugging"
+   ]
+  },
+  {
+   "id": "bargain",
+   "en": "bargain",
+   "uz": "arzonga olingan yaxshi narsa",
+   "pos": "noun",
+   "img": false,
+   "ex": "At only twenty dollars, this warm winter coat was a real bargain.",
+   "gap": "bargain",
+   "alt": [
+    "bargains"
+   ]
+  },
+  {
+   "id": "advert",
+   "en": "advert",
+   "uz": "reklama e’loni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamila saw an advert for a summer drama course on the back of her bus ticket.",
+   "gap": "advert",
+   "alt": [
+    "adverts",
+    "advertisement",
+    "advertisements"
+   ]
+  },
+  {
+   "id": "carrier_bag",
+   "en": "carrier bag",
+   "uz": "do‘kon xaltasi (paket)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bakery prints its name on every paper carrier bag, so its customers advertise it all over town.",
+   "gap": "carrier bag",
+   "alt": [
+    "carrier bags"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "leave_standing",
+   "put_in_the_shade"
+  ],
+  [
+   "unsurpassed",
+   "leave_standing"
+  ],
+  [
+   "rock_bottom",
+   "slash"
+  ],
+  [
+   "rock_bottom",
+   "discount"
+  ],
+  [
+   "pamper",
+   "indulge"
+  ],
+  [
+   "sumptuous",
+   "opulent"
+  ],
+  [
+   "opulent",
+   "lap_of_luxury"
+  ],
+  [
+   "innovative",
+   "state_of_the_art"
+  ],
+  [
+   "turn_heads",
+   "tantalisingly"
+  ],
+  [
+   "glossy",
+   "radiant"
+  ],
+  [
+   "billboard",
+   "banner"
+  ],
+  [
+   "billboard",
+   "sandwich_board"
+  ],
+  [
+   "commercial",
+   "trailer"
+  ],
+  [
+   "pop_up",
+   "banner"
+  ],
+  [
+   "poster",
+   "billboard"
+  ],
+  [
+   "poster",
+   "banner"
+  ],
+  [
+   "bargain",
+   "discount"
+  ],
+  [
+   "advert",
+   "commercial"
+  ],
+  [
+   "advert",
+   "poster"
+  ],
+  [
+   "advert",
+   "billboard"
+  ]
+ ]
+}

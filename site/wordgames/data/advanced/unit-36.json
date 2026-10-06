@@ -1,0 +1,502 @@
+{
+ "book": "advanced",
+ "unit": 36,
+ "title": "Beliefs",
+ "title_uz": "E’tiqod va qarashlar",
+ "words": [
+  {
+   "id": "adherent",
+   "en": "adherent",
+   "uz": "izdosh (sodiq tarafdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A strict adherent of the Montessori method, the head of the kindergarten lets the children choose their own activities.",
+   "gap": "adherent",
+   "alt": [
+    "adherents"
+   ]
+  },
+  {
+   "id": "adhere_to",
+   "en": "adhere to",
+   "uz": "(qoidaga) qat’iy amal qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "All players must adhere to the tournament's fair-play rules, or they will be disqualified.",
+   "gap": "adhere to",
+   "alt": [
+    "adheres to",
+    "adhered to",
+    "adhering to"
+   ]
+  },
+  {
+   "id": "convert",
+   "en": "convert",
+   "uz": "yangi qarashga o‘tgan kishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother is a recent convert to cycling: he sold his car in spring and now rides to work every day.",
+   "gap": "convert",
+   "alt": [
+    "converts"
+   ]
+  },
+  {
+   "id": "fanatic",
+   "en": "fanatic",
+   "uz": "ashaddiy ishqiboz (mutaassib)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our maths teacher is a real jigsaw fanatic: she spends every weekend on 3,000-piece puzzles and gets cross if anyone touches a single piece.",
+   "gap": "fanatic",
+   "alt": [
+    "fanatics"
+   ]
+  },
+  {
+   "id": "radical",
+   "en": "radical",
+   "uz": "tub o‘zgarish tarafdori (keskin fikrli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young radicals on the student council wanted to scrap the whole timetable, not just change a few lessons.",
+   "gap": "radicals",
+   "alt": [
+    "radicals"
+   ]
+  },
+  {
+   "id": "reactionary",
+   "en": "reactionary",
+   "uz": "yangilikka qarshi odam (eskilik tarafdori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old director was seen as a reactionary who blocked every new idea, from online lessons to a school website.",
+   "gap": "reactionary",
+   "alt": [
+    "reactionaries"
+   ]
+  },
+  {
+   "id": "eradicate",
+   "en": "eradicate",
+   "uz": "tag-tomiri bilan yo‘q qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new head teacher is determined to eradicate bullying from the school, starting with a mentoring scheme for younger pupils.",
+   "gap": "eradicate",
+   "alt": [
+    "eradicated",
+    "eradicates",
+    "eradicating"
+   ]
+  },
+  {
+   "id": "tenet",
+   "en": "tenet",
+   "uz": "asosiy tamoyil (aqida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A central tenet of the school's sports programme is that every child plays in matches, not just the most talented ones.",
+   "gap": "tenet",
+   "alt": [
+    "tenets"
+   ]
+  },
+  {
+   "id": "proponent",
+   "en": "proponent",
+   "uz": "ochiq himoyachi (targ‘ibotchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our biology teacher is a keen proponent of outdoor lessons and holds a class in the park whenever the weather allows.",
+   "gap": "proponent",
+   "alt": [
+    "proponents"
+   ]
+  },
+  {
+   "id": "derive_from",
+   "en": "derive from",
+   "uz": "…dan kelib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Most of my sister's confidence on stage seems to derive from the years she spent in the school drama club.",
+   "gap": "derive from",
+   "alt": [
+    "derives from",
+    "derived from",
+    "deriving from"
+   ]
+  },
+  {
+   "id": "civil_disobedience",
+   "en": "civil disobedience",
+   "uz": "fuqarolik itoatsizligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the council planned to cut down the old plane trees, local residents chose civil disobedience and sat in front of the bulldozers until the plan was dropped.",
+   "gap": "civil disobedience",
+   "alt": []
+  },
+  {
+   "id": "pacifist",
+   "en": "pacifist",
+   "uz": "har qanday urushga qarshi odam (tinchliksevar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My great-uncle was a lifelong pacifist who would not even let his sons play with toy guns.",
+   "gap": "pacifist",
+   "alt": [
+    "pacifists"
+   ]
+  },
+  {
+   "id": "viewpoint",
+   "en": "viewpoint",
+   "uz": "nuqtayi nazar",
+   "pos": "noun",
+   "img": false,
+   "ex": "From a shopkeeper's viewpoint, the new pedestrian street is a disaster, because customers can no longer park outside.",
+   "gap": "viewpoint",
+   "alt": [
+    "point of view",
+    "viewpoints"
+   ]
+  },
+  {
+   "id": "credible",
+   "en": "credible",
+   "uz": "ishonsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At first nobody believed Aziz had met the famous footballer, but the selfie he showed us made his story completely credible.",
+   "gap": "credible",
+   "alt": []
+  },
+  {
+   "id": "incredulous",
+   "en": "incredulous",
+   "uz": "ishonolmay hayron qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the teacher announced that there would be no homework for the whole holiday, the class stared at her, incredulous.",
+   "gap": "incredulous",
+   "alt": []
+  },
+  {
+   "id": "subjective",
+   "en": "subjective",
+   "uz": "shaxsiy didga bog‘liq (xolis bo‘lmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Judging a painting competition is always subjective: what one judge loves, another dislikes.",
+   "gap": "subjective",
+   "alt": []
+  },
+  {
+   "id": "objective",
+   "en": "objective",
+   "uz": "xolis (beg‘araz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Teachers who mark their own pupils' exams may find it hard to stay objective, so every paper is checked by a second examiner.",
+   "gap": "objective",
+   "alt": []
+  },
+  {
+   "id": "plausible",
+   "en": "plausible",
+   "uz": "haqiqatga yaqin (asosli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Detectives are still looking for a plausible explanation of how the thief got into a room locked from the inside.",
+   "gap": "plausible",
+   "alt": []
+  },
+  {
+   "id": "implausible",
+   "en": "implausible",
+   "uz": "aqlga sig‘maydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film's plot was so implausible that the audience laughed in all the wrong places.",
+   "gap": "implausible",
+   "alt": []
+  },
+  {
+   "id": "attribute_to",
+   "en": "attribute to",
+   "uz": "…ga yo‘ymoq (…ga nisbat bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The coach attributes the team's success to hard work and early-morning training.",
+   "gap": "attributes",
+   "alt": [
+    "attributes",
+    "attributed",
+    "attributing",
+    "attribute"
+   ]
+  },
+  {
+   "id": "presume",
+   "en": "presume",
+   "uz": "deb taxmin qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nobody else has turned up, so I presume the meeting has been cancelled.",
+   "gap": "presume",
+   "alt": [
+    "presumed",
+    "presumes",
+    "presuming"
+   ]
+  },
+  {
+   "id": "benefit_of_the_doubt",
+   "en": "benefit of the doubt",
+   "uz": "shubha bo‘lsa-da, ishonch bildirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Her story about the broken alarm clock sounded odd, but the teacher decided to give her the benefit of the doubt.",
+   "gap": "benefit of the doubt",
+   "alt": [
+    "give someone the benefit of the doubt"
+   ]
+  },
+  {
+   "id": "pinch_of_salt",
+   "en": "with a pinch of salt",
+   "uz": "shubha bilan qabul qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Online reviews written by the shop's own staff should be taken with a pinch of salt.",
+   "gap": "with a pinch of salt",
+   "alt": [
+    "take with a pinch of salt"
+   ]
+  },
+  {
+   "id": "adherence",
+   "en": "adherence",
+   "uz": "qat’iy rioya qilish (sodiqlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The restaurant's strict adherence to hygiene rules earned it the top rating from the inspectors.",
+   "gap": "adherence",
+   "alt": []
+  },
+  {
+   "id": "conversion",
+   "en": "conversion",
+   "uz": "boshqa qarash yoki dinga o‘tish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ravshan's conversion from meat-eater to vegan happened after he watched a documentary about factory farms.",
+   "gap": "conversion",
+   "alt": [
+    "conversions"
+   ]
+  },
+  {
+   "id": "convert_v",
+   "en": "convert",
+   "uz": "(boshqa qarash yoki dinga) o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After years of arguing against electric cars, my neighbour finally converted and bought one last spring.",
+   "gap": "converted",
+   "alt": [
+    "converted",
+    "converts",
+    "converting"
+   ]
+  },
+  {
+   "id": "fanaticism",
+   "en": "fanaticism",
+   "uz": "mutaassiblik (haddan oshgan berilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her fanaticism about tidiness means that nobody is allowed to leave a single cup on the table.",
+   "gap": "fanaticism",
+   "alt": []
+  },
+  {
+   "id": "fanatical",
+   "en": "fanatical",
+   "uz": "o‘ta berilgan (mutaassib)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Lobar is fanatical about chess and carries a pocket set everywhere, even to the beach.",
+   "gap": "fanatical",
+   "alt": []
+  },
+  {
+   "id": "radicalism",
+   "en": "radicalism",
+   "uz": "keskin o‘zgarishlar tarafdorligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young architect's radicalism shocked the committee: she proposed knocking down the entire old market and building a glass tower.",
+   "gap": "radicalism",
+   "alt": []
+  },
+  {
+   "id": "radicalise",
+   "en": "radicalise",
+   "uz": "o‘ta keskin qarashlarga og‘dirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Social media companies are under pressure to remove videos that could radicalise teenagers.",
+   "gap": "radicalise",
+   "alt": [
+    "radicalize",
+    "radicalised",
+    "radicalized",
+    "radicalises",
+    "radicalising"
+   ]
+  },
+  {
+   "id": "react",
+   "en": "react",
+   "uz": "javob tariqasida munosabat bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the referee showed him a red card, the captain reacted by throwing his armband on the grass.",
+   "gap": "reacted",
+   "alt": [
+    "reacted",
+    "reacts",
+    "reacting"
+   ]
+  },
+  {
+   "id": "reaction",
+   "en": "reaction",
+   "uz": "javob munosabati (aks ta’sir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The decision to close the library on Saturdays provoked an angry reaction from students.",
+   "gap": "reaction",
+   "alt": [
+    "reactions"
+   ]
+  },
+  {
+   "id": "incredible",
+   "en": "incredible",
+   "uz": "aql bovar qilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The fisherman's story about a catfish as long as his boat sounded incredible, until he showed us the photo.",
+   "gap": "incredible",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "adherent",
+   "proponent"
+  ],
+  [
+   "adherent",
+   "convert"
+  ],
+  [
+   "credible",
+   "plausible"
+  ],
+  [
+   "credible",
+   "implausible"
+  ],
+  [
+   "plausible",
+   "implausible"
+  ],
+  [
+   "subjective",
+   "objective"
+  ],
+  [
+   "radical",
+   "reactionary"
+  ],
+  [
+   "fanatic",
+   "convert"
+  ],
+  [
+   "radical",
+   "fanatic"
+  ],
+  [
+   "adherence",
+   "adhere_to"
+  ],
+  [
+   "adherence",
+   "adherent"
+  ],
+  [
+   "conversion",
+   "convert"
+  ],
+  [
+   "convert_v",
+   "convert"
+  ],
+  [
+   "convert_v",
+   "conversion"
+  ],
+  [
+   "fanatical",
+   "fanatic"
+  ],
+  [
+   "fanatical",
+   "fanaticism"
+  ],
+  [
+   "fanaticism",
+   "fanatic"
+  ],
+  [
+   "radicalism",
+   "radical"
+  ],
+  [
+   "radicalism",
+   "fanaticism"
+  ],
+  [
+   "radicalise",
+   "convert_v"
+  ],
+  [
+   "react",
+   "reaction"
+  ],
+  [
+   "reaction",
+   "reactionary"
+  ],
+  [
+   "incredible",
+   "incredulous"
+  ],
+  [
+   "incredible",
+   "credible"
+  ],
+  [
+   "incredible",
+   "implausible"
+  ]
+ ]
+}

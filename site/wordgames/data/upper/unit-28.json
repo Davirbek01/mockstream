@@ -1,0 +1,933 @@
+{
+ "book": "upper",
+ "unit": 28,
+ "title": "Health and medicine",
+ "title_uz": "Salomatlik va tibbiyot",
+ "words": [
+  {
+   "id": "rash",
+   "en": "rash",
+   "uz": "toshma (terida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After eating strawberries, the little boy came out in a bright red rash all over his arms.",
+   "gap": "rash",
+   "alt": [
+    "rashes"
+   ]
+  },
+  {
+   "id": "bruise_injury",
+   "en": "bruise",
+   "uz": "ko‘kargan joy (lat yeyish izi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ice hockey players often end the season with purple and yellow bruises from falls on the ice.",
+   "gap": "bruises",
+   "alt": [
+    "bruises"
+   ]
+  },
+  {
+   "id": "lump",
+   "en": "lump",
+   "uz": "shish, g‘urra",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the ball hit him on the head, a painful lump the size of an egg came up.",
+   "gap": "lump",
+   "alt": [
+    "lumps"
+   ]
+  },
+  {
+   "id": "spots",
+   "en": "spots",
+   "uz": "husnbuzar (yuzdagi toshmalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many teenagers get spots on their forehead and chin, especially when they're not sleeping well.",
+   "gap": "spots",
+   "alt": [
+    "spot"
+   ]
+  },
+  {
+   "id": "black_eye",
+   "en": "black eye",
+   "uz": "ko‘z atrofining ko‘karishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The boxer won the fight but went home with a black eye and a cut lip.",
+   "gap": "black eye",
+   "alt": [
+    "black eyes"
+   ]
+  },
+  {
+   "id": "sore_throat",
+   "en": "sore throat",
+   "uz": "tomoq og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've got a sore throat, so I'm drinking hot tea with honey and lemon.",
+   "gap": "sore throat",
+   "alt": []
+  },
+  {
+   "id": "temperature",
+   "en": "temperature",
+   "uz": "isitma (harorat ko‘tarilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her forehead felt hot, and the thermometer showed she had a temperature of 38.5.",
+   "gap": "temperature",
+   "alt": []
+  },
+  {
+   "id": "blood_pressure",
+   "en": "blood pressure",
+   "uz": "qon bosimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse checked Dad's blood pressure and said it was a little high, so he should eat less salt.",
+   "gap": "blood pressure",
+   "alt": []
+  },
+  {
+   "id": "backache",
+   "en": "backache",
+   "uz": "bel og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sitting hunched over a laptop all day without a break can give you backache.",
+   "gap": "backache",
+   "alt": []
+  },
+  {
+   "id": "earache",
+   "en": "earache",
+   "uz": "quloq og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the plane came down to land, Malika had terrible earache because of the change in air pressure.",
+   "gap": "earache",
+   "alt": []
+  },
+  {
+   "id": "indigestion",
+   "en": "indigestion",
+   "uz": "hazmsizlik (oshqozon bezovtaligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Spicy food late at night always gives my uncle indigestion, and then he can't sleep.",
+   "gap": "indigestion",
+   "alt": []
+  },
+  {
+   "id": "sunburn",
+   "en": "sunburn",
+   "uz": "oftob kuyishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even on a cloudy day in the mountains you can get sunburn, because the sun is stronger at high altitude.",
+   "gap": "sunburn",
+   "alt": []
+  },
+  {
+   "id": "ache",
+   "en": "ache",
+   "uz": "zirqiramoq (uzoq og‘rimoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My shoulders ached for two days after I helped my brother carry the new sofa up to the fifth floor.",
+   "gap": "ached",
+   "alt": [
+    "aches",
+    "ached",
+    "aching"
+   ]
+  },
+  {
+   "id": "itch",
+   "en": "itch",
+   "uz": "qichimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mosquito bites itch terribly, but try not to scratch them.",
+   "gap": "itch",
+   "alt": [
+    "itches",
+    "itched",
+    "itching"
+   ]
+  },
+  {
+   "id": "tremble",
+   "en": "tremble",
+   "uz": "titramoq (hayajon, qo‘rquvdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before her speech, Shahnoza's hands were trembling so much that she could hardly hold her notes.",
+   "gap": "trembling",
+   "alt": [
+    "trembles",
+    "trembled",
+    "trembling"
+   ]
+  },
+  {
+   "id": "shiver",
+   "en": "shiver",
+   "uz": "dir-dir qaltiramoq (sovuqdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We waited at the bus stop for half an hour in the freezing wind, shivering in our thin jackets.",
+   "gap": "shivering",
+   "alt": [
+    "shivers",
+    "shivered",
+    "shivering"
+   ]
+  },
+  {
+   "id": "hurt",
+   "en": "hurt",
+   "uz": "og‘rimoq (urilgan, jarohatlangan joy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I fell off my bike yesterday, and my knee still hurts when I go down the stairs.",
+   "gap": "hurts",
+   "alt": [
+    "hurts",
+    "hurting"
+   ]
+  },
+  {
+   "id": "get_over",
+   "en": "get over",
+   "uz": "tuzalib ketmoq (kasallikdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Even after Kamola got over the flu, she felt weak and tired for a few more days.",
+   "gap": "got over",
+   "alt": [
+    "gets over",
+    "got over",
+    "getting over"
+   ]
+  },
+  {
+   "id": "recover",
+   "en": "recover",
+   "uz": "sog‘aymoq, tuzalmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doctor says Sanjar should fully recover from his ankle injury in time for the dance competition in May.",
+   "gap": "recover",
+   "alt": [
+    "recovers",
+    "recovered",
+    "recovering"
+   ]
+  },
+  {
+   "id": "feel_sick",
+   "en": "sick",
+   "uz": "ko‘ngli aynigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The boat was rocking so much that I felt sick and had to go up on deck for fresh air.",
+   "gap": "sick",
+   "alt": []
+  },
+  {
+   "id": "breathless",
+   "en": "breathless",
+   "uz": "nafasi tiqilgan (hansiragan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After running up five flights of stairs, I was so breathless that I couldn't say a word.",
+   "gap": "breathless",
+   "alt": []
+  },
+  {
+   "id": "dizzy",
+   "en": "dizzy",
+   "uz": "boshi aylangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I stood up too quickly after the blood test and the room started spinning, so I was too dizzy to walk.",
+   "gap": "dizzy",
+   "alt": []
+  },
+  {
+   "id": "exhausted",
+   "en": "exhausted",
+   "uz": "holdan toygan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a twelve-hour night shift at the hospital, the nurse was completely exhausted.",
+   "gap": "exhausted",
+   "alt": []
+  },
+  {
+   "id": "lose_appetite",
+   "en": "lose your appetite",
+   "uz": "ishtahasi yo‘qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since he caught the flu, Bobur has lost his appetite and eats almost nothing.",
+   "gap": "lost his appetite",
+   "alt": [
+    "lost his appetite",
+    "lost her appetite",
+    "lose my appetite",
+    "lost my appetite",
+    "loses her appetite"
+   ]
+  },
+  {
+   "id": "lose_voice",
+   "en": "lose your voice",
+   "uz": "ovozi bo‘g‘ilib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I shouted so much at the football match that I lost my voice and could only whisper the next day.",
+   "gap": "lost my voice",
+   "alt": [
+    "lost my voice",
+    "lose my voice",
+    "lost his voice",
+    "lost her voice"
+   ]
+  },
+  {
+   "id": "pick_up_a_bug",
+   "en": "pick up a bug",
+   "uz": "biror yuqumli kasallik yuqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I think I picked up a bug on the train; half the passengers were coughing and sneezing.",
+   "gap": "picked up a bug",
+   "alt": [
+    "picked up a bug",
+    "picks up a bug",
+    "picking up a bug"
+   ]
+  },
+  {
+   "id": "sprain",
+   "en": "sprain",
+   "uz": "(bo‘g‘imni) lat yedirmoq, cho‘zdirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zarina fell off the trampoline and sprained her wrist, so she had to write with her other hand for a week.",
+   "gap": "sprained",
+   "alt": [
+    "sprains",
+    "sprained",
+    "spraining"
+   ]
+  },
+  {
+   "id": "dislocate",
+   "en": "dislocate",
+   "uz": "chiqarib olmoq (bo‘g‘imni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The goalkeeper dislocated his shoulder when he dived for the ball, and the doctor had to put it back in place.",
+   "gap": "dislocated",
+   "alt": [
+    "dislocates",
+    "dislocated",
+    "dislocating"
+   ]
+  },
+  {
+   "id": "heart_attack",
+   "en": "heart attack",
+   "uz": "yurak xuruji (infarkt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school caretaker had a mild heart attack last year, but after a few weeks of rest he was back at work, fixing everything again.",
+   "gap": "heart attack",
+   "alt": [
+    "heart attacks"
+   ]
+  },
+  {
+   "id": "stroke",
+   "en": "stroke",
+   "uz": "insult (miyaga qon quyilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If someone's face suddenly drops on one side and they can't speak clearly, it may be a stroke, so call an ambulance at once.",
+   "gap": "stroke",
+   "alt": [
+    "strokes"
+   ]
+  },
+  {
+   "id": "bandage",
+   "en": "bandage",
+   "uz": "bint (bog‘lam)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The school nurse cleaned the cut and wrapped a clean bandage around my hand.",
+   "gap": "bandage",
+   "alt": [
+    "bandages"
+   ]
+  },
+  {
+   "id": "injection",
+   "en": "injection",
+   "uz": "ukol (in’eksiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dentist gave me an injection in my gum, so I didn't feel a thing while she filled the tooth.",
+   "gap": "injection",
+   "alt": [
+    "injections"
+   ]
+  },
+  {
+   "id": "operation",
+   "en": "operation",
+   "uz": "operatsiya (jarrohlik amaliyoti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The surgeon said the operation to remove his appendix would take about an hour.",
+   "gap": "operation",
+   "alt": [
+    "operations"
+   ]
+  },
+  {
+   "id": "in_plaster",
+   "en": "plaster",
+   "uz": "gips (singan suyakka qo‘yiladi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur broke his leg skiing at Amirsoy, so it will be in plaster for six weeks.",
+   "gap": "plaster",
+   "alt": [
+    "in plaster"
+   ]
+  },
+  {
+   "id": "tablets",
+   "en": "tablets",
+   "uz": "tabletkalar (dori)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Take two of these tablets after each meal with a glass of water.",
+   "gap": "tablets",
+   "alt": [
+    "tablet"
+   ]
+  },
+  {
+   "id": "operate_on",
+   "en": "operate on",
+   "uz": "operatsiya qilmoq (kimnidir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The surgeons will operate on her knee tomorrow morning, so she mustn't eat anything after midnight.",
+   "gap": "operate on",
+   "alt": [
+    "operates on",
+    "operated on",
+    "operating on"
+   ]
+  },
+  {
+   "id": "symptoms",
+   "en": "symptoms",
+   "uz": "(kasallik) alomatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "A high fever, a cough and aching muscles are common symptoms of flu.",
+   "gap": "symptoms",
+   "alt": [
+    "symptom"
+   ]
+  },
+  {
+   "id": "chest_pains",
+   "en": "chest pains",
+   "uz": "ko‘krak qafasidagi og‘riq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Call an ambulance at once if an older person suddenly feels chest pains spreading down the left arm.",
+   "gap": "chest pains",
+   "alt": [
+    "chest pain"
+   ]
+  },
+  {
+   "id": "pain",
+   "en": "pain",
+   "uz": "og‘riq (bir joyda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Halfway through the race, Dilfuza had a sharp pain in her side and had to stop and walk.",
+   "gap": "pain",
+   "alt": [
+    "a pain",
+    "pains"
+   ]
+  },
+  {
+   "id": "headache",
+   "en": "headache",
+   "uz": "bosh og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Staring at a screen for hours without a break gives me a headache behind my eyes.",
+   "gap": "headache",
+   "alt": [
+    "headaches"
+   ]
+  },
+  {
+   "id": "sickness",
+   "en": "sickness",
+   "uz": "qusish, ko‘ngil aynishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Morning sickness is very common in the first months of pregnancy.",
+   "gap": "sickness",
+   "alt": []
+  },
+  {
+   "id": "diarrhoea",
+   "en": "diarrhoea",
+   "uz": "ich ketishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Drink only bottled water on the trip, or you might get diarrhoea and spend the day near a toilet.",
+   "gap": "diarrhoea",
+   "alt": [
+    "diarrhea"
+   ]
+  },
+  {
+   "id": "vomit",
+   "en": "vomit",
+   "uz": "qusmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The poor dog ate something bad in the park and vomited twice on the way home.",
+   "gap": "vomited",
+   "alt": [
+    "vomits",
+    "vomited",
+    "vomiting"
+   ]
+  },
+  {
+   "id": "virus_illness",
+   "en": "virus",
+   "uz": "ko‘zga ko‘rinmas kasallik qo‘zg‘atuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Antibiotics are useless against a virus, so the doctor told me to rest and drink plenty of water.",
+   "gap": "virus",
+   "alt": [
+    "viruses"
+   ]
+  },
+  {
+   "id": "flu",
+   "en": "flu",
+   "uz": "gripp",
+   "pos": "noun",
+   "img": false,
+   "ex": "Older people are offered a free flu jab every autumn before the winter season starts.",
+   "gap": "flu",
+   "alt": [
+    "the flu"
+   ]
+  },
+  {
+   "id": "common_cold",
+   "en": "cold",
+   "uz": "shamollash",
+   "pos": "noun",
+   "img": false,
+   "ex": "I caught a cold after walking home in the rain without a coat, and now my nose won't stop running.",
+   "gap": "cold",
+   "alt": [
+    "a cold",
+    "colds"
+   ]
+  },
+  {
+   "id": "break_bone",
+   "en": "break",
+   "uz": "sindirmoq (suyakni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Aziza slipped on the ice and broke her wrist, so her arm was in plaster for a month.",
+   "gap": "broke",
+   "alt": [
+    "breaks",
+    "broke",
+    "broken",
+    "breaking"
+   ]
+  },
+  {
+   "id": "die_of",
+   "en": "die of",
+   "uz": "(kasallikdan) vafot etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the 1800s many people in European cities died of cholera because the drinking water was dirty.",
+   "gap": "died of",
+   "alt": [
+    "dies of",
+    "died of",
+    "dying of"
+   ]
+  },
+  {
+   "id": "contract_illness",
+   "en": "contract",
+   "uz": "(og‘ir kasallikni) yuqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The explorer contracted malaria while travelling through the jungle and spent weeks in hospital.",
+   "gap": "contracted",
+   "alt": [
+    "contracts",
+    "contracted",
+    "contracting"
+   ]
+  },
+  {
+   "id": "suffer",
+   "en": "suffer",
+   "uz": "(xastalikka) chalinmoq, uchramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The famous singer suffered a stroke at the age of seventy but learned to walk again within a year.",
+   "gap": "suffered",
+   "alt": [
+    "suffers",
+    "suffered",
+    "suffering"
+   ]
+  },
+  {
+   "id": "prescribe",
+   "en": "prescribe",
+   "uz": "(dori) yozib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doctor prescribed antibiotics for Ravshan's ear infection and told him to take them for a week.",
+   "gap": "prescribed",
+   "alt": [
+    "prescribes",
+    "prescribed",
+    "prescribing"
+   ]
+  },
+  {
+   "id": "medicine",
+   "en": "medicine",
+   "uz": "dori (ichiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This cough medicine tastes awful, but it helps me sleep at night.",
+   "gap": "medicine",
+   "alt": [
+    "medicines"
+   ]
+  },
+  {
+   "id": "teaspoonful",
+   "en": "teaspoonful",
+   "uz": "bir choy qoshiq (miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Give the child one teaspoonful of syrup three times a day after meals.",
+   "gap": "teaspoonful",
+   "alt": [
+    "teaspoonfuls",
+    "a teaspoonful"
+   ]
+  },
+  {
+   "id": "nurse",
+   "en": "nurse",
+   "uz": "hamshira",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse took my temperature and wrote it on a chart at the end of the bed.",
+   "gap": "nurse",
+   "alt": [
+    "nurses"
+   ]
+  },
+  {
+   "id": "surgeon",
+   "en": "surgeon",
+   "uz": "jarroh",
+   "pos": "noun",
+   "img": false,
+   "ex": "It took the surgeon six hours to repair the damaged blood vessels in the man's heart.",
+   "gap": "surgeon",
+   "alt": [
+    "surgeons"
+   ]
+  },
+  {
+   "id": "patient",
+   "en": "patient",
+   "uz": "bemor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor sees about thirty patients a day at the village clinic.",
+   "gap": "patients",
+   "alt": [
+    "patients"
+   ]
+  },
+  {
+   "id": "tumour",
+   "en": "tumour",
+   "uz": "o‘sma (shish kasalligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors found a small tumour on his brain and removed it in a successful operation.",
+   "gap": "tumour",
+   "alt": [
+    "tumours",
+    "tumor"
+   ]
+  },
+  {
+   "id": "mend",
+   "en": "mend",
+   "uz": "bitmoq (singan suyak)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Children's bones mend faster than adults', so a broken arm often heals in a few weeks.",
+   "gap": "mend",
+   "alt": [
+    "mends",
+    "mended",
+    "mending"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "pain",
+   "headache"
+  ],
+  [
+   "rash",
+   "spots"
+  ],
+  [
+   "bruise_injury",
+   "lump"
+  ],
+  [
+   "bruise_injury",
+   "black_eye"
+  ],
+  [
+   "backache",
+   "earache"
+  ],
+  [
+   "sore_throat",
+   "earache"
+  ],
+  [
+   "tremble",
+   "shiver"
+  ],
+  [
+   "ache",
+   "tremble"
+  ],
+  [
+   "feel_sick",
+   "dizzy"
+  ],
+  [
+   "feel_sick",
+   "breathless"
+  ],
+  [
+   "dizzy",
+   "breathless"
+  ],
+  [
+   "breathless",
+   "exhausted"
+  ],
+  [
+   "dizzy",
+   "exhausted"
+  ],
+  [
+   "feel_sick",
+   "exhausted"
+  ],
+  [
+   "lose_appetite",
+   "lose_voice"
+  ],
+  [
+   "sprain",
+   "dislocate"
+  ],
+  [
+   "heart_attack",
+   "stroke"
+  ],
+  [
+   "bandage",
+   "in_plaster"
+  ],
+  [
+   "operation",
+   "operate_on"
+  ],
+  [
+   "injection",
+   "tablets"
+  ],
+  [
+   "indigestion",
+   "backache"
+  ],
+  [
+   "indigestion",
+   "earache"
+  ],
+  [
+   "temperature",
+   "blood_pressure"
+  ],
+  [
+   "get_over",
+   "pick_up_a_bug"
+  ],
+  [
+   "ache",
+   "hurt"
+  ],
+  [
+   "get_over",
+   "recover"
+  ],
+  [
+   "itch",
+   "hurt"
+  ],
+  [
+   "sore_throat",
+   "temperature"
+  ],
+  [
+   "pain",
+   "backache"
+  ],
+  [
+   "sickness",
+   "diarrhoea"
+  ],
+  [
+   "common_cold",
+   "flu"
+  ],
+  [
+   "break_bone",
+   "sprain"
+  ],
+  [
+   "contract_illness",
+   "pick_up_a_bug"
+  ],
+  [
+   "tumour",
+   "lump"
+  ],
+  [
+   "mend",
+   "recover"
+  ],
+  [
+   "mend",
+   "get_over"
+  ],
+  [
+   "chest_pains",
+   "pain"
+  ],
+  [
+   "chest_pains",
+   "backache"
+  ],
+  [
+   "headache",
+   "backache"
+  ],
+  [
+   "headache",
+   "indigestion"
+  ],
+  [
+   "headache",
+   "earache"
+  ],
+  [
+   "sickness",
+   "vomit"
+  ],
+  [
+   "sickness",
+   "feel_sick"
+  ],
+  [
+   "diarrhoea",
+   "indigestion"
+  ],
+  [
+   "common_cold",
+   "virus_illness"
+  ],
+  [
+   "break_bone",
+   "dislocate"
+  ],
+  [
+   "die_of",
+   "contract_illness"
+  ],
+  [
+   "nurse",
+   "surgeon"
+  ],
+  [
+   "tablets",
+   "medicine"
+  ],
+  [
+   "sore_throat",
+   "common_cold"
+  ],
+  [
+   "sore_throat",
+   "flu"
+  ]
+ ]
+}

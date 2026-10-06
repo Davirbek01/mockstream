@@ -1,0 +1,525 @@
+{
+ "book": "upper",
+ "unit": 37,
+ "title": "The press and the media",
+ "title_uz": "Matbuot va ommaviy axborot vositalari",
+ "words": [
+  {
+   "id": "talk_show",
+   "en": "talk show",
+   "uz": "tok-shou (suhbat ko‘rsatuvi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young chess champion from Samarkand was invited onto a late-night talk show, where the host asked her about her childhood.",
+   "gap": "talk show",
+   "alt": [
+    "talk shows"
+   ]
+  },
+  {
+   "id": "cartoon",
+   "en": "cartoon",
+   "uz": "multfilm",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister watches cartoons every Saturday morning; her favourite is about a family of talking bears.",
+   "gap": "cartoons",
+   "alt": [
+    "cartoons"
+   ]
+  },
+  {
+   "id": "game_show",
+   "en": "game show",
+   "uz": "sovrinli o‘yin-shou",
+   "pos": "noun",
+   "img": false,
+   "ex": "The contestants on the game show had to answer ten questions correctly to win a new car.",
+   "gap": "game show",
+   "alt": [
+    "game shows"
+   ]
+  },
+  {
+   "id": "soap_opera",
+   "en": "soap opera",
+   "uz": "ko‘p yillik maishiy serial",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum has been watching the same soap opera every weekday evening for twelve years; she worries about its characters as if they were our neighbours.",
+   "gap": "soap opera",
+   "alt": [
+    "soap operas",
+    "soap",
+    "soaps"
+   ]
+  },
+  {
+   "id": "documentary",
+   "en": "documentary",
+   "uz": "hujjatli film",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night we watched a documentary about how penguins keep their eggs warm through the long Antarctic winter.",
+   "gap": "documentary",
+   "alt": [
+    "documentaries"
+   ]
+  },
+  {
+   "id": "sitcom",
+   "en": "sitcom",
+   "uz": "sitkom (kulgili serial)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actors in this sitcom about three clumsy waiters at a hotel in Khiva are so funny that Dad spilled his tea laughing.",
+   "gap": "sitcom",
+   "alt": [
+    "sitcoms"
+   ]
+  },
+  {
+   "id": "current_affairs",
+   "en": "current affairs",
+   "uz": "dolzarb siyosiy voqealar",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the current affairs programme last night, two economists argued about whether bread prices will keep rising.",
+   "gap": "current affairs",
+   "alt": []
+  },
+  {
+   "id": "presenter",
+   "en": "presenter",
+   "uz": "boshlovchi (teleko‘rsatuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The presenter introduced each singer and told a short joke between the songs.",
+   "gap": "presenter",
+   "alt": [
+    "presenters"
+   ]
+  },
+  {
+   "id": "episode",
+   "en": "episode",
+   "uz": "qism (serialning bir qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't wait for the next episode; the last one ended just as the detective found the missing key.",
+   "gap": "episode",
+   "alt": [
+    "episodes"
+   ]
+  },
+  {
+   "id": "weather_forecast",
+   "en": "weather forecast",
+   "uz": "ob-havo ma’lumoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather forecast promised sunshine, so we left our umbrellas at home and got soaked on the way to the bazaar.",
+   "gap": "weather forecast",
+   "alt": [
+    "weather forecasts"
+   ]
+  },
+  {
+   "id": "mass_media",
+   "en": "mass media",
+   "uz": "ommaviy axborot vositalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Within a day, the story of the boy who saved a puppy from the canal had spread through the mass media, from TV news to every website.",
+   "gap": "mass media",
+   "alt": []
+  },
+  {
+   "id": "subtitles",
+   "en": "subtitles",
+   "uz": "subtitrlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film was in Turkish, but the Uzbek subtitles at the bottom of the screen helped us follow the story.",
+   "gap": "subtitles",
+   "alt": [
+    "subtitle"
+   ]
+  },
+  {
+   "id": "dubbed",
+   "en": "dubbed",
+   "uz": "dublyaj qilingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When I was little, the foreign films on TV were dubbed into Uzbek, so I never had to read anything.",
+   "gap": "dubbed",
+   "alt": [
+    "dub",
+    "dubs"
+   ]
+  },
+  {
+   "id": "satellite_dish",
+   "en": "satellite dish",
+   "uz": "sun’iy yo‘ldosh antennasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Strong winds blew the satellite dish off our balcony, and we couldn't watch any channels for a week.",
+   "gap": "satellite dish",
+   "alt": [
+    "satellite dishes"
+   ]
+  },
+  {
+   "id": "commercials",
+   "en": "commercials",
+   "uz": "reklama roliklari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film was interrupted by commercials every fifteen minutes, so it took three hours to finish.",
+   "gap": "commercials",
+   "alt": [
+    "commercial"
+   ]
+  },
+  {
+   "id": "catch_up_tv",
+   "en": "catch-up TV",
+   "uz": "ko‘rsatuvni keyinroq ko‘rish xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "I missed the final last night, but I can watch it on catch-up TV this evening.",
+   "gap": "catch-up TV",
+   "alt": [
+    "catch up TV"
+   ]
+  },
+  {
+   "id": "tabloid",
+   "en": "tabloid",
+   "uz": "sariq gazeta (g‘iybatli nashr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tabloid filled its front page with a photo of a footballer's new haircut and left almost no room for real news.",
+   "gap": "tabloid",
+   "alt": [
+    "tabloids"
+   ]
+  },
+  {
+   "id": "quality_newspaper",
+   "en": "quality newspaper",
+   "uz": "jiddiy gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our economics teacher reads a quality newspaper every morning for its long, careful articles on business and science.",
+   "gap": "quality newspaper",
+   "alt": [
+    "quality newspapers",
+    "quality paper"
+   ]
+  },
+  {
+   "id": "sensation",
+   "en": "sensation",
+   "uz": "shov-shuv (sensatsiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some websites care more about sensation than truth, so they make every small story sound shocking.",
+   "gap": "sensation",
+   "alt": []
+  },
+  {
+   "id": "scandal",
+   "en": "scandal",
+   "uz": "janjal (sharmandali mojaro)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football club was hit by a scandal when it turned out that two players had been paid to lose a match.",
+   "gap": "scandal",
+   "alt": [
+    "scandals"
+   ]
+  },
+  {
+   "id": "journalism",
+   "en": "journalism",
+   "uz": "jurnalistika",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years of writing for the school newspaper, Feruza decided to study journalism at university.",
+   "gap": "journalism",
+   "alt": []
+  },
+  {
+   "id": "in_depth",
+   "en": "in-depth",
+   "uz": "chuqur, batafsil (tahlil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The magazine published an in-depth report on water shortages, with interviews, maps and statistics.",
+   "gap": "in-depth",
+   "alt": [
+    "in depth"
+   ]
+  },
+  {
+   "id": "subscription",
+   "en": "subscription",
+   "uz": "obuna (to‘lovi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "You need a subscription to read more than three articles a month on that news website.",
+   "gap": "subscription",
+   "alt": [
+    "subscriptions"
+   ]
+  },
+  {
+   "id": "broadcast_v",
+   "en": "broadcast",
+   "uz": "efirga uzatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school radio broadcasts music and short news reports every break, so you can hear it in all the corridors.",
+   "gap": "broadcasts",
+   "alt": [
+    "broadcasts",
+    "broadcasting",
+    "broadcasted"
+   ]
+  },
+  {
+   "id": "televise",
+   "en": "televise",
+   "uz": "televideniyeda ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school's spring concert was televised on the local channel, and half the neighbourhood saw me forget my lines.",
+   "gap": "televised",
+   "alt": [
+    "televises",
+    "televised",
+    "televising"
+   ]
+  },
+  {
+   "id": "on_location",
+   "en": "on location",
+   "uz": "asl joyida (studiyada emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The adventure film was shot on location in the old streets of Khiva rather than in a studio.",
+   "gap": "on location",
+   "alt": []
+  },
+  {
+   "id": "tweet",
+   "en": "tweet",
+   "uz": "tvit yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The singer was tweeting photos from backstage while the audience were still looking for their seats.",
+   "gap": "tweeting",
+   "alt": [
+    "tweets",
+    "tweeted",
+    "tweeting"
+   ]
+  },
+  {
+   "id": "drama_tv",
+   "en": "drama",
+   "uz": "badiiy teleserial yoki film",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class watched a historical drama about the court of Amir Temur, with actors in beautiful costumes.",
+   "gap": "drama",
+   "alt": [
+    "dramas"
+   ]
+  },
+  {
+   "id": "means_communication",
+   "en": "means of communication",
+   "uz": "aloqa vositasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For families living far apart, video calls are now the main means of communication.",
+   "gap": "means of communication",
+   "alt": [
+    "means"
+   ]
+  },
+  {
+   "id": "tv_on_demand",
+   "en": "TV on demand",
+   "uz": "istalgan paytda ko‘riladigan TV",
+   "pos": "noun",
+   "img": false,
+   "ex": "With TV on demand, you can start any programme from the online library whenever you like.",
+   "gap": "TV on demand",
+   "alt": [
+    "on demand"
+   ]
+  },
+  {
+   "id": "focus_on",
+   "en": "focus on",
+   "uz": "e’tiborni …ga qaratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This week's programme focuses on young farmers who grow vegetables without chemicals.",
+   "gap": "focuses on",
+   "alt": [
+    "focuses on",
+    "focused on",
+    "focusing on",
+    "focussed on"
+   ]
+  },
+  {
+   "id": "shoot_film",
+   "en": "shoot",
+   "uz": "suratga olmoq (film)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The director plans to shoot most of the film in the desert next spring.",
+   "gap": "shoot",
+   "alt": [
+    "shoots",
+    "shot",
+    "shooting"
+   ]
+  },
+  {
+   "id": "host_tv",
+   "en": "host",
+   "uz": "tok-shou mezboni (boshlovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the host of the late-night show, Erkin chats with three famous guests every Friday.",
+   "gap": "host",
+   "alt": [
+    "hosts"
+   ]
+  },
+  {
+   "id": "tv_listings",
+   "en": "TV listings",
+   "uz": "teleko‘rsatuvlar jadvali",
+   "pos": "noun",
+   "img": false,
+   "ex": "I checked the TV listings in the paper to see what time the football started.",
+   "gap": "TV listings",
+   "alt": [
+    "listings"
+   ]
+  },
+  {
+   "id": "newly_weds",
+   "en": "newly-weds",
+   "uz": "yangi turmush qurganlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The seaside hotel offers newly-weds a free cake and a room with a balcony.",
+   "gap": "newly-weds",
+   "alt": [
+    "newlyweds",
+    "newly-wed",
+    "newlywed"
+   ]
+  },
+  {
+   "id": "celebrity",
+   "en": "celebrity",
+   "uz": "mashhur shaxs (yulduz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magazine is full of photos of celebrities on the red carpet at film premieres.",
+   "gap": "celebrities",
+   "alt": [
+    "celebrities"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "host_tv",
+   "presenter"
+  ],
+  [
+   "celebrity",
+   "presenter"
+  ],
+  [
+   "celebrity",
+   "host_tv"
+  ],
+  [
+   "talk_show",
+   "game_show"
+  ],
+  [
+   "soap_opera",
+   "sitcom"
+  ],
+  [
+   "documentary",
+   "cartoon"
+  ],
+  [
+   "sensation",
+   "scandal"
+  ],
+  [
+   "broadcast_v",
+   "televise"
+  ],
+  [
+   "tabloid",
+   "quality_newspaper"
+  ],
+  [
+   "subscription",
+   "subscribe"
+  ],
+  [
+   "current_affairs",
+   "talk_show"
+  ],
+  [
+   "sitcom",
+   "episode"
+  ],
+  [
+   "drama_tv",
+   "sitcom"
+  ],
+  [
+   "drama_tv",
+   "soap_opera"
+  ],
+  [
+   "drama_tv",
+   "documentary"
+  ],
+  [
+   "drama_tv",
+   "episode"
+  ],
+  [
+   "tv_on_demand",
+   "catch_up_tv"
+  ],
+  [
+   "means_communication",
+   "mass_media"
+  ],
+  [
+   "shoot_film",
+   "televise"
+  ]
+ ]
+}

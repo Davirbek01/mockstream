@@ -1,0 +1,583 @@
+{
+ "book": "upper",
+ "unit": 63,
+ "title": "Cause, reason, purpose and result",
+ "title_uz": "Sabab, asos, maqsad va natija",
+ "words": [
+  {
+   "id": "due_to",
+   "en": "due to",
+   "uz": "…tufayli (sabab ko‘rsatish)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Our flight to Urgench was three hours late due to thick fog.",
+   "gap": "due to",
+   "alt": []
+  },
+  {
+   "id": "owing_to",
+   "en": "owing to",
+   "uz": "…sababli (rasmiy)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Our school can't offer French this year owing to a shortage of teachers.",
+   "gap": "owing to",
+   "alt": []
+  },
+  {
+   "id": "cause_v",
+   "en": "cause",
+   "uz": "…ga sabab bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A tiny typing mistake in the email address caused all our invitations to go to the wrong person.",
+   "gap": "caused",
+   "alt": [
+    "causes",
+    "caused",
+    "causing"
+   ]
+  },
+  {
+   "id": "cause_n",
+   "en": "cause",
+   "uz": "sabab (hodisaning kelib chiqishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Firefighters say the cause of the small fire in the school kitchen was an old electric kettle.",
+   "gap": "cause",
+   "alt": [
+    "causes"
+   ]
+  },
+  {
+   "id": "spark_off",
+   "en": "spark off",
+   "uz": "(keskin norozilikni) qo‘zg‘atib yubormoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The referee's decision sparked off a storm of angry comments from the fans online.",
+   "gap": "sparked off",
+   "alt": [
+    "spark",
+    "sparks off",
+    "sparked off",
+    "sparking off",
+    "sparked"
+   ]
+  },
+  {
+   "id": "give_rise_to",
+   "en": "give rise to",
+   "uz": "…ni keltirib chiqarmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our teacher's question about homework gave rise to a long and lively discussion in class.",
+   "gap": "gave rise to",
+   "alt": [
+    "gives rise to",
+    "gave rise to",
+    "given rise to",
+    "giving rise to"
+   ]
+  },
+  {
+   "id": "provoke",
+   "en": "provoke",
+   "uz": "(tanqid, g‘azab) uyg‘otmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The decision to close the only swimming pool in our town provoked an angry reaction from local families.",
+   "gap": "provoked",
+   "alt": [
+    "provokes",
+    "provoked",
+    "provoking"
+   ]
+  },
+  {
+   "id": "generate",
+   "en": "generate",
+   "uz": "(qiziqish, ish o‘rni) yaratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new shopping centre in our district has generated hundreds of jobs for young people.",
+   "gap": "generated",
+   "alt": [
+    "generates",
+    "generated",
+    "generating"
+   ]
+  },
+  {
+   "id": "bring_about",
+   "en": "bring about",
+   "uz": "(o‘zgarish) yuzaga keltirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Online lessons during the lockdown brought about lasting changes in the way teachers use technology.",
+   "gap": "brought about",
+   "alt": [
+    "brings about",
+    "brought about",
+    "bringing about"
+   ]
+  },
+  {
+   "id": "lead_to",
+   "en": "lead to",
+   "uz": "…ga olib kelmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Eating too many sweets can lead to serious problems with your teeth.",
+   "gap": "lead to",
+   "alt": [
+    "leads to",
+    "led to",
+    "leading to"
+   ]
+  },
+  {
+   "id": "stem_from",
+   "en": "stem from",
+   "uz": "…dan kelib chiqmoq (ildizi)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Lola's fear of deep water stems from the time she nearly sank in a pool as a small child.",
+   "gap": "stems from",
+   "alt": [
+    "stems from",
+    "stemmed from",
+    "stemming from"
+   ]
+  },
+  {
+   "id": "arise_from",
+   "en": "arise from",
+   "uz": "…dan paydo bo‘lmoq (nizo, ish)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The misunderstanding between the two teams arose from a badly translated message.",
+   "gap": "arose from",
+   "alt": [
+    "arises from",
+    "arose from",
+    "arisen from",
+    "arising from",
+    "arise out of",
+    "arose out of"
+   ]
+  },
+  {
+   "id": "reason_for",
+   "en": "reason for",
+   "uz": "(qarorning) sababi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin's reason for leaving the football team was that training clashed with his piano lessons.",
+   "gap": "reason for",
+   "alt": [
+    "reason",
+    "reasons for"
+   ]
+  },
+  {
+   "id": "motive",
+   "en": "motive",
+   "uz": "asl niyat (harakat ortida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody understood Rustam's motive for suddenly being so friendly — until he asked to borrow money.",
+   "gap": "motive",
+   "alt": [
+    "motives"
+   ]
+  },
+  {
+   "id": "prompt",
+   "en": "prompt",
+   "uz": "undamoq, turtki bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "What prompted you to take up the violin at the age of thirty?",
+   "gap": "prompted",
+   "alt": [
+    "prompts",
+    "prompted",
+    "prompting"
+   ]
+  },
+  {
+   "id": "with_the_aim_of",
+   "en": "with the aim of",
+   "uz": "…ni maqsad qilib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilnoza started a blog with the aim of helping other students prepare for the IELTS exam.",
+   "gap": "with the aim of",
+   "alt": []
+  },
+  {
+   "id": "with_a_view_to",
+   "en": "with a view to",
+   "uz": "…ni ko‘zlab (bilvosita)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My uncle has been saving money with a view to opening a small café near the university.",
+   "gap": "with a view to",
+   "alt": []
+  },
+  {
+   "id": "on_the_grounds_that",
+   "en": "on the grounds that",
+   "uz": "…ligini asos qilib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The referee disallowed the goal on the grounds that the player was offside.",
+   "gap": "on the grounds that",
+   "alt": []
+  },
+  {
+   "id": "purpose",
+   "en": "purpose",
+   "uz": "maqsad (…ning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The purpose of today's meeting is to choose a theme for the school's Navruz concert.",
+   "gap": "purpose",
+   "alt": [
+    "purposes"
+   ]
+  },
+  {
+   "id": "as_a_result",
+   "en": "as a result",
+   "uz": "natijada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our coach was ill, so training was cancelled for two weeks; as a result, we lost our first match.",
+   "gap": "as a result",
+   "alt": []
+  },
+  {
+   "id": "as_a_consequence",
+   "en": "as a consequence",
+   "uz": "oqibatda (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There was very little rain last spring and, as a consequence, the apricot harvest in our village was poor.",
+   "gap": "as a consequence",
+   "alt": []
+  },
+  {
+   "id": "consequently",
+   "en": "consequently",
+   "uz": "shu boisdan (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bridge was closed for repairs and consequently we had to take a much longer route to Samarkand.",
+   "gap": "consequently",
+   "alt": []
+  },
+  {
+   "id": "result_in",
+   "en": "result in",
+   "uz": "… bilan yakunlanmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Washing a red sock with the white shirts resulted in a pink school uniform.",
+   "gap": "resulted in",
+   "alt": [
+    "results in",
+    "resulted in",
+    "resulting in"
+   ]
+  },
+  {
+   "id": "consequence",
+   "en": "consequence",
+   "uz": "oqibat (…ning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "One consequence of the new school timetable is that we get home an hour later and have less time for homework.",
+   "gap": "consequence",
+   "alt": [
+    "consequences"
+   ]
+  },
+  {
+   "id": "outcome",
+   "en": "outcome",
+   "uz": "yakuniy natija (jarayon, uchrashuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The students waited nervously outside the hall to hear the outcome of the debate competition.",
+   "gap": "outcome",
+   "alt": [
+    "outcomes"
+   ]
+  },
+  {
+   "id": "upshot",
+   "en": "upshot",
+   "uz": "oxir-oqibat (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We argued for an hour about where to go, and the upshot was that we stayed at home.",
+   "gap": "upshot",
+   "alt": []
+  },
+  {
+   "id": "ensue",
+   "en": "ensue",
+   "uz": "ketidan boshlanmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When two buses tried to squeeze through the narrow gate at the same time, a noisy traffic jam ensued.",
+   "gap": "ensued",
+   "alt": [
+    "ensues",
+    "ensued",
+    "ensuing"
+   ]
+  },
+  {
+   "id": "result_n",
+   "en": "result",
+   "uz": "natija (…ning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our choir practised every evening for a month, and the result was a first prize at the regional festival.",
+   "gap": "result",
+   "alt": [
+    "results"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "due_to",
+   "owing_to"
+  ],
+  [
+   "cause_v",
+   "cause_n"
+  ],
+  [
+   "cause_v",
+   "prompt"
+  ],
+  [
+   "cause_v",
+   "spark_off"
+  ],
+  [
+   "cause_v",
+   "give_rise_to"
+  ],
+  [
+   "cause_v",
+   "provoke"
+  ],
+  [
+   "cause_v",
+   "generate"
+  ],
+  [
+   "cause_v",
+   "bring_about"
+  ],
+  [
+   "cause_v",
+   "lead_to"
+  ],
+  [
+   "cause_v",
+   "result_in"
+  ],
+  [
+   "spark_off",
+   "give_rise_to"
+  ],
+  [
+   "spark_off",
+   "provoke"
+  ],
+  [
+   "spark_off",
+   "generate"
+  ],
+  [
+   "spark_off",
+   "bring_about"
+  ],
+  [
+   "spark_off",
+   "lead_to"
+  ],
+  [
+   "spark_off",
+   "result_in"
+  ],
+  [
+   "give_rise_to",
+   "provoke"
+  ],
+  [
+   "give_rise_to",
+   "generate"
+  ],
+  [
+   "give_rise_to",
+   "bring_about"
+  ],
+  [
+   "give_rise_to",
+   "lead_to"
+  ],
+  [
+   "give_rise_to",
+   "result_in"
+  ],
+  [
+   "provoke",
+   "generate"
+  ],
+  [
+   "provoke",
+   "bring_about"
+  ],
+  [
+   "provoke",
+   "lead_to"
+  ],
+  [
+   "provoke",
+   "result_in"
+  ],
+  [
+   "provoke",
+   "prompt"
+  ],
+  [
+   "generate",
+   "bring_about"
+  ],
+  [
+   "generate",
+   "lead_to"
+  ],
+  [
+   "generate",
+   "result_in"
+  ],
+  [
+   "bring_about",
+   "lead_to"
+  ],
+  [
+   "bring_about",
+   "result_in"
+  ],
+  [
+   "lead_to",
+   "result_in"
+  ],
+  [
+   "stem_from",
+   "arise_from"
+  ],
+  [
+   "arise_from",
+   "lead_to"
+  ],
+  [
+   "arise_from",
+   "result_in"
+  ],
+  [
+   "stem_from",
+   "lead_to"
+  ],
+  [
+   "cause_n",
+   "reason_for"
+  ],
+  [
+   "cause_n",
+   "motive"
+  ],
+  [
+   "reason_for",
+   "motive"
+  ],
+  [
+   "reason_for",
+   "purpose"
+  ],
+  [
+   "motive",
+   "purpose"
+  ],
+  [
+   "with_the_aim_of",
+   "with_a_view_to"
+  ],
+  [
+   "as_a_result",
+   "consequently"
+  ],
+  [
+   "as_a_result",
+   "as_a_consequence"
+  ],
+  [
+   "consequently",
+   "as_a_consequence"
+  ],
+  [
+   "consequence",
+   "as_a_consequence"
+  ],
+  [
+   "consequence",
+   "outcome"
+  ],
+  [
+   "consequence",
+   "upshot"
+  ],
+  [
+   "spark_off",
+   "prompt"
+  ],
+  [
+   "give_rise_to",
+   "prompt"
+  ],
+  [
+   "bring_about",
+   "prompt"
+  ],
+  [
+   "outcome",
+   "upshot"
+  ],
+  [
+   "prompt",
+   "lead_to"
+  ],
+  [
+   "result_n",
+   "consequence"
+  ],
+  [
+   "result_n",
+   "outcome"
+  ],
+  [
+   "result_n",
+   "upshot"
+  ]
+ ]
+}

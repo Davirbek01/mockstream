@@ -1,0 +1,335 @@
+{
+ "book": "advanced",
+ "unit": 91,
+ "title": "One word, many meanings",
+ "title_uz": "Bir so‘z — ko‘p ma’no",
+ "words": [
+  {
+   "id": "only_fair",
+   "en": "only fair",
+   "uz": "adolatdan bo‘ladi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Aziza organised last year's charity concert, so it's only fair that someone else takes charge this time.",
+   "gap": "only fair",
+   "alt": []
+  },
+  {
+   "id": "book_fair",
+   "en": "book fair",
+   "uz": "kitob yarmarkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the book fair in the exhibition centre, publishers from twenty countries showed off their new titles.",
+   "gap": "book fair",
+   "alt": [
+    "book fairs"
+   ]
+  },
+  {
+   "id": "fair_skin",
+   "en": "fair skin",
+   "uz": "oqish teri (quyoshda tez kuyadigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With his fair skin, the Scottish volunteer spent the whole field trip in Surkhandarya under a wide straw hat.",
+   "gap": "fair skin",
+   "alt": []
+  },
+  {
+   "id": "fair_weather",
+   "en": "fair weather",
+   "uz": "ochiq, musaffo havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the fair weather holds until Saturday, the astronomy club will set up its telescopes on the school roof.",
+   "gap": "fair weather",
+   "alt": []
+  },
+  {
+   "id": "flat_land",
+   "en": "flat",
+   "uz": "tekis (yer, joy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The land near the coast is so flat that cyclists love it: there isn't a single hill for miles.",
+   "gap": "flat",
+   "alt": []
+  },
+  {
+   "id": "flat_fee",
+   "en": "flat fee",
+   "uz": "qat’iy belgilangan to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi from the airport to the city centre costs a flat fee of 60,000 som, however bad the traffic is.",
+   "gap": "flat fee",
+   "alt": []
+  },
+  {
+   "id": "minutes_flat",
+   "en": "minutes flat",
+   "uz": "atigi … daqiqada, ortig‘i yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ravshan solved the Rubik's cube in two minutes flat, a new record for our class.",
+   "gap": "minutes flat",
+   "alt": []
+  },
+  {
+   "id": "capital_money",
+   "en": "capital",
+   "uz": "sarmoya (ish boshlash uchun mablag‘)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two graduates had a brilliant idea for a recycling app but no capital, so they entered a start-up contest with a cash prize.",
+   "gap": "capital",
+   "alt": []
+  },
+  {
+   "id": "mean_stingy",
+   "en": "mean",
+   "uz": "xasis, qurumsoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Murod earns a good salary, but he's so mean that he still borrows pens rather than buy his own.",
+   "gap": "mean",
+   "alt": []
+  },
+  {
+   "id": "be_mean_to",
+   "en": "be mean to",
+   "uz": "…ga qo‘pol muomala qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The older boys were mean to the new pupil until the teacher stepped in.",
+   "gap": "were mean to",
+   "alt": [
+    "was mean to",
+    "were mean to",
+    "is mean to",
+    "being mean to"
+   ]
+  },
+  {
+   "id": "didnt_mean_to",
+   "en": "mean to",
+   "uz": "niyat qilmoq, ataylab qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sorry, I didn't mean to wake you; I was looking for my phone charger in the dark.",
+   "gap": "didn't mean to",
+   "alt": [
+    "didn't mean to",
+    "meant to",
+    "means to",
+    "don't mean to"
+   ]
+  },
+  {
+   "id": "mean_temperature",
+   "en": "mean temperature",
+   "uz": "o‘rtacha harorat",
+   "pos": "noun",
+   "img": false,
+   "ex": "For our science project, we measured the air every morning and then worked out the mean temperature for March.",
+   "gap": "mean temperature",
+   "alt": []
+  },
+  {
+   "id": "capital_letters",
+   "en": "capital letters",
+   "uz": "bosh (katta) harflar",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the poster for the school talent show, only the title was in capital letters; everything else was in small italics.",
+   "gap": "capital letters",
+   "alt": []
+  },
+  {
+   "id": "polysemy",
+   "en": "polysemy",
+   "uz": "ko‘p ma’nolilik hodisasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to polysemy, the English word 'sharp' can describe a knife, a mind, a bend in the road or a sudden pain.",
+   "gap": "polysemy",
+   "alt": []
+  },
+  {
+   "id": "homograph",
+   "en": "homograph",
+   "uz": "shakldosh so‘z (yozilishi bir xil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Bow' is a homograph: the violinist takes a bow after the concert, then picks up her bow again for an encore.",
+   "gap": "homograph",
+   "alt": [
+    "homographs"
+   ]
+  },
+  {
+   "id": "price_of_one",
+   "en": "two for the price of one",
+   "uz": "bittasining narxiga ikkita",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This week the corner bakery is selling its loaves two for the price of one.",
+   "gap": "two for the price of one",
+   "alt": []
+  },
+  {
+   "id": "drill_tool",
+   "en": "drill",
+   "uz": "parma (teshik ochadigan asbob)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The builder used an electric drill to make holes in the wall for the new shelves.",
+   "gap": "drill",
+   "alt": [
+    "drills"
+   ]
+  },
+  {
+   "id": "fire_drill",
+   "en": "fire drill",
+   "uz": "yong‘in xavfsizligi mashg‘uloti",
+   "pos": "noun",
+   "img": false,
+   "ex": "During this morning's fire drill, the whole school was out in the playground in under three minutes.",
+   "gap": "fire drill",
+   "alt": [
+    "fire drills"
+   ]
+  },
+  {
+   "id": "fair_grade",
+   "en": "fair",
+   "uz": "qoniqarli (baho)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilnoza's school report said 'excellent' for maths and 'fair' for handwriting, so she has started practising her letters.",
+   "gap": "fair",
+   "alt": []
+  },
+  {
+   "id": "flat_home",
+   "en": "flat",
+   "uz": "kvartira, xonadon",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the lift broke down, the family on the ninth floor had to carry their shopping up to their flat on foot.",
+   "gap": "flat",
+   "alt": [
+    "flats"
+   ]
+  },
+  {
+   "id": "b_flat",
+   "en": "B flat",
+   "uz": "si-bemol (nota)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the rehearsal, the trumpet player warmed up by holding a long, soft B flat.",
+   "gap": "B flat",
+   "alt": []
+  },
+  {
+   "id": "capital_city",
+   "en": "capital",
+   "uz": "poytaxt",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many people guess Sydney, but Canberra is the capital of Australia.",
+   "gap": "capital",
+   "alt": []
+  },
+  {
+   "id": "capital_punishment",
+   "en": "capital punishment",
+   "uz": "o‘lim jazosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our history lesson we learnt that Uzbekistan abolished capital punishment in 2008.",
+   "gap": "capital punishment",
+   "alt": []
+  },
+  {
+   "id": "mean_signify",
+   "en": "mean",
+   "uz": "anglatmoq, ma’nosini bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you aren't sure what a new word means, look carefully at the sentences around it.",
+   "gap": "means",
+   "alt": [
+    "means",
+    "meant"
+   ]
+  },
+  {
+   "id": "drill_language",
+   "en": "drill",
+   "uz": "takrorlash mashqi (til darsida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our Spanish teacher starts every class with a quick pronunciation drill, and we repeat the tricky sounds after her.",
+   "gap": "drill",
+   "alt": [
+    "drills"
+   ]
+  },
+  {
+   "id": "drill_army",
+   "en": "drill",
+   "uz": "saf mashqi (harbiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the parade ground, the young cadets spent the morning on drill, marching in perfect lines.",
+   "gap": "drill",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "drill_tool",
+   "fire_drill"
+  ],
+  [
+   "mean_stingy",
+   "mean_temperature"
+  ],
+  [
+   "flat_home",
+   "flat_land"
+  ],
+  [
+   "capital_city",
+   "capital_money"
+  ],
+  [
+   "mean_signify",
+   "mean_stingy"
+  ],
+  [
+   "drill_language",
+   "drill_tool"
+  ],
+  [
+   "drill_army",
+   "drill_tool"
+  ],
+  [
+   "drill_army",
+   "drill_language"
+  ],
+  [
+   "drill_army",
+   "fire_drill"
+  ],
+  [
+   "drill_language",
+   "fire_drill"
+  ]
+ ]
+}

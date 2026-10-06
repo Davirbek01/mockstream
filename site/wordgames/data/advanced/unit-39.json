@@ -1,0 +1,624 @@
+{
+ "book": "advanced",
+ "unit": 39,
+ "title": "History: since the dawn of civilisation",
+ "title_uz": "Tarix: tamaddun tongidan buyon",
+ "words": [
+  {
+   "id": "archaeologist",
+   "en": "archaeologist",
+   "uz": "qadimiy yodgorliklarni qazib o‘rganuvchi olim",
+   "pos": "noun",
+   "img": false,
+   "ex": "On a class trip to the desert fortresses of Karakalpakstan, two archaeologists let us help sift the sand for pieces of old pottery.",
+   "gap": "archaeologists",
+   "alt": [
+    "archaeologists",
+    "archeologist"
+   ]
+  },
+  {
+   "id": "empire",
+   "en": "empire",
+   "uz": "saltanat (ulkan davlat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history teacher drew a map on the board to show how far Alexander the Great's empire stretched, from Greece all the way to India.",
+   "gap": "empire",
+   "alt": [
+    "empires"
+   ]
+  },
+  {
+   "id": "kingdom",
+   "en": "kingdom",
+   "uz": "qirollik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the fairy tale I read to my little sister, a clever shepherd's daughter saves the whole kingdom from a dragon.",
+   "gap": "kingdom",
+   "alt": [
+    "kingdoms"
+   ]
+  },
+  {
+   "id": "dynasty",
+   "en": "dynasty",
+   "uz": "sulola",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the museum's Chinese room, every vase is labelled with the dynasty that was in power when it was made.",
+   "gap": "dynasty",
+   "alt": [
+    "dynasties"
+   ]
+  },
+  {
+   "id": "dawn",
+   "en": "dawn",
+   "uz": "boshlanishi (tongi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents' first mobile phone, bought at the dawn of the mobile age, was the size of a brick and could only make calls.",
+   "gap": "dawn",
+   "alt": []
+  },
+  {
+   "id": "reign",
+   "en": "reign",
+   "uz": "hukmronlik davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle collects coins from every year of Queen Victoria's reign, which lasted almost sixty-four years.",
+   "gap": "reign",
+   "alt": [
+    "reigns"
+   ]
+  },
+  {
+   "id": "heir",
+   "en": "heir",
+   "uz": "taxt vorisi (merosxo‘r)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young prince was the only heir to the throne, so the whole country followed his education closely.",
+   "gap": "heir",
+   "alt": [
+    "heirs"
+   ]
+  },
+  {
+   "id": "successor",
+   "en": "successor",
+   "uz": "o‘rnini egallagan kishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the head teacher retired after thirty years, everyone wondered who her successor would be.",
+   "gap": "successor",
+   "alt": [
+    "successors"
+   ]
+  },
+  {
+   "id": "coronation",
+   "en": "coronation",
+   "uz": "toj kiyish marosimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our school play, the coronation scene went wrong when the crown slipped down over the new king's eyes.",
+   "gap": "coronation",
+   "alt": [
+    "coronations"
+   ]
+  },
+  {
+   "id": "conquest",
+   "en": "conquest",
+   "uz": "bosib olish (zabt etish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history essay asked whether the conquest of new lands ever brought real benefits to the people who already lived there.",
+   "gap": "conquest",
+   "alt": [
+    "conquests"
+   ]
+  },
+  {
+   "id": "manuscript",
+   "en": "manuscript",
+   "uz": "qo‘lyozma",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the library's rare-books room, we were allowed to look at old manuscripts, but only with white cotton gloves on.",
+   "gap": "manuscripts",
+   "alt": [
+    "manuscripts"
+   ]
+  },
+  {
+   "id": "peasant",
+   "en": "peasant",
+   "uz": "dehqon (kambag‘al qishloq aholisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the novel we are reading in class, a poor young peasant who grew up working in the fields leaves his village to study medicine.",
+   "gap": "peasant",
+   "alt": [
+    "peasants"
+   ]
+  },
+  {
+   "id": "labourer",
+   "en": "labourer",
+   "uz": "qora ishchi (mardikor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The farm hired extra labourers every autumn to dig the ditches and carry the heavy sacks.",
+   "gap": "labourers",
+   "alt": [
+    "labourers",
+    "laborer",
+    "laborers"
+   ]
+  },
+  {
+   "id": "shreds",
+   "en": "shreds",
+   "uz": "zarra (arzimas iz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Historians have only a few shreds of evidence about how ordinary families lived in the city a thousand years ago.",
+   "gap": "shreds",
+   "alt": [
+    "shred"
+   ]
+  },
+  {
+   "id": "bronze_age",
+   "en": "Bronze Age",
+   "uz": "jez davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The small axe in the display case was made by Bronze Age craftsmen, who mixed copper and tin more than three thousand years ago.",
+   "gap": "Bronze Age",
+   "alt": []
+  },
+  {
+   "id": "medieval",
+   "en": "medieval",
+   "uz": "o‘rta asrlarga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Visitors to Carcassonne in southern France can still walk along its medieval walls and towers.",
+   "gap": "medieval",
+   "alt": [
+    "mediaeval"
+   ]
+  },
+  {
+   "id": "renaissance",
+   "en": "Renaissance",
+   "uz": "Uyg‘onish davri (Yevropa san’atida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We spent a whole day in Florence admiring paintings by Botticelli and other great artists of the Italian Renaissance.",
+   "gap": "Renaissance",
+   "alt": []
+  },
+  {
+   "id": "pre_colonial",
+   "en": "pre-colonial",
+   "uz": "mustamlakachilikdan oldingi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum in Mexico City displays gold jewellery and stone carvings from the pre-colonial era.",
+   "gap": "pre-colonial",
+   "alt": []
+  },
+  {
+   "id": "infantry",
+   "en": "infantry",
+   "uz": "piyoda qo‘shin",
+   "pos": "noun",
+   "img": false,
+   "ex": "With no horses left, the infantry could only advance slowly through the snowy mountains.",
+   "gap": "infantry",
+   "alt": []
+  },
+  {
+   "id": "cavalry",
+   "en": "cavalry",
+   "uz": "otliq qo‘shin",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the battle scene of the film, the cavalry galloped down the hill while the foot soldiers waited below.",
+   "gap": "cavalry",
+   "alt": []
+  },
+  {
+   "id": "armour",
+   "en": "armour",
+   "uz": "sovut (zirh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The knight could hardly climb onto his horse in his heavy suit of armour.",
+   "gap": "armour",
+   "alt": [
+    "armor",
+    "suit of armour"
+   ]
+  },
+  {
+   "id": "chariot",
+   "en": "chariot",
+   "uz": "jang aravasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "In ancient Egypt, kings rode into battle in light two-wheeled chariots pulled by horses.",
+   "gap": "chariots",
+   "alt": [
+    "chariots"
+   ]
+  },
+  {
+   "id": "galleon",
+   "en": "galleon",
+   "uz": "katta yelkanli kema (XVI–XVIII asrlar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My brother spent the whole winter building a model galleon with three masts and tiny paper sails.",
+   "gap": "galleon",
+   "alt": [
+    "galleons"
+   ]
+  },
+  {
+   "id": "slave",
+   "en": "slave",
+   "uz": "qul",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history teacher explained that in ancient Rome a slave had no rights and could be bought and sold like property.",
+   "gap": "slave",
+   "alt": [
+    "slaves"
+   ]
+  },
+  {
+   "id": "warlord",
+   "en": "warlord",
+   "uz": "lashkarboshi (mahalliy harbiy hukmdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For years, the remote valley was controlled by a local warlord with his own private army.",
+   "gap": "warlord",
+   "alt": [
+    "warlords"
+   ]
+  },
+  {
+   "id": "ruler",
+   "en": "ruler",
+   "uz": "hukmdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the strategy game, every ruler has to choose between spending gold on bigger armies or on new schools.",
+   "gap": "ruler",
+   "alt": [
+    "rulers"
+   ]
+  },
+  {
+   "id": "explorer",
+   "en": "explorer",
+   "uz": "kashfiyotchi (sayyoh-tadqiqotchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a child, Dilshod dreamed of becoming an explorer and drew maps of imaginary islands in all his notebooks.",
+   "gap": "explorer",
+   "alt": [
+    "explorers"
+   ]
+  },
+  {
+   "id": "merchant",
+   "en": "merchant",
+   "uz": "savdogar (tujjor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the old trading town, wealthy merchants built large houses with cool cellars where they stored the cloth and spices they traded.",
+   "gap": "merchants",
+   "alt": [
+    "merchants"
+   ]
+  },
+  {
+   "id": "monarch",
+   "en": "monarch",
+   "uz": "taxt egasi (qirol yoki qirolicha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The country still has a monarch, but real power belongs to the elected parliament.",
+   "gap": "monarch",
+   "alt": [
+    "monarchs"
+   ]
+  },
+  {
+   "id": "nobility",
+   "en": "the nobility",
+   "uz": "zodagonlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the past, only members of the nobility were allowed to hunt in the royal forests.",
+   "gap": "nobility",
+   "alt": [
+    "nobility"
+   ]
+  },
+  {
+   "id": "civilisation",
+   "en": "civilisation",
+   "uz": "tamaddun (qadimiy madaniyat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Indus Valley civilisation built cities with drains and public baths more than four thousand years ago.",
+   "gap": "civilisation",
+   "alt": [
+    "civilization",
+    "civilisations",
+    "civilizations"
+   ]
+  },
+  {
+   "id": "emperor",
+   "en": "emperor",
+   "uz": "shahanshoh (saltanat hukmdori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Napoleon crowned himself emperor in 1804, with the Pope looking on in Notre-Dame.",
+   "gap": "emperor",
+   "alt": [
+    "emperors"
+   ]
+  },
+  {
+   "id": "reign_v",
+   "en": "reign",
+   "uz": "taxtda bo‘lmoq (hukm surmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Queen Elizabeth II reigned for seventy years, longer than any other British monarch.",
+   "gap": "reigned",
+   "alt": [
+    "reigned",
+    "reigning"
+   ]
+  },
+  {
+   "id": "succeed_to_the_throne",
+   "en": "succeed to the throne",
+   "uz": "taxtni meros qilib olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the old king died without a son, his younger brother succeeded to the throne.",
+   "gap": "succeeded to the throne",
+   "alt": [
+    "succeeded to the throne",
+    "succeeds to the throne",
+    "succeeding to the throne"
+   ]
+  },
+  {
+   "id": "be_crowned",
+   "en": "be crowned",
+   "uz": "toj kiydirilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Louis XIV became King of France at the age of four but was not crowned until he was fifteen.",
+   "gap": "crowned",
+   "alt": [
+    "crowned",
+    "was crowned",
+    "is crowned",
+    "were crowned"
+   ]
+  },
+  {
+   "id": "stone_age",
+   "en": "Stone Age",
+   "uz": "tosh davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cave paintings near the village were made by Stone Age hunters who had no metal tools at all.",
+   "gap": "Stone Age",
+   "alt": []
+  },
+  {
+   "id": "iron_age",
+   "en": "Iron Age",
+   "uz": "temir davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The swords found in the burial mound date from the Iron Age, when smiths had learned to work a metal harder than bronze.",
+   "gap": "Iron Age",
+   "alt": []
+  },
+  {
+   "id": "post_colonial",
+   "en": "post-colonial",
+   "uz": "mustamlakachilikdan keyingi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After independence, the post-colonial government renamed many streets that had been named after foreign governors.",
+   "gap": "post-colonial",
+   "alt": [
+    "postcolonial"
+   ]
+  },
+  {
+   "id": "slavery",
+   "en": "slavery",
+   "uz": "qullik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Britain passed a law abolishing slavery in most of its colonies in 1833.",
+   "gap": "slavery",
+   "alt": []
+  },
+  {
+   "id": "monarchy",
+   "en": "monarchy",
+   "uz": "qirollik boshqaruvi tuzumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "France ended its monarchy in 1792 and declared itself a republic.",
+   "gap": "monarchy",
+   "alt": [
+    "monarchies"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "empire",
+   "kingdom"
+  ],
+  [
+   "empire",
+   "dynasty"
+  ],
+  [
+   "heir",
+   "successor"
+  ],
+  [
+   "peasant",
+   "labourer"
+  ],
+  [
+   "medieval",
+   "renaissance"
+  ],
+  [
+   "medieval",
+   "pre_colonial"
+  ],
+  [
+   "infantry",
+   "cavalry"
+  ],
+  [
+   "warlord",
+   "ruler"
+  ],
+  [
+   "ruler",
+   "monarch"
+  ],
+  [
+   "monarch",
+   "heir"
+  ],
+  [
+   "reign",
+   "dynasty"
+  ],
+  [
+   "heir",
+   "ruler"
+  ],
+  [
+   "slave",
+   "peasant"
+  ],
+  [
+   "ruler",
+   "successor"
+  ],
+  [
+   "kingdom",
+   "dynasty"
+  ],
+  [
+   "empire",
+   "conquest"
+  ],
+  [
+   "dynasty",
+   "ruler"
+  ],
+  [
+   "dynasty",
+   "monarch"
+  ],
+  [
+   "bronze_age",
+   "pre_colonial"
+  ],
+  [
+   "civilisation",
+   "empire"
+  ],
+  [
+   "emperor",
+   "monarch"
+  ],
+  [
+   "emperor",
+   "ruler"
+  ],
+  [
+   "emperor",
+   "dynasty"
+  ],
+  [
+   "reign_v",
+   "reign"
+  ],
+  [
+   "succeed_to_the_throne",
+   "reign_v"
+  ],
+  [
+   "succeed_to_the_throne",
+   "be_crowned"
+  ],
+  [
+   "be_crowned",
+   "coronation"
+  ],
+  [
+   "post_colonial",
+   "pre_colonial"
+  ],
+  [
+   "monarchy",
+   "kingdom"
+  ],
+  [
+   "monarchy",
+   "monarch"
+  ],
+  [
+   "monarchy",
+   "empire"
+  ],
+  [
+   "slavery",
+   "slave"
+  ],
+  [
+   "civilisation",
+   "kingdom"
+  ],
+  [
+   "monarchy",
+   "dynasty"
+  ],
+  [
+   "nobility",
+   "monarchy"
+  ]
+ ]
+}

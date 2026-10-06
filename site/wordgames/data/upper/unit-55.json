@@ -1,0 +1,332 @@
+{
+ "book": "upper",
+ "unit": 55,
+ "title": "Obligation, need, possibility and probability",
+ "title_uz": "Majburiyat, ehtiyoj, imkoniyat va ehtimollik",
+ "words": [
+  {
+   "id": "liable",
+   "en": "liable",
+   "uz": "javobgar (to‘lashga majbur)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The airline says it is not liable for valuables left in checked baggage.",
+   "gap": "liable",
+   "alt": []
+  },
+  {
+   "id": "obliged",
+   "en": "obliged",
+   "uz": "(qoida bo‘yicha) majbur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At our college, students are obliged to show their ID card at the gate every morning.",
+   "gap": "obliged",
+   "alt": []
+  },
+  {
+   "id": "force",
+   "en": "force",
+   "uz": "majburlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Heavy snow forced the school to close for two days.",
+   "gap": "forced",
+   "alt": [
+    "forces",
+    "forced",
+    "forcing"
+   ]
+  },
+  {
+   "id": "no_choice_but",
+   "en": "have no choice but to",
+   "uz": "…dan boshqa iloji yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bridge was closed, so we had no choice but to drive the long way round.",
+   "gap": "had no choice but to",
+   "alt": [
+    "had no choice but to",
+    "has no choice but to"
+   ]
+  },
+  {
+   "id": "mandatory",
+   "en": "mandatory",
+   "uz": "qonunan majburiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Seat belts are mandatory by law for everyone in the car, including passengers in the back.",
+   "gap": "mandatory",
+   "alt": []
+  },
+  {
+   "id": "compulsory_subject",
+   "en": "compulsory",
+   "uz": "majburiy (fan, mashg‘ulot)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At our lyceum, a second foreign language is compulsory, so everyone studies either German or Chinese.",
+   "gap": "compulsory",
+   "alt": []
+  },
+  {
+   "id": "obligatory",
+   "en": "obligatory",
+   "uz": "shart, rasman talab qilinadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A white shirt is obligatory for every pupil at the graduation ceremony.",
+   "gap": "obligatory",
+   "alt": []
+  },
+  {
+   "id": "optional",
+   "en": "optional",
+   "uz": "ixtiyoriy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The trip to the museum is optional, so you don't have to come if you're busy.",
+   "gap": "optional",
+   "alt": []
+  },
+  {
+   "id": "exempt",
+   "en": "exempt",
+   "uz": "(majburiyatdan) ozod",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pupils with a note from the doctor are exempt from PE lessons this week.",
+   "gap": "exempt",
+   "alt": []
+  },
+  {
+   "id": "in_need_of",
+   "en": "in need of",
+   "uz": "…ga muhtoj",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The old bridge across the canal is badly in need of repair: the railings are loose and there are holes in the boards.",
+   "gap": "in need of",
+   "alt": []
+  },
+  {
+   "id": "need_for",
+   "en": "need for",
+   "uz": "…ga ehtiyoj",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There is a real need for more buses on this route in the mornings.",
+   "gap": "need for",
+   "alt": []
+  },
+  {
+   "id": "shortage",
+   "en": "shortage",
+   "uz": "taqchillik, yetishmovchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the hottest week in July there was a shortage of electric fans in the shops; they sold out in two days.",
+   "gap": "shortage",
+   "alt": [
+    "shortages"
+   ]
+  },
+  {
+   "id": "lack_of",
+   "en": "lack of",
+   "uz": "…ning kamligi, yo‘qligi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The football match was cancelled for lack of players: only seven of us turned up.",
+   "gap": "lack of",
+   "alt": []
+  },
+  {
+   "id": "necessity",
+   "en": "necessity",
+   "uz": "zarurat, usiz bo‘lmaydigan narsa",
+   "pos": "noun",
+   "img": false,
+   "ex": "On a long hike in the desert, a hat is a necessity, not a luxury.",
+   "gap": "necessity",
+   "alt": []
+  },
+  {
+   "id": "do_without",
+   "en": "do without",
+   "uz": "…siz ham eplamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I couldn't do without my glasses for a whole day; I can't read a word when I'm not wearing them.",
+   "gap": "do without",
+   "alt": []
+  },
+  {
+   "id": "requirements",
+   "en": "requirements",
+   "uz": "talablar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you install the game, check that your laptop meets the minimum requirements.",
+   "gap": "requirements",
+   "alt": [
+    "requirement"
+   ]
+  },
+  {
+   "id": "opportunity",
+   "en": "opportunity",
+   "uz": "qulay imkoniyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school trip to the observatory was a rare opportunity to look at Saturn through a real telescope.",
+   "gap": "opportunity",
+   "alt": []
+  },
+  {
+   "id": "chance_any",
+   "en": "chance",
+   "uz": "imkon, ehtimol (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a good chance it'll rain this afternoon, so take an umbrella.",
+   "gap": "chance",
+   "alt": []
+  },
+  {
+   "id": "possibility",
+   "en": "possibility",
+   "uz": "ehtimollik (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather forecast mentions the possibility of light snow in the mountains tomorrow.",
+   "gap": "possibility",
+   "alt": []
+  },
+  {
+   "id": "inevitable",
+   "en": "inevitable",
+   "uz": "muqarrar",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With so many cars on the road, traffic jams at rush hour are inevitable.",
+   "gap": "inevitable",
+   "alt": []
+  },
+  {
+   "id": "doubtful",
+   "en": "doubtful",
+   "uz": "gumonli, shubhali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our goalkeeper hurt his ankle yesterday, so he's doubtful for Saturday's game.",
+   "gap": "doubtful",
+   "alt": []
+  },
+  {
+   "id": "probable",
+   "en": "probable",
+   "uz": "ehtimoli katta",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Firefighters say the most probable cause of the fire was an old heater left on overnight.",
+   "gap": "probable",
+   "alt": []
+  },
+  {
+   "id": "certainty",
+   "en": "certainty",
+   "uz": "aniq narsa, shubhasizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's an absolute certainty that my brother will be late — he always is.",
+   "gap": "certainty",
+   "alt": []
+  },
+  {
+   "id": "no_alternative_but",
+   "en": "have no alternative but to",
+   "uz": "…dan o‘zga chora yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The last ferry had left, so the tourists had no alternative but to spend the night on the island.",
+   "gap": "had no alternative but to",
+   "alt": [
+    "had no alternative but to",
+    "has no alternative but to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "obliged",
+   "force"
+  ],
+  [
+   "obliged",
+   "liable"
+  ],
+  [
+   "mandatory",
+   "compulsory_subject"
+  ],
+  [
+   "mandatory",
+   "obligatory"
+  ],
+  [
+   "compulsory_subject",
+   "obligatory"
+  ],
+  [
+   "shortage",
+   "lack_of"
+  ],
+  [
+   "necessity",
+   "certainty"
+  ],
+  [
+   "opportunity",
+   "chance_any"
+  ],
+  [
+   "opportunity",
+   "possibility"
+  ],
+  [
+   "chance_any",
+   "possibility"
+  ],
+  [
+   "inevitable",
+   "probable"
+  ],
+  [
+   "probable",
+   "chance_any"
+  ],
+  [
+   "probable",
+   "possibility"
+  ],
+  [
+   "need_for",
+   "necessity"
+  ],
+  [
+   "need_for",
+   "in_need_of"
+  ],
+  [
+   "no_alternative_but",
+   "no_choice_but"
+  ],
+  [
+   "no_alternative_but",
+   "force"
+  ]
+ ]
+}

@@ -1,0 +1,268 @@
+{
+ "book": "preint",
+ "unit": 98,
+ "title": "Formal letters and emails",
+ "title_uz": "Rasmiy xatlar va elektron xatlar",
+ "words": [
+  {
+   "id": "dear_sir_or_madam",
+   "en": "Dear Sir or Madam",
+   "uz": "Hurmatli janob yoki xonim",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Islom didn't know the manager's name, so he began his letter with 'Dear Sir or Madam'.",
+   "gap": "Dear Sir or Madam",
+   "alt": []
+  },
+  {
+   "id": "in_response_to",
+   "en": "in response to",
+   "uz": "…ga javoban",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The school has added more vegetables to the canteen menu in response to complaints from parents.",
+   "gap": "in response to",
+   "alt": []
+  },
+  {
+   "id": "grateful",
+   "en": "grateful",
+   "uz": "minnatdor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I would be grateful if you could tell me whether the swimming pool is open on public holidays.",
+   "gap": "grateful",
+   "alt": []
+  },
+  {
+   "id": "details",
+   "en": "details",
+   "uz": "tafsilotlar (to‘liq ma’lumot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The details of the trip, such as times, prices and what to bring, are on the school website.",
+   "gap": "details",
+   "alt": []
+  },
+  {
+   "id": "look_forward_to",
+   "en": "look forward to",
+   "uz": "intiqlik bilan kutmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "We look forward to meeting you at the teachers' conference next month.",
+   "gap": "look forward to",
+   "alt": [
+    "looking forward to",
+    "looks forward to"
+   ]
+  },
+  {
+   "id": "yours_faithfully",
+   "en": "Yours faithfully",
+   "uz": "Hurmat bilan (ism noma’lum bo‘lsa)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shirin didn't know the name of the person at the bank, so she ended her letter with 'Yours faithfully'.",
+   "gap": "Yours faithfully",
+   "alt": []
+  },
+  {
+   "id": "yours_sincerely",
+   "en": "Yours sincerely",
+   "uz": "Hurmat bilan (ism ma’lum bo‘lsa)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Komil began his letter with 'Dear Mrs Saidova', so he ended it with 'Yours sincerely'.",
+   "gap": "Yours sincerely",
+   "alt": []
+  },
+  {
+   "id": "kind_regards",
+   "en": "Kind regards",
+   "uz": "Samimiy hurmat bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Most of our teacher's work emails end with 'Kind regards' and her first name.",
+   "gap": "Kind regards",
+   "alt": []
+  },
+  {
+   "id": "sign_name",
+   "en": "sign",
+   "uz": "imzo qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Your new passport isn't valid until you sign it on the page with your photo.",
+   "gap": "sign",
+   "alt": [
+    "signs",
+    "signed",
+    "signing"
+   ]
+  },
+  {
+   "id": "print_name",
+   "en": "print",
+   "uz": "bosma harflar bilan yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the back of the photo, print your name in capital letters so the teacher knows whose it is.",
+   "gap": "print",
+   "alt": [
+    "prints",
+    "printed",
+    "printing"
+   ]
+  },
+  {
+   "id": "formal",
+   "en": "formal",
+   "uz": "rasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A letter to a university should be formal, so avoid words like 'Hi' or 'thanks a lot'.",
+   "gap": "formal",
+   "alt": []
+  },
+  {
+   "id": "enquire_about",
+   "en": "enquire about",
+   "uz": "…haqida surishtirmoq (so‘ramoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mr Rasulov phoned the sports centre to enquire about swimming lessons for his daughter.",
+   "gap": "enquire about",
+   "alt": [
+    "enquires about",
+    "enquired about",
+    "enquiring about",
+    "inquire about"
+   ]
+  },
+  {
+   "id": "pleased_to_inform",
+   "en": "pleased to inform",
+   "uz": "mamnuniyat bilan xabar bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We are pleased to inform you that your son has won a place at the music school.",
+   "gap": "pleased to inform",
+   "alt": []
+  },
+  {
+   "id": "unsuccessful",
+   "en": "unsuccessful",
+   "uz": "muvaffaqiyatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sadly, Muhlisa's application for the summer course was unsuccessful, but she will try again next year.",
+   "gap": "unsuccessful",
+   "alt": []
+  },
+  {
+   "id": "confirm",
+   "en": "confirm",
+   "uz": "tasdiqlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please call the clinic the day before to confirm your appointment.",
+   "gap": "confirm",
+   "alt": [
+    "confirms",
+    "confirmed",
+    "confirming"
+   ]
+  },
+  {
+   "id": "in_writing",
+   "en": "in writing",
+   "uz": "yozma ravishda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The landlord agreed to fix the heating, but Husan asked him to promise it in writing.",
+   "gap": "in writing",
+   "alt": []
+  },
+  {
+   "id": "booking",
+   "en": "booking",
+   "uz": "joy band qilish (buyurtma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel sent Azamat an email about his booking: two nights in a room with a view of the mountains.",
+   "gap": "booking",
+   "alt": [
+    "bookings"
+   ]
+  },
+  {
+   "id": "enclose",
+   "en": "enclose",
+   "uz": "xat ichiga qo‘shib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With this letter I enclose a copy of my school certificate and two photos.",
+   "gap": "enclose",
+   "alt": [
+    "encloses",
+    "enclosed",
+    "enclosing"
+   ]
+  },
+  {
+   "id": "cheque",
+   "en": "cheque",
+   "uz": "bank to‘lov varaqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magazine paid Nargiza for her article by cheque, so she took it to the bank the next morning.",
+   "gap": "cheque",
+   "alt": [
+    "cheques"
+   ]
+  },
+  {
+   "id": "available_free",
+   "en": "available",
+   "uz": "bo‘sh (uchrashuvga vaqti bor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dr Karimova is busy this morning, but she will be available after lunch.",
+   "gap": "available",
+   "alt": []
+  },
+  {
+   "id": "i_am_writing",
+   "en": "I am writing",
+   "uz": "xatni … uchun yozmoqdaman (xat boshi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In her email to the college, Rano began: 'I am writing to ask about your evening classes.'",
+   "gap": "I am writing",
+   "alt": []
+  },
+  {
+   "id": "application_request",
+   "en": "application",
+   "uz": "ariza (rasmiy so‘rov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamila sent her application for a student visa last month and is still waiting for an answer.",
+   "gap": "application",
+   "alt": [
+    "applications"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "yours_sincerely",
+   "kind_regards"
+  ],
+  [
+   "yours_faithfully",
+   "kind_regards"
+  ]
+ ]
+}

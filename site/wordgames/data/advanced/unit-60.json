@@ -1,0 +1,508 @@
+{
+ "book": "advanced",
+ "unit": 60,
+ "title": "Time: once in a blue moon",
+ "title_uz": "Vaqt iboralari: oyda bir, yilda bir",
+ "words": [
+  {
+   "id": "once_in_a_blue_moon",
+   "en": "once in a blue moon",
+   "uz": "juda kamdan-kam",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My cousin lives in Nukus and I live in Tashkent, so we only see each other once in a blue moon.",
+   "gap": "once in a blue moon",
+   "alt": []
+  },
+  {
+   "id": "all_your_born_days",
+   "en": "all your born days",
+   "uz": "butun umr (tug‘ilganidan beri)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour Saodat opa has baked bread in the same clay oven all her born days, and nobody makes better non.",
+   "gap": "all her born days",
+   "alt": [
+    "all his born days",
+    "all her born days",
+    "all my born days"
+   ]
+  },
+  {
+   "id": "in_a_jiffy",
+   "en": "in a jiffy",
+   "uz": "hozir, bir zumda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Wait here, I'll fix your bike chain in a jiffy and then we can ride to the park.",
+   "gap": "in a jiffy",
+   "alt": []
+  },
+  {
+   "id": "in_less_than_no_time",
+   "en": "in less than no time",
+   "uz": "ko‘z ochib-yumguncha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry about the long queue at the museum; it moves fast and we'll be inside in less than no time.",
+   "gap": "in less than no time",
+   "alt": []
+  },
+  {
+   "id": "donkeys_years",
+   "en": "donkey's years",
+   "uz": "juda uzoq vaqt (allaqachondan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our family has bought shoes from the same little shop for donkey's years; the owner knows all our sizes.",
+   "gap": "donkey's years",
+   "alt": [
+    "donkeys' years",
+    "donkeys years"
+   ]
+  },
+  {
+   "id": "since_the_year_dot",
+   "en": "since the year dot",
+   "uz": "qadim-qadimdan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "That little bakery has stood on the corner of our street since the year dot.",
+   "gap": "since the year dot",
+   "alt": []
+  },
+  {
+   "id": "till_the_cows_come_home",
+   "en": "till the cows come home",
+   "uz": "istagancha uzoq (baribir befoyda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The twins would play football in the yard till the cows come home if nobody called them in for dinner.",
+   "gap": "till the cows come home",
+   "alt": [
+    "until the cows come home"
+   ]
+  },
+  {
+   "id": "for_keeps",
+   "en": "for keeps",
+   "uz": "qaytarmaslik sharti bilan (o‘zingizga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My friend said I could have her old bike for keeps, not just for the summer holidays.",
+   "gap": "for keeps",
+   "alt": []
+  },
+  {
+   "id": "for_good",
+   "en": "for good",
+   "uz": "butunlayga (abadiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After ten years of working abroad, my uncle has come home to Margilan for good.",
+   "gap": "for good",
+   "alt": []
+  },
+  {
+   "id": "in_the_nick_of_time",
+   "en": "in the nick of time",
+   "uz": "naq vaqtida (oxirgi lahzada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The firefighters arrived in the nick of time, just before the flames reached the neighbours' roof.",
+   "gap": "in the nick of time",
+   "alt": []
+  },
+  {
+   "id": "over_the_hill",
+   "en": "over the hill",
+   "uz": "eng yaxshi davri o‘tgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother thinks that at forty our music teacher is over the hill, but she can still dance better than any of us.",
+   "gap": "over the hill",
+   "alt": []
+  },
+  {
+   "id": "past_it",
+   "en": "past it",
+   "uz": "yoshi o‘tib qolgan (endi eplolmaydi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad jokes that he's past it, but he still beats me at table tennis every Friday.",
+   "gap": "past it",
+   "alt": []
+  },
+  {
+   "id": "has_been",
+   "en": "has-been",
+   "uz": "shon-shuhrati o‘tib ketgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer was afraid of becoming a has-been, so he kept writing new songs long after his first hit.",
+   "gap": "has-been",
+   "alt": [
+    "has been",
+    "has-beens"
+   ]
+  },
+  {
+   "id": "in_a_flash",
+   "en": "in a flash",
+   "uz": "chaqmoqdek tez",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As soon as the last bell rang, the classroom emptied in a flash.",
+   "gap": "in a flash",
+   "alt": []
+  },
+  {
+   "id": "at_a_rate_of_knots",
+   "en": "at a rate of knots",
+   "uz": "juda shiddat bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Malika talks at a rate of knots when she's excited, and nobody can follow her story.",
+   "gap": "at a rate of knots",
+   "alt": []
+  },
+  {
+   "id": "fleeting",
+   "en": "fleeting",
+   "uz": "bir lahzalik (juda qisqa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the train window we caught a fleeting glimpse of a deer before it vanished into the reeds.",
+   "gap": "fleeting",
+   "alt": []
+  },
+  {
+   "id": "lengthy",
+   "en": "lengthy",
+   "uz": "uzoq davom etgan (uzun)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After lengthy discussions, the parents' committee finally agreed on a date for the school trip.",
+   "gap": "lengthy",
+   "alt": []
+  },
+  {
+   "id": "transient",
+   "en": "transient",
+   "uz": "vaqtinchalik (o‘tkinchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Holiday resorts have a large transient population: most visitors stay for a week or two and then leave.",
+   "gap": "transient",
+   "alt": []
+  },
+  {
+   "id": "persistent",
+   "en": "persistent",
+   "uz": "surunkali (ketmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A persistent cough kept my little brother off school for two whole weeks.",
+   "gap": "persistent",
+   "alt": []
+  },
+  {
+   "id": "inexorable",
+   "en": "inexorable",
+   "uz": "to‘xtatib bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Small corner shops are struggling against the inexorable rise of online shopping.",
+   "gap": "inexorable",
+   "alt": []
+  },
+  {
+   "id": "incipient",
+   "en": "incipient",
+   "uz": "endi boshlanayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctor noticed the illness at an incipient stage, early enough to treat it with simple medicine.",
+   "gap": "incipient",
+   "alt": []
+  },
+  {
+   "id": "protracted",
+   "en": "protracted",
+   "uz": "haddan tashqari cho‘zilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The protracted argument over the new car park dragged on for months before anyone made a decision.",
+   "gap": "protracted",
+   "alt": []
+  },
+  {
+   "id": "lingering",
+   "en": "lingering",
+   "uz": "uzoq ketmay qolgan (sekin tarqaluvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lingering smell of burnt rice stayed in the kitchen long after Mum had opened all the windows.",
+   "gap": "lingering",
+   "alt": []
+  },
+  {
+   "id": "simultaneous",
+   "en": "simultaneous",
+   "uz": "bir vaqtning o‘zida bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the conference, our headphones gave us simultaneous translation, so we heard every speech in Uzbek as it was given.",
+   "gap": "simultaneous",
+   "alt": [
+    "simultaneously"
+   ]
+  },
+  {
+   "id": "for_the_duration_of",
+   "en": "for the duration of",
+   "uz": "… davom etgan butun vaqt ichida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Phones must stay switched off for the duration of the exam, even if you finish early.",
+   "gap": "for the duration of",
+   "alt": []
+  },
+  {
+   "id": "prolong",
+   "en": "prolong",
+   "uz": "cho‘zmoq (uzaytirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Adding a second interval would only prolong the concert, and the youngest children are already tired.",
+   "gap": "prolong",
+   "alt": [
+    "prolonged",
+    "prolongs",
+    "prolonging"
+   ]
+  },
+  {
+   "id": "at_short_notice",
+   "en": "at short notice",
+   "uz": "qisqa muddatda (oldindan aytmay)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our maths teacher was ill, so the head had to find a replacement at short notice.",
+   "gap": "at short notice",
+   "alt": [
+    "at such short notice"
+   ]
+  },
+  {
+   "id": "repeatedly",
+   "en": "repeatedly",
+   "uz": "qayta-qayta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The old printer repeatedly jammed, so in the end we copied the posters by hand.",
+   "gap": "repeatedly",
+   "alt": []
+  },
+  {
+   "id": "in_a_mo",
+   "en": "in a mo",
+   "uz": "bir lahzada (hozir)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hold on, the kettle has nearly boiled, so your tea will be ready in a mo.",
+   "gap": "in a mo",
+   "alt": []
+  },
+  {
+   "id": "in_a_sec",
+   "en": "in a sec",
+   "uz": "bir soniyada (hozir)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't hang up, I'll find the address in a sec; it's written on the back of the envelope.",
+   "gap": "in a sec",
+   "alt": []
+  },
+  {
+   "id": "in_a_tick",
+   "en": "in a tick",
+   "uz": "bir pasda (tezda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take a seat by the counter and I'll wrap your parcel in a tick.",
+   "gap": "in a tick",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "in_a_jiffy",
+   "in_less_than_no_time"
+  ],
+  [
+   "in_a_jiffy",
+   "in_a_flash"
+  ],
+  [
+   "in_less_than_no_time",
+   "in_a_flash"
+  ],
+  [
+   "in_a_flash",
+   "at_a_rate_of_knots"
+  ],
+  [
+   "donkeys_years",
+   "since_the_year_dot"
+  ],
+  [
+   "for_keeps",
+   "for_good"
+  ],
+  [
+   "over_the_hill",
+   "past_it"
+  ],
+  [
+   "fleeting",
+   "transient"
+  ],
+  [
+   "lengthy",
+   "protracted"
+  ],
+  [
+   "persistent",
+   "lingering"
+  ],
+  [
+   "persistent",
+   "inexorable"
+  ],
+  [
+   "all_your_born_days",
+   "donkeys_years"
+  ],
+  [
+   "at_short_notice",
+   "in_a_jiffy"
+  ],
+  [
+   "at_short_notice",
+   "in_a_flash"
+  ],
+  [
+   "at_short_notice",
+   "in_less_than_no_time"
+  ],
+  [
+   "at_short_notice",
+   "in_the_nick_of_time"
+  ],
+  [
+   "in_the_nick_of_time",
+   "in_a_flash"
+  ],
+  [
+   "in_the_nick_of_time",
+   "in_a_jiffy"
+  ],
+  [
+   "in_the_nick_of_time",
+   "in_less_than_no_time"
+  ],
+  [
+   "all_your_born_days",
+   "since_the_year_dot"
+  ],
+  [
+   "at_a_rate_of_knots",
+   "till_the_cows_come_home"
+  ],
+  [
+   "in_a_mo",
+   "in_a_sec"
+  ],
+  [
+   "in_a_mo",
+   "in_a_tick"
+  ],
+  [
+   "in_a_sec",
+   "in_a_tick"
+  ],
+  [
+   "in_a_mo",
+   "in_a_jiffy"
+  ],
+  [
+   "in_a_mo",
+   "in_less_than_no_time"
+  ],
+  [
+   "in_a_mo",
+   "in_a_flash"
+  ],
+  [
+   "in_a_mo",
+   "in_the_nick_of_time"
+  ],
+  [
+   "in_a_mo",
+   "at_short_notice"
+  ],
+  [
+   "in_a_mo",
+   "at_a_rate_of_knots"
+  ],
+  [
+   "in_a_sec",
+   "in_a_jiffy"
+  ],
+  [
+   "in_a_sec",
+   "in_less_than_no_time"
+  ],
+  [
+   "in_a_sec",
+   "in_a_flash"
+  ],
+  [
+   "in_a_sec",
+   "in_the_nick_of_time"
+  ],
+  [
+   "in_a_sec",
+   "at_short_notice"
+  ],
+  [
+   "in_a_sec",
+   "at_a_rate_of_knots"
+  ],
+  [
+   "in_a_tick",
+   "in_a_jiffy"
+  ],
+  [
+   "in_a_tick",
+   "in_less_than_no_time"
+  ],
+  [
+   "in_a_tick",
+   "in_a_flash"
+  ],
+  [
+   "in_a_tick",
+   "in_the_nick_of_time"
+  ],
+  [
+   "in_a_tick",
+   "at_short_notice"
+  ],
+  [
+   "in_a_tick",
+   "at_a_rate_of_knots"
+  ]
+ ]
+}

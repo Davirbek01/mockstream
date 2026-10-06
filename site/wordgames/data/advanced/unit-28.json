@@ -1,0 +1,586 @@
+{
+ "book": "advanced",
+ "unit": 28,
+ "title": "Describing the world",
+ "title_uz": "Dunyoni tasvirlash",
+ "words": [
+  {
+   "id": "rainfall",
+   "en": "rainfall",
+   "uz": "yog‘in miqdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "This year's rainfall was so heavy that the reservoir above our town was full by April.",
+   "gap": "rainfall",
+   "alt": []
+  },
+  {
+   "id": "arid",
+   "en": "arid",
+   "uz": "qurg‘oqchil, quruq (iqlim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Growing cotton in such an arid region uses enormous amounts of water from the rivers.",
+   "gap": "arid",
+   "alt": []
+  },
+  {
+   "id": "prone_to",
+   "en": "prone to",
+   "uz": "…ga moyil (tez-tez uchraydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This stretch of the coast is prone to flooding, so the houses are built on tall wooden stilts.",
+   "gap": "prone to",
+   "alt": []
+  },
+  {
+   "id": "drought",
+   "en": "drought",
+   "uz": "qurg‘oqchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two summers with almost no rain, the drought had dried up the village wells and ruined the wheat.",
+   "gap": "drought",
+   "alt": [
+    "droughts"
+   ]
+  },
+  {
+   "id": "tundra",
+   "en": "tundra",
+   "uz": "shimoliy muzloq daraxtsiz zona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Out on the frozen Arctic tundra, the wind blew so hard that we could barely put up our tents.",
+   "gap": "tundra",
+   "alt": []
+  },
+  {
+   "id": "vegetation",
+   "en": "vegetation",
+   "uz": "o‘simlik qoplami",
+   "pos": "noun",
+   "img": false,
+   "ex": "Goats had eaten almost all the vegetation on the hillside, leaving only bare earth and stones.",
+   "gap": "vegetation",
+   "alt": []
+  },
+  {
+   "id": "coniferous",
+   "en": "coniferous",
+   "uz": "ignabargli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The coniferous forest smelled of pine resin, and the ground under our feet was soft with old needles.",
+   "gap": "coniferous",
+   "alt": []
+  },
+  {
+   "id": "evergreen",
+   "en": "evergreen",
+   "uz": "doim yashil (bargini to‘kmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We planted an evergreen hedge along the fence so that the garden would stay green and private all year.",
+   "gap": "evergreen",
+   "alt": []
+  },
+  {
+   "id": "deciduous",
+   "en": "deciduous",
+   "uz": "kuzda bargini to‘kadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In October, the deciduous trees along the city's avenues turn gold, and the streets are covered with leaves.",
+   "gap": "deciduous",
+   "alt": []
+  },
+  {
+   "id": "prairie",
+   "en": "prairie",
+   "uz": "Shimoliy Amerika keng dashtlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Driving across the Canadian prairies for two whole days, we saw nothing but wheat, sky and the occasional grain silo.",
+   "gap": "prairies",
+   "alt": [
+    "prairies"
+   ]
+  },
+  {
+   "id": "steppe",
+   "en": "steppe",
+   "uz": "dasht (Osiyo dashti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring the Kazakh steppe is briefly covered in red tulips before the summer sun turns it brown.",
+   "gap": "steppe",
+   "alt": [
+    "steppes"
+   ]
+  },
+  {
+   "id": "temperate",
+   "en": "temperate",
+   "uz": "mo‘tadil (iqlim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Coming from a country with a temperate climate, Emma found August in Karshi almost unbearable.",
+   "gap": "temperate",
+   "alt": []
+  },
+  {
+   "id": "paddy_field",
+   "en": "paddy field",
+   "uz": "sholipoya",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every spring, farmers in Khorezm flood their paddy fields with water from the canals before planting the rice.",
+   "gap": "paddy fields",
+   "alt": [
+    "paddy fields"
+   ]
+  },
+  {
+   "id": "crop",
+   "en": "crop",
+   "uz": "hosil (ekin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A late frost in April destroyed most of the peach crop, so prices at the market doubled.",
+   "gap": "crop",
+   "alt": [
+    "crops"
+   ]
+  },
+  {
+   "id": "harvest",
+   "en": "harvest",
+   "uz": "hosilni yig‘ib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The family harvested the last potatoes just before the first snow of the year.",
+   "gap": "harvested",
+   "alt": [
+    "harvested",
+    "harvesting",
+    "harvests"
+   ]
+  },
+  {
+   "id": "cereals",
+   "en": "cereals",
+   "uz": "donli ekinlar (g‘alla)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the dry plains, farmers grow cereals such as wheat and barley, which need far less water than vegetables.",
+   "gap": "cereals",
+   "alt": [
+    "cereal"
+   ]
+  },
+  {
+   "id": "tend",
+   "en": "tend",
+   "uz": "parvarish qilmoq, boqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every summer, two shepherds tend the village's sheep in the high pastures above the valley.",
+   "gap": "tend",
+   "alt": [
+    "tends",
+    "tended",
+    "tending"
+   ]
+  },
+  {
+   "id": "developed",
+   "en": "developed",
+   "uz": "rivojlangan (mamlakat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many developed countries have an ageing population, with more pensioners and fewer young workers every year.",
+   "gap": "developed",
+   "alt": []
+  },
+  {
+   "id": "developing",
+   "en": "developing",
+   "uz": "rivojlanayotgan (mamlakat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cheap solar panels are bringing electricity for the first time to remote villages in many developing countries.",
+   "gap": "developing",
+   "alt": []
+  },
+  {
+   "id": "manufacturing",
+   "en": "manufacturing",
+   "uz": "ishlab chiqarish (sanoat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Asaka is a centre of car manufacturing, and its huge factory produces thousands of cars every month.",
+   "gap": "manufacturing",
+   "alt": []
+  },
+  {
+   "id": "at_the_forefront",
+   "en": "at the forefront of",
+   "uz": "ilg‘or saflarida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "South Korean companies have been at the forefront of mobile phone technology for decades.",
+   "gap": "at the forefront of",
+   "alt": [
+    "at the forefront"
+   ]
+  },
+  {
+   "id": "generate",
+   "en": "generate",
+   "uz": "(energiya) ishlab chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new wind farm will generate enough electricity for thousands of homes.",
+   "gap": "generate",
+   "alt": [
+    "generates",
+    "generated",
+    "generating"
+   ]
+  },
+  {
+   "id": "descended_from",
+   "en": "be descended from",
+   "uz": "…ning avlodidan bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many families in the village claim to be descended from a famous poet who lived there five hundred years ago.",
+   "gap": "descended from",
+   "alt": [
+    "descended from",
+    "is descended from",
+    "are descended from"
+   ]
+  },
+  {
+   "id": "indigenous",
+   "en": "indigenous",
+   "uz": "tub (mahalliy) aholiga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum was designed together with the indigenous people of the area, and its signs are written in their own language as well as in Spanish.",
+   "gap": "indigenous",
+   "alt": []
+  },
+  {
+   "id": "ancestors",
+   "en": "ancestors",
+   "uz": "ajdodlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feruza's ancestors were silk traders who carried their goods by camel between Bukhara and Kashgar.",
+   "gap": "ancestors",
+   "alt": [
+    "ancestor"
+   ]
+  },
+  {
+   "id": "descendants",
+   "en": "descendants",
+   "uz": "avlodlar, zurriyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Today more than two hundred descendants of the first settlers still live in the valley.",
+   "gap": "descendants",
+   "alt": [
+    "descendant"
+   ]
+  },
+  {
+   "id": "migrant",
+   "en": "migrant",
+   "uz": "ish izlab ko‘chib yuruvchi (mavsumiy ishchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every spring, seasonal migrants leave for building sites in other countries and return home in late autumn.",
+   "gap": "migrants",
+   "alt": [
+    "migrants"
+   ]
+  },
+  {
+   "id": "emigrant",
+   "en": "emigrant",
+   "uz": "vatanidan chetga ko‘chib ketgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "As an emigrant who left Uzbekistan thirty years ago, he still cooks the dishes of his childhood in his New York flat.",
+   "gap": "emigrant",
+   "alt": [
+    "emigrants"
+   ]
+  },
+  {
+   "id": "immigrant",
+   "en": "immigrant",
+   "uz": "boshqa yurtga kelib o‘rnashgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a new immigrant in Montreal, Davron had to learn French as well as English to find a job there.",
+   "gap": "immigrant",
+   "alt": [
+    "immigrants"
+   ]
+  },
+  {
+   "id": "settle",
+   "en": "settle",
+   "uz": "o‘rnashib qolmoq (yashab qolmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After years of moving from city to city, the family finally settled in a small town near Namangan.",
+   "gap": "settled",
+   "alt": [
+    "settled",
+    "settles",
+    "settling"
+   ]
+  },
+  {
+   "id": "taiga",
+   "en": "taiga",
+   "uz": "shimoliy ignabargli o‘rmon zonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Siberia's taiga stretches for thousands of kilometres, a dark sea of pine and spruce.",
+   "gap": "taiga",
+   "alt": []
+  },
+  {
+   "id": "pampas",
+   "en": "pampas",
+   "uz": "Janubiy Amerika keng dashtlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gauchos on horseback still herd cattle across the wide pampas of Argentina.",
+   "gap": "pampas",
+   "alt": []
+  },
+  {
+   "id": "grassland",
+   "en": "grassland",
+   "uz": "o‘tloqlar (keng o‘tzor hudud)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Large herds of zebra graze on the open grasslands of the Serengeti.",
+   "gap": "grasslands",
+   "alt": [
+    "grasslands"
+   ]
+  },
+  {
+   "id": "wet_season",
+   "en": "wet season",
+   "uz": "yomg‘irlar mavsumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the wet season, the dirt roads in many parts of Laos turn into rivers of mud.",
+   "gap": "wet season",
+   "alt": []
+  },
+  {
+   "id": "dry_season",
+   "en": "dry season",
+   "uz": "qurg‘oqchil mavsum (yomg‘irsiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the dry season the river shrinks so much that you can walk across it in sandals.",
+   "gap": "dry season",
+   "alt": []
+  },
+  {
+   "id": "in_leaf",
+   "en": "in leaf",
+   "uz": "barg chiqargan, yaproqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "By late April the poplars along the canal are fully in leaf again.",
+   "gap": "in leaf",
+   "alt": []
+  },
+  {
+   "id": "cone",
+   "en": "cone",
+   "uz": "qubba (qarag‘ay g‘uddasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children collected pine cones in the park to make winter decorations.",
+   "gap": "cones",
+   "alt": [
+    "cones"
+   ]
+  },
+  {
+   "id": "grain",
+   "en": "grain",
+   "uz": "don, g‘alla",
+   "pos": "noun",
+   "img": false,
+   "ex": "All week, lorries carried the grain from the fields to the mill outside town.",
+   "gap": "grain",
+   "alt": []
+  },
+  {
+   "id": "maize",
+   "en": "maize",
+   "uz": "makkajo‘xori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Popcorn is made from a special kind of maize that bursts open when it is heated.",
+   "gap": "maize",
+   "alt": []
+  },
+  {
+   "id": "wheat",
+   "en": "wheat",
+   "uz": "bug‘doy",
+   "pos": "noun",
+   "img": true,
+   "ex": "Most of the bread sold at our local bazaar is baked from wheat flour.",
+   "gap": "wheat",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "rainfall",
+   "drought"
+  ],
+  [
+   "arid",
+   "temperate"
+  ],
+  [
+   "coniferous",
+   "deciduous"
+  ],
+  [
+   "coniferous",
+   "evergreen"
+  ],
+  [
+   "prairie",
+   "steppe"
+  ],
+  [
+   "prairie",
+   "tundra"
+  ],
+  [
+   "steppe",
+   "tundra"
+  ],
+  [
+   "crop",
+   "cereals"
+  ],
+  [
+   "crop",
+   "harvest"
+  ],
+  [
+   "tend",
+   "harvest"
+  ],
+  [
+   "developed",
+   "developing"
+  ],
+  [
+   "manufacturing",
+   "generate"
+  ],
+  [
+   "ancestors",
+   "descendants"
+  ],
+  [
+   "descended_from",
+   "ancestors"
+  ],
+  [
+   "migrant",
+   "emigrant"
+  ],
+  [
+   "migrant",
+   "immigrant"
+  ],
+  [
+   "emigrant",
+   "immigrant"
+  ],
+  [
+   "indigenous",
+   "ancestors"
+  ],
+  [
+   "vegetation",
+   "crop"
+  ],
+  [
+   "vegetation",
+   "cereals"
+  ],
+  [
+   "pampas",
+   "prairie"
+  ],
+  [
+   "pampas",
+   "grassland"
+  ],
+  [
+   "grassland",
+   "prairie"
+  ],
+  [
+   "grassland",
+   "steppe"
+  ],
+  [
+   "grassland",
+   "vegetation"
+  ],
+  [
+   "wet_season",
+   "rainfall"
+  ],
+  [
+   "dry_season",
+   "drought"
+  ],
+  [
+   "grain",
+   "cereals"
+  ],
+  [
+   "grain",
+   "crop"
+  ],
+  [
+   "grain",
+   "wheat"
+  ],
+  [
+   "grain",
+   "maize"
+  ],
+  [
+   "maize",
+   "wheat"
+  ]
+ ]
+}

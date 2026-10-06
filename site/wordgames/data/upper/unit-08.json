@@ -1,0 +1,2037 @@
+{
+ "book": "upper",
+ "unit": 8,
+ "title": "Describing people: personality",
+ "title_uz": "Odamlarni tasvirlash: fe’l-atvor",
+ "words": [
+  {
+   "id": "bright",
+   "en": "bright",
+   "uz": "zehni o‘tkir, aqlli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nilufar is a bright girl: she solved the maths problem in a minute while the rest of us were still reading it.",
+   "gap": "bright",
+   "alt": []
+  },
+  {
+   "id": "shrewd",
+   "en": "shrewd",
+   "uz": "uddaburon, farosatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A shrewd businessman, he bought land near the new metro station years before prices went up.",
+   "gap": "shrewd",
+   "alt": []
+  },
+  {
+   "id": "gifted",
+   "en": "gifted",
+   "uz": "iqtidorli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school has a special programme for gifted young musicians, who give their first concerts at the age of ten.",
+   "gap": "gifted",
+   "alt": []
+  },
+  {
+   "id": "cunning",
+   "en": "cunning",
+   "uz": "ayyor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cunning seller swapped our ripe melon for an unripe one while we were counting the money.",
+   "gap": "cunning",
+   "alt": []
+  },
+  {
+   "id": "pessimistic",
+   "en": "pessimistic",
+   "uz": "pessimist (doim yomonini kutadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bobur is always pessimistic before exams: he's sure he'll fail, but he always gets top marks.",
+   "gap": "pessimistic",
+   "alt": []
+  },
+  {
+   "id": "optimistic",
+   "en": "optimistic",
+   "uz": "optimist (ishonchi so‘nmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even after the factory closed, Farhod stayed optimistic and was sure he would find a better job within a month.",
+   "gap": "optimistic",
+   "alt": []
+  },
+  {
+   "id": "extroverted",
+   "en": "extroverted",
+   "uz": "ekstrovert (diqqat markazini sevadi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ziyoda is so extroverted that she volunteered to host the school concert and joked with the audience all evening.",
+   "gap": "extroverted",
+   "alt": [
+    "extrovert",
+    "extraverted"
+   ]
+  },
+  {
+   "id": "introverted",
+   "en": "introverted",
+   "uz": "o‘ziga yopiq (introvert)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike his chatty sister, Bekzod is quite introverted and recharges by drawing quietly in his room after school.",
+   "gap": "introverted",
+   "alt": [
+    "introvert"
+   ]
+  },
+  {
+   "id": "tense",
+   "en": "tense",
+   "uz": "asabi taranglashgan, siqilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before the final of the debate championship, I felt so tense that I couldn't eat my breakfast.",
+   "gap": "tense",
+   "alt": []
+  },
+  {
+   "id": "sensible",
+   "en": "sensible",
+   "uz": "aqli raso, oqilona ish tutadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Malika is far too sensible to hitchhike home alone at night; she always calls a taxi.",
+   "gap": "sensible",
+   "alt": []
+  },
+  {
+   "id": "down_to_earth",
+   "en": "down-to-earth",
+   "uz": "kamtar va hayotiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Although she is a famous singer, she's very down-to-earth and still buys her vegetables at the local bazaar.",
+   "gap": "down-to-earth",
+   "alt": [
+    "down to earth"
+   ]
+  },
+  {
+   "id": "sensitive",
+   "en": "sensitive",
+   "uz": "ta’sirchan, nozik tabiat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be careful what you say about his poems; he's very sensitive and will think about one unkind comment for days.",
+   "gap": "sensitive",
+   "alt": []
+  },
+  {
+   "id": "sociable",
+   "en": "sociable",
+   "uz": "kirishimli, dilkash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamol is so sociable that within a week of moving to Fergana he knew half the mahalla.",
+   "gap": "sociable",
+   "alt": []
+  },
+  {
+   "id": "quarrelsome",
+   "en": "quarrelsome",
+   "uz": "janjalkash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My two little brothers are so quarrelsome that they argue about everything, even whose turn it is to feed the cat.",
+   "gap": "quarrelsome",
+   "alt": []
+  },
+  {
+   "id": "easy_going",
+   "en": "easy-going",
+   "uz": "bosiq, hamma bilan til topishadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our teacher is very easy-going: she doesn't mind if we're a minute late or forget a pen.",
+   "gap": "easy-going",
+   "alt": [
+    "easygoing",
+    "easy going"
+   ]
+  },
+  {
+   "id": "rude",
+   "en": "rude",
+   "uz": "qo‘pol, odobsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's rude to look at your phone while someone is talking to you.",
+   "gap": "rude",
+   "alt": []
+  },
+  {
+   "id": "trustworthy",
+   "en": "trustworthy",
+   "uz": "ishonchli, ishonsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I left Aziz the keys to my flat while I was away, because he's completely trustworthy.",
+   "gap": "trustworthy",
+   "alt": []
+  },
+  {
+   "id": "envious",
+   "en": "envious",
+   "uz": "hasad qilgan, havasi kelgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When her friend got a brand-new phone, Sevara felt envious, because hers was five years old.",
+   "gap": "envious",
+   "alt": []
+  },
+  {
+   "id": "determined",
+   "en": "determined",
+   "uz": "qat’iyatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Although she failed her driving test twice, Shahnoza was determined to pass and booked a third try for the next week.",
+   "gap": "determined",
+   "alt": []
+  },
+  {
+   "id": "stubborn",
+   "en": "stubborn",
+   "uz": "qaysar",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even when the map clearly showed we were lost, my uncle was too stubborn to stop and ask for directions.",
+   "gap": "stubborn",
+   "alt": []
+  },
+  {
+   "id": "thrifty",
+   "en": "thrifty",
+   "uz": "tejamkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Being thrifty, my aunt buys her fruit late in the day, when the sellers at the bazaar lower their prices.",
+   "gap": "thrifty",
+   "alt": []
+  },
+  {
+   "id": "stingy",
+   "en": "stingy",
+   "uz": "xasis",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's so stingy that he has never bought anyone a cup of tea, even on his own birthday.",
+   "gap": "stingy",
+   "alt": []
+  },
+  {
+   "id": "generous",
+   "en": "generous",
+   "uz": "saxiy, qo‘li ochiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A generous former student paid for twenty new computers for our school library.",
+   "gap": "generous",
+   "alt": []
+  },
+  {
+   "id": "extravagant",
+   "en": "extravagant",
+   "uz": "isrofgar, pulni sovuradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Buying a new phone every six months is rather extravagant when the old one still works.",
+   "gap": "extravagant",
+   "alt": []
+  },
+  {
+   "id": "self_assured",
+   "en": "self-assured",
+   "uz": "o‘ziga ishongan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The self-assured young speaker answered every question from the audience calmly and clearly.",
+   "gap": "self-assured",
+   "alt": []
+  },
+  {
+   "id": "arrogant",
+   "en": "arrogant",
+   "uz": "kibrli, manman",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's so arrogant: he thinks he's the cleverest person in the room and never listens to anyone.",
+   "gap": "arrogant",
+   "alt": []
+  },
+  {
+   "id": "broad_minded",
+   "en": "broad-minded",
+   "uz": "keng fikrli, bag‘rikeng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Javlon, who runs a guesthouse in Margilan, is very broad-minded and enjoys long talks with guests whose views differ from his.",
+   "gap": "broad-minded",
+   "alt": [
+    "broad minded"
+   ]
+  },
+  {
+   "id": "naive",
+   "en": "naive",
+   "uz": "go‘l, soddadil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was naive of him to believe the stranger who promised to double his money in a week.",
+   "gap": "naive",
+   "alt": [
+    "naïve"
+   ]
+  },
+  {
+   "id": "eccentric",
+   "en": "eccentric",
+   "uz": "g‘alati odatli (eksentrik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The eccentric old professor wears a different coloured sock on each foot and talks to his plants.",
+   "gap": "eccentric",
+   "alt": []
+  },
+  {
+   "id": "frank",
+   "en": "frank",
+   "uz": "ochiq gapiradigan, samimiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "To be frank, I didn't like the film much, but the music was great.",
+   "gap": "frank",
+   "alt": []
+  },
+  {
+   "id": "blunt",
+   "en": "blunt",
+   "uz": "dangal, gapni qo‘pol aytadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her reply was so blunt that it hurt: 'Your essay is boring, and I stopped reading after page one.'",
+   "gap": "blunt",
+   "alt": []
+  },
+  {
+   "id": "inquisitive",
+   "en": "inquisitive",
+   "uz": "qiziquvchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My inquisitive five-year-old niece took apart the TV remote to see what was inside.",
+   "gap": "inquisitive",
+   "alt": []
+  },
+  {
+   "id": "nosy",
+   "en": "nosy",
+   "uz": "birovning ishiga burun suqadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our nosy neighbour always looks through her window to see who is visiting us.",
+   "gap": "nosy",
+   "alt": [
+    "nosey"
+   ]
+  },
+  {
+   "id": "ambitious",
+   "en": "ambitious",
+   "uz": "katta maqsadli, intiluvchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Gulnora is very ambitious: she wants to run her own company before she's thirty.",
+   "gap": "ambitious",
+   "alt": []
+  },
+  {
+   "id": "pushy",
+   "en": "pushy",
+   "uz": "surbet, o‘zini tiqishtiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The salesman was so pushy that he followed us down the street, trying to sell us a carpet.",
+   "gap": "pushy",
+   "alt": []
+  },
+  {
+   "id": "assertive",
+   "en": "assertive",
+   "uz": "o‘z fikrini dadil aytadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the waiter brought the wrong dish, Nargiza was assertive: she politely but firmly asked for what she had ordered.",
+   "gap": "assertive",
+   "alt": []
+  },
+  {
+   "id": "bossy",
+   "en": "bossy",
+   "uz": "buyruqbozlik qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My older sister is so bossy: she's always telling everyone what to do.",
+   "gap": "bossy",
+   "alt": []
+  },
+  {
+   "id": "intelligent",
+   "en": "intelligent",
+   "uz": "aql-idrokli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dolphins are highly intelligent animals that can recognise themselves in a mirror.",
+   "gap": "intelligent",
+   "alt": []
+  },
+  {
+   "id": "clever",
+   "en": "clever",
+   "uz": "fahmli, epchil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was clever of you to bring a power bank; my phone died hours ago.",
+   "gap": "clever",
+   "alt": []
+  },
+  {
+   "id": "sharp_clever",
+   "en": "sharp",
+   "uz": "tez ilg‘aydigan (o‘tkir aql)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even at ninety, the old professor's mind was as sharp as ever.",
+   "gap": "sharp",
+   "alt": []
+  },
+  {
+   "id": "able",
+   "en": "able",
+   "uz": "qobiliyatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She is one of the most able students in her year, so the school entered her for the olympiad.",
+   "gap": "able",
+   "alt": []
+  },
+  {
+   "id": "brainy",
+   "en": "brainy",
+   "uz": "kallali (so‘zlashuv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brainy little sister solved the Rubik's cube in under a minute.",
+   "gap": "brainy",
+   "alt": []
+  },
+  {
+   "id": "stupid",
+   "en": "stupid",
+   "uz": "ahmoq, aqlsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was stupid of me to leave my bike unlocked outside the shop.",
+   "gap": "stupid",
+   "alt": []
+  },
+  {
+   "id": "foolish",
+   "en": "foolish",
+   "uz": "nodonlarcha (o‘ylamay qilingan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It would be foolish to swim in the river after so much rain; the current is far too strong.",
+   "gap": "foolish",
+   "alt": []
+  },
+  {
+   "id": "simple_minded",
+   "en": "simple",
+   "uz": "aqli kalta (fahmi sodda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the old tales, people think Nasreddin is simple, but he always outwits them in the end.",
+   "gap": "simple",
+   "alt": []
+  },
+  {
+   "id": "silly",
+   "en": "silly",
+   "uz": "bema’ni, tentakcha",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Stop making silly faces at the camera and smile properly!",
+   "gap": "silly",
+   "alt": []
+  },
+  {
+   "id": "brainless",
+   "en": "brainless",
+   "uz": "miyasiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Only a brainless person would try to dry a wet phone in the microwave.",
+   "gap": "brainless",
+   "alt": []
+  },
+  {
+   "id": "daft",
+   "en": "daft",
+   "uz": "tentak (so‘zlashuv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't be daft; of course you can borrow my umbrella.",
+   "gap": "daft",
+   "alt": []
+  },
+  {
+   "id": "dumb",
+   "en": "dumb",
+   "uz": "kallasi ishlamaydigan (so‘zlashuv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sorry, that was a dumb question; I've just seen the answer on the board.",
+   "gap": "dumb",
+   "alt": []
+  },
+  {
+   "id": "dim_slow",
+   "en": "dim",
+   "uz": "fahmi sust",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's a kind boy, but a bit dim: it took him ages to get the joke.",
+   "gap": "dim",
+   "alt": []
+  },
+  {
+   "id": "thick_slow",
+   "en": "thick",
+   "uz": "kallasi qotgan (fahmsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Am I being thick, or is this map upside down?",
+   "gap": "thick",
+   "alt": []
+  },
+  {
+   "id": "crafty",
+   "en": "crafty",
+   "uz": "mug‘ombir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the cartoon, a crafty fox tricks the crow into dropping its cheese.",
+   "gap": "crafty",
+   "alt": []
+  },
+  {
+   "id": "sly",
+   "en": "sly",
+   "uz": "makkor (yashirincha ish ko‘radigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He gave me a sly smile, and I knew he had hidden my phone somewhere.",
+   "gap": "sly",
+   "alt": []
+  },
+  {
+   "id": "relaxed",
+   "en": "relaxed",
+   "uz": "xotirjam, bo‘shashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a week by the lake, Gulnora came back looking relaxed and happy.",
+   "gap": "relaxed",
+   "alt": []
+  },
+  {
+   "id": "wound_up",
+   "en": "wound up",
+   "uz": "asabi qo‘zigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ulugbek always gets wound up before exams and can't sleep the night before.",
+   "gap": "wound up",
+   "alt": []
+  },
+  {
+   "id": "stressed_out",
+   "en": "stressed out",
+   "uz": "ruhan zo‘riqqan (siqilib ketgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With three deadlines in one week, the whole office was stressed out.",
+   "gap": "stressed out",
+   "alt": [
+    "stressed-out"
+   ]
+  },
+  {
+   "id": "practical",
+   "en": "practical",
+   "uz": "amaliy fikrlaydigan (ishbilarmon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My sister is very practical: when the tap broke, she watched a video and fixed it herself.",
+   "gap": "practical",
+   "alt": []
+  },
+  {
+   "id": "worked_up",
+   "en": "worked-up",
+   "uz": "hayajonlanib asabiylashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There's no need to get so worked up about a small scratch on the car.",
+   "gap": "worked up",
+   "alt": [
+    "worked up"
+   ]
+  },
+  {
+   "id": "gregarious",
+   "en": "gregarious",
+   "uz": "davrani yaxshi ko‘radigan (jamoatchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Penguins are gregarious birds that live in huge colonies.",
+   "gap": "gregarious",
+   "alt": []
+  },
+  {
+   "id": "argumentative",
+   "en": "argumentative",
+   "uz": "bahschi, tortishqoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother is so argumentative that he turns every family dinner into a debate.",
+   "gap": "argumentative",
+   "alt": []
+  },
+  {
+   "id": "cruel",
+   "en": "cruel",
+   "uz": "shafqatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Keeping a big dog on a short chain all day is cruel.",
+   "gap": "cruel",
+   "alt": []
+  },
+  {
+   "id": "sadistic",
+   "en": "sadistic",
+   "uz": "birovning azobidan zavqlanadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the film, a sadistic prison guard enjoys making the prisoners suffer.",
+   "gap": "sadistic",
+   "alt": []
+  },
+  {
+   "id": "even_tempered",
+   "en": "even-tempered",
+   "uz": "vazmin, jahli chiqmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our coach is very even-tempered; even when we lose 5–0 he never shouts.",
+   "gap": "even-tempered",
+   "alt": [
+    "even tempered"
+   ]
+  },
+  {
+   "id": "laid_back",
+   "en": "laid-back",
+   "uz": "hech narsaga qayg‘urmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Life on the island is very laid-back: nobody hurries and the shops open when they like.",
+   "gap": "laid-back",
+   "alt": [
+    "laid back"
+   ]
+  },
+  {
+   "id": "impolite",
+   "en": "impolite",
+   "uz": "odob doirasidan chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In many countries it's considered impolite to point at people with your finger.",
+   "gap": "impolite",
+   "alt": []
+  },
+  {
+   "id": "ill_mannered",
+   "en": "ill-mannered",
+   "uz": "tarbiyasiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ill-mannered boy didn't say please or thank you once during the whole dinner.",
+   "gap": "ill-mannered",
+   "alt": [
+    "ill mannered"
+   ]
+  },
+  {
+   "id": "discourteous",
+   "en": "discourteous",
+   "uz": "muomalasi qo‘pol (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel apologised in writing for the discourteous behaviour of its reception staff.",
+   "gap": "discourteous",
+   "alt": []
+  },
+  {
+   "id": "reliable",
+   "en": "reliable",
+   "uz": "so‘zida turadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Laziz is very reliable: if he says he'll be there at eight, he'll be there at eight.",
+   "gap": "reliable",
+   "alt": []
+  },
+  {
+   "id": "sincere",
+   "en": "sincere",
+   "uz": "chin dildan (samimiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please accept our sincere apologies for the delay to your order.",
+   "gap": "sincere",
+   "alt": []
+  },
+  {
+   "id": "jealous",
+   "en": "jealous",
+   "uz": "rashk qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our dog gets jealous whenever we pay attention to the new kitten.",
+   "gap": "jealous",
+   "alt": []
+  },
+  {
+   "id": "obstinate",
+   "en": "obstinate",
+   "uz": "o‘jar",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The obstinate donkey refused to cross the bridge, however hard the farmer pulled.",
+   "gap": "obstinate",
+   "alt": []
+  },
+  {
+   "id": "pig_headed",
+   "en": "pig-headed",
+   "uz": "qaysarlikda tengi yo‘q (so‘zlashuv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's too pig-headed to admit that the satnav was right and he was wrong.",
+   "gap": "pig-headed",
+   "alt": [
+    "pig headed"
+   ]
+  },
+  {
+   "id": "economical",
+   "en": "economical",
+   "uz": "tejamli (kam sarflaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Small cars are more economical: they use much less petrol.",
+   "gap": "economical",
+   "alt": []
+  },
+  {
+   "id": "mean_stingy",
+   "en": "mean",
+   "uz": "ziqna",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's too mean to switch the heating on, so his flat is freezing all winter.",
+   "gap": "mean",
+   "alt": []
+  },
+  {
+   "id": "tight_fisted",
+   "en": "tight-fisted",
+   "uz": "qo‘li qisiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our tight-fisted landlord refused to pay for a new fridge even though the old one was broken.",
+   "gap": "tight-fisted",
+   "alt": [
+    "tight fisted"
+   ]
+  },
+  {
+   "id": "miserly",
+   "en": "miserly",
+   "uz": "baxil (pulini sarflamaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The miserly old man in the story lived in a cold, dark house with a fortune hidden under his bed.",
+   "gap": "miserly",
+   "alt": []
+  },
+  {
+   "id": "confident",
+   "en": "confident",
+   "uz": "o‘ziga ishonchi komil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After months of practice, Madina felt confident enough to give her speech without notes.",
+   "gap": "confident",
+   "alt": []
+  },
+  {
+   "id": "self_important",
+   "en": "self-important",
+   "uz": "o‘zini katta tutadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The self-important official made us wait an hour just to stamp one form.",
+   "gap": "self-important",
+   "alt": [
+    "self important"
+   ]
+  },
+  {
+   "id": "full_of_yourself",
+   "en": "full of yourself",
+   "uz": "o‘zidan ketgan (maqtanchoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since he won the talent show, Davron has been really full of himself.",
+   "gap": "full of himself",
+   "alt": [
+    "full of himself",
+    "full of herself"
+   ]
+  },
+  {
+   "id": "unconventional",
+   "en": "unconventional",
+   "uz": "an’anaviy bo‘lmagan (odatdan tashqari)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The architect is known for her unconventional designs, like a library shaped like an open book.",
+   "gap": "unconventional",
+   "alt": []
+  },
+  {
+   "id": "original_creative",
+   "en": "original",
+   "uz": "o‘ziga xos (ijodiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of copying from the internet, try to come up with an original idea for your project.",
+   "gap": "original",
+   "alt": []
+  },
+  {
+   "id": "odd",
+   "en": "odd",
+   "uz": "g‘ayrioddiy, ajabtovur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's odd that Otabek hasn't replied; he usually answers within minutes.",
+   "gap": "odd",
+   "alt": []
+  },
+  {
+   "id": "peculiar",
+   "en": "peculiar",
+   "uz": "qiziq-g‘alati (tushunarsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There's a peculiar smell in the fridge; I think the milk has gone off.",
+   "gap": "peculiar",
+   "alt": []
+  },
+  {
+   "id": "direct_frank",
+   "en": "direct",
+   "uz": "to‘g‘ridan-to‘g‘ri gapiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Let me be direct: your essay is too short and needs more examples.",
+   "gap": "direct",
+   "alt": []
+  },
+  {
+   "id": "open_frank",
+   "en": "open",
+   "uz": "ochiqko‘ngil (dilidagini yashirmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zarina is very open about her mistakes and isn't afraid to talk about them.",
+   "gap": "open",
+   "alt": []
+  },
+  {
+   "id": "abrupt",
+   "en": "abrupt",
+   "uz": "gapni keskin kesadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sorry if I was abrupt on the phone; I was in the middle of a meeting.",
+   "gap": "abrupt",
+   "alt": []
+  },
+  {
+   "id": "brusque",
+   "en": "brusque",
+   "uz": "keskin va sovuq (muomalada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The nurse was brusque but efficient, and she had my arm bandaged in two minutes.",
+   "gap": "brusque",
+   "alt": []
+  },
+  {
+   "id": "curt",
+   "en": "curt",
+   "uz": "lo‘nda va sovuq (javob)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I got a curt reply from the manager: just one word, 'No'.",
+   "gap": "curt",
+   "alt": []
+  },
+  {
+   "id": "unprincipled",
+   "en": "unprincipled",
+   "uz": "vijdonsiz (axloq qoidasi yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "An unprincipled businessman sold fake medicine to hospitals.",
+   "gap": "unprincipled",
+   "alt": []
+  },
+  {
+   "id": "permissive",
+   "en": "permissive",
+   "uz": "haddan ortiq erkinlik beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some teachers think modern parents are too permissive and let children do whatever they want.",
+   "gap": "permissive",
+   "alt": []
+  },
+  {
+   "id": "enquiring",
+   "en": "enquiring",
+   "uz": "bilimga chanqoq (izlanuvchan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Young children have enquiring minds and ask hundreds of questions a day.",
+   "gap": "enquiring",
+   "alt": [
+    "inquiring"
+   ]
+  },
+  {
+   "id": "innocent_naive",
+   "en": "innocent",
+   "uz": "beg‘ubor (hayotni bilmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With her big eyes and innocent smile, the little girl looked as if she could never break anything.",
+   "gap": "innocent",
+   "alt": []
+  },
+  {
+   "id": "aggressive",
+   "en": "aggressive",
+   "uz": "tajovuzkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Geese can be quite aggressive and will chase people away from their nests.",
+   "gap": "aggressive",
+   "alt": []
+  },
+  {
+   "id": "focus_of_attention",
+   "en": "the focus of attention",
+   "uz": "diqqat markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the party, the new baby was the focus of attention all evening.",
+   "gap": "the focus of attention",
+   "alt": [
+    "focus of attention"
+   ]
+  },
+  {
+   "id": "connotation",
+   "en": "connotation",
+   "uz": "qo‘shimcha ma’no (ijobiy yoki salbiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Slim' has a positive connotation, while 'skinny' usually sounds negative.",
+   "gap": "connotation",
+   "alt": [
+    "connotations"
+   ]
+  },
+  {
+   "id": "meat_poison",
+   "en": "one person's meat is another person's poison",
+   "uz": "har kimning didi har xil (maqol)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother loves horror films and I hate them, but as they say, one person's meat is another person's poison.",
+   "gap": "one person's meat is another person's poison",
+   "alt": [
+    "one man's meat is another man's poison"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "bright",
+   "gifted"
+  ],
+  [
+   "bright",
+   "shrewd"
+  ],
+  [
+   "shrewd",
+   "cunning"
+  ],
+  [
+   "pessimistic",
+   "optimistic"
+  ],
+  [
+   "pessimistic",
+   "tense"
+  ],
+  [
+   "optimistic",
+   "determined"
+  ],
+  [
+   "extroverted",
+   "introverted"
+  ],
+  [
+   "extroverted",
+   "sociable"
+  ],
+  [
+   "sensible",
+   "sensitive"
+  ],
+  [
+   "sensible",
+   "down_to_earth"
+  ],
+  [
+   "sensible",
+   "trustworthy"
+  ],
+  [
+   "down_to_earth",
+   "easy_going"
+  ],
+  [
+   "quarrelsome",
+   "rude"
+  ],
+  [
+   "determined",
+   "stubborn"
+  ],
+  [
+   "thrifty",
+   "stingy"
+  ],
+  [
+   "self_assured",
+   "arrogant"
+  ],
+  [
+   "frank",
+   "blunt"
+  ],
+  [
+   "inquisitive",
+   "nosy"
+  ],
+  [
+   "assertive",
+   "bossy"
+  ],
+  [
+   "shrewd",
+   "sensible"
+  ],
+  [
+   "sensible",
+   "bright"
+  ],
+  [
+   "quarrelsome",
+   "stubborn"
+  ],
+  [
+   "self_assured",
+   "assertive"
+  ],
+  [
+   "generous",
+   "extravagant"
+  ],
+  [
+   "extravagant",
+   "thrifty"
+  ],
+  [
+   "broad_minded",
+   "easy_going"
+  ],
+  [
+   "ambitious",
+   "determined"
+  ],
+  [
+   "ambitious",
+   "pushy"
+  ],
+  [
+   "pushy",
+   "assertive"
+  ],
+  [
+   "pushy",
+   "bossy"
+  ],
+  [
+   "shrewd",
+   "gifted"
+  ],
+  [
+   "optimistic",
+   "self_assured"
+  ],
+  [
+   "extroverted",
+   "self_assured"
+  ],
+  [
+   "down_to_earth",
+   "thrifty"
+  ],
+  [
+   "stubborn",
+   "arrogant"
+  ],
+  [
+   "thrifty",
+   "shrewd"
+  ],
+  [
+   "thrifty",
+   "sensible"
+  ],
+  [
+   "broad_minded",
+   "sociable"
+  ],
+  [
+   "broad_minded",
+   "inquisitive"
+  ],
+  [
+   "blunt",
+   "rude"
+  ],
+  [
+   "bright",
+   "intelligent"
+  ],
+  [
+   "bright",
+   "clever"
+  ],
+  [
+   "bright",
+   "sharp_clever"
+  ],
+  [
+   "bright",
+   "able"
+  ],
+  [
+   "bright",
+   "brainy"
+  ],
+  [
+   "shrewd",
+   "intelligent"
+  ],
+  [
+   "shrewd",
+   "clever"
+  ],
+  [
+   "shrewd",
+   "sharp_clever"
+  ],
+  [
+   "shrewd",
+   "able"
+  ],
+  [
+   "shrewd",
+   "brainy"
+  ],
+  [
+   "gifted",
+   "intelligent"
+  ],
+  [
+   "gifted",
+   "clever"
+  ],
+  [
+   "gifted",
+   "sharp_clever"
+  ],
+  [
+   "gifted",
+   "able"
+  ],
+  [
+   "gifted",
+   "brainy"
+  ],
+  [
+   "intelligent",
+   "clever"
+  ],
+  [
+   "intelligent",
+   "sharp_clever"
+  ],
+  [
+   "intelligent",
+   "able"
+  ],
+  [
+   "intelligent",
+   "brainy"
+  ],
+  [
+   "clever",
+   "sharp_clever"
+  ],
+  [
+   "clever",
+   "able"
+  ],
+  [
+   "clever",
+   "brainy"
+  ],
+  [
+   "sharp_clever",
+   "able"
+  ],
+  [
+   "sharp_clever",
+   "brainy"
+  ],
+  [
+   "able",
+   "brainy"
+  ],
+  [
+   "stupid",
+   "foolish"
+  ],
+  [
+   "stupid",
+   "simple_minded"
+  ],
+  [
+   "stupid",
+   "silly"
+  ],
+  [
+   "stupid",
+   "brainless"
+  ],
+  [
+   "stupid",
+   "daft"
+  ],
+  [
+   "stupid",
+   "dumb"
+  ],
+  [
+   "stupid",
+   "dim_slow"
+  ],
+  [
+   "stupid",
+   "thick_slow"
+  ],
+  [
+   "stupid",
+   "naive"
+  ],
+  [
+   "stupid",
+   "innocent_naive"
+  ],
+  [
+   "foolish",
+   "simple_minded"
+  ],
+  [
+   "foolish",
+   "silly"
+  ],
+  [
+   "foolish",
+   "brainless"
+  ],
+  [
+   "foolish",
+   "daft"
+  ],
+  [
+   "foolish",
+   "dumb"
+  ],
+  [
+   "foolish",
+   "dim_slow"
+  ],
+  [
+   "foolish",
+   "thick_slow"
+  ],
+  [
+   "foolish",
+   "naive"
+  ],
+  [
+   "foolish",
+   "innocent_naive"
+  ],
+  [
+   "simple_minded",
+   "silly"
+  ],
+  [
+   "simple_minded",
+   "brainless"
+  ],
+  [
+   "simple_minded",
+   "daft"
+  ],
+  [
+   "simple_minded",
+   "dumb"
+  ],
+  [
+   "simple_minded",
+   "dim_slow"
+  ],
+  [
+   "simple_minded",
+   "thick_slow"
+  ],
+  [
+   "simple_minded",
+   "naive"
+  ],
+  [
+   "simple_minded",
+   "innocent_naive"
+  ],
+  [
+   "silly",
+   "brainless"
+  ],
+  [
+   "silly",
+   "daft"
+  ],
+  [
+   "silly",
+   "dumb"
+  ],
+  [
+   "silly",
+   "dim_slow"
+  ],
+  [
+   "silly",
+   "thick_slow"
+  ],
+  [
+   "silly",
+   "naive"
+  ],
+  [
+   "silly",
+   "innocent_naive"
+  ],
+  [
+   "brainless",
+   "daft"
+  ],
+  [
+   "brainless",
+   "dumb"
+  ],
+  [
+   "brainless",
+   "dim_slow"
+  ],
+  [
+   "brainless",
+   "thick_slow"
+  ],
+  [
+   "brainless",
+   "naive"
+  ],
+  [
+   "brainless",
+   "innocent_naive"
+  ],
+  [
+   "daft",
+   "dumb"
+  ],
+  [
+   "daft",
+   "dim_slow"
+  ],
+  [
+   "daft",
+   "thick_slow"
+  ],
+  [
+   "daft",
+   "naive"
+  ],
+  [
+   "daft",
+   "innocent_naive"
+  ],
+  [
+   "dumb",
+   "dim_slow"
+  ],
+  [
+   "dumb",
+   "thick_slow"
+  ],
+  [
+   "dumb",
+   "naive"
+  ],
+  [
+   "dumb",
+   "innocent_naive"
+  ],
+  [
+   "dim_slow",
+   "thick_slow"
+  ],
+  [
+   "dim_slow",
+   "naive"
+  ],
+  [
+   "dim_slow",
+   "innocent_naive"
+  ],
+  [
+   "thick_slow",
+   "naive"
+  ],
+  [
+   "thick_slow",
+   "innocent_naive"
+  ],
+  [
+   "naive",
+   "innocent_naive"
+  ],
+  [
+   "cunning",
+   "crafty"
+  ],
+  [
+   "cunning",
+   "sly"
+  ],
+  [
+   "cunning",
+   "clever"
+  ],
+  [
+   "crafty",
+   "sly"
+  ],
+  [
+   "crafty",
+   "shrewd"
+  ],
+  [
+   "crafty",
+   "clever"
+  ],
+  [
+   "sly",
+   "shrewd"
+  ],
+  [
+   "sly",
+   "clever"
+  ],
+  [
+   "tense",
+   "wound_up"
+  ],
+  [
+   "tense",
+   "stressed_out"
+  ],
+  [
+   "tense",
+   "worked_up"
+  ],
+  [
+   "tense",
+   "sensitive"
+  ],
+  [
+   "wound_up",
+   "stressed_out"
+  ],
+  [
+   "wound_up",
+   "worked_up"
+  ],
+  [
+   "wound_up",
+   "sensitive"
+  ],
+  [
+   "stressed_out",
+   "worked_up"
+  ],
+  [
+   "stressed_out",
+   "sensitive"
+  ],
+  [
+   "worked_up",
+   "sensitive"
+  ],
+  [
+   "relaxed",
+   "easy_going"
+  ],
+  [
+   "relaxed",
+   "laid_back"
+  ],
+  [
+   "relaxed",
+   "even_tempered"
+  ],
+  [
+   "easy_going",
+   "laid_back"
+  ],
+  [
+   "easy_going",
+   "even_tempered"
+  ],
+  [
+   "laid_back",
+   "even_tempered"
+  ],
+  [
+   "sensible",
+   "practical"
+  ],
+  [
+   "practical",
+   "down_to_earth"
+  ],
+  [
+   "sociable",
+   "gregarious"
+  ],
+  [
+   "gregarious",
+   "extroverted"
+  ],
+  [
+   "quarrelsome",
+   "argumentative"
+  ],
+  [
+   "cruel",
+   "sadistic"
+  ],
+  [
+   "rude",
+   "impolite"
+  ],
+  [
+   "rude",
+   "ill_mannered"
+  ],
+  [
+   "rude",
+   "discourteous"
+  ],
+  [
+   "rude",
+   "abrupt"
+  ],
+  [
+   "rude",
+   "brusque"
+  ],
+  [
+   "rude",
+   "curt"
+  ],
+  [
+   "impolite",
+   "ill_mannered"
+  ],
+  [
+   "impolite",
+   "discourteous"
+  ],
+  [
+   "impolite",
+   "blunt"
+  ],
+  [
+   "impolite",
+   "abrupt"
+  ],
+  [
+   "impolite",
+   "brusque"
+  ],
+  [
+   "impolite",
+   "curt"
+  ],
+  [
+   "ill_mannered",
+   "discourteous"
+  ],
+  [
+   "ill_mannered",
+   "blunt"
+  ],
+  [
+   "ill_mannered",
+   "abrupt"
+  ],
+  [
+   "ill_mannered",
+   "brusque"
+  ],
+  [
+   "ill_mannered",
+   "curt"
+  ],
+  [
+   "discourteous",
+   "blunt"
+  ],
+  [
+   "discourteous",
+   "abrupt"
+  ],
+  [
+   "discourteous",
+   "brusque"
+  ],
+  [
+   "discourteous",
+   "curt"
+  ],
+  [
+   "blunt",
+   "abrupt"
+  ],
+  [
+   "blunt",
+   "brusque"
+  ],
+  [
+   "blunt",
+   "curt"
+  ],
+  [
+   "abrupt",
+   "brusque"
+  ],
+  [
+   "abrupt",
+   "curt"
+  ],
+  [
+   "brusque",
+   "curt"
+  ],
+  [
+   "trustworthy",
+   "reliable"
+  ],
+  [
+   "trustworthy",
+   "sincere"
+  ],
+  [
+   "reliable",
+   "sincere"
+  ],
+  [
+   "envious",
+   "jealous"
+  ],
+  [
+   "determined",
+   "obstinate"
+  ],
+  [
+   "determined",
+   "pig_headed"
+  ],
+  [
+   "stubborn",
+   "obstinate"
+  ],
+  [
+   "stubborn",
+   "pig_headed"
+  ],
+  [
+   "obstinate",
+   "pig_headed"
+  ],
+  [
+   "thrifty",
+   "economical"
+  ],
+  [
+   "thrifty",
+   "mean_stingy"
+  ],
+  [
+   "thrifty",
+   "tight_fisted"
+  ],
+  [
+   "thrifty",
+   "miserly"
+  ],
+  [
+   "economical",
+   "stingy"
+  ],
+  [
+   "economical",
+   "mean_stingy"
+  ],
+  [
+   "economical",
+   "tight_fisted"
+  ],
+  [
+   "economical",
+   "miserly"
+  ],
+  [
+   "stingy",
+   "mean_stingy"
+  ],
+  [
+   "stingy",
+   "tight_fisted"
+  ],
+  [
+   "stingy",
+   "miserly"
+  ],
+  [
+   "mean_stingy",
+   "tight_fisted"
+  ],
+  [
+   "mean_stingy",
+   "miserly"
+  ],
+  [
+   "tight_fisted",
+   "miserly"
+  ],
+  [
+   "self_assured",
+   "confident"
+  ],
+  [
+   "confident",
+   "assertive"
+  ],
+  [
+   "arrogant",
+   "self_important"
+  ],
+  [
+   "arrogant",
+   "full_of_yourself"
+  ],
+  [
+   "arrogant",
+   "bossy"
+  ],
+  [
+   "self_important",
+   "full_of_yourself"
+  ],
+  [
+   "self_important",
+   "bossy"
+  ],
+  [
+   "full_of_yourself",
+   "bossy"
+  ],
+  [
+   "eccentric",
+   "unconventional"
+  ],
+  [
+   "eccentric",
+   "original_creative"
+  ],
+  [
+   "eccentric",
+   "odd"
+  ],
+  [
+   "eccentric",
+   "peculiar"
+  ],
+  [
+   "unconventional",
+   "original_creative"
+  ],
+  [
+   "unconventional",
+   "odd"
+  ],
+  [
+   "unconventional",
+   "peculiar"
+  ],
+  [
+   "original_creative",
+   "odd"
+  ],
+  [
+   "original_creative",
+   "peculiar"
+  ],
+  [
+   "odd",
+   "peculiar"
+  ],
+  [
+   "frank",
+   "direct_frank"
+  ],
+  [
+   "frank",
+   "open_frank"
+  ],
+  [
+   "frank",
+   "abrupt"
+  ],
+  [
+   "frank",
+   "brusque"
+  ],
+  [
+   "frank",
+   "curt"
+  ],
+  [
+   "frank",
+   "sincere"
+  ],
+  [
+   "direct_frank",
+   "open_frank"
+  ],
+  [
+   "direct_frank",
+   "blunt"
+  ],
+  [
+   "direct_frank",
+   "abrupt"
+  ],
+  [
+   "direct_frank",
+   "brusque"
+  ],
+  [
+   "direct_frank",
+   "curt"
+  ],
+  [
+   "direct_frank",
+   "sincere"
+  ],
+  [
+   "open_frank",
+   "blunt"
+  ],
+  [
+   "open_frank",
+   "abrupt"
+  ],
+  [
+   "open_frank",
+   "brusque"
+  ],
+  [
+   "open_frank",
+   "curt"
+  ],
+  [
+   "open_frank",
+   "sincere"
+  ],
+  [
+   "blunt",
+   "sincere"
+  ],
+  [
+   "abrupt",
+   "sincere"
+  ],
+  [
+   "brusque",
+   "sincere"
+  ],
+  [
+   "curt",
+   "sincere"
+  ],
+  [
+   "inquisitive",
+   "enquiring"
+  ],
+  [
+   "enquiring",
+   "nosy"
+  ],
+  [
+   "ambitious",
+   "assertive"
+  ],
+  [
+   "ambitious",
+   "aggressive"
+  ],
+  [
+   "ambitious",
+   "bossy"
+  ],
+  [
+   "pushy",
+   "aggressive"
+  ],
+  [
+   "assertive",
+   "aggressive"
+  ],
+  [
+   "aggressive",
+   "bossy"
+  ],
+  [
+   "permissive",
+   "broad_minded"
+  ],
+  [
+   "unprincipled",
+   "cunning"
+  ],
+  [
+   "cruel",
+   "rude"
+  ],
+  [
+   "clever",
+   "sensible"
+  ],
+  [
+   "intelligent",
+   "sensible"
+  ],
+  [
+   "easy_going",
+   "permissive"
+  ],
+  [
+   "extroverted",
+   "confident"
+  ],
+  [
+   "unprincipled",
+   "crafty"
+  ],
+  [
+   "unprincipled",
+   "sly"
+  ]
+ ]
+}

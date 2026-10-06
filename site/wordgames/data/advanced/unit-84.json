@@ -1,0 +1,508 @@
+{
+ "book": "advanced",
+ "unit": 84,
+ "title": "The way you say it",
+ "title_uz": "Qanday ohangda aytilgani",
+ "words": [
+  {
+   "id": "mumble",
+   "en": "mumble",
+   "uz": "g‘o‘ldiramoq (tushunarsiz gapirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stop mumbling into your scarf, Davron; I can't understand a word you're saying.",
+   "gap": "mumbling",
+   "alt": [
+    "mumbling",
+    "mumbles",
+    "mumbled"
+   ]
+  },
+  {
+   "id": "mutter",
+   "en": "mutter",
+   "uz": "to‘ng‘illamoq (o‘zicha norozi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Annoyed at being told to tidy his room, Javlon went upstairs, muttering under his breath about how unfair life was.",
+   "gap": "muttering",
+   "alt": [
+    "muttering",
+    "mutters",
+    "muttered"
+   ]
+  },
+  {
+   "id": "murmur",
+   "en": "murmur",
+   "uz": "past ovozda g‘uvullab ma’qullamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The audience murmured their warm approval, nodding and smiling, when the director announced a free extra show.",
+   "gap": "murmured",
+   "alt": [
+    "murmured",
+    "murmurs",
+    "murmuring"
+   ]
+  },
+  {
+   "id": "without_a_murmur",
+   "en": "without a murmur",
+   "uz": "churq etmasdan, e’tirozsiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "To everyone's surprise, the children ate all their vegetables without a murmur.",
+   "gap": "without a murmur",
+   "alt": []
+  },
+  {
+   "id": "raise_your_voice",
+   "en": "raise your voice",
+   "uz": "ovozini balandlatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The lecture hall was huge, so the speaker had to raise her voice for the back rows to hear.",
+   "gap": "raise her voice",
+   "alt": [
+    "raise her voice",
+    "raise his voice",
+    "raised her voice",
+    "raised his voice",
+    "raising your voice"
+   ]
+  },
+  {
+   "id": "yell",
+   "en": "yell",
+   "uz": "baqirib chaqirmoq (shoshilinch)",
+   "pos": "verb",
+   "img": false,
+   "ex": "'Hurry up, the bus is leaving!' Zafar yelled impatiently to his friends across the noisy square.",
+   "gap": "yelled",
+   "alt": [
+    "yelled",
+    "yells",
+    "yelling"
+   ]
+  },
+  {
+   "id": "shriek",
+   "en": "shriek",
+   "uz": "chinqirmoq (ingichka ovozda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "'We won the tickets!' my little sister shrieked in a high, piercing voice.",
+   "gap": "shrieked",
+   "alt": [
+    "shrieked",
+    "shrieks",
+    "shrieking"
+   ]
+  },
+  {
+   "id": "roar",
+   "en": "roar",
+   "uz": "o‘kirmoq (yo‘g‘on ovozda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The coach roared at the players in his deep, booming voice to get back into position.",
+   "gap": "roared",
+   "alt": [
+    "roared",
+    "roars",
+    "roaring"
+   ]
+  },
+  {
+   "id": "nag",
+   "en": "nag",
+   "uz": "qayta-qayta tanbeh berib qistamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My older sister keeps nagging me to wash the dishes straight after dinner.",
+   "gap": "nagging",
+   "alt": [
+    "nagging",
+    "nags",
+    "nagged"
+   ]
+  },
+  {
+   "id": "bicker",
+   "en": "bicker",
+   "uz": "arzimas narsaga tortishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The twins bicker with each other constantly over the TV remote, even though they end up watching the same cartoons.",
+   "gap": "bicker",
+   "alt": [
+    "bickering",
+    "bickers",
+    "bickered"
+   ]
+  },
+  {
+   "id": "squabble",
+   "en": "squabble",
+   "uz": "mayda-chuyda uchun janjallashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two neighbours squabbled for weeks over a few centimetres of fence.",
+   "gap": "squabbled",
+   "alt": [
+    "squabbled",
+    "squabbles",
+    "squabbling"
+   ]
+  },
+  {
+   "id": "whine",
+   "en": "whine",
+   "uz": "jonga tegib zorlanmoq, nolimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stop whining about the homework and just start it; it'll take you twenty minutes.",
+   "gap": "whining",
+   "alt": [
+    "whining",
+    "whines",
+    "whined"
+   ]
+  },
+  {
+   "id": "chat_away",
+   "en": "chat away",
+   "uz": "tinmay valaqlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two old friends sat on the bench chatting away happily for hours.",
+   "gap": "chatting away",
+   "alt": [
+    "chatting away",
+    "chatted away",
+    "chats away"
+   ]
+  },
+  {
+   "id": "gossip",
+   "en": "gossip",
+   "uz": "g‘iybat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "People in the office love to gossip about who will be the next manager.",
+   "gap": "gossip",
+   "alt": [
+    "gossiping",
+    "gossips",
+    "gossiped"
+   ]
+  },
+  {
+   "id": "wind_up",
+   "en": "wind someone up",
+   "uz": "hazillashib laqillatmoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't believe him about the cancelled exam; he's just winding you up.",
+   "gap": "winding you up",
+   "alt": [
+    "winding you up",
+    "winding me up",
+    "winding him up",
+    "wound him up",
+    "wind up"
+   ]
+  },
+  {
+   "id": "butter_up",
+   "en": "butter someone up",
+   "uz": "manfaat ko‘zlab xushomad qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Farrukh offered to wash my car and cook dinner; I think he's buttering me up before asking to borrow it.",
+   "gap": "buttering me up",
+   "alt": [
+    "buttering me up",
+    "buttering him up",
+    "buttered up",
+    "butter up"
+   ]
+  },
+  {
+   "id": "exaggerate",
+   "en": "exaggerate",
+   "uz": "oshirib aytmoq, bo‘rttirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahlo tends to exaggerate: when she says the queue was a mile long, it probably had ten people in it.",
+   "gap": "exaggerate",
+   "alt": [
+    "exaggerates",
+    "exaggerated",
+    "exaggerating"
+   ]
+  },
+  {
+   "id": "generalise",
+   "en": "generalise",
+   "uz": "umumiy xulosa chiqarib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's unfair to generalise about a whole city after spending just one rainy afternoon there.",
+   "gap": "generalise",
+   "alt": [
+    "generalize",
+    "generalises",
+    "generalised",
+    "generalising"
+   ]
+  },
+  {
+   "id": "lisp",
+   "en": "lisp",
+   "uz": "tili chuchuklik («s» ni noto‘g‘ri aytish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a small child he spoke with a lisp, so 'sun' came out sounding like 'thun'.",
+   "gap": "lisp",
+   "alt": [
+    "lisps"
+   ]
+  },
+  {
+   "id": "stammer",
+   "en": "stammer",
+   "uz": "duduqlanish (nuqson)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Speech therapy helped him overcome his stammer, and now he gives presentations with confidence.",
+   "gap": "stammer",
+   "alt": [
+    "stammers"
+   ]
+  },
+  {
+   "id": "stutter",
+   "en": "stutter",
+   "uz": "tutilib-tutilib gapirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "'I-I-I'm not ready yet,' he stuttered when the teacher called his name.",
+   "gap": "stuttered",
+   "alt": [
+    "stuttered",
+    "stutters",
+    "stuttering"
+   ]
+  },
+  {
+   "id": "slur",
+   "en": "slur",
+   "uz": "so‘zlarni chaplashtirib gapirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the dental operation, Behruz was slurring his words because his mouth was still numb.",
+   "gap": "slurring",
+   "alt": [
+    "slurring",
+    "slurred",
+    "slurs"
+   ]
+  },
+  {
+   "id": "tongue_tied",
+   "en": "tongue-tied",
+   "uz": "hayajondan tili tutilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Whenever I meet someone famous, I get completely tongue-tied and forget what I wanted to say.",
+   "gap": "tongue-tied",
+   "alt": [
+    "tongue tied"
+   ]
+  },
+  {
+   "id": "shout",
+   "en": "shout",
+   "uz": "qichqirmoq, baqirmoq (umumiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't shout at me; I'm standing right next to you and can hear perfectly well.",
+   "gap": "shout",
+   "alt": [
+    "shouts",
+    "shouted",
+    "shouting"
+   ]
+  },
+  {
+   "id": "scream",
+   "en": "scream",
+   "uz": "dod solib qichqirmoq (qo‘rquvdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When a huge spider ran across the bathroom floor, my brother screamed in terror.",
+   "gap": "screamed",
+   "alt": [
+    "screams",
+    "screamed",
+    "screaming"
+   ]
+  },
+  {
+   "id": "slag_off",
+   "en": "slag someone off",
+   "uz": "haqoratlab yomonlamoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I was hurt to find out that two classmates had been slagging me off, calling me lazy and boring, in a group chat.",
+   "gap": "slagging me off",
+   "alt": [
+    "slag off",
+    "slagging me off",
+    "slagging off",
+    "slagged off",
+    "slags off",
+    "slagged me off"
+   ]
+  },
+  {
+   "id": "wind_up_noun",
+   "en": "wind-up",
+   "uz": "aldab hazillashish (ot, so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The message saying our exam had been cancelled turned out to be a complete wind-up by my classmates.",
+   "gap": "wind-up",
+   "alt": [
+    "wind up",
+    "a complete wind-up"
+   ]
+  },
+  {
+   "id": "exaggeration",
+   "en": "exaggeration",
+   "uz": "mubolag‘a, oshirib aytish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's no exaggeration to say that the new bridge has cut our journey to school in half.",
+   "gap": "exaggeration",
+   "alt": [
+    "exaggerations"
+   ]
+  },
+  {
+   "id": "generalisation",
+   "en": "generalisation",
+   "uz": "yuzaki umumlashtirish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'All cats hate water' is a generalisation; plenty of cats enjoy splashing about.",
+   "gap": "generalisation",
+   "alt": [
+    "generalization",
+    "generalisations",
+    "generalizations"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "mumble",
+   "mutter"
+  ],
+  [
+   "mumble",
+   "slur"
+  ],
+  [
+   "yell",
+   "shriek"
+  ],
+  [
+   "yell",
+   "roar"
+  ],
+  [
+   "bicker",
+   "squabble"
+  ],
+  [
+   "nag",
+   "whine"
+  ],
+  [
+   "chat_away",
+   "gossip"
+  ],
+  [
+   "mutter",
+   "whine"
+  ],
+  [
+   "mutter",
+   "murmur"
+  ],
+  [
+   "stammer",
+   "stutter"
+  ],
+  [
+   "lisp",
+   "stammer"
+  ],
+  [
+   "gossip",
+   "bicker"
+  ],
+  [
+   "shout",
+   "yell"
+  ],
+  [
+   "shout",
+   "roar"
+  ],
+  [
+   "shout",
+   "shriek"
+  ],
+  [
+   "shout",
+   "scream"
+  ],
+  [
+   "scream",
+   "shriek"
+  ],
+  [
+   "scream",
+   "yell"
+  ],
+  [
+   "slag_off",
+   "wind_up"
+  ],
+  [
+   "slag_off",
+   "gossip"
+  ],
+  [
+   "wind_up",
+   "wind_up_noun"
+  ],
+  [
+   "exaggeration",
+   "exaggerate"
+  ],
+  [
+   "generalisation",
+   "generalise"
+  ],
+  [
+   "exaggeration",
+   "generalisation"
+  ]
+ ]
+}

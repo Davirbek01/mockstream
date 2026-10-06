@@ -1,0 +1,651 @@
+{
+ "book": "upper",
+ "unit": 41,
+ "title": "Describing objects",
+ "title_uz": "Narsalarni tasvirlash",
+ "words": [
+  {
+   "id": "natural_material",
+   "en": "natural",
+   "uz": "tabiiy (material)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The baskets in this shop are woven from reeds, palm leaves and other natural materials, so they simply rot away if they end up in a field.",
+   "gap": "natural",
+   "alt": []
+  },
+  {
+   "id": "vivid",
+   "en": "vivid",
+   "uz": "yorqin, ko‘zni oladigan (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The children painted the school fence in vivid shades of orange and lime green, so you can spot it from the end of the street.",
+   "gap": "vivid",
+   "alt": []
+  },
+  {
+   "id": "sombre",
+   "en": "sombre",
+   "uz": "xira, ma’yus (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the memorial ceremony, everyone wore sombre colours: dark grey, navy and black.",
+   "gap": "sombre",
+   "alt": [
+    "somber"
+   ]
+  },
+  {
+   "id": "conventional",
+   "en": "conventional",
+   "uz": "odatiy, an’anaviy (turdagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our physics teacher avoids conventional methods: we learned about air pressure by crushing an empty can with nothing but steam and cold water.",
+   "gap": "conventional",
+   "alt": []
+  },
+  {
+   "id": "bizarre",
+   "en": "bizarre",
+   "uz": "juda g‘alati, ajabtovur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was a bizarre sight: a man in a suit walking a goat on a lead through the shopping centre.",
+   "gap": "bizarre",
+   "alt": []
+  },
+  {
+   "id": "transparent",
+   "en": "transparent",
+   "uz": "shaffof, tiniq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My lunchbox has a transparent lid, so I can see what's inside without opening it.",
+   "gap": "transparent",
+   "alt": []
+  },
+  {
+   "id": "opaque",
+   "en": "opaque",
+   "uz": "nur o‘tkazmaydigan (oyna, parda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We stuck opaque film on the bathroom window so that nobody outside can see in.",
+   "gap": "opaque",
+   "alt": []
+  },
+  {
+   "id": "faulty",
+   "en": "faulty",
+   "uz": "nosoz, buzuq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shop gave me a new kettle because mine had a faulty switch and kept turning itself off.",
+   "gap": "faulty",
+   "alt": []
+  },
+  {
+   "id": "stiff",
+   "en": "stiff",
+   "uz": "qattiq, egilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "These new leather boots are still stiff around the ankle, so I'll wear them at home for a few days before the hike.",
+   "gap": "stiff",
+   "alt": []
+  },
+  {
+   "id": "flexible",
+   "en": "flexible",
+   "uz": "egiluvchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The phone case is made of flexible plastic, so you can bend it to get the phone in and out.",
+   "gap": "flexible",
+   "alt": []
+  },
+  {
+   "id": "delicate",
+   "en": "delicate",
+   "uz": "nozik (yuvganda tez buziladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Silk is delicate, so wash this scarf by hand in cool water and never put it in the machine.",
+   "gap": "delicate",
+   "alt": []
+  },
+  {
+   "id": "tough",
+   "en": "tough",
+   "uz": "pishiq, yirtilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Denim is tough, so your jeans won't tear even after years of climbing trees and sliding down hills.",
+   "gap": "tough",
+   "alt": []
+  },
+  {
+   "id": "fragile",
+   "en": "fragile",
+   "uz": "mo‘rt, tez sinadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The box had a big red 'fragile' sticker on it, but the delivery man still threw it onto the doorstep.",
+   "gap": "fragile",
+   "alt": []
+  },
+  {
+   "id": "sturdy",
+   "en": "sturdy",
+   "uz": "mustahkam, qimirlamaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We need a sturdy ladder to reach the top shelves; this old one wobbles every time I climb it.",
+   "gap": "sturdy",
+   "alt": []
+  },
+  {
+   "id": "strong_drink",
+   "en": "strong",
+   "uz": "quyuq, achchiq (choy, qahva)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The night watchman at our school brews his black tea so strong that it's almost bitter, and he never adds sugar.",
+   "gap": "strong",
+   "alt": []
+  },
+  {
+   "id": "weak_drink",
+   "en": "weak",
+   "uz": "suyuq, rangsiz (choy, qahva)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This tea is far too weak; it tastes like hot water. Leave the tea bag in a bit longer.",
+   "gap": "weak",
+   "alt": []
+  },
+  {
+   "id": "genuine",
+   "en": "genuine",
+   "uz": "asl, haqiqiy (soxta emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before buying the old coin, the museum ran laboratory tests to make sure it was genuine and not a clever modern copy.",
+   "gap": "genuine",
+   "alt": []
+  },
+  {
+   "id": "fake",
+   "en": "fake",
+   "uz": "qalbaki narsa, soxta",
+   "pos": "noun",
+   "img": false,
+   "ex": "The 'designer' bag she bought online for ten dollars turned out to be a fake.",
+   "gap": "fake",
+   "alt": [
+    "fakes"
+   ]
+  },
+  {
+   "id": "decorative",
+   "en": "decorative",
+   "uz": "bezakli, naqshinkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The painted plates on the café wall are purely decorative; nobody ever eats off them.",
+   "gap": "decorative",
+   "alt": []
+  },
+  {
+   "id": "decent",
+   "en": "decent",
+   "uz": "durust, ancha yaxshi (sifat, hajm)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hostel room was small but clean, and the breakfast was decent, so we'd happily stay there again.",
+   "gap": "decent",
+   "alt": []
+  },
+  {
+   "id": "entire",
+   "en": "entire",
+   "uz": "butun, to‘liq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Timur spent the entire weekend building a castle out of cardboard boxes.",
+   "gap": "entire",
+   "alt": []
+  },
+  {
+   "id": "characteristic",
+   "en": "characteristic",
+   "uz": "o‘ziga xos, tipik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Turquoise domes are characteristic of the old mosques and madrasas of Central Asia.",
+   "gap": "characteristic",
+   "alt": []
+  },
+  {
+   "id": "characterise",
+   "en": "characterise",
+   "uz": "(…ga) xos bo‘lmoq, tavsiflamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new phone is characterised by a very long battery life and an unusually light body.",
+   "gap": "characterised",
+   "alt": [
+    "characterize",
+    "characterises",
+    "characterised",
+    "characterized",
+    "characterising"
+   ]
+  },
+  {
+   "id": "precise",
+   "en": "precise",
+   "uz": "aniq (o‘lchov)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The recipe just says 'a pinch of salt', but my friend, a chemistry student, wants the precise amount to a tenth of a gram.",
+   "gap": "precise",
+   "alt": []
+  },
+  {
+   "id": "precision",
+   "en": "precision",
+   "uz": "aniqlik, puxtalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Watchmakers work with amazing precision, using tiny tools and a magnifying glass.",
+   "gap": "precision",
+   "alt": []
+  },
+  {
+   "id": "severe_design",
+   "en": "severe",
+   "uz": "jiddiy, sovuq ko‘rinishli (bino)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With its bare grey walls and tiny barred windows, the old courthouse looks severe and unwelcoming.",
+   "gap": "severe",
+   "alt": []
+  },
+  {
+   "id": "solid",
+   "en": "solid",
+   "uz": "yaxlit, ichi to‘la (yog‘och va h.k.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike the cheap hollow doors upstairs, the front door is made of solid wood, so it's really heavy to push open.",
+   "gap": "solid",
+   "alt": []
+  },
+  {
+   "id": "solidify",
+   "en": "solidify",
+   "uz": "qotmoq, qattiq holga kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Pour the melted chocolate into the moulds and leave it in the fridge until it solidifies.",
+   "gap": "solidifies",
+   "alt": [
+    "solidifies",
+    "solidified",
+    "solidifying"
+   ]
+  },
+  {
+   "id": "trivial",
+   "en": "trivial",
+   "uz": "arzimas, ahamiyatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Let's not argue about trivial things like the colour of the napkins; we still haven't found a place for the party.",
+   "gap": "trivial",
+   "alt": []
+  },
+  {
+   "id": "trivialise",
+   "en": "trivialise",
+   "uz": "arzimas qilib ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The official was criticised for trivialising the smog problem by calling it 'just a little dust'.",
+   "gap": "trivialising",
+   "alt": [
+    "trivialize",
+    "trivialises",
+    "trivialised",
+    "trivialising",
+    "trivializing"
+   ]
+  },
+  {
+   "id": "great_big",
+   "en": "great big",
+   "uz": "kattakon, ulkan (so‘zlashuv)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There was a great big spider in the bathtub this morning, almost the size of my hand!",
+   "gap": "great big",
+   "alt": []
+  },
+  {
+   "id": "not_half_as",
+   "en": "not half as",
+   "uz": "…ning yarmicha ham emas",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The second film isn't half as good as the first one; the jokes are old and the plot is silly.",
+   "gap": "isn't half as",
+   "alt": [
+    "isn't half as",
+    "wasn't half as"
+   ]
+  },
+  {
+   "id": "nowhere_near_as",
+   "en": "nowhere near as",
+   "uz": "…dan ancha past, yaqin ham kelmaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My old laptop is nowhere near as fast as this one; it took ages just to open a document.",
+   "gap": "is nowhere near as",
+   "alt": [
+    "is nowhere near as"
+   ]
+  },
+  {
+   "id": "reasonably",
+   "en": "reasonably",
+   "uz": "ma’qul darajada, yetarlicha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The guesthouse was reasonably priced and close to the station, so we were happy with it.",
+   "gap": "reasonably",
+   "alt": []
+  },
+  {
+   "id": "pretty_adv",
+   "en": "pretty",
+   "uz": "ancha, xiyla (so‘zlashuv)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "That's a pretty big pizza for one person; are you sure you can finish it?",
+   "gap": "pretty",
+   "alt": []
+  },
+  {
+   "id": "perfect",
+   "en": "perfect",
+   "uz": "benuqson, bekamu ko‘st",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The mechanic checked every part of my old bike and said it was absolutely perfect, without a single fault.",
+   "gap": "perfect",
+   "alt": []
+  },
+  {
+   "id": "strong_object",
+   "en": "strong",
+   "uz": "pishiq, oson sinmaydigan (narsa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The climbers tied themselves together with a strong nylon rope that could hold the weight of three people.",
+   "gap": "strong",
+   "alt": []
+  },
+  {
+   "id": "decency",
+   "en": "decency",
+   "uz": "odob, insof (to‘g‘ri yo‘l tutish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody saw him pick up the wallet, but he had the decency to hand it in at the reception desk.",
+   "gap": "decency",
+   "alt": []
+  },
+  {
+   "id": "entirety",
+   "en": "entirety",
+   "uz": "butunligicha, to‘liq holi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the first time this spring, the museum will show the long silk carpet in its entirety.",
+   "gap": "entirety",
+   "alt": []
+  },
+  {
+   "id": "severity",
+   "en": "severity",
+   "uz": "jiddiylik, og‘irlik darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors use a simple scale from one to ten to judge the severity of a patient's pain.",
+   "gap": "severity",
+   "alt": []
+  },
+  {
+   "id": "solidity",
+   "en": "solidity",
+   "uz": "mustahkamlik, puxtalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builder knocked on the old stone wall to test its solidity before hanging the heavy shelves.",
+   "gap": "solidity",
+   "alt": []
+  },
+  {
+   "id": "trivia",
+   "en": "trivia",
+   "uz": "mayda-chuyda qiziq ma’lumotlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother knows all kinds of football trivia, like the colour of every team's away shirt in 1998.",
+   "gap": "trivia",
+   "alt": []
+  },
+  {
+   "id": "triviality",
+   "en": "triviality",
+   "uz": "arzimas narsa, mayda gap",
+   "pos": "noun",
+   "img": false,
+   "ex": "The meeting wasted a whole hour on trivialities such as where to put the new coffee machine.",
+   "gap": "trivialities",
+   "alt": [
+    "trivialities"
+   ]
+  },
+  {
+   "id": "character_nature",
+   "en": "character",
+   "uz": "o‘ziga xos ruh, qiyofa (joyning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new glass towers have completely changed the character of the old riverside district.",
+   "gap": "character",
+   "alt": []
+  },
+  {
+   "id": "characteristic_n",
+   "en": "characteristic",
+   "uz": "o‘ziga xos belgi, xususiyat (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Long ears and a short fluffy tail are the main characteristics of this rabbit breed.",
+   "gap": "characteristics",
+   "alt": [
+    "characteristics"
+   ]
+  },
+  {
+   "id": "unusually",
+   "en": "unusually",
+   "uz": "odatdagidan ortiq darajada",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our cat has been unusually quiet today; normally she meows at the door all morning.",
+   "gap": "unusually",
+   "alt": []
+  },
+  {
+   "id": "frame",
+   "en": "frame",
+   "uz": "rom, ramka (rasm uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "She put her graduation photo in a silver frame and stood it on her desk.",
+   "gap": "frame",
+   "alt": [
+    "frames"
+   ]
+  },
+  {
+   "id": "chair",
+   "en": "chair",
+   "uz": "stul",
+   "pos": "noun",
+   "img": true,
+   "ex": "There weren't enough seats round the table, so Ravshan fetched an extra chair from the kitchen.",
+   "gap": "chair",
+   "alt": [
+    "chairs"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "delicate",
+   "fragile"
+  ],
+  [
+   "tough",
+   "sturdy"
+  ],
+  [
+   "tough",
+   "strong_drink"
+  ],
+  [
+   "sturdy",
+   "strong_drink"
+  ],
+  [
+   "sturdy",
+   "solid"
+  ],
+  [
+   "sombre",
+   "severe_design"
+  ],
+  [
+   "not_half_as",
+   "nowhere_near_as"
+  ],
+  [
+   "pretty_adv",
+   "reasonably"
+  ],
+  [
+   "conventional",
+   "conservative"
+  ],
+  [
+   "bizarre",
+   "radical"
+  ],
+  [
+   "bizarre",
+   "weird"
+  ],
+  [
+   "sombre",
+   "conservative"
+  ],
+  [
+   "stiff",
+   "tough"
+  ],
+  [
+   "sturdy",
+   "decent"
+  ],
+  [
+   "decent",
+   "reasonably"
+  ],
+  [
+   "entire",
+   "solid"
+  ],
+  [
+   "strong_object",
+   "sturdy"
+  ],
+  [
+   "strong_object",
+   "tough"
+  ],
+  [
+   "strong_object",
+   "strong_drink"
+  ],
+  [
+   "strong_object",
+   "solid"
+  ],
+  [
+   "strong_object",
+   "strong_views"
+  ],
+  [
+   "strong_drink",
+   "strong_views"
+  ],
+  [
+   "trivia",
+   "triviality"
+  ],
+  [
+   "characteristic",
+   "characteristic_n"
+  ],
+  [
+   "character_nature",
+   "characteristic_n"
+  ],
+  [
+   "unusually",
+   "pretty_adv"
+  ],
+  [
+   "unusually",
+   "reasonably"
+  ],
+  [
+   "decency",
+   "decent"
+  ],
+  [
+   "solidity",
+   "solid"
+  ],
+  [
+   "severity",
+   "severe_design"
+  ],
+  [
+   "perfect",
+   "genuine"
+  ],
+  [
+   "perfect",
+   "decent"
+  ]
+ ]
+}

@@ -1,0 +1,436 @@
+{
+ "book": "upper",
+ "unit": 17,
+ "title": "Business",
+ "title_uz": "Biznes",
+ "words": [
+  {
+   "id": "put_forward",
+   "en": "put forward",
+   "uz": "(ko‘rib chiqishga) taklif qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the staff meeting, Laylo put forward a suggestion: why not open a second café near the metro?",
+   "gap": "put forward",
+   "alt": [
+    "puts forward",
+    "putting forward"
+   ]
+  },
+  {
+   "id": "business_plan",
+   "en": "business plan",
+   "uz": "biznes-reja",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz wrote a twenty-page business plan showing how his app would earn money in its first five years.",
+   "gap": "business plan",
+   "alt": [
+    "business plans"
+   ]
+  },
+  {
+   "id": "custom_built",
+   "en": "custom-built",
+   "uz": "buyurtma asosida yasalgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel ordered custom-built furniture to fit its unusual round rooms.",
+   "gap": "custom-built",
+   "alt": [
+    "custom built"
+   ]
+  },
+  {
+   "id": "launch",
+   "en": "launch",
+   "uz": "ishga tushirmoq (rasman boshlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In 2022 the two friends launched their own delivery company in Karshi with a big party for their first customers.",
+   "gap": "launched",
+   "alt": [
+    "launches",
+    "launched",
+    "launching"
+   ]
+  },
+  {
+   "id": "roll_out",
+   "en": "roll out",
+   "uz": "(yangi mahsulotni) bozorga chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After testing it with its own staff, the bank will roll out the new mobile app to all customers next month.",
+   "gap": "roll out",
+   "alt": [
+    "rolls out",
+    "rolled out",
+    "rolling out"
+   ]
+  },
+  {
+   "id": "expand",
+   "en": "expand",
+   "uz": "kengaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bakery has done so well that the owners now want to expand and open branches in Andijan and Namangan.",
+   "gap": "expand",
+   "alt": [
+    "expands",
+    "expanded",
+    "expanding"
+   ]
+  },
+  {
+   "id": "firm",
+   "en": "firm",
+   "uz": "firma (kompaniya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister works for a small law firm in the centre of Tashkent.",
+   "gap": "firm",
+   "alt": [
+    "firms"
+   ]
+  },
+  {
+   "id": "manufacture",
+   "en": "manufacture",
+   "uz": "ishlab chiqarmoq (zavodda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The plant in Asaka manufactures cars for buyers all over Central Asia.",
+   "gap": "manufactures",
+   "alt": [
+    "manufactures",
+    "manufactured",
+    "manufacturing"
+   ]
+  },
+  {
+   "id": "customer_care",
+   "en": "customer care",
+   "uz": "mijozlarga xizmat ko‘rsatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Their customer care is excellent: when my order arrived broken, they sent a new one the next day.",
+   "gap": "customer care",
+   "alt": []
+  },
+  {
+   "id": "priority",
+   "en": "priority",
+   "uz": "ustuvor vazifa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Safety is our top priority, so every new worker gets a week of training first.",
+   "gap": "priority",
+   "alt": [
+    "priorities"
+   ]
+  },
+  {
+   "id": "market_research",
+   "en": "market research",
+   "uz": "bozor tadqiqoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before opening the gym, they did some market research to find out what local people wanted.",
+   "gap": "market research",
+   "alt": []
+  },
+  {
+   "id": "recession",
+   "en": "recession",
+   "uz": "iqtisodiy tanazzul",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many small shops closed during the recession, when people had less money to spend.",
+   "gap": "recession",
+   "alt": [
+    "recessions"
+   ]
+  },
+  {
+   "id": "potential",
+   "en": "potential",
+   "uz": "bo‘lajak, ehtimoliy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The trade fair gave us the chance to meet hundreds of potential customers in just two days.",
+   "gap": "potential",
+   "alt": []
+  },
+  {
+   "id": "risk",
+   "en": "risk",
+   "uz": "tavakkal (xavf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Leaving a safe job to open a restaurant was a big risk, but it paid off.",
+   "gap": "risk",
+   "alt": [
+    "risks"
+   ]
+  },
+  {
+   "id": "order_book",
+   "en": "order book",
+   "uz": "buyurtmalar ro‘yxati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to the new contract, the factory's order book is full until next spring.",
+   "gap": "order book",
+   "alt": [
+    "order books"
+   ]
+  },
+  {
+   "id": "going_forward",
+   "en": "going forward",
+   "uz": "bundan buyon (kelajakda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It has been a difficult year, but going forward we will focus on online sales.",
+   "gap": "going forward",
+   "alt": []
+  },
+  {
+   "id": "ceo",
+   "en": "CEO",
+   "uz": "bosh ijrochi direktor",
+   "pos": "noun",
+   "img": false,
+   "ex": "As CEO, she is responsible for the whole company and reports only to the board.",
+   "gap": "CEO",
+   "alt": [
+    "CEOs",
+    "chief executive officer"
+   ]
+  },
+  {
+   "id": "corporation",
+   "en": "corporation",
+   "uz": "korporatsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Samsung is a huge corporation with companies in electronics, shipbuilding and insurance.",
+   "gap": "corporation",
+   "alt": [
+    "corporations"
+   ]
+  },
+  {
+   "id": "access_new_markets",
+   "en": "access new markets",
+   "uz": "yangi bozorlarga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Selling online helped a small silk workshop in Margilan access new markets in Europe and Japan.",
+   "gap": "access new markets",
+   "alt": [
+    "accessed new markets",
+    "accesses new markets",
+    "accessing new markets"
+   ]
+  },
+  {
+   "id": "make_a_profit",
+   "en": "make a profit",
+   "uz": "foyda ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The café lost money in its first year but began to make a profit in the second.",
+   "gap": "make a profit",
+   "alt": [
+    "made a profit",
+    "makes a profit",
+    "making a profit"
+   ]
+  },
+  {
+   "id": "stiff_competition",
+   "en": "stiff competition",
+   "uz": "kuchli raqobat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Taxi apps in Tashkent face stiff competition, so they keep cutting their prices.",
+   "gap": "stiff competition",
+   "alt": []
+  },
+  {
+   "id": "feedback",
+   "en": "feedback",
+   "uz": "fikr-mulohaza (baho)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After each delivery we send customers a short survey, because we need their feedback on our service.",
+   "gap": "feedback",
+   "alt": []
+  },
+  {
+   "id": "do_business",
+   "en": "do business",
+   "uz": "biznes yuritmoq (savdo qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our company has done business in Kazakhstan for ten years and now plans to enter Kyrgyzstan.",
+   "gap": "done business",
+   "alt": [
+    "does business",
+    "did business",
+    "done business",
+    "doing business"
+   ]
+  },
+  {
+   "id": "range_products",
+   "en": "range",
+   "uz": "mahsulotlar turkumi (assortiment)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop now stocks a wider range of sports shoes, from cheap trainers to professional running shoes.",
+   "gap": "range",
+   "alt": [
+    "ranges"
+   ]
+  },
+  {
+   "id": "hand_held",
+   "en": "hand-held",
+   "uz": "qo‘lda ushlanadigan (ixcham)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Delivery drivers scan each parcel with a small hand-held device before they leave it at the door.",
+   "gap": "hand-held",
+   "alt": [
+    "handheld",
+    "hand held"
+   ]
+  },
+  {
+   "id": "personalised",
+   "en": "personalised",
+   "uz": "egasiga moslab tayyorlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For her birthday, Dina got a personalised mug with her name and photo printed on it.",
+   "gap": "personalised",
+   "alt": [
+    "personalized"
+   ]
+  },
+  {
+   "id": "build_contacts",
+   "en": "build contacts",
+   "uz": "foydali tanishlar orttirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At trade fairs, young entrepreneurs can build contacts with suppliers and buyers from other countries.",
+   "gap": "build contacts",
+   "alt": [
+    "builds contacts",
+    "built contacts",
+    "building contacts"
+   ]
+  },
+  {
+   "id": "business_n",
+   "en": "business",
+   "uz": "korxona (biznes)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hundreds of new online businesses open every month, but many close within a year.",
+   "gap": "businesses",
+   "alt": [
+    "businesses"
+   ]
+  },
+  {
+   "id": "sell_intr",
+   "en": "sell",
+   "uz": "sotilmoq (xaridor topmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nobody knew whether electric scooters would sell in such a hilly town, but the shop ran out in a week.",
+   "gap": "sell",
+   "alt": [
+    "sells",
+    "sold",
+    "selling"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "launch",
+   "roll_out"
+  ],
+  [
+   "put_forward",
+   "launch"
+  ],
+  [
+   "firm",
+   "corporation"
+  ],
+  [
+   "ceo",
+   "firm"
+  ],
+  [
+   "customer_care",
+   "feedback"
+  ],
+  [
+   "access_new_markets",
+   "expand"
+  ],
+  [
+   "market_research",
+   "feedback"
+  ],
+  [
+   "make_a_profit",
+   "expand"
+  ],
+  [
+   "access_new_markets",
+   "roll_out"
+  ],
+  [
+   "ceo",
+   "executive"
+  ],
+  [
+   "hand_held",
+   "custom_built"
+  ],
+  [
+   "personalised",
+   "custom_built"
+  ],
+  [
+   "build_contacts",
+   "do_business"
+  ],
+  [
+   "business_n",
+   "firm"
+  ],
+  [
+   "business_n",
+   "corporation"
+  ],
+  [
+   "sell_intr",
+   "launch"
+  ],
+  [
+   "sell_intr",
+   "roll_out"
+  ]
+ ]
+}

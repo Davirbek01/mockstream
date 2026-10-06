@@ -1,0 +1,441 @@
+{
+ "book": "advanced",
+ "unit": 58,
+ "title": "Energy: from fossil fuels to windmills",
+ "title_uz": "Energiya: qazilma yoqilg‘idan shamol tegirmonlarigacha",
+ "words": [
+  {
+   "id": "oil_well",
+   "en": "oil well",
+   "uz": "neft qudug‘i",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the Ustyurt plateau, an oil well that had been dry for years suddenly started producing again after engineers drilled deeper.",
+   "gap": "oil well",
+   "alt": [
+    "oil wells"
+   ]
+  },
+  {
+   "id": "offshore",
+   "en": "offshore",
+   "uz": "dengizdagi (qirg‘oqdan uzoqda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Local fishermen complain that the new offshore gas field has scared the fish away from their part of the sea.",
+   "gap": "offshore",
+   "alt": []
+  },
+  {
+   "id": "drilling_platform",
+   "en": "drilling platform",
+   "uz": "dengizdagi burg‘ulash inshooti",
+   "pos": "noun",
+   "img": true,
+   "ex": "The engineers live for two weeks at a time on the drilling platform, far out at sea, before flying home by helicopter.",
+   "gap": "drilling platform",
+   "alt": [
+    "drilling platforms"
+   ]
+  },
+  {
+   "id": "coal_fired",
+   "en": "coal-fired",
+   "uz": "ko‘mirda ishlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Angren's coal-fired boilers kept the town warm for decades, but they also coated every windowsill in black dust.",
+   "gap": "coal-fired",
+   "alt": [
+    "coal fired"
+   ]
+  },
+  {
+   "id": "power_station",
+   "en": "power station",
+   "uz": "elektr stansiyasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "When a fire broke out at the power station, half the town was left without electricity for a whole day.",
+   "gap": "power station",
+   "alt": [
+    "power stations"
+   ]
+  },
+  {
+   "id": "coal_mine",
+   "en": "coal mine",
+   "uz": "ko‘mir koni",
+   "pos": "noun",
+   "img": true,
+   "ex": "My great-uncle worked underground in a coal mine for thirty years, and he still coughs from the dust.",
+   "gap": "coal mine",
+   "alt": [
+    "coal mines"
+   ]
+  },
+  {
+   "id": "pipeline",
+   "en": "pipeline",
+   "uz": "quvur liniyasi (gaz/neft)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Workers dug a long trench across the cotton fields to lay a pipeline that will finally bring gas to our village.",
+   "gap": "pipeline",
+   "alt": [
+    "pipelines"
+   ]
+  },
+  {
+   "id": "onshore",
+   "en": "onshore",
+   "uz": "quruqlikdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Building turbines onshore is cheaper than putting them out at sea, where cables and repairs cost far more.",
+   "gap": "onshore",
+   "alt": []
+  },
+  {
+   "id": "wind_farm",
+   "en": "wind farm",
+   "uz": "shamol elektr stansiyasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the drive across the steppe we passed a wind farm with dozens of white turbines turning slowly.",
+   "gap": "wind farm",
+   "alt": [
+    "wind farms"
+   ]
+  },
+  {
+   "id": "solar_panels",
+   "en": "solar panels",
+   "uz": "quyosh batareyalari",
+   "pos": "noun",
+   "img": true,
+   "ex": "The shepherds put solar panels on the roof of their hut in the mountains, so they have light even though no cables reach it.",
+   "gap": "solar panels",
+   "alt": [
+    "solar panel"
+   ]
+  },
+  {
+   "id": "hydroelectric",
+   "en": "hydroelectric",
+   "uz": "suv kuchi bilan elektr beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Below the dam, the rushing river turns the turbines of a small hydroelectric station that lights the whole valley.",
+   "gap": "hydroelectric",
+   "alt": []
+  },
+  {
+   "id": "biomass",
+   "en": "biomass",
+   "uz": "yoqilg‘i bo‘ladigan o‘simlik chiqindisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some farms burn biomass, such as cotton stalks and dried animal waste, to heat their greenhouses in winter.",
+   "gap": "biomass",
+   "alt": []
+  },
+  {
+   "id": "tidal_power",
+   "en": "tidal power",
+   "uz": "dengiz suvi ko‘tarilish energiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twice a day the sea rushes in and out of the narrow bay, so engineers plan to use tidal power there.",
+   "gap": "tidal power",
+   "alt": []
+  },
+  {
+   "id": "wave_power",
+   "en": "wave power",
+   "uz": "dengiz to‘lqinlari energiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Engineers testing wave power anchor floating machines off the coast, where the rocking of the sea drives their generators.",
+   "gap": "wave power",
+   "alt": []
+  },
+  {
+   "id": "renewables",
+   "en": "renewables",
+   "uz": "qayta tiklanuvchi manbalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our town hopes to get half of its electricity from renewables such as sun and wind within ten years.",
+   "gap": "renewables",
+   "alt": [
+    "renewable"
+   ]
+  },
+  {
+   "id": "nuclear_power",
+   "en": "nuclear power",
+   "uz": "atom energiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the debate club, Laylo argued that nuclear power is cleaner than coal, while her opponent worried about radioactive waste.",
+   "gap": "nuclear power",
+   "alt": []
+  },
+  {
+   "id": "geothermal",
+   "en": "geothermal",
+   "uz": "yer osti issiqligiga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The mountain spa heats its pools with geothermal energy, using hot water pumped up from deep underground.",
+   "gap": "geothermal",
+   "alt": []
+  },
+  {
+   "id": "energy_consumption",
+   "en": "energy consumption",
+   "uz": "elektr va yoqilg‘i sarfi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our family's energy consumption almost doubles in winter, when the heaters are on all day.",
+   "gap": "energy consumption",
+   "alt": []
+  },
+  {
+   "id": "power_hungry",
+   "en": "power-hungry",
+   "uz": "ko‘p elektr yeydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Air conditioners are power-hungry machines, so our school only switches them on during the hottest weeks of the year.",
+   "gap": "power-hungry",
+   "alt": [
+    "power hungry"
+   ]
+  },
+  {
+   "id": "appliances",
+   "en": "appliances",
+   "uz": "maishiy texnika",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Aunt Feruza moved into her new flat, she bought all the kitchen appliances at once: a fridge, a cooker and a dishwasher.",
+   "gap": "appliances",
+   "alt": [
+    "appliance"
+   ]
+  },
+  {
+   "id": "standby",
+   "en": "standby",
+   "uz": "kutish rejimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The TV still uses electricity on standby, so my sister switches it off at the wall every night.",
+   "gap": "standby",
+   "alt": [
+    "stand-by"
+   ]
+  },
+  {
+   "id": "gas_guzzler",
+   "en": "gas-guzzler",
+   "uz": "ko‘p yoqilg‘i yeydigan mashina",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uncle Sardor finally sold his old gas-guzzler, which needed a full tank every three days.",
+   "gap": "gas-guzzler",
+   "alt": [
+    "gas guzzler",
+    "gas-guzzlers"
+   ]
+  },
+  {
+   "id": "energy_efficient",
+   "en": "energy-efficient",
+   "uz": "kam quvvat sarflaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new energy-efficient bulbs in our classroom use far less electricity and last for years.",
+   "gap": "energy-efficient",
+   "alt": [
+    "energy efficient"
+   ]
+  },
+  {
+   "id": "food_miles",
+   "en": "food miles",
+   "uz": "oziq-ovqat bosib o‘tgan masofa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Buying apricots grown in the Fergana Valley rather than fruit flown in from abroad keeps the food miles low.",
+   "gap": "food miles",
+   "alt": []
+  },
+  {
+   "id": "carbon_footprint",
+   "en": "carbon footprint",
+   "uz": "uglerod izi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Taking the fast train to Samarkand instead of flying is an easy way to shrink your carbon footprint.",
+   "gap": "carbon footprint",
+   "alt": [
+    "carbon footprints"
+   ]
+  },
+  {
+   "id": "deposits",
+   "en": "deposits",
+   "uz": "(foydali qazilma) konlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Geologists have found rich copper deposits under the hills, and a new mine will open there next year.",
+   "gap": "deposits",
+   "alt": [
+    "deposit"
+   ]
+  },
+  {
+   "id": "run_out",
+   "en": "run out",
+   "uz": "tugab qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If the water in the village well runs out in August again, families will have to buy water from the tanker.",
+   "gap": "runs out",
+   "alt": [
+    "ran out",
+    "runs out",
+    "running out"
+   ]
+  },
+  {
+   "id": "wind_turbine",
+   "en": "wind turbine",
+   "uz": "shamol generatori (parrakli minora)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single wind turbine on the hill behind the college produces enough electricity for all its classrooms.",
+   "gap": "wind turbine",
+   "alt": [
+    "wind turbines"
+   ]
+  },
+  {
+   "id": "consume",
+   "en": "consume",
+   "uz": "sarflamoq (iste’mol qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Old fridges consume far more electricity than modern ones, so replacing them soon pays for itself.",
+   "gap": "consume",
+   "alt": [
+    "consumes",
+    "consumed",
+    "consuming"
+   ]
+  },
+  {
+   "id": "finite",
+   "en": "finite",
+   "uz": "chekli (bir kun tugaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Underground supplies of coal are finite, so sooner or later the mines in the region will have to close.",
+   "gap": "finite",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "offshore",
+   "onshore"
+  ],
+  [
+   "tidal_power",
+   "wave_power"
+  ],
+  [
+   "power_hungry",
+   "energy_efficient"
+  ],
+  [
+   "energy_consumption",
+   "carbon_footprint"
+  ],
+  [
+   "food_miles",
+   "carbon_footprint"
+  ],
+  [
+   "oil_well",
+   "coal_mine"
+  ],
+  [
+   "renewables",
+   "biomass"
+  ],
+  [
+   "oil_well",
+   "drilling_platform"
+  ],
+  [
+   "power_station",
+   "nuclear_power"
+  ],
+  [
+   "power_station",
+   "coal_fired"
+  ],
+  [
+   "power_station",
+   "hydroelectric"
+  ],
+  [
+   "deposits",
+   "coal_mine"
+  ],
+  [
+   "nuclear_power",
+   "renewables"
+  ],
+  [
+   "power_station",
+   "wind_farm"
+  ],
+  [
+   "drilling_platform",
+   "wind_farm"
+  ],
+  [
+   "wind_turbine",
+   "wind_farm"
+  ],
+  [
+   "wind_turbine",
+   "power_station"
+  ],
+  [
+   "wind_turbine",
+   "solar_panels"
+  ],
+  [
+   "consume",
+   "run_out"
+  ],
+  [
+   "finite",
+   "offshore"
+  ],
+  [
+   "finite",
+   "onshore"
+  ],
+  [
+   "finite",
+   "deposits"
+  ]
+ ]
+}

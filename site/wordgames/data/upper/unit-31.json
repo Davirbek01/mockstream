@@ -1,0 +1,1109 @@
+{
+ "book": "upper",
+ "unit": 31,
+ "title": "Travel",
+ "title_uz": "Sayohat va transport",
+ "words": [
+  {
+   "id": "coach",
+   "en": "coach",
+   "uz": "shaharlararo avtobus",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football fans hired a coach to take them to the away match in Namangan, and they sang all the way there.",
+   "gap": "coach",
+   "alt": [
+    "coaches"
+   ]
+  },
+  {
+   "id": "lorry",
+   "en": "lorry",
+   "uz": "yuk mashinasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A lorry loaded with watermelons had stopped on the hard shoulder, and the driver was selling them straight from the back.",
+   "gap": "lorry",
+   "alt": [
+    "lorries"
+   ]
+  },
+  {
+   "id": "tram",
+   "en": "tram",
+   "uz": "tramvay",
+   "pos": "noun",
+   "img": true,
+   "ex": "In Milan we rode an old wooden tram that rattled along the rails through the city centre.",
+   "gap": "tram",
+   "alt": [
+    "trams"
+   ]
+  },
+  {
+   "id": "boot",
+   "en": "boot",
+   "uz": "yukxona (avtomobilda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can you open the boot? I need to put the suitcases and the box of apples in the back of the car.",
+   "gap": "boot",
+   "alt": []
+  },
+  {
+   "id": "steering_wheel",
+   "en": "steering wheel",
+   "uz": "avtomobil ruli",
+   "pos": "noun",
+   "img": true,
+   "ex": "My driving instructor told me to keep both hands on the steering wheel, especially on icy roads.",
+   "gap": "steering wheel",
+   "alt": [
+    "steering wheels"
+   ]
+  },
+  {
+   "id": "chauffeur",
+   "en": "chauffeur",
+   "uz": "shaxsiy haydovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company director never drives herself; her chauffeur takes her to every meeting in a black car.",
+   "gap": "chauffeur",
+   "alt": [
+    "chauffeurs"
+   ]
+  },
+  {
+   "id": "petrol_station",
+   "en": "petrol station",
+   "uz": "yoqilg‘i quyish shoxobchasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We stopped at a petrol station outside Guliston to fill the tank and buy some cold water.",
+   "gap": "petrol station",
+   "alt": [
+    "petrol stations"
+   ]
+  },
+  {
+   "id": "ticket_collector",
+   "en": "ticket collector",
+   "uz": "chipta tekshiruvchi (poyezdda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ticket collector walked slowly through the carriage, checking everyone's tickets and passports.",
+   "gap": "ticket collector",
+   "alt": [
+    "ticket collectors"
+   ]
+  },
+  {
+   "id": "platform",
+   "en": "platform",
+   "uz": "perron (platforma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The night train for Qarshi leaves from platform 3 in ten minutes, so we'd better hurry down the stairs.",
+   "gap": "platform",
+   "alt": [
+    "platforms"
+   ]
+  },
+  {
+   "id": "ferry",
+   "en": "ferry",
+   "uz": "parom",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's no bridge to the island, so cars and passengers cross on a ferry that leaves every hour.",
+   "gap": "ferry",
+   "alt": [
+    "ferries"
+   ]
+  },
+  {
+   "id": "yacht",
+   "en": "yacht",
+   "uz": "yaxta",
+   "pos": "noun",
+   "img": true,
+   "ex": "The businessman sailed his private yacht along the coast, stopping in a different harbour each night.",
+   "gap": "yacht",
+   "alt": [
+    "yachts"
+   ]
+  },
+  {
+   "id": "deck",
+   "en": "deck",
+   "uz": "paluba (kemaning ochiq sahni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was a warm evening, so most passengers left their cabins and went up on deck to watch the sunset.",
+   "gap": "deck",
+   "alt": []
+  },
+  {
+   "id": "cockpit",
+   "en": "cockpit",
+   "uz": "uchuvchilar kabinasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before take-off, the pilot invited the children to look inside the cockpit and see all the controls.",
+   "gap": "cockpit",
+   "alt": [
+    "cockpits"
+   ]
+  },
+  {
+   "id": "aisle",
+   "en": "aisle",
+   "uz": "o‘rindiqlar orasidagi yo‘lak",
+   "pos": "noun",
+   "img": false,
+   "ex": "I asked for a seat next to the aisle so that I could stretch my legs and get up without disturbing anyone.",
+   "gap": "aisle",
+   "alt": []
+  },
+  {
+   "id": "runway",
+   "en": "runway",
+   "uz": "uchish-qo‘nish yo‘lagi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Workers had to clear the snow from the runway before our plane was allowed to take off.",
+   "gap": "runway",
+   "alt": [
+    "runways"
+   ]
+  },
+  {
+   "id": "duty_free_shop",
+   "en": "duty-free shop",
+   "uz": "bojsiz savdo do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "After passport control, Mum bought some perfume in the duty-free shop while we waited for our flight.",
+   "gap": "duty-free shop",
+   "alt": [
+    "duty free shop",
+    "duty-free shops"
+   ]
+  },
+  {
+   "id": "captain",
+   "en": "captain",
+   "uz": "kapitan (kema, samolyot komandiri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The captain of the ship stayed on the bridge all night, steering us safely through the storm.",
+   "gap": "captain",
+   "alt": [
+    "captains"
+   ]
+  },
+  {
+   "id": "port",
+   "en": "port",
+   "uz": "port (dengiz porti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From our hotel window we watched huge cranes in the port lifting containers off a ship that had just arrived from China.",
+   "gap": "port",
+   "alt": [
+    "ports"
+   ]
+  },
+  {
+   "id": "ground_staff",
+   "en": "ground staff",
+   "uz": "aeroportning yerdagi xodimlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the check-in desk, a member of the airline's ground staff weighed our bags and printed our boarding passes.",
+   "gap": "ground staff",
+   "alt": []
+  },
+  {
+   "id": "journey",
+   "en": "journey",
+   "uz": "uzoq yo‘l (bir joydan boshqasiga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of roadworks, the journey from Urgench to the capital took eleven hours by bus instead of the usual eight.",
+   "gap": "journey",
+   "alt": [
+    "journeys"
+   ]
+  },
+  {
+   "id": "business_trip",
+   "en": "business trip",
+   "uz": "xizmat safari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad is away on a business trip to Shanghai, meeting suppliers for his company, and he'll be back on Friday.",
+   "gap": "business trip",
+   "alt": [
+    "business trips"
+   ]
+  },
+  {
+   "id": "voyage",
+   "en": "voyage",
+   "uz": "uzoq dengiz safari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her brother is an engineer on a cargo ship; his last voyage, across the Pacific, kept him at sea for five weeks.",
+   "gap": "voyage",
+   "alt": [
+    "voyages"
+   ]
+  },
+  {
+   "id": "travel_n",
+   "en": "travel",
+   "uz": "sayohat (umuman; sanalmaydigan ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our geography teacher says that travel teaches you more than any textbook, so she explores a new country every summer.",
+   "gap": "travel",
+   "alt": []
+  },
+  {
+   "id": "hitch_hike",
+   "en": "hitch-hike",
+   "uz": "avtostop bilan sayohat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With no money for bus tickets, the two students decided to hitch-hike, standing by the road with their thumbs out.",
+   "gap": "hitch-hike",
+   "alt": [
+    "hitchhike",
+    "hitch hike",
+    "hitch-hiked",
+    "hitch-hiking"
+   ]
+  },
+  {
+   "id": "delayed",
+   "en": "delayed",
+   "uz": "kechiktirilgan (reys)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The 8.40 train to Kokand was delayed by forty minutes because of repairs on the line, so I texted my boss to say I'd be late.",
+   "gap": "delayed",
+   "alt": []
+  },
+  {
+   "id": "cancelled",
+   "en": "cancelled",
+   "uz": "bekor qilingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The open-air concert was cancelled at the last minute because of a thunderstorm, and the organisers promised to refund everyone's tickets.",
+   "gap": "cancelled",
+   "alt": [
+    "canceled"
+   ]
+  },
+  {
+   "id": "stuck",
+   "en": "stuck",
+   "uz": "chiqib ketolmay qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our jeep's wheels sank into the soft sand of the old Aral seabed, and we were stuck until a passing tractor pulled us out.",
+   "gap": "stuck",
+   "alt": []
+  },
+  {
+   "id": "put_up",
+   "en": "put up",
+   "uz": "(birovni) tunashga joylashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin's flat is tiny, but during the festival she happily agreed to put up three of us on her sofa and floor.",
+   "gap": "put up",
+   "alt": [
+    "puts up",
+    "putting up"
+   ]
+  },
+  {
+   "id": "on_standby",
+   "en": "on standby",
+   "uz": "kutish ro‘yxatida (bo‘sh joy chiqsa)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The flight to Istanbul was full, so Jasur waited at the gate on standby, hoping that one passenger would miss it.",
+   "gap": "on standby",
+   "alt": [
+    "standby"
+   ]
+  },
+  {
+   "id": "on_time",
+   "en": "on time",
+   "uz": "o‘z vaqtida (jadval bo‘yicha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Surprisingly, the train left exactly on time, at 7.15, not a minute late.",
+   "gap": "on time",
+   "alt": []
+  },
+  {
+   "id": "turbulence",
+   "en": "turbulence",
+   "uz": "turbulentlik (havoda chayqalish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The seatbelt sign came on because of turbulence, and the plane shook for ten minutes over the mountains.",
+   "gap": "turbulence",
+   "alt": []
+  },
+  {
+   "id": "bumpy_landing",
+   "en": "bumpy landing",
+   "uz": "silkinib qo‘nish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Strong winds gave us a bumpy landing, and a few passengers screamed when the wheels hit the ground.",
+   "gap": "bumpy landing",
+   "alt": [
+    "bumpy landings"
+   ]
+  },
+  {
+   "id": "airsick",
+   "en": "airsick",
+   "uz": "samolyotda ko‘ngli aynigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother always gets airsick, so Mum gives him a tablet an hour before every flight.",
+   "gap": "airsick",
+   "alt": []
+  },
+  {
+   "id": "jetlag",
+   "en": "jetlag",
+   "uz": "vaqt mintaqasi almashgandagi holsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the long flight from Seoul, Dilnoza had such bad jetlag that she fell asleep at lunch and was wide awake at 3 a.m.",
+   "gap": "jetlag",
+   "alt": [
+    "jet lag",
+    "jet-lag"
+   ]
+  },
+  {
+   "id": "seasick",
+   "en": "seasick",
+   "uz": "dengizda ko‘ngli aynigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As soon as the little boat started rocking on the waves, Kamola felt seasick and had to lie down.",
+   "gap": "seasick",
+   "alt": []
+  },
+  {
+   "id": "rough",
+   "en": "rough",
+   "uz": "notinch, to‘lqinli (dengiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The fishermen stayed in the harbour that day because the sea was too rough after the storm.",
+   "gap": "rough",
+   "alt": []
+  },
+  {
+   "id": "car",
+   "en": "car",
+   "uz": "avtomobil (yengil mashina)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Feruza passed her driving test, and her brother lent her his car to drive the five of them to the lake.",
+   "gap": "car",
+   "alt": [
+    "cars"
+   ]
+  },
+  {
+   "id": "bus",
+   "en": "bus",
+   "uz": "avtobus (shahar ichida)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In London we climbed to the top floor of a red double-decker bus to get the best view of the streets.",
+   "gap": "bus",
+   "alt": [
+    "buses"
+   ]
+  },
+  {
+   "id": "van",
+   "en": "van",
+   "uz": "furgon (kichik yuk mashinasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The florist loads the flowers into her small white van every morning and drives them round the shops.",
+   "gap": "van",
+   "alt": [
+    "vans"
+   ]
+  },
+  {
+   "id": "express_train",
+   "en": "express",
+   "uz": "tezyurar poyezd (kam to‘xtaydigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We caught the 9.05 express to the airport, which doesn't stop at any of the little stations on the way.",
+   "gap": "express",
+   "alt": [
+    "expresses"
+   ]
+  },
+  {
+   "id": "high_speed_train",
+   "en": "high-speed train",
+   "uz": "yuqori tezlikdagi poyezd",
+   "pos": "noun",
+   "img": true,
+   "ex": "The new high-speed train glides along the rails at 250 kilometres an hour, so the journey takes half the time.",
+   "gap": "high-speed train",
+   "alt": [
+    "high speed train",
+    "high-speed trains"
+   ]
+  },
+  {
+   "id": "driver",
+   "en": "driver",
+   "uz": "haydovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus driver waited until every passenger had sat down before he pulled away from the stop.",
+   "gap": "driver",
+   "alt": [
+    "drivers"
+   ]
+  },
+  {
+   "id": "motorist",
+   "en": "motorist",
+   "uz": "avtomobil egasi (rul ortidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The radio warned motorists to slow down because thick fog had covered the motorway.",
+   "gap": "motorists",
+   "alt": [
+    "motorists"
+   ]
+  },
+  {
+   "id": "mechanic",
+   "en": "mechanic",
+   "uz": "avtomexanik (ustaxona ustasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mechanic at the garage lifted the bonnet and found the problem with the engine in ten minutes.",
+   "gap": "mechanic",
+   "alt": [
+    "mechanics"
+   ]
+  },
+  {
+   "id": "breakdown_car",
+   "en": "breakdown",
+   "uz": "(mashinaning) yo‘lda buzilib qolishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had a breakdown on the motorway and waited two hours for a tow truck to come and pull us away.",
+   "gap": "breakdown",
+   "alt": [
+    "breakdowns"
+   ]
+  },
+  {
+   "id": "service_car",
+   "en": "service",
+   "uz": "texnik ko‘rik (mashinaga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car is due for a service, so I'm taking it to the garage to have the oil and brakes checked.",
+   "gap": "service",
+   "alt": [
+    "services"
+   ]
+  },
+  {
+   "id": "sleeping_car",
+   "en": "sleeping car",
+   "uz": "yotoqli vagon",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the overnight train we slept in the sleeping car, where each compartment had four narrow bunks.",
+   "gap": "sleeping car",
+   "alt": [
+    "sleeping cars"
+   ]
+  },
+  {
+   "id": "seat",
+   "en": "seat",
+   "uz": "o‘rindiq (transportda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I booked a window seat so that I could watch the mountains for the whole ride.",
+   "gap": "seat",
+   "alt": [
+    "seats"
+   ]
+  },
+  {
+   "id": "buffet",
+   "en": "buffet",
+   "uz": "poyezddagi kafe-vagon (bufet)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I walked down the train to the buffet and bought two cups of tea and a cheese sandwich.",
+   "gap": "buffet",
+   "alt": [
+    "buffets",
+    "buffet car"
+   ]
+  },
+  {
+   "id": "coach_rail",
+   "en": "coach",
+   "uz": "yo‘lovchi vagoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our seats were in coach D, the fourth carriage from the front of the train.",
+   "gap": "coach",
+   "alt": [
+    "coaches"
+   ]
+  },
+  {
+   "id": "conductor",
+   "en": "conductor",
+   "uz": "poyezd boshlig‘i (vagonlar nazoratchisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over the speakers, the conductor announced that the train would arrive in Navoi in five minutes.",
+   "gap": "conductor",
+   "alt": [
+    "conductors"
+   ]
+  },
+  {
+   "id": "liner",
+   "en": "liner",
+   "uz": "katta okean yo‘lovchi kemasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A hundred years ago, a great ocean liner took about a week to carry two thousand passengers across the Atlantic.",
+   "gap": "liner",
+   "alt": [
+    "liners",
+    "ocean liner"
+   ]
+  },
+  {
+   "id": "bridge_ship",
+   "en": "bridge",
+   "uz": "kapitan ko‘prigi (kemada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The officers steered the ship from the bridge, a high room with large windows looking out over the sea.",
+   "gap": "bridge",
+   "alt": []
+  },
+  {
+   "id": "gangway",
+   "en": "gangway",
+   "uz": "trap (kemaga chiqish ko‘prikchasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Holding the rope rail, we walked carefully up the narrow gangway from the quay onto the ship.",
+   "gap": "gangway",
+   "alt": [
+    "gangways"
+   ]
+  },
+  {
+   "id": "steward",
+   "en": "steward",
+   "uz": "kema, samolyotda yo‘lovchilar xizmatchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A smiling stewardess showed us to our room on the ship and explained when dinner was served.",
+   "gap": "stewardess",
+   "alt": [
+    "stewardess",
+    "stewards",
+    "stewardesses"
+   ]
+  },
+  {
+   "id": "cabin",
+   "en": "cabin",
+   "uz": "kayuta (kemadagi xona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cabin on the ship was tiny, with two narrow beds and one round window.",
+   "gap": "cabin",
+   "alt": [
+    "cabins"
+   ]
+  },
+  {
+   "id": "aircraft",
+   "en": "aircraft",
+   "uz": "uchish apparati (samolyot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum displays dozens of old military aircraft, from wooden biplanes to the first jets.",
+   "gap": "aircraft",
+   "alt": []
+  },
+  {
+   "id": "jumbo_jet",
+   "en": "jumbo jet",
+   "uz": "ulkan yo‘lovchi samolyoti (Boeing 747)",
+   "pos": "noun",
+   "img": true,
+   "ex": "With four huge engines and over 400 seats, the jumbo jet was for many years the largest passenger plane in the world.",
+   "gap": "jumbo jet",
+   "alt": [
+    "jumbo jets"
+   ]
+  },
+  {
+   "id": "helicopter",
+   "en": "helicopter",
+   "uz": "vertolyot",
+   "pos": "noun",
+   "img": true,
+   "ex": "A rescue helicopter hovered above the mountain and lowered a rope to the injured climber.",
+   "gap": "helicopter",
+   "alt": [
+    "helicopters"
+   ]
+  },
+  {
+   "id": "wing_plane",
+   "en": "wing",
+   "uz": "samolyot qanoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "From my window I could see the plane's long silver wing shining in the sun, with an engine hanging under it.",
+   "gap": "wing",
+   "alt": [
+    "wings"
+   ]
+  },
+  {
+   "id": "cabin_crew",
+   "en": "cabin crew",
+   "uz": "salon xodimlari (bortkuzatuvchilar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Soon after take-off, the cabin crew pushed a trolley down the plane and served everyone drinks.",
+   "gap": "cabin crew",
+   "alt": []
+  },
+  {
+   "id": "air_traffic_controller",
+   "en": "air traffic controller",
+   "uz": "aviadispetcher",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the tower, the air traffic controller told the pilot to wait because another plane was still landing.",
+   "gap": "air traffic controller",
+   "alt": [
+    "air traffic controllers"
+   ]
+  },
+  {
+   "id": "terminal",
+   "en": "terminal",
+   "uz": "aeroport binosi (yo‘lovchilar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "International flights leave from the new terminal, which has shops, cafés and a prayer room.",
+   "gap": "terminal",
+   "alt": [
+    "terminals"
+   ]
+  },
+  {
+   "id": "security_airport",
+   "en": "security",
+   "uz": "xavfsizlik nazorati (aeroportda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At security, we put our bags, belts and phones in plastic trays to be scanned.",
+   "gap": "security",
+   "alt": []
+  },
+  {
+   "id": "trip_journey",
+   "en": "trip",
+   "uz": "qisqa safar (borib kelish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last Saturday the art club went on a day trip to the mountains to paint the waterfalls.",
+   "gap": "trip",
+   "alt": [
+    "trips"
+   ]
+  },
+  {
+   "id": "travel_around",
+   "en": "travel",
+   "uz": "sayohat qilmoq (yurtma-yurt)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After university, Lola wants to travel around South America for a year with just a backpack and a phrase book.",
+   "gap": "travel",
+   "alt": [
+    "travels",
+    "travelled",
+    "travelling",
+    "traveled",
+    "traveling"
+   ]
+  },
+  {
+   "id": "airsickness",
+   "en": "airsickness",
+   "uz": "samolyotda ko‘ngil aynishi (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ginger tea is an old remedy for airsickness, so Nilufar drinks a cup before every flight.",
+   "gap": "airsickness",
+   "alt": [
+    "air sickness"
+   ]
+  },
+  {
+   "id": "seasickness",
+   "en": "seasickness",
+   "uz": "dengizda ko‘ngil aynishi (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before we sailed out to the islands, the chemist sold me some pills for seasickness.",
+   "gap": "seasickness",
+   "alt": [
+    "sea sickness"
+   ]
+  },
+  {
+   "id": "on_board",
+   "en": "on board",
+   "uz": "bortida (kema, samolyotda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There were 300 passengers and 20 crew on board the ship when it left the harbour.",
+   "gap": "on board",
+   "alt": [
+    "onboard"
+   ]
+  },
+  {
+   "id": "reservation",
+   "en": "reservation",
+   "uz": "bron (joyni oldindan band qilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Trains to the coast are packed in August, so make a seat reservation at least a week before you travel.",
+   "gap": "reservation",
+   "alt": [
+    "reservations"
+   ]
+  },
+  {
+   "id": "calm_sea",
+   "en": "calm",
+   "uz": "sokin, to‘lqinsiz (dengiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the storm passed, the sea was calm and as smooth as glass.",
+   "gap": "calm",
+   "alt": []
+  },
+  {
+   "id": "run_smoothly",
+   "en": "run smoothly",
+   "uz": "muammosiz kechmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Thanks to good planning, the whole school excursion ran smoothly, with no lost tickets or missed buses.",
+   "gap": "ran smoothly",
+   "alt": [
+    "runs smoothly",
+    "ran smoothly",
+    "running smoothly"
+   ]
+  },
+  {
+   "id": "airline",
+   "en": "airline",
+   "uz": "aviakompaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "We chose a cheaper airline this time, but it charged extra for every bag and even for a cup of water.",
+   "gap": "airline",
+   "alt": [
+    "airlines"
+   ]
+  },
+  {
+   "id": "flight",
+   "en": "flight",
+   "uz": "reys (samolyot parvozi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flight was already boarding at gate 12, so we ran past all the shops to catch it.",
+   "gap": "flight",
+   "alt": [
+    "flights"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "airline",
+   "ground_staff"
+  ],
+  [
+   "flight",
+   "journey"
+  ],
+  [
+   "runway",
+   "wing_plane"
+  ],
+  [
+   "delayed",
+   "cancelled"
+  ],
+  [
+   "stuck",
+   "delayed"
+  ],
+  [
+   "journey",
+   "business_trip"
+  ],
+  [
+   "journey",
+   "voyage"
+  ],
+  [
+   "voyage",
+   "business_trip"
+  ],
+  [
+   "seasick",
+   "rough"
+  ],
+  [
+   "ferry",
+   "yacht"
+  ],
+  [
+   "coach",
+   "tram"
+  ],
+  [
+   "turbulence",
+   "bumpy_landing"
+  ],
+  [
+   "voyage",
+   "cruise"
+  ],
+  [
+   "journey",
+   "cruise"
+  ],
+  [
+   "rough",
+   "terrifying"
+  ],
+  [
+   "rough",
+   "winding"
+  ],
+  [
+   "airsick",
+   "seasick"
+  ],
+  [
+   "airsick",
+   "rough"
+  ],
+  [
+   "travel_n",
+   "journey"
+  ],
+  [
+   "travel_n",
+   "voyage"
+  ],
+  [
+   "travel_n",
+   "sightseeing"
+  ],
+  [
+   "car",
+   "van"
+  ],
+  [
+   "van",
+   "lorry"
+  ],
+  [
+   "bus",
+   "coach"
+  ],
+  [
+   "bus",
+   "tram"
+  ],
+  [
+   "coach",
+   "coach_rail"
+  ],
+  [
+   "express_train",
+   "high_speed_train"
+  ],
+  [
+   "driver",
+   "motorist"
+  ],
+  [
+   "driver",
+   "chauffeur"
+  ],
+  [
+   "conductor",
+   "ticket_collector"
+  ],
+  [
+   "liner",
+   "ferry"
+  ],
+  [
+   "bridge_ship",
+   "cockpit"
+  ],
+  [
+   "bridge_ship",
+   "deck"
+  ],
+  [
+   "steward",
+   "cabin_crew"
+  ],
+  [
+   "cabin_crew",
+   "ground_staff"
+  ],
+  [
+   "cabin",
+   "cockpit"
+  ],
+  [
+   "aircraft",
+   "jumbo_jet"
+  ],
+  [
+   "aircraft",
+   "helicopter"
+  ],
+  [
+   "trip_journey",
+   "journey"
+  ],
+  [
+   "trip_journey",
+   "business_trip"
+  ],
+  [
+   "trip_journey",
+   "voyage"
+  ],
+  [
+   "travel_around",
+   "hitch_hike"
+  ],
+  [
+   "travel_around",
+   "travel_n"
+  ],
+  [
+   "airsick",
+   "airsickness"
+  ],
+  [
+   "seasick",
+   "seasickness"
+  ],
+  [
+   "airsickness",
+   "seasickness"
+  ],
+  [
+   "airsickness",
+   "turbulence"
+  ],
+  [
+   "calm_sea",
+   "rough"
+  ],
+  [
+   "on_board",
+   "on_standby"
+  ],
+  [
+   "breakdown_car",
+   "service_car"
+  ],
+  [
+   "terminal",
+   "port"
+  ],
+  [
+   "security_airport",
+   "terminal"
+  ],
+  [
+   "coach",
+   "van"
+  ],
+  [
+   "car",
+   "lorry"
+  ],
+  [
+   "conductor",
+   "driver"
+  ],
+  [
+   "bridge_ship",
+   "cabin"
+  ],
+  [
+   "airsickness",
+   "jetlag"
+  ]
+ ]
+}

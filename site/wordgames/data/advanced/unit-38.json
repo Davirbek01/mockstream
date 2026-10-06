@@ -1,0 +1,409 @@
+{
+ "book": "advanced",
+ "unit": 38,
+ "title": "Talking about language",
+ "title_uz": "Til haqida gapirish",
+ "words": [
+  {
+   "id": "syntax",
+   "en": "syntax",
+   "uz": "gap qurilishi qoidalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Yoda's lines in Star Wars sound strange because his syntax often puts the verb at the very end.",
+   "gap": "syntax",
+   "alt": []
+  },
+  {
+   "id": "modality",
+   "en": "modality",
+   "uz": "ehtimol yoki zarurat ifodasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The report sounded far too certain, so the editor softened its modality, replacing 'will' with 'may'.",
+   "gap": "modality",
+   "alt": []
+  },
+  {
+   "id": "phonology",
+   "en": "phonology",
+   "uz": "tilning tovush tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Learners of Arabic often find its phonology hard, especially the sounds made deep in the throat.",
+   "gap": "phonology",
+   "alt": []
+  },
+  {
+   "id": "phoneme",
+   "en": "phoneme",
+   "uz": "ma’no farqlovchi tovush birligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many Uzbek speakers pronounce 'west' and 'vest' the same way, because in Uzbek /w/ and /v/ are not two separate phonemes.",
+   "gap": "phonemes",
+   "alt": [
+    "phonemes"
+   ]
+  },
+  {
+   "id": "diphthong",
+   "en": "diphthong",
+   "uz": "qo‘shma unli (bir bo‘g‘indagi ikki unli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The vowel in 'boy' is a diphthong: your tongue glides from one vowel sound to another.",
+   "gap": "diphthong",
+   "alt": [
+    "diphthongs"
+   ]
+  },
+  {
+   "id": "lexicon",
+   "en": "lexicon",
+   "uz": "tilning so‘z boyligi (lug‘at tarkibi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Words such as 'selfie' and 'podcast' have entered the English lexicon only in the last twenty-five years.",
+   "gap": "lexicon",
+   "alt": []
+  },
+  {
+   "id": "orthography",
+   "en": "orthography",
+   "uz": "imlo (yozuv qoidalari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 1993 Uzbekistan adopted a new orthography based on the Latin alphabet, so many street signs now appear in two scripts.",
+   "gap": "orthography",
+   "alt": []
+  },
+  {
+   "id": "character",
+   "en": "character",
+   "uz": "yozuv belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children in China must learn a few thousand characters before they can comfortably read a newspaper.",
+   "gap": "characters",
+   "alt": [
+    "characters"
+   ]
+  },
+  {
+   "id": "pictogram",
+   "en": "pictogram",
+   "uz": "rasm-belgi (shartli tasvir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The signs at the airport use simple pictograms, like a knife and fork for the restaurant.",
+   "gap": "pictograms",
+   "alt": [
+    "pictograms"
+   ]
+  },
+  {
+   "id": "ideogram",
+   "en": "ideogram",
+   "uz": "tushunchani bildiruvchi yozuv belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Chinese writing, two 'tree' signs side by side make an ideogram that means 'woods'.",
+   "gap": "ideogram",
+   "alt": [
+    "ideograms"
+   ]
+  },
+  {
+   "id": "morphology",
+   "en": "morphology",
+   "uz": "so‘z tuzilishi qoidalari (qo‘shimchalar tizimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbek morphology allows one word to carry a whole chain of suffixes, as in 'kitoblarimizdagi'.",
+   "gap": "morphology",
+   "alt": []
+  },
+  {
+   "id": "morpheme",
+   "en": "morpheme",
+   "uz": "eng kichik ma’noli qism (o‘zak, qo‘shimcha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Young children often invent words like 'unsad' by adding morphemes such as un- to words they already know.",
+   "gap": "morphemes",
+   "alt": [
+    "morphemes"
+   ]
+  },
+  {
+   "id": "polysemous",
+   "en": "polysemous",
+   "uz": "ko‘p ma’noli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dictionary entries for polysemous verbs like 'run' and 'get' can go on for several pages.",
+   "gap": "polysemous",
+   "alt": []
+  },
+  {
+   "id": "context",
+   "en": "context",
+   "uz": "so‘z qurshovi (atrofdagi matn)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't reach for the dictionary straight away; try to guess the meaning of the new word from its context first.",
+   "gap": "context",
+   "alt": []
+  },
+  {
+   "id": "metaphorical",
+   "en": "metaphorical",
+   "uz": "majoziy (ko‘chma ma’noli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the coach said the team needed 'fresh blood', he was speaking in a metaphorical sense.",
+   "gap": "metaphorical",
+   "alt": []
+  },
+  {
+   "id": "literal",
+   "en": "literal",
+   "uz": "so‘zma-so‘z (tom ma’nodagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A literal translation of the Uzbek proverb made no sense at all to the English readers.",
+   "gap": "literal",
+   "alt": []
+  },
+  {
+   "id": "usage",
+   "en": "usage",
+   "uz": "qo‘llanish (so‘zning ishlatilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Language usage changes over the centuries: in the 1300s, the English word 'nice' meant 'foolish'.",
+   "gap": "usage",
+   "alt": []
+  },
+  {
+   "id": "obsolete",
+   "en": "obsolete",
+   "uz": "eskirgan (iste’moldan chiqqan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Expressions like 'rewind the cassette' are becoming obsolete as the technology disappears.",
+   "gap": "obsolete",
+   "alt": []
+  },
+  {
+   "id": "coin",
+   "en": "coin",
+   "uz": "(yangi so‘z) yaratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother coined the word 'snowcano' for the huge pile of snow in our yard, and now the whole family uses it.",
+   "gap": "coined",
+   "alt": [
+    "coined",
+    "coins",
+    "coining"
+   ]
+  },
+  {
+   "id": "register",
+   "en": "register",
+   "uz": "nutq uslubi (rasmiy yoki norasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Using slang in a job application letter is a mistake of register, not of grammar.",
+   "gap": "register",
+   "alt": [
+    "registers"
+   ]
+  },
+  {
+   "id": "jargon",
+   "en": "jargon",
+   "uz": "kasbiy atamalar (tor doira tili)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The engineer's explanation was so full of jargon that nobody else at the meeting understood it.",
+   "gap": "jargon",
+   "alt": []
+  },
+  {
+   "id": "articulate",
+   "en": "articulate",
+   "uz": "fikrini ravon ifodalaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our class representative is an articulate speaker who can explain complicated ideas in clear, simple words.",
+   "gap": "articulate",
+   "alt": []
+  },
+  {
+   "id": "eloquent",
+   "en": "eloquent",
+   "uz": "notiq (so‘zga chechan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His eloquent speech at the school debate persuaded even the judges who had disagreed with him at the start.",
+   "gap": "eloquent",
+   "alt": []
+  },
+  {
+   "id": "succinct",
+   "en": "succinct",
+   "uz": "lo‘nda (qisqa va aniq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Keep your answer succinct: the examiners prefer three clear sentences to a whole page.",
+   "gap": "succinct",
+   "alt": []
+  },
+  {
+   "id": "mot_juste",
+   "en": "mot juste",
+   "uz": "ayni muddao so‘z",
+   "pos": "noun",
+   "img": false,
+   "ex": "The poet spent hours searching for the mot juste to describe the colour of the desert at sunset.",
+   "gap": "mot juste",
+   "alt": []
+  },
+  {
+   "id": "inarticulate",
+   "en": "inarticulate",
+   "uz": "fikrini ifodalay olmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He knew the answer, but he was so nervous at the interview that he became inarticulate and just mumbled.",
+   "gap": "inarticulate",
+   "alt": []
+  },
+  {
+   "id": "speechless",
+   "en": "speechless",
+   "uz": "tili tutilib qolgan (hayratdan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When her students threw her a surprise birthday party, the teacher was speechless.",
+   "gap": "speechless",
+   "alt": []
+  },
+  {
+   "id": "lost_for_words",
+   "en": "lost for words",
+   "uz": "nima deyishini bilmay qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My cousin is usually so talkative, but when his favourite singer suddenly walked onto our school stage, he was lost for words.",
+   "gap": "lost for words",
+   "alt": []
+  },
+  {
+   "id": "put_foot_in_it",
+   "en": "put your foot in it",
+   "uz": "noo‘rin gapirib qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I really put my foot in it when I asked my neighbour about her driving test, not knowing she had failed it.",
+   "gap": "put my foot in it",
+   "alt": [
+    "put my foot in it",
+    "puts his foot in it",
+    "put her foot in it",
+    "putting your foot in it"
+   ]
+  },
+  {
+   "id": "intonation",
+   "en": "intonation",
+   "uz": "ohang (gap ohangi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "You can often tell whether an English speaker is asking a question just from the rising intonation at the end.",
+   "gap": "intonation",
+   "alt": []
+  },
+  {
+   "id": "alphabetic",
+   "en": "alphabetic",
+   "uz": "alifboli (harf yozuviga asoslangan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike Chinese, Korean has an alphabetic script, so a child can learn to read it within a few weeks.",
+   "gap": "alphabetic",
+   "alt": [
+    "alphabetical"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "metaphorical",
+   "literal"
+  ],
+  [
+   "articulate",
+   "eloquent"
+  ],
+  [
+   "articulate",
+   "succinct"
+  ],
+  [
+   "speechless",
+   "lost_for_words"
+  ],
+  [
+   "speechless",
+   "inarticulate"
+  ],
+  [
+   "inarticulate",
+   "lost_for_words"
+  ],
+  [
+   "character",
+   "pictogram"
+  ],
+  [
+   "character",
+   "ideogram"
+  ],
+  [
+   "pictogram",
+   "ideogram"
+  ],
+  [
+   "phoneme",
+   "morpheme"
+  ],
+  [
+   "phonology",
+   "morphology"
+  ],
+  [
+   "register",
+   "jargon"
+  ],
+  [
+   "phoneme",
+   "character"
+  ],
+  [
+   "lexicon",
+   "usage"
+  ],
+  [
+   "eloquent",
+   "succinct"
+  ],
+  [
+   "register",
+   "usage"
+  ]
+ ]
+}

@@ -1,0 +1,580 @@
+{
+ "book": "preint",
+ "unit": 56,
+ "title": "Crime",
+ "title_uz": "Jinoyat",
+ "words": [
+  {
+   "id": "crime",
+   "en": "crime",
+   "uz": "jinoyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Writing your name on the walls of an old monument is a crime, and you can get a big fine for it.",
+   "gap": "crime",
+   "alt": [
+    "crimes"
+   ]
+  },
+  {
+   "id": "criminal",
+   "en": "criminal",
+   "uz": "jinoyatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police showed a photo of the criminal on TV and asked people to call them if they saw him.",
+   "gap": "criminal",
+   "alt": [
+    "criminals"
+   ]
+  },
+  {
+   "id": "commit_crime",
+   "en": "commit a crime",
+   "uz": "jinoyat sodir etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nobody actually saw him commit a crime, so the police had to let him go home.",
+   "gap": "commit a crime",
+   "alt": [
+    "commits a crime",
+    "committed a crime",
+    "committing a crime"
+   ]
+  },
+  {
+   "id": "theft",
+   "en": "theft",
+   "uz": "o‘g‘irlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There has been a rise in bicycle theft near the university, so always lock your bike.",
+   "gap": "theft",
+   "alt": []
+  },
+  {
+   "id": "thief",
+   "en": "thief",
+   "uz": "o‘g‘ri",
+   "pos": "noun",
+   "img": false,
+   "ex": "A thief took Mrs Yusupova's purse from her bag while she was waiting for the bus.",
+   "gap": "thief",
+   "alt": [
+    "thieves"
+   ]
+  },
+  {
+   "id": "steal",
+   "en": "steal",
+   "uz": "o‘g‘irlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone has stolen my classmate's phone from the changing room at the gym.",
+   "gap": "stolen",
+   "alt": [
+    "steals",
+    "stole",
+    "stolen",
+    "stealing"
+   ]
+  },
+  {
+   "id": "robbery",
+   "en": "robbery",
+   "uz": "talonchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Staff and customers were inside during the bank robbery, but nobody was hurt, and the police caught the two men within an hour.",
+   "gap": "robbery",
+   "alt": [
+    "robberies"
+   ]
+  },
+  {
+   "id": "robber",
+   "en": "robber",
+   "uz": "talonchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two robbers in masks came into the phone shop and told the assistant to open the glass cases, but the alarm scared them away.",
+   "gap": "robbers",
+   "alt": [
+    "robbers"
+   ]
+  },
+  {
+   "id": "rob",
+   "en": "rob",
+   "uz": "talamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two men robbed a petrol station on the edge of town last night, but the police found them the next morning.",
+   "gap": "robbed",
+   "alt": [
+    "robs",
+    "robbed",
+    "robbing"
+   ]
+  },
+  {
+   "id": "burglary",
+   "en": "burglary",
+   "uz": "uyga o‘g‘rilikka tushish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the burglary, the Rakhimovs put new locks on all the doors and windows of their house.",
+   "gap": "burglary",
+   "alt": [
+    "burglaries"
+   ]
+  },
+  {
+   "id": "burglar",
+   "en": "burglar",
+   "uz": "uyga tushgan o‘g‘ri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The burglars got in through the kitchen window and were gone long before the family came home from the theatre.",
+   "gap": "burglars",
+   "alt": [
+    "burglars"
+   ]
+  },
+  {
+   "id": "burgle",
+   "en": "burgle",
+   "uz": "uyga o‘g‘rilikka tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The house next door was burgled while the family was at the seaside, so now they have a camera above the door.",
+   "gap": "burgled",
+   "alt": [
+    "burgles",
+    "burgled",
+    "burgling"
+   ]
+  },
+  {
+   "id": "break_in",
+   "en": "break in",
+   "uz": "buzib kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The thieves broke in through the back door and took two televisions.",
+   "gap": "broke in",
+   "alt": [
+    "breaks in",
+    "broke in",
+    "breaking in"
+   ]
+  },
+  {
+   "id": "escape",
+   "en": "escape",
+   "uz": "qochib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The man tried to escape on a scooter, but a police car stopped him at the traffic lights.",
+   "gap": "escape",
+   "alt": [
+    "escapes",
+    "escaped",
+    "escaping"
+   ]
+  },
+  {
+   "id": "detective",
+   "en": "detective",
+   "uz": "tergovchi (detektiv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A detective spent three weeks looking for the person who took the old coins from the museum.",
+   "gap": "detective",
+   "alt": [
+    "detectives"
+   ]
+  },
+  {
+   "id": "arrest",
+   "en": "arrest",
+   "uz": "hibsga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The police arrested the man at the airport as he was getting on a plane.",
+   "gap": "arrested",
+   "alt": [
+    "arrests",
+    "arrested",
+    "arresting"
+   ]
+  },
+  {
+   "id": "under_arrest",
+   "en": "under arrest",
+   "uz": "hibsda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The officer told the driver he was under arrest and took him to the police station.",
+   "gap": "under arrest",
+   "alt": []
+  },
+  {
+   "id": "catch_criminal",
+   "en": "catch",
+   "uz": "qo‘lga tushirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took the police two months to catch the man who was taking mirrors off parked cars in our district.",
+   "gap": "catch",
+   "alt": [
+    "catches",
+    "caught",
+    "catching"
+   ]
+  },
+  {
+   "id": "punishment",
+   "en": "punishment",
+   "uz": "jazo",
+   "pos": "noun",
+   "img": false,
+   "ex": "At our school, the punishment for using your phone in class is staying behind to tidy the classroom.",
+   "gap": "punishment",
+   "alt": [
+    "punishments"
+   ]
+  },
+  {
+   "id": "minor_offence",
+   "en": "minor offence",
+   "uz": "yengil huquqbuzarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Parking in the wrong place is only a minor offence, so you usually just pay some money.",
+   "gap": "minor offence",
+   "alt": [
+    "minor offences"
+   ]
+  },
+  {
+   "id": "fine_money",
+   "en": "fine",
+   "uz": "jarima",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver got a fine of 300,000 sum for driving too fast near the school.",
+   "gap": "fine",
+   "alt": [
+    "fines"
+   ]
+  },
+  {
+   "id": "court",
+   "en": "court",
+   "uz": "sud",
+   "pos": "noun",
+   "img": false,
+   "ex": "The case went to court, and the judge listened to both sides for three days.",
+   "gap": "court",
+   "alt": [
+    "courts"
+   ]
+  },
+  {
+   "id": "judge",
+   "en": "judge",
+   "uz": "sudya",
+   "pos": "noun",
+   "img": false,
+   "ex": "In court, everyone stands up when the judge in a long black gown comes into the room.",
+   "gap": "judge",
+   "alt": [
+    "judges"
+   ]
+  },
+  {
+   "id": "jury",
+   "en": "jury",
+   "uz": "hakamlar hay’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two days, the twelve people on the jury decided the man had done nothing wrong.",
+   "gap": "jury",
+   "alt": []
+  },
+  {
+   "id": "guilty",
+   "en": "guilty",
+   "uz": "aybdor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The court found the woman guilty, so she had to pay back all the money she had taken from her company.",
+   "gap": "guilty",
+   "alt": []
+  },
+  {
+   "id": "innocent",
+   "en": "innocent",
+   "uz": "aybsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Little Timur said he was innocent and that it was the cat who broke the vase, not him.",
+   "gap": "innocent",
+   "alt": []
+  },
+  {
+   "id": "prison",
+   "en": "prison",
+   "uz": "qamoqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "After five years in prison, the man trained as a cook and opened a small café.",
+   "gap": "prison",
+   "alt": [
+    "prisons"
+   ]
+  },
+  {
+   "id": "murder",
+   "en": "murder",
+   "uz": "qotillik (odam o‘ldirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The detective in the novel has only three days to find out who was behind the murder of a rich businessman.",
+   "gap": "murder",
+   "alt": [
+    "murders",
+    "murdered",
+    "murdering"
+   ]
+  },
+  {
+   "id": "murderer",
+   "en": "murderer",
+   "uz": "qotil",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police finally caught the murderer twenty years after the crime.",
+   "gap": "murderer",
+   "alt": [
+    "murderers"
+   ]
+  },
+  {
+   "id": "worth_value",
+   "en": "worth",
+   "uz": "… qiymatidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The thieves took paintings worth more than a million dollars.",
+   "gap": "worth",
+   "alt": []
+  },
+  {
+   "id": "get_away",
+   "en": "get away",
+   "uz": "qochib qutulmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The thief ran out of the shop with the money and got away before the police arrived.",
+   "gap": "got away",
+   "alt": [
+    "gets away",
+    "got away",
+    "getting away"
+   ]
+  },
+  {
+   "id": "hit",
+   "en": "hit",
+   "uz": "urmoq (zarb bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The boy fell off his bike and hit his head on the pavement, but his helmet protected him.",
+   "gap": "hit",
+   "alt": [
+    "hits",
+    "hitting"
+   ]
+  },
+  {
+   "id": "police_station",
+   "en": "police station",
+   "uz": "politsiya bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bahrom took the wallet he had found in the park to the nearest police station.",
+   "gap": "police station",
+   "alt": [
+    "police stations"
+   ]
+  },
+  {
+   "id": "solve_crime",
+   "en": "solve",
+   "uz": "ochmoq (jinoyatni), hal qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took the police three years to solve the case of the missing paintings.",
+   "gap": "solve",
+   "alt": [
+    "solves",
+    "solved",
+    "solving"
+   ]
+  },
+  {
+   "id": "jewellery",
+   "en": "jewellery",
+   "uz": "zargarlik buyumlari",
+   "pos": "noun",
+   "img": true,
+   "ex": "The burglars ignored the TV and took only the gold jewellery from the bedroom.",
+   "gap": "jewellery",
+   "alt": []
+  },
+  {
+   "id": "jewellers",
+   "en": "jeweller's",
+   "uz": "zargarlik do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laziz bought a silver ring for his sister at the jeweller's near the bazaar.",
+   "gap": "jeweller's",
+   "alt": []
+  },
+  {
+   "id": "serious_crime",
+   "en": "serious",
+   "uz": "og‘ir (jinoyat haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Driving a car after drinking is a serious offence in our country.",
+   "gap": "serious",
+   "alt": []
+  },
+  {
+   "id": "jail",
+   "en": "jail",
+   "uz": "turma (qamoq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film is about two brothers who escape from jail by digging a tunnel.",
+   "gap": "jail",
+   "alt": [
+    "jails"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "crime",
+   "theft"
+  ],
+  [
+   "crime",
+   "burglary"
+  ],
+  [
+   "crime",
+   "minor_offence"
+  ],
+  [
+   "criminal",
+   "thief"
+  ],
+  [
+   "theft",
+   "robbery"
+  ],
+  [
+   "theft",
+   "burglary"
+  ],
+  [
+   "robbery",
+   "burglary"
+  ],
+  [
+   "rob",
+   "burgle"
+  ],
+  [
+   "arrest",
+   "catch_criminal"
+  ],
+  [
+   "punishment",
+   "fine_money"
+  ],
+  [
+   "robber",
+   "burglar"
+  ],
+  [
+   "murder",
+   "robbery"
+  ],
+  [
+   "murder",
+   "theft"
+  ],
+  [
+   "murder",
+   "crime"
+  ],
+  [
+   "murder",
+   "burglary"
+  ],
+  [
+   "murderer",
+   "criminal"
+  ],
+  [
+   "murderer",
+   "thief"
+  ],
+  [
+   "murderer",
+   "robber"
+  ],
+  [
+   "murderer",
+   "burglar"
+  ],
+  [
+   "get_away",
+   "escape"
+  ],
+  [
+   "serious_crime",
+   "minor_offence"
+  ],
+  [
+   "jail",
+   "prison"
+  ],
+  [
+   "jail",
+   "court"
+  ],
+  [
+   "police_station",
+   "court"
+  ],
+  [
+   "jewellery",
+   "jewellers"
+  ],
+  [
+   "hit",
+   "arrest"
+  ],
+  [
+   "hit",
+   "catch_criminal"
+  ]
+ ]
+}

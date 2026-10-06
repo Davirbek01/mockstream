@@ -1,0 +1,701 @@
+{
+ "book": "advanced",
+ "unit": 29,
+ "title": "Weather and climate",
+ "title_uz": "Ob-havo va iqlim",
+ "words": [
+  {
+   "id": "chilly",
+   "en": "chilly",
+   "uz": "salqin, sovuqqina",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Desert nights can be surprisingly chilly, even after a scorching day.",
+   "gap": "chilly",
+   "alt": []
+  },
+  {
+   "id": "nippy",
+   "en": "nippy",
+   "uz": "chimchilaydigan sovuq (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's a bit nippy out there this morning: put a hat on before you go to the bus stop.",
+   "gap": "nippy",
+   "alt": []
+  },
+  {
+   "id": "sweltering",
+   "en": "sweltering",
+   "uz": "jazirama, kuydiruvchi issiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On sweltering July days in Tashkent, when the dry heat can reach 42 degrees, the streets are almost empty at midday.",
+   "gap": "sweltering",
+   "alt": []
+  },
+  {
+   "id": "roasting",
+   "en": "roasting",
+   "uz": "qovurib yuboradigan issiq (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Can someone turn the heating down? It's absolutely roasting in this classroom.",
+   "gap": "roasting",
+   "alt": []
+  },
+  {
+   "id": "breezy",
+   "en": "breezy",
+   "uz": "shabadali, yengil shamolli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was a sunny, breezy day, perfect for flying the kite we had made.",
+   "gap": "breezy",
+   "alt": []
+  },
+  {
+   "id": "sultry",
+   "en": "sultry",
+   "uz": "dim va issiq (bo‘g‘iq havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The air was hot, still and sultry, and everyone could feel that a storm was coming.",
+   "gap": "sultry",
+   "alt": []
+  },
+  {
+   "id": "oppressive",
+   "en": "oppressive",
+   "uz": "og‘ir, ezib yuboradigan (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The heat in the city became so oppressive that people could hardly breathe, let alone work.",
+   "gap": "oppressive",
+   "alt": []
+  },
+  {
+   "id": "stifling",
+   "en": "stifling",
+   "uz": "nafasni bo‘g‘adigan (dim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With forty people and no air conditioning, the bus was stifling, and we were desperate to get off.",
+   "gap": "stifling",
+   "alt": []
+  },
+  {
+   "id": "humid",
+   "en": "humid",
+   "uz": "nam, namligi yuqori",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Singapore the air is humid all year round, so your clothes feel damp as soon as you step outside.",
+   "gap": "humid",
+   "alt": []
+  },
+  {
+   "id": "muggy",
+   "en": "muggy",
+   "uz": "zax va dim (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's grey, warm and muggy today; I wish it would just rain and clear the air.",
+   "gap": "muggy",
+   "alt": []
+  },
+  {
+   "id": "clammy",
+   "en": "clammy",
+   "uz": "nam-yopishqoq (teri)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After an hour in the damp heat of the jungle, our hands and faces were clammy.",
+   "gap": "clammy",
+   "alt": []
+  },
+  {
+   "id": "downpour",
+   "en": "downpour",
+   "uz": "jala, shiddatli yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "We got caught in a sudden downpour on the way home and were soaked in seconds.",
+   "gap": "downpour",
+   "alt": [
+    "downpours"
+   ]
+  },
+  {
+   "id": "deluge",
+   "en": "deluge",
+   "uz": "sel kabi to‘xtovsiz yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "The deluge lasted three days, flooding the streets and closing every school in the area.",
+   "gap": "deluge",
+   "alt": [
+    "deluges"
+   ]
+  },
+  {
+   "id": "chucking_it_down",
+   "en": "chucking it down",
+   "uz": "chelaklab quyyapti (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take an umbrella and your raincoat; it's absolutely chucking it down outside!",
+   "gap": "chucking it down",
+   "alt": [
+    "chuck it down"
+   ]
+  },
+  {
+   "id": "pouring",
+   "en": "pouring",
+   "uz": "sharros yog‘moq (yomg‘ir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was pouring so hard that the windscreen wipers couldn't keep up, and we had to pull over.",
+   "gap": "pouring",
+   "alt": [
+    "pour",
+    "poured",
+    "pours"
+   ]
+  },
+  {
+   "id": "climate_of_distrust",
+   "en": "climate of distrust",
+   "uz": "o‘zaro ishonchsizlik muhiti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rumours about secret job cuts created a climate of distrust in the office, and people stopped sharing ideas.",
+   "gap": "climate of distrust",
+   "alt": []
+  },
+  {
+   "id": "sunny_disposition",
+   "en": "sunny disposition",
+   "uz": "doim quvnoq fe’l-atvor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nothing seems to upset Sanjar; he has such a sunny disposition that everyone enjoys working with him.",
+   "gap": "sunny disposition",
+   "alt": []
+  },
+  {
+   "id": "frosty_reception",
+   "en": "frosty reception",
+   "uz": "sovuq kutib olinish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plan to close the school library at weekends met with a frosty reception from parents.",
+   "gap": "frosty reception",
+   "alt": []
+  },
+  {
+   "id": "snowed_under",
+   "en": "snowed under",
+   "uz": "ishga ko‘milib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I can't come to the cinema this week; I'm completely snowed under with homework and project deadlines.",
+   "gap": "snowed under",
+   "alt": []
+  },
+  {
+   "id": "under_a_cloud",
+   "en": "under a cloud",
+   "uz": "obro‘si to‘kilgan holda (gumon ostida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the exam papers were leaked, the head of the testing centre left his job under a cloud.",
+   "gap": "under a cloud",
+   "alt": []
+  },
+  {
+   "id": "cloud_your_judgement",
+   "en": "cloud your judgement",
+   "uz": "aql-idrokni xiralashtirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Her anger clouded her judgement, and she said things to her friend that she later regretted.",
+   "gap": "clouded her judgement",
+   "alt": [
+    "clouded her judgement",
+    "cloud his judgement",
+    "clouded his judgement",
+    "cloud your judgment"
+   ]
+  },
+  {
+   "id": "hail_of",
+   "en": "a hail of",
+   "uz": "yomg‘irdek yog‘ilgan (tanqid, hushtak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The referee left the pitch under a hail of whistles and angry shouts from the home fans.",
+   "gap": "a hail of",
+   "alt": [
+    "hail of"
+   ]
+  },
+  {
+   "id": "hazy_memory",
+   "en": "hazy memory",
+   "uz": "xira (noaniq) xotira",
+   "pos": "noun",
+   "img": false,
+   "ex": "I have only a hazy memory of our first trip to the seaside; I was just three at the time.",
+   "gap": "hazy memory",
+   "alt": [
+    "hazy memories"
+   ]
+  },
+  {
+   "id": "mists_of_history",
+   "en": "mists of history",
+   "uz": "tarix qa’ri (unutilgan o‘tmish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The name of the master who built the old wooden mosque is lost in the mists of history.",
+   "gap": "mists of history",
+   "alt": []
+  },
+  {
+   "id": "whirlwind_of",
+   "en": "a whirlwind of",
+   "uz": "bo‘ronday ketma-ket (ish-tashvishlar) girdobi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The last week before the school concert was a whirlwind of rehearsals, costume fittings and lost sheet music.",
+   "gap": "a whirlwind of",
+   "alt": [
+    "whirlwind of"
+   ]
+  },
+  {
+   "id": "thunder",
+   "en": "thunder",
+   "uz": "gumburlab yugurmoq (o‘tmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A long freight train thundered past the station, and all the windows in the waiting room rattled.",
+   "gap": "thundered",
+   "alt": [
+    "thundered",
+    "thundering",
+    "thunders"
+   ]
+  },
+  {
+   "id": "thunderous",
+   "en": "thunderous",
+   "uz": "gulduros (ovoz, qarsak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the head teacher announced an extra week of holidays, the hall erupted in thunderous applause.",
+   "gap": "thunderous",
+   "alt": []
+  },
+  {
+   "id": "thundery",
+   "en": "thundery",
+   "uz": "momaqaldiroqli (ob-havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The forecast says it will be thundery this afternoon, with lightning and heavy showers, so stay away from tall trees.",
+   "gap": "thundery",
+   "alt": []
+  },
+  {
+   "id": "winds_of_change",
+   "en": "winds of change",
+   "uz": "o‘zgarishlar shamoli",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the new young director arrived, the winds of change began to blow through the old theatre.",
+   "gap": "winds of change",
+   "alt": []
+  },
+  {
+   "id": "freezing",
+   "en": "freezing",
+   "uz": "qahraton, muzlatadigan sovuq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The thermometer outside the school showed minus eighteen, and it was absolutely freezing.",
+   "gap": "freezing",
+   "alt": []
+  },
+  {
+   "id": "boiling",
+   "en": "boiling",
+   "uz": "qaynoq, jizillatadigan issiq (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Open all the windows, please; it's boiling in this kitchen!",
+   "gap": "boiling",
+   "alt": []
+  },
+  {
+   "id": "blowy",
+   "en": "blowy",
+   "uz": "shamol g‘izillab esadigan (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was too blowy on the hilltop for a picnic, so we ate our sandwiches in the car.",
+   "gap": "blowy",
+   "alt": []
+  },
+  {
+   "id": "heavy_air",
+   "en": "heavy",
+   "uz": "dim va og‘ir (bo‘ron oldidan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The air felt heavy all afternoon, and by evening a thunderstorm had broken over the city.",
+   "gap": "heavy",
+   "alt": []
+  },
+  {
+   "id": "close_weather",
+   "en": "close",
+   "uz": "dimiqqan, havosiz (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's very close in this waiting room; could somebody open a window, please?",
+   "gap": "close",
+   "alt": []
+  },
+  {
+   "id": "sticky",
+   "en": "sticky",
+   "uz": "terga botiradigan (nam havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Summer evenings in Hong Kong are hot and sticky, and our shirts clung to our backs.",
+   "gap": "sticky",
+   "alt": []
+  },
+  {
+   "id": "climate_of_change",
+   "en": "climate of change",
+   "uz": "o‘zgarishlar muhiti (ruhi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new principal's reforms created a climate of change in the old school: new clubs, a new timetable and fresh ideas everywhere.",
+   "gap": "climate of change",
+   "alt": []
+  },
+  {
+   "id": "political_climate",
+   "en": "political climate",
+   "uz": "siyosiy vaziyat (muhit)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Investors are waiting to see whether the political climate becomes more stable after the elections.",
+   "gap": "political climate",
+   "alt": []
+  },
+  {
+   "id": "storm_of_abuse",
+   "en": "a storm of abuse",
+   "uz": "haqoratlar bo‘roni",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the minister announced a new tax on bread, he was greeted with a storm of abuse on social media.",
+   "gap": "a storm of abuse",
+   "alt": [
+    "storm of abuse"
+   ]
+  },
+  {
+   "id": "whirlwind_romance",
+   "en": "whirlwind romance",
+   "uz": "qisqa va shiddatli ishq",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a whirlwind romance of just six weeks, the two actors announced their engagement.",
+   "gap": "whirlwind romance",
+   "alt": [
+    "whirlwind romances"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "chilly",
+   "nippy"
+  ],
+  [
+   "chilly",
+   "breezy"
+  ],
+  [
+   "nippy",
+   "breezy"
+  ],
+  [
+   "sweltering",
+   "roasting"
+  ],
+  [
+   "sweltering",
+   "sultry"
+  ],
+  [
+   "sweltering",
+   "oppressive"
+  ],
+  [
+   "sweltering",
+   "stifling"
+  ],
+  [
+   "roasting",
+   "sultry"
+  ],
+  [
+   "roasting",
+   "oppressive"
+  ],
+  [
+   "roasting",
+   "stifling"
+  ],
+  [
+   "sultry",
+   "oppressive"
+  ],
+  [
+   "sultry",
+   "stifling"
+  ],
+  [
+   "sultry",
+   "humid"
+  ],
+  [
+   "sultry",
+   "muggy"
+  ],
+  [
+   "oppressive",
+   "stifling"
+  ],
+  [
+   "oppressive",
+   "muggy"
+  ],
+  [
+   "oppressive",
+   "humid"
+  ],
+  [
+   "stifling",
+   "humid"
+  ],
+  [
+   "stifling",
+   "muggy"
+  ],
+  [
+   "humid",
+   "muggy"
+  ],
+  [
+   "humid",
+   "clammy"
+  ],
+  [
+   "muggy",
+   "clammy"
+  ],
+  [
+   "sultry",
+   "clammy"
+  ],
+  [
+   "downpour",
+   "deluge"
+  ],
+  [
+   "chucking_it_down",
+   "pouring"
+  ],
+  [
+   "thunderous",
+   "thundery"
+  ],
+  [
+   "hail_of",
+   "whirlwind_of"
+  ],
+  [
+   "under_a_cloud",
+   "snowed_under"
+  ],
+  [
+   "hazy_memory",
+   "mists_of_history"
+  ],
+  [
+   "frosty_reception",
+   "climate_of_distrust"
+  ],
+  [
+   "breezy",
+   "thundery"
+  ],
+  [
+   "thundery",
+   "sultry"
+  ],
+  [
+   "thundery",
+   "humid"
+  ],
+  [
+   "thundery",
+   "muggy"
+  ],
+  [
+   "thundery",
+   "chilly"
+  ],
+  [
+   "pouring",
+   "thundery"
+  ],
+  [
+   "stifling",
+   "clammy"
+  ],
+  [
+   "oppressive",
+   "clammy"
+  ],
+  [
+   "freezing",
+   "chilly"
+  ],
+  [
+   "freezing",
+   "nippy"
+  ],
+  [
+   "boiling",
+   "roasting"
+  ],
+  [
+   "boiling",
+   "sweltering"
+  ],
+  [
+   "boiling",
+   "stifling"
+  ],
+  [
+   "boiling",
+   "close_weather"
+  ],
+  [
+   "blowy",
+   "breezy"
+  ],
+  [
+   "heavy_air",
+   "sultry"
+  ],
+  [
+   "heavy_air",
+   "oppressive"
+  ],
+  [
+   "heavy_air",
+   "close_weather"
+  ],
+  [
+   "heavy_air",
+   "stifling"
+  ],
+  [
+   "heavy_air",
+   "muggy"
+  ],
+  [
+   "heavy_air",
+   "humid"
+  ],
+  [
+   "close_weather",
+   "stifling"
+  ],
+  [
+   "close_weather",
+   "roasting"
+  ],
+  [
+   "close_weather",
+   "sultry"
+  ],
+  [
+   "close_weather",
+   "muggy"
+  ],
+  [
+   "close_weather",
+   "humid"
+  ],
+  [
+   "close_weather",
+   "oppressive"
+  ],
+  [
+   "sticky",
+   "muggy"
+  ],
+  [
+   "sticky",
+   "humid"
+  ],
+  [
+   "sticky",
+   "clammy"
+  ],
+  [
+   "sticky",
+   "sultry"
+  ],
+  [
+   "sticky",
+   "close_weather"
+  ],
+  [
+   "sticky",
+   "heavy_air"
+  ],
+  [
+   "climate_of_change",
+   "winds_of_change"
+  ],
+  [
+   "storm_of_abuse",
+   "hail_of"
+  ],
+  [
+   "heavy_air",
+   "thundery"
+  ],
+  [
+   "sticky",
+   "stifling"
+  ],
+  [
+   "sticky",
+   "oppressive"
+  ]
+ ]
+}

@@ -1,0 +1,469 @@
+{
+ "book": "advanced",
+ "unit": 45,
+ "title": "Economy and finance",
+ "title_uz": "Iqtisodiyot va moliya",
+ "words": [
+  {
+   "id": "economic_growth",
+   "en": "economic growth",
+   "uz": "iqtisodiy o‘sish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Years of strong economic growth meant that new shops, offices and flats were appearing all over the city.",
+   "gap": "economic growth",
+   "alt": []
+  },
+  {
+   "id": "abject_poverty",
+   "en": "abject poverty",
+   "uz": "o‘ta nochor qashshoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The charity helps families living in abject poverty, who often cannot afford even shoes for their children.",
+   "gap": "abject poverty",
+   "alt": []
+  },
+  {
+   "id": "tackle",
+   "en": "tackle",
+   "uz": "hal etishga kirishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new mayor promised to tackle the city's traffic jams by building more cycle lanes.",
+   "gap": "tackle",
+   "alt": [
+    "tackled",
+    "tackles",
+    "tackling"
+   ]
+  },
+  {
+   "id": "allocate",
+   "en": "allocate",
+   "uz": "(mablag‘) ajratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This year the school allocated part of its budget to new laptops for the library.",
+   "gap": "allocated",
+   "alt": [
+    "allocated",
+    "allocates",
+    "allocating"
+   ]
+  },
+  {
+   "id": "grant",
+   "en": "grant",
+   "uz": "qaytarilmaydigan moliyaviy yordam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our robotics club won a small grant from a local company to buy new motors and sensors.",
+   "gap": "grant",
+   "alt": [
+    "grants"
+   ]
+  },
+  {
+   "id": "repay",
+   "en": "repay",
+   "uz": "qarzni qaytarmoq (uzmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took the bakery owner ten years to repay the loan she had taken out to open her shop.",
+   "gap": "repay",
+   "alt": [
+    "repaid",
+    "repays",
+    "repaying"
+   ]
+  },
+  {
+   "id": "debt_burden",
+   "en": "debt burden",
+   "uz": "qarz yuki",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students who borrow money for university can face a heavy debt burden for many years after they graduate.",
+   "gap": "debt burden",
+   "alt": []
+  },
+  {
+   "id": "debt_relief",
+   "en": "debt relief",
+   "uz": "qarzdan qisman ozod qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to debt relief, the small country could spend money on new schools instead of paying interest to foreign banks.",
+   "gap": "debt relief",
+   "alt": []
+  },
+  {
+   "id": "incur",
+   "en": "incur",
+   "uz": "(qarz, xarajat) orttirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you pay your phone bill late, you may incur an extra charge.",
+   "gap": "incur",
+   "alt": [
+    "incurred",
+    "incurs",
+    "incurring"
+   ]
+  },
+  {
+   "id": "alleviate",
+   "en": "alleviate",
+   "uz": "yengillashtirmoq (kamaytirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Planting trees along the streets helps alleviate the summer heat in the city.",
+   "gap": "alleviate",
+   "alt": [
+    "alleviated",
+    "alleviates",
+    "alleviating"
+   ]
+  },
+  {
+   "id": "debtor",
+   "en": "debtor",
+   "uz": "qarzdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Several debtor nations asked the international bank for more time to pay back their loans.",
+   "gap": "debtor",
+   "alt": [
+    "debtors"
+   ]
+  },
+  {
+   "id": "free_trade_agreement",
+   "en": "free trade agreement",
+   "uz": "erkin savdo bitimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to a free trade agreement, the two neighbouring countries can sell goods to each other without import taxes.",
+   "gap": "free trade agreement",
+   "alt": [
+    "free trade agreements"
+   ]
+  },
+  {
+   "id": "dispute",
+   "en": "dispute",
+   "uz": "nizo (kelishmovchilik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A long dispute over fishing rights has damaged relations between the two island nations.",
+   "gap": "dispute",
+   "alt": [
+    "disputes"
+   ]
+  },
+  {
+   "id": "restrictive_practices",
+   "en": "restrictive practices",
+   "uz": "raqobatni cheklovchi amaliyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company was fined for restrictive practices after it stopped shops from selling its competitors' products.",
+   "gap": "restrictive practices",
+   "alt": [
+    "restrictive practice"
+   ]
+  },
+  {
+   "id": "trade_war",
+   "en": "trade war",
+   "uz": "savdo urushi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When both countries kept raising taxes on each other's goods, a trade war broke out.",
+   "gap": "trade war",
+   "alt": [
+    "trade wars"
+   ]
+  },
+  {
+   "id": "embargo",
+   "en": "embargo",
+   "uz": "savdo taqiqi (rasmiy to‘liq cheklov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The embargo on selling computer chips to the country has left its car factories without vital parts.",
+   "gap": "embargo",
+   "alt": [
+    "embargoes"
+   ]
+  },
+  {
+   "id": "impose",
+   "en": "impose",
+   "uz": "joriy etmoq (majburiy qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many countries have imposed a tax on sugary drinks to encourage healthier eating.",
+   "gap": "imposed",
+   "alt": [
+    "imposed",
+    "imposes",
+    "imposing"
+   ]
+  },
+  {
+   "id": "lift",
+   "en": "lift",
+   "uz": "(taqiqni) olib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The ban on fishing in the lake was finally lifted once the water became clean again.",
+   "gap": "lifted",
+   "alt": [
+    "lifted",
+    "lifts",
+    "lifting"
+   ]
+  },
+  {
+   "id": "monetary_union",
+   "en": "monetary union",
+   "uz": "valyuta ittifoqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before joining the monetary union, each country had to prove that its debts and prices were under control.",
+   "gap": "monetary union",
+   "alt": []
+  },
+  {
+   "id": "single_currency",
+   "en": "single currency",
+   "uz": "yagona valyuta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the neighbouring countries adopted a single currency, tourists no longer have to change money at every border.",
+   "gap": "single currency",
+   "alt": []
+  },
+  {
+   "id": "war_torn",
+   "en": "war-torn",
+   "uz": "urush vayron qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rebuilding a war-torn economy can take decades, even with plenty of help from abroad.",
+   "gap": "war-torn",
+   "alt": [
+    "war torn"
+   ]
+  },
+  {
+   "id": "ailing",
+   "en": "ailing",
+   "uz": "inqirozdagi (zaiflashgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A new director was hired to rescue the ailing car factory, which had lost money five years in a row.",
+   "gap": "ailing",
+   "alt": []
+  },
+  {
+   "id": "devalue",
+   "en": "devalue",
+   "uz": "valyuta qadrini tushirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When a country devalues its currency, its exports become cheaper for foreign buyers.",
+   "gap": "devalues",
+   "alt": [
+    "devalued",
+    "devalues",
+    "devaluation"
+   ]
+  },
+  {
+   "id": "revaluation",
+   "en": "revaluation",
+   "uz": "valyuta qadrini oshirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the revaluation of the currency, holidays abroad suddenly became cheaper for local families.",
+   "gap": "revaluation",
+   "alt": []
+  },
+  {
+   "id": "recession",
+   "en": "recession",
+   "uz": "iqtisodiy tanazzul",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the recession, many small businesses closed and young people struggled to find jobs.",
+   "gap": "recession",
+   "alt": [
+    "recessions"
+   ]
+  },
+  {
+   "id": "emerge_from",
+   "en": "emerge from",
+   "uz": "(inqirozdan) chiqib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took the economy almost three years to emerge from the crisis.",
+   "gap": "emerge from",
+   "alt": [
+    "emerged from",
+    "emerges from",
+    "emerging from"
+   ]
+  },
+  {
+   "id": "double_dip_recession",
+   "en": "double-dip recession",
+   "uz": "takroriy tanazzul (ikki bosqichli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Just as people thought the hard times were over, the economy shrank again and slid into a double-dip recession.",
+   "gap": "double-dip recession",
+   "alt": [
+    "double dip recession"
+   ]
+  },
+  {
+   "id": "slump",
+   "en": "slump",
+   "uz": "(narxning) keskin tushishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A sudden slump in coffee prices hit small farmers very hard that year.",
+   "gap": "slump",
+   "alt": [
+    "slumps"
+   ]
+  },
+  {
+   "id": "boost_the_economy",
+   "en": "boost the economy",
+   "uz": "iqtisodiyotni jonlantirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Lower taxes for small businesses were introduced to boost the economy after the crisis.",
+   "gap": "boost the economy",
+   "alt": [
+    "boosted the economy",
+    "boosts the economy",
+    "boosting the economy"
+   ]
+  },
+  {
+   "id": "foreign_direct_investment",
+   "en": "foreign direct investment",
+   "uz": "to‘g‘ridan-to‘g‘ri xorijiy sarmoya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new car plant, built by a Korean company, was the largest piece of foreign direct investment the region had ever received.",
+   "gap": "foreign direct investment",
+   "alt": []
+  },
+  {
+   "id": "ease_burden",
+   "en": "ease",
+   "uz": "(yukni) yengillatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lower interest rates would ease the pressure on families with large loans.",
+   "gap": "ease",
+   "alt": [
+    "eased",
+    "eases",
+    "easing"
+   ]
+  },
+  {
+   "id": "cancel_debt",
+   "en": "cancel debt",
+   "uz": "qarzni kechib yubormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bank agreed to cancel the debt after the farm was destroyed by floods.",
+   "gap": "cancel the debt",
+   "alt": [
+    "cancel the debt",
+    "cancelled the debt",
+    "cancels the debt",
+    "cancelled debt"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "debt_burden",
+   "debt_relief"
+  ],
+  [
+   "trade_war",
+   "dispute"
+  ],
+  [
+   "embargo",
+   "economic_sanctions"
+  ],
+  [
+   "embargo",
+   "trade_war"
+  ],
+  [
+   "impose",
+   "lift"
+  ],
+  [
+   "monetary_union",
+   "single_currency"
+  ],
+  [
+   "war_torn",
+   "ailing"
+  ],
+  [
+   "devalue",
+   "revaluation"
+  ],
+  [
+   "recession",
+   "double_dip_recession"
+  ],
+  [
+   "recession",
+   "slump"
+  ],
+  [
+   "alleviate",
+   "tackle"
+  ],
+  [
+   "allocate",
+   "grant"
+  ],
+  [
+   "repay",
+   "incur"
+  ],
+  [
+   "ease_burden",
+   "alleviate"
+  ],
+  [
+   "ease_burden",
+   "tackle"
+  ],
+  [
+   "cancel_debt",
+   "repay"
+  ],
+  [
+   "cancel_debt",
+   "debt_relief"
+  ]
+ ]
+}

@@ -1,0 +1,1046 @@
+{
+ "book": "upper",
+ "unit": 38,
+ "title": "Politics and public institutions",
+ "title_uz": "Siyosat va davlat institutlari",
+ "words": [
+  {
+   "id": "republic",
+   "en": "republic",
+   "uz": "respublika",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the novel, the islanders send their old king away and declare a republic, with an elected president as head of state.",
+   "gap": "republic",
+   "alt": [
+    "republics"
+   ]
+  },
+  {
+   "id": "monarchy",
+   "en": "monarchy",
+   "uz": "monarxiya (qirollik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our guide in Copenhagen showed us the palace where the royal family lives and explained that Denmark is still a monarchy.",
+   "gap": "monarchy",
+   "alt": [
+    "monarchies"
+   ]
+  },
+  {
+   "id": "federation",
+   "en": "federation",
+   "uz": "federatsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My pen pal in Toronto says each Canadian province makes its own school rules, because the country is a federation.",
+   "gap": "federation",
+   "alt": [
+    "federations"
+   ]
+  },
+  {
+   "id": "democracy",
+   "en": "democracy",
+   "uz": "demokratiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class works like a small democracy: every big decision, from the trip destination to the class colour, is put to a vote.",
+   "gap": "democracy",
+   "alt": [
+    "democracies"
+   ]
+  },
+  {
+   "id": "dictatorship",
+   "en": "dictatorship",
+   "uz": "diktatura (yakkahokimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Life under the dictatorship was hard: for thirty years one man controlled the newspapers, the army and the courts.",
+   "gap": "dictatorship",
+   "alt": [
+    "dictatorships"
+   ]
+  },
+  {
+   "id": "independence",
+   "en": "independence",
+   "uz": "mustaqillik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every year on 1 September, Uzbekistan celebrates its independence with concerts and fireworks.",
+   "gap": "independence",
+   "alt": []
+  },
+  {
+   "id": "elect",
+   "en": "elect",
+   "uz": "saylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every September our class elects a new class leader by secret vote.",
+   "gap": "elects",
+   "alt": [
+    "elects",
+    "elected",
+    "electing"
+   ]
+  },
+  {
+   "id": "appoint",
+   "en": "appoint",
+   "uz": "tayinlamoq (lavozimga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The head teacher appointed Mrs Yusupova as her deputy without asking anyone else's opinion.",
+   "gap": "appointed",
+   "alt": [
+    "appoints",
+    "appointed",
+    "appointing"
+   ]
+  },
+  {
+   "id": "term_of_office",
+   "en": "term",
+   "uz": "vakolat muddati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chess club president's term lasts two years; after that, the members choose someone new.",
+   "gap": "term",
+   "alt": [
+    "terms"
+   ]
+  },
+  {
+   "id": "cabinet",
+   "en": "cabinet",
+   "uz": "vazirlar mahkamasi (kabinet)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new prime minister chose twenty ministers for her cabinet and met them for the first time on Monday.",
+   "gap": "cabinet",
+   "alt": [
+    "cabinets"
+   ]
+  },
+  {
+   "id": "majority",
+   "en": "majority",
+   "uz": "ko‘pchilik (ovozlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plan to build a new park won the support of a large majority of residents: 85 out of 100 voted for it.",
+   "gap": "majority",
+   "alt": [
+    "majorities"
+   ]
+  },
+  {
+   "id": "legislature",
+   "en": "legislature",
+   "uz": "qonun chiqaruvchi organ",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the school's mock government day, Year 10 acted as the legislature and voted on a new law banning plastic bottles in the canteen.",
+   "gap": "legislature",
+   "alt": [
+    "legislatures"
+   ]
+  },
+  {
+   "id": "coalition",
+   "en": "coalition",
+   "uz": "koalitsiya (partiyalar ittifoqi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "No party won enough seats on its own, so two parties agreed to work together in a coalition.",
+   "gap": "coalition",
+   "alt": [
+    "coalitions"
+   ]
+  },
+  {
+   "id": "prime_minister",
+   "en": "prime minister",
+   "uz": "bosh vazir",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the film, a young history teacher unexpectedly becomes prime minister and has to form a government in a week.",
+   "gap": "prime minister",
+   "alt": [
+    "prime ministers"
+   ]
+  },
+  {
+   "id": "head_v",
+   "en": "head",
+   "uz": "boshchilik qilmoq (rahbar bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mrs Karimova has headed the school's English department for ten years, and every new teacher goes to her for advice.",
+   "gap": "headed",
+   "alt": [
+    "heads",
+    "headed",
+    "heading"
+   ]
+  },
+  {
+   "id": "govern",
+   "en": "govern",
+   "uz": "davlatni boshqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After winning the election, the party governed the country for the next ten years.",
+   "gap": "governed",
+   "alt": [
+    "governs",
+    "governed",
+    "governing"
+   ]
+  },
+  {
+   "id": "constituency",
+   "en": "constituency",
+   "uz": "saylov okrugi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The candidate visited every village in her constituency and listened to farmers complain about the water supply.",
+   "gap": "constituency",
+   "alt": [
+    "constituencies"
+   ]
+  },
+  {
+   "id": "general_election",
+   "en": "general election",
+   "uz": "umumiy saylov (parlamentga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the general election, TV channels showed debates between the leaders of every party almost every night.",
+   "gap": "general election",
+   "alt": [
+    "general elections"
+   ]
+  },
+  {
+   "id": "candidate",
+   "en": "candidate",
+   "uz": "nomzod",
+   "pos": "noun",
+   "img": false,
+   "ex": "There were four candidates for student president, and each one gave a speech in the school hall.",
+   "gap": "candidates",
+   "alt": [
+    "candidates"
+   ]
+  },
+  {
+   "id": "stand_for",
+   "en": "stand for",
+   "uz": "(saylovda) o‘z nomzodini qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My older sister is standing for the student council this year and has already put up posters.",
+   "gap": "standing for",
+   "alt": [
+    "stands for",
+    "stood for",
+    "standing for"
+   ]
+  },
+  {
+   "id": "policy",
+   "en": "policy",
+   "uz": "siyosat (partiya rejasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The party's policies on education include free school meals and smaller classes.",
+   "gap": "policies",
+   "alt": [
+    "policies"
+   ]
+  },
+  {
+   "id": "polling_day",
+   "en": "polling day",
+   "uz": "saylov kuni",
+   "pos": "noun",
+   "img": false,
+   "ex": "On polling day, the streets were quiet in the morning, but the queues grew longer after lunch.",
+   "gap": "polling day",
+   "alt": []
+  },
+  {
+   "id": "polling_station",
+   "en": "polling station",
+   "uz": "saylov uchastkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our old school building is used as a polling station, so voters queue in the playground.",
+   "gap": "polling station",
+   "alt": [
+    "polling stations"
+   ]
+  },
+  {
+   "id": "cast_a_vote",
+   "en": "cast a vote",
+   "uz": "ovoz bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My aunt, a nurse, went to the polling station before her night shift to cast her vote.",
+   "gap": "cast her vote",
+   "alt": [
+    "cast his vote",
+    "cast her vote",
+    "cast their vote",
+    "cast my vote",
+    "cast your vote",
+    "casts a vote",
+    "casting a vote",
+    "cast votes"
+   ]
+  },
+  {
+   "id": "ballot_paper",
+   "en": "ballot paper",
+   "uz": "saylov byulleteni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ballot paper was so long, with twelve names on it, that some voters needed help to find the right box.",
+   "gap": "ballot paper",
+   "alt": [
+    "ballot papers"
+   ]
+  },
+  {
+   "id": "seat_parliament",
+   "en": "seat",
+   "uz": "(parlamentdagi) o‘rin",
+   "pos": "noun",
+   "img": false,
+   "ex": "The party won 45 seats, five fewer than at the last election.",
+   "gap": "seats",
+   "alt": [
+    "seats"
+   ]
+  },
+  {
+   "id": "ruler",
+   "en": "ruler",
+   "uz": "hukmdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the fairy tale, the cruel ruler of the kingdom took the poor farmer's land and gave it to his friends.",
+   "gap": "ruler",
+   "alt": [
+    "rulers"
+   ]
+  },
+  {
+   "id": "electorate",
+   "en": "electorate",
+   "uz": "saylovchilar (barchasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our district, young people make up a large part of the electorate, so candidates try hard to win their votes.",
+   "gap": "electorate",
+   "alt": []
+  },
+  {
+   "id": "representative",
+   "en": "representative",
+   "uz": "vakil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each class chose a representative to speak at the meeting with the school director.",
+   "gap": "representative",
+   "alt": [
+    "representatives"
+   ]
+  },
+  {
+   "id": "nominate",
+   "en": "nominate",
+   "uz": "(birovni) nomzod qilib ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class nominated Dilshod for the 'Best Helper' prize, and the teachers will choose the winner.",
+   "gap": "nominated",
+   "alt": [
+    "nominates",
+    "nominated",
+    "nominating"
+   ]
+  },
+  {
+   "id": "mp",
+   "en": "MP",
+   "uz": "parlament a’zosi (deputat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our local MP visited the school and answered pupils' questions about how laws are made.",
+   "gap": "MP",
+   "alt": [
+    "MPs",
+    "member of parliament"
+   ]
+  },
+  {
+   "id": "president",
+   "en": "president",
+   "uz": "prezident",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every New Year's Eve, the president gives a short speech on TV just before midnight.",
+   "gap": "president",
+   "alt": [
+    "presidents"
+   ]
+  },
+  {
+   "id": "presidential",
+   "en": "presidential",
+   "uz": "prezidentlik (prezidentga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the USA, a presidential election takes place every four years, always in November.",
+   "gap": "presidential",
+   "alt": []
+  },
+  {
+   "id": "presidency",
+   "en": "presidency",
+   "uz": "prezidentlik davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "During her presidency, the country built hundreds of new schools in rural areas.",
+   "gap": "presidency",
+   "alt": [
+    "presidencies"
+   ]
+  },
+  {
+   "id": "preside",
+   "en": "preside",
+   "uz": "raislik qilmoq (majlisga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "By tradition, the oldest member presides over the first meeting of the new assembly.",
+   "gap": "presides",
+   "alt": [
+    "presides",
+    "presided",
+    "presiding",
+    "preside over"
+   ]
+  },
+  {
+   "id": "congress",
+   "en": "Congress",
+   "uz": "Kongress (AQSh qonun chiqaruvchi organi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the USA, a new law must be passed by Congress before the president can sign it.",
+   "gap": "Congress",
+   "alt": [
+    "congress"
+   ]
+  },
+  {
+   "id": "senate",
+   "en": "the Senate",
+   "uz": "Senat (yuqori palata)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each US state, large or small, sends exactly two members to the Senate.",
+   "gap": "the Senate",
+   "alt": [
+    "Senate",
+    "senate"
+   ]
+  },
+  {
+   "id": "house_of_representatives",
+   "en": "the House of Representatives",
+   "uz": "Vakillar palatasi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "States with more people send more members to the House of Representatives, so California has the most.",
+   "gap": "the House of Representatives",
+   "alt": [
+    "House of Representatives"
+   ]
+  },
+  {
+   "id": "minister",
+   "en": "minister",
+   "uz": "vazir",
+   "pos": "noun",
+   "img": false,
+   "ex": "The minister of health opened the new children's hospital and cut the ribbon.",
+   "gap": "minister",
+   "alt": [
+    "ministers"
+   ]
+  },
+  {
+   "id": "parliament",
+   "en": "parliament",
+   "uz": "parlament",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new law was debated in parliament for three months before it was finally passed.",
+   "gap": "parliament",
+   "alt": [
+    "Parliament",
+    "parliaments"
+   ]
+  },
+  {
+   "id": "parliamentary",
+   "en": "parliamentary",
+   "uz": "parlamentar (parlamentga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In a parliamentary system, the leader of the biggest party usually becomes prime minister.",
+   "gap": "parliamentary",
+   "alt": []
+  },
+  {
+   "id": "house_of_commons",
+   "en": "the House of Commons",
+   "uz": "Jamoalar palatasi (Britaniya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The 650 elected MPs sit on green benches in the House of Commons.",
+   "gap": "the House of Commons",
+   "alt": [
+    "House of Commons"
+   ]
+  },
+  {
+   "id": "house_of_lords",
+   "en": "the House of Lords",
+   "uz": "Lordlar palatasi (Britaniya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Members of the House of Lords are not chosen by voters, and many of them sit on its red benches for life.",
+   "gap": "the House of Lords",
+   "alt": [
+    "House of Lords"
+   ]
+  },
+  {
+   "id": "chamber",
+   "en": "chamber",
+   "uz": "palata (parlament palatasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many countries have a law-making body with two chambers, an upper house and a lower house.",
+   "gap": "chambers",
+   "alt": [
+    "chambers"
+   ]
+  },
+  {
+   "id": "politician",
+   "en": "politician",
+   "uz": "siyosatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dina is tired of the way some politicians promise everything before an election and forget it all afterwards.",
+   "gap": "politicians",
+   "alt": [
+    "politicians"
+   ]
+  },
+  {
+   "id": "run_for",
+   "en": "run for",
+   "uz": "(saylovda) nomzod bo‘lib qatnashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nodira ran for head of the student council and won by just three votes.",
+   "gap": "ran for",
+   "alt": [
+    "runs for",
+    "ran for",
+    "running for"
+   ]
+  },
+  {
+   "id": "marginal_seat",
+   "en": "marginal seat",
+   "uz": "ozgina farq bilan yutilgan o‘rin",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's a marginal seat: last time the winner got only 120 more votes than the second candidate.",
+   "gap": "marginal seat",
+   "alt": [
+    "marginal seats"
+   ]
+  },
+  {
+   "id": "rule_v",
+   "en": "rule",
+   "uz": "hukmronlik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Queen Victoria ruled the United Kingdom for more than 63 years.",
+   "gap": "ruled",
+   "alt": [
+    "rules",
+    "ruled",
+    "ruling"
+   ]
+  },
+  {
+   "id": "rule_n",
+   "en": "rule",
+   "uz": "hukmronlik (boshqaruv davri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "India was under British rule until it became independent in 1947.",
+   "gap": "rule",
+   "alt": []
+  },
+  {
+   "id": "governor",
+   "en": "governor",
+   "uz": "gubernator (shtat hokimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The governor of California works in Sacramento, the state capital, not in Los Angeles.",
+   "gap": "governor",
+   "alt": [
+    "governors"
+   ]
+  },
+  {
+   "id": "party",
+   "en": "party",
+   "uz": "siyosiy partiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zilola joined a political party at eighteen and now organises its youth meetings across the region.",
+   "gap": "party",
+   "alt": [
+    "parties",
+    "political party"
+   ]
+  },
+  {
+   "id": "government",
+   "en": "government",
+   "uz": "hukumat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the election, the winning party formed a new government with twenty ministers.",
+   "gap": "government",
+   "alt": [
+    "governments"
+   ]
+  },
+  {
+   "id": "represent",
+   "en": "represent",
+   "uz": "vakili bo‘lmoq (nomidan chiqmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class captain will represent us all at the meeting with the head teacher.",
+   "gap": "represent",
+   "alt": [
+    "represents",
+    "represented",
+    "representing"
+   ]
+  },
+  {
+   "id": "representation",
+   "en": "representation",
+   "uz": "vakillik (vakil orqali ishtirok)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Women still have too little representation in many parliaments: fewer than one member in three is female.",
+   "gap": "representation",
+   "alt": []
+  },
+  {
+   "id": "elector",
+   "en": "elector",
+   "uz": "saylovchi (bitta shaxs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each elector receives a card in the post showing the address of their polling station.",
+   "gap": "elector",
+   "alt": [
+    "electors"
+   ]
+  },
+  {
+   "id": "election",
+   "en": "election",
+   "uz": "saylov",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school is closed today because the building is being used for the local election.",
+   "gap": "election",
+   "alt": [
+    "elections"
+   ]
+  },
+  {
+   "id": "dictator",
+   "en": "dictator",
+   "uz": "yakkahokim hukmdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dictator closed every independent newspaper and hung his own portrait in every classroom.",
+   "gap": "dictator",
+   "alt": [
+    "dictators"
+   ]
+  },
+  {
+   "id": "federal",
+   "en": "federal",
+   "uz": "markaziy hukumatga oid (federatsiyada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Germany, federal laws apply in all sixteen states, but each state runs its own schools.",
+   "gap": "federal",
+   "alt": []
+  },
+  {
+   "id": "official",
+   "en": "official",
+   "uz": "amaldor (mansabdor shaxs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two officials from the ministry of education came to inspect our new science labs.",
+   "gap": "officials",
+   "alt": [
+    "officials"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "dictator",
+   "governor"
+  ],
+  [
+   "dictator",
+   "ruler"
+  ],
+  [
+   "dictator",
+   "dictatorship"
+  ],
+  [
+   "dictator",
+   "president"
+  ],
+  [
+   "parliamentary",
+   "federal"
+  ],
+  [
+   "presidential",
+   "federal"
+  ],
+  [
+   "official",
+   "minister"
+  ],
+  [
+   "official",
+   "representative"
+  ],
+  [
+   "politician",
+   "official"
+  ],
+  [
+   "official",
+   "mp"
+  ],
+  [
+   "president",
+   "governor"
+  ],
+  [
+   "politician",
+   "mp"
+  ],
+  [
+   "party",
+   "coalition"
+  ],
+  [
+   "republic",
+   "democracy"
+  ],
+  [
+   "republic",
+   "monarchy"
+  ],
+  [
+   "republic",
+   "federation"
+  ],
+  [
+   "democracy",
+   "dictatorship"
+  ],
+  [
+   "elect",
+   "appoint"
+  ],
+  [
+   "cabinet",
+   "coalition"
+  ],
+  [
+   "head_v",
+   "govern"
+  ],
+  [
+   "general_election",
+   "polling_day"
+  ],
+  [
+   "candidate",
+   "representative"
+  ],
+  [
+   "mp",
+   "representative"
+  ],
+  [
+   "nominate",
+   "elect"
+  ],
+  [
+   "nominate",
+   "appoint"
+  ],
+  [
+   "nominate",
+   "stand_for"
+  ],
+  [
+   "electorate",
+   "majority"
+  ],
+  [
+   "prime_minister",
+   "ruler"
+  ],
+  [
+   "legislature",
+   "cabinet"
+  ],
+  [
+   "monarchy",
+   "democracy"
+  ],
+  [
+   "dictatorship",
+   "monarchy"
+  ],
+  [
+   "legislature",
+   "electorate"
+  ],
+  [
+   "president",
+   "prime_minister"
+  ],
+  [
+   "presidential",
+   "parliamentary"
+  ],
+  [
+   "presidency",
+   "term_of_office"
+  ],
+  [
+   "presidency",
+   "president"
+  ],
+  [
+   "preside",
+   "head_v"
+  ],
+  [
+   "congress",
+   "parliament"
+  ],
+  [
+   "congress",
+   "senate"
+  ],
+  [
+   "congress",
+   "house_of_representatives"
+  ],
+  [
+   "congress",
+   "legislature"
+  ],
+  [
+   "senate",
+   "house_of_representatives"
+  ],
+  [
+   "senate",
+   "house_of_lords"
+  ],
+  [
+   "senate",
+   "house_of_commons"
+  ],
+  [
+   "house_of_representatives",
+   "house_of_commons"
+  ],
+  [
+   "house_of_commons",
+   "house_of_lords"
+  ],
+  [
+   "house_of_lords",
+   "house_of_representatives"
+  ],
+  [
+   "minister",
+   "prime_minister"
+  ],
+  [
+   "parliament",
+   "cabinet"
+  ],
+  [
+   "parliament",
+   "legislature"
+  ],
+  [
+   "chamber",
+   "seat_parliament"
+  ],
+  [
+   "politician",
+   "candidate"
+  ],
+  [
+   "run_for",
+   "stand_for"
+  ],
+  [
+   "marginal_seat",
+   "seat_parliament"
+  ],
+  [
+   "marginal_seat",
+   "constituency"
+  ],
+  [
+   "rule_v",
+   "rule_n"
+  ],
+  [
+   "rule_v",
+   "govern"
+  ],
+  [
+   "rule_v",
+   "head_v"
+  ],
+  [
+   "rule_n",
+   "government"
+  ],
+  [
+   "governor",
+   "ruler"
+  ],
+  [
+   "government",
+   "cabinet"
+  ],
+  [
+   "government",
+   "coalition"
+  ],
+  [
+   "government",
+   "legislature"
+  ],
+  [
+   "represent",
+   "nominate"
+  ],
+  [
+   "represent",
+   "representative"
+  ],
+  [
+   "elector",
+   "electorate"
+  ],
+  [
+   "elector",
+   "candidate"
+  ],
+  [
+   "elector",
+   "representative"
+  ],
+  [
+   "election",
+   "general_election"
+  ],
+  [
+   "election",
+   "polling_day"
+  ],
+  [
+   "dictatorship",
+   "rule_n"
+  ],
+  [
+   "dictatorship",
+   "government"
+  ],
+  [
+   "president",
+   "ruler"
+  ],
+  [
+   "presidency",
+   "rule_n"
+  ],
+  [
+   "senate",
+   "parliament"
+  ],
+  [
+   "house_of_representatives",
+   "parliament"
+  ],
+  [
+   "house_of_commons",
+   "parliament"
+  ],
+  [
+   "house_of_commons",
+   "congress"
+  ]
+ ]
+}

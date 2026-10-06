@@ -1,0 +1,630 @@
+{
+ "book": "upper",
+ "unit": 95,
+ "title": "Formal and informal words 1",
+ "title_uz": "Rasmiy va norasmiy so‘zlar 1",
+ "words": [
+  {
+   "id": "offspring",
+   "en": "offspring",
+   "uz": "farzandlar, zurriyot (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The application form asks parents to list all their offspring under the age of eighteen.",
+   "gap": "offspring",
+   "alt": []
+  },
+  {
+   "id": "kids",
+   "en": "kids",
+   "uz": "bolalar (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hey, are your kids coming to the football camp this summer?",
+   "gap": "kids",
+   "alt": [
+    "kid"
+   ]
+  },
+  {
+   "id": "abode",
+   "en": "abode",
+   "uz": "maskan, turar joy (kitobiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old fortress was once the abode of a powerful khan.",
+   "gap": "abode",
+   "alt": [
+    "abodes"
+   ]
+  },
+  {
+   "id": "residence",
+   "en": "residence",
+   "uz": "qarorgoh, rasmiy yashash joyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ambassador's official residence is the white building behind the park.",
+   "gap": "residence",
+   "alt": [
+    "residences"
+   ]
+  },
+  {
+   "id": "cheerio",
+   "en": "cheerio",
+   "uz": "xayr! (so‘zlashuvda, britancha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Right, I'm off to catch my bus. Cheerio, everyone!\"",
+   "gap": "cheerio",
+   "alt": []
+  },
+  {
+   "id": "go_amiss",
+   "en": "go amiss",
+   "uz": "izdan chiqmoq, buzilmoq (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The museum staff check every room at night to make sure nothing has gone amiss.",
+   "gap": "gone amiss",
+   "alt": [
+    "goes amiss",
+    "went amiss",
+    "gone amiss"
+   ]
+  },
+  {
+   "id": "go_pear_shaped",
+   "en": "go pear-shaped",
+   "uz": "barbod bo‘lmoq (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our camping trip went pear-shaped when it poured with rain and the tent fell down.",
+   "gap": "went pear-shaped",
+   "alt": [
+    "goes pear-shaped",
+    "went pear-shaped",
+    "gone pear-shaped"
+   ]
+  },
+  {
+   "id": "immediately",
+   "en": "immediately",
+   "uz": "zudlik bilan, darhol (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "All visitors must leave the building immediately when the fire alarm sounds.",
+   "gap": "immediately",
+   "alt": []
+  },
+  {
+   "id": "right_away",
+   "en": "right away",
+   "uz": "hoziroq (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry, I'll send you the photos right away.",
+   "gap": "right away",
+   "alt": []
+  },
+  {
+   "id": "frequently",
+   "en": "frequently",
+   "uz": "tez-tez (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "This bus route is frequently delayed during the morning rush hour.",
+   "gap": "frequently",
+   "alt": []
+  },
+  {
+   "id": "occur",
+   "en": "occur",
+   "uz": "yuz bermoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In our area, power cuts occur most often in winter, when everyone uses electric heaters.",
+   "gap": "occur",
+   "alt": [
+    "occurs",
+    "occurred",
+    "occurring"
+   ]
+  },
+  {
+   "id": "establish",
+   "en": "establish",
+   "uz": "aniqlamoq, isbotlab bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Researchers are trying to establish whether a daily walk helps pupils sleep better.",
+   "gap": "establish",
+   "alt": [
+    "establishes",
+    "established",
+    "establishing"
+   ]
+  },
+  {
+   "id": "attempt",
+   "en": "attempt",
+   "uz": "urinmoq, harakat qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The pilot attempted a landing in thick fog but had to fly on to another airport.",
+   "gap": "attempted",
+   "alt": [
+    "attempts",
+    "attempted",
+    "attempting"
+   ]
+  },
+  {
+   "id": "seek",
+   "en": "seek",
+   "uz": "izlamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many school leavers seek advice from older friends before choosing a career.",
+   "gap": "seek",
+   "alt": [
+    "seeks",
+    "sought",
+    "seeking"
+   ]
+  },
+  {
+   "id": "fundamental",
+   "en": "fundamental",
+   "uz": "tub, asosiy (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Clean drinking water is a fundamental need for every community.",
+   "gap": "fundamental",
+   "alt": []
+  },
+  {
+   "id": "in_terms_of",
+   "en": "in terms of",
+   "uz": "…jihatidan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The second flat is better in terms of price, but it's much further from the metro.",
+   "gap": "in terms of",
+   "alt": []
+  },
+  {
+   "id": "on_account_of",
+   "en": "on account of",
+   "uz": "…sababli (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The outdoor concert was cancelled on account of the strong wind.",
+   "gap": "on account of",
+   "alt": []
+  },
+  {
+   "id": "on_the_basis_of",
+   "en": "on the basis of",
+   "uz": "…asosida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Team captains are chosen on the basis of their attitude, not just their skill.",
+   "gap": "on the basis of",
+   "alt": []
+  },
+  {
+   "id": "in_relation_to",
+   "en": "in relation to",
+   "uz": "…ga oid, …ga nisbatan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The director answered several questions in relation to the new timetable.",
+   "gap": "in relation to",
+   "alt": []
+  },
+  {
+   "id": "address_speak",
+   "en": "address",
+   "uz": "so‘z bilan murojaat qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the graduation ceremony, the mayor addressed the pupils and their parents for ten minutes.",
+   "gap": "addressed",
+   "alt": [
+    "addresses",
+    "addressed",
+    "addressing"
+   ]
+  },
+  {
+   "id": "alight",
+   "en": "alight",
+   "uz": "(transportdan) tushmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers should not alight until the train has come to a complete stop.",
+   "gap": "alight",
+   "alt": [
+    "alights",
+    "alighted"
+   ]
+  },
+  {
+   "id": "stationary",
+   "en": "stationary",
+   "uz": "harakatsiz, to‘xtab turgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lorry was stationary at the traffic lights when a cyclist rode into the back of it.",
+   "gap": "stationary",
+   "alt": []
+  },
+  {
+   "id": "in_motion",
+   "en": "in motion",
+   "uz": "yurib ketayotgan payt (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Never try to climb out of a Ferris wheel cabin while it is still in motion.",
+   "gap": "in motion",
+   "alt": []
+  },
+  {
+   "id": "until_further_notice",
+   "en": "until further notice",
+   "uz": "keyingi xabargacha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The swimming pool is closed until further notice because of repairs to the roof.",
+   "gap": "until further notice",
+   "alt": []
+  },
+  {
+   "id": "purchase",
+   "en": "purchase",
+   "uz": "xarid qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school purchased forty new computers with money from the city council.",
+   "gap": "purchased",
+   "alt": [
+    "purchases",
+    "purchased",
+    "purchasing"
+   ]
+  },
+  {
+   "id": "regret_formal",
+   "en": "regret",
+   "uz": "afsus bilan ma’lum qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The airline regrets to announce that the flight to Urgench has been delayed by two hours.",
+   "gap": "regrets",
+   "alt": [
+    "regrets"
+   ]
+  },
+  {
+   "id": "capacity",
+   "en": "capacity",
+   "uz": "sig‘im (eng ko‘p miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new stadium in Namangan has a capacity of 22,000 spectators.",
+   "gap": "capacity",
+   "alt": []
+  },
+  {
+   "id": "articles_items",
+   "en": "articles",
+   "uz": "buyumlar, narsalar (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Any articles left in the changing rooms will be taken to the lost property office.",
+   "gap": "articles",
+   "alt": [
+    "article"
+   ]
+  },
+  {
+   "id": "children",
+   "en": "children",
+   "uz": "bolalar (neytral)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum offers free entry to children on Sunday mornings.",
+   "gap": "children",
+   "alt": [
+    "child"
+   ]
+  },
+  {
+   "id": "flat",
+   "en": "flat",
+   "uz": "kvartira",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is on the ninth floor, and the view from the balcony is amazing.",
+   "gap": "flat",
+   "alt": [
+    "flats"
+   ]
+  },
+  {
+   "id": "home",
+   "en": "home",
+   "uz": "uy (yashaydigan joy, neytral)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After three weeks of travelling, it felt wonderful to be home again.",
+   "gap": "home",
+   "alt": [
+    "homes"
+   ]
+  },
+  {
+   "id": "place_informal",
+   "en": "place",
+   "uz": "uy, «menikiga» (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Do you want to come back to my place after the match and play some video games?",
+   "gap": "place",
+   "alt": []
+  },
+  {
+   "id": "goodbye",
+   "en": "goodbye",
+   "uz": "xayr (neytral)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "She waved goodbye from the train window until we couldn't see her any more.",
+   "gap": "goodbye",
+   "alt": [
+    "good-bye"
+   ]
+  },
+  {
+   "id": "bye",
+   "en": "bye",
+   "uz": "xayr (qisqa, do‘stona)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "He said a quick bye and hung up because his battery was dying.",
+   "gap": "bye",
+   "alt": []
+  },
+  {
+   "id": "bye_bye",
+   "en": "bye-bye",
+   "uz": "xayr-xayr (bolalarcha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The little girl smiled and said bye-bye to the ducks on the pond.",
+   "gap": "bye-bye",
+   "alt": []
+  },
+  {
+   "id": "at_once",
+   "en": "at once",
+   "uz": "shu zahoti, darhol (neytral)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you feel dizzy, stop running at once and sit down in the shade.",
+   "gap": "at once",
+   "alt": []
+  },
+  {
+   "id": "stairway",
+   "en": "stairway",
+   "uz": "zinapoya (rasmiy e’londa)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Hold the rail as you go down the steep stone stairway to the beach.",
+   "gap": "stairway",
+   "alt": [
+    "stairways"
+   ]
+  },
+  {
+   "id": "lift",
+   "en": "lift",
+   "uz": "ko‘targich (binoda qavatlar orasida)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The lift in our building is broken again, so we're all using the stairs.",
+   "gap": "lift",
+   "alt": [
+    "lifts"
+   ]
+  },
+  {
+   "id": "persons",
+   "en": "persons",
+   "uz": "kishi (rasmiy e’londa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sign on the cable car reads: 'Maximum load: four persons or 320 kilograms.'",
+   "gap": "persons",
+   "alt": [
+    "person"
+   ]
+  },
+  {
+   "id": "deposit_leave",
+   "en": "deposit",
+   "uz": "(saqlashga) topshirib qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Visitors must deposit large bags at the cloakroom before entering the museum.",
+   "gap": "deposit",
+   "alt": [
+    "deposits",
+    "deposited",
+    "depositing"
+   ]
+  },
+  {
+   "id": "in_advance",
+   "en": "in advance",
+   "uz": "oldindan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Tickets for the planetarium sell out quickly, so it's best to book them a week in advance.",
+   "gap": "in advance",
+   "alt": []
+  },
+  {
+   "id": "cheque",
+   "en": "cheque",
+   "uz": "bank to‘lov varaqasi (naqd o‘rniga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop no longer accepts payment by cheque, only cash or card.",
+   "gap": "cheque",
+   "alt": [
+    "cheques",
+    "check"
+   ]
+  },
+  {
+   "id": "board_vehicle",
+   "en": "board",
+   "uz": "(samolyot, poyezdga) chiqmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers may board the plane thirty minutes before departure.",
+   "gap": "board",
+   "alt": [
+    "boards",
+    "boarded",
+    "boarding"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "offspring",
+   "kids"
+  ],
+  [
+   "abode",
+   "residence"
+  ],
+  [
+   "go_amiss",
+   "go_pear_shaped"
+  ],
+  [
+   "immediately",
+   "right_away"
+  ],
+  [
+   "in_terms_of",
+   "in_relation_to"
+  ],
+  [
+   "in_motion",
+   "stationary"
+  ],
+  [
+   "on_account_of",
+   "on_the_basis_of"
+  ],
+  [
+   "children",
+   "kids"
+  ],
+  [
+   "children",
+   "offspring"
+  ],
+  [
+   "children",
+   "persons"
+  ],
+  [
+   "kids",
+   "persons"
+  ],
+  [
+   "home",
+   "place_informal"
+  ],
+  [
+   "home",
+   "abode"
+  ],
+  [
+   "home",
+   "residence"
+  ],
+  [
+   "place_informal",
+   "abode"
+  ],
+  [
+   "place_informal",
+   "flat"
+  ],
+  [
+   "home",
+   "flat"
+  ],
+  [
+   "goodbye",
+   "bye"
+  ],
+  [
+   "goodbye",
+   "bye_bye"
+  ],
+  [
+   "goodbye",
+   "cheerio"
+  ],
+  [
+   "bye",
+   "bye_bye"
+  ],
+  [
+   "bye",
+   "cheerio"
+  ],
+  [
+   "bye_bye",
+   "cheerio"
+  ],
+  [
+   "at_once",
+   "immediately"
+  ],
+  [
+   "at_once",
+   "right_away"
+  ],
+  [
+   "board_vehicle",
+   "alight"
+  ],
+  [
+   "flat",
+   "abode"
+  ],
+  [
+   "flat",
+   "residence"
+  ],
+  [
+   "place_informal",
+   "residence"
+  ],
+  [
+   "in_advance",
+   "right_away"
+  ]
+ ]
+}

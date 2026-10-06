@@ -1,0 +1,568 @@
+{
+ "book": "preint",
+ "unit": 35,
+ "title": "Jobs",
+ "title_uz": "Kasblar",
+ "words": [
+  {
+   "id": "builder",
+   "en": "builder",
+   "uz": "quruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builders working on the new flats next door start at six every morning, and the noise wakes up the whole street.",
+   "gap": "builders",
+   "alt": [
+    "builders"
+   ]
+  },
+  {
+   "id": "carpenter",
+   "en": "carpenter",
+   "uz": "duradgor",
+   "pos": "noun",
+   "img": false,
+   "ex": "A local carpenter made our new kitchen table and six chairs from walnut wood.",
+   "gap": "carpenter",
+   "alt": [
+    "carpenters"
+   ]
+  },
+  {
+   "id": "plumber",
+   "en": "plumber",
+   "uz": "santexnik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new washing machine had to be connected to the water pipes, so we paid a plumber to do it.",
+   "gap": "plumber",
+   "alt": [
+    "plumbers"
+   ]
+  },
+  {
+   "id": "electrician",
+   "en": "electrician",
+   "uz": "elektrik / elektr ustasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Half the lights in the flat stopped working after the storm, so Dad phoned an electrician.",
+   "gap": "electrician",
+   "alt": [
+    "electricians"
+   ]
+  },
+  {
+   "id": "police_officer",
+   "en": "police officer",
+   "uz": "politsiyachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A police officer stopped the traffic so the schoolchildren could cross the busy road.",
+   "gap": "police officer",
+   "alt": [
+    "police officers"
+   ]
+  },
+  {
+   "id": "mechanic",
+   "en": "mechanic",
+   "uz": "avtousta / mexanik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car was making a strange noise, so we took it to a mechanic near the ring road.",
+   "gap": "mechanic",
+   "alt": [
+    "mechanics"
+   ]
+  },
+  {
+   "id": "brick",
+   "en": "brick",
+   "uz": "g‘isht",
+   "pos": "noun",
+   "img": true,
+   "ex": "The wall around our school garden is made of old yellow bricks, and moss grows between them.",
+   "gap": "bricks",
+   "alt": [
+    "bricks"
+   ]
+  },
+  {
+   "id": "pipe",
+   "en": "pipe",
+   "uz": "quvur",
+   "pos": "noun",
+   "img": false,
+   "ex": "One of the water pipes under the kitchen sink burst in the night, and in the morning the floor was wet.",
+   "gap": "pipes",
+   "alt": [
+    "pipes"
+   ]
+  },
+  {
+   "id": "repair",
+   "en": "repair",
+   "uz": "ta’mirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The road outside our school was repaired over the summer, so now there are no holes in it.",
+   "gap": "repaired",
+   "alt": [
+    "repairs",
+    "repaired",
+    "repairing"
+   ]
+  },
+  {
+   "id": "fix",
+   "en": "fix",
+   "uz": "tuzatib qo‘ymoq (buzuqni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you fix my bike? The chain keeps coming off.",
+   "gap": "fix",
+   "alt": [
+    "fixes",
+    "fixed",
+    "fixing"
+   ]
+  },
+  {
+   "id": "mend",
+   "en": "mend",
+   "uz": "yamamoq / tuzatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My favourite jacket had a hole in the pocket, so my sister mended it with blue thread.",
+   "gap": "mended",
+   "alt": [
+    "mends",
+    "mended",
+    "mending"
+   ]
+  },
+  {
+   "id": "architect",
+   "en": "architect",
+   "uz": "me’mor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The architect who designed our new school wanted lots of big windows, so the classrooms are always full of light.",
+   "gap": "architect",
+   "alt": [
+    "architects"
+   ]
+  },
+  {
+   "id": "lawyer",
+   "en": "lawyer",
+   "uz": "advokat / huquqshunos",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the company refused to pay him, Mr Hasanov found a lawyer to take the case to court.",
+   "gap": "lawyer",
+   "alt": [
+    "lawyers"
+   ]
+  },
+  {
+   "id": "engineer",
+   "en": "engineer",
+   "uz": "muhandis",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the earthquake, an engineer checked the old bridge for cracks before cars could use it again.",
+   "gap": "engineer",
+   "alt": [
+    "engineers"
+   ]
+  },
+  {
+   "id": "accountant",
+   "en": "accountant",
+   "uz": "buxgalter / hisobchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mrs Yusupova is an accountant; every spring she helps small shops with their tax forms.",
+   "gap": "accountant",
+   "alt": [
+    "accountants"
+   ]
+  },
+  {
+   "id": "treat",
+   "en": "treat",
+   "uz": "davolamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doctors at the small clinic treated more than fifty people with flu last week.",
+   "gap": "treated",
+   "alt": [
+    "treats",
+    "treated",
+    "treating"
+   ]
+  },
+  {
+   "id": "gp",
+   "en": "GP",
+   "uz": "oilaviy shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Britain, if you have a cough that won't go away, you first make an appointment with your GP.",
+   "gap": "GP",
+   "alt": [
+    "GPs"
+   ]
+  },
+  {
+   "id": "dentist",
+   "en": "dentist",
+   "uz": "tish shifokori / stomatolog",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zuhra's front tooth broke when she fell off her scooter, so her mum took her to the dentist the same afternoon.",
+   "gap": "dentist",
+   "alt": [
+    "dentists"
+   ]
+  },
+  {
+   "id": "vet",
+   "en": "vet",
+   "uz": "veterinar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat stopped eating, so we took her to the vet in a basket.",
+   "gap": "vet",
+   "alt": [
+    "vets"
+   ]
+  },
+  {
+   "id": "surgery",
+   "en": "surgery",
+   "uz": "shifokor qabulxonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor's surgery opens at eight, but you can't see anyone without an appointment.",
+   "gap": "surgery",
+   "alt": [
+    "surgeries"
+   ]
+  },
+  {
+   "id": "nurse",
+   "en": "nurse",
+   "uz": "hamshira",
+   "pos": "noun",
+   "img": false,
+   "ex": "A kind nurse sat next to my bed all night and brought me water whenever I woke up.",
+   "gap": "nurse",
+   "alt": [
+    "nurses"
+   ]
+  },
+  {
+   "id": "operate_on",
+   "en": "operate on",
+   "uz": "operatsiya qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sanjar hurt his knee badly playing football, and the doctors had to operate on it.",
+   "gap": "operate on",
+   "alt": [
+    "operates on",
+    "operated on",
+    "operating on"
+   ]
+  },
+  {
+   "id": "army",
+   "en": "army",
+   "uz": "armiya (quruqlik qo‘shini)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After school, Sardor's older brother spent a year doing military service in the army.",
+   "gap": "army",
+   "alt": []
+  },
+  {
+   "id": "soldier",
+   "en": "soldier",
+   "uz": "askar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hundreds of soldiers from the army base helped to fill sandbags when the river flooded the villages.",
+   "gap": "soldiers",
+   "alt": [
+    "soldiers"
+   ]
+  },
+  {
+   "id": "sailor",
+   "en": "sailor",
+   "uz": "dengizchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sailors spent four months at sea before their ship finally came home.",
+   "gap": "sailors",
+   "alt": [
+    "sailors"
+   ]
+  },
+  {
+   "id": "navy",
+   "en": "navy",
+   "uz": "harbiy dengiz floti",
+   "pos": "noun",
+   "img": false,
+   "ex": "James spent ten years in the navy and visited ports all over the world on a warship.",
+   "gap": "navy",
+   "alt": []
+  },
+  {
+   "id": "air_force",
+   "en": "air force",
+   "uz": "harbiy havo kuchlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shahzod has always loved planes, so he wants to become a pilot in the air force.",
+   "gap": "air force",
+   "alt": []
+  },
+  {
+   "id": "firefighter",
+   "en": "firefighter",
+   "uz": "o‘t o‘chiruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two firefighters jumped out of the fire engine and climbed a long ladder to rescue a kitten from the school roof.",
+   "gap": "firefighters",
+   "alt": [
+    "firefighters",
+    "fireman",
+    "firemen"
+   ]
+  },
+  {
+   "id": "fire_brigade",
+   "en": "fire brigade",
+   "uz": "yong‘in xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Smoke was pouring out of the garage roof, so a man walking his dog called the fire brigade.",
+   "gap": "fire brigade",
+   "alt": []
+  },
+  {
+   "id": "join",
+   "en": "join",
+   "uz": "safiga qo‘shilmoq / a’zo bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dilnoza's mother joined the police at twenty-two and now trains young officers.",
+   "gap": "joined",
+   "alt": [
+    "joins",
+    "joined",
+    "joining"
+   ]
+  },
+  {
+   "id": "police_force",
+   "en": "police force",
+   "uz": "politsiya (tashkilot sifatida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora's brother has been a detective in the police force since he was twenty-one.",
+   "gap": "police force",
+   "alt": []
+  },
+  {
+   "id": "profession",
+   "en": "profession",
+   "uz": "kasb (oliy ma’lumot talab qiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teaching is a profession that needs patience as well as knowledge.",
+   "gap": "profession",
+   "alt": [
+    "professions"
+   ]
+  },
+  {
+   "id": "design",
+   "en": "design",
+   "uz": "loyihalamoq (chizmasini yaratmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zaha Hadid designed the London Aquatics Centre for the 2012 Olympic Games.",
+   "gap": "designed",
+   "alt": [
+    "designs",
+    "designed",
+    "designing"
+   ]
+  },
+  {
+   "id": "represent",
+   "en": "represent",
+   "uz": "(sudda) manfaatini himoya qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A young lawyer represented the farmers in court when the factory polluted their river.",
+   "gap": "represented",
+   "alt": [
+    "represents",
+    "represented",
+    "representing"
+   ]
+  },
+  {
+   "id": "install_fit",
+   "en": "install",
+   "uz": "o‘rnatmoq (quvur, jihoz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The plumber spent all morning installing a new shower in our bathroom.",
+   "gap": "installing",
+   "alt": [
+    "installs",
+    "installed",
+    "installing"
+   ]
+  },
+  {
+   "id": "armed_forces",
+   "en": "armed forces",
+   "uz": "qurolli kuchlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The armed forces of a country include soldiers, sailors and pilots.",
+   "gap": "armed forces",
+   "alt": []
+  },
+  {
+   "id": "emergency_services",
+   "en": "emergency services",
+   "uz": "favqulodda yordam xizmatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the bus slid off the icy road, the emergency services arrived within ten minutes.",
+   "gap": "emergency services",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "repair",
+   "fix"
+  ],
+  [
+   "repair",
+   "mend"
+  ],
+  [
+   "fix",
+   "mend"
+  ],
+  [
+   "treat",
+   "operate_on"
+  ],
+  [
+   "builder",
+   "carpenter"
+  ],
+  [
+   "architect",
+   "engineer"
+  ],
+  [
+   "nurse",
+   "gp"
+  ],
+  [
+   "army",
+   "navy"
+  ],
+  [
+   "army",
+   "air_force"
+  ],
+  [
+   "navy",
+   "air_force"
+  ],
+  [
+   "soldier",
+   "sailor"
+  ],
+  [
+   "firefighter",
+   "soldier"
+  ],
+  [
+   "surgery",
+   "dentist"
+  ],
+  [
+   "surgery",
+   "vet"
+  ],
+  [
+   "surgery",
+   "gp"
+  ],
+  [
+   "electrician",
+   "engineer"
+  ],
+  [
+   "police_force",
+   "police_officer"
+  ],
+  [
+   "police_force",
+   "army"
+  ],
+  [
+   "armed_forces",
+   "army"
+  ],
+  [
+   "emergency_services",
+   "fire_brigade"
+  ],
+  [
+   "profession",
+   "job"
+  ],
+  [
+   "install_fit",
+   "repair"
+  ],
+  [
+   "design",
+   "architect"
+  ],
+  [
+   "police_force",
+   "navy"
+  ],
+  [
+   "police_force",
+   "air_force"
+  ],
+  [
+   "emergency_services",
+   "police_force"
+  ],
+  [
+   "represent",
+   "advise"
+  ]
+ ]
+}

@@ -1,0 +1,824 @@
+{
+ "book": "upper",
+ "unit": 46,
+ "title": "The six senses",
+ "title_uz": "Oltita sezgi",
+ "words": [
+  {
+   "id": "glance",
+   "en": "glance",
+   "uz": "bir zum nazar tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Halfway through the maths test, Sevara glanced up at the clock for a split second, saw she still had twenty minutes and went back to her answers.",
+   "gap": "glanced",
+   "alt": [
+    "glances",
+    "glanced",
+    "glancing"
+   ]
+  },
+  {
+   "id": "glimpse",
+   "en": "glimpse",
+   "uz": "ko‘zi tushib qolmoq (lip etib ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As our train sped along the valley, I glimpsed a flash of blue water between the hills just before we entered a tunnel.",
+   "gap": "glimpsed",
+   "alt": [
+    "glimpses",
+    "glimpsed",
+    "glimpsing"
+   ]
+  },
+  {
+   "id": "notice",
+   "en": "notice",
+   "uz": "payqamoq, sezib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Did you notice that Aziz had a new haircut, or were you too busy with your phone?",
+   "gap": "notice",
+   "alt": [
+    "notices",
+    "noticed",
+    "noticing"
+   ]
+  },
+  {
+   "id": "observe",
+   "en": "observe",
+   "uz": "kuzatmoq (diqqat bilan, uzoq vaqt)",
+   "pos": "verb",
+   "img": false,
+   "ex": "For our science project, we observed the birds at the school feeder every morning for two weeks and wrote down how many came.",
+   "gap": "observed",
+   "alt": [
+    "observes",
+    "observed",
+    "observing"
+   ]
+  },
+  {
+   "id": "peer",
+   "en": "peer",
+   "uz": "tikilib qaramoq (zo‘rg‘a ko‘rib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The fog was so thick that the bus driver leaned forward, squinting, and peered through the windscreen, trying to see the edge of the road.",
+   "gap": "peered",
+   "alt": [
+    "peers",
+    "peered",
+    "peering"
+   ]
+  },
+  {
+   "id": "gaze",
+   "en": "gaze",
+   "uz": "uzoq termulmoq (zavq bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lying on our backs outside a yurt camp in the Kyzylkum desert, we gazed up at the stars for hours, amazed at how many there were.",
+   "gap": "gazed",
+   "alt": [
+    "gazes",
+    "gazed",
+    "gazing"
+   ]
+  },
+  {
+   "id": "stare",
+   "en": "stare",
+   "uz": "baqrayib qaramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's rude to stare at strangers in a waiting room, even if their clothes look a bit unusual.",
+   "gap": "stare",
+   "alt": [
+    "stares",
+    "stared",
+    "staring"
+   ]
+  },
+  {
+   "id": "witness_v",
+   "en": "witness",
+   "uz": "guvohi bo‘lmoq (o‘z ko‘zi bilan ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The police are asking anyone who witnessed the accident at the crossroads last night to call them.",
+   "gap": "witnessed",
+   "alt": [
+    "witnesses",
+    "witnessed",
+    "witnessing"
+   ]
+  },
+  {
+   "id": "binoculars",
+   "en": "binoculars",
+   "uz": "durbin",
+   "pos": "noun",
+   "img": true,
+   "ex": "From the top of the hill, we used binoculars to watch the eagles circling far above the valley.",
+   "gap": "binoculars",
+   "alt": []
+  },
+  {
+   "id": "deafening",
+   "en": "deafening",
+   "uz": "quloqni kar qiladigan (shovqin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Standing right next to the runway at the air show, we found the roar of the jets deafening and had to cover our ears.",
+   "gap": "deafening",
+   "alt": []
+  },
+  {
+   "id": "tasteful",
+   "en": "tasteful",
+   "uz": "did bilan bezatilgan, nafis",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new café near our school has a tasteful interior: simple wooden tables, soft lights and a few old photos of the city.",
+   "gap": "tasteful",
+   "alt": []
+  },
+  {
+   "id": "poke",
+   "en": "poke",
+   "uz": "(barmoq, tirsak bilan) turtmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stop poking the campfire with that stick; you're sending sparks all over our sleeping bags!",
+   "gap": "poking",
+   "alt": [
+    "pokes",
+    "poked",
+    "poking"
+   ]
+  },
+  {
+   "id": "stroke_v",
+   "en": "stroke",
+   "uz": "silamoq (mehr bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamola slowly stroked the horse's mane from its ears all the way down its neck to calm it before the ride.",
+   "gap": "stroked",
+   "alt": [
+    "strokes",
+    "stroked",
+    "stroking"
+   ]
+  },
+  {
+   "id": "pat",
+   "en": "pat",
+   "uz": "yelkasiga qoqib qo‘ymoq (maqtab)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our coach patted me on the back and said, 'Well done, you played brilliantly today.'",
+   "gap": "patted",
+   "alt": [
+    "pats",
+    "patted",
+    "patting"
+   ]
+  },
+  {
+   "id": "tap",
+   "en": "tap",
+   "uz": "sekin chertmoq, yengil urib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before starting his speech, the head teacher tapped the microphone twice to check it was working.",
+   "gap": "tapped",
+   "alt": [
+    "taps",
+    "tapped",
+    "tapping"
+   ]
+  },
+  {
+   "id": "grasp",
+   "en": "grasp",
+   "uz": "mahkam ushlamoq, changallamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As the little boat rocked in the waves, Umid grasped the rail firmly with both hands and didn't let go until we reached the shore.",
+   "gap": "grasped",
+   "alt": [
+    "grasps",
+    "grasped",
+    "grasping"
+   ]
+  },
+  {
+   "id": "grab",
+   "en": "grab",
+   "uz": "shoshib olmoq, ilib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Seeing the first heavy drops of rain, Mohira grabbed the washing off the line and rushed it indoors.",
+   "gap": "grabbed",
+   "alt": [
+    "grabs",
+    "grabbed",
+    "grabbing"
+   ]
+  },
+  {
+   "id": "snatch",
+   "en": "snatch",
+   "uz": "yulib olmoq, tortib olib qochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the park, a crow swooped down and snatched the piece of bread right out of the little boy's hand.",
+   "gap": "snatched",
+   "alt": [
+    "snatches",
+    "snatched",
+    "snatching"
+   ]
+  },
+  {
+   "id": "handle",
+   "en": "handle",
+   "uz": "ehtiyot bilan ushlamoq (qo‘lga olib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please handle these photos carefully; they're more than a hundred years old and the paper tears easily.",
+   "gap": "handle",
+   "alt": [
+    "handles",
+    "handled",
+    "handling"
+   ]
+  },
+  {
+   "id": "stinking",
+   "en": "stinking",
+   "uz": "badbo‘y, sasib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nobody had emptied the rubbish bins behind the café for a week, and the stinking heap attracted flies from the whole street.",
+   "gap": "stinking",
+   "alt": []
+  },
+  {
+   "id": "musty",
+   "en": "musty",
+   "uz": "dim, mog‘or hidi kelib turgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When we opened the old suitcase from the top of the wardrobe, the clothes inside had a musty smell, like a room nobody has aired for years.",
+   "gap": "musty",
+   "alt": []
+  },
+  {
+   "id": "pungent",
+   "en": "pungent",
+   "uz": "achchiq, o‘tkir hidli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Chopping raw onions and garlic fills the kitchen with a pungent smell that makes your eyes water.",
+   "gap": "pungent",
+   "alt": []
+  },
+  {
+   "id": "fragrant",
+   "en": "fragrant",
+   "uz": "xushbo‘y (gul kabi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In late spring, the acacia trees along our street are in flower, and the evening air is wonderfully fragrant.",
+   "gap": "fragrant",
+   "alt": []
+  },
+  {
+   "id": "aromatic",
+   "en": "aromatic",
+   "uz": "xushbo‘y, ziravorli (o‘t, ziravor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The chef at the riverside café adds aromatic herbs such as basil and dill to the soup just before serving it.",
+   "gap": "aromatic",
+   "alt": []
+  },
+  {
+   "id": "putrid",
+   "en": "putrid",
+   "uz": "chirib aynigan, qo‘lansa hidli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We forgot a sack of potatoes at the back of the cupboard, and a month later the rotting ones had turned to black slime and gave off a putrid smell.",
+   "gap": "putrid",
+   "alt": []
+  },
+  {
+   "id": "scented",
+   "en": "scented",
+   "uz": "atir hidi berilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For her birthday, my sister got a scented candle that smells of vanilla.",
+   "gap": "scented",
+   "alt": []
+  },
+  {
+   "id": "sixth_sense",
+   "en": "sixth sense",
+   "uz": "oltinchi sezgi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class teacher seems to have a sixth sense: she always knows who hasn't done their homework before she even opens the register.",
+   "gap": "sixth sense",
+   "alt": []
+  },
+  {
+   "id": "telepathy",
+   "en": "telepathy",
+   "uz": "telepatiya (fikrni masofadan sezish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My best friend and I often send each other the same message at exactly the same moment, so we joke that we communicate by telepathy.",
+   "gap": "telepathy",
+   "alt": []
+  },
+  {
+   "id": "premonition",
+   "en": "premonition",
+   "uz": "ko‘ngli sezishi (bo‘ladigan voqeani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The night before the flight, Feruza had a strange premonition that something would go wrong, so she checked her passport three times.",
+   "gap": "premonition",
+   "alt": [
+    "premonitions"
+   ]
+  },
+  {
+   "id": "intuition",
+   "en": "intuition",
+   "uz": "ichki fahm, intuitsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "I didn't know the answer to the last question, so I trusted my intuition and chose B, and it was right.",
+   "gap": "intuition",
+   "alt": []
+  },
+  {
+   "id": "deja_vu",
+   "en": "déjà vu",
+   "uz": "«buni avval ko‘rganman» degan tuyg‘u",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I walked through the ancient gate in Bukhara's old town for the first time, I had a strong feeling of déjà vu, as if I'd stood there before.",
+   "gap": "déjà vu",
+   "alt": [
+    "deja vu"
+   ]
+  },
+  {
+   "id": "sense",
+   "en": "sense",
+   "uz": "sezgi (besh sezgidan biri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Snakes use a special sense to detect the heat of nearby animals in the dark.",
+   "gap": "sense",
+   "alt": [
+    "senses"
+   ]
+  },
+  {
+   "id": "hearing",
+   "en": "hearing",
+   "uz": "eshitish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bats have excellent hearing and can find insects in total darkness.",
+   "gap": "hearing",
+   "alt": []
+  },
+  {
+   "id": "taste_sense",
+   "en": "taste",
+   "uz": "ta’m bilish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the burn on her tongue healed, her sense of taste slowly came back.",
+   "gap": "taste",
+   "alt": []
+  },
+  {
+   "id": "touch_sense",
+   "en": "touch",
+   "uz": "teginib sezish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Blind readers use their sense of touch to read the raised dots of Braille.",
+   "gap": "touch",
+   "alt": []
+  },
+  {
+   "id": "smell_sense",
+   "en": "smell",
+   "uz": "hid bilish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sniffer dogs at the airport rely on their sense of smell to find fruit and meat hidden in suitcases.",
+   "gap": "smell",
+   "alt": []
+  },
+  {
+   "id": "extrasensory_perception",
+   "en": "extrasensory perception",
+   "uz": "g‘ayritabiiy sezish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The stage magician claimed he had extrasensory perception, but he was really just watching people's faces closely.",
+   "gap": "extrasensory perception",
+   "alt": []
+  },
+  {
+   "id": "supernatural",
+   "en": "supernatural",
+   "uz": "g‘ayritabiiy (tabiatdan tashqari)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old castle is famous for its stories of ghosts and other supernatural creatures.",
+   "gap": "supernatural",
+   "alt": []
+  },
+  {
+   "id": "look_appear",
+   "en": "look",
+   "uz": "(tashqi ko‘rinishdan) ko‘rinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That new jacket looks great on you; the dark green really brings out the colour of your eyes.",
+   "gap": "looks",
+   "alt": [
+    "looks",
+    "looked"
+   ]
+  },
+  {
+   "id": "sound_seem",
+   "en": "sound",
+   "uz": "(eshitganda) tuyulmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That song sounds a bit like the one we heard on the radio yesterday.",
+   "gap": "sounds",
+   "alt": [
+    "sounds",
+    "sounded"
+   ]
+  },
+  {
+   "id": "taste_v",
+   "en": "taste",
+   "uz": "ta’mi … bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This soup tastes a bit too salty; did you add the salt twice?",
+   "gap": "tastes",
+   "alt": [
+    "tastes",
+    "tasted"
+   ]
+  },
+  {
+   "id": "smell_v",
+   "en": "smell",
+   "uz": "hidi … bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I opened the fridge, something inside smelled awful, so I held my nose and checked the milk.",
+   "gap": "smelled",
+   "alt": [
+    "smells",
+    "smelt",
+    "smelled"
+   ]
+  },
+  {
+   "id": "feel_sense",
+   "en": "feel",
+   "uz": "(teginganda) … bo‘lib tuyulmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The baby's new blanket feels so soft against my cheek.",
+   "gap": "feels",
+   "alt": [
+    "feels",
+    "felt"
+   ]
+  },
+  {
+   "id": "noiseless",
+   "en": "noiseless",
+   "uz": "mutlaqo tovushsiz (mexanizm)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new electric buses are almost noiseless, so pedestrians sometimes don't hear them coming.",
+   "gap": "noiseless",
+   "alt": []
+  },
+  {
+   "id": "silent",
+   "en": "silent",
+   "uz": "jim-jit, churq etmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the head teacher walked in, the whole hall went silent.",
+   "gap": "silent",
+   "alt": []
+  },
+  {
+   "id": "quiet",
+   "en": "quiet",
+   "uz": "sokin, ovozi past",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please be quiet in the reading room; people are trying to study.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "noisy",
+   "en": "noisy",
+   "uz": "shovqinli, g‘ala-g‘ovurli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our flat is above a busy café, so it gets very noisy at weekends.",
+   "gap": "noisy",
+   "alt": []
+  },
+  {
+   "id": "loud",
+   "en": "loud",
+   "uz": "baland (ovoz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Could you turn the music down? It's far too loud, and the baby is asleep.",
+   "gap": "loud",
+   "alt": []
+  },
+  {
+   "id": "sweet_taste",
+   "en": "sweet",
+   "uz": "shirin (ta’m)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dried apricots are so sweet that you don't need any sugar in your tea.",
+   "gap": "sweet",
+   "alt": []
+  },
+  {
+   "id": "foul_smelling",
+   "en": "foul-smelling",
+   "uz": "badbo‘y, qo‘lansa hidli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The river behind the old factory had become a foul-smelling stream full of rubbish.",
+   "gap": "foul-smelling",
+   "alt": [
+    "foul smelling"
+   ]
+  },
+  {
+   "id": "sweet_smelling",
+   "en": "sweet-smelling",
+   "uz": "xushbo‘y, yoqimli hidli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The courtyard was full of sweet-smelling roses and jasmine.",
+   "gap": "sweet-smelling",
+   "alt": [
+    "sweet smelling"
+   ]
+  },
+  {
+   "id": "perfumed",
+   "en": "perfumed",
+   "uz": "atir sepilgan, atirli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel left a small perfumed card on each pillow that smelled of lavender.",
+   "gap": "perfumed",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "glance",
+   "glimpse"
+  ],
+  [
+   "glimpse",
+   "notice"
+  ],
+  [
+   "notice",
+   "observe"
+  ],
+  [
+   "observe",
+   "witness_v"
+  ],
+  [
+   "notice",
+   "witness_v"
+  ],
+  [
+   "peer",
+   "stare"
+  ],
+  [
+   "gaze",
+   "stare"
+  ],
+  [
+   "gaze",
+   "observe"
+  ],
+  [
+   "pat",
+   "tap"
+  ],
+  [
+   "tap",
+   "poke"
+  ],
+  [
+   "grasp",
+   "grab"
+  ],
+  [
+   "grab",
+   "snatch"
+  ],
+  [
+   "stinking",
+   "musty"
+  ],
+  [
+   "stinking",
+   "pungent"
+  ],
+  [
+   "putrid",
+   "stinking"
+  ],
+  [
+   "putrid",
+   "pungent"
+  ],
+  [
+   "fragrant",
+   "aromatic"
+  ],
+  [
+   "fragrant",
+   "scented"
+  ],
+  [
+   "aromatic",
+   "scented"
+  ],
+  [
+   "sixth_sense",
+   "intuition"
+  ],
+  [
+   "sixth_sense",
+   "premonition"
+  ],
+  [
+   "premonition",
+   "intuition"
+  ],
+  [
+   "peer",
+   "gaze"
+  ],
+  [
+   "glimpse",
+   "witness_v"
+  ],
+  [
+   "stroke_v",
+   "pat"
+  ],
+  [
+   "pungent",
+   "aromatic"
+  ],
+  [
+   "sense",
+   "sixth_sense"
+  ],
+  [
+   "taste_sense",
+   "taste_v"
+  ],
+  [
+   "taste_sense",
+   "touch_sense"
+  ],
+  [
+   "smell_sense",
+   "smell_v"
+  ],
+  [
+   "taste_v",
+   "smell_v"
+  ],
+  [
+   "feel_sense",
+   "touch_sense"
+  ],
+  [
+   "look_appear",
+   "sound_seem"
+  ],
+  [
+   "extrasensory_perception",
+   "sixth_sense"
+  ],
+  [
+   "extrasensory_perception",
+   "telepathy"
+  ],
+  [
+   "supernatural",
+   "extrasensory_perception"
+  ],
+  [
+   "noiseless",
+   "silent"
+  ],
+  [
+   "noiseless",
+   "quiet"
+  ],
+  [
+   "silent",
+   "quiet"
+  ],
+  [
+   "noisy",
+   "loud"
+  ],
+  [
+   "loud",
+   "deafening"
+  ],
+  [
+   "noisy",
+   "deafening"
+  ],
+  [
+   "foul_smelling",
+   "stinking"
+  ],
+  [
+   "foul_smelling",
+   "putrid"
+  ],
+  [
+   "foul_smelling",
+   "pungent"
+  ],
+  [
+   "sweet_smelling",
+   "fragrant"
+  ],
+  [
+   "sweet_smelling",
+   "scented"
+  ],
+  [
+   "sweet_smelling",
+   "perfumed"
+  ],
+  [
+   "sweet_smelling",
+   "aromatic"
+  ],
+  [
+   "perfumed",
+   "scented"
+  ],
+  [
+   "perfumed",
+   "fragrant"
+  ]
+ ]
+}

@@ -1,0 +1,343 @@
+{
+ "book": "upper",
+ "unit": 43,
+ "title": "Pleasant and unpleasant feelings",
+ "title_uz": "Yoqimli va yoqimsiz his-tuyg‘ular",
+ "words": [
+  {
+   "id": "content_satisfied",
+   "en": "content",
+   "uz": "qanoatli, ko‘ngli to‘q",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our old school caretaker has a small garden, a few chickens and plenty of books; he's perfectly content with his quiet life and dreams of nothing more.",
+   "gap": "content",
+   "alt": [
+    "contented"
+   ]
+  },
+  {
+   "id": "grateful",
+   "en": "grateful",
+   "uz": "minnatdor (birovning yaxshiligidan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm so grateful to you for lending me your notes when I was off school with flu.",
+   "gap": "grateful",
+   "alt": []
+  },
+  {
+   "id": "thankful",
+   "en": "thankful",
+   "uz": "shukr qilgan (yomonlik bo‘lmaganiga)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The car slid off the icy road into the snow, but we were all thankful that nobody was hurt.",
+   "gap": "thankful",
+   "alt": []
+  },
+  {
+   "id": "delighted",
+   "en": "delighted",
+   "uz": "nihoyatda xursand (yaxshi xabardan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My teacher was delighted to hear that her former pupil had won a place at a top medical university.",
+   "gap": "delighted",
+   "alt": []
+  },
+  {
+   "id": "miserable",
+   "en": "miserable",
+   "uz": "o‘zini juda baxtsiz his qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I've got a cold, it's been raining all day, and I've lost my headphones; I feel completely miserable.",
+   "gap": "miserable",
+   "alt": []
+  },
+  {
+   "id": "discontented",
+   "en": "discontented",
+   "uz": "(hayotidan, ishidan) norozi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After ten years in the same office, Aziz grew discontented with his job and started a cooking course in the evenings.",
+   "gap": "discontented",
+   "alt": []
+  },
+  {
+   "id": "fed_up",
+   "en": "fed up",
+   "uz": "jonga tekkan, bezor bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm fed up with the lift in our block breaking down every other week.",
+   "gap": "fed up",
+   "alt": []
+  },
+  {
+   "id": "sick_and_tired",
+   "en": "sick and tired",
+   "uz": "toza bezor bo‘lgan, to‘yib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The people on our street are sick and tired of the drilling from the building site next door.",
+   "gap": "sick and tired",
+   "alt": []
+  },
+  {
+   "id": "depressed",
+   "en": "depressed",
+   "uz": "uzoq vaqt tushkun, ruhi siniq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After months of looking for work without any luck, he felt depressed and didn't want to see anyone.",
+   "gap": "depressed",
+   "alt": []
+  },
+  {
+   "id": "confused",
+   "en": "confused",
+   "uz": "boshi qotgan, chalkashib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The teacher explained the rule twice in two completely different ways, and now I'm so confused that I don't know which one is right.",
+   "gap": "confused",
+   "alt": []
+  },
+  {
+   "id": "inspired",
+   "en": "inspired",
+   "uz": "ilhomlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After visiting the space museum, my sister felt so inspired that she started building her own model rocket.",
+   "gap": "inspired",
+   "alt": []
+  },
+  {
+   "id": "thrilled",
+   "en": "thrilled",
+   "uz": "hayajondan quvonib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The whole team was thrilled when they heard they would play in the national final in front of TV cameras.",
+   "gap": "thrilled",
+   "alt": []
+  },
+  {
+   "id": "upset",
+   "en": "upset",
+   "uz": "xafa qilmoq, ranjitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It always upsets my best friend when teachers mix her up with her twin sister.",
+   "gap": "upsets",
+   "alt": [
+    "upsets",
+    "upsetting"
+   ]
+  },
+  {
+   "id": "nervous",
+   "en": "nervous",
+   "uz": "hayajonli, asabiy (ish oldidan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I always get nervous before I speak in front of the class; my hands shake and my voice goes quiet.",
+   "gap": "nervous",
+   "alt": []
+  },
+  {
+   "id": "anxious",
+   "en": "anxious",
+   "uz": "xavotirdagi, tashvishli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mrs Karimova gets anxious if her son isn't home by nine and doesn't answer his phone.",
+   "gap": "anxious",
+   "alt": []
+  },
+  {
+   "id": "enthusiastic",
+   "en": "enthusiastic",
+   "uz": "ishtiyoqli, g‘ayratli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new members of the drama club were very enthusiastic and offered to help with every single task, from painting scenery to selling tickets.",
+   "gap": "enthusiastic",
+   "alt": []
+  },
+  {
+   "id": "frustrated",
+   "en": "frustrated",
+   "uz": "(uddalay olmay) asabiylashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I've been practising this guitar chord for weeks, and my fingers still can't get it right; I feel really frustrated.",
+   "gap": "frustrated",
+   "alt": []
+  },
+  {
+   "id": "furious",
+   "en": "furious",
+   "uz": "g‘azabdan tutaqib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The taxi driver was furious when he found a long scratch down the side of his new car, and he shouted so loudly that the whole car park turned round.",
+   "gap": "furious",
+   "alt": []
+  },
+  {
+   "id": "really_intens",
+   "en": "really",
+   "uz": "rosa, chindan ham (kuchaytiruvchi)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I feel really nervous about tomorrow's driving test.",
+   "gap": "really",
+   "alt": []
+  },
+  {
+   "id": "absolutely",
+   "en": "absolutely",
+   "uz": "mutlaqo, butkul",
+   "pos": "adverb",
+   "img": false,
+   "ex": "When the bus left without us, the coach was absolutely furious.",
+   "gap": "absolutely",
+   "alt": []
+  },
+  {
+   "id": "quite_absolutely",
+   "en": "quite",
+   "uz": "tamomila (kuchli so‘z bilan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "You're quite right; I hadn't thought of that.",
+   "gap": "quite",
+   "alt": []
+  },
+  {
+   "id": "quite_rather",
+   "en": "quite",
+   "uz": "ancha, xiyla (oddiy so‘z bilan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The film was quite good, but not as good as the book.",
+   "gap": "quite",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "grateful",
+   "thankful"
+  ],
+  [
+   "delighted",
+   "thrilled"
+  ],
+  [
+   "miserable",
+   "fed_up"
+  ],
+  [
+   "miserable",
+   "depressed"
+  ],
+  [
+   "discontented",
+   "frustrated"
+  ],
+  [
+   "discontented",
+   "fed_up"
+  ],
+  [
+   "fed_up",
+   "sick_and_tired"
+  ],
+  [
+   "inspired",
+   "enthusiastic"
+  ],
+  [
+   "nervous",
+   "anxious"
+  ],
+  [
+   "fed_up",
+   "frustrated"
+  ],
+  [
+   "frustrated",
+   "depressed"
+  ],
+  [
+   "frustrated",
+   "miserable"
+  ],
+  [
+   "enthusiastic",
+   "committed"
+  ],
+  [
+   "thrilled",
+   "captivated"
+  ],
+  [
+   "miserable",
+   "discontented"
+  ],
+  [
+   "inspired",
+   "fascinate"
+  ],
+  [
+   "inspired",
+   "thrilled"
+  ],
+  [
+   "nervous",
+   "frustrated"
+  ],
+  [
+   "nervous",
+   "thrilled"
+  ],
+  [
+   "enthusiastic",
+   "desire_n"
+  ],
+  [
+   "enthusiastic",
+   "passionate_about"
+  ],
+  [
+   "really_intens",
+   "absolutely"
+  ],
+  [
+   "really_intens",
+   "quite_absolutely"
+  ],
+  [
+   "really_intens",
+   "quite_rather"
+  ],
+  [
+   "absolutely",
+   "quite_absolutely"
+  ],
+  [
+   "absolutely",
+   "quite_rather"
+  ],
+  [
+   "quite_absolutely",
+   "quite_rather"
+  ]
+ ]
+}

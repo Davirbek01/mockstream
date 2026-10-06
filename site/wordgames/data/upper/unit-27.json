@@ -1,0 +1,820 @@
+{
+ "book": "upper",
+ "unit": 27,
+ "title": "Clothes",
+ "title_uz": "Kiyim-kechak",
+ "words": [
+  {
+   "id": "hoodie",
+   "en": "hoodie",
+   "uz": "kapyushonli sport kofta (xudi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On cold mornings Sardor wears a thick grey hoodie over his T-shirt and pulls the hood up over his ears.",
+   "gap": "hoodie",
+   "alt": [
+    "hoodies"
+   ]
+  },
+  {
+   "id": "hood",
+   "en": "hood",
+   "uz": "kapyushon",
+   "pos": "noun",
+   "img": true,
+   "ex": "It started to rain on the way home, so I pulled the hood of my jacket over my head.",
+   "gap": "hood",
+   "alt": [
+    "hoods"
+   ]
+  },
+  {
+   "id": "sleeve",
+   "en": "sleeve",
+   "uz": "yeng",
+   "pos": "noun",
+   "img": false,
+   "ex": "Roll up your sleeves before you start washing the dishes, or they'll get soaking wet.",
+   "gap": "sleeves",
+   "alt": [
+    "sleeves"
+   ]
+  },
+  {
+   "id": "collar",
+   "en": "collar",
+   "uz": "yoqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "His shirt collar was so tight around his neck that he couldn't do up the top button.",
+   "gap": "collar",
+   "alt": [
+    "collars"
+   ]
+  },
+  {
+   "id": "cuff",
+   "en": "cuff",
+   "uz": "yeng uchi (manjet)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a small ink stain on the cuff of his white shirt, right next to the button at his wrist.",
+   "gap": "cuff",
+   "alt": [
+    "cuffs"
+   ]
+  },
+  {
+   "id": "hem",
+   "en": "hem",
+   "uz": "etak qayirmasi (kiyim pastki cheti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hem of her long dress dragged along the wet ground and got muddy.",
+   "gap": "hem",
+   "alt": [
+    "hems"
+   ]
+  },
+  {
+   "id": "zip",
+   "en": "zip",
+   "uz": "molniya (zamok)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The zip on my winter coat got stuck halfway, so I couldn't open it or close it.",
+   "gap": "zip",
+   "alt": [
+    "zips"
+   ]
+  },
+  {
+   "id": "badge",
+   "en": "badge",
+   "uz": "nishon (ko‘krakka taqiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the conference, everyone was given a plastic badge with their name on it to pin on their jacket.",
+   "gap": "badge",
+   "alt": [
+    "badges"
+   ]
+  },
+  {
+   "id": "pyjamas",
+   "en": "pyjamas",
+   "uz": "pijama (uyqu kiyimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was a holiday, so Bekzod stayed in his pyjamas until lunchtime and watched cartoons.",
+   "gap": "pyjamas",
+   "alt": [
+    "pajamas"
+   ]
+  },
+  {
+   "id": "laces",
+   "en": "laces",
+   "uz": "poyabzal ipi (bog‘ich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your laces are undone; tie them before you trip on the stairs.",
+   "gap": "laces",
+   "alt": [
+    "lace",
+    "shoelaces"
+   ]
+  },
+  {
+   "id": "sole",
+   "en": "sole",
+   "uz": "tagcharm (poyabzal tagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The soles of these hiking boots are made of thick rubber, so they grip well on wet rocks.",
+   "gap": "soles",
+   "alt": [
+    "soles"
+   ]
+  },
+  {
+   "id": "heel",
+   "en": "heel",
+   "uz": "poshna (tufli poshnasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "She can't walk far in those shoes because the heels are ten centimetres high.",
+   "gap": "heels",
+   "alt": [
+    "heels"
+   ]
+  },
+  {
+   "id": "belt",
+   "en": "belt",
+   "uz": "kamar (belbog‘)",
+   "pos": "noun",
+   "img": true,
+   "ex": "These trousers are too big round the waist, so I need a belt to hold them up.",
+   "gap": "belt",
+   "alt": [
+    "belts"
+   ]
+  },
+  {
+   "id": "buckle",
+   "en": "buckle",
+   "uz": "to‘qa (kamar to‘qasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad's leather belt has a heavy silver buckle shaped like a horse's head.",
+   "gap": "buckle",
+   "alt": [
+    "buckles"
+   ]
+  },
+  {
+   "id": "helmet",
+   "en": "helmet",
+   "uz": "dubulg‘a (shlem)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nobody is allowed onto the building site without a hard yellow helmet, in case something falls from above.",
+   "gap": "helmet",
+   "alt": [
+    "helmets"
+   ]
+  },
+  {
+   "id": "slippers",
+   "en": "slippers",
+   "uz": "shippak (uy poyabzali)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Guests in Uzbek homes take off their shoes at the door, and the hosts often offer them slippers.",
+   "gap": "slippers",
+   "alt": [
+    "slipper"
+   ]
+  },
+  {
+   "id": "try_on",
+   "en": "try on",
+   "uz": "kiyib ko‘rmoq (o‘lchab ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The changing rooms were all busy, so I couldn't try on the jacket before I bought it.",
+   "gap": "try on",
+   "alt": [
+    "tries on",
+    "tried on",
+    "trying on"
+   ]
+  },
+  {
+   "id": "dress_up",
+   "en": "dress up",
+   "uz": "yasanib kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Everyone dressed up for the graduation party: the boys wore suits and the girls wore long dresses.",
+   "gap": "dressed up",
+   "alt": [
+    "dresses up",
+    "dressed up",
+    "dressing up"
+   ]
+  },
+  {
+   "id": "let_out",
+   "en": "let out",
+   "uz": "kengaytirmoq (kiyimni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've put on a few kilos, so the tailor will have to let out these trousers at the waist.",
+   "gap": "let out",
+   "alt": [
+    "lets out",
+    "letting out"
+   ]
+  },
+  {
+   "id": "let_down",
+   "en": "let down",
+   "uz": "uzaytirmoq (etak, shimni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lola has grown taller over the summer, so Mum is going to let down the hem of her school skirt.",
+   "gap": "let down",
+   "alt": [
+    "lets down",
+    "letting down"
+   ]
+  },
+  {
+   "id": "take_in",
+   "en": "take in",
+   "uz": "toraytirmoq (kiyimni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After months of training for the marathon, Nilufar is much slimmer, so all her dresses need taking in.",
+   "gap": "taking in",
+   "alt": [
+    "takes in",
+    "took in",
+    "taken in",
+    "taking in"
+   ]
+  },
+  {
+   "id": "take_up",
+   "en": "take up",
+   "uz": "kaltalatmoq (shim, etakni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the trousers are too long, the tailor at the market can take up the legs in ten minutes.",
+   "gap": "take up",
+   "alt": [
+    "takes up",
+    "took up",
+    "taken up",
+    "taking up"
+   ]
+  },
+  {
+   "id": "suit",
+   "en": "suit",
+   "uz": "yarashmoq (rang, kiyim)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Short hair really suits you; you look older and more confident.",
+   "gap": "suits",
+   "alt": [
+    "suits",
+    "suited"
+   ]
+  },
+  {
+   "id": "match",
+   "en": "match",
+   "uz": "bir-biriga mos kelmoq (rangi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I got dressed in the dark, and my socks didn't match: one was black and the other was navy blue.",
+   "gap": "match",
+   "alt": [
+    "matches",
+    "matched"
+   ]
+  },
+  {
+   "id": "fit",
+   "en": "fit",
+   "uz": "o‘lchami to‘g‘ri kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "These boots are size 38, but I take a 40, so they don't fit me.",
+   "gap": "fit",
+   "alt": [
+    "fits",
+    "fitted",
+    "fitting"
+   ]
+  },
+  {
+   "id": "grow_out_of",
+   "en": "grow out of",
+   "uz": "kiyimidan o‘sib chiqib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Young children grow out of their clothes in a few months, so many parents buy them second-hand.",
+   "gap": "grow out of",
+   "alt": [
+    "grows out of",
+    "grew out of",
+    "grown out of",
+    "growing out of"
+   ]
+  },
+  {
+   "id": "baggy",
+   "en": "baggy",
+   "uz": "keng, shalvirab turgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Skateboarders often wear baggy jeans that look two sizes too big.",
+   "gap": "baggy",
+   "alt": []
+  },
+  {
+   "id": "close_fitting",
+   "en": "close-fitting",
+   "uz": "tanaga yopishib turadigan (tor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Racing cyclists wear close-fitting clothes so that the wind doesn't slow them down.",
+   "gap": "close-fitting",
+   "alt": [
+    "close fitting"
+   ]
+  },
+  {
+   "id": "long_sleeved",
+   "en": "long-sleeved",
+   "uz": "uzun yengli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the evening boat trip, wear a light long-sleeved cotton shirt so the mosquitoes can't bite your arms.",
+   "gap": "long-sleeved",
+   "alt": [
+    "long sleeved"
+   ]
+  },
+  {
+   "id": "sleeveless",
+   "en": "sleeveless",
+   "uz": "yengsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On hot summer days, Diyor plays basketball in a sleeveless shirt that leaves his arms and shoulders bare.",
+   "gap": "sleeveless",
+   "alt": []
+  },
+  {
+   "id": "denim",
+   "en": "denim",
+   "uz": "jinsi mato",
+   "pos": "noun",
+   "img": false,
+   "ex": "This jacket is made of the same blue denim as my jeans, so I never wear the two together.",
+   "gap": "denim",
+   "alt": []
+  },
+  {
+   "id": "woollen",
+   "en": "woollen",
+   "uz": "jundan to‘qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My new woollen jumper is lovely and warm, but it makes my neck itch, so I wear a cotton T-shirt under it.",
+   "gap": "woollen",
+   "alt": [
+    "woolen"
+   ]
+  },
+  {
+   "id": "suede",
+   "en": "suede",
+   "uz": "zamsh (xira charm)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't wear your new suede boots in the rain: water leaves dark marks on the soft leather.",
+   "gap": "suede",
+   "alt": []
+  },
+  {
+   "id": "striped",
+   "en": "striped",
+   "uz": "yo‘l-yo‘l (chiziqli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In her black-and-white striped silk scarf, my sister looked a bit like a zebra.",
+   "gap": "striped",
+   "alt": []
+  },
+  {
+   "id": "spotted",
+   "en": "spotted",
+   "uz": "xolli (nuqtali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the school play, Madina dressed up as a ladybird in a red spotted silk dress with big black dots.",
+   "gap": "spotted",
+   "alt": []
+  },
+  {
+   "id": "plain_pattern",
+   "en": "plain",
+   "uz": "naqshsiz, bir xil rangli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The school asks pupils to wear plain white cotton shirts with no logos or patterns on them.",
+   "gap": "plain",
+   "alt": []
+  },
+  {
+   "id": "checked",
+   "en": "checked",
+   "uz": "katak-katak (katakli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The farmer wore a thick checked cotton shirt with red and black squares.",
+   "gap": "checked",
+   "alt": [
+    "check",
+    "checkered"
+   ]
+  },
+  {
+   "id": "flowery",
+   "en": "flowery",
+   "uz": "gulli (gul naqshli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the spring concert, the girls wore light flowery cotton dresses covered in roses and tulips.",
+   "gap": "flowery",
+   "alt": []
+  },
+  {
+   "id": "tartan",
+   "en": "tartan",
+   "uz": "shotlandcha katak naqsh",
+   "pos": "noun",
+   "img": false,
+   "ex": "On holiday in Scotland, Dad bought a red-and-green tartan scarf in the same pattern as the pipers' kilts.",
+   "gap": "tartan",
+   "alt": []
+  },
+  {
+   "id": "casually",
+   "en": "casually",
+   "uz": "erkin (norasmiy) kiyinib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "On Fridays the office staff can dress casually, in jeans and trainers.",
+   "gap": "casually",
+   "alt": []
+  },
+  {
+   "id": "designer",
+   "en": "designer",
+   "uz": "mashhur brendli (dizaynerlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She spent a whole month's salary on a designer handbag with a famous Italian label.",
+   "gap": "designer",
+   "alt": []
+  },
+  {
+   "id": "national_costume",
+   "en": "national costume",
+   "uz": "milliy libos",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Navruz concert, the children danced in national costume: atlas dresses and embroidered skullcaps.",
+   "gap": "national costume",
+   "alt": [
+    "national costumes"
+   ]
+  },
+  {
+   "id": "inside_out",
+   "en": "inside out",
+   "uz": "teskari (ichini tashqariga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Turn that black T-shirt inside out before you wash it, so the picture on the front doesn't fade.",
+   "gap": "inside out",
+   "alt": [
+    "inside-out"
+   ]
+  },
+  {
+   "id": "disguise",
+   "en": "disguise",
+   "uz": "niqob (tanilmaslik uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actor wore dark glasses and a false beard as a disguise, so that his fans wouldn't recognise him.",
+   "gap": "disguise",
+   "alt": [
+    "disguises"
+   ]
+  },
+  {
+   "id": "bikini",
+   "en": "bikini",
+   "uz": "ikki qismli ayollar cho‘milish kiyimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lisa packed her swimming things for the seaside trip: a towel, sun cream and a blue bikini.",
+   "gap": "bikini",
+   "alt": [
+    "bikinis"
+   ]
+  },
+  {
+   "id": "bra",
+   "en": "bra",
+   "uz": "ko‘krak tutqich (lifchik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nargiza bought a new sports bra at the shop because her old one gave no support on long runs.",
+   "gap": "bra",
+   "alt": [
+    "bras"
+   ]
+  },
+  {
+   "id": "trousers",
+   "en": "trousers",
+   "uz": "shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "For the job interview, Sanjar wore dark grey trousers, a white shirt and a tie.",
+   "gap": "trousers",
+   "alt": []
+  },
+  {
+   "id": "jeans",
+   "en": "jeans",
+   "uz": "jinsi shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "Rustam wears faded blue jeans with holes in the knees, which is the fashion this year.",
+   "gap": "jeans",
+   "alt": []
+  },
+  {
+   "id": "shorts",
+   "en": "shorts",
+   "uz": "kalta shim (tizzagacha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was 38 degrees, so the tourists walked around the old city in shorts and T-shirts.",
+   "gap": "shorts",
+   "alt": []
+  },
+  {
+   "id": "underpants",
+   "en": "underpants",
+   "uz": "ichki ishton (trusik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pack seven pairs of clean underpants, one for each day you'll be away.",
+   "gap": "underpants",
+   "alt": []
+  },
+  {
+   "id": "change_out_of",
+   "en": "change out of",
+   "uz": "(kiyimni) yechib, boshqasini kiymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Komil gets home from the office, he changes out of his suit into a T-shirt and tracksuit bottoms.",
+   "gap": "changes out of",
+   "alt": [
+    "changes out of",
+    "changed out of",
+    "changing out of"
+   ]
+  },
+  {
+   "id": "v_neck",
+   "en": "V-neck",
+   "uz": "uchburchak bo‘yin o‘yig‘i",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He wore a V-neck jumper over his shirt so that his tie still showed.",
+   "gap": "V-neck",
+   "alt": [
+    "V neck",
+    "v-neck"
+   ]
+  },
+  {
+   "id": "round_neck",
+   "en": "round-neck",
+   "uz": "dumaloq bo‘yin o‘yig‘i",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Farhod needed a jumper to wear over his shirt and tie, but the shop only had round-neck ones, which would hide the tie completely.",
+   "gap": "round-neck",
+   "alt": [
+    "round neck"
+   ]
+  },
+  {
+   "id": "pinstriped",
+   "en": "pinstriped",
+   "uz": "ingichka chiziqli (kostyum matosi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bank manager wore a dark pinstriped suit with very thin white lines.",
+   "gap": "pinstriped",
+   "alt": [
+    "pinstripe"
+   ]
+  },
+  {
+   "id": "label",
+   "en": "label",
+   "uz": "yorliq (kiyim ichidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Check the label inside the jumper: it says you should wash it by hand in cold water.",
+   "gap": "label",
+   "alt": [
+    "labels"
+   ]
+  },
+  {
+   "id": "mask",
+   "en": "mask",
+   "uz": "yuz niqobi",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the carnival in Venice, people walk around in beautiful masks decorated with gold and feathers.",
+   "gap": "masks",
+   "alt": [
+    "masks"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "sleeve",
+   "cuff"
+  ],
+  [
+   "collar",
+   "cuff"
+  ],
+  [
+   "hood",
+   "collar"
+  ],
+  [
+   "hood",
+   "hoodie"
+  ],
+  [
+   "sole",
+   "heel"
+  ],
+  [
+   "zip",
+   "buckle"
+  ],
+  [
+   "buckle",
+   "badge"
+  ],
+  [
+   "belt",
+   "buckle"
+  ],
+  [
+   "pyjamas",
+   "slippers"
+  ],
+  [
+   "let_out",
+   "take_in"
+  ],
+  [
+   "take_in",
+   "take_up"
+  ],
+  [
+   "let_out",
+   "take_up"
+  ],
+  [
+   "let_out",
+   "let_down"
+  ],
+  [
+   "let_down",
+   "take_up"
+  ],
+  [
+   "suit",
+   "match"
+  ],
+  [
+   "suit",
+   "fit"
+  ],
+  [
+   "checked",
+   "tartan"
+  ],
+  [
+   "spotted",
+   "flowery"
+  ],
+  [
+   "plain_pattern",
+   "spotted"
+  ],
+  [
+   "denim",
+   "suede"
+  ],
+  [
+   "casually",
+   "designer"
+  ],
+  [
+   "disguise",
+   "national_costume"
+  ],
+  [
+   "try_on",
+   "dress_up"
+  ],
+  [
+   "sleeveless",
+   "long_sleeved"
+  ],
+  [
+   "heel",
+   "buckle"
+  ],
+  [
+   "underpants",
+   "shorts"
+  ],
+  [
+   "underpants",
+   "pyjamas"
+  ],
+  [
+   "trousers",
+   "jeans"
+  ],
+  [
+   "v_neck",
+   "round_neck"
+  ],
+  [
+   "pinstriped",
+   "striped"
+  ],
+  [
+   "mask",
+   "disguise"
+  ],
+  [
+   "jeans",
+   "denim"
+  ],
+  [
+   "underpants",
+   "trousers"
+  ],
+  [
+   "underpants",
+   "jeans"
+  ],
+  [
+   "mask",
+   "national_costume"
+  ],
+  [
+   "pyjamas",
+   "shorts"
+  ]
+ ]
+}

@@ -1,0 +1,776 @@
+{
+ "book": "upper",
+ "unit": 22,
+ "title": "Food",
+ "title_uz": "Oziq-ovqat va taom",
+ "words": [
+  {
+   "id": "spicy",
+   "en": "spicy",
+   "uz": "achchiq (ziravorli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Korean kimchi is so spicy that my mouth was on fire after one bite.",
+   "gap": "spicy",
+   "alt": [
+    "spicier",
+    "spiciest"
+   ]
+  },
+  {
+   "id": "mild_taste",
+   "en": "mild",
+   "uz": "achchiq emas (yumshoq ta’mli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother can't eat chilli, so he ordered the mild version of the curry and said it was delicious.",
+   "gap": "mild",
+   "alt": []
+  },
+  {
+   "id": "bland",
+   "en": "bland",
+   "uz": "chuchmal (ziravorsiz, ta’mi past)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hospital food is often bland because the cooks use very little salt or spice.",
+   "gap": "bland",
+   "alt": []
+  },
+  {
+   "id": "salty",
+   "en": "salty",
+   "uz": "sho‘r",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cook must have added salt twice: the mastava is so salty that I've already drunk three glasses of water.",
+   "gap": "salty",
+   "alt": []
+  },
+  {
+   "id": "sugary",
+   "en": "sugary",
+   "uz": "shakari ko‘p",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school canteen stopped selling sugary drinks like cola and now offers water and fresh juice instead.",
+   "gap": "sugary",
+   "alt": []
+  },
+  {
+   "id": "sickly",
+   "en": "sickly",
+   "uz": "o‘ta shirin, ko‘ngilni aynitadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cream cake was far too sweet for me: after one slice, its sickly taste made me feel ill.",
+   "gap": "sickly",
+   "alt": []
+  },
+  {
+   "id": "savoury",
+   "en": "savoury",
+   "uz": "sho‘rtang (shirin bo‘lmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For breakfast I prefer something savoury, like eggs or cheese, rather than sweet jam.",
+   "gap": "savoury",
+   "alt": [
+    "savory"
+   ]
+  },
+  {
+   "id": "sour",
+   "en": "sour",
+   "uz": "nordon",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Green plums taste so sour that many people eat them with a pinch of salt.",
+   "gap": "sour",
+   "alt": []
+  },
+  {
+   "id": "bitter",
+   "en": "bitter",
+   "uz": "taxir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dark chocolate with 90% cocoa is too bitter for me; I prefer milk chocolate.",
+   "gap": "bitter",
+   "alt": []
+  },
+  {
+   "id": "tasty",
+   "en": "tasty",
+   "uz": "mazali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The samsa from the little bakery near the metro station are cheap and really tasty, so there is always a queue outside.",
+   "gap": "tasty",
+   "alt": []
+  },
+  {
+   "id": "tasteless",
+   "en": "tasteless",
+   "uz": "mutlaqo ta’msiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "These winter tomatoes look red and perfect, but they're completely tasteless, like water.",
+   "gap": "tasteless",
+   "alt": []
+  },
+  {
+   "id": "moreish",
+   "en": "moreish",
+   "uz": "yana-yana yegisi keladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Roasted pumpkin seeds are so moreish that I always finish the whole bag.",
+   "gap": "moreish",
+   "alt": []
+  },
+  {
+   "id": "light_food",
+   "en": "light",
+   "uz": "yengil (tez hazm bo‘ladigan taom)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before swimming, it's better to eat something light, like fruit and yoghurt, than a heavy meal.",
+   "gap": "light",
+   "alt": []
+  },
+  {
+   "id": "overcooked",
+   "en": "overcooked",
+   "uz": "ortiqcha pishib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The rice was overcooked and turned into a soft, sticky mess.",
+   "gap": "overcooked",
+   "alt": []
+  },
+  {
+   "id": "undercooked",
+   "en": "undercooked",
+   "uz": "chala pishgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The chicken was undercooked and still pink inside, so we sent it back.",
+   "gap": "undercooked",
+   "alt": []
+  },
+  {
+   "id": "unripe",
+   "en": "unripe",
+   "uz": "g‘o‘r (hali pishmagan meva)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This persimmon is still unripe: it's hard and makes your mouth feel dry.",
+   "gap": "unripe",
+   "alt": []
+  },
+  {
+   "id": "in_season",
+   "en": "in season",
+   "uz": "mavsumida (ayni pishgan payti)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In Uzbekistan, apricots are in season in June, so the bazaars are full of them.",
+   "gap": "in season",
+   "alt": []
+  },
+  {
+   "id": "go_off",
+   "en": "go off",
+   "uz": "aynib qolmoq (buzilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't leave the chicken in the car in this heat, or it'll go off before we get home.",
+   "gap": "go off",
+   "alt": [
+    "goes off",
+    "went off",
+    "gone off",
+    "going off"
+   ]
+  },
+  {
+   "id": "stodgy",
+   "en": "stodgy",
+   "uz": "og‘ir, hazm bo‘lishi qiyin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a stodgy lunch of fried dough and potatoes, I felt too sleepy to study.",
+   "gap": "stodgy",
+   "alt": []
+  },
+  {
+   "id": "organic",
+   "en": "organic",
+   "uz": "organik (kimyoviy o‘g‘itsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My aunt grows organic vegetables: she never uses chemical sprays in her garden.",
+   "gap": "organic",
+   "alt": []
+  },
+  {
+   "id": "balanced_diet",
+   "en": "balanced diet",
+   "uz": "muvozanatli ovqatlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamron eats only bread and sweets, so the school nurse explained why he needs a more balanced diet.",
+   "gap": "balanced diet",
+   "alt": []
+  },
+  {
+   "id": "junk_food",
+   "en": "junk food",
+   "uz": "zararli tez tayyor ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After school we often grab burgers and fries, but our coach says too much junk food will slow us down on the pitch.",
+   "gap": "junk food",
+   "alt": []
+  },
+  {
+   "id": "processed_food",
+   "en": "processed food",
+   "uz": "qayta ishlangan oziq-ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum reads the labels in the supermarket and avoids processed food with long lists of preservatives and colours.",
+   "gap": "processed food",
+   "alt": []
+  },
+  {
+   "id": "book_a_table",
+   "en": "book a table",
+   "uz": "(restoranda) stol band qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The restaurant is always full on Fridays, so we booked a table two days before.",
+   "gap": "booked a table",
+   "alt": [
+    "books a table",
+    "booked a table",
+    "booking a table"
+   ]
+  },
+  {
+   "id": "make_a_reservation",
+   "en": "make a reservation",
+   "uz": "oldindan joy band qilmoq (bron)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you want to eat there on Saturday night, phone the restaurant and make a reservation.",
+   "gap": "make a reservation",
+   "alt": [
+    "makes a reservation",
+    "made a reservation",
+    "making a reservation"
+   ]
+  },
+  {
+   "id": "starter",
+   "en": "starter",
+   "uz": "boshlang‘ich yengil taom (zakuska)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had a small salad as a starter, then lagman as the main course.",
+   "gap": "starter",
+   "alt": [
+    "starters"
+   ]
+  },
+  {
+   "id": "main_course",
+   "en": "main course",
+   "uz": "asosiy taom",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the main course I'm having grilled fish, and then ice cream for dessert.",
+   "gap": "main course",
+   "alt": [
+    "main courses"
+   ]
+  },
+  {
+   "id": "side_dish",
+   "en": "side dish",
+   "uz": "garnir (qo‘shimcha taom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Would you like chips or a green salad as a side dish with your steak?",
+   "gap": "side dish",
+   "alt": [
+    "side dishes"
+   ]
+  },
+  {
+   "id": "dessert",
+   "en": "dessert",
+   "uz": "shirinlik (ovqatdan so‘ng)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For dessert, the waiter brought us ice cream with fresh strawberries.",
+   "gap": "dessert",
+   "alt": [
+    "desserts"
+   ]
+  },
+  {
+   "id": "set_menu",
+   "en": "set menu",
+   "uz": "belgilangan narxdagi menyu",
+   "pos": "noun",
+   "img": false,
+   "ex": "The set menu costs 90,000 sum and includes soup, a main dish and tea.",
+   "gap": "set menu",
+   "alt": [
+    "set menus"
+   ]
+  },
+  {
+   "id": "specials",
+   "en": "specials",
+   "uz": "kunning maxsus taomlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Today's specials are written on the board by the door; they change every day.",
+   "gap": "specials",
+   "alt": [
+    "special"
+   ]
+  },
+  {
+   "id": "vegan",
+   "en": "vegan",
+   "uz": "hayvon mahsulotlarini iste’mol qilmaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since becoming a vegan, Zarina drinks her coffee with oat milk and only buys shoes that aren't made of leather.",
+   "gap": "vegan",
+   "alt": [
+    "vegans"
+   ]
+  },
+  {
+   "id": "host",
+   "en": "host",
+   "uz": "mezbon (mehmon chaqirgan uy egasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the host of the party, Malika greeted every guest at the door.",
+   "gap": "host",
+   "alt": [
+    "hosts"
+   ]
+  },
+  {
+   "id": "help_yourself",
+   "en": "help yourself",
+   "uz": "o‘zingiz olib yeng (marhamat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's fresh bread and fruit on the table, so please help yourself.",
+   "gap": "help yourself",
+   "alt": [
+    "help yourselves"
+   ]
+  },
+  {
+   "id": "seconds",
+   "en": "seconds",
+   "uz": "qo‘shimcha porsiya (yana bir likopcha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The manti were so good that everyone asked for seconds.",
+   "gap": "seconds",
+   "alt": []
+  },
+  {
+   "id": "hot_spicy",
+   "en": "hot",
+   "uz": "qalampiri ko‘p, og‘izni kuydiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Careful with that little green chilli: it's so hot that it made Dilshod's eyes water.",
+   "gap": "hot",
+   "alt": [
+    "hotter",
+    "hottest"
+   ]
+  },
+  {
+   "id": "curry",
+   "en": "curry",
+   "uz": "hindcha quyuq ziravorli taom",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the Indian restaurant, Feruza ordered a chicken curry with rice and a piece of naan bread.",
+   "gap": "curry",
+   "alt": [
+    "curries"
+   ]
+  },
+  {
+   "id": "overdone",
+   "en": "overdone",
+   "uz": "o‘ta pishib qotib qolgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I asked for my steak medium, but it came overdone, grey and dry all the way through.",
+   "gap": "overdone",
+   "alt": []
+  },
+  {
+   "id": "underdone",
+   "en": "underdone",
+   "uz": "yetarlicha pishmagan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The burger was underdone in the middle, so the cook put it back on the grill for a few more minutes.",
+   "gap": "underdone",
+   "alt": []
+  },
+  {
+   "id": "ripe",
+   "en": "ripe",
+   "uz": "pishgan, yeyishga tayyor (meva)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wait until the melon is ripe: it should smell sweet and feel slightly soft at one end.",
+   "gap": "ripe",
+   "alt": [
+    "riper",
+    "ripest"
+   ]
+  },
+  {
+   "id": "heavy_food",
+   "en": "heavy",
+   "uz": "og‘ir, to‘yimli (ko‘p yog‘li taom)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the July heat nobody wants a heavy meal of fatty meat and fried bread, so we eat salads instead.",
+   "gap": "heavy",
+   "alt": [
+    "heavier",
+    "heaviest"
+   ]
+  },
+  {
+   "id": "cancel_booking",
+   "en": "cancel a booking",
+   "uz": "bronni bekor qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our train was badly delayed, so I phoned the restaurant to cancel the booking for eight o'clock.",
+   "gap": "cancel the booking",
+   "alt": [
+    "cancel the booking",
+    "cancels a booking",
+    "cancelled a booking",
+    "cancelled the booking",
+    "cancel a reservation",
+    "cancel the reservation"
+   ]
+  },
+  {
+   "id": "course_meal",
+   "en": "course",
+   "uz": "taom navbati (birinchi, ikkinchi…)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The banquet had five courses, starting with soup and ending with fruit and green tea.",
+   "gap": "courses",
+   "alt": [
+    "courses"
+   ]
+  },
+  {
+   "id": "appetiser",
+   "en": "appetiser",
+   "uz": "ishtaha ochuvchi yengil taom",
+   "pos": "noun",
+   "img": false,
+   "ex": "While we waited for the kebabs, the waiter brought olives and pickles as an appetiser.",
+   "gap": "appetiser",
+   "alt": [
+    "appetisers",
+    "appetizer",
+    "appetizers"
+   ]
+  },
+  {
+   "id": "a_la_carte",
+   "en": "à la carte",
+   "uz": "menyudan har taomni alohida tanlab",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Instead of the fixed lunch deal, we ordered à la carte and chose each dish separately.",
+   "gap": "à la carte",
+   "alt": [
+    "a la carte"
+   ]
+  },
+  {
+   "id": "vegetarian",
+   "en": "vegetarian",
+   "uz": "go‘sht va baliq yemaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since Lobar became a vegetarian, she has stopped eating fish too, but she still enjoys cheese and eggs.",
+   "gap": "vegetarian",
+   "alt": [
+    "vegetarians"
+   ]
+  },
+  {
+   "id": "non_meat_eater",
+   "en": "non-meat-eater",
+   "uz": "go‘sht yemaydigan, baliq yeydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur is a non-meat-eater: he never touches beef or chicken, but he loves grilled salmon.",
+   "gap": "non-meat-eater",
+   "alt": [
+    "non-meat-eaters",
+    "non meat eater"
+   ]
+  },
+  {
+   "id": "guest",
+   "en": "guest",
+   "uz": "mehmon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The table was set for twelve, but one guest arrived an hour late because of the traffic.",
+   "gap": "guest",
+   "alt": [
+    "guests"
+   ]
+  },
+  {
+   "id": "pudding",
+   "en": "pudding",
+   "uz": "uyda: ovqatdan keyingi shirinlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora has baked an apple pie for pudding, so don't eat too much bread.",
+   "gap": "pudding",
+   "alt": []
+  },
+  {
+   "id": "a_sweet",
+   "en": "a sweet",
+   "uz": "ovqat oxiridagi shirin taom (sanaladi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Would you like a sweet after your meal? There's baklava or ice cream.",
+   "gap": "a sweet",
+   "alt": [
+    "sweet",
+    "sweets"
+   ]
+  },
+  {
+   "id": "afters",
+   "en": "afters",
+   "uz": "ovqat ortidan keladigan shirinlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's fruit salad for afters, so leave a little space.",
+   "gap": "afters",
+   "alt": []
+  },
+  {
+   "id": "say_when",
+   "en": "say when",
+   "uz": "yetarli bo‘lsa, ayting (quyganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As she poured juice into my glass, Nigora told me to say when, so I stopped her halfway.",
+   "gap": "say when",
+   "alt": []
+  },
+  {
+   "id": "keep_room_for",
+   "en": "keep room for",
+   "uz": "(shirinlik uchun) qornida joy qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't fill up on bread; keep room for the honey cake that's coming later.",
+   "gap": "keep room for",
+   "alt": [
+    "keep a bit of room for",
+    "keep some room for",
+    "keeps room for",
+    "kept room for"
+   ]
+  },
+  {
+   "id": "refill",
+   "en": "refill",
+   "uz": "qayta to‘ldirmoq (stakanni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The waiter came round every ten minutes to refill our glasses with cold water.",
+   "gap": "refill",
+   "alt": [
+    "re-fill",
+    "refills",
+    "refilled",
+    "refilling"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "mild_taste",
+   "bland"
+  ],
+  [
+   "mild_taste",
+   "tasteless"
+  ],
+  [
+   "bland",
+   "tasteless"
+  ],
+  [
+   "sugary",
+   "sickly"
+  ],
+  [
+   "salty",
+   "savoury"
+  ],
+  [
+   "savoury",
+   "tasty"
+  ],
+  [
+   "sour",
+   "bitter"
+  ],
+  [
+   "tasty",
+   "moreish"
+  ],
+  [
+   "overcooked",
+   "stodgy"
+  ],
+  [
+   "junk_food",
+   "processed_food"
+  ],
+  [
+   "starter",
+   "side_dish"
+  ],
+  [
+   "starter",
+   "main_course"
+  ],
+  [
+   "main_course",
+   "side_dish"
+  ],
+  [
+   "set_menu",
+   "specials"
+  ],
+  [
+   "book_a_table",
+   "make_a_reservation"
+  ],
+  [
+   "light_food",
+   "mild_taste"
+  ],
+  [
+   "light_food",
+   "bland"
+  ],
+  [
+   "hot_spicy",
+   "spicy"
+  ],
+  [
+   "overdone",
+   "overcooked"
+  ],
+  [
+   "underdone",
+   "undercooked"
+  ],
+  [
+   "ripe",
+   "in_season"
+  ],
+  [
+   "heavy_food",
+   "stodgy"
+  ],
+  [
+   "heavy_food",
+   "light_food"
+  ],
+  [
+   "appetiser",
+   "starter"
+  ],
+  [
+   "vegetarian",
+   "vegan"
+  ],
+  [
+   "vegetarian",
+   "non_meat_eater"
+  ],
+  [
+   "pudding",
+   "dessert"
+  ],
+  [
+   "pudding",
+   "a_sweet"
+  ],
+  [
+   "pudding",
+   "afters"
+  ],
+  [
+   "a_sweet",
+   "dessert"
+  ],
+  [
+   "a_sweet",
+   "afters"
+  ],
+  [
+   "afters",
+   "dessert"
+  ],
+  [
+   "a_sweet",
+   "seconds"
+  ],
+  [
+   "afters",
+   "seconds"
+  ],
+  [
+   "pudding",
+   "seconds"
+  ],
+  [
+   "course_meal",
+   "main_course"
+  ]
+ ]
+}

@@ -1,0 +1,612 @@
+{
+ "book": "preint",
+ "unit": 40,
+ "title": "Business and finance",
+ "title_uz": "Biznes va moliya",
+ "words": [
+  {
+   "id": "rise",
+   "en": "rise",
+   "uz": "ko‘tarilmoq (narx, son)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In winter the price of tomatoes rises because they have to be grown in greenhouses.",
+   "gap": "rises",
+   "alt": [
+    "rises",
+    "rose",
+    "risen",
+    "rising"
+   ]
+  },
+  {
+   "id": "fall",
+   "en": "fall",
+   "uz": "tushmoq (narx, son)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the summer holidays, the number of visitors to the water park fell by half.",
+   "gap": "fell",
+   "alt": [
+    "falls",
+    "fell",
+    "fallen",
+    "falling"
+   ]
+  },
+  {
+   "id": "go_up",
+   "en": "go up",
+   "uz": "oshmoq (narx, son)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the price of sugar went up, the café on our corner started baking cakes with honey instead.",
+   "gap": "went up",
+   "alt": [
+    "goes up",
+    "went up",
+    "gone up",
+    "going up"
+   ]
+  },
+  {
+   "id": "go_down",
+   "en": "go down",
+   "uz": "pasaymoq (narx, son)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the new supermarket opened, prices at the old shops nearby went down.",
+   "gap": "went down",
+   "alt": [
+    "goes down",
+    "went down",
+    "gone down",
+    "going down"
+   ]
+  },
+  {
+   "id": "increase",
+   "en": "increase",
+   "uz": "ko‘paymoq (ortmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The number of tourists visiting Uzbekistan has increased a lot in recent years.",
+   "gap": "increased",
+   "alt": [
+    "increases",
+    "increased",
+    "increasing"
+   ]
+  },
+  {
+   "id": "decrease",
+   "en": "decrease",
+   "uz": "kamaymoq (ozaymoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If more people take the metro, the number of cars in the city centre should decrease.",
+   "gap": "decrease",
+   "alt": [
+    "decreases",
+    "decreased",
+    "decreasing"
+   ]
+  },
+  {
+   "id": "slightly",
+   "en": "slightly",
+   "uz": "biroz (ozgina)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The price of a cinema ticket rose slightly, by just two thousand soums.",
+   "gap": "slightly",
+   "alt": []
+  },
+  {
+   "id": "gradually",
+   "en": "gradually",
+   "uz": "asta-sekin",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Over the last ten years, the number of students learning Korean has gradually grown.",
+   "gap": "gradually",
+   "alt": []
+  },
+  {
+   "id": "sharply",
+   "en": "sharply",
+   "uz": "keskin (tez va ko‘p)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "During the heatwave, sales of fans rose sharply: the shop sold three times more than in May.",
+   "gap": "sharply",
+   "alt": []
+  },
+  {
+   "id": "stay_the_same",
+   "en": "stay the same",
+   "uz": "o‘zgarmay qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bread got more expensive, but the price of milk stayed the same all year.",
+   "gap": "stayed the same",
+   "alt": [
+    "stays the same",
+    "stayed the same",
+    "staying the same"
+   ]
+  },
+  {
+   "id": "trend",
+   "en": "trend",
+   "uz": "tendensiya (o‘zgarish yo‘nalishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There is a clear trend: more and more people pay with their phones instead of cash.",
+   "gap": "trend",
+   "alt": [
+    "trends"
+   ]
+  },
+  {
+   "id": "sales",
+   "en": "sales",
+   "uz": "sotuv hajmi (sotilgan miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our town, sales of school bags are always highest at the end of August.",
+   "gap": "sales",
+   "alt": []
+  },
+  {
+   "id": "profit",
+   "en": "profit",
+   "uz": "foyda",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pupils' lemonade stand made a profit of 200,000 soums in one weekend.",
+   "gap": "profit",
+   "alt": [
+    "profits"
+   ]
+  },
+  {
+   "id": "loss",
+   "en": "loss",
+   "uz": "zarar (ziyon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The summer cinema made a loss because hardly anyone came to watch films in the rain.",
+   "gap": "loss",
+   "alt": [
+    "losses"
+   ]
+  },
+  {
+   "id": "economy",
+   "en": "economy",
+   "uz": "iqtisodiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cotton was once the biggest part of the country's economy, but now tourism is growing fast.",
+   "gap": "economy",
+   "alt": [
+    "economies"
+   ]
+  },
+  {
+   "id": "sign",
+   "en": "sign",
+   "uz": "belgi (alomat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "All the new houses being built are a sign that the town is growing.",
+   "gap": "sign",
+   "alt": [
+    "signs"
+   ]
+  },
+  {
+   "id": "loan",
+   "en": "loan",
+   "uz": "qarz (bank krediti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents took out a loan from the bank to buy a car.",
+   "gap": "loan",
+   "alt": [
+    "loans"
+   ]
+  },
+  {
+   "id": "inflation",
+   "en": "inflation",
+   "uz": "inflyatsiya (narxlarning umumiy o‘sishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of inflation, the same bag of shopping costs more every year.",
+   "gap": "inflation",
+   "alt": []
+  },
+  {
+   "id": "interest_rate",
+   "en": "interest rate",
+   "uz": "foiz stavkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank has lowered its interest rate for new customers to 18% a year.",
+   "gap": "interest rate",
+   "alt": [
+    "interest rates"
+   ]
+  },
+  {
+   "id": "interest",
+   "en": "interest",
+   "uz": "kredit foizi (qarz uchun ustama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamola borrowed money to buy a sewing machine and is now paying it back with interest.",
+   "gap": "interest",
+   "alt": []
+  },
+  {
+   "id": "figures",
+   "en": "figures",
+   "uz": "raqamlar (statistik ma’lumot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "New figures from our school show that more girls are choosing IT clubs than last year.",
+   "gap": "figures",
+   "alt": [
+    "figure"
+   ]
+  },
+  {
+   "id": "trade",
+   "en": "trade",
+   "uz": "savdo (mamlakatlar o‘rtasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the new border crossing opened, trade between the two countries has doubled.",
+   "gap": "trade",
+   "alt": []
+  },
+  {
+   "id": "in_a_row",
+   "en": "in a row",
+   "uz": "ketma-ket (uzluksiz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our team has won five matches in a row, and we haven't lost since March.",
+   "gap": "in a row",
+   "alt": []
+  },
+  {
+   "id": "value",
+   "en": "value",
+   "uz": "qiymat (narxi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The value of the old flat went up after a metro station opened nearby.",
+   "gap": "value",
+   "alt": []
+  },
+  {
+   "id": "quarter",
+   "en": "quarter",
+   "uz": "chorak (uch oy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's sales were best in the last quarter of the year, from October to December.",
+   "gap": "quarter",
+   "alt": [
+    "quarters"
+   ]
+  },
+  {
+   "id": "raise",
+   "en": "raise",
+   "uz": "oshirmoq (narxni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The café raised its prices, so now a cup of tea costs more.",
+   "gap": "raised",
+   "alt": [
+    "raises",
+    "raised",
+    "raising"
+   ]
+  },
+  {
+   "id": "recession",
+   "en": "recession",
+   "uz": "iqtisodiy tanazzul",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the recession many small shops closed and lots of people lost their jobs.",
+   "gap": "recession",
+   "alt": []
+  },
+  {
+   "id": "per_cent",
+   "en": "per cent",
+   "uz": "foiz, protsent (%)",
+   "pos": "noun",
+   "img": false,
+   "ex": "About sixty per cent of the students in our class walk to school.",
+   "gap": "per cent",
+   "alt": [
+    "percent"
+   ]
+  },
+  {
+   "id": "rise_n",
+   "en": "rise",
+   "uz": "o‘sish (narx, son: ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There has been a big rise in the number of electric cars on our roads.",
+   "gap": "rise",
+   "alt": [
+    "rises"
+   ]
+  },
+  {
+   "id": "fall_n",
+   "en": "fall",
+   "uz": "pasayish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a huge harvest, there was a fall in the price of watermelons.",
+   "gap": "fall",
+   "alt": [
+    "falls"
+   ]
+  },
+  {
+   "id": "increase_n",
+   "en": "increase",
+   "uz": "ko‘payish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hospital reported an increase in flu cases at the start of winter.",
+   "gap": "increase",
+   "alt": [
+    "increases"
+   ]
+  },
+  {
+   "id": "decrease_n",
+   "en": "decrease",
+   "uz": "kamayish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to the new bike lanes, there was a decrease of 15% in car journeys.",
+   "gap": "decrease",
+   "alt": [
+    "decreases"
+   ]
+  },
+  {
+   "id": "slight",
+   "en": "slight",
+   "uz": "arzimas (ozgina)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There was a slight change to the timetable: lessons now start five minutes later.",
+   "gap": "slight",
+   "alt": []
+  },
+  {
+   "id": "gradual",
+   "en": "gradual",
+   "uz": "asta-sekin bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Learning a language is a gradual process that takes years, not weeks.",
+   "gap": "gradual",
+   "alt": []
+  },
+  {
+   "id": "sharp_change",
+   "en": "sharp",
+   "uz": "keskin (to‘satdan katta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Overnight there was a sharp fall in the share price: the company lost half its value.",
+   "gap": "sharp",
+   "alt": []
+  },
+  {
+   "id": "percentage",
+   "en": "percentage",
+   "uz": "foiz ulushi (necha foizi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "What percentage of the population of Uzbekistan lives in cities?",
+   "gap": "percentage",
+   "alt": [
+    "percentages"
+   ]
+  },
+  {
+   "id": "fear_worry",
+   "en": "fear",
+   "uz": "qo‘rquv (xavotir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy rain in the mountains has raised fears of flooding in the villages below.",
+   "gap": "fears",
+   "alt": [
+    "fears"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "decrease",
+   "fall_n"
+  ],
+  [
+   "rise",
+   "go_up"
+  ],
+  [
+   "rise",
+   "increase"
+  ],
+  [
+   "go_up",
+   "increase"
+  ],
+  [
+   "fall",
+   "go_down"
+  ],
+  [
+   "fall",
+   "decrease"
+  ],
+  [
+   "go_down",
+   "decrease"
+  ],
+  [
+   "raise",
+   "rise"
+  ],
+  [
+   "raise",
+   "increase"
+  ],
+  [
+   "raise",
+   "go_up"
+  ],
+  [
+   "slightly",
+   "gradually"
+  ],
+  [
+   "gradually",
+   "sharply"
+  ],
+  [
+   "profit",
+   "loss"
+  ],
+  [
+   "interest",
+   "interest_rate"
+  ],
+  [
+   "interest",
+   "per_cent"
+  ],
+  [
+   "trend",
+   "sign"
+  ],
+  [
+   "economy",
+   "trade"
+  ],
+  [
+   "figures",
+   "sales"
+  ],
+  [
+   "go_down",
+   "stay_the_same"
+  ],
+  [
+   "fall",
+   "stay_the_same"
+  ],
+  [
+   "inflation",
+   "recession"
+  ],
+  [
+   "interest_rate",
+   "per_cent"
+  ],
+  [
+   "rise_n",
+   "rise"
+  ],
+  [
+   "fall_n",
+   "fall"
+  ],
+  [
+   "increase_n",
+   "increase"
+  ],
+  [
+   "decrease_n",
+   "decrease"
+  ],
+  [
+   "rise_n",
+   "increase_n"
+  ],
+  [
+   "fall_n",
+   "decrease_n"
+  ],
+  [
+   "rise_n",
+   "go_up"
+  ],
+  [
+   "fall_n",
+   "go_down"
+  ],
+  [
+   "slight",
+   "gradual"
+  ],
+  [
+   "slight",
+   "slightly"
+  ],
+  [
+   "gradual",
+   "gradually"
+  ],
+  [
+   "sharp_change",
+   "sharply"
+  ],
+  [
+   "percentage",
+   "per_cent"
+  ],
+  [
+   "rise_n",
+   "fall_n"
+  ],
+  [
+   "increase_n",
+   "decrease_n"
+  ],
+  [
+   "rise_n",
+   "decrease_n"
+  ],
+  [
+   "fall_n",
+   "increase_n"
+  ],
+  [
+   "trend",
+   "rise_n"
+  ],
+  [
+   "trend",
+   "increase_n"
+  ]
+ ]
+}

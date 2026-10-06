@@ -1,0 +1,566 @@
+{
+ "book": "advanced",
+ "unit": 50,
+ "title": "The news: gathering and delivering",
+ "title_uz": "Yangiliklar: to‘plash va yetkazish",
+ "words": [
+  {
+   "id": "citizen_journalism",
+   "en": "citizen journalism",
+   "uz": "fuqarolik jurnalistikasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the river flooded, residents filmed it on their phones, and this citizen journalism reached the world before any TV crew arrived.",
+   "gap": "citizen journalism",
+   "alt": []
+  },
+  {
+   "id": "print_journalism",
+   "en": "print journalism",
+   "uz": "bosma jurnalistika",
+   "pos": "noun",
+   "img": false,
+   "ex": "As more and more readers get their news online instead of buying papers, print journalism has had to cut many jobs.",
+   "gap": "print journalism",
+   "alt": []
+  },
+  {
+   "id": "broadcast_journalism",
+   "en": "broadcast journalism",
+   "uz": "teleradio jurnalistikasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years at a newspaper, she moved into broadcast journalism and now presents the evening news on radio.",
+   "gap": "broadcast journalism",
+   "alt": []
+  },
+  {
+   "id": "online_journalism",
+   "en": "online journalism",
+   "uz": "onlayn jurnalistika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many young reporters now start out in online journalism, writing for news websites rather than for printed papers.",
+   "gap": "online journalism",
+   "alt": []
+  },
+  {
+   "id": "pressure_group",
+   "en": "pressure group",
+   "uz": "ta’sir o‘tkazuvchi guruh",
+   "pos": "noun",
+   "img": false,
+   "ex": "A pressure group of local parents is campaigning for a safe crossing outside the school.",
+   "gap": "pressure group",
+   "alt": [
+    "pressure groups"
+   ]
+  },
+  {
+   "id": "air_views",
+   "en": "air their views",
+   "uz": "fikrini ochiq bildirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The phone-in programme gives listeners a chance to air their views on city transport.",
+   "gap": "air their views",
+   "alt": [
+    "air your views",
+    "aired their views",
+    "air our views"
+   ]
+  },
+  {
+   "id": "press_conference",
+   "en": "press conference",
+   "uz": "matbuot anjumani",
+   "pos": "noun",
+   "img": false,
+   "ex": "At a press conference after the match, the coach answered reporters' questions for twenty minutes.",
+   "gap": "press conference",
+   "alt": [
+    "press conferences"
+   ]
+  },
+  {
+   "id": "issue_a_statement",
+   "en": "issue a statement",
+   "uz": "rasmiy bayonot bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The airline issued a statement apologising to passengers for the long delays.",
+   "gap": "issued a statement",
+   "alt": [
+    "issued a statement",
+    "issues a statement"
+   ]
+  },
+  {
+   "id": "publicity",
+   "en": "publicity",
+   "uz": "ommaga tanilish (reklama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new café gave away free coffee all weekend, hoping the publicity would bring customers back.",
+   "gap": "publicity",
+   "alt": []
+  },
+  {
+   "id": "soundbite",
+   "en": "soundbite",
+   "uz": "yodda qoladigan qisqa ibora",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mayor's short, catchy soundbite was repeated on every news bulletin that evening.",
+   "gap": "soundbite",
+   "alt": [
+    "soundbites",
+    "sound bite"
+   ]
+  },
+  {
+   "id": "hunt_for",
+   "en": "hunt for",
+   "uz": "(yangilik) izlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "All week, reporters were hunting for a fresh angle on the story.",
+   "gap": "hunting for",
+   "alt": [
+    "hunting for",
+    "hunted for",
+    "hunts for"
+   ]
+  },
+  {
+   "id": "tap_sources",
+   "en": "tap sources",
+   "uz": "ishonchli manbalardan foydalanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A good reporter knows how to tap sources inside the city council to hear about plans early.",
+   "gap": "tap sources",
+   "alt": [
+    "tapping sources",
+    "tapped sources",
+    "tap a source"
+   ]
+  },
+  {
+   "id": "monitor",
+   "en": "monitor",
+   "uz": "muntazam kuzatib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every newsroom monitors the big international agencies around the clock.",
+   "gap": "monitors",
+   "alt": [
+    "monitors",
+    "monitored",
+    "monitoring"
+   ]
+  },
+  {
+   "id": "news_agency",
+   "en": "news agency",
+   "uz": "axborot agentligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The photo of the volcano came from a news agency, not from the paper's own photographer.",
+   "gap": "news agency",
+   "alt": [
+    "news agencies"
+   ]
+  },
+  {
+   "id": "airtime",
+   "en": "airtime",
+   "uz": "efir vaqti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The story got only thirty seconds of airtime on the evening news.",
+   "gap": "airtime",
+   "alt": []
+  },
+  {
+   "id": "column_inches",
+   "en": "column inches",
+   "uz": "gazetadan ajratilgan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "The opening of the new metro line was given dozens of column inches in all the local papers.",
+   "gap": "column inches",
+   "alt": []
+  },
+  {
+   "id": "coverage",
+   "en": "coverage",
+   "uz": "OAVda yoritilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chess tournament received little coverage in the press, even though a sixteen-year-old won it.",
+   "gap": "coverage",
+   "alt": []
+  },
+  {
+   "id": "paparazzi",
+   "en": "paparazzi",
+   "uz": "mashhurlarni ta’qib qiluvchi fotomuxbirlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer wore a cap and sunglasses to avoid the paparazzi waiting outside her hotel.",
+   "gap": "paparazzi",
+   "alt": [
+    "paparazzo"
+   ]
+  },
+  {
+   "id": "rag",
+   "en": "rag",
+   "uz": "saviyasiz gazeta (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't believe everything in that rag; half of its stories are made up.",
+   "gap": "rag",
+   "alt": []
+  },
+  {
+   "id": "gutter_press",
+   "en": "gutter press",
+   "uz": "sariq matbuot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actor stopped giving interviews to the gutter press after it printed lies about his family.",
+   "gap": "gutter press",
+   "alt": []
+  },
+  {
+   "id": "copy",
+   "en": "copy",
+   "uz": "nashrga tayyor matn",
+   "pos": "noun",
+   "img": false,
+   "ex": "The reporter sent in her copy just ten minutes before the deadline.",
+   "gap": "copy",
+   "alt": []
+  },
+  {
+   "id": "go_to_press",
+   "en": "go to press",
+   "uz": "bosmaga topshirilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The paper goes to press at midnight, so any later news has to wait for the website.",
+   "gap": "goes to press",
+   "alt": [
+    "goes to press",
+    "went to press",
+    "gone to press"
+   ]
+  },
+  {
+   "id": "back_copies",
+   "en": "back copies",
+   "uz": "gazetaning eski sonlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The library keeps back copies of the local paper in a big room in the basement.",
+   "gap": "back copies",
+   "alt": [
+    "back copy"
+   ]
+  },
+  {
+   "id": "exclusive",
+   "en": "exclusive",
+   "uz": "faqat shu nashrga berilgan material",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magazine ran an exclusive with the astronaut, and no other publication got to talk to her.",
+   "gap": "exclusive",
+   "alt": [
+    "exclusives"
+   ]
+  },
+  {
+   "id": "scoop",
+   "en": "scoop",
+   "uz": "hammadan oldin topilgan xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "A student reporter got the scoop of the year when she found out about the school's plan to build a swimming pool.",
+   "gap": "scoop",
+   "alt": [
+    "scoops"
+   ]
+  },
+  {
+   "id": "hit_the_headlines",
+   "en": "hit the headlines",
+   "uz": "bosh xabarlarga chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The young inventor hit the headlines when her water-saving tap won an international prize.",
+   "gap": "hit the headlines",
+   "alt": [
+    "hits the headlines",
+    "hitting the headlines"
+   ]
+  },
+  {
+   "id": "story_breaks",
+   "en": "break",
+   "uz": "(xabar) oshkor bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The newsroom goes quiet for a moment whenever a really big story breaks.",
+   "gap": "breaks",
+   "alt": [
+    "breaks",
+    "broke",
+    "broken",
+    "breaking"
+   ]
+  },
+  {
+   "id": "libel",
+   "en": "libel",
+   "uz": "tuhmat (yozma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magazine had to pay damages for libel after falsely claiming that a famous chef had stolen his recipes.",
+   "gap": "libel",
+   "alt": []
+  },
+  {
+   "id": "defamation_of_character",
+   "en": "defamation of character",
+   "uz": "sha’nini qoralash",
+   "pos": "noun",
+   "img": false,
+   "ex": "The footballer took the website to court for defamation of character over an invented story about him.",
+   "gap": "defamation of character",
+   "alt": []
+  },
+  {
+   "id": "spin",
+   "en": "spin",
+   "uz": "o‘ziga moslab talqin qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every channel put its own spin on the minister's resignation, so viewers heard three very different stories.",
+   "gap": "spin",
+   "alt": []
+  },
+  {
+   "id": "gloss",
+   "en": "gloss",
+   "uz": "(voqeaga) bezak berib ko‘rsatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's report put a positive gloss on what was really a very bad year.",
+   "gap": "gloss",
+   "alt": []
+  },
+  {
+   "id": "muck_raking",
+   "en": "muck-raking",
+   "uz": "mojaro-g‘iybat titkilash",
+   "pos": "noun",
+   "img": false,
+   "ex": "The editor refused to let her reporters do any muck-raking into the private lives of ordinary people.",
+   "gap": "muck-raking",
+   "alt": [
+    "muckraking"
+   ]
+  },
+  {
+   "id": "occurrence",
+   "en": "occurrence",
+   "uz": "hodisa (sodir bo‘lgan voqea)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Flooded underpasses after heavy rain are a common occurrence in the city every spring.",
+   "gap": "occurrence",
+   "alt": [
+    "occurrences"
+   ]
+  },
+  {
+   "id": "media_hype",
+   "en": "media hype",
+   "uz": "OAV ko‘targan shov-shuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite all the media hype, the new phone turned out to be quite ordinary.",
+   "gap": "media hype",
+   "alt": []
+  },
+  {
+   "id": "the_media",
+   "en": "media",
+   "uz": "ommaviy axborot vositalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the national media reported the young scientist's discovery on their front pages.",
+   "gap": "media",
+   "alt": []
+  },
+  {
+   "id": "archive",
+   "en": "archive",
+   "uz": "eski sonlar to‘plami (saqlovxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Old issues of the school magazine are stored in an online archive that anyone can search.",
+   "gap": "archive",
+   "alt": [
+    "archives"
+   ]
+  },
+  {
+   "id": "persuasion",
+   "en": "persuasion",
+   "uz": "siyosiy qarash (e’tiqod)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The debate brought together young people of every political persuasion, from the far left to the far right.",
+   "gap": "persuasion",
+   "alt": [
+    "persuasions"
+   ]
+  },
+  {
+   "id": "heroic",
+   "en": "heroic",
+   "uz": "qahramonona",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Local papers praised the heroic lifeguard who pulled three swimmers from the rough sea.",
+   "gap": "heroic",
+   "alt": []
+  },
+  {
+   "id": "triumph",
+   "en": "triumph",
+   "uz": "zafar (katta g‘alaba)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The village school's win in the national chess final was described as a triumph by the regional paper.",
+   "gap": "triumph",
+   "alt": [
+    "triumphs"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "citizen_journalism",
+   "print_journalism"
+  ],
+  [
+   "citizen_journalism",
+   "broadcast_journalism"
+  ],
+  [
+   "print_journalism",
+   "broadcast_journalism"
+  ],
+  [
+   "online_journalism",
+   "citizen_journalism"
+  ],
+  [
+   "online_journalism",
+   "print_journalism"
+  ],
+  [
+   "online_journalism",
+   "broadcast_journalism"
+  ],
+  [
+   "publicity",
+   "coverage"
+  ],
+  [
+   "coverage",
+   "column_inches"
+  ],
+  [
+   "coverage",
+   "airtime"
+  ],
+  [
+   "airtime",
+   "column_inches"
+  ],
+  [
+   "publicity",
+   "media_hype"
+  ],
+  [
+   "rag",
+   "gutter_press"
+  ],
+  [
+   "exclusive",
+   "scoop"
+  ],
+  [
+   "hit_the_headlines",
+   "story_breaks"
+  ],
+  [
+   "libel",
+   "defamation_of_character"
+  ],
+  [
+   "spin",
+   "gloss"
+  ],
+  [
+   "hunt_for",
+   "monitor"
+  ],
+  [
+   "tap_sources",
+   "monitor"
+  ],
+  [
+   "press_conference",
+   "issue_a_statement"
+  ],
+  [
+   "coverage",
+   "media_hype"
+  ],
+  [
+   "copy",
+   "scoop"
+  ],
+  [
+   "copy",
+   "exclusive"
+  ],
+  [
+   "the_media",
+   "media_hype"
+  ],
+  [
+   "the_media",
+   "paparazzi"
+  ],
+  [
+   "triumph",
+   "scoop"
+  ],
+  [
+   "archive",
+   "back_copies"
+  ],
+  [
+   "the_media",
+   "gutter_press"
+  ]
+ ]
+}

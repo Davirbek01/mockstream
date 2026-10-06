@@ -1,0 +1,350 @@
+{
+ "book": "upper",
+ "unit": 83,
+ "title": "Uncountable nouns",
+ "title_uz": "Sanalmaydigan otlar",
+ "words": [
+  {
+   "id": "luggage",
+   "en": "luggage",
+   "uz": "yuk (yo‘l jomadonlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hostel lets guests leave their luggage in a locked room after they check out.",
+   "gap": "luggage",
+   "alt": []
+  },
+  {
+   "id": "baggage",
+   "en": "baggage",
+   "uz": "yo‘lovchi yuki (aeroportda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each passenger may take one small bag of hand baggage onto the plane.",
+   "gap": "baggage",
+   "alt": []
+  },
+  {
+   "id": "accommodation",
+   "en": "accommodation",
+   "uz": "vaqtincha yashash joyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The university helps first-year students find cheap accommodation near the campus.",
+   "gap": "accommodation",
+   "alt": []
+  },
+  {
+   "id": "currency",
+   "en": "currency",
+   "uz": "valyuta (pul birligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the trip to Japan we changed some money into the local currency at the bank.",
+   "gap": "currency",
+   "alt": [
+    "currencies"
+   ]
+  },
+  {
+   "id": "flour",
+   "en": "flour",
+   "uz": "un",
+   "pos": "noun",
+   "img": false,
+   "ex": "To make the dough you'll need two cups of flour, some warm water and a pinch of salt.",
+   "gap": "flour",
+   "alt": []
+  },
+  {
+   "id": "rice",
+   "en": "rice",
+   "uz": "guruch",
+   "pos": "noun",
+   "img": true,
+   "ex": "Gulnora boiled the rice for twenty minutes, until every grain was soft and fluffy.",
+   "gap": "rice",
+   "alt": []
+  },
+  {
+   "id": "spaghetti",
+   "en": "spaghetti",
+   "uz": "uzun ingichka makaron",
+   "pos": "noun",
+   "img": true,
+   "ex": "The spaghetti was so long that my little sister couldn't twist it round her fork.",
+   "gap": "spaghetti",
+   "alt": []
+  },
+  {
+   "id": "butter",
+   "en": "butter",
+   "uz": "sariyog‘",
+   "pos": "noun",
+   "img": true,
+   "ex": "Spread a thin layer of butter on the warm bread and add a spoonful of honey.",
+   "gap": "butter",
+   "alt": []
+  },
+  {
+   "id": "soup",
+   "en": "soup",
+   "uz": "sho‘rva",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the long winter walk we shared a flask of hot chicken soup.",
+   "gap": "soup",
+   "alt": []
+  },
+  {
+   "id": "homework",
+   "en": "homework",
+   "uz": "uy vazifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher never gives us homework on Fridays, so the weekend is completely free.",
+   "gap": "homework",
+   "alt": []
+  },
+  {
+   "id": "experience",
+   "en": "experience",
+   "uz": "tajriba (ish tajribasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bekzod got the summer job at the hotel because he already had two years' experience in a busy kitchen.",
+   "gap": "experience",
+   "alt": []
+  },
+  {
+   "id": "wealth",
+   "en": "wealth",
+   "uz": "boylik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the family's wealth came from the small carpet business they built up over forty years.",
+   "gap": "wealth",
+   "alt": []
+  },
+  {
+   "id": "cloth",
+   "en": "cloth",
+   "uz": "mato (gazlama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tailor took my measurements and then cut the cloth for my new jacket.",
+   "gap": "cloth",
+   "alt": []
+  },
+  {
+   "id": "silk",
+   "en": "silk",
+   "uz": "ipak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her dress for the graduation party was made of pale blue silk that shone under the lights.",
+   "gap": "silk",
+   "alt": []
+  },
+  {
+   "id": "leather",
+   "en": "leather",
+   "uz": "charm (oshlangan teri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "These boots are made of real leather, so they should last for years.",
+   "gap": "leather",
+   "alt": []
+  },
+  {
+   "id": "coal",
+   "en": "coal",
+   "uz": "ko‘mir",
+   "pos": "noun",
+   "img": true,
+   "ex": "In winter the boys brought heavy lumps of coal from the shed to keep the classroom stove burning.",
+   "gap": "coal",
+   "alt": []
+  },
+  {
+   "id": "oil",
+   "en": "oil",
+   "uz": "neft (yoqilg‘i manbai)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the price of oil goes up, filling the car at the petrol station soon costs more too.",
+   "gap": "oil",
+   "alt": []
+  },
+  {
+   "id": "stone",
+   "en": "stone",
+   "uz": "tosh (qurilish materiali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old bridge over the river is made of stone and has stood there for two hundred years.",
+   "gap": "stone",
+   "alt": []
+  },
+  {
+   "id": "brick",
+   "en": "brick",
+   "uz": "g‘isht",
+   "pos": "noun",
+   "img": true,
+   "ex": "Their new house is built of red brick, with a green metal roof.",
+   "gap": "brick",
+   "alt": [
+    "bricks"
+   ]
+  },
+  {
+   "id": "equipment",
+   "en": "equipment",
+   "uz": "asbob-uskunalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new sports centre has all the latest gym equipment, from running machines to rowing machines.",
+   "gap": "equipment",
+   "alt": []
+  },
+  {
+   "id": "software",
+   "en": "software",
+   "uz": "kompyuter dasturlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "You need to install some new software before you can edit videos on this laptop.",
+   "gap": "software",
+   "alt": []
+  },
+  {
+   "id": "news",
+   "en": "news",
+   "uz": "yangilik(lar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've got some great news: our team has made it into the city final!",
+   "gap": "news",
+   "alt": []
+  },
+  {
+   "id": "weather",
+   "en": "weather",
+   "uz": "ob-havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the weather is fine tomorrow, we'll have our biology lesson outside in the school garden.",
+   "gap": "weather",
+   "alt": []
+  },
+  {
+   "id": "furniture",
+   "en": "furniture",
+   "uz": "mebel",
+   "pos": "noun",
+   "img": false,
+   "ex": "We pushed all the furniture into the middle of the room so that we could paint the walls.",
+   "gap": "furniture",
+   "alt": []
+  },
+  {
+   "id": "money",
+   "en": "money",
+   "uz": "pul",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm saving money to buy a new bike before the summer.",
+   "gap": "money",
+   "alt": []
+  },
+  {
+   "id": "information",
+   "en": "information",
+   "uz": "ma’lumot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tourist office gives free information about museums and bus routes.",
+   "gap": "information",
+   "alt": []
+  },
+  {
+   "id": "transport_n",
+   "en": "transport",
+   "uz": "qatnov vositalari (umuman)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our town has good public transport, so most students don't need a car.",
+   "gap": "transport",
+   "alt": []
+  },
+  {
+   "id": "sugar",
+   "en": "sugar",
+   "uz": "shakar",
+   "pos": "noun",
+   "img": false,
+   "ex": "This lemonade is far too sweet; they must have put a lot of sugar in it.",
+   "gap": "sugar",
+   "alt": []
+  },
+  {
+   "id": "bread",
+   "en": "bread",
+   "uz": "non",
+   "pos": "noun",
+   "img": true,
+   "ex": "The bakery on our street sells warm round bread straight from the tandoor.",
+   "gap": "bread",
+   "alt": []
+  },
+  {
+   "id": "plastic",
+   "en": "plastic",
+   "uz": "sun’iy material (butilka, paket uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the bottles in the recycling bin are made of plastic, not glass.",
+   "gap": "plastic",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "luggage",
+   "baggage"
+  ],
+  [
+   "luggage",
+   "equipment"
+  ],
+  [
+   "cloth",
+   "silk"
+  ],
+  [
+   "stone",
+   "brick"
+  ],
+  [
+   "furniture",
+   "equipment"
+  ],
+  [
+   "cloth",
+   "leather"
+  ],
+  [
+   "stone",
+   "wood"
+  ],
+  [
+   "brick",
+   "wood"
+  ],
+  [
+   "wealth",
+   "money"
+  ]
+ ]
+}

@@ -1,0 +1,309 @@
+{
+ "book": "preint",
+ "unit": 82,
+ "title": "Key verbs: give, keep and miss",
+ "title_uz": "Asosiy fe’llar: give, keep va miss",
+ "words": [
+  {
+   "id": "give_a_headache",
+   "en": "give someone a headache",
+   "uz": "boshini og‘ritmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Reading in the car always gives me a headache, so I listen to music instead.",
+   "gap": "gives me a headache",
+   "alt": [
+    "given me a headache",
+    "gave me a headache",
+    "gives me a headache",
+    "give me a headache"
+   ]
+  },
+  {
+   "id": "give_an_appetite",
+   "en": "give someone an appetite",
+   "uz": "ishtahasini ochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Two hours of digging in the garden gave me an appetite; I could eat a whole pot of soup now!",
+   "gap": "gave me an appetite",
+   "alt": [
+    "gave me an appetite",
+    "given me an appetite",
+    "gives me an appetite"
+   ]
+  },
+  {
+   "id": "give_an_idea",
+   "en": "give someone an idea",
+   "uz": "yangi g‘oya tug‘dirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Looking at my sister's old toys gave me an idea: why don't we sell them at the school fair?",
+   "gap": "gave me an idea",
+   "alt": [
+    "gave me an idea",
+    "given me an idea",
+    "gives me an idea"
+   ]
+  },
+  {
+   "id": "give_advice",
+   "en": "give advice",
+   "uz": "maslahat bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My older brother always gives good advice when I have a problem with my friends.",
+   "gap": "gives good advice",
+   "alt": [
+    "gives good advice",
+    "gave me some advice",
+    "giving advice"
+   ]
+  },
+  {
+   "id": "give_a_shock",
+   "en": "give someone a shock",
+   "uz": "cho‘chitib yubormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A sudden crash of thunder gave us a shock, and the little ones ran to hide under the table.",
+   "gap": "gave us a shock",
+   "alt": [
+    "gave us a shock",
+    "gave me a shock",
+    "given us a shock"
+   ]
+  },
+  {
+   "id": "give_a_speech",
+   "en": "give a speech",
+   "uz": "nutq so‘zlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the end of the school year, the head teacher gave a speech to all the parents in the hall.",
+   "gap": "gave a speech",
+   "alt": [
+    "gave a speech",
+    "gives a speech",
+    "giving a speech",
+    "given a speech"
+   ]
+  },
+  {
+   "id": "give_a_hand",
+   "en": "give someone a hand",
+   "uz": "yordamlashib yubormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "These boxes are really heavy. Could you give me a hand to carry them upstairs?",
+   "gap": "give me a hand",
+   "alt": [
+    "give me a hand",
+    "gave me a hand",
+    "give her a hand",
+    "gave us a hand"
+   ]
+  },
+  {
+   "id": "give_a_hug",
+   "en": "give someone a hug",
+   "uz": "quchoqlab olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When I got off the train after a month at camp, my little sister ran up and gave me a big hug.",
+   "gap": "gave me a big hug",
+   "alt": [
+    "gave me a big hug",
+    "gave me a hug",
+    "give her a hug",
+    "gives him a hug"
+   ]
+  },
+  {
+   "id": "give_a_push",
+   "en": "give something a push",
+   "uz": "itarib yubormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The heavy wooden gate was stuck, so Diyor gave it a push with his shoulder.",
+   "gap": "gave it a push",
+   "alt": [
+    "gave it a push",
+    "give it a push",
+    "gave the car a push"
+   ]
+  },
+  {
+   "id": "keep_quiet",
+   "en": "keep quiet",
+   "uz": "jim turmoq (ovoz chiqarmaslik)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The baby is sleeping in the next room, so please keep quiet.",
+   "gap": "keep quiet",
+   "alt": [
+    "kept quiet",
+    "keeps quiet",
+    "keeping quiet"
+   ]
+  },
+  {
+   "id": "keep_warm",
+   "en": "keep someone warm",
+   "uz": "isitib turmoq (sovqotishdan saqlamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On winter nights we sleep under a heavy cotton quilt that keeps us warm until morning.",
+   "gap": "keeps us warm",
+   "alt": [
+    "keeps us warm",
+    "keep you warm",
+    "keeps me warm",
+    "kept us warm"
+   ]
+  },
+  {
+   "id": "keep_on",
+   "en": "keep on",
+   "uz": "(yoqimsiz ishni) qayta-qayta qilavermoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My phone keeps on switching itself off, so I need a new battery.",
+   "gap": "keeps on",
+   "alt": [
+    "keeps on",
+    "kept on",
+    "keeping on"
+   ]
+  },
+  {
+   "id": "interrupt",
+   "en": "interrupt",
+   "uz": "gapini bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't interrupt me while I'm explaining the rules of the game.",
+   "gap": "interrupt",
+   "alt": [
+    "interrupts",
+    "interrupted",
+    "interrupting"
+   ]
+  },
+  {
+   "id": "keep_in_touch",
+   "en": "keep in touch",
+   "uz": "aloqani uzmaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Umida moved to Andijan last year, but we've kept in touch through video calls.",
+   "gap": "kept in touch",
+   "alt": [
+    "kept in touch",
+    "keeps in touch",
+    "keeping in touch"
+   ]
+  },
+  {
+   "id": "keep_a_secret",
+   "en": "keep a secret",
+   "uz": "sirni saqlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't tell Farrux about the surprise party for Sevara; he can't keep a secret.",
+   "gap": "keep a secret",
+   "alt": [
+    "kept a secret",
+    "keeps a secret",
+    "keeping a secret"
+   ]
+  },
+  {
+   "id": "keep_it_up",
+   "en": "keep it up",
+   "uz": "Shunday davom eting!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Your handwriting is much neater this term, Javohir. Keep it up!",
+   "gap": "Keep it up",
+   "alt": [
+    "Keep it up"
+   ]
+  },
+  {
+   "id": "miss_someone",
+   "en": "miss",
+   "uz": "sog‘inmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our dog missed us so much while we were away for a week that he hardly ate anything.",
+   "gap": "missed",
+   "alt": [
+    "missed",
+    "misses",
+    "missing"
+   ]
+  },
+  {
+   "id": "i_missed_that",
+   "en": "I missed that",
+   "uz": "Eshitmay qoldim (gapingizni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sorry, the bus was so noisy that I missed that. Could you say it again?",
+   "gap": "missed that",
+   "alt": [
+    "missed that"
+   ]
+  },
+  {
+   "id": "miss_a_chance",
+   "en": "miss a chance",
+   "uz": "imkoniyatni boy bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you don't buy the concert tickets today, you'll miss your chance; they're almost sold out.",
+   "gap": "miss your chance",
+   "alt": [
+    "miss your chance",
+    "missed my chance",
+    "miss the chance",
+    "missed her chance"
+   ]
+  },
+  {
+   "id": "miss_the_traffic",
+   "en": "miss the traffic",
+   "uz": "tirbandlikka tushmaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Let's leave at six in the morning to miss the traffic on the ring road.",
+   "gap": "miss the traffic",
+   "alt": [
+    "missed the traffic"
+   ]
+  },
+  {
+   "id": "give_a_lecture",
+   "en": "give a lecture",
+   "uz": "ma’ruza o‘qimoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every Tuesday Professor Yusupova gives a lecture on ancient history to the first-year students.",
+   "gap": "gives a lecture",
+   "alt": [
+    "gives a lecture",
+    "gave a lecture",
+    "giving a lecture",
+    "given a lecture"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "give_a_lecture",
+   "give_a_speech"
+  ]
+ ]
+}

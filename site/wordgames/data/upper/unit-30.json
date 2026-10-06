@@ -1,0 +1,693 @@
+{
+ "book": "upper",
+ "unit": 30,
+ "title": "Health and lifestyle",
+ "title_uz": "Salomatlik va turmush tarzi",
+ "words": [
+  {
+   "id": "long_term",
+   "en": "long-term",
+   "uz": "uzoq muddatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Learning a language is a long-term project; nobody becomes fluent in a month.",
+   "gap": "long-term",
+   "alt": [
+    "long term"
+   ]
+  },
+  {
+   "id": "short_term",
+   "en": "short-term",
+   "uz": "qisqa muddatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A chocolate bar gives you a short-term burst of energy, but half an hour later you feel tired again.",
+   "gap": "short-term",
+   "alt": [
+    "short term"
+   ]
+  },
+  {
+   "id": "consume",
+   "en": "consume",
+   "uz": "iste’mol qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "By the end of the three-day festival, visitors had consumed more than ten thousand cups of tea.",
+   "gap": "consumed",
+   "alt": [
+    "consumes",
+    "consumed",
+    "consuming"
+   ]
+  },
+  {
+   "id": "fizzy",
+   "en": "fizzy",
+   "uz": "gazlangan (ichimlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I asked for still water, but the waiter brought me fizzy water full of bubbles.",
+   "gap": "fizzy",
+   "alt": []
+  },
+  {
+   "id": "nuts",
+   "en": "nuts",
+   "uz": "yong‘oqlar (mag‘izli mevalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the bazaar, the dried-fruit stalls are piled high with almonds, pistachios and other nuts.",
+   "gap": "nuts",
+   "alt": [
+    "nut"
+   ]
+  },
+  {
+   "id": "content",
+   "en": "content",
+   "uz": "tarkibidagi miqdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "This hard cheese has a high fat content, so don't eat too much of it.",
+   "gap": "content",
+   "alt": []
+  },
+  {
+   "id": "wholemeal",
+   "en": "wholemeal",
+   "uz": "kepakli (butun donli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since I switched from white bread to wholemeal bread, I stay full for longer in the mornings.",
+   "gap": "wholemeal",
+   "alt": [
+    "whole-meal"
+   ]
+  },
+  {
+   "id": "processed",
+   "en": "processed",
+   "uz": "qayta ishlangan (konservantli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "These chicken nuggets are so heavily processed that there's very little real chicken left in them.",
+   "gap": "processed",
+   "alt": []
+  },
+  {
+   "id": "oily_fish",
+   "en": "oily fish",
+   "uz": "yog‘li baliq (masalan, losos)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Fridays we usually have mackerel or another oily fish, grilled with lemon and herbs.",
+   "gap": "oily fish",
+   "alt": []
+  },
+  {
+   "id": "superfood",
+   "en": "superfood",
+   "uz": "superfud (o‘ta foydali oziq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some magazines call pomegranates a superfood because they are full of antioxidants.",
+   "gap": "superfood",
+   "alt": [
+    "superfoods"
+   ]
+  },
+  {
+   "id": "mental",
+   "en": "mental",
+   "uz": "ruhiy (aqliy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Talking to a friend when you feel low is good for your mental health.",
+   "gap": "mental",
+   "alt": []
+  },
+  {
+   "id": "physical",
+   "en": "physical",
+   "uz": "jismoniy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "PE lessons help children's physical development, making them stronger, faster and more flexible.",
+   "gap": "physical",
+   "alt": []
+  },
+  {
+   "id": "ageing",
+   "en": "ageing",
+   "uz": "qarish (jarayoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Too much strong sunshine speeds up the ageing of the skin and causes wrinkles.",
+   "gap": "ageing",
+   "alt": [
+    "aging"
+   ]
+  },
+  {
+   "id": "source",
+   "en": "source",
+   "uz": "manba",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eggs are a cheap source of protein, so they are a good choice for breakfast.",
+   "gap": "source",
+   "alt": [
+    "sources"
+   ]
+  },
+  {
+   "id": "lower",
+   "en": "lower",
+   "uz": "pasaytirmoq (darajasini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Walking for half an hour a day can help to lower your blood pressure and keep your heart healthy.",
+   "gap": "lower",
+   "alt": [
+    "lowers",
+    "lowered",
+    "lowering"
+   ]
+  },
+  {
+   "id": "boost",
+   "en": "boost",
+   "uz": "oshirmoq, kuchaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A good night's sleep before an exam can boost your concentration and help you think clearly.",
+   "gap": "boost",
+   "alt": [
+    "boosts",
+    "boosted",
+    "boosting"
+   ]
+  },
+  {
+   "id": "immune_system",
+   "en": "immune system",
+   "uz": "immunitet tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you're tired and stressed, your immune system can get weaker, so you may catch colds more easily.",
+   "gap": "immune system",
+   "alt": []
+  },
+  {
+   "id": "reduce",
+   "en": "reduce",
+   "uz": "kamaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Wearing a seatbelt greatly reduces your chances of being seriously hurt in a crash.",
+   "gap": "reduces",
+   "alt": [
+    "reduces",
+    "reduced",
+    "reducing"
+   ]
+  },
+  {
+   "id": "sharp_rise",
+   "en": "sharp rise",
+   "uz": "keskin o‘sish",
+   "pos": "noun",
+   "img": false,
+   "ex": "There has been a sharp rise in the price of potatoes this month: they cost twice as much as in September.",
+   "gap": "sharp rise",
+   "alt": [
+    "sharp rises"
+   ]
+  },
+  {
+   "id": "obesity",
+   "en": "obesity",
+   "uz": "semizlik (kasallik darajasidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors link the growth in obesity among teenagers to long hours in front of screens and too many snacks.",
+   "gap": "obesity",
+   "alt": []
+  },
+  {
+   "id": "major",
+   "en": "major",
+   "uz": "jiddiy, katta (muhim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Traffic is a major problem in the city centre: every morning the main roads are blocked for two hours.",
+   "gap": "major",
+   "alt": []
+  },
+  {
+   "id": "maintain",
+   "en": "maintain",
+   "uz": "saqlab turmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It isn't easy to maintain a healthy weight if you sit at a desk all day and never walk anywhere.",
+   "gap": "maintain",
+   "alt": [
+    "maintains",
+    "maintained",
+    "maintaining"
+   ]
+  },
+  {
+   "id": "fitness",
+   "en": "fitness",
+   "uz": "jismoniy chiniqqanlik (sog‘lom holat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Swimming is great for your general fitness because it works almost every muscle in your body.",
+   "gap": "fitness",
+   "alt": []
+  },
+  {
+   "id": "keep_fit",
+   "en": "keep fit",
+   "uz": "sog‘lom va baquvvat yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To keep fit, Diyora cycles to school every day, even in winter.",
+   "gap": "keep fit",
+   "alt": [
+    "keeps fit",
+    "kept fit",
+    "keeping fit"
+   ]
+  },
+  {
+   "id": "take_exercise",
+   "en": "take exercise",
+   "uz": "jismoniy mashq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since Dad started taking exercise every evening, he has been sleeping much better.",
+   "gap": "taking exercise",
+   "alt": [
+    "takes exercise",
+    "took exercise",
+    "taking exercise"
+   ]
+  },
+  {
+   "id": "harm",
+   "en": "harm",
+   "uz": "zarar",
+   "pos": "noun",
+   "img": false,
+   "ex": "A little sunshine won't do you any harm, but stay in the shade at midday.",
+   "gap": "harm",
+   "alt": []
+  },
+  {
+   "id": "harmful",
+   "en": "harmful",
+   "uz": "zararli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Listening to very loud music through headphones for hours can be harmful to your hearing.",
+   "gap": "harmful",
+   "alt": []
+  },
+  {
+   "id": "stressful",
+   "en": "stressful",
+   "uz": "asabni charchatadigan (stressli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Moving to a new city and starting a new job in the same week was very stressful for my parents.",
+   "gap": "stressful",
+   "alt": []
+  },
+  {
+   "id": "depression",
+   "en": "depression",
+   "uz": "depressiya (ruhiy tushkunlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feeling sad for a day is normal, but if the sadness lasts for weeks, it may be depression, and talking to a doctor or a trusted adult really helps.",
+   "gap": "depression",
+   "alt": []
+  },
+  {
+   "id": "cholesterol",
+   "en": "cholesterol",
+   "uz": "xolesterin",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor advised him to eat fewer fried foods to bring down his cholesterol.",
+   "gap": "cholesterol",
+   "alt": []
+  },
+  {
+   "id": "food",
+   "en": "food",
+   "uz": "oziq-ovqat, taom (umumiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel restaurant serves excellent food, but the service is very slow.",
+   "gap": "food",
+   "alt": [
+    "foods"
+   ]
+  },
+  {
+   "id": "fruit",
+   "en": "fruit",
+   "uz": "meva (umumiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From grapes to melons and peaches, the summer markets of the Fergana Valley sell every kind of fresh fruit.",
+   "gap": "fruit",
+   "alt": [
+    "fruits"
+   ]
+  },
+  {
+   "id": "fatty",
+   "en": "fatty",
+   "uz": "yog‘li (taom)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Fried chicken and chips are fatty foods: they leave grease on your fingers and on the plate.",
+   "gap": "fatty",
+   "alt": []
+  },
+  {
+   "id": "citrus_fruits",
+   "en": "citrus fruits",
+   "uz": "limon, apelsin kabi nordon mevalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lemons, oranges, limes and grapefruits are all citrus fruits.",
+   "gap": "citrus fruits",
+   "alt": [
+    "citrus fruit",
+    "citrus"
+   ]
+  },
+  {
+   "id": "blueberries",
+   "en": "blueberries",
+   "uz": "ko‘k rezavor meva (chernika)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Rano sprinkled a handful of blueberries on her porridge, and the milk turned slightly purple.",
+   "gap": "blueberries",
+   "alt": [
+    "blueberry"
+   ]
+  },
+  {
+   "id": "apple",
+   "en": "apple",
+   "uz": "olma",
+   "pos": "noun",
+   "img": true,
+   "ex": "She cut the apple into slices and removed the core and the seeds.",
+   "gap": "apple",
+   "alt": [
+    "apples"
+   ]
+  },
+  {
+   "id": "spinach",
+   "en": "spinach",
+   "uz": "ismaloq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Popeye the cartoon sailor gets super strong after eating a can of spinach.",
+   "gap": "spinach",
+   "alt": []
+  },
+  {
+   "id": "vitamin",
+   "en": "vitamin",
+   "uz": "darmondori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Oranges and kiwis are full of vitamin C, which helps the body fight infections.",
+   "gap": "vitamin",
+   "alt": [
+    "vitamins"
+   ]
+  },
+  {
+   "id": "vegetable_juice",
+   "en": "vegetable juice",
+   "uz": "sabzavot sharbati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning Ulugbek makes a glass of fresh vegetable juice from carrots, beetroot and celery.",
+   "gap": "vegetable juice",
+   "alt": []
+  },
+  {
+   "id": "disease",
+   "en": "disease",
+   "uz": "kasallik (jiddiy, aniq nomli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malaria is a disease spread by mosquitoes in hot countries.",
+   "gap": "disease",
+   "alt": [
+    "diseases"
+   ]
+  },
+  {
+   "id": "heart_disease",
+   "en": "heart disease",
+   "uz": "yurak kasalligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cardiologists are doctors who specialise in heart disease.",
+   "gap": "heart disease",
+   "alt": []
+  },
+  {
+   "id": "risk_chance",
+   "en": "risk",
+   "uz": "xavf ehtimoli",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eating too much salt increases the risk of high blood pressure.",
+   "gap": "risk",
+   "alt": [
+    "risks"
+   ]
+  },
+  {
+   "id": "memory",
+   "en": "memory",
+   "uz": "xotira",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ozoda has an amazing memory: she can remember the phone numbers of all her friends.",
+   "gap": "memory",
+   "alt": [
+    "memories"
+   ]
+  },
+  {
+   "id": "slow_v",
+   "en": "slow",
+   "uz": "sekinlashmoq; sekinlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old ferry slowed as it came closer to the harbour.",
+   "gap": "slowed",
+   "alt": [
+    "slows",
+    "slowed",
+    "slowing"
+   ]
+  },
+  {
+   "id": "routine",
+   "en": "routine",
+   "uz": "kundalik tartib (odatiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning Jamila follows the same routine: a glass of water, ten minutes of stretching and a shower.",
+   "gap": "routine",
+   "alt": [
+    "routines"
+   ]
+  },
+  {
+   "id": "bad_habit",
+   "en": "bad habit",
+   "uz": "yomon odat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Biting your nails is a bad habit that is hard to break.",
+   "gap": "bad habit",
+   "alt": [
+    "bad habits",
+    "habit",
+    "habits"
+   ]
+  },
+  {
+   "id": "alcohol",
+   "en": "alcohol",
+   "uz": "spirtli ichimlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many medicines should not be mixed with alcohol, so read the label carefully.",
+   "gap": "alcohol",
+   "alt": []
+  },
+  {
+   "id": "tobacco",
+   "en": "tobacco",
+   "uz": "tamaki",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cigarettes are made from the dried leaves of the tobacco plant.",
+   "gap": "tobacco",
+   "alt": []
+  },
+  {
+   "id": "stress_mental",
+   "en": "stress",
+   "uz": "ruhiy zo‘riqish, asabiy bosim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Exams cause a lot of stress, so it's important to sleep well and take regular breaks.",
+   "gap": "stress",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "long_term",
+   "short_term"
+  ],
+  [
+   "lower",
+   "reduce"
+  ],
+  [
+   "boost",
+   "maintain"
+  ],
+  [
+   "mental",
+   "physical"
+  ],
+  [
+   "harm",
+   "harmful"
+  ],
+  [
+   "harmful",
+   "stressful"
+  ],
+  [
+   "fitness",
+   "keep_fit"
+  ],
+  [
+   "obesity",
+   "depression"
+  ],
+  [
+   "obesity",
+   "cholesterol"
+  ],
+  [
+   "sharp_rise",
+   "major"
+  ],
+  [
+   "major",
+   "long_term"
+  ],
+  [
+   "major",
+   "short_term"
+  ],
+  [
+   "superfood",
+   "source"
+  ],
+  [
+   "nuts",
+   "superfood"
+  ],
+  [
+   "ageing",
+   "obesity"
+  ],
+  [
+   "keep_fit",
+   "take_exercise"
+  ],
+  [
+   "fitness",
+   "take_exercise"
+  ],
+  [
+   "nuts",
+   "oily_fish"
+  ],
+  [
+   "superfood",
+   "oily_fish"
+  ],
+  [
+   "lower",
+   "maintain"
+  ],
+  [
+   "fruit",
+   "nuts"
+  ],
+  [
+   "fruit",
+   "superfood"
+  ],
+  [
+   "fatty",
+   "processed"
+  ],
+  [
+   "citrus_fruits",
+   "superfood"
+  ],
+  [
+   "stress_mental",
+   "depression"
+  ],
+  [
+   "stress_mental",
+   "stressful"
+  ],
+  [
+   "fruit",
+   "food"
+  ],
+  [
+   "citrus_fruits",
+   "fruit"
+  ],
+  [
+   "fruit",
+   "blueberries"
+  ],
+  [
+   "stress_mental",
+   "harm"
+  ]
+ ]
+}

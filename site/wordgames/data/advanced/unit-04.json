@@ -1,0 +1,384 @@
+{
+ "book": "advanced",
+ "unit": 4,
+ "title": "Job interviews",
+ "title_uz": "Ishga qabul suhbatlari",
+ "words": [
+  {
+   "id": "recruit",
+   "en": "recruit",
+   "uz": "ishga yollamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The airline is recruiting fifty new cabin crew for its summer flights to Istanbul.",
+   "gap": "recruiting",
+   "alt": [
+    "recruiting",
+    "recruits"
+   ]
+  },
+  {
+   "id": "criteria",
+   "en": "criteria",
+   "uz": "mezonlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fluent Russian and a clean driving licence are among the criteria the logistics firm uses to choose its drivers.",
+   "gap": "criteria",
+   "alt": [
+    "criterion"
+   ]
+  },
+  {
+   "id": "shortlist",
+   "en": "shortlist",
+   "uz": "saralangan ro‘yxatga kiritmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Of the 400 teams that applied to IT Park's incubator programme, just twelve were shortlisted to pitch their ideas.",
+   "gap": "shortlisted",
+   "alt": [
+    "shortlisted",
+    "short-listed",
+    "short-list"
+   ]
+  },
+  {
+   "id": "do_your_homework",
+   "en": "do your homework",
+   "uz": "oldindan puxta surishtirib olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before you meet a potential investor, do your homework and find out which projects they have backed in the past.",
+   "gap": "do your homework",
+   "alt": []
+  },
+  {
+   "id": "trial_run",
+   "en": "trial run",
+   "uz": "oldindan sinov mashqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The night before her university interview, Shoira did a trial run, with her flatmate firing questions at her across the kitchen table.",
+   "gap": "trial run",
+   "alt": []
+  },
+  {
+   "id": "boost",
+   "en": "boost",
+   "uz": "oshirmoq (ko‘tarmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A band 7.5 in IELTS will boost your chances of a place at a British university.",
+   "gap": "boost",
+   "alt": []
+  },
+  {
+   "id": "panel",
+   "en": "panel",
+   "uz": "suhbat hay’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "I was interviewed by a panel of four: the director, two managers and someone from HR.",
+   "gap": "panel",
+   "alt": []
+  },
+  {
+   "id": "line_manager",
+   "en": "line manager",
+   "uz": "bevosita rahbar",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you want to work from home on Fridays, you will need your line manager's approval first.",
+   "gap": "line manager",
+   "alt": []
+  },
+  {
+   "id": "eye_contact",
+   "en": "eye contact",
+   "uz": "ko‘zga qarab gaplashish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a video interview, look into the camera rather than at the screen, so that you appear to be making eye contact.",
+   "gap": "eye contact",
+   "alt": []
+  },
+  {
+   "id": "body_language",
+   "en": "body language",
+   "uz": "tana tili (imo-ishoralar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even before he spoke, the candidate's slumped shoulders and restless hands gave away his nerves; his body language said it all.",
+   "gap": "body language",
+   "alt": []
+  },
+  {
+   "id": "firm_handshake",
+   "en": "firm handshake",
+   "uz": "dadil qo‘l siqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The director greeted each of us with a firm handshake and a warm smile.",
+   "gap": "firm handshake",
+   "alt": []
+  },
+  {
+   "id": "speak_up",
+   "en": "speak up",
+   "uz": "balandroq va aniqroq gapirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The tutor kept asking Jamshid to speak up, as his voice was barely audible over the bad connection.",
+   "gap": "speak up",
+   "alt": []
+  },
+  {
+   "id": "first_impression",
+   "en": "first impression",
+   "uz": "ilk taassurot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Turning up late in a crumpled shirt hardly creates the first impression you want an employer to have.",
+   "gap": "first impression",
+   "alt": []
+  },
+  {
+   "id": "talk_through",
+   "en": "talk through",
+   "uz": "batafsil tushuntirib bermoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "'Could you talk us through the mobile app you built at university?' asked the head of the IT department.",
+   "gap": "talk us through",
+   "alt": [
+    "talk us through",
+    "talk someone through"
+   ]
+  },
+  {
+   "id": "trainee",
+   "en": "trainee",
+   "uz": "stajyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bobur joined the company as a trainee straight after university and is now a senior engineer.",
+   "gap": "trainee",
+   "alt": [
+    "trainees"
+   ]
+  },
+  {
+   "id": "professional_development",
+   "en": "professional development",
+   "uz": "malaka oshirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company pays for courses and conferences as part of its commitment to professional development.",
+   "gap": "professional development",
+   "alt": []
+  },
+  {
+   "id": "in_house",
+   "en": "in-house",
+   "uz": "kompaniyaning o‘z ichidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of hiring an outside agency, they use their in-house designers for all their advertising.",
+   "gap": "in-house",
+   "alt": [
+    "in house"
+   ]
+  },
+  {
+   "id": "new_recruit",
+   "en": "new recruit",
+   "uz": "yangi kelgan xodim",
+   "pos": "noun",
+   "img": false,
+   "ex": "On their first day, all new recruits get a tour of the factory and a safety briefing.",
+   "gap": "new recruits",
+   "alt": [
+    "new recruits"
+   ]
+  },
+  {
+   "id": "supervisor",
+   "en": "supervisor",
+   "uz": "ishni tekshiruvchi nazoratchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the building site, my supervisor checks every wall I build before the next team starts.",
+   "gap": "supervisor",
+   "alt": []
+  },
+  {
+   "id": "take_on",
+   "en": "take on",
+   "uz": "zimmasiga olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "After three years as deputy, Iroda felt ready to take on the running of the whole Andijan branch.",
+   "gap": "take on",
+   "alt": []
+  },
+  {
+   "id": "fill_the_post",
+   "en": "fill the post",
+   "uz": "lavozimga odam topmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The head teacher retired in June, and the school still hasn't managed to fill the post.",
+   "gap": "fill the post",
+   "alt": []
+  },
+  {
+   "id": "notice_period",
+   "en": "notice period",
+   "uz": "ishdan ketishni ogohlantirish muddati",
+   "pos": "noun",
+   "img": false,
+   "ex": "My notice period is one month, so I can't leave my current job until March.",
+   "gap": "notice period",
+   "alt": []
+  },
+  {
+   "id": "under_pressure",
+   "en": "under pressure",
+   "uz": "bosim ostida (tig‘iz vaziyatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Air traffic controllers have to make split-second decisions under pressure, with hundreds of lives depending on them.",
+   "gap": "under pressure",
+   "alt": [
+    "work under pressure"
+   ]
+  },
+  {
+   "id": "ideal_fit_for",
+   "en": "ideal fit for",
+   "uz": "…ga ayni muddao",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With her experience in tourism, Malika is an ideal fit for the job of hotel manager.",
+   "gap": "ideal fit for",
+   "alt": [
+    "an ideal fit for"
+   ]
+  },
+  {
+   "id": "outline",
+   "en": "outline",
+   "uz": "qisqacha bayon qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "HR sent every new employee a welcome pack outlining the company's dress code and working hours.",
+   "gap": "outlining",
+   "alt": [
+    "outlining",
+    "outlines",
+    "outlined"
+   ]
+  },
+  {
+   "id": "paid_leave",
+   "en": "paid leave",
+   "uz": "haq to‘lanadigan ta’til",
+   "pos": "noun",
+   "img": false,
+   "ex": "Employees get 21 days of paid leave a year, plus public holidays such as Navruz.",
+   "gap": "paid leave",
+   "alt": []
+  },
+  {
+   "id": "reporting_structure",
+   "en": "reporting structure",
+   "uz": "bo‘ysunish tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the merger, nobody knew whose instructions to follow until a new reporting structure was announced.",
+   "gap": "reporting structure",
+   "alt": []
+  },
+  {
+   "id": "start_date",
+   "en": "start date",
+   "uz": "ishga chiqish sanasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We agreed on a start date of 1 September, the week after I finish my current job.",
+   "gap": "start date",
+   "alt": []
+  },
+  {
+   "id": "job_offer",
+   "en": "job offer",
+   "uz": "ish taklifi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two days after the interview, I received a job offer by email and accepted it at once.",
+   "gap": "job offer",
+   "alt": []
+  },
+  {
+   "id": "kind_regards",
+   "en": "Kind regards",
+   "uz": "Samimiy salom bilan (xat yakuni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "She ended her short email to the conference organiser with 'Kind regards' and her full name.",
+   "gap": "Kind regards",
+   "alt": [
+    "kind regards"
+   ]
+  },
+  {
+   "id": "parental_leave",
+   "en": "parental leave",
+   "uz": "ota-onalik ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the twins were born, both Lena and her husband took six months of parental leave from the factory.",
+   "gap": "parental leave",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "line_manager",
+   "supervisor"
+  ],
+  [
+   "recruit",
+   "shortlist"
+  ],
+  [
+   "trainee",
+   "new_recruit"
+  ],
+  [
+   "do_your_homework",
+   "trial_run"
+  ],
+  [
+   "eye_contact",
+   "first_impression"
+  ],
+  [
+   "kind_regards",
+   "yours_faithfully"
+  ],
+  [
+   "kind_regards",
+   "dear_sir_or_madam"
+  ],
+  [
+   "parental_leave",
+   "paid_leave"
+  ],
+  [
+   "parental_leave",
+   "notice_period"
+  ]
+ ]
+}

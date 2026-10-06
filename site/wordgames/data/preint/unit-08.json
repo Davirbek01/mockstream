@@ -1,0 +1,826 @@
+{
+ "book": "preint",
+ "unit": 8,
+ "title": "Animals and insects",
+ "title_uz": "Hayvonlar va hasharotlar",
+ "words": [
+  {
+   "id": "pet",
+   "en": "pet",
+   "uz": "uy hayvoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our only pet is a small grey cat called Mosh; she sleeps on my bed.",
+   "gap": "pet",
+   "alt": [
+    "pets"
+   ]
+  },
+  {
+   "id": "cage",
+   "en": "cage",
+   "uz": "qafas",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little bird sings all day in its cage by the kitchen window.",
+   "gap": "cage",
+   "alt": [
+    "cages"
+   ]
+  },
+  {
+   "id": "parrot",
+   "en": "parrot",
+   "uz": "to‘tiqush",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our green parrot can say \"Salom!\" and \"Bye-bye!\" to our guests.",
+   "gap": "parrot",
+   "alt": [
+    "parrots"
+   ]
+  },
+  {
+   "id": "rabbit",
+   "en": "rabbit",
+   "uz": "quyon",
+   "pos": "noun",
+   "img": true,
+   "ex": "The little white rabbit hopped across the grass with its long ears up.",
+   "gap": "rabbit",
+   "alt": [
+    "rabbits"
+   ]
+  },
+  {
+   "id": "mouse",
+   "en": "mouse",
+   "uz": "sichqon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our cat chased a tiny grey mouse with a long tail, but it ran into a hole in the wall.",
+   "gap": "mouse",
+   "alt": [
+    "mice"
+   ]
+  },
+  {
+   "id": "donkey",
+   "en": "donkey",
+   "uz": "eshak",
+   "pos": "noun",
+   "img": true,
+   "ex": "The farmer's donkey is small and grey with long ears, and it carries bags of melons to the bazaar.",
+   "gap": "donkey",
+   "alt": [
+    "donkeys"
+   ]
+  },
+  {
+   "id": "snake",
+   "en": "snake",
+   "uz": "ilon",
+   "pos": "noun",
+   "img": true,
+   "ex": "With no legs at all, a snake moves across the sand by bending its long body from side to side.",
+   "gap": "snake",
+   "alt": [
+    "snakes"
+   ]
+  },
+  {
+   "id": "frog",
+   "en": "frog",
+   "uz": "qurbaqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "The green frog jumped off the leaf and into the pond with a splash.",
+   "gap": "frog",
+   "alt": [
+    "frogs"
+   ]
+  },
+  {
+   "id": "spider",
+   "en": "spider",
+   "uz": "o‘rgimchak",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a big spider with eight hairy legs making a web in the corner of the room.",
+   "gap": "spider",
+   "alt": [
+    "spiders"
+   ]
+  },
+  {
+   "id": "bull",
+   "en": "bull",
+   "uz": "buqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The angry bull put its head down and ran at the man in the field.",
+   "gap": "bull",
+   "alt": [
+    "bulls"
+   ]
+  },
+  {
+   "id": "goat",
+   "en": "goat",
+   "uz": "echki",
+   "pos": "noun",
+   "img": true,
+   "ex": "In kupkari, riders on horses fight to carry a goat to the finish line.",
+   "gap": "goat",
+   "alt": [
+    "goats"
+   ]
+  },
+  {
+   "id": "in_the_wild",
+   "en": "in the wild",
+   "uz": "yovvoyi tabiatda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I've seen tigers in a zoo, but I'd love to see one in the wild in India one day.",
+   "gap": "in the wild",
+   "alt": []
+  },
+  {
+   "id": "rare",
+   "en": "rare",
+   "uz": "noyob, kam uchraydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pink river dolphins are so rare that most people have never seen one.",
+   "gap": "rare",
+   "alt": []
+  },
+  {
+   "id": "protect",
+   "en": "protect",
+   "uz": "himoya qilmoq, asramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The Zarafshan nature reserve was created to protect the Bukhara deer.",
+   "gap": "protect",
+   "alt": [
+    "protected",
+    "protects"
+   ]
+  },
+  {
+   "id": "endangered",
+   "en": "endangered",
+   "uz": "yo‘qolib ketish xavfi ostidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hunters have killed so many saigas that they are now endangered and could disappear completely.",
+   "gap": "endangered",
+   "alt": []
+  },
+  {
+   "id": "monkey",
+   "en": "monkey",
+   "uz": "maymun",
+   "pos": "noun",
+   "img": true,
+   "ex": "The monkey climbed down the tree, took a banana from my hand and ran away.",
+   "gap": "monkey",
+   "alt": [
+    "monkeys"
+   ]
+  },
+  {
+   "id": "tiger",
+   "en": "tiger",
+   "uz": "yo‘lbars",
+   "pos": "noun",
+   "img": true,
+   "ex": "Its orange fur with black stripes helps the tiger hide in the long grass.",
+   "gap": "tiger",
+   "alt": [
+    "tigers"
+   ]
+  },
+  {
+   "id": "camel",
+   "en": "camel",
+   "uz": "tuya",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the old Silk Road, traders crossed the desert on a camel because it can go for days without water.",
+   "gap": "camel",
+   "alt": [
+    "camels"
+   ]
+  },
+  {
+   "id": "giraffe",
+   "en": "giraffe",
+   "uz": "jirafa",
+   "pos": "noun",
+   "img": true,
+   "ex": "At Tashkent Zoo, the giraffe bent its two-metre neck down to take a carrot from the keeper's hand.",
+   "gap": "giraffe",
+   "alt": [
+    "giraffes"
+   ]
+  },
+  {
+   "id": "leopard",
+   "en": "leopard",
+   "uz": "qoplon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The snow leopard, a rare wild cat with grey fur and dark spots, lives high in the mountains of Uzbekistan.",
+   "gap": "leopard",
+   "alt": [
+    "leopards"
+   ]
+  },
+  {
+   "id": "lion",
+   "en": "lion",
+   "uz": "sher (arslon)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the nature film, a lion with a huge golden mane lay in the shade, watching the zebras.",
+   "gap": "lion",
+   "alt": [
+    "lions"
+   ]
+  },
+  {
+   "id": "bear",
+   "en": "bear",
+   "uz": "ayiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "In spring, a hungry brown bear came down from the Chatkal mountains after its long winter sleep.",
+   "gap": "bear",
+   "alt": [
+    "bears"
+   ]
+  },
+  {
+   "id": "elephant",
+   "en": "elephant",
+   "uz": "fil",
+   "pos": "noun",
+   "img": true,
+   "ex": "The elephant walked slowly round the zoo, its huge grey ears moving like fans.",
+   "gap": "elephant",
+   "alt": [
+    "elephants"
+   ]
+  },
+  {
+   "id": "trunk",
+   "en": "trunk",
+   "uz": "xartum (fil burni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The elephant sucked up water with its long trunk and sprayed it over its back.",
+   "gap": "trunk",
+   "alt": []
+  },
+  {
+   "id": "bee",
+   "en": "bee",
+   "uz": "asalari",
+   "pos": "noun",
+   "img": true,
+   "ex": "A bee flew from flower to flower, collecting food to make honey.",
+   "gap": "bee",
+   "alt": [
+    "bees"
+   ]
+  },
+  {
+   "id": "ant",
+   "en": "ant",
+   "uz": "chumoli",
+   "pos": "noun",
+   "img": true,
+   "ex": "A long line of ants was carrying sugar from the kitchen table to a crack in the wall.",
+   "gap": "ants",
+   "alt": [
+    "ants"
+   ]
+  },
+  {
+   "id": "mosquito",
+   "en": "mosquito",
+   "uz": "chivin (qon so‘ruvchi hasharot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I couldn't sleep last night: a mosquito kept buzzing in my ear and biting my arm.",
+   "gap": "mosquito",
+   "alt": [
+    "mosquitoes",
+    "mosquitos"
+   ]
+  },
+  {
+   "id": "fly",
+   "en": "fly",
+   "uz": "pashsha",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cover the melon, or the flies will land on it.",
+   "gap": "flies",
+   "alt": [
+    "flies"
+   ]
+  },
+  {
+   "id": "wing",
+   "en": "wing",
+   "uz": "qanot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little sparrow had hurt one of its wings, so it couldn't fly.",
+   "gap": "wings",
+   "alt": [
+    "wings"
+   ]
+  },
+  {
+   "id": "butterfly",
+   "en": "butterfly",
+   "uz": "kapalak",
+   "pos": "noun",
+   "img": true,
+   "ex": "A yellow butterfly slowly opened and closed its wings on a flower in the botanical garden.",
+   "gap": "butterfly",
+   "alt": [
+    "butterflies"
+   ]
+  },
+  {
+   "id": "creature",
+   "en": "creature",
+   "uz": "jonzot, maxluq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many strange creatures live deep in the ocean, where there is no light at all.",
+   "gap": "creatures",
+   "alt": [
+    "creatures"
+   ]
+  },
+  {
+   "id": "whale",
+   "en": "whale",
+   "uz": "kit",
+   "pos": "noun",
+   "img": true,
+   "ex": "On our boat trip in Norway, a whale as long as a bus came up and blew water high into the air.",
+   "gap": "whale",
+   "alt": [
+    "whales"
+   ]
+  },
+  {
+   "id": "dolphin",
+   "en": "dolphin",
+   "uz": "delfin",
+   "pos": "noun",
+   "img": true,
+   "ex": "A small, friendly dolphin swam next to our boat and jumped out of the water to play.",
+   "gap": "dolphin",
+   "alt": [
+    "dolphins"
+   ]
+  },
+  {
+   "id": "shark",
+   "en": "shark",
+   "uz": "akula",
+   "pos": "noun",
+   "img": true,
+   "ex": "The swimmers left the water quickly when someone saw a shark near the beach.",
+   "gap": "shark",
+   "alt": [
+    "sharks"
+   ]
+  },
+  {
+   "id": "octopus",
+   "en": "octopus",
+   "uz": "sakkizoyoq (osminog)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the aquarium, an octopus opened a glass jar with its arms to get the fish inside.",
+   "gap": "octopus",
+   "alt": [
+    "octopuses"
+   ]
+  },
+  {
+   "id": "sheep",
+   "en": "sheep",
+   "uz": "qo‘y",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every spring the farmer cuts the thick wool off his sheep.",
+   "gap": "sheep",
+   "alt": []
+  },
+  {
+   "id": "pig",
+   "en": "pig",
+   "uz": "cho‘chqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "Farmers in Denmark keep millions of pigs for pork and bacon.",
+   "gap": "pigs",
+   "alt": [
+    "pigs"
+   ]
+  },
+  {
+   "id": "cow",
+   "en": "cow",
+   "uz": "sigir",
+   "pos": "noun",
+   "img": true,
+   "ex": "The black-and-white cow gives about twenty litres of milk a day.",
+   "gap": "cow",
+   "alt": [
+    "cows"
+   ]
+  },
+  {
+   "id": "horse",
+   "en": "horse",
+   "uz": "ot",
+   "pos": "noun",
+   "img": true,
+   "ex": "The jockey rode his horse across the finish line in first place.",
+   "gap": "horse",
+   "alt": [
+    "horses"
+   ]
+  },
+  {
+   "id": "chicken_animal",
+   "en": "chicken",
+   "uz": "tovuq (parranda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our chickens lay about six eggs every morning, so we never buy eggs.",
+   "gap": "chickens",
+   "alt": [
+    "chickens"
+   ]
+  },
+  {
+   "id": "cat",
+   "en": "cat",
+   "uz": "mushuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "The cat sat on the warm windowsill, purring quietly and washing its paws.",
+   "gap": "cat",
+   "alt": [
+    "cats"
+   ]
+  },
+  {
+   "id": "dog",
+   "en": "dog",
+   "uz": "it",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every evening I take our dog to the park, where he chases a ball and barks at pigeons.",
+   "gap": "dog",
+   "alt": [
+    "dogs"
+   ]
+  },
+  {
+   "id": "bird",
+   "en": "bird",
+   "uz": "qush",
+   "pos": "noun",
+   "img": true,
+   "ex": "A small brown bird built a nest in the tree outside my window.",
+   "gap": "bird",
+   "alt": [
+    "birds"
+   ]
+  },
+  {
+   "id": "wild",
+   "en": "wild",
+   "uz": "yovvoyi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wolves are wild animals: they live in forests and mountains, far from people.",
+   "gap": "wild",
+   "alt": []
+  },
+  {
+   "id": "zoo",
+   "en": "zoo",
+   "uz": "hayvonot bog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the city zoo we watched the keepers feed the penguins and the polar bear.",
+   "gap": "zoo",
+   "alt": []
+  },
+  {
+   "id": "insect",
+   "en": "insect",
+   "uz": "hasharot",
+   "pos": "noun",
+   "img": false,
+   "ex": "A beetle is an insect: it has six legs and a hard shiny body.",
+   "gap": "insect",
+   "alt": [
+    "insects"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "rare",
+   "endangered"
+  ],
+  [
+   "bull",
+   "goat"
+  ],
+  [
+   "fly",
+   "bee"
+  ],
+  [
+   "fly",
+   "mosquito"
+  ],
+  [
+   "whale",
+   "elephant"
+  ],
+  [
+   "spider",
+   "butterfly"
+  ],
+  [
+   "bee",
+   "mosquito"
+  ],
+  [
+   "creature",
+   "parrot"
+  ],
+  [
+   "creature",
+   "rabbit"
+  ],
+  [
+   "creature",
+   "mouse"
+  ],
+  [
+   "creature",
+   "donkey"
+  ],
+  [
+   "creature",
+   "snake"
+  ],
+  [
+   "creature",
+   "frog"
+  ],
+  [
+   "creature",
+   "spider"
+  ],
+  [
+   "creature",
+   "bull"
+  ],
+  [
+   "creature",
+   "goat"
+  ],
+  [
+   "creature",
+   "monkey"
+  ],
+  [
+   "creature",
+   "tiger"
+  ],
+  [
+   "creature",
+   "camel"
+  ],
+  [
+   "creature",
+   "giraffe"
+  ],
+  [
+   "creature",
+   "leopard"
+  ],
+  [
+   "creature",
+   "lion"
+  ],
+  [
+   "creature",
+   "bear"
+  ],
+  [
+   "creature",
+   "elephant"
+  ],
+  [
+   "creature",
+   "bee"
+  ],
+  [
+   "creature",
+   "ant"
+  ],
+  [
+   "creature",
+   "mosquito"
+  ],
+  [
+   "creature",
+   "fly"
+  ],
+  [
+   "creature",
+   "butterfly"
+  ],
+  [
+   "creature",
+   "whale"
+  ],
+  [
+   "creature",
+   "dolphin"
+  ],
+  [
+   "creature",
+   "shark"
+  ],
+  [
+   "creature",
+   "octopus"
+  ],
+  [
+   "pet",
+   "parrot"
+  ],
+  [
+   "pet",
+   "rabbit"
+  ],
+  [
+   "pet",
+   "mouse"
+  ],
+  [
+   "pet",
+   "snake"
+  ],
+  [
+   "pet",
+   "frog"
+  ],
+  [
+   "pet",
+   "spider"
+  ],
+  [
+   "trunk",
+   "elephant"
+  ],
+  [
+   "wing",
+   "butterfly"
+  ],
+  [
+   "sheep",
+   "goat"
+  ],
+  [
+   "cow",
+   "bull"
+  ],
+  [
+   "horse",
+   "donkey"
+  ],
+  [
+   "horse",
+   "camel"
+  ],
+  [
+   "chicken_animal",
+   "bird"
+  ],
+  [
+   "bird",
+   "parrot"
+  ],
+  [
+   "pet",
+   "cat"
+  ],
+  [
+   "pet",
+   "dog"
+  ],
+  [
+   "pet",
+   "bird"
+  ],
+  [
+   "wild",
+   "rare"
+  ],
+  [
+   "wild",
+   "endangered"
+  ],
+  [
+   "wild",
+   "in_the_wild"
+  ],
+  [
+   "insect",
+   "creature"
+  ],
+  [
+   "cat",
+   "leopard"
+  ],
+  [
+   "creature",
+   "sheep"
+  ],
+  [
+   "creature",
+   "pig"
+  ],
+  [
+   "creature",
+   "cow"
+  ],
+  [
+   "creature",
+   "horse"
+  ],
+  [
+   "creature",
+   "chicken_animal"
+  ],
+  [
+   "creature",
+   "cat"
+  ],
+  [
+   "creature",
+   "dog"
+  ],
+  [
+   "creature",
+   "bird"
+  ],
+  [
+   "fly",
+   "bird"
+  ],
+  [
+   "insect",
+   "fly"
+  ],
+  [
+   "insect",
+   "ant"
+  ],
+  [
+   "insect",
+   "mosquito"
+  ],
+  [
+   "insect",
+   "bee"
+  ],
+  [
+   "insect",
+   "butterfly"
+  ]
+ ]
+}

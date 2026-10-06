@@ -1,0 +1,778 @@
+{
+ "book": "preint",
+ "unit": 44,
+ "title": "Music",
+ "title_uz": "Musiqa",
+ "words": [
+  {
+   "id": "taste_in_music",
+   "en": "taste in music",
+   "uz": "musiqiy did",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister and I have a different taste in music: I like rap, but she prefers old Uzbek songs.",
+   "gap": "taste in music",
+   "alt": []
+  },
+  {
+   "id": "folk_music",
+   "en": "folk music",
+   "uz": "xalq musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the mahalla festival, an old man played folk music on his dutar, and everyone clapped along.",
+   "gap": "folk music",
+   "alt": []
+  },
+  {
+   "id": "classical_music",
+   "en": "classical music",
+   "uz": "klassik musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora listens to classical music while she does her homework; she says the violins help her think.",
+   "gap": "classical music",
+   "alt": []
+  },
+  {
+   "id": "concert",
+   "en": "concert",
+   "uz": "konsert",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band's open-air concert in the park started at eight and finished at midnight.",
+   "gap": "concert",
+   "alt": [
+    "concerts"
+   ]
+  },
+  {
+   "id": "perform",
+   "en": "perform",
+   "uz": "ijro etmoq (sahnada)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school choir will perform three songs at the graduation party.",
+   "gap": "perform",
+   "alt": [
+    "performs",
+    "performed",
+    "performing"
+   ]
+  },
+  {
+   "id": "live",
+   "en": "live",
+   "uz": "jonli (sahnada, yozuvsiz)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I've only heard the band on the radio, but next month I'll see them live for the first time.",
+   "gap": "live",
+   "alt": []
+  },
+  {
+   "id": "audience",
+   "en": "audience",
+   "uz": "tomoshabinlar (zal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the last song ended, the whole audience stood up and clapped for five minutes.",
+   "gap": "audience",
+   "alt": [
+    "audiences"
+   ]
+  },
+  {
+   "id": "tune",
+   "en": "tune",
+   "uz": "kuy (ohang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't remember the words of the song, but I can hum the tune.",
+   "gap": "tune",
+   "alt": [
+    "tunes"
+   ]
+  },
+  {
+   "id": "lyrics",
+   "en": "lyrics",
+   "uz": "qo‘shiq matni (so‘zlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I love the lyrics of this song: every line tells a small part of a story.",
+   "gap": "lyrics",
+   "alt": []
+  },
+  {
+   "id": "violin",
+   "en": "violin",
+   "uz": "skripka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nigora held the violin under her chin and began to play with the bow.",
+   "gap": "violin",
+   "alt": [
+    "violins"
+   ]
+  },
+  {
+   "id": "guitar",
+   "en": "guitar",
+   "uz": "gitara",
+   "pos": "noun",
+   "img": true,
+   "ex": "Sardor sat by the campfire and played songs on his old six-string guitar.",
+   "gap": "guitar",
+   "alt": [
+    "guitars"
+   ]
+  },
+  {
+   "id": "cello",
+   "en": "cello",
+   "uz": "violonchel",
+   "pos": "noun",
+   "img": true,
+   "ex": "Sitting on a chair, Asal held the large cello between her knees and played a slow, deep melody.",
+   "gap": "cello",
+   "alt": [
+    "cellos"
+   ]
+  },
+  {
+   "id": "trumpet",
+   "en": "trumpet",
+   "uz": "truba",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every morning at summer camp, a boy put his trumpet to his lips and blew a loud wake-up call.",
+   "gap": "trumpet",
+   "alt": [
+    "trumpets"
+   ]
+  },
+  {
+   "id": "flute",
+   "en": "flute",
+   "uz": "fleyta",
+   "pos": "noun",
+   "img": true,
+   "ex": "Lola held her silver flute sideways and played a soft, high melody.",
+   "gap": "flute",
+   "alt": [
+    "flutes"
+   ]
+  },
+  {
+   "id": "saxophone",
+   "en": "saxophone",
+   "uz": "saksofon",
+   "pos": "noun",
+   "img": true,
+   "ex": "The jazz player blew into his shiny, curved golden saxophone and began a long solo.",
+   "gap": "saxophone",
+   "alt": [
+    "saxophones",
+    "sax"
+   ]
+  },
+  {
+   "id": "drums",
+   "en": "drums",
+   "uz": "baraban (zarbli cholg‘u)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Otabek bangs on his drums with two sticks every evening, and the neighbours complain about the noise.",
+   "gap": "drums",
+   "alt": [
+    "drum"
+   ]
+  },
+  {
+   "id": "violinist",
+   "en": "violinist",
+   "uz": "skripkachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The violinist tightened the hair on her bow and lifted the instrument to her chin.",
+   "gap": "violinist",
+   "alt": [
+    "violinists"
+   ]
+  },
+  {
+   "id": "guitarist",
+   "en": "guitarist",
+   "uz": "gitarachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band's guitarist broke a string in the middle of the song but kept on playing.",
+   "gap": "guitarist",
+   "alt": [
+    "guitarists"
+   ]
+  },
+  {
+   "id": "drummer",
+   "en": "drummer",
+   "uz": "barabanchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The drummer counted 'one, two, three, four' with her sticks, and the band started the song.",
+   "gap": "drummer",
+   "alt": [
+    "drummers"
+   ]
+  },
+  {
+   "id": "composer",
+   "en": "composer",
+   "uz": "bastakor (kompozitor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our music teacher is also a composer: she wrote the music for the school's new anthem.",
+   "gap": "composer",
+   "alt": [
+    "composers"
+   ]
+  },
+  {
+   "id": "songwriter",
+   "en": "songwriter",
+   "uz": "qo‘shiq muallifi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before she became famous as a singer, she was a songwriter who wrote hits for other pop stars.",
+   "gap": "songwriter",
+   "alt": [
+    "songwriters"
+   ]
+  },
+  {
+   "id": "conductor",
+   "en": "conductor",
+   "uz": "dirijyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the conductor raised his thin white stick, the whole orchestra began to play.",
+   "gap": "conductor",
+   "alt": [
+    "conductors"
+   ]
+  },
+  {
+   "id": "orchestra",
+   "en": "orchestra",
+   "uz": "orkestr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The youth orchestra has forty musicians, from violinists to drummers.",
+   "gap": "orchestra",
+   "alt": [
+    "orchestras"
+   ]
+  },
+  {
+   "id": "opera",
+   "en": "opera",
+   "uz": "opera",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle took me to the opera in Tashkent for my birthday; I didn't understand the Italian words, but the singing was beautiful.",
+   "gap": "opera",
+   "alt": [
+    "operas"
+   ]
+  },
+  {
+   "id": "solo_artist",
+   "en": "solo artist",
+   "uz": "yakkaxon ijrochi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After ten years in the group, she left the band, and now she sings on her own as a solo artist.",
+   "gap": "solo artist",
+   "alt": [
+    "solo artists"
+   ]
+  },
+  {
+   "id": "band",
+   "en": "band",
+   "uz": "musiqiy guruh (ansambl)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Four friends from our street started a rock band and practise in a garage every Friday.",
+   "gap": "band",
+   "alt": [
+    "bands"
+   ]
+  },
+  {
+   "id": "album",
+   "en": "album",
+   "uz": "albom (qo‘shiqlar to‘plami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The group's new album has twelve songs, and three of them are in English.",
+   "gap": "album",
+   "alt": [
+    "albums"
+   ]
+  },
+  {
+   "id": "single",
+   "en": "single",
+   "uz": "singl (alohida chiqqan qo‘shiq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A month before the full album, the band released a single online to excite their fans.",
+   "gap": "single",
+   "alt": [
+    "singles"
+   ]
+  },
+  {
+   "id": "recording_studio",
+   "en": "recording studio",
+   "uz": "ovoz yozish studiyasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The band spent three months in a recording studio, making their first album.",
+   "gap": "recording studio",
+   "alt": [
+    "recording studios"
+   ]
+  },
+  {
+   "id": "come_out_music",
+   "en": "come out",
+   "uz": "sotuvga chiqmoq (albom, kitob)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Fans queued outside the music shop all night because the new album came out the next morning.",
+   "gap": "came out",
+   "alt": [
+    "came out",
+    "comes out",
+    "coming out"
+   ]
+  },
+  {
+   "id": "track_song",
+   "en": "track",
+   "uz": "trek (albomdagi qo‘shiq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My favourite track on the album is number seven; I play it again and again.",
+   "gap": "track",
+   "alt": [
+    "tracks"
+   ]
+  },
+  {
+   "id": "piano",
+   "en": "piano",
+   "uz": "pianino (fortepiano)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nodira sat down at the piano, and her fingers ran quickly over the black and white keys.",
+   "gap": "piano",
+   "alt": [
+    "pianos"
+   ]
+  },
+  {
+   "id": "pianist",
+   "en": "pianist",
+   "uz": "pianinochi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pianist sat down, placed her fingers on the keys and began the first piece.",
+   "gap": "pianist",
+   "alt": [
+    "pianists"
+   ]
+  },
+  {
+   "id": "ballet",
+   "en": "ballet",
+   "uz": "balet",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister has ballet lessons twice a week and is learning to dance on the tips of her toes.",
+   "gap": "ballet",
+   "alt": []
+  },
+  {
+   "id": "record_music",
+   "en": "record",
+   "uz": "yozib olmoq (qo‘shiq, albom)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The band recorded all twelve songs for their new album in just two weeks.",
+   "gap": "recorded",
+   "alt": [
+    "records",
+    "recorded",
+    "recording"
+   ]
+  },
+  {
+   "id": "pop_music",
+   "en": "pop music",
+   "uz": "pop musiqa (estrada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The radio station plays mostly pop music: chart hits by young singers that everyone can sing along to.",
+   "gap": "pop music",
+   "alt": []
+  },
+  {
+   "id": "group_music",
+   "en": "group",
+   "uz": "guruh (qo‘shiqchilar jamoasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Korean group BTS has seven members, who all sing and dance.",
+   "gap": "group",
+   "alt": [
+    "groups"
+   ]
+  },
+  {
+   "id": "cellist",
+   "en": "cellist",
+   "uz": "violonchelchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cellist sat down, rested the big instrument between her knees and picked up her bow.",
+   "gap": "cellist",
+   "alt": [
+    "cellists"
+   ]
+  },
+  {
+   "id": "trumpeter",
+   "en": "trumpeter",
+   "uz": "trubachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trumpeter pressed the three valves of his shiny brass instrument and blew a loud fanfare.",
+   "gap": "trumpeter",
+   "alt": [
+    "trumpeters"
+   ]
+  },
+  {
+   "id": "flautist",
+   "en": "flautist",
+   "uz": "fleytachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the forest scene, the flautist lifted the thin silver pipe sideways to her lips and played the bird song.",
+   "gap": "flautist",
+   "alt": [
+    "flautists",
+    "flutist"
+   ]
+  },
+  {
+   "id": "saxophonist",
+   "en": "saxophonist",
+   "uz": "saksofonchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the jazz band, the saxophonist played a long solo on his curved instrument with lots of shiny keys.",
+   "gap": "saxophonist",
+   "alt": [
+    "saxophonists"
+   ]
+  },
+  {
+   "id": "bass_guitar",
+   "en": "bass guitar",
+   "uz": "bas-gitara",
+   "pos": "noun",
+   "img": true,
+   "ex": "Javohir plays the bass guitar in a rock band: it has only four thick strings and makes very low notes.",
+   "gap": "bass guitar",
+   "alt": [
+    "bass guitars"
+   ]
+  },
+  {
+   "id": "bass_guitarist",
+   "en": "bass guitarist",
+   "uz": "bas-gitarachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band's bass guitarist plugged his four-string instrument into the amplifier and played the deep notes that kept the rhythm.",
+   "gap": "bass guitarist",
+   "alt": [
+    "bass guitarists"
+   ]
+  },
+  {
+   "id": "keyboard_music",
+   "en": "keyboard",
+   "uz": "sintezator (klavishli cholg‘u)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shirin carried her light electric keyboard to the concert, put it on a stand and played the chords with both hands.",
+   "gap": "keyboard",
+   "alt": [
+    "keyboards"
+   ]
+  },
+  {
+   "id": "keyboard_player",
+   "en": "keyboard player",
+   "uz": "klavishli cholg‘u ijrochisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Besides the singer and the drummer, the band has a keyboard player who adds the electric piano parts.",
+   "gap": "keyboard player",
+   "alt": [
+    "keyboard players"
+   ]
+  },
+  {
+   "id": "conduct",
+   "en": "conduct",
+   "uz": "dirijyorlik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Friday a guest from Vienna will stand in front of the city orchestra and conduct it with a thin white baton.",
+   "gap": "conduct",
+   "alt": [
+    "conducts",
+    "conducted",
+    "conducting"
+   ]
+  },
+  {
+   "id": "opera_singer",
+   "en": "opera singer",
+   "uz": "opera xonandasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The opera singer sang a long aria in Italian, and her powerful voice filled the whole theatre.",
+   "gap": "opera singer",
+   "alt": [
+    "opera singers"
+   ]
+  },
+  {
+   "id": "musical_instrument",
+   "en": "musical instrument",
+   "uz": "cholg‘u asbobi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The rubob is a traditional musical instrument from Central Asia with a long neck and several strings.",
+   "gap": "musical instrument",
+   "alt": [
+    "musical instruments",
+    "instrument",
+    "instruments"
+   ]
+  },
+  {
+   "id": "musician",
+   "en": "musician",
+   "uz": "musiqachi (sozanda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The street musician played the accordion near the metro station, and people dropped coins into his hat.",
+   "gap": "musician",
+   "alt": [
+    "musicians"
+   ]
+  },
+  {
+   "id": "advertise",
+   "en": "advertise",
+   "uz": "reklama qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the album came out, the band paid to advertise it on billboards and social media.",
+   "gap": "advertise",
+   "alt": [
+    "advertises",
+    "advertised",
+    "advertising"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "folk_music",
+   "classical_music"
+  ],
+  [
+   "concert",
+   "opera"
+  ],
+  [
+   "tune",
+   "lyrics"
+  ],
+  [
+   "violin",
+   "cello"
+  ],
+  [
+   "trumpet",
+   "saxophone"
+  ],
+  [
+   "flute",
+   "saxophone"
+  ],
+  [
+   "trumpet",
+   "flute"
+  ],
+  [
+   "violinist",
+   "guitarist"
+  ],
+  [
+   "guitarist",
+   "drummer"
+  ],
+  [
+   "composer",
+   "songwriter"
+  ],
+  [
+   "composer",
+   "conductor"
+  ],
+  [
+   "songwriter",
+   "solo_artist"
+  ],
+  [
+   "orchestra",
+   "band"
+  ],
+  [
+   "audience",
+   "orchestra"
+  ],
+  [
+   "audience",
+   "band"
+  ],
+  [
+   "album",
+   "single"
+  ],
+  [
+   "single",
+   "track_song"
+  ],
+  [
+   "perform",
+   "come_out_music"
+  ],
+  [
+   "tune",
+   "track_song"
+  ],
+  [
+   "record_music",
+   "perform"
+  ],
+  [
+   "pianist",
+   "violinist"
+  ],
+  [
+   "pianist",
+   "guitarist"
+  ],
+  [
+   "opera",
+   "ballet"
+  ],
+  [
+   "recording_studio",
+   "record_music"
+  ],
+  [
+   "drummer",
+   "conductor"
+  ],
+  [
+   "pianist",
+   "composer"
+  ],
+  [
+   "pianist",
+   "songwriter"
+  ],
+  [
+   "pianist",
+   "solo_artist"
+  ],
+  [
+   "band",
+   "group_music"
+  ],
+  [
+   "orchestra",
+   "group_music"
+  ],
+  [
+   "violinist",
+   "cellist"
+  ],
+  [
+   "guitarist",
+   "bass_guitarist"
+  ],
+  [
+   "guitar",
+   "bass_guitar"
+  ],
+  [
+   "pianist",
+   "keyboard_player"
+  ],
+  [
+   "piano",
+   "keyboard_music"
+  ],
+  [
+   "composer",
+   "musician"
+  ],
+  [
+   "trumpeter",
+   "saxophonist"
+  ],
+  [
+   "flautist",
+   "saxophonist"
+  ],
+  [
+   "trumpeter",
+   "flautist"
+  ],
+  [
+   "cello",
+   "bass_guitar"
+  ],
+  [
+   "keyboard_music",
+   "guitar"
+  ],
+  [
+   "opera_singer",
+   "solo_artist"
+  ]
+ ]
+}

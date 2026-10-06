@@ -1,0 +1,525 @@
+{
+ "book": "upper",
+ "unit": 86,
+ "title": "Making uncountable nouns countable",
+ "title_uz": "Sanalmaydigan otlarni sanaladigan qilish",
+ "words": [
+  {
+   "id": "piece_of_luggage",
+   "en": "piece of luggage",
+   "uz": "bitta yuk (chamadon yoki sumka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The airline lets each passenger take one piece of luggage into the cabin free of charge.",
+   "gap": "piece of luggage",
+   "alt": [
+    "pieces of luggage"
+   ]
+  },
+  {
+   "id": "bit_of_information",
+   "en": "bit of information",
+   "uz": "bir parcha ma’lumot",
+   "pos": "noun",
+   "img": false,
+   "ex": "I found a useful bit of information about cheap hostels on a travel forum last night.",
+   "gap": "bit of information",
+   "alt": [
+    "bits of information"
+   ]
+  },
+  {
+   "id": "piece_of_music",
+   "en": "piece of music",
+   "uz": "bitta kuy (asar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madina played a beautiful piece of music on the piano at the end-of-year concert.",
+   "gap": "piece of music",
+   "alt": [
+    "pieces of music"
+   ]
+  },
+  {
+   "id": "piece_of_advice",
+   "en": "piece of advice",
+   "uz": "bitta maslahat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My coach gave me one piece of advice before the race: start slowly and finish fast.",
+   "gap": "piece of advice",
+   "alt": [
+    "pieces of advice",
+    "bit of advice"
+   ]
+  },
+  {
+   "id": "piece_of_furniture",
+   "en": "piece of furniture",
+   "uz": "mebel buyumi (stol, shkaf va h.k.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old wooden desk is the only piece of furniture we brought with us when we moved house.",
+   "gap": "piece of furniture",
+   "alt": [
+    "pieces of furniture"
+   ]
+  },
+  {
+   "id": "piece_of_equipment",
+   "en": "piece of equipment",
+   "uz": "bitta jihoz (asbob-uskuna)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new microscope is the most expensive piece of equipment in our science lab.",
+   "gap": "piece of equipment",
+   "alt": [
+    "pieces of equipment",
+    "bit of equipment"
+   ]
+  },
+  {
+   "id": "sunny_spell",
+   "en": "sunny spell",
+   "uz": "qisqa quyoshli davr (ob-havo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a week of grey skies, the sunny spell at the weekend was perfect for a picnic in the park.",
+   "gap": "sunny spell",
+   "alt": [
+    "sunny spells"
+   ]
+  },
+  {
+   "id": "clap_of_thunder",
+   "en": "clap of thunder",
+   "uz": "momaqaldiroqning qarsillab urishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A sudden loud clap of thunder right above the house made the baby burst into tears.",
+   "gap": "clap of thunder",
+   "alt": [
+    "claps of thunder"
+   ]
+  },
+  {
+   "id": "flash_of_lightning",
+   "en": "flash of lightning",
+   "uz": "chaqmoq chaqnashi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A bright flash of lightning lit up the whole valley for a second.",
+   "gap": "flash of lightning",
+   "alt": [
+    "flashes of lightning"
+   ]
+  },
+  {
+   "id": "spot_of_rain",
+   "en": "spot of rain",
+   "uz": "yomg‘ir tomchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I felt a spot of rain on my cheek and quickly took the washing in from the balcony.",
+   "gap": "spot of rain",
+   "alt": [
+    "spots of rain"
+   ]
+  },
+  {
+   "id": "gust_of_wind",
+   "en": "gust of wind",
+   "uz": "shamolning keskin esishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A strong gust of wind blew my cap off and carried it into the river.",
+   "gap": "gust of wind",
+   "alt": [
+    "gusts of wind"
+   ]
+  },
+  {
+   "id": "loaf_of_bread",
+   "en": "loaf of bread",
+   "uz": "bitta buxanka non",
+   "pos": "noun",
+   "img": true,
+   "ex": "Could you buy two loaves of bread from the bakery on your way home?",
+   "gap": "loaves of bread",
+   "alt": [
+    "loaves of bread"
+   ]
+  },
+  {
+   "id": "slice_of_cheese",
+   "en": "slice of cheese",
+   "uz": "bir tilim pishloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "For breakfast he put two slices of cheese and some tomato on his toast.",
+   "gap": "slices of cheese",
+   "alt": [
+    "slices of cheese"
+   ]
+  },
+  {
+   "id": "bar_of_chocolate",
+   "en": "bar of chocolate",
+   "uz": "bir plitka shokolad",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the long hike, we shared two bars of chocolate at the top of the hill.",
+   "gap": "bars of chocolate",
+   "alt": [
+    "bars of chocolate"
+   ]
+  },
+  {
+   "id": "tube_of_toothpaste",
+   "en": "tube of toothpaste",
+   "uz": "bir naycha tish pastasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's almost nothing left: I've squeezed every last bit out of this tube of toothpaste.",
+   "gap": "tube of toothpaste",
+   "alt": [
+    "tubes of toothpaste"
+   ]
+  },
+  {
+   "id": "bar_of_soap",
+   "en": "bar of soap",
+   "uz": "bir dona sovun",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our school bought fifty bars of soap for the new washrooms.",
+   "gap": "bars of soap",
+   "alt": [
+    "bars of soap"
+   ]
+  },
+  {
+   "id": "blade_of_grass",
+   "en": "blade of grass",
+   "uz": "bitta maysa (o‘t bargi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After weeks without rain, not one blade of grass was still green on the football pitch.",
+   "gap": "blade of grass",
+   "alt": [
+    "blades of grass"
+   ]
+  },
+  {
+   "id": "cloud_of_smoke",
+   "en": "cloud of smoke",
+   "uz": "quyuq tutun buluti",
+   "pos": "noun",
+   "img": false,
+   "ex": "A huge cloud of smoke rose from the factory chimney and hung over the town all day.",
+   "gap": "cloud of smoke",
+   "alt": [
+    "clouds of smoke"
+   ]
+  },
+  {
+   "id": "puff_of_smoke",
+   "en": "puff of smoke",
+   "uz": "bir burqsim tutun (oz miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Little puffs of smoke came out of the old steam train as it left the station.",
+   "gap": "puffs of smoke",
+   "alt": [
+    "puffs of smoke"
+   ]
+  },
+  {
+   "id": "breath_of_fresh_air",
+   "en": "breath of fresh air",
+   "uz": "toza havodan bir nafas olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two hours in the stuffy computer room, I opened the window for a breath of fresh air.",
+   "gap": "breath of fresh air",
+   "alt": []
+  },
+  {
+   "id": "lump_of_sugar",
+   "en": "lump of sugar",
+   "uz": "bir bo‘lak qand",
+   "pos": "noun",
+   "img": true,
+   "ex": "My brother always drops two lumps of sugar into his black tea.",
+   "gap": "lumps of sugar",
+   "alt": [
+    "lumps of sugar"
+   ]
+  },
+  {
+   "id": "stroke_of_luck",
+   "en": "stroke of luck",
+   "uz": "kutilmagan omad",
+   "pos": "noun",
+   "img": false,
+   "ex": "By a stroke of luck, the last bus was late too, so we caught it after all.",
+   "gap": "stroke of luck",
+   "alt": []
+  },
+  {
+   "id": "stroke_of_work",
+   "en": "stroke of work",
+   "uz": "zarracha ish (inkor gapda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our lazy neighbour hasn't done a stroke of work in his garden all summer.",
+   "gap": "stroke of work",
+   "alt": []
+  },
+  {
+   "id": "fit_of_temper",
+   "en": "fit of temper",
+   "uz": "to‘satdan jahl chiqishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a fit of temper, the little boy threw his toy car across the room.",
+   "gap": "fit of temper",
+   "alt": [
+    "fits of temper"
+   ]
+  },
+  {
+   "id": "means_of_transport",
+   "en": "means of transport",
+   "uz": "qatnov vositasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For most students in our town, the bicycle is the cheapest means of transport.",
+   "gap": "means of transport",
+   "alt": []
+  },
+  {
+   "id": "item_of_clothing",
+   "en": "item of clothing",
+   "uz": "kiyim-kechak buyumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A warm scarf is the one item of clothing you really need in the mountains in winter.",
+   "gap": "item of clothing",
+   "alt": [
+    "items of clothing",
+    "article of clothing"
+   ]
+  },
+  {
+   "id": "item_of_news",
+   "en": "item of news",
+   "uz": "bitta yangilik xabari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first item of news on the radio this morning was about the new metro line.",
+   "gap": "item of news",
+   "alt": [
+    "items of news"
+   ]
+  },
+  {
+   "id": "state_of_disrepair",
+   "en": "state of disrepair",
+   "uz": "qarovsiz, buzilgan holat (bino)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old cinema has been in a state of disrepair for years: the roof leaks and the windows are broken.",
+   "gap": "state of disrepair",
+   "alt": []
+  },
+  {
+   "id": "state_of_chaos",
+   "en": "state of chaos",
+   "uz": "to‘s-to‘polon, butunlay tartibsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two hours before the guests arrived, our kitchen was in a state of chaos, with pots and flour everywhere.",
+   "gap": "state of chaos",
+   "alt": []
+  },
+  {
+   "id": "state_of_flux",
+   "en": "state of flux",
+   "uz": "doimiy o‘zgarish holati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our timetable is in a state of flux at the moment, so check it every morning before school.",
+   "gap": "state of flux",
+   "alt": []
+  },
+  {
+   "id": "state_of_health",
+   "en": "state of health",
+   "uz": "sog‘liq ahvoli",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the operation, the doctor asked a lot of questions about my general state of health.",
+   "gap": "state of health",
+   "alt": []
+  },
+  {
+   "id": "state_of_tension",
+   "en": "state of tension",
+   "uz": "asabiy taranglik holati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The whole class was in a state of tension as we waited for the exam results to appear online.",
+   "gap": "state of tension",
+   "alt": []
+  },
+  {
+   "id": "slice_of_ham",
+   "en": "slice of ham",
+   "uz": "bir tilim vetchina",
+   "pos": "noun",
+   "img": true,
+   "ex": "The sandwich had a thin slice of ham, some lettuce and a little mustard.",
+   "gap": "slice of ham",
+   "alt": [
+    "slices of ham"
+   ]
+  },
+  {
+   "id": "carton_of_milk",
+   "en": "carton of milk",
+   "uz": "bir quti sut (karton)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a carton of milk in the fridge if you want some with your cereal.",
+   "gap": "carton of milk",
+   "alt": [
+    "cartons of milk"
+   ]
+  },
+  {
+   "id": "lump_of_coal",
+   "en": "lump of coal",
+   "uz": "bir bo‘lak ko‘mir",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old steam engine needed a lump of coal every few minutes to keep moving.",
+   "gap": "lump of coal",
+   "alt": [
+    "lumps of coal"
+   ]
+  },
+  {
+   "id": "state_of_confusion",
+   "en": "state of confusion",
+   "uz": "sarosima (nima qilishni bilmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The instructions were so unclear that the whole group was left in a state of confusion about which form to fill in.",
+   "gap": "state of confusion",
+   "alt": []
+  },
+  {
+   "id": "state_of_disorder",
+   "en": "state of disorder",
+   "uz": "betartib holat (narsalar, hujjatlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The files in the old archive were in a state of disorder, so it took us days to find anything.",
+   "gap": "state of disorder",
+   "alt": []
+  },
+  {
+   "id": "state_of_uncertainty",
+   "en": "state of uncertainty",
+   "uz": "noaniqlik holati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Until the results are published, thousands of applicants will remain in a state of uncertainty about their future.",
+   "gap": "state of uncertainty",
+   "alt": []
+  },
+  {
+   "id": "state_of_poverty",
+   "en": "state of poverty",
+   "uz": "qashshoqlik holati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families in the region still live in a state of poverty, without running water or electricity.",
+   "gap": "state of poverty",
+   "alt": []
+  },
+  {
+   "id": "state_of_agitation",
+   "en": "state of agitation",
+   "uz": "hayajonli bezovtalik holati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dog was in a state of agitation all evening, running to the window every time a firework went off.",
+   "gap": "state of agitation",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "cloud_of_smoke",
+   "puff_of_smoke"
+  ],
+  [
+   "item_of_news",
+   "bit_of_information"
+  ],
+  [
+   "bit_of_information",
+   "piece_of_advice"
+  ],
+  [
+   "state_of_flux",
+   "state_of_chaos"
+  ],
+  [
+   "state_of_tension",
+   "state_of_chaos"
+  ],
+  [
+   "bar_of_chocolate",
+   "loaf_of_bread"
+  ],
+  [
+   "slice_of_ham",
+   "slice_of_cheese"
+  ],
+  [
+   "state_of_disorder",
+   "state_of_chaos"
+  ],
+  [
+   "state_of_confusion",
+   "state_of_chaos"
+  ],
+  [
+   "state_of_confusion",
+   "state_of_uncertainty"
+  ],
+  [
+   "state_of_uncertainty",
+   "state_of_tension"
+  ],
+  [
+   "state_of_uncertainty",
+   "state_of_flux"
+  ],
+  [
+   "state_of_agitation",
+   "state_of_tension"
+  ],
+  [
+   "state_of_agitation",
+   "state_of_confusion"
+  ],
+  [
+   "state_of_disorder",
+   "state_of_disrepair"
+  ]
+ ]
+}

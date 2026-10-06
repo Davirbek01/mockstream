@@ -1,0 +1,690 @@
+{
+ "book": "advanced",
+ "unit": 14,
+ "title": "Negative feelings",
+ "title_uz": "Salbiy his-tuyg‘ular",
+ "words": [
+  {
+   "id": "antipathy",
+   "en": "antipathy",
+   "uz": "adovat (chuqur yoqtirmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There has long been a deep antipathy between the two rival fan clubs.",
+   "gap": "antipathy",
+   "alt": []
+  },
+  {
+   "id": "aversion",
+   "en": "aversion",
+   "uz": "ko‘ngil tortmaslik (jirkanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ever since he got ill after eating prawns, Akmal has had an aversion to seafood.",
+   "gap": "aversion",
+   "alt": [
+    "aversions"
+   ]
+  },
+  {
+   "id": "pet_aversion",
+   "en": "pet aversion",
+   "uz": "eng yomon ko‘rgan narsasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Litter on the pavement is my pet aversion; I always pick it up and grumble.",
+   "gap": "pet aversion",
+   "alt": []
+  },
+  {
+   "id": "averse_to",
+   "en": "averse to",
+   "uz": "…ga qarshi (ko‘pincha inkorda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our physics teacher is not averse to a little background music in class, as long as we finish the experiment.",
+   "gap": "averse to",
+   "alt": []
+  },
+  {
+   "id": "loathe",
+   "en": "loathe",
+   "uz": "jini suymaslik (nafratlanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Timur loathes queuing so much that he'd rather walk home than wait ten minutes for a bus.",
+   "gap": "loathes",
+   "alt": [
+    "loathes",
+    "loathed"
+   ]
+  },
+  {
+   "id": "loathsome",
+   "en": "loathsome",
+   "uz": "jirkanch (nafratli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The troll in the fairy tale was so loathsome, with his rotten teeth and foul smell, that even the crows kept away from him.",
+   "gap": "loathsome",
+   "alt": []
+  },
+  {
+   "id": "abhor",
+   "en": "abhor",
+   "uz": "qattiq jirkanmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As a vet, she abhors any cruelty to animals.",
+   "gap": "abhors",
+   "alt": [
+    "abhors",
+    "abhorred"
+   ]
+  },
+  {
+   "id": "abhorrent",
+   "en": "abhorrent",
+   "uz": "mutlaqo qabul qilib bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most people find hunting endangered animals just for fun morally abhorrent.",
+   "gap": "abhorrent",
+   "alt": []
+  },
+  {
+   "id": "scornful",
+   "en": "scornful",
+   "uz": "mensimaydigan (kesatiqli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She gave a scornful laugh when he claimed he could run a marathon without any training.",
+   "gap": "scornful",
+   "alt": []
+  },
+  {
+   "id": "irritation",
+   "en": "irritation",
+   "uz": "g‘ashi kelish (achchiqlanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To my irritation, the bus driver went straight past the stop without opening the doors.",
+   "gap": "irritation",
+   "alt": []
+  },
+  {
+   "id": "distressing",
+   "en": "distressing",
+   "uz": "yurakni ezadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pictures of animals trapped by the forest fires were deeply distressing.",
+   "gap": "distressing",
+   "alt": []
+  },
+  {
+   "id": "alarming",
+   "en": "alarming",
+   "uz": "xavotirli (cho‘chitadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Water levels in the Aral Sea fell at an alarming rate in the second half of the twentieth century.",
+   "gap": "alarming",
+   "alt": []
+  },
+  {
+   "id": "offhand",
+   "en": "offhand",
+   "uz": "loqayd va sovuq (muomalada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When I asked the shop assistant for help, she was very offhand: she just shrugged, said 'Look for yourself' and went back to her phone.",
+   "gap": "offhand",
+   "alt": []
+  },
+  {
+   "id": "officious",
+   "en": "officious",
+   "uz": "ortiqcha buyruqboz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "An officious security guard insisted on checking every page of my passport twice.",
+   "gap": "officious",
+   "alt": []
+  },
+  {
+   "id": "ostentatious",
+   "en": "ostentatious",
+   "uz": "boylikni ko‘z-ko‘z qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The businessman's ostentatious party had fireworks, three famous singers and a gold-coloured cake.",
+   "gap": "ostentatious",
+   "alt": []
+  },
+  {
+   "id": "pompous",
+   "en": "pompous",
+   "uz": "kekkaygan (o‘zini katta oladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since his promotion, Shavkat has become so pompous that he insists everyone call him 'Mr Director'.",
+   "gap": "pompous",
+   "alt": []
+  },
+  {
+   "id": "pretentious",
+   "en": "pretentious",
+   "uz": "o‘zini bilimdon qilib ko‘rsatadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He fills every essay with Latin phrases just to sound clever, which makes him seem rather pretentious.",
+   "gap": "pretentious",
+   "alt": []
+  },
+  {
+   "id": "puerile",
+   "en": "puerile",
+   "uz": "bolalarcha bema’ni",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Drawing moustaches on the posters in the corridor was a puerile joke for sixteen-year-olds.",
+   "gap": "puerile",
+   "alt": []
+  },
+  {
+   "id": "sloppy",
+   "en": "sloppy",
+   "uz": "pala-partish (beparvo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The plumber did such a sloppy job that water was dripping from the new pipe within a week.",
+   "gap": "sloppy",
+   "alt": []
+  },
+  {
+   "id": "fickle",
+   "en": "fickle",
+   "uz": "tez aynib qoladigan (o‘zgaruvchan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Teenagers' tastes in music can be fickle: last month my sister adored K-pop, and now she only listens to jazz.",
+   "gap": "fickle",
+   "alt": []
+  },
+  {
+   "id": "nit_picking",
+   "en": "nit-picking",
+   "uz": "mayda-chuydaga osiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our nit-picking editor once sent an article back three times because of a single misplaced comma.",
+   "gap": "nit-picking",
+   "alt": [
+    "nit picking",
+    "nitpicking"
+   ]
+  },
+  {
+   "id": "obnoxious",
+   "en": "obnoxious",
+   "uz": "yoqimsiz va qo‘pol",
+   "pos": "adjective",
+   "img": false,
+   "ex": "An obnoxious passenger shouted at the flight attendants for the whole flight.",
+   "gap": "obnoxious",
+   "alt": []
+  },
+  {
+   "id": "dejected",
+   "en": "dejected",
+   "uz": "hafsalasi pir bo‘lgan (ruhi tushgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After training for months, Anvar looked utterly dejected when he wasn't picked for the national chess team.",
+   "gap": "dejected",
+   "alt": []
+  },
+  {
+   "id": "forlorn",
+   "en": "forlorn",
+   "uz": "g‘arib (yolg‘iz va ma’yus)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A single forlorn balloon was left tied to the gate long after the party was over.",
+   "gap": "forlorn",
+   "alt": []
+  },
+  {
+   "id": "devastated",
+   "en": "devastated",
+   "uz": "qattiq larzaga tushgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour was devastated when the flood destroyed the garden he had looked after for forty years.",
+   "gap": "devastated",
+   "alt": []
+  },
+  {
+   "id": "distraught",
+   "en": "distraught",
+   "uz": "tashvishdan o‘zini yo‘qotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The student was distraught when her passport and tickets were stolen at the airport just hours before her flight.",
+   "gap": "distraught",
+   "alt": []
+  },
+  {
+   "id": "down",
+   "en": "down",
+   "uz": "kayfiyati tushgan (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rainy Mondays always leave me feeling a bit down, so I treat myself to a hot chocolate on the way to work.",
+   "gap": "down",
+   "alt": []
+  },
+  {
+   "id": "miserable",
+   "en": "miserable",
+   "uz": "juda baxtsiz (bechora holda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It rained all week in Bukhara, and the tourists looked cold and miserable.",
+   "gap": "miserable",
+   "alt": []
+  },
+  {
+   "id": "loathing",
+   "en": "loathing",
+   "uz": "nafrat (jirkanish hissi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ever since a bad week at summer camp, Sevara has had a deep loathing of cold porridge.",
+   "gap": "loathing",
+   "alt": []
+  },
+  {
+   "id": "abhorrence",
+   "en": "abhorrence",
+   "uz": "qattiq nafrat (axloqiy jirkanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The writer's abhorrence of violence is clear in every chapter of his anti-war novel.",
+   "gap": "abhorrence",
+   "alt": []
+  },
+  {
+   "id": "scorn",
+   "en": "scorn",
+   "uz": "mensimaslik (past nazar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The critics poured scorn on the mayor's plan to ban bicycles from the city centre.",
+   "gap": "scorn",
+   "alt": [
+    "scorned",
+    "scorns"
+   ]
+  },
+  {
+   "id": "irritate",
+   "en": "irritate",
+   "uz": "g‘ashini keltirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It really irritates me when people leave their trolleys in the middle of the supermarket car park.",
+   "gap": "irritates",
+   "alt": [
+    "irritates"
+   ]
+  },
+  {
+   "id": "irritating",
+   "en": "irritating",
+   "uz": "asabga tegadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new flatmate has an irritating habit of humming the same song over and over while he cooks.",
+   "gap": "irritating",
+   "alt": []
+  },
+  {
+   "id": "irritated",
+   "en": "irritated",
+   "uz": "jahli chiqqan (g‘ashi kelgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The speaker, clearly irritated by the phones ringing in the hall, stopped and asked everyone to switch them off.",
+   "gap": "irritated",
+   "alt": []
+  },
+  {
+   "id": "distress",
+   "en": "distress",
+   "uz": "iztirob (qattiq qayg‘u-tashvish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lost child was in obvious distress, crying and calling for her mother outside the metro station.",
+   "gap": "distress",
+   "alt": []
+  },
+  {
+   "id": "distressed",
+   "en": "distressed",
+   "uz": "iztirobga tushgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The vet said the horse had become distressed by the fireworks and needed to be kept somewhere quiet.",
+   "gap": "distressed",
+   "alt": []
+  },
+  {
+   "id": "alarm",
+   "en": "alarm",
+   "uz": "xavotir (qo‘rquv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There is no cause for alarm: the smoke is coming from the school kitchen, not from a fire.",
+   "gap": "alarm",
+   "alt": []
+  },
+  {
+   "id": "alarmed",
+   "en": "alarmed",
+   "uz": "xavotirga tushgan (cho‘chigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Scientists are alarmed by how quickly the glacier has shrunk over the past ten years.",
+   "gap": "alarmed",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "antipathy",
+   "aversion"
+  ],
+  [
+   "aversion",
+   "pet_aversion"
+  ],
+  [
+   "loathe",
+   "abhor"
+  ],
+  [
+   "loathsome",
+   "obnoxious"
+  ],
+  [
+   "loathsome",
+   "abhorrent"
+  ],
+  [
+   "abhorrent",
+   "distressing"
+  ],
+  [
+   "distressing",
+   "alarming"
+  ],
+  [
+   "offhand",
+   "obnoxious"
+  ],
+  [
+   "officious",
+   "obnoxious"
+  ],
+  [
+   "offhand",
+   "officious"
+  ],
+  [
+   "pompous",
+   "pretentious"
+  ],
+  [
+   "ostentatious",
+   "pretentious"
+  ],
+  [
+   "nit_picking",
+   "pompous"
+  ],
+  [
+   "pompous",
+   "officious"
+  ],
+  [
+   "offhand",
+   "scornful"
+  ],
+  [
+   "ostentatious",
+   "pompous"
+  ],
+  [
+   "dejected",
+   "forlorn"
+  ],
+  [
+   "dejected",
+   "devastated"
+  ],
+  [
+   "dejected",
+   "distraught"
+  ],
+  [
+   "dejected",
+   "down"
+  ],
+  [
+   "dejected",
+   "miserable"
+  ],
+  [
+   "forlorn",
+   "devastated"
+  ],
+  [
+   "forlorn",
+   "distraught"
+  ],
+  [
+   "forlorn",
+   "down"
+  ],
+  [
+   "forlorn",
+   "miserable"
+  ],
+  [
+   "devastated",
+   "distraught"
+  ],
+  [
+   "devastated",
+   "down"
+  ],
+  [
+   "devastated",
+   "miserable"
+  ],
+  [
+   "distraught",
+   "down"
+  ],
+  [
+   "distraught",
+   "miserable"
+  ],
+  [
+   "down",
+   "miserable"
+  ],
+  [
+   "loathing",
+   "aversion"
+  ],
+  [
+   "loathing",
+   "antipathy"
+  ],
+  [
+   "loathing",
+   "abhorrence"
+  ],
+  [
+   "loathing",
+   "scorn"
+  ],
+  [
+   "abhorrence",
+   "antipathy"
+  ],
+  [
+   "abhorrence",
+   "scorn"
+  ],
+  [
+   "loathing",
+   "loathe"
+  ],
+  [
+   "abhorrence",
+   "abhor"
+  ],
+  [
+   "scorn",
+   "scornful"
+  ],
+  [
+   "irritate",
+   "irritated"
+  ],
+  [
+   "irritate",
+   "irritating"
+  ],
+  [
+   "irritated",
+   "irritating"
+  ],
+  [
+   "irritation",
+   "irritated"
+  ],
+  [
+   "irritating",
+   "obnoxious"
+  ],
+  [
+   "irritating",
+   "alarming"
+  ],
+  [
+   "irritating",
+   "distressing"
+  ],
+  [
+   "irritation",
+   "alarm"
+  ],
+  [
+   "irritation",
+   "distress"
+  ],
+  [
+   "distress",
+   "alarm"
+  ],
+  [
+   "irritated",
+   "alarmed"
+  ],
+  [
+   "irritated",
+   "distressed"
+  ],
+  [
+   "irritated",
+   "down"
+  ],
+  [
+   "irritated",
+   "miserable"
+  ],
+  [
+   "irritated",
+   "dejected"
+  ],
+  [
+   "distressed",
+   "alarmed"
+  ],
+  [
+   "distressed",
+   "distraught"
+  ],
+  [
+   "distressed",
+   "devastated"
+  ],
+  [
+   "distressed",
+   "dejected"
+  ],
+  [
+   "distressed",
+   "down"
+  ],
+  [
+   "distressed",
+   "miserable"
+  ],
+  [
+   "distressed",
+   "forlorn"
+  ],
+  [
+   "distressed",
+   "distressing"
+  ],
+  [
+   "alarmed",
+   "distraught"
+  ],
+  [
+   "alarmed",
+   "devastated"
+  ],
+  [
+   "alarmed",
+   "alarming"
+  ],
+  [
+   "irritate",
+   "irritation"
+  ],
+  [
+   "distress",
+   "distressed"
+  ],
+  [
+   "distress",
+   "distressing"
+  ],
+  [
+   "alarm",
+   "alarmed"
+  ],
+  [
+   "alarm",
+   "alarming"
+  ]
+ ]
+}

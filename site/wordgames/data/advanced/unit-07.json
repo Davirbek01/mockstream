@@ -1,0 +1,504 @@
+{
+ "book": "advanced",
+ "unit": 7,
+ "title": "At work: careers",
+ "title_uz": "Ishda: martaba",
+ "words": [
+  {
+   "id": "telesales",
+   "en": "telesales",
+   "uz": "telefon orqali sotish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Working in telesales taught Kamola to stay polite even when the person on the other end of the line was shouting at her.",
+   "gap": "telesales",
+   "alt": []
+  },
+  {
+   "id": "telemarketing",
+   "en": "telemarketing",
+   "uz": "telefon orqali marketing",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank's telemarketing team phones about five hundred customers a day to promote its new credit cards.",
+   "gap": "telemarketing",
+   "alt": []
+  },
+  {
+   "id": "cold_calling",
+   "en": "cold calling",
+   "uz": "so‘ralmagan sotuv qo‘ng‘iroqlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The insurance firm has stopped cold calling after hundreds of customers complained about strangers ringing them during dinner.",
+   "gap": "cold calling",
+   "alt": [
+    "cold-calling"
+   ]
+  },
+  {
+   "id": "hard_sell",
+   "en": "hard sell",
+   "uz": "tazyiq bilan sotish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car dealer tried the hard sell, refusing to let us leave the showroom until we had signed something.",
+   "gap": "hard sell",
+   "alt": [
+    "hard-sell"
+   ]
+  },
+  {
+   "id": "part_with",
+   "en": "part with your money",
+   "uz": "pul sarflamoq (pulidan ajralmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The friendly souvenir sellers at Chorsu Bazaar are very good at persuading tourists to part with their money.",
+   "gap": "part with",
+   "alt": [
+    "part with their money",
+    "parted with their money",
+    "part with money",
+    "part with",
+    "parted with",
+    "parting with"
+   ]
+  },
+  {
+   "id": "shopping_channel",
+   "en": "shopping channel",
+   "uz": "teledo‘kon kanali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Unable to sleep, my aunt ordered a set of kitchen knives from a shopping channel at two in the morning.",
+   "gap": "shopping channel",
+   "alt": [
+    "shopping channels"
+   ]
+  },
+  {
+   "id": "merchandise",
+   "en": "merchandise",
+   "uz": "savdo mahsulotlari (tovar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the concert, fans queued for an hour to buy the band's merchandise: T-shirts, posters and mugs.",
+   "gap": "merchandise",
+   "alt": []
+  },
+  {
+   "id": "not_look_back",
+   "en": "not look back",
+   "uz": "muvaffaqiyat sari ilgarilab ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Moving to Nukus was a risk, but Timur hasn't looked back: his small coding school there now has three hundred pupils.",
+   "gap": "hasn't looked back",
+   "alt": [
+    "hasn't looked back",
+    "has not looked back",
+    "never looked back"
+   ]
+  },
+  {
+   "id": "purchasing_power",
+   "en": "purchasing power",
+   "uz": "xarid qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "When prices rise faster than wages, ordinary families lose purchasing power.",
+   "gap": "purchasing power",
+   "alt": []
+  },
+  {
+   "id": "shop_around",
+   "en": "shop around",
+   "uz": "narxlarni solishtirib yurmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Before buying a new fridge, it's worth taking the time to shop around, because the same model can cost much less in another store.",
+   "gap": "shop around",
+   "alt": []
+  },
+  {
+   "id": "stock",
+   "en": "stock",
+   "uz": "sotuvda saqlamoq (do‘konda bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Only one shop in our district stocks the special rice flour my mother uses for her chak-chak.",
+   "gap": "stocks",
+   "alt": [
+    "stocks",
+    "stocked"
+   ]
+  },
+  {
+   "id": "trade_up",
+   "en": "trade up",
+   "uz": "qimmatrog‘iga almashtirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "When their second child arrived, they sold their little Matiz and traded up to a bigger family car.",
+   "gap": "traded up",
+   "alt": [
+    "traded up",
+    "trading up"
+   ]
+  },
+  {
+   "id": "trade_down",
+   "en": "trade down",
+   "uz": "arzonrog‘iga almashtirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "After the children left home, the couple traded down to a small flat and saved the difference.",
+   "gap": "traded down",
+   "alt": [
+    "traded down",
+    "trading down"
+   ]
+  },
+  {
+   "id": "brand_loyalty",
+   "en": "brand loyalty",
+   "uz": "brendga sodiqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My father has bought the same make of green tea for forty years; that's real brand loyalty.",
+   "gap": "brand loyalty",
+   "alt": []
+  },
+  {
+   "id": "loss_leader",
+   "en": "loss leader",
+   "uz": "xaridor jalb qilish uchun zarariga tovar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The printer itself is a loss leader; the company makes its real money on the expensive ink cartridges.",
+   "gap": "loss leader",
+   "alt": []
+  },
+  {
+   "id": "price",
+   "en": "price",
+   "uz": "narx belgilamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new phone was priced so high that it sold badly in its first month.",
+   "gap": "priced",
+   "alt": [
+    "priced",
+    "pricing",
+    "prices"
+   ]
+  },
+  {
+   "id": "niche_market",
+   "en": "niche market",
+   "uz": "tor ixtisoslashgan bozor",
+   "pos": "noun",
+   "img": false,
+   "ex": "A Tashkent start-up making prayer mats with built-in compasses has found a small but loyal niche market.",
+   "gap": "niche market",
+   "alt": []
+  },
+  {
+   "id": "under_the_hammer",
+   "en": "go under the hammer",
+   "uz": "kim oshdi savdosida sotilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the old cinema closed, its seats and projectors went under the hammer to pay off its debts.",
+   "gap": "went under the hammer",
+   "alt": [
+    "went under the hammer",
+    "come under the hammer",
+    "came under the hammer"
+   ]
+  },
+  {
+   "id": "auction",
+   "en": "auction",
+   "uz": "kim oshdi savdosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The painting was sold at auction to a collector who bid by telephone.",
+   "gap": "auction",
+   "alt": [
+    "auctions"
+   ]
+  },
+  {
+   "id": "lucrative",
+   "en": "lucrative",
+   "uz": "juda daromadli (serdaromad)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Exporting dried apricots has turned out to be a lucrative business for many farmers around Samarkand.",
+   "gap": "lucrative",
+   "alt": []
+  },
+  {
+   "id": "red_tape",
+   "en": "red tape",
+   "uz": "qog‘ozbozlik (byurokratiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Importing a single spare part for the tractor involved so much red tape that the harvest was over before it arrived.",
+   "gap": "red tape",
+   "alt": []
+  },
+  {
+   "id": "administration",
+   "en": "administration",
+   "uz": "ma’muriy ishlar (boshqaruv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the clinic grew, the doctor hired a manager to handle the administration so she could focus on patients.",
+   "gap": "administration",
+   "alt": []
+  },
+  {
+   "id": "proposition",
+   "en": "proposition",
+   "uz": "rasmiy taklif (biznes taklifi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A Korean company approached the farm with a proposition: it would buy the entire cotton harvest for five years.",
+   "gap": "proposition",
+   "alt": []
+  },
+  {
+   "id": "takeover",
+   "en": "takeover",
+   "uz": "kompaniyani sotib olib egallash",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tiny airline fought off a takeover bid from its larger rival and stayed independent.",
+   "gap": "takeover",
+   "alt": [
+    "takeovers",
+    "take-over"
+   ]
+  },
+  {
+   "id": "merger",
+   "en": "merger",
+   "uz": "ikki kompaniyaning birlashuvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The merger of the two mobile operators created a single company with twice as many customers.",
+   "gap": "merger",
+   "alt": [
+    "mergers"
+   ]
+  },
+  {
+   "id": "reach_a_compromise",
+   "en": "reach a compromise",
+   "uz": "murosaga kelmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The landlord wanted a higher rent and the shop owner wanted no increase, but they finally reached a compromise.",
+   "gap": "reached a compromise",
+   "alt": [
+    "reached a compromise",
+    "reaching a compromise"
+   ]
+  },
+  {
+   "id": "hammer_out_a_deal",
+   "en": "hammer out a deal",
+   "uz": "uzoq muzokara bilan bitim tuzmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Lawyers from both firms spent three long nights hammering out a deal over every detail of the contract.",
+   "gap": "hammering out a deal",
+   "alt": [
+    "hammered out a deal",
+    "hammering out a deal"
+   ]
+  },
+  {
+   "id": "swallow_up",
+   "en": "swallow up",
+   "uz": "yutib yubormoq (kichik firmani)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Many family-run shops have been swallowed up by the big supermarket chains.",
+   "gap": "swallowed up",
+   "alt": [
+    "swallowed up",
+    "swallowing up"
+   ]
+  },
+  {
+   "id": "capital_assets",
+   "en": "capital assets",
+   "uz": "asosiy vositalar (bino, uskunalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the textile mill went bankrupt, its capital assets, from the looms to the warehouse, were sold to pay the workers.",
+   "gap": "capital assets",
+   "alt": []
+  },
+  {
+   "id": "invest_in",
+   "en": "invest in",
+   "uz": "…ga sarmoya kiritmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Rather than keep her savings in the bank, Iroda decided to invest in a small guesthouse near the old palace in Shahrisabz.",
+   "gap": "invest in",
+   "alt": [
+    "invested in",
+    "investing in",
+    "invests in"
+   ]
+  },
+  {
+   "id": "letting_agency",
+   "en": "letting agency",
+   "uz": "ijara agentligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We found our flat in Chilonzor through a letting agency, which also arranges any repairs.",
+   "gap": "letting agency",
+   "alt": [
+    "letting agencies"
+   ]
+  },
+  {
+   "id": "in_stock",
+   "en": "in stock",
+   "uz": "sotuvda mavjud (omborda bor)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The website says the blue trainers are in stock, so they should arrive by Thursday.",
+   "gap": "in stock",
+   "alt": [
+    "keep in stock"
+   ]
+  },
+  {
+   "id": "bid",
+   "en": "bid",
+   "uz": "auksionda taklif qilingan narx",
+   "pos": "noun",
+   "img": false,
+   "ex": "The final bid for the antique clock was ten thousand dollars, far more than anyone had expected.",
+   "gap": "bid",
+   "alt": [
+    "bids"
+   ]
+  },
+  {
+   "id": "highest_bidder",
+   "en": "highest bidder",
+   "uz": "eng ko‘p narx taklif qilgan xaridor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The vintage motorbike will go to the highest bidder at Saturday's sale.",
+   "gap": "highest bidder",
+   "alt": []
+  },
+  {
+   "id": "persevere",
+   "en": "persevere",
+   "uz": "sabr bilan harakatni davom ettirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The first hundred customers said no, but Ozod persevered and made his first sale on the fifth day.",
+   "gap": "persevered",
+   "alt": [
+    "persevered",
+    "persevering",
+    "perseveres"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "telesales",
+   "cold_calling"
+  ],
+  [
+   "telemarketing",
+   "telesales"
+  ],
+  [
+   "telemarketing",
+   "cold_calling"
+  ],
+  [
+   "telemarketing",
+   "hard_sell"
+  ],
+  [
+   "cold_calling",
+   "hard_sell"
+  ],
+  [
+   "telesales",
+   "hard_sell"
+  ],
+  [
+   "stock",
+   "price"
+  ],
+  [
+   "trade_up",
+   "trade_down"
+  ],
+  [
+   "under_the_hammer",
+   "auction"
+  ],
+  [
+   "red_tape",
+   "administration"
+  ],
+  [
+   "takeover",
+   "merger"
+  ],
+  [
+   "takeover",
+   "swallow_up"
+  ],
+  [
+   "reach_a_compromise",
+   "hammer_out_a_deal"
+  ],
+  [
+   "invest_in",
+   "part_with"
+  ],
+  [
+   "lucrative",
+   "niche_market"
+  ],
+  [
+   "telesales",
+   "administration"
+  ],
+  [
+   "in_stock",
+   "stock"
+  ],
+  [
+   "bid",
+   "price"
+  ],
+  [
+   "bid",
+   "auction"
+  ],
+  [
+   "highest_bidder",
+   "auction"
+  ]
+ ]
+}

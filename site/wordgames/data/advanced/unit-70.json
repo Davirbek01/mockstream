@@ -1,0 +1,587 @@
+{
+ "book": "advanced",
+ "unit": 70,
+ "title": "Modality: expressing facts, opinions, desires",
+ "title_uz": "Modallik: fakt, fikr va istakni ifodalash",
+ "words": [
+  {
+   "id": "must_admit",
+   "en": "must admit",
+   "uz": "tan olishim kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I must admit the online lessons turned out to be far more useful than I had expected.",
+   "gap": "must admit",
+   "alt": []
+  },
+  {
+   "id": "must_be_joking",
+   "en": "you must be joking",
+   "uz": "Hazillashyapsiz-ku!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Walk twenty kilometres in this heat? You must be joking!",
+   "gap": "must be joking",
+   "alt": [
+    "must be joking"
+   ]
+  },
+  {
+   "id": "accidents_will_happen",
+   "en": "accidents will happen",
+   "uz": "Bunaqasi bo‘lib turadi (hech gap emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You knocked the paint pot over? Never mind, Malika; accidents will happen, and the floor is easy to clean.",
+   "gap": "accidents will happen",
+   "alt": []
+  },
+  {
+   "id": "should_be_so_lucky",
+   "en": "I should be so lucky",
+   "uz": "Qani endi! (bunday omad kelmaydi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shahnoza thinks the teacher might cancel tomorrow's exam because of the snow. I should be so lucky!",
+   "gap": "should be so lucky",
+   "alt": [
+    "should be so lucky"
+   ]
+  },
+  {
+   "id": "might_i_ask",
+   "en": "might I ask",
+   "uz": "so‘rasam maylimi (rasmiy, kinoyali)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "And where, might I ask, have you been until midnight?",
+   "gap": "might I ask",
+   "alt": [
+    "may I ask"
+   ]
+  },
+  {
+   "id": "may_never_happen",
+   "en": "it may never happen",
+   "uz": "Tashvishlanma, balki bo‘lmas ham!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You're already worrying about failing next year's exams? Relax, it may never happen!",
+   "gap": "may never happen",
+   "alt": [
+    "may never happen",
+    "it might never happen",
+    "might never happen"
+   ]
+  },
+  {
+   "id": "who_should_i_see",
+   "en": "who should I see but",
+   "uz": "kimni ko‘rdim deng (kutilmaganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I was queuing for ice cream at the zoo when who should I see but my old maths teacher!",
+   "gap": "who should I see but",
+   "alt": [
+    "who should I meet but",
+    "who should I bump into but"
+   ]
+  },
+  {
+   "id": "odds_are_against",
+   "en": "the odds are against",
+   "uz": "ehtimoli juda past",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sadly, the odds are against our team winning, as we've lost every game this season.",
+   "gap": "odds are against",
+   "alt": [
+    "odds are against"
+   ]
+  },
+  {
+   "id": "chances_are",
+   "en": "the chances are",
+   "uz": "ehtimol (shunday bo‘lsa kerak)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Book your train tickets now; the chances are they'll be sold out by Friday.",
+   "gap": "chances are",
+   "alt": [
+    "chances are"
+   ]
+  },
+  {
+   "id": "bound_to",
+   "en": "bound to",
+   "uz": "albatta …adi (muqarrar)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take an umbrella; it's bound to rain later, as the sky is already dark grey.",
+   "gap": "bound to",
+   "alt": []
+  },
+  {
+   "id": "unquestionably",
+   "en": "unquestionably",
+   "uz": "shubhasiz (hech qanday shubhasiz)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Of all the buildings in Samarkand, the Registan is unquestionably the most photographed.",
+   "gap": "unquestionably",
+   "alt": []
+  },
+  {
+   "id": "apparent",
+   "en": "apparent",
+   "uz": "ayon (yaqqol ko‘rinib turgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It soon became apparent that nobody had read the book before the lesson.",
+   "gap": "apparent",
+   "alt": []
+  },
+  {
+   "id": "for_sure",
+   "en": "for sure",
+   "uz": "aniq (gap oxirida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilnoza will win the spelling competition, for sure; she never makes a single mistake.",
+   "gap": "for sure",
+   "alt": []
+  },
+  {
+   "id": "in_all_probability",
+   "en": "in all probability",
+   "uz": "katta ehtimol bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new bridge will, in all probability, be finished before winter.",
+   "gap": "in all probability",
+   "alt": []
+  },
+  {
+   "id": "every_likelihood",
+   "en": "every likelihood",
+   "uz": "bo‘lishi juda ehtimol",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's every likelihood that the new library will open before the end of the school year.",
+   "gap": "every likelihood",
+   "alt": []
+  },
+  {
+   "id": "essential",
+   "en": "essential",
+   "uz": "o‘ta zarur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Plenty of water is essential on a summer trip to the desert near Bukhara.",
+   "gap": "essential",
+   "alt": []
+  },
+  {
+   "id": "obligatory",
+   "en": "obligatory",
+   "uz": "majburiy (qoida talabi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wearing a seat belt is obligatory in the front of a taxi, but many passengers still forget.",
+   "gap": "obligatory",
+   "alt": []
+  },
+  {
+   "id": "no_option_but",
+   "en": "no option but",
+   "uz": "…dan boshqa iloj yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The last bus had already left, so we had no option but to call a taxi.",
+   "gap": "no option but",
+   "alt": []
+  },
+  {
+   "id": "obligation",
+   "en": "obligation",
+   "uz": "burch (majburiyat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As class captain, Sardor feels an obligation to help new students settle in.",
+   "gap": "obligation",
+   "alt": [
+    "obligations"
+   ]
+  },
+  {
+   "id": "optional",
+   "en": "optional",
+   "uz": "ixtiyoriy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Attending the Saturday art class is optional, so only students who love drawing come.",
+   "gap": "optional",
+   "alt": []
+  },
+  {
+   "id": "compulsory",
+   "en": "compulsory",
+   "uz": "majburiy (ta’lim, fan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At this school a second foreign language is compulsory from Year 5, so every pupil studies either Russian or German.",
+   "gap": "compulsory",
+   "alt": []
+  },
+  {
+   "id": "determined",
+   "en": "determined",
+   "uz": "qat’iy ahd qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Despite failing her driving test twice, Mohira was determined to pass the third time.",
+   "gap": "determined",
+   "alt": []
+  },
+  {
+   "id": "eager",
+   "en": "eager",
+   "uz": "intiq, oshiqib turgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new students were eager to explore the campus and asked endless questions on the tour.",
+   "gap": "eager",
+   "alt": []
+  },
+  {
+   "id": "long_to",
+   "en": "long to",
+   "uz": "juda-juda istamoq (orziqmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I long to see the snow leopards of the Ugam-Chatkal mountains one day.",
+   "gap": "long to",
+   "alt": [
+    "longed to",
+    "longing to",
+    "longs to"
+   ]
+  },
+  {
+   "id": "aspirations",
+   "en": "aspirations",
+   "uz": "oliy maqsadlar (intilishlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite growing up in a small village, Feruza never gave up her aspirations of becoming a doctor.",
+   "gap": "aspirations",
+   "alt": [
+    "aspiration"
+   ]
+  },
+  {
+   "id": "must_confess",
+   "en": "must confess",
+   "uz": "iqror bo‘lishim kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I must confess I've never actually read the novel I recommended to you.",
+   "gap": "must confess",
+   "alt": []
+  },
+  {
+   "id": "must_say",
+   "en": "must say",
+   "uz": "rostini aytsam (ta’kid)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Well, I must say, your Spanish has improved enormously since the summer!",
+   "gap": "must say",
+   "alt": []
+  },
+  {
+   "id": "must_have_been",
+   "en": "must have been",
+   "uz": "…bo‘lgan bo‘lsangiz kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You must have been delighted when you heard you'd won the scholarship!",
+   "gap": "must have been",
+   "alt": []
+  },
+  {
+   "id": "wont_refuse",
+   "en": "won't",
+   "uz": "ishlamay qo‘ymoq (ko‘nmaslik)",
+   "pos": "modal verb",
+   "img": false,
+   "ex": "Our old washing machine won't start, however many times I press the button.",
+   "gap": "won't",
+   "alt": []
+  },
+  {
+   "id": "thatll_be",
+   "en": "that'll be",
+   "uz": "bu … bo‘lsa kerak (taxmin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Someone's ringing the bell; that'll be the pizza I ordered twenty minutes ago.",
+   "gap": "that'll be",
+   "alt": []
+  },
+  {
+   "id": "what_can_i_do",
+   "en": "what can I do",
+   "uz": "Endi nima qilay? (iloji yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The last train has gone and my phone battery is dead; what can I do?",
+   "gap": "what can I do",
+   "alt": []
+  },
+  {
+   "id": "might_well",
+   "en": "might well",
+   "uz": "…bo‘lishi ham ancha mumkin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't give up yet; the shop might well have one more pair in the storeroom.",
+   "gap": "might well",
+   "alt": []
+  },
+  {
+   "id": "odds_are",
+   "en": "the odds are",
+   "uz": "ko‘p ehtimol shuki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rustam has trained every day for a year, so the odds are he'll make the national team.",
+   "gap": "odds are",
+   "alt": []
+  },
+  {
+   "id": "anxious_to",
+   "en": "anxious to",
+   "uz": "…ni havotir bilan juda istamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nervous on her first day, the new manager was anxious to make a good impression on her team.",
+   "gap": "anxious to",
+   "alt": []
+  },
+  {
+   "id": "keen_to",
+   "en": "keen to",
+   "uz": "…ga ishqiboz (qilgisi kelgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ulugbek has just bought a guitar and is keen to learn a few songs before the summer camp.",
+   "gap": "keen to",
+   "alt": []
+  },
+  {
+   "id": "resolved_to",
+   "en": "resolved to",
+   "uz": "…ga qaror qilib qo‘ygan (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the flood, the villagers were resolved to rebuild the bridge themselves before winter.",
+   "gap": "resolved to",
+   "alt": []
+  },
+  {
+   "id": "wish_to",
+   "en": "wish to",
+   "uz": "…ni xohlamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers who wish to change their seats should speak to a member of the cabin crew.",
+   "gap": "wish to",
+   "alt": [
+    "wishes to",
+    "wished to",
+    "wishing to"
+   ]
+  },
+  {
+   "id": "desire_to",
+   "en": "desire to",
+   "uz": "…ni ishtiyoq bilan istamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In her formal letter, the author says she desires to meet her readers in person.",
+   "gap": "desires to",
+   "alt": [
+    "desires to",
+    "desired to",
+    "desiring to"
+   ]
+  },
+  {
+   "id": "ambitions",
+   "en": "ambitions",
+   "uz": "katta orzu-maqsadlar (shuhrat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the age of ten, Gulchehra had ambitions to become a champion swimmer.",
+   "gap": "ambitions",
+   "alt": [
+    "ambition"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "odds_are_against",
+   "chances_are"
+  ],
+  [
+   "chances_are",
+   "every_likelihood"
+  ],
+  [
+   "chances_are",
+   "in_all_probability"
+  ],
+  [
+   "for_sure",
+   "unquestionably"
+  ],
+  [
+   "for_sure",
+   "in_all_probability"
+  ],
+  [
+   "unquestionably",
+   "in_all_probability"
+  ],
+  [
+   "unquestionably",
+   "apparent"
+  ],
+  [
+   "essential",
+   "obligatory"
+  ],
+  [
+   "essential",
+   "compulsory"
+  ],
+  [
+   "obligatory",
+   "compulsory"
+  ],
+  [
+   "obligation",
+   "no_option_but"
+  ],
+  [
+   "determined",
+   "eager"
+  ],
+  [
+   "determined",
+   "bound_to"
+  ],
+  [
+   "eager",
+   "bound_to"
+  ],
+  [
+   "eager",
+   "long_to"
+  ],
+  [
+   "must_be_joking",
+   "should_be_so_lucky"
+  ],
+  [
+   "must_confess",
+   "must_admit"
+  ],
+  [
+   "must_confess",
+   "must_say"
+  ],
+  [
+   "must_say",
+   "must_admit"
+  ],
+  [
+   "might_well",
+   "bound_to"
+  ],
+  [
+   "odds_are",
+   "chances_are"
+  ],
+  [
+   "odds_are",
+   "every_likelihood"
+  ],
+  [
+   "anxious_to",
+   "keen_to"
+  ],
+  [
+   "anxious_to",
+   "eager"
+  ],
+  [
+   "anxious_to",
+   "determined"
+  ],
+  [
+   "anxious_to",
+   "resolved_to"
+  ],
+  [
+   "anxious_to",
+   "bound_to"
+  ],
+  [
+   "keen_to",
+   "eager"
+  ],
+  [
+   "keen_to",
+   "determined"
+  ],
+  [
+   "keen_to",
+   "resolved_to"
+  ],
+  [
+   "keen_to",
+   "bound_to"
+  ],
+  [
+   "resolved_to",
+   "determined"
+  ],
+  [
+   "resolved_to",
+   "eager"
+  ],
+  [
+   "resolved_to",
+   "bound_to"
+  ],
+  [
+   "wish_to",
+   "desire_to"
+  ],
+  [
+   "wish_to",
+   "long_to"
+  ],
+  [
+   "desire_to",
+   "long_to"
+  ],
+  [
+   "ambitions",
+   "aspirations"
+  ]
+ ]
+}

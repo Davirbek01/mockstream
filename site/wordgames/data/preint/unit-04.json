@@ -1,0 +1,330 @@
+{
+ "book": "preint",
+ "unit": 4,
+ "title": "English language words",
+ "title_uz": "Ingliz tili atamalari",
+ "words": [
+  {
+   "id": "part_of_speech",
+   "en": "part of speech",
+   "uz": "so‘z turkumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good dictionary tells you the part of speech of every word, e.g. noun or verb.",
+   "gap": "part of speech",
+   "alt": [
+    "parts of speech"
+   ]
+  },
+  {
+   "id": "noun",
+   "en": "noun",
+   "uz": "ot (so‘z turkumi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Book', 'Tashkent' and 'teacher' are all nouns.",
+   "gap": "nouns",
+   "alt": [
+    "nouns"
+   ]
+  },
+  {
+   "id": "verb",
+   "en": "verb",
+   "uz": "fe’l",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'We swim in the lake every summer', 'swim' is the only verb.",
+   "gap": "verb",
+   "alt": [
+    "verbs"
+   ]
+  },
+  {
+   "id": "adjective",
+   "en": "adjective",
+   "uz": "sifat",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Sweet' and 'juicy' are the two adjectives in 'Fergana melons are sweet and juicy'.",
+   "gap": "adjectives",
+   "alt": [
+    "adjectives"
+   ]
+  },
+  {
+   "id": "adverb",
+   "en": "adverb",
+   "uz": "ravish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'Bobur speaks English fluently', the word 'fluently' is an adverb.",
+   "gap": "adverb",
+   "alt": [
+    "adverbs"
+   ]
+  },
+  {
+   "id": "pronoun",
+   "en": "pronoun",
+   "uz": "olmosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'Aziza lost her phone, but she found it later', 'she' and 'it' are pronouns.",
+   "gap": "pronouns",
+   "alt": [
+    "pronouns"
+   ]
+  },
+  {
+   "id": "preposition",
+   "en": "preposition",
+   "uz": "predlog (old ko‘makchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'At', 'in' and 'on' are prepositions, as in 'at school' or 'on the table'.",
+   "gap": "prepositions",
+   "alt": [
+    "prepositions"
+   ]
+  },
+  {
+   "id": "conjunction",
+   "en": "conjunction",
+   "uz": "bog‘lovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "'And', 'but' and 'so' are conjunctions: they join two parts of a sentence.",
+   "gap": "conjunctions",
+   "alt": [
+    "conjunctions"
+   ]
+  },
+  {
+   "id": "definite_article",
+   "en": "definite article",
+   "uz": "aniq artikl",
+   "pos": "noun",
+   "img": false,
+   "ex": "We say 'the Moon' with the definite article, because there is only one.",
+   "gap": "definite article",
+   "alt": []
+  },
+  {
+   "id": "indefinite_article",
+   "en": "indefinite article",
+   "uz": "noaniq artikl",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before 'umbrella' we use 'an', not 'a', as the indefinite article.",
+   "gap": "indefinite article",
+   "alt": [
+    "indefinite articles"
+   ]
+  },
+  {
+   "id": "countable",
+   "en": "countable",
+   "uz": "sanaladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Melon' is countable: at the bazaar you can buy one melon or five melons.",
+   "gap": "countable",
+   "alt": []
+  },
+  {
+   "id": "uncountable",
+   "en": "uncountable",
+   "uz": "sanalmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Homework' is uncountable, so we never say 'two homeworks'.",
+   "gap": "uncountable",
+   "alt": []
+  },
+  {
+   "id": "regular",
+   "en": "regular",
+   "uz": "to‘g‘ri (qoidali) fe’l",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Play' is a regular verb: play, played, played.",
+   "gap": "regular",
+   "alt": []
+  },
+  {
+   "id": "irregular",
+   "en": "irregular",
+   "uz": "noto‘g‘ri (qoidasiz) fe’l",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Eat' is irregular: its past form is 'ate'.",
+   "gap": "irregular",
+   "alt": []
+  },
+  {
+   "id": "phrasal_verb",
+   "en": "phrasal verb",
+   "uz": "frazali fe’l",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Get up' and 'look after' are phrasal verbs.",
+   "gap": "phrasal verbs",
+   "alt": [
+    "phrasal verbs"
+   ]
+  },
+  {
+   "id": "prefix",
+   "en": "prefix",
+   "uz": "old qo‘shimcha (prefiks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'rewrite', 're-' is a prefix that means 'again'.",
+   "gap": "prefix",
+   "alt": []
+  },
+  {
+   "id": "suffix",
+   "en": "suffix",
+   "uz": "so‘z oxiridagi qo‘shimcha (suffiks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'kindness', '-ness' is a suffix.",
+   "gap": "suffix",
+   "alt": []
+  },
+  {
+   "id": "syllable",
+   "en": "syllable",
+   "uz": "bo‘g‘in",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Samarkand' has three syllables: Sa-mar-kand.",
+   "gap": "syllables",
+   "alt": [
+    "syllables"
+   ]
+  },
+  {
+   "id": "stress",
+   "en": "stress",
+   "uz": "urg‘u",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'hotel', the stress is on the second part: ho-TEL.",
+   "gap": "stress",
+   "alt": []
+  },
+  {
+   "id": "capital_letter",
+   "en": "capital letter",
+   "uz": "bosh harf",
+   "pos": "noun",
+   "img": false,
+   "ex": "Names of cities, like Khiva, always begin with a capital letter.",
+   "gap": "capital letter",
+   "alt": []
+  },
+  {
+   "id": "full_stop",
+   "en": "full stop",
+   "uz": "nuqta",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sentence 'I live in Tashkent' needs a full stop at the end.",
+   "gap": "full stop",
+   "alt": []
+  },
+  {
+   "id": "comma",
+   "en": "comma",
+   "uz": "vergul",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'I need eggs, milk and bread', there is a comma after 'eggs'.",
+   "gap": "comma",
+   "alt": []
+  },
+  {
+   "id": "question_mark",
+   "en": "question mark",
+   "uz": "so‘roq belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Where do you live' needs a question mark at the end.",
+   "gap": "question mark",
+   "alt": []
+  },
+  {
+   "id": "pause",
+   "en": "pause",
+   "uz": "pauza (qisqa to‘xtab olish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before she answered my question, there was a long pause, and then she smiled.",
+   "gap": "pause",
+   "alt": [
+    "pauses"
+   ]
+  },
+  {
+   "id": "punctuation",
+   "en": "punctuation",
+   "uz": "tinish belgilari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Full stops, commas and question marks are all types of punctuation.",
+   "gap": "punctuation",
+   "alt": []
+  },
+  {
+   "id": "link_word",
+   "en": "link word",
+   "uz": "bog‘lovchi so‘z (gaplarni ulovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'However' is a useful link word when you want to show a contrast in an essay.",
+   "gap": "link word",
+   "alt": [
+    "link words"
+   ]
+  },
+  {
+   "id": "word_building",
+   "en": "word building",
+   "uz": "so‘z yasalishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Making 'happiness' and 'unhappy' from 'happy' is an example of word building.",
+   "gap": "word building",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "verb",
+   "phrasal_verb"
+  ],
+  [
+   "full_stop",
+   "question_mark"
+  ],
+  [
+   "regular",
+   "irregular"
+  ],
+  [
+   "countable",
+   "uncountable"
+  ],
+  [
+   "comma",
+   "pause"
+  ],
+  [
+   "conjunction",
+   "link_word"
+  ]
+ ]
+}

@@ -1,0 +1,402 @@
+{
+ "book": "preint",
+ "unit": 12,
+ "title": "Feelings",
+ "title_uz": "His-tuyg‘ular",
+ "words": [
+  {
+   "id": "emotion",
+   "en": "emotion",
+   "uz": "his-tuyg‘u, emotsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Good actors can show strong emotions with just their eyes: joy, fear or sadness, without saying a word.",
+   "gap": "emotions",
+   "alt": [
+    "emotions"
+   ]
+  },
+  {
+   "id": "feelings",
+   "en": "feelings",
+   "uz": "ichki kechinmalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam never talks about his feelings: he keeps his love, his fears and his worries to himself.",
+   "gap": "feelings",
+   "alt": [
+    "feeling"
+   ]
+  },
+  {
+   "id": "emotional",
+   "en": "emotional",
+   "uz": "ta’sirchan, hissiyotli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My mum is very emotional: she cries at the end of every sad film, even cartoons.",
+   "gap": "emotional",
+   "alt": []
+  },
+  {
+   "id": "proud",
+   "en": "proud",
+   "uz": "faxrlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our whole school was proud of Madina when she won a gold medal at the Asian Games.",
+   "gap": "proud",
+   "alt": []
+  },
+  {
+   "id": "pride",
+   "en": "pride",
+   "uz": "faxr, g‘urur",
+   "pos": "noun",
+   "img": false,
+   "ex": "My heart was full of pride when Uzbekistan qualified for the football World Cup for the first time.",
+   "gap": "pride",
+   "alt": []
+  },
+  {
+   "id": "disappointed",
+   "en": "disappointed",
+   "uz": "hafsalasi pir bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I was disappointed with my IELTS result: I wanted a 7, but I only got a 6.",
+   "gap": "disappointed",
+   "alt": []
+  },
+  {
+   "id": "disappointment",
+   "en": "disappointment",
+   "uz": "hafsala pir bo‘lishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "To the disappointment of all the fans, the concert in Tashkent was cancelled at the last minute.",
+   "gap": "disappointment",
+   "alt": []
+  },
+  {
+   "id": "confused",
+   "en": "confused",
+   "uz": "chalkashib qolgan, tushunolmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new bus map is so complicated that many tourists look confused when they try to read it.",
+   "gap": "confused",
+   "alt": []
+  },
+  {
+   "id": "confusion",
+   "en": "confusion",
+   "uz": "chalkashlik, tushunmovchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because Ali and Aliya sit next to each other and have similar names, there's always confusion when the teacher calls the register.",
+   "gap": "confusion",
+   "alt": []
+  },
+  {
+   "id": "hopeful",
+   "en": "hopeful",
+   "uz": "umidvor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctors are hopeful that the young footballer will play again after his knee operation.",
+   "gap": "hopeful",
+   "alt": []
+  },
+  {
+   "id": "curious",
+   "en": "curious",
+   "uz": "qiziqib qolgan, qiziquvchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I was so curious to know what was inside the big box that I opened it before my birthday.",
+   "gap": "curious",
+   "alt": []
+  },
+  {
+   "id": "curiosity",
+   "en": "curiosity",
+   "uz": "qiziquvchanlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Out of curiosity, I pressed the red button in the lift, and an alarm rang through the whole building.",
+   "gap": "curiosity",
+   "alt": []
+  },
+  {
+   "id": "anxious",
+   "en": "anxious",
+   "uz": "xavotirdagi, bezovta",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum always feels anxious until my brother texts her that his plane has landed safely in Istanbul.",
+   "gap": "anxious",
+   "alt": []
+  },
+  {
+   "id": "anxiety",
+   "en": "anxiety",
+   "uz": "xavotir, tashvish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before her driving test, Gulnora's anxiety was so strong that she couldn't sleep all night.",
+   "gap": "anxiety",
+   "alt": []
+  },
+  {
+   "id": "scared",
+   "en": "scared",
+   "uz": "qo‘rqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little sister is scared of dogs, so she crosses the street every time she sees one.",
+   "gap": "scared",
+   "alt": []
+  },
+  {
+   "id": "jealous",
+   "en": "jealous",
+   "uz": "rashk qilgan, qizg‘anchiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the new baby arrived, five-year-old Timur felt jealous because everyone gave all their attention to his little brother.",
+   "gap": "jealous",
+   "alt": []
+  },
+  {
+   "id": "upset",
+   "en": "upset",
+   "uz": "xafa, ranjigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamila was really upset when someone broke the screen of her new phone and didn't even say sorry.",
+   "gap": "upset",
+   "alt": []
+  },
+  {
+   "id": "cheerful",
+   "en": "cheerful",
+   "uz": "xushchaqchaq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even on a cold Monday morning, our bus driver is always cheerful and says 'Good morning!' to every passenger with a big smile.",
+   "gap": "cheerful",
+   "alt": []
+  },
+  {
+   "id": "miserable",
+   "en": "miserable",
+   "uz": "juda ma’yus, baxtsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We spent the whole camping trip in a wet tent in the rain and felt cold and miserable.",
+   "gap": "miserable",
+   "alt": []
+  },
+  {
+   "id": "depressed",
+   "en": "depressed",
+   "uz": "tushkunlikka tushgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After he lost his job, Farhod was depressed for months and didn't want to see anyone.",
+   "gap": "depressed",
+   "alt": []
+  },
+  {
+   "id": "mood",
+   "en": "mood",
+   "uz": "kayfiyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't ask Dad for money right now: he's in a bad mood because his car broke down this morning.",
+   "gap": "mood",
+   "alt": []
+  },
+  {
+   "id": "energetic",
+   "en": "energetic",
+   "uz": "g‘ayratli, serharakat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a morning run, I feel energetic and ready to clean the whole flat.",
+   "gap": "energetic",
+   "alt": []
+  },
+  {
+   "id": "anger",
+   "en": "anger",
+   "uz": "g‘azab, jahl",
+   "pos": "noun",
+   "img": false,
+   "ex": "The coach shouted in anger when the referee gave the other team a penalty.",
+   "gap": "anger",
+   "alt": []
+  },
+  {
+   "id": "care_for",
+   "en": "care for",
+   "uz": "g‘amxo‘rlik qilmoq, parvarish qilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My aunt is a nurse at a children's hospital in Fergana, where she cares for sick babies.",
+   "gap": "cares for",
+   "alt": [
+    "cares for",
+    "cared for",
+    "caring for"
+   ]
+  },
+  {
+   "id": "stress_worry",
+   "en": "stress",
+   "uz": "stress, ruhiy zo‘riqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Too much homework and not enough sleep can cause stress in teenagers.",
+   "gap": "stress",
+   "alt": []
+  },
+  {
+   "id": "jealousy",
+   "en": "jealousy",
+   "uz": "rashk, qizg‘anish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamron's jealousy grew every time his best friend got a better mark in the maths test than him.",
+   "gap": "jealousy",
+   "alt": []
+  },
+  {
+   "id": "frightened",
+   "en": "frightened",
+   "uz": "cho‘chib ketgan, vahimaga tushgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The kitten was frightened by the thunder and hid under the sofa all night.",
+   "gap": "frightened",
+   "alt": []
+  },
+  {
+   "id": "love_feeling",
+   "en": "love",
+   "uz": "muhabbat, sevgi",
+   "pos": "noun",
+   "img": false,
+   "ex": "You could see the love in the young mother's eyes as she sang her baby to sleep.",
+   "gap": "love",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "emotion",
+   "feelings"
+  ],
+  [
+   "upset",
+   "miserable"
+  ],
+  [
+   "depressed",
+   "miserable"
+  ],
+  [
+   "upset",
+   "disappointed"
+  ],
+  [
+   "upset",
+   "depressed"
+  ],
+  [
+   "upset",
+   "jealous"
+  ],
+  [
+   "anxious",
+   "scared"
+  ],
+  [
+   "anxious",
+   "confused"
+  ],
+  [
+   "anxiety",
+   "stress_worry"
+  ],
+  [
+   "cheerful",
+   "energetic"
+  ],
+  [
+   "hopeful",
+   "cheerful"
+  ],
+  [
+   "confusion",
+   "stress_worry"
+  ],
+  [
+   "curious",
+   "anxious"
+  ],
+  [
+   "depressed",
+   "disappointed"
+  ],
+  [
+   "jealousy",
+   "anger"
+  ],
+  [
+   "jealousy",
+   "disappointment"
+  ],
+  [
+   "frightened",
+   "scared"
+  ],
+  [
+   "frightened",
+   "anxious"
+  ],
+  [
+   "frightened",
+   "upset"
+  ],
+  [
+   "frightened",
+   "confused"
+  ],
+  [
+   "frightened",
+   "nervous"
+  ],
+  [
+   "love_feeling",
+   "emotion"
+  ],
+  [
+   "love_feeling",
+   "jealousy"
+  ],
+  [
+   "love_feeling",
+   "anger"
+  ],
+  [
+   "love_feeling",
+   "pride"
+  ],
+  [
+   "love_feeling",
+   "feelings"
+  ]
+ ]
+}

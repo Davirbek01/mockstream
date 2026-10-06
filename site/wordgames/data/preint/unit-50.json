@@ -1,0 +1,413 @@
+{
+ "book": "preint",
+ "unit": 50,
+ "title": "Sightseeing holidays",
+ "title_uz": "Sayohat va diqqatga sazovor joylar",
+ "words": [
+  {
+   "id": "market",
+   "en": "market",
+   "uz": "bozor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Marrakesh, the old market is a maze of tiny shops selling spices, lamps and carpets.",
+   "gap": "market",
+   "alt": [
+    "markets"
+   ]
+  },
+  {
+   "id": "castle",
+   "en": "castle",
+   "uz": "qal’a (qasr)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We climbed up to the old castle on the hill and looked down at the river from its stone towers.",
+   "gap": "castle",
+   "alt": [
+    "castles"
+   ]
+  },
+  {
+   "id": "cathedral",
+   "en": "cathedral",
+   "uz": "kafedral sobor (katta cherkov)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On our school trip to Prague, we sat in the old cathedral and listened to the huge organ under its coloured windows.",
+   "gap": "cathedral",
+   "alt": [
+    "cathedrals"
+   ]
+  },
+  {
+   "id": "temple",
+   "en": "temple",
+   "uz": "ibodatxona (buddaviy, hind)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Kyoto we took off our shoes before entering a quiet wooden Buddhist temple.",
+   "gap": "temple",
+   "alt": [
+    "temples"
+   ]
+  },
+  {
+   "id": "fountain",
+   "en": "fountain",
+   "uz": "favvora",
+   "pos": "noun",
+   "img": true,
+   "ex": "On hot evenings, little children run through the jets of water from the big fountain in the park.",
+   "gap": "fountain",
+   "alt": [
+    "fountains"
+   ]
+  },
+  {
+   "id": "palace",
+   "en": "palace",
+   "uz": "saroy",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Kokand we visited the palace of Khudayar Khan, with its bright blue tiles and long rows of rooms.",
+   "gap": "palace",
+   "alt": [
+    "palaces"
+   ]
+  },
+  {
+   "id": "mosque",
+   "en": "mosque",
+   "uz": "masjid",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Fridays the little mosque in our mahalla is so full that some men pray on carpets outside.",
+   "gap": "mosque",
+   "alt": [
+    "mosques"
+   ]
+  },
+  {
+   "id": "statue",
+   "en": "statue",
+   "uz": "haykal",
+   "pos": "noun",
+   "img": true,
+   "ex": "As a joke, someone put a woolly hat on the head of the stone statue in the park.",
+   "gap": "statue",
+   "alt": [
+    "statues"
+   ]
+  },
+  {
+   "id": "go_sightseeing",
+   "en": "go sightseeing",
+   "uz": "ekskursiyaga chiqmoq (joylarni ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The conference ended at noon, so in the afternoon the teachers went sightseeing around the old town.",
+   "gap": "went sightseeing",
+   "alt": [
+    "goes sightseeing",
+    "went sightseeing",
+    "going sightseeing"
+   ]
+  },
+  {
+   "id": "see_the_sights",
+   "en": "see the sights",
+   "uz": "mashhur joylarni tomosha qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We only had one day in Istanbul, but we still managed to see the sights: the Galata Tower, the Grand Bazaar and a boat trip on the Bosphorus.",
+   "gap": "see the sights",
+   "alt": [
+    "sees the sights",
+    "saw the sights",
+    "seeing the sights"
+   ]
+  },
+  {
+   "id": "have_a_look_round",
+   "en": "have a look round",
+   "uz": "aylanib ko‘rmoq (bemalol)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our bus didn't leave for an hour, so we had a look round the little shops near the station.",
+   "gap": "had a look round",
+   "alt": [
+    "has a look round",
+    "had a look round",
+    "having a look round"
+   ]
+  },
+  {
+   "id": "explore",
+   "en": "explore",
+   "uz": "o‘rganib chiqmoq (kezib chiqmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lola and I spent the whole morning on bikes, exploring the hidden courtyards and back streets of the old town.",
+   "gap": "exploring",
+   "alt": [
+    "explores",
+    "explored",
+    "exploring"
+   ]
+  },
+  {
+   "id": "have_a_great_time",
+   "en": "have a great time",
+   "uz": "zo‘r vaqt o‘tkazmoq (maza qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We had a great time on the school trip to the silk factory in Margilan and sang songs on the bus all the way home.",
+   "gap": "had a great time",
+   "alt": [
+    "has a great time",
+    "had a great time",
+    "having a great time"
+   ]
+  },
+  {
+   "id": "souvenir",
+   "en": "souvenir",
+   "uz": "esdalik sovg‘a (suvenir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I bought a small blue ceramic plate in Rishtan as a souvenir of our trip.",
+   "gap": "souvenir",
+   "alt": [
+    "souvenirs"
+   ]
+  },
+  {
+   "id": "guidebook",
+   "en": "guidebook",
+   "uz": "sayyohlik qo‘llanmasi (kitob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our guidebook was ten years old, so half the restaurants in it had already closed.",
+   "gap": "guidebook",
+   "alt": [
+    "guidebooks"
+   ]
+  },
+  {
+   "id": "magnificent",
+   "en": "magnificent",
+   "uz": "ulug‘vor (hayratlanarli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The view from the top of the mountain was magnificent: snowy peaks in every direction.",
+   "gap": "magnificent",
+   "alt": []
+  },
+  {
+   "id": "packed",
+   "en": "packed",
+   "uz": "odam bilan liq to‘la (gavjum)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the first day of the holidays the train to the mountains was packed, and we had to stand all the way.",
+   "gap": "packed",
+   "alt": []
+  },
+  {
+   "id": "plenty",
+   "en": "plenty",
+   "uz": "ko‘p (yetarlicha, mo‘l)",
+   "pos": "pronoun",
+   "img": false,
+   "ex": "There's plenty to do at the new sports centre: swimming, tennis and basketball every evening.",
+   "gap": "plenty",
+   "alt": [
+    "plenty of"
+   ]
+  },
+  {
+   "id": "monument",
+   "en": "monument",
+   "uz": "tarixiy yodgorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shahrisabz is full of historic monuments, such as the huge ruined gate of the Ak-Saray palace.",
+   "gap": "monuments",
+   "alt": [
+    "monuments",
+    "historic monument",
+    "historic monuments"
+   ]
+  },
+  {
+   "id": "attraction",
+   "en": "attraction",
+   "uz": "eng qiziq joy (odamlarni jalb qiluvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For my little brother, the main attraction of the zoo was the elephants, not the lions.",
+   "gap": "attraction",
+   "alt": [
+    "attractions",
+    "main attraction"
+   ]
+  },
+  {
+   "id": "worth",
+   "en": "worth",
+   "uz": "arziydi (…ga arzigulik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's worth taking a warm jacket to the mountains, even in summer, because the nights are cold.",
+   "gap": "worth",
+   "alt": []
+  },
+  {
+   "id": "do_sightseeing",
+   "en": "do a lot of sightseeing",
+   "uz": "ko‘p joylarni aylanib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the cruise we did a lot of sightseeing in every port where the ship stopped.",
+   "gap": "did a lot of sightseeing",
+   "alt": [
+    "do a bit of sightseeing",
+    "did a bit of sightseeing",
+    "did a lot of sightseeing",
+    "does a lot of sightseeing",
+    "doing a lot of sightseeing"
+   ]
+  },
+  {
+   "id": "place_town",
+   "en": "place",
+   "uz": "joy (shahar, bino, hudud)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Riga is a lovely place to visit in summer: the old town is small and full of cafés.",
+   "gap": "place",
+   "alt": [
+    "places"
+   ]
+  },
+  {
+   "id": "museum",
+   "en": "museum",
+   "uz": "tarixiy buyumlar ko‘rgazmasi (bino)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The history museum shows old coins and swords from the Silk Road in glass cases.",
+   "gap": "museum",
+   "alt": [
+    "museums"
+   ]
+  },
+  {
+   "id": "tourist",
+   "en": "tourist",
+   "uz": "sayyoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every spring, thousands of tourists come to Kyoto to see the cherry blossom.",
+   "gap": "tourists",
+   "alt": [
+    "tourists"
+   ]
+  },
+  {
+   "id": "doll",
+   "en": "doll",
+   "uz": "qo‘g‘irchoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Moscow, Natasha bought a set of painted wooden dolls that fit one inside the other.",
+   "gap": "dolls",
+   "alt": [
+    "dolls"
+   ]
+  },
+  {
+   "id": "visit_noun",
+   "en": "visit",
+   "uz": "tashrif (borib ko‘rish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you have a free afternoon, the botanical garden is well worth a visit.",
+   "gap": "visit",
+   "alt": [
+    "visits"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "castle",
+   "palace"
+  ],
+  [
+   "cathedral",
+   "temple"
+  ],
+  [
+   "temple",
+   "mosque"
+  ],
+  [
+   "cathedral",
+   "mosque"
+  ],
+  [
+   "statue",
+   "monument"
+  ],
+  [
+   "go_sightseeing",
+   "see_the_sights"
+  ],
+  [
+   "have_a_look_round",
+   "explore"
+  ],
+  [
+   "go_sightseeing",
+   "have_a_look_round"
+  ],
+  [
+   "magnificent",
+   "packed"
+  ],
+  [
+   "monument",
+   "attraction"
+  ],
+  [
+   "go_sightseeing",
+   "do_sightseeing"
+  ],
+  [
+   "see_the_sights",
+   "do_sightseeing"
+  ],
+  [
+   "have_a_look_round",
+   "do_sightseeing"
+  ],
+  [
+   "place_town",
+   "attraction"
+  ],
+  [
+   "doll",
+   "souvenir"
+  ],
+  [
+   "museum",
+   "palace"
+  ],
+  [
+   "museum",
+   "castle"
+  ]
+ ]
+}

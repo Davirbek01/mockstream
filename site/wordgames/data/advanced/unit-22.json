@@ -1,0 +1,472 @@
+{
+ "book": "advanced",
+ "unit": 22,
+ "title": "Talking about books",
+ "title_uz": "Kitoblar haqida suhbat",
+ "words": [
+  {
+   "id": "blurb",
+   "en": "blurb",
+   "uz": "muqovadagi qisqa tavsif (annotatsiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The blurb promised 'the funniest novel of the year', but I didn't laugh once in three hundred pages.",
+   "gap": "blurb",
+   "alt": [
+    "blurbs"
+   ]
+  },
+  {
+   "id": "poignant",
+   "en": "poignant",
+   "uz": "qayg‘uli va ta’sirli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The novel ends with a poignant scene in which the old teacher reads his last letter to an empty classroom.",
+   "gap": "poignant",
+   "alt": []
+  },
+  {
+   "id": "chronicle",
+   "en": "chronicle",
+   "uz": "yilnoma (voqealar bayoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The book is a detailed chronicle of one family's life in Termez across three generations.",
+   "gap": "chronicle",
+   "alt": [
+    "chronicles"
+   ]
+  },
+  {
+   "id": "acclaimed",
+   "en": "acclaimed",
+   "uz": "keng e’tirof etilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This highly acclaimed writer has won three international prizes for her short stories.",
+   "gap": "acclaimed",
+   "alt": []
+  },
+  {
+   "id": "compelling",
+   "en": "compelling",
+   "uz": "o‘ziga rom etadigan, ishonarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The author makes a compelling case that cities should be designed for people on foot, not for cars.",
+   "gap": "compelling",
+   "alt": []
+  },
+  {
+   "id": "lugubrious",
+   "en": "lugubrious",
+   "uz": "g‘amgin, ma’yus (qayg‘uli tusdagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The story is set in a lugubrious old house where the curtains are always closed and nobody ever laughs.",
+   "gap": "lugubrious",
+   "alt": []
+  },
+  {
+   "id": "macabre",
+   "en": "macabre",
+   "uz": "o‘lim bilan bog‘liq, vahimali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother loves macabre stories full of graveyards, skeletons and haunted wells, but they give me nightmares.",
+   "gap": "macabre",
+   "alt": []
+  },
+  {
+   "id": "chilling",
+   "en": "chilling",
+   "uz": "etni junjiktiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ghost story was so chilling that my little sister slept with the light on for a week.",
+   "gap": "chilling",
+   "alt": []
+  },
+  {
+   "id": "page_turner",
+   "en": "page-turner",
+   "uz": "qo‘ldan qo‘ymay o‘qiladigan kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "The thriller is a real page-turner; I read it in one go on the overnight bus to Nukus.",
+   "gap": "page-turner",
+   "alt": [
+    "page turner",
+    "page-turners"
+   ]
+  },
+  {
+   "id": "insight",
+   "en": "insight",
+   "uz": "teran tushuncha (ichki dunyoni ko‘rish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her book offers a fascinating insight into the daily life of the silk weavers of Margilan.",
+   "gap": "insight",
+   "alt": [
+    "insights"
+   ]
+  },
+  {
+   "id": "enigmatic",
+   "en": "enigmatic",
+   "uz": "sirli, jumboqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hero remains enigmatic to the very end; we never learn where he came from or why he left.",
+   "gap": "enigmatic",
+   "alt": []
+  },
+  {
+   "id": "breathtaking",
+   "en": "breathtaking",
+   "uz": "hayratda qoldiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The descriptions of the Pamir mountains under fresh snow are simply breathtaking.",
+   "gap": "breathtaking",
+   "alt": []
+  },
+  {
+   "id": "wry",
+   "en": "wry",
+   "uz": "kinoyali, achchiq hazilomuz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even when she writes about her long illness, the author never loses her wry sense of humour.",
+   "gap": "wry",
+   "alt": []
+  },
+  {
+   "id": "eponymous",
+   "en": "eponymous",
+   "uz": "asar nomi bilan atalgan (nomdosh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The novel 'Zarina' takes its title from its eponymous heroine, a shy village girl who becomes a brave journalist.",
+   "gap": "eponymous",
+   "alt": []
+  },
+  {
+   "id": "protagonist",
+   "en": "protagonist",
+   "uz": "bosh qahramon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The protagonist of the novel is a young doctor who returns to her home town after years abroad.",
+   "gap": "protagonist",
+   "alt": [
+    "protagonists"
+   ]
+  },
+  {
+   "id": "engaging",
+   "en": "engaging",
+   "uz": "maroqli, yoqimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's an engaging tale about two schoolboys who build a robot for a national competition: light, warm and fun from start to finish.",
+   "gap": "engaging",
+   "alt": []
+  },
+  {
+   "id": "memoirs",
+   "en": "memoirs",
+   "uz": "xotiralar (memuar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After retiring, the famous surgeon wrote his memoirs about forty years in the operating theatre.",
+   "gap": "memoirs",
+   "alt": []
+  },
+  {
+   "id": "journal",
+   "en": "journal",
+   "uz": "ilmiy jurnal (davriy nashr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her article on drip irrigation in Karakalpakstan was accepted by an international journal and will appear in its spring issue.",
+   "gap": "journal",
+   "alt": [
+    "journals"
+   ]
+  },
+  {
+   "id": "encyclopedia",
+   "en": "encyclopedia",
+   "uz": "qomus (ko‘p jildli ma’lumotnoma)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before the internet, we looked everything up in a twenty-volume encyclopedia in the school library.",
+   "gap": "encyclopedia",
+   "alt": [
+    "encyclopedias",
+    "encyclopaedia"
+   ]
+  },
+  {
+   "id": "anthology",
+   "en": "anthology",
+   "uz": "turli mualliflar asarlari to‘plami",
+   "pos": "noun",
+   "img": false,
+   "ex": "This anthology brings together poems by fifty different writers from across Central Asia.",
+   "gap": "anthology",
+   "alt": [
+    "anthologies"
+   ]
+  },
+  {
+   "id": "manual",
+   "en": "manual",
+   "uz": "texnik qo‘llanma (yo‘riqnoma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the printer stops working, check the manual before you call the repair shop.",
+   "gap": "manual",
+   "alt": [
+    "manuals"
+   ]
+  },
+  {
+   "id": "logbook",
+   "en": "logbook",
+   "uz": "qayd daftari (safar jurnali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After every flight, the pilot records the hours she has flown in her logbook.",
+   "gap": "logbook",
+   "alt": [
+    "logbooks",
+    "log book"
+   ]
+  },
+  {
+   "id": "compulsive_reading",
+   "en": "compulsive reading",
+   "uz": "to‘xtamay o‘qishga majbur qiladigan asar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her history of chess is compulsive reading: once you start, you can't stop until the last page.",
+   "gap": "compulsive reading",
+   "alt": []
+  },
+  {
+   "id": "informative",
+   "en": "informative",
+   "uz": "foydali ma’lumotga boy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The guidebook is short but very informative, with maps, opening times and ticket prices for every museum in Shahrisabz.",
+   "gap": "informative",
+   "alt": []
+  },
+  {
+   "id": "ahead_of_its_time",
+   "en": "ahead of its time",
+   "uz": "o‘z davridan oldinda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Written in 1970, his story about people who stare at their phones all day and never talk face to face was clearly ahead of its time.",
+   "gap": "ahead of its time",
+   "alt": [
+    "ahead of their time",
+    "ahead of his time",
+    "ahead of her time"
+   ]
+  },
+  {
+   "id": "product_of_its_time",
+   "en": "product of its time",
+   "uz": "o‘z davrining mahsuli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With its long lists of rules for polite young ladies, the old etiquette book is very much a product of its time.",
+   "gap": "product of its time",
+   "alt": []
+  },
+  {
+   "id": "lightweight",
+   "en": "lightweight",
+   "uz": "yengil, chuqur bo‘lmagan (asar)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's a lightweight novel: fine for a long flight, but not something you'll remember a year later.",
+   "gap": "lightweight",
+   "alt": []
+  },
+  {
+   "id": "bedtime_reading",
+   "en": "bedtime reading",
+   "uz": "uxlash oldidan o‘qishbop",
+   "pos": "noun",
+   "img": false,
+   "ex": "These short, gentle stories about animals make perfect bedtime reading for young children.",
+   "gap": "bedtime reading",
+   "alt": []
+  },
+  {
+   "id": "heavy_going",
+   "en": "heavy going",
+   "uz": "qiyin o‘qiladigan (og‘ir)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The first hundred pages are heavy going, but after that the story really takes off.",
+   "gap": "heavy going",
+   "alt": []
+  },
+  {
+   "id": "get_into",
+   "en": "get into",
+   "uz": "(kitobga) berilib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Once I got used to the old-fashioned language, I really started to get into the story.",
+   "gap": "get into",
+   "alt": [
+    "got into",
+    "getting into",
+    "gets into"
+   ]
+  },
+  {
+   "id": "readership",
+   "en": "readership",
+   "uz": "o‘quvchilar doirasi (soni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since it started publishing online, the magazine's readership has doubled.",
+   "gap": "readership",
+   "alt": [
+    "readerships"
+   ]
+  },
+  {
+   "id": "cant_put_down",
+   "en": "can't put it down",
+   "uz": "qo‘limdan qo‘yolmayapman (kitobni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shahnoza lent me her detective novel last night, and now I can't put it down.",
+   "gap": "can't put it down",
+   "alt": [
+    "can't put down",
+    "couldn't put it down",
+    "can't put them down",
+    "cannot put it down"
+   ]
+  },
+  {
+   "id": "tame_dull",
+   "en": "tame",
+   "uz": "zararsiz, siyqa (keskin emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Audiences found the film shocking in 1970, but to today's viewers its ending seems rather tame.",
+   "gap": "tame",
+   "alt": [
+    "tamer"
+   ]
+  },
+  {
+   "id": "gender_biased",
+   "en": "gender-biased",
+   "uz": "bir jinsni ustun qo‘yadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old maths textbook was clearly gender-biased: every engineer in its word problems was a man.",
+   "gap": "gender-biased",
+   "alt": [
+    "gender biased"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "page_turner",
+   "compulsive_reading"
+  ],
+  [
+   "compelling",
+   "engaging"
+  ],
+  [
+   "macabre",
+   "chilling"
+  ],
+  [
+   "macabre",
+   "lugubrious"
+  ],
+  [
+   "poignant",
+   "lugubrious"
+  ],
+  [
+   "chilling",
+   "lugubrious"
+  ],
+  [
+   "breathtaking",
+   "compelling"
+  ],
+  [
+   "lightweight",
+   "bedtime_reading"
+  ],
+  [
+   "heavy_going",
+   "lightweight"
+  ],
+  [
+   "memoirs",
+   "chronicle"
+  ],
+  [
+   "anthology",
+   "encyclopedia"
+  ],
+  [
+   "manual",
+   "logbook"
+  ],
+  [
+   "acclaimed",
+   "eponymous"
+  ],
+  [
+   "compulsive_reading",
+   "bedtime_reading"
+  ],
+  [
+   "journal",
+   "logbook"
+  ],
+  [
+   "chronicle",
+   "journal"
+  ],
+  [
+   "cant_put_down",
+   "page_turner"
+  ],
+  [
+   "cant_put_down",
+   "compulsive_reading"
+  ],
+  [
+   "cant_put_down",
+   "get_into"
+  ],
+  [
+   "tame_dull",
+   "lightweight"
+  ]
+ ]
+}

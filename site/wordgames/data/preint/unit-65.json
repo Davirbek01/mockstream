@@ -1,0 +1,390 @@
+{
+ "book": "preint",
+ "unit": 65,
+ "title": "Apologies, excuses and thanks",
+ "title_uz": "Uzr so‘rash, bahonalar va minnatdorchilik",
+ "words": [
+  {
+   "id": "apologise",
+   "en": "apologise",
+   "uz": "uzr so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus driver apologised to the passengers for the long wait.",
+   "gap": "apologised",
+   "alt": [
+    "apologises",
+    "apologised",
+    "apologising",
+    "apologize",
+    "apologized"
+   ]
+  },
+  {
+   "id": "apology",
+   "en": "apology",
+   "uz": "uzr (kechirim so‘rash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The online shop sent me an apology and a discount code because my order arrived broken.",
+   "gap": "apology",
+   "alt": [
+    "apologies"
+   ]
+  },
+  {
+   "id": "terribly_sorry",
+   "en": "terribly sorry",
+   "uz": "juda-juda afsusdaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm terribly sorry about your vase; I'll buy you a new one tomorrow.",
+   "gap": "terribly sorry",
+   "alt": []
+  },
+  {
+   "id": "beg_your_pardon",
+   "en": "I beg your pardon",
+   "uz": "Kechirasiz (rasmiy uzr)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the old man bumped into me at the bus station, he said, 'I beg your pardon!'",
+   "gap": "I beg your pardon",
+   "alt": []
+  },
+  {
+   "id": "thats_all_right",
+   "en": "That's all right",
+   "uz": "Hechqisi yo‘q, hammasi joyida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Sorry, I think I'm sitting in your seat.' 'That's all right, I'll sit over there.'",
+   "gap": "That's all right",
+   "alt": []
+  },
+  {
+   "id": "never_mind",
+   "en": "Never mind",
+   "uz": "Mayli, ahamiyati yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I'm afraid I broke the pencil you lent me.' 'Never mind, I've got another one.'",
+   "gap": "Never mind",
+   "alt": []
+  },
+  {
+   "id": "dont_worry",
+   "en": "Don't worry",
+   "uz": "Xavotir olmang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I've spilled juice on your carpet!' 'Don't worry, it'll come out with a bit of soap.'",
+   "gap": "Don't worry",
+   "alt": []
+  },
+  {
+   "id": "sorry_to_disturb",
+   "en": "Sorry to disturb you",
+   "uz": "Bezovta qilganim uchun uzr",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kamola knocked on her brother's door: 'Sorry to disturb you, but can you help me with this app?'",
+   "gap": "Sorry to disturb you",
+   "alt": []
+  },
+  {
+   "id": "keep_you_waiting",
+   "en": "keep you waiting",
+   "uz": "Kuttirib qo‘yganim uchun uzr",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sorry to keep you waiting; the meeting took longer than I expected.",
+   "gap": "keep you waiting",
+   "alt": []
+  },
+  {
+   "id": "wont_be_long",
+   "en": "I won't be long",
+   "uz": "Ko‘p kuttirmayman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Wait here, I won't be long,' said the taxi driver, and ran into the bakery.",
+   "gap": "I won't be long",
+   "alt": []
+  },
+  {
+   "id": "wont_be_a_minute",
+   "en": "I won't be a minute",
+   "uz": "Bir daqiqada qaytaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My cousin ran back into the house, shouting, 'I forgot my phone! I won't be a minute!'",
+   "gap": "I won't be a minute",
+   "alt": []
+  },
+  {
+   "id": "excuse_me_leave",
+   "en": "Excuse me",
+   "uz": "Kechirasiz (chiqib turishga ruxsat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the middle of the meeting, the manager's phone rang, so she said 'Excuse me' and left the room.",
+   "gap": "Excuse me",
+   "alt": []
+  },
+  {
+   "id": "excuse",
+   "en": "excuse",
+   "uz": "bahona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Botir always has an excuse for not doing his homework, but it's never true.",
+   "gap": "excuse",
+   "alt": [
+    "excuses"
+   ]
+  },
+  {
+   "id": "hold_up",
+   "en": "hold-up",
+   "uz": "tiqilinch (kutilmagan kechikish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a hold-up on the metro this morning, so half the class arrived late.",
+   "gap": "hold-up",
+   "alt": [
+    "hold-ups",
+    "hold up"
+   ]
+  },
+  {
+   "id": "held_up",
+   "en": "be held up",
+   "uz": "(yo‘lda) ushlanib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our guests were held up by a long queue at the border, so they arrived after midnight.",
+   "gap": "held up",
+   "alt": [
+    "held up",
+    "was held up",
+    "were held up"
+   ]
+  },
+  {
+   "id": "cancel",
+   "en": "cancel",
+   "uz": "bekor qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our flight to Urgench was cancelled because of the snow, so we went by train.",
+   "gap": "cancelled",
+   "alt": [
+    "cancels",
+    "cancelled",
+    "cancelling",
+    "canceled"
+   ]
+  },
+  {
+   "id": "oversleep",
+   "en": "oversleep",
+   "uz": "uxlab qolmoq (vaqtida turolmay)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the long trip, I overslept and woke up at eleven o'clock!",
+   "gap": "overslept",
+   "alt": [
+    "oversleeps",
+    "overslept",
+    "oversleeping"
+   ]
+  },
+  {
+   "id": "thanks_very_much",
+   "en": "Thanks very much",
+   "uz": "Katta rahmat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Here's the book you asked for.' 'Thanks very much! I'll give it back on Monday.'",
+   "gap": "Thanks very much",
+   "alt": [
+    "Thanks"
+   ]
+  },
+  {
+   "id": "not_at_all",
+   "en": "Not at all",
+   "uz": "Arzimaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Thank you for helping me with my maths.' 'Not at all; you'd do the same for me.'",
+   "gap": "Not at all",
+   "alt": []
+  },
+  {
+   "id": "cheers",
+   "en": "Cheers",
+   "uz": "Rahmat (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Here, I saved you a seat.' 'Oh, cheers, mate!'",
+   "gap": "cheers",
+   "alt": []
+  },
+  {
+   "id": "no_problem",
+   "en": "No problem",
+   "uz": "Hech gap emas (mayli)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Could you text me the homework?' 'No problem, I'll send it after dinner.'",
+   "gap": "No problem",
+   "alt": []
+  },
+  {
+   "id": "kind_of_you",
+   "en": "very kind of you",
+   "uz": "Juda mehribonsiz (rasmiy rahmat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I'll water your plants while you're on holiday.' 'Oh, that's very kind of you!'",
+   "gap": "very kind of you",
+   "alt": []
+  },
+  {
+   "id": "thats_ok",
+   "en": "That's OK",
+   "uz": "Mayli, hechqisi yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Sorry, I've used all the milk.' 'That's OK, I'll drink my tea without it.'",
+   "gap": "That's OK",
+   "alt": []
+  },
+  {
+   "id": "sorry_im_late",
+   "en": "I'm sorry I'm late",
+   "uz": "Kechikkanim uchun uzr",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Timur rushed into the classroom and said, 'I'm sorry I'm late; my bus broke down.'",
+   "gap": "I'm sorry I'm late",
+   "alt": []
+  },
+  {
+   "id": "come_on_in",
+   "en": "Come on in",
+   "uz": "Kiravering (marhamat, kiring)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Laylo knocked on the open office door, her manager smiled and said, 'Come on in and take a seat.'",
+   "gap": "Come on in",
+   "alt": []
+  },
+  {
+   "id": "traffic",
+   "en": "traffic",
+   "uz": "yo‘ldagi mashinalar oqimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was so much traffic on the ring road that the bus took an hour.",
+   "gap": "traffic",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "thats_all_right",
+   "never_mind"
+  ],
+  [
+   "thats_all_right",
+   "dont_worry"
+  ],
+  [
+   "never_mind",
+   "dont_worry"
+  ],
+  [
+   "not_at_all",
+   "no_problem"
+  ],
+  [
+   "thanks_very_much",
+   "cheers"
+  ],
+  [
+   "wont_be_long",
+   "wont_be_a_minute"
+  ],
+  [
+   "sorry_to_disturb",
+   "keep_you_waiting"
+  ],
+  [
+   "beg_your_pardon",
+   "excuse_me_leave"
+  ],
+  [
+   "apology",
+   "excuse"
+  ],
+  [
+   "hold_up",
+   "held_up"
+  ],
+  [
+   "dont_worry",
+   "no_problem"
+  ],
+  [
+   "never_mind",
+   "no_problem"
+  ],
+  [
+   "thats_all_right",
+   "no_problem"
+  ],
+  [
+   "thanks_very_much",
+   "kind_of_you"
+  ],
+  [
+   "sorry_to_disturb",
+   "excuse_me_leave"
+  ],
+  [
+   "not_at_all",
+   "thats_all_right"
+  ],
+  [
+   "beg_your_pardon",
+   "terribly_sorry"
+  ],
+  [
+   "held_up",
+   "cancel"
+  ],
+  [
+   "thats_ok",
+   "thats_all_right"
+  ],
+  [
+   "thats_ok",
+   "never_mind"
+  ],
+  [
+   "thats_ok",
+   "dont_worry"
+  ],
+  [
+   "thats_ok",
+   "no_problem"
+  ],
+  [
+   "thats_ok",
+   "not_at_all"
+  ]
+ ]
+}

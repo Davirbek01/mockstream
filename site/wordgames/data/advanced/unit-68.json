@@ -1,0 +1,324 @@
+{
+ "book": "advanced",
+ "unit": 68,
+ "title": "Spot the difference: making comparisons",
+ "title_uz": "Farqini toping: taqqoslash",
+ "words": [
+  {
+   "id": "affinity",
+   "en": "affinity",
+   "uz": "ruhiy yaqinlik (umumiylik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Having grown up in the mountains himself, Aziz felt an immediate affinity with the shepherds he met near Zaamin.",
+   "gap": "affinity",
+   "alt": []
+  },
+  {
+   "id": "akin_to",
+   "en": "akin to",
+   "uz": "…ga o‘xshash (ruhan yaqin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the exam results were announced, Kamol felt something akin to panic.",
+   "gap": "akin to",
+   "alt": []
+  },
+  {
+   "id": "analogy",
+   "en": "analogy",
+   "uz": "o‘xshatish (qiyoslab tushuntirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The biology teacher used a helpful analogy: the heart works like a pump that never stops.",
+   "gap": "analogy",
+   "alt": []
+  },
+  {
+   "id": "correspond_to",
+   "en": "correspond to",
+   "uz": "mos kelmoq (to‘g‘ri kelmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On this map, the different colours correspond to different heights above sea level.",
+   "gap": "correspond to",
+   "alt": [
+    "corresponds to",
+    "corresponded to",
+    "corresponding to"
+   ]
+  },
+  {
+   "id": "equate",
+   "en": "equate",
+   "uz": "bir xil deb bilmoq (tenglashtirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't equate being quiet with being shy; Rustam simply likes to listen before he speaks.",
+   "gap": "equate",
+   "alt": [
+    "equated",
+    "equating",
+    "equates"
+   ]
+  },
+  {
+   "id": "tantamount_to",
+   "en": "tantamount to",
+   "uz": "…bilan barobar (teng kuchli)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Copying your friend's homework word for word is tantamount to cheating.",
+   "gap": "tantamount to",
+   "alt": []
+  },
+  {
+   "id": "interchangeable",
+   "en": "interchangeable",
+   "uz": "o‘rnini almashtirsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In this cake recipe, butter and vegetable oil are interchangeable, so use whichever you have.",
+   "gap": "interchangeable",
+   "alt": []
+  },
+  {
+   "id": "indistinguishable",
+   "en": "indistinguishable",
+   "uz": "farqlab bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her copy of the famous painting was almost indistinguishable from the original in the museum.",
+   "gap": "indistinguishable",
+   "alt": []
+  },
+  {
+   "id": "diverse",
+   "en": "diverse",
+   "uz": "xilma-xil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our summer camp was very diverse: the children came from five countries and spoke seven languages.",
+   "gap": "diverse",
+   "alt": []
+  },
+  {
+   "id": "disparate",
+   "en": "disparate",
+   "uz": "bir-biridan uzoq, tarqoq (farqli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The novel tries to link several disparate stories that have almost nothing in common.",
+   "gap": "disparate",
+   "alt": []
+  },
+  {
+   "id": "not_dissimilar",
+   "en": "not dissimilar",
+   "uz": "ancha o‘xshash (o‘xshamas emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The taste of this fruit is not dissimilar to a pear, only sweeter and juicier.",
+   "gap": "not dissimilar",
+   "alt": []
+  },
+  {
+   "id": "divergent",
+   "en": "divergent",
+   "uz": "bir-biriga zid (fikr, qarash)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Parents at the meeting expressed sharply divergent views on whether phones should be banned in class.",
+   "gap": "divergent",
+   "alt": []
+  },
+  {
+   "id": "distinct",
+   "en": "distinct",
+   "uz": "aniq farqli (alohida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "To an outsider, Khorezm and Bukhara embroidery may look the same, but experts see them as two distinct traditions.",
+   "gap": "distinct",
+   "alt": []
+  },
+  {
+   "id": "distinctive",
+   "en": "distinctive",
+   "uz": "o‘ziga xos (ajralib turadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The singer has such a distinctive voice that you recognise her after just one note.",
+   "gap": "distinctive",
+   "alt": []
+  },
+  {
+   "id": "discrete",
+   "en": "discrete",
+   "uz": "alohida-alohida (kesishmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The online course is divided into six discrete modules, so you can study them in any order.",
+   "gap": "discrete",
+   "alt": []
+  },
+  {
+   "id": "differentiate",
+   "en": "differentiate",
+   "uz": "farqini topmoq (farqlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Very young children often can't differentiate between what is real and what is pretend.",
+   "gap": "differentiate",
+   "alt": [
+    "differentiated",
+    "differentiating",
+    "differentiates"
+   ]
+  },
+  {
+   "id": "diversify",
+   "en": "diversify",
+   "uz": "turlantirmoq (xilma-xil qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To stay busy in winter, a small summer guest house decided to diversify and offer cooking classes.",
+   "gap": "diversify",
+   "alt": [
+    "diversified",
+    "diversifying",
+    "diversifies"
+   ]
+  },
+  {
+   "id": "diverge",
+   "en": "diverge",
+   "uz": "ajralib ketmoq (farqlanib bormoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our opinions began to diverge as soon as the conversation turned to music.",
+   "gap": "diverge",
+   "alt": [
+    "diverged",
+    "diverging",
+    "diverges"
+   ]
+  },
+  {
+   "id": "distinguish",
+   "en": "distinguish",
+   "uz": "ajrata olmoq (farqini sezmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Most tourists can't distinguish real Margilan silk from cheap factory copies.",
+   "gap": "distinguish",
+   "alt": [
+    "distinguished",
+    "distinguishing",
+    "distinguishes"
+   ]
+  },
+  {
+   "id": "comparable",
+   "en": "comparable",
+   "uz": "taxminan teng (qiyoslasa bo‘ladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The two phones are comparable in price, but one has a much better camera.",
+   "gap": "comparable",
+   "alt": []
+  },
+  {
+   "id": "comparative",
+   "en": "comparative",
+   "uz": "nisbiy (boshqasiga nisbatan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a week in a crowded tent, the small hostel felt like comparative luxury.",
+   "gap": "comparative",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "akin_to",
+   "comparable"
+  ],
+  [
+   "akin_to",
+   "tantamount_to"
+  ],
+  [
+   "tantamount_to",
+   "comparable"
+  ],
+  [
+   "akin_to",
+   "not_dissimilar"
+  ],
+  [
+   "comparable",
+   "not_dissimilar"
+  ],
+  [
+   "diverse",
+   "disparate"
+  ],
+  [
+   "diverse",
+   "divergent"
+  ],
+  [
+   "disparate",
+   "divergent"
+  ],
+  [
+   "distinct",
+   "discrete"
+  ],
+  [
+   "distinct",
+   "disparate"
+  ],
+  [
+   "differentiate",
+   "distinguish"
+  ],
+  [
+   "diverge",
+   "diversify"
+  ],
+  [
+   "interchangeable",
+   "indistinguishable"
+  ],
+  [
+   "comparable",
+   "comparative"
+  ],
+  [
+   "distinct",
+   "distinctive"
+  ],
+  [
+   "disparate",
+   "discrete"
+  ],
+  [
+   "discrete",
+   "diverse"
+  ],
+  [
+   "distinct",
+   "divergent"
+  ],
+  [
+   "interchangeable",
+   "comparable"
+  ],
+  [
+   "discrete",
+   "interchangeable"
+  ]
+ ]
+}

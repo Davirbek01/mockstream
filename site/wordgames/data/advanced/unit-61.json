@@ -1,0 +1,791 @@
+{
+ "book": "advanced",
+ "unit": 61,
+ "title": "Motion: taking steps",
+ "title_uz": "Harakat: qadam tashlash",
+ "words": [
+  {
+   "id": "limp",
+   "en": "limp",
+   "uz": "oqsoqlanib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since hurting her knee at volleyball, Dildora can only limp, taking one short uneven step after every long one.",
+   "gap": "limp",
+   "alt": [
+    "limped",
+    "limps",
+    "limping"
+   ]
+  },
+  {
+   "id": "hop",
+   "en": "hop",
+   "uz": "bir oyoqlab sakramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister likes to hop along the pavement on one foot, counting the squares as she goes.",
+   "gap": "hop",
+   "alt": [
+    "hopped",
+    "hops",
+    "hopping"
+   ]
+  },
+  {
+   "id": "stagger",
+   "en": "stagger",
+   "uz": "gandiraklab yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Still dizzy after the spinning ride at the fair, Laylo staggered off and had to sit down on a bench.",
+   "gap": "staggered",
+   "alt": [
+    "staggered",
+    "staggers",
+    "staggering"
+   ]
+  },
+  {
+   "id": "stumble",
+   "en": "stumble",
+   "uz": "qoqilib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the dark, Bekzod stumbled over a tree root and almost fell flat on his face.",
+   "gap": "stumbled",
+   "alt": [
+    "stumbled",
+    "stumbles",
+    "stumbling"
+   ]
+  },
+  {
+   "id": "lurch",
+   "en": "lurch",
+   "uz": "keskin silkinib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old bus lurched forward so suddenly that all the standing passengers grabbed the rails.",
+   "gap": "lurched",
+   "alt": [
+    "lurched",
+    "lurches",
+    "lurching"
+   ]
+  },
+  {
+   "id": "tiptoe",
+   "en": "tiptoe",
+   "uz": "oyoq uchida yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The baby had finally fallen asleep, so Malika tiptoed out of the room without making a sound.",
+   "gap": "tiptoed",
+   "alt": [
+    "tiptoed",
+    "tiptoes",
+    "tiptoeing"
+   ]
+  },
+  {
+   "id": "amble",
+   "en": "amble",
+   "uz": "bemalol sayr qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On warm evenings my parents like to amble along the river embankment, chatting and in no hurry to get anywhere.",
+   "gap": "amble",
+   "alt": [
+    "ambled",
+    "ambles",
+    "ambling"
+   ]
+  },
+  {
+   "id": "stride",
+   "en": "stride",
+   "uz": "katta-katta qadam tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Late for her own presentation, the manager strode confidently into the meeting room and began at once.",
+   "gap": "strode",
+   "alt": [
+    "strode",
+    "strides",
+    "striding"
+   ]
+  },
+  {
+   "id": "strut",
+   "en": "strut",
+   "uz": "kekkayib (gerdayib) yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Wearing his new prefect badge, Sardor strutted down the corridor with his chest pushed out, hoping everyone would notice.",
+   "gap": "strutted",
+   "alt": [
+    "strutted",
+    "struts",
+    "strutting"
+   ]
+  },
+  {
+   "id": "tramp",
+   "en": "tramp",
+   "uz": "og‘ir qadamlar bilan uzoq yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hikers tramped for six hours across muddy fields and rocky slopes before they finally reached their camp.",
+   "gap": "tramped",
+   "alt": [
+    "tramped",
+    "tramps",
+    "tramping"
+   ]
+  },
+  {
+   "id": "trample",
+   "en": "trample",
+   "uz": "toptamoq / payhon qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A herd of goats got into the garden and trampled all of the newly planted tulips.",
+   "gap": "trampled",
+   "alt": [
+    "trampled",
+    "tramples",
+    "trampling"
+   ]
+  },
+  {
+   "id": "stamp",
+   "en": "stamp",
+   "uz": "oyoqni yerga urmoq (depsinmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Furious that he had lost the game, the little boy stamped his foot and refused to say goodbye.",
+   "gap": "stamped",
+   "alt": [
+    "stamped",
+    "stamps",
+    "stamping"
+   ]
+  },
+  {
+   "id": "trudge",
+   "en": "trudge",
+   "uz": "holdan toyib sudralib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Exhausted after the long school day, the children trudged home through the deep snow.",
+   "gap": "trudged",
+   "alt": [
+    "trudged",
+    "trudges",
+    "trudging"
+   ]
+  },
+  {
+   "id": "chase",
+   "en": "chase",
+   "uz": "ortidan quvmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The puppy chased the ball all over the yard until it was too tired to run.",
+   "gap": "chased",
+   "alt": [
+    "chased",
+    "chases",
+    "chasing"
+   ]
+  },
+  {
+   "id": "hop_off",
+   "en": "hop off",
+   "uz": "(transportdan) tezgina tushmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "If you hop off the metro one station early, you can walk through the park to the theatre.",
+   "gap": "hop off",
+   "alt": [
+    "hopped off",
+    "hops off",
+    "hopping off"
+   ]
+  },
+  {
+   "id": "take_it_in_your_stride",
+   "en": "take it in your stride",
+   "uz": "xotirjam qabul qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Moving to a new school in Gulistan halfway through the year was a big change, but Zarina took it in her stride and made friends in the first week.",
+   "gap": "took it in her stride",
+   "alt": [
+    "took it in her stride",
+    "took it in his stride",
+    "takes it in her stride",
+    "takes it in his stride",
+    "take it in my stride"
+   ]
+  },
+  {
+   "id": "staggeringly",
+   "en": "staggeringly",
+   "uz": "aql bovar qilmas darajada",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The concert tickets were staggeringly expensive, so we watched it on TV at home instead.",
+   "gap": "staggeringly",
+   "alt": []
+  },
+  {
+   "id": "flow_crowd",
+   "en": "flow",
+   "uz": "oqim bo‘lib bir tekis o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Thousands of fans flowed slowly out of the stadium after the match, like a calm river.",
+   "gap": "flowed",
+   "alt": [
+    "flowed",
+    "flows",
+    "flowing"
+   ]
+  },
+  {
+   "id": "spill_out",
+   "en": "spill out",
+   "uz": "tashqariga to‘kilib chiqmoq (olomon)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The moment the cinema doors opened after the late show, the audience spilled out onto the dark, quiet street.",
+   "gap": "spilled out",
+   "alt": [
+    "spilled out",
+    "spilt out",
+    "spills out",
+    "spilling out"
+   ]
+  },
+  {
+   "id": "stream_in",
+   "en": "stream",
+   "uz": "uzluksiz oqib kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Once the gates opened, visitors streamed into the zoo in a long, orderly line that went on for hours.",
+   "gap": "streamed",
+   "alt": [
+    "streamed",
+    "streams",
+    "streaming"
+   ]
+  },
+  {
+   "id": "pour_in",
+   "en": "pour",
+   "uz": "yopirilib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a radio programme described the tiny mountain school with almost no textbooks, donations poured in from all over the country.",
+   "gap": "poured",
+   "alt": [
+    "poured",
+    "pours",
+    "pouring"
+   ]
+  },
+  {
+   "id": "trickle",
+   "en": "trickle",
+   "uz": "siyrak oqim (oz-ozdan kelish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Applications for the new chess club arrived in a slow trickle at first, then suddenly doubled in the last week.",
+   "gap": "trickle",
+   "alt": []
+  },
+  {
+   "id": "meander",
+   "en": "meander",
+   "uz": "maqsadsiz aylanib kezmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of taking the direct path, the tour group meandered through the vineyard, stopping whenever someone spotted a ripe bunch of grapes.",
+   "gap": "meandered",
+   "alt": [
+    "meandered",
+    "meanders",
+    "meandering"
+   ]
+  },
+  {
+   "id": "flood_in",
+   "en": "flood",
+   "uz": "sel kabi bostirib kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The moment the half-price sale began, customers flooded in, pushing and shoving, and the shelves were empty within an hour.",
+   "gap": "flooded",
+   "alt": [
+    "flooded",
+    "floods",
+    "flooding"
+   ]
+  },
+  {
+   "id": "decisive_step",
+   "en": "decisive step",
+   "uz": "hal qiluvchi qadam",
+   "pos": "noun",
+   "img": false,
+   "ex": "After months of hesitating, the council finally took a decisive step and closed the old town centre to cars.",
+   "gap": "decisive step",
+   "alt": [
+    "decisive steps"
+   ]
+  },
+  {
+   "id": "backward_step",
+   "en": "backward step",
+   "uz": "ortga ketish (orqaga qadam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Closing the village library would be a backward step for the whole community.",
+   "gap": "backward step",
+   "alt": [
+    "backward steps"
+   ]
+  },
+  {
+   "id": "giant_step",
+   "en": "giant step",
+   "uz": "ulkan qadam (katta yutuq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Opening a second factory abroad was a giant step for a company that began in a small garage in Kokand.",
+   "gap": "giant step",
+   "alt": [
+    "giant steps"
+   ]
+  },
+  {
+   "id": "unprecedented",
+   "en": "unprecedented",
+   "uz": "misli ko‘rilmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In an unprecedented step, the school let the students design the new timetable themselves.",
+   "gap": "unprecedented",
+   "alt": []
+  },
+  {
+   "id": "footsteps",
+   "en": "footsteps",
+   "uz": "qadam tovushlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lying in bed, I heard heavy footsteps on the stairs and knew my brother was home.",
+   "gap": "footsteps",
+   "alt": [
+    "footstep"
+   ]
+  },
+  {
+   "id": "limp_fig",
+   "en": "limp",
+   "uz": "zo‘rg‘a sudralib davom etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With half the cast ill with flu, the school play limped to an end and the audience clapped politely.",
+   "gap": "limped",
+   "alt": [
+    "limped",
+    "limps",
+    "limping"
+   ]
+  },
+  {
+   "id": "stagger_on",
+   "en": "stagger on",
+   "uz": "arang kun ko‘rib turmoq (biznes)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The little bookshop near the station staggered on for two more winters before it finally closed its doors.",
+   "gap": "staggered on",
+   "alt": [
+    "staggered on",
+    "staggers on",
+    "staggering on"
+   ]
+  },
+  {
+   "id": "lurch_fig",
+   "en": "lurch",
+   "uz": "bir inqirozdan boshqasiga o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Without a clear plan, the football club has lurched from one money crisis to the next for years.",
+   "gap": "lurched",
+   "alt": [
+    "lurched",
+    "lurches",
+    "lurching"
+   ]
+  },
+  {
+   "id": "trample_on",
+   "en": "trample on",
+   "uz": "oyoq osti qilmoq (orzu, huquq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "A good coach encourages young players and never tramples on their hopes of turning professional.",
+   "gap": "tramples on",
+   "alt": [
+    "trampled on",
+    "tramples on",
+    "trampling on"
+   ]
+  },
+  {
+   "id": "chase_debt",
+   "en": "chase",
+   "uz": "qayta-qayta eslatib undirmoq (to‘lov)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The library had to chase Otabek three times before he returned the overdue books and paid the fine.",
+   "gap": "chase",
+   "alt": [
+    "chased",
+    "chases",
+    "chasing"
+   ]
+  },
+  {
+   "id": "stumbling",
+   "en": "stumbling",
+   "uz": "ikkilanib, chala-chulpa (urinish)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a few stumbling attempts at her speech in English, Nargiza relaxed and spoke fluently.",
+   "gap": "stumbling",
+   "alt": []
+  },
+  {
+   "id": "big_step",
+   "en": "big step",
+   "uz": "katta qadam (hayotda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Moving out of her parents' flat to share a house with strangers was a big step for Shirin.",
+   "gap": "big step",
+   "alt": [
+    "big steps"
+   ]
+  },
+  {
+   "id": "first_step",
+   "en": "first step",
+   "uz": "birinchi qadam",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you want to learn to code, the very first step is to choose one language and stick to it.",
+   "gap": "first step",
+   "alt": [
+    "first steps"
+   ]
+  },
+  {
+   "id": "critical_step",
+   "en": "critical step",
+   "uz": "o‘ta muhim (taqdirli) qadam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lifting the old engine out without bending the frame was the most critical step of the whole repair.",
+   "gap": "critical step",
+   "alt": [
+    "critical steps"
+   ]
+  },
+  {
+   "id": "major_step",
+   "en": "major step",
+   "uz": "yirik (jiddiy) qadam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Banning plastic bags in all city shops would be a major step towards cleaner rivers.",
+   "gap": "major step",
+   "alt": [
+    "major steps"
+   ]
+  },
+  {
+   "id": "significant_step",
+   "en": "significant step",
+   "uz": "sezilarli (ahamiyatli) qadam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Free school lunches for every child were a significant step in reducing hunger in the region.",
+   "gap": "significant step",
+   "alt": [
+    "significant steps"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "limp",
+   "hop"
+  ],
+  [
+   "hop",
+   "hop_off"
+  ],
+  [
+   "stagger",
+   "stumble"
+  ],
+  [
+   "stagger",
+   "lurch"
+  ],
+  [
+   "stagger",
+   "trudge"
+  ],
+  [
+   "stumble",
+   "lurch"
+  ],
+  [
+   "amble",
+   "meander"
+  ],
+  [
+   "stride",
+   "strut"
+  ],
+  [
+   "tramp",
+   "trudge"
+  ],
+  [
+   "trample",
+   "stamp"
+  ],
+  [
+   "flow_crowd",
+   "stream_in"
+  ],
+  [
+   "flow_crowd",
+   "pour_in"
+  ],
+  [
+   "stream_in",
+   "pour_in"
+  ],
+  [
+   "pour_in",
+   "flood_in"
+  ],
+  [
+   "pour_in",
+   "spill_out"
+  ],
+  [
+   "decisive_step",
+   "giant_step"
+  ],
+  [
+   "stride",
+   "take_it_in_your_stride"
+  ],
+  [
+   "stagger",
+   "staggeringly"
+  ],
+  [
+   "spill_out",
+   "stream_in"
+  ],
+  [
+   "spill_out",
+   "flood_in"
+  ],
+  [
+   "spill_out",
+   "flow_crowd"
+  ],
+  [
+   "flow_crowd",
+   "flood_in"
+  ],
+  [
+   "stream_in",
+   "flood_in"
+  ],
+  [
+   "limp",
+   "stagger"
+  ],
+  [
+   "tramp",
+   "stride"
+  ],
+  [
+   "trudge",
+   "stumble"
+  ],
+  [
+   "tramp",
+   "meander"
+  ],
+  [
+   "limp",
+   "limp_fig"
+  ],
+  [
+   "limp_fig",
+   "stagger_on"
+  ],
+  [
+   "limp_fig",
+   "lurch_fig"
+  ],
+  [
+   "stagger",
+   "stagger_on"
+  ],
+  [
+   "stagger",
+   "lurch_fig"
+  ],
+  [
+   "lurch",
+   "lurch_fig"
+  ],
+  [
+   "trample",
+   "trample_on"
+  ],
+  [
+   "chase",
+   "chase_debt"
+  ],
+  [
+   "stumble",
+   "stumbling"
+  ],
+  [
+   "big_step",
+   "major_step"
+  ],
+  [
+   "big_step",
+   "significant_step"
+  ],
+  [
+   "big_step",
+   "critical_step"
+  ],
+  [
+   "big_step",
+   "giant_step"
+  ],
+  [
+   "big_step",
+   "decisive_step"
+  ],
+  [
+   "major_step",
+   "significant_step"
+  ],
+  [
+   "major_step",
+   "critical_step"
+  ],
+  [
+   "major_step",
+   "giant_step"
+  ],
+  [
+   "major_step",
+   "decisive_step"
+  ],
+  [
+   "significant_step",
+   "critical_step"
+  ],
+  [
+   "significant_step",
+   "giant_step"
+  ],
+  [
+   "significant_step",
+   "decisive_step"
+  ],
+  [
+   "critical_step",
+   "decisive_step"
+  ],
+  [
+   "critical_step",
+   "giant_step"
+  ],
+  [
+   "first_step",
+   "decisive_step"
+  ],
+  [
+   "backward_step",
+   "big_step"
+  ],
+  [
+   "backward_step",
+   "major_step"
+  ],
+  [
+   "backward_step",
+   "significant_step"
+  ],
+  [
+   "backward_step",
+   "critical_step"
+  ],
+  [
+   "lurch",
+   "limp_fig"
+  ],
+  [
+   "stumble",
+   "limp_fig"
+  ],
+  [
+   "stagger",
+   "limp_fig"
+  ],
+  [
+   "stumble",
+   "lurch_fig"
+  ],
+  [
+   "first_step",
+   "major_step"
+  ],
+  [
+   "first_step",
+   "significant_step"
+  ],
+  [
+   "first_step",
+   "big_step"
+  ],
+  [
+   "lurch_fig",
+   "stagger_on"
+  ]
+ ]
+}

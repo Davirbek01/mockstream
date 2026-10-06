@@ -1,0 +1,462 @@
+{
+ "book": "advanced",
+ "unit": 80,
+ "title": "Academic writing: text structure",
+ "title_uz": "Akademik yozuv: matn tuzilishi",
+ "words": [
+  {
+   "id": "reiterate",
+   "en": "reiterate",
+   "uz": "qayta-qayta ta’kidlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For the third time that morning, the guide reiterated that visitors must not touch the old manuscripts.",
+   "gap": "reiterated",
+   "alt": [
+    "reiterated",
+    "reiterates",
+    "reiterating"
+   ]
+  },
+  {
+   "id": "summarise",
+   "en": "summarise",
+   "uz": "qisqacha bayon qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you summarise the main points of the article in three sentences?",
+   "gap": "summarise",
+   "alt": [
+    "summarize",
+    "summarised",
+    "summarises",
+    "summarized"
+   ]
+  },
+  {
+   "id": "epitomise",
+   "en": "epitomise",
+   "uz": "yorqin namunasi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The tiny family café, with its handwritten menu and warm welcome, epitomises Margilan hospitality.",
+   "gap": "epitomises",
+   "alt": [
+    "epitomize",
+    "epitomises",
+    "epitomised",
+    "epitomizes"
+   ]
+  },
+  {
+   "id": "assert",
+   "en": "assert",
+   "uz": "qat’iy da’vo qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In his letter to the school newspaper, one parent firmly asserts that homework is a waste of time, but he offers no evidence at all.",
+   "gap": "asserts",
+   "alt": [
+    "asserts",
+    "asserted",
+    "asserting"
+   ]
+  },
+  {
+   "id": "expound",
+   "en": "expound",
+   "uz": "batafsil sharhlab bermoq (nazariyani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Over three long lectures, the professor expounded his theory in great detail.",
+   "gap": "expounded",
+   "alt": [
+    "expounds",
+    "expounded",
+    "expounding"
+   ]
+  },
+  {
+   "id": "underscore",
+   "en": "underscore",
+   "uz": "alohida urg‘u bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The long queues at the clinic underscore the need for more doctors in the district.",
+   "gap": "underscore",
+   "alt": [
+    "underscores",
+    "underscored",
+    "underscoring"
+   ]
+  },
+  {
+   "id": "posit",
+   "en": "posit",
+   "uz": "faraz sifatida ilgari surmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As a starting hypothesis, the students posited that classmates who sleep more get better marks, and then set out to test the idea.",
+   "gap": "posited",
+   "alt": [
+    "posits",
+    "posited",
+    "positing"
+   ]
+  },
+  {
+   "id": "account_for",
+   "en": "account for",
+   "uz": "sababini tushuntirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "How can we account for the sudden drop in visitors to the museum this year?",
+   "gap": "account for",
+   "alt": [
+    "accounts for",
+    "accounted for",
+    "accounting for"
+   ]
+  },
+  {
+   "id": "comprise",
+   "en": "comprise",
+   "uz": "…ning qismini tashkil etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Girls comprise almost two thirds of the members of the school robotics club.",
+   "gap": "comprise",
+   "alt": [
+    "comprises",
+    "comprised",
+    "comprising"
+   ]
+  },
+  {
+   "id": "consist_of",
+   "en": "consist of",
+   "uz": "…dan iborat bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our basketball squad consists of twelve players, but only five can be on the court at once.",
+   "gap": "consists of",
+   "alt": [
+    "consists of",
+    "consisted of",
+    "consisting of"
+   ]
+  },
+  {
+   "id": "subsume",
+   "en": "subsume",
+   "uz": "umumiy nom ostida birlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the new curriculum, physics, chemistry and biology are subsumed into a single subject called science.",
+   "gap": "subsumed",
+   "alt": [
+    "subsumes",
+    "subsumed"
+   ]
+  },
+  {
+   "id": "embrace",
+   "en": "embrace",
+   "uz": "o‘z ichiga qamrab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The festival programme embraces everything from folk dancing to modern jazz.",
+   "gap": "embraces",
+   "alt": [
+    "embraces",
+    "embraced",
+    "embracing"
+   ]
+  },
+  {
+   "id": "categorise",
+   "en": "categorise",
+   "uz": "turkumlarga ajratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The librarians spent the summer trying to categorise thousands of donated books by subject.",
+   "gap": "categorise",
+   "alt": [
+    "categorize",
+    "categorised",
+    "categorises",
+    "categorized"
+   ]
+  },
+  {
+   "id": "preface",
+   "en": "preface",
+   "uz": "…dan boshlab so‘z ochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The speaker prefaced her talk with a short story about her first day as a teacher.",
+   "gap": "prefaced",
+   "alt": [
+    "prefaces",
+    "prefaced",
+    "prefacing"
+   ]
+  },
+  {
+   "id": "this_brings_us_to",
+   "en": "this brings us to",
+   "uz": "shu bilan …ga o‘tamiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "So much for transport; this brings us to the question of housing.",
+   "gap": "brings us to",
+   "alt": [
+    "brings us to",
+    "this brings me to",
+    "brings me to"
+   ]
+  },
+  {
+   "id": "address_the_question",
+   "en": "address the question of",
+   "uz": "…masalasini ko‘tarib, ko‘rib chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the next section, I will address the question of how much homework is too much.",
+   "gap": "address the question of",
+   "alt": [
+    "address the question",
+    "addresses the question of",
+    "addressed the question of"
+   ]
+  },
+  {
+   "id": "ascending_order",
+   "en": "in ascending order",
+   "uz": "o‘sib boruvchi tartibda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please list the cities in ascending order of population, starting with the smallest.",
+   "gap": "ascending order",
+   "alt": [
+    "ascending order"
+   ]
+  },
+  {
+   "id": "descending_order",
+   "en": "in descending order",
+   "uz": "kamayib boruvchi tartibda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The scores are listed in descending order, so the highest one appears at the top.",
+   "gap": "descending order",
+   "alt": [
+    "descending order"
+   ]
+  },
+  {
+   "id": "cite",
+   "en": "cite",
+   "uz": "manba sifatida keltirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In her essay, Mohira cited three recent studies in support of her argument.",
+   "gap": "cited",
+   "alt": [
+    "cites",
+    "cited",
+    "citing"
+   ]
+  },
+  {
+   "id": "allude_to",
+   "en": "allude to",
+   "uz": "…ga ishora qilmoq (bilvosita)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Without naming anyone, the coach alluded to players who had missed training.",
+   "gap": "alluded to",
+   "alt": [
+    "alludes to",
+    "alluded to",
+    "alluding to"
+   ]
+  },
+  {
+   "id": "touch_upon",
+   "en": "touch upon",
+   "uz": "qisqacha to‘xtalib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The lecture only touched upon climate change; most of it was about water use in farming.",
+   "gap": "touched upon",
+   "alt": [
+    "touch on",
+    "touches upon",
+    "touched upon",
+    "touching upon"
+   ]
+  },
+  {
+   "id": "deal_with",
+   "en": "deal with",
+   "uz": "batafsil yoritmoq (mavzuni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A single lesson cannot deal with every aspect of the history of the Silk Road.",
+   "gap": "deal with",
+   "alt": [
+    "deals with",
+    "dealt with",
+    "dealing with"
+   ]
+  },
+  {
+   "id": "beyond_the_scope_of",
+   "en": "beyond the scope of",
+   "uz": "…doirasidan tashqarida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A full history of the city is beyond the scope of this short guidebook.",
+   "gap": "beyond the scope of",
+   "alt": []
+  },
+  {
+   "id": "conclude",
+   "en": "conclude",
+   "uz": "xulosaga kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After comparing prices in five shops, Shohruh concluded that the market was the cheapest place to buy fruit.",
+   "gap": "concluded",
+   "alt": [
+    "concludes",
+    "concluded",
+    "concluding"
+   ]
+  },
+  {
+   "id": "return_to_this_point",
+   "en": "return to this point",
+   "uz": "bu masalaga keyinroq qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I shall return to this point later in the essay, after looking at the cost of school meals.",
+   "gap": "return to this point",
+   "alt": [
+    "return to this point later"
+   ]
+  },
+  {
+   "id": "make_up",
+   "en": "make up",
+   "uz": "(ulush sifatida) tashkil qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Women made up just a quarter of the engineering students ten years ago; today the figure is closer to half.",
+   "gap": "made up",
+   "alt": [
+    "made up",
+    "makes up",
+    "making up"
+   ]
+  },
+  {
+   "id": "be_comprised_of",
+   "en": "be comprised of",
+   "uz": "…dan tarkib topgan bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This year the jury is comprised of three teachers, two artists and a retired architect.",
+   "gap": "is comprised of",
+   "alt": [
+    "is comprised of",
+    "are comprised of",
+    "was comprised of",
+    "comprised of"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "reiterate",
+   "assert"
+  ],
+  [
+   "reiterate",
+   "underscore"
+  ],
+  [
+   "assert",
+   "posit"
+  ],
+  [
+   "expound",
+   "posit"
+  ],
+  [
+   "summarise",
+   "deal_with"
+  ],
+  [
+   "comprise",
+   "consist_of"
+  ],
+  [
+   "comprise",
+   "embrace"
+  ],
+  [
+   "address_the_question",
+   "deal_with"
+  ],
+  [
+   "address_the_question",
+   "touch_upon"
+  ],
+  [
+   "cite",
+   "allude_to"
+  ],
+  [
+   "allude_to",
+   "touch_upon"
+  ],
+  [
+   "touch_upon",
+   "deal_with"
+  ],
+  [
+   "ascending_order",
+   "descending_order"
+  ],
+  [
+   "comprise",
+   "account_for"
+  ],
+  [
+   "embrace",
+   "deal_with"
+  ],
+  [
+   "make_up",
+   "comprise"
+  ],
+  [
+   "make_up",
+   "account_for"
+  ],
+  [
+   "be_comprised_of",
+   "consist_of"
+  ],
+  [
+   "be_comprised_of",
+   "comprise"
+  ],
+  [
+   "underscore",
+   "indicate"
+  ]
+ ]
+}

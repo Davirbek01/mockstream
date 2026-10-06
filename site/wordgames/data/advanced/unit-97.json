@@ -1,0 +1,570 @@
+{
+ "book": "advanced",
+ "unit": 97,
+ "title": "Register: degrees of formality",
+ "title_uz": "Nutq uslubi: rasmiylik darajalari",
+ "words": [
+  {
+   "id": "bloke",
+   "en": "bloke",
+   "uz": "yigit, odam (Brit., so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bloke who fixed our washing machine wouldn't even stay for a cup of tea.",
+   "gap": "bloke",
+   "alt": [
+    "blokes"
+   ]
+  },
+  {
+   "id": "telly",
+   "en": "telly",
+   "uz": "televizor (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's nothing good on the telly tonight, so let's get the board games out.",
+   "gap": "telly",
+   "alt": [
+    "the telly",
+    "tellies"
+   ]
+  },
+  {
+   "id": "spectacles",
+   "en": "spectacles",
+   "uz": "ko‘zoynak (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three pairs of spectacles have been handed in to the library's lost property office this month.",
+   "gap": "spectacles",
+   "alt": []
+  },
+  {
+   "id": "specs",
+   "en": "specs",
+   "uz": "ko‘zoynak (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Have you seen my specs anywhere? I can't read the menu without them.",
+   "gap": "specs",
+   "alt": []
+  },
+  {
+   "id": "clothing",
+   "en": "clothing",
+   "uz": "kiyim-kechak (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Protective clothing must be worn at all times in the chemistry laboratory.",
+   "gap": "clothing",
+   "alt": []
+  },
+  {
+   "id": "garments",
+   "en": "garments",
+   "uz": "kiyim buyumlari (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Delicate garments should be washed by hand in cool water.",
+   "gap": "garments",
+   "alt": [
+    "garment"
+   ]
+  },
+  {
+   "id": "gear",
+   "en": "gear",
+   "uz": "kerakli kiyim va anjom (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Grab your swimming gear; we're going to the lake straight after lunch.",
+   "gap": "gear",
+   "alt": []
+  },
+  {
+   "id": "employ_use",
+   "en": "employ",
+   "uz": "(usulni) qo‘llamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The researchers employed a new method to measure air quality in classrooms.",
+   "gap": "employed",
+   "alt": [
+    "employs",
+    "employed",
+    "employing"
+   ]
+  },
+  {
+   "id": "endeavour",
+   "en": "endeavour",
+   "uz": "astoydil harakat qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our staff will endeavour to answer all emails within two working days.",
+   "gap": "endeavour",
+   "alt": [
+    "endeavours",
+    "endeavoured",
+    "endeavor",
+    "endeavoring"
+   ]
+  },
+  {
+   "id": "attempt",
+   "en": "attempt",
+   "uz": "urinmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers must not attempt to open the doors while the train is moving.",
+   "gap": "attempt",
+   "alt": [
+    "attempts",
+    "attempted",
+    "attempting"
+   ]
+  },
+  {
+   "id": "have_a_go",
+   "en": "have a go",
+   "uz": "bir urinib ko‘rmoq (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I've never made samsa before, but I'll have a go this weekend.",
+   "gap": "have a go",
+   "alt": [
+    "have a go at",
+    "had a go",
+    "having a go"
+   ]
+  },
+  {
+   "id": "have_a_stab_at",
+   "en": "have a stab at",
+   "uz": "chamalab, taxmin qilib ko‘rmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you don't know the answer, just have a stab at it; a guess is better than an empty box.",
+   "gap": "have a stab at",
+   "alt": [
+    "had a stab at",
+    "having a stab at"
+   ]
+  },
+  {
+   "id": "tone",
+   "en": "tone",
+   "uz": "ohang (matn yoki nutqning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tone of your email to the head teacher should be polite and respectful.",
+   "gap": "tone",
+   "alt": []
+  },
+  {
+   "id": "subsequently",
+   "en": "subsequently",
+   "uz": "keyinroq, so‘ngra (yozma nutqda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The old bridge was closed in March and subsequently reopened with a wider footpath.",
+   "gap": "subsequently",
+   "alt": []
+  },
+  {
+   "id": "in_sum",
+   "en": "in sum",
+   "uz": "xulosa qilib aytganda (yozma)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The results of the survey are, in sum, very encouraging for the library.",
+   "gap": "in sum",
+   "alt": []
+  },
+  {
+   "id": "mind_you",
+   "en": "mind you",
+   "uz": "aytgancha, shuni ham hisobga olingki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The café is quite small; mind you, the cakes are worth the wait.",
+   "gap": "mind you",
+   "alt": []
+  },
+  {
+   "id": "now_then",
+   "en": "now then",
+   "uz": "xo‘sh, qani endi (diqqatni tortish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our maths teacher put down her marker and said, 'Right, now then, who can tell me what x equals?'",
+   "gap": "now then",
+   "alt": []
+  },
+  {
+   "id": "archaic",
+   "en": "archaic",
+   "uz": "juda eskirib qolgan (qadimiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Words like 'thou' and 'thee' sound archaic to most modern English speakers.",
+   "gap": "archaic",
+   "alt": []
+  },
+  {
+   "id": "old_fashioned",
+   "en": "old-fashioned",
+   "uz": "eski rusumdagi, zamonaviy bo‘lmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most of my classmates think that sending postcards from a holiday is terribly old-fashioned.",
+   "gap": "old-fashioned",
+   "alt": [
+    "old fashioned"
+   ]
+  },
+  {
+   "id": "frock",
+   "en": "frock",
+   "uz": "ayollar ko‘ylagi (eskirgan so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the old black-and-white film, the girls wear cotton frocks to the summer fair.",
+   "gap": "frocks",
+   "alt": [
+    "frocks"
+   ]
+  },
+  {
+   "id": "wireless",
+   "en": "wireless",
+   "uz": "radio qabul qilgich (eskirgan nom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the 1940s, families used to gather round the wireless every evening to hear the news.",
+   "gap": "wireless",
+   "alt": []
+  },
+  {
+   "id": "eyeglasses",
+   "en": "eyeglasses",
+   "uz": "ko‘zoynak (eskirgan so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the 1920s photograph in the school museum, the first librarian is wearing a pair of round eyeglasses.",
+   "gap": "eyeglasses",
+   "alt": []
+  },
+  {
+   "id": "consumption_tb",
+   "en": "consumption",
+   "uz": "sil kasalligi (eskirgan nom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many nineteenth-century novels, a character falls ill with consumption.",
+   "gap": "consumption",
+   "alt": []
+  },
+  {
+   "id": "partner_spouse",
+   "en": "partner",
+   "uz": "turmush o‘rtog‘i (betaraf so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Guests are welcome to bring their partners to the staff dinner on Friday.",
+   "gap": "partners",
+   "alt": [
+    "partners"
+   ]
+  },
+  {
+   "id": "other_half",
+   "en": "other half",
+   "uz": "umr yo‘ldoshi (so‘zl., hazilomuz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'd love to come to the cinema, but I'll have to check with my other half first.",
+   "gap": "other half",
+   "alt": [
+    "other halves"
+   ]
+  },
+  {
+   "id": "the_box",
+   "en": "the box",
+   "uz": "oynai jahon (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shoira's little brother would sit in front of the box all weekend if nobody switched it off.",
+   "gap": "the box",
+   "alt": []
+  },
+  {
+   "id": "television",
+   "en": "television",
+   "uz": "televizor (betaraf)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We moved the television into the bedroom so that the living room could become a quiet study.",
+   "gap": "television",
+   "alt": [
+    "TV",
+    "televisions"
+   ]
+  },
+  {
+   "id": "glasses",
+   "en": "glasses",
+   "uz": "ko‘zoynak (betaraf)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Hamid only needs his glasses for reading, so they usually sit on top of his head.",
+   "gap": "glasses",
+   "alt": []
+  },
+  {
+   "id": "clothes",
+   "en": "clothes",
+   "uz": "kiyim-bosh (betaraf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the hike, our clothes were so muddy that we had to wash them twice.",
+   "gap": "clothes",
+   "alt": []
+  },
+  {
+   "id": "use_neutral",
+   "en": "use",
+   "uz": "ishlatmoq (betaraf)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I use your phone for a minute? Mine has run out of battery.",
+   "gap": "use",
+   "alt": [
+    "used",
+    "uses",
+    "using"
+   ]
+  },
+  {
+   "id": "try_neutral",
+   "en": "try",
+   "uz": "harakat qilib ko‘rmoq (betaraf)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I tried to call you three times last night, but your phone was switched off.",
+   "gap": "tried",
+   "alt": [
+    "tried",
+    "tries",
+    "trying"
+   ]
+  },
+  {
+   "id": "have_a_bash_at",
+   "en": "have a bash at",
+   "uz": "omadni sinab ko‘rmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The puzzle looked impossible, but Laylo decided to have a bash at it during the lunch break.",
+   "gap": "have a bash at",
+   "alt": [
+    "had a bash at",
+    "having a bash at"
+   ]
+  },
+  {
+   "id": "have_a_crack_at",
+   "en": "have a crack at",
+   "uz": "bir kuchini sinab ko‘rmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "None of us could open the rusty lock, so the caretaker had a crack at it with some oil and a screwdriver.",
+   "gap": "had a crack at",
+   "alt": [
+    "had a crack at",
+    "having a crack at",
+    "has a crack at"
+   ]
+  },
+  {
+   "id": "have_a_shot_at",
+   "en": "have a shot at",
+   "uz": "bir harakat qilib ko‘rmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our school chess team rarely wins, but this year the players want to have a shot at the city title.",
+   "gap": "have a shot at",
+   "alt": [
+    "had a shot at",
+    "having a shot at"
+   ]
+  },
+  {
+   "id": "asylum_hospital",
+   "en": "asylum",
+   "uz": "ruhiy kasallar shifoxonasi (eskirgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the old novel, the heroine's brother is sent to a gloomy asylum on the edge of town.",
+   "gap": "asylum",
+   "alt": [
+    "asylums"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "spectacles",
+   "specs"
+  ],
+  [
+   "clothing",
+   "garments"
+  ],
+  [
+   "clothing",
+   "gear"
+  ],
+  [
+   "garments",
+   "gear"
+  ],
+  [
+   "frock",
+   "garments"
+  ],
+  [
+   "frock",
+   "clothing"
+  ],
+  [
+   "endeavour",
+   "attempt"
+  ],
+  [
+   "employ_use",
+   "attempt"
+  ],
+  [
+   "have_a_go",
+   "have_a_stab_at"
+  ],
+  [
+   "archaic",
+   "old_fashioned"
+  ],
+  [
+   "wireless",
+   "telly"
+  ],
+  [
+   "eyeglasses",
+   "spectacles"
+  ],
+  [
+   "eyeglasses",
+   "specs"
+  ],
+  [
+   "partner_spouse",
+   "other_half"
+  ],
+  [
+   "the_box",
+   "telly"
+  ],
+  [
+   "the_box",
+   "television"
+  ],
+  [
+   "television",
+   "telly"
+  ],
+  [
+   "glasses",
+   "spectacles"
+  ],
+  [
+   "glasses",
+   "specs"
+  ],
+  [
+   "glasses",
+   "eyeglasses"
+  ],
+  [
+   "clothes",
+   "clothing"
+  ],
+  [
+   "clothes",
+   "garments"
+  ],
+  [
+   "clothes",
+   "gear"
+  ],
+  [
+   "use_neutral",
+   "employ_use"
+  ],
+  [
+   "try_neutral",
+   "attempt"
+  ],
+  [
+   "try_neutral",
+   "endeavour"
+  ],
+  [
+   "try_neutral",
+   "have_a_go"
+  ],
+  [
+   "have_a_bash_at",
+   "have_a_go"
+  ],
+  [
+   "have_a_crack_at",
+   "have_a_go"
+  ],
+  [
+   "have_a_shot_at",
+   "have_a_go"
+  ],
+  [
+   "have_a_bash_at",
+   "have_a_stab_at"
+  ],
+  [
+   "have_a_crack_at",
+   "have_a_stab_at"
+  ],
+  [
+   "have_a_shot_at",
+   "have_a_stab_at"
+  ],
+  [
+   "have_a_bash_at",
+   "have_a_crack_at"
+  ],
+  [
+   "have_a_bash_at",
+   "have_a_shot_at"
+  ],
+  [
+   "have_a_crack_at",
+   "have_a_shot_at"
+  ],
+  [
+   "television",
+   "wireless"
+  ],
+  [
+   "the_box",
+   "wireless"
+  ]
+ ]
+}

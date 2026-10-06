@@ -1,0 +1,468 @@
+{
+ "book": "advanced",
+ "unit": 23,
+ "title": "Food: a recipe for disaster",
+ "title_uz": "Oziq-ovqat: falokat retsepti",
+ "words": [
+  {
+   "id": "wholesome",
+   "en": "wholesome",
+   "uz": "sog‘liqqa foydali, to‘yimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A bowl of hot pumpkin soup with fresh bread is a wholesome meal on a cold winter evening.",
+   "gap": "wholesome",
+   "alt": []
+  },
+  {
+   "id": "additive",
+   "en": "additive",
+   "uz": "qo‘shimcha modda (E-qo‘shimcha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The list of ingredients on these crisps includes several additives that improve the colour and flavour.",
+   "gap": "additives",
+   "alt": [
+    "additives"
+   ]
+  },
+  {
+   "id": "wholefoods",
+   "en": "wholefoods",
+   "uz": "tabiiy holidagi oziq-ovqatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour has opened a small shop selling wholefoods such as brown rice, nuts and dried fruit.",
+   "gap": "wholefoods",
+   "alt": [
+    "wholefood",
+    "whole foods"
+   ]
+  },
+  {
+   "id": "free_range",
+   "en": "free-range",
+   "uz": "erkin yayratib boqilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We buy free-range eggs from a farm where the hens spend the whole day outside in the orchard.",
+   "gap": "free-range",
+   "alt": [
+    "free range"
+   ]
+  },
+  {
+   "id": "gluten_free",
+   "en": "gluten-free",
+   "uz": "kleykovinasiz (bug‘doy oqsilisiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since Sardor became ill after eating wheat, his mother bakes gluten-free bread for him.",
+   "gap": "gluten-free",
+   "alt": [
+    "gluten free"
+   ]
+  },
+  {
+   "id": "preservative",
+   "en": "preservative",
+   "uz": "konservant (buzilishdan saqlovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Homemade jam keeps for months because sugar works as a natural preservative.",
+   "gap": "preservative",
+   "alt": [
+    "preservatives"
+   ]
+  },
+  {
+   "id": "allergy",
+   "en": "allergy",
+   "uz": "allergiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar has a nut allergy, so she always reads the label on a bar of chocolate before she buys it.",
+   "gap": "allergy",
+   "alt": [
+    "allergies"
+   ]
+  },
+  {
+   "id": "allergic",
+   "en": "allergic",
+   "uz": "allergiyasi bor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother is allergic to strawberries and gets a red rash if he eats even one.",
+   "gap": "allergic",
+   "alt": []
+  },
+  {
+   "id": "vegan",
+   "en": "vegan",
+   "uz": "hayvon mahsulotini umuman yemaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamola has become a vegan, so for her birthday we baked a cake without eggs, butter or milk.",
+   "gap": "vegan",
+   "alt": [
+    "vegans"
+   ]
+  },
+  {
+   "id": "unprocessed",
+   "en": "unprocessed",
+   "uz": "qayta ishlanmagan (kimyosiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Doctors advise us to eat more unprocessed food, like fresh vegetables, beans and whole grains.",
+   "gap": "unprocessed",
+   "alt": []
+  },
+  {
+   "id": "animal_welfare",
+   "en": "animal welfare",
+   "uz": "hayvonlar farovonligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Groups that campaign for animal welfare want hens to have much more space and fresh air.",
+   "gap": "animal welfare",
+   "alt": []
+  },
+  {
+   "id": "battery_farming",
+   "en": "battery farming",
+   "uz": "kataklarda parranda boqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many supermarkets have stopped selling eggs from battery farming after customers complained about hens kept in tiny cages.",
+   "gap": "battery farming",
+   "alt": [
+    "battery-farming"
+   ]
+  },
+  {
+   "id": "convenience_food",
+   "en": "convenience food",
+   "uz": "tez tayyorlanadigan tayyor taomlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Busy students often live on convenience food like instant noodles and frozen dumplings.",
+   "gap": "convenience food",
+   "alt": [
+    "convenience foods"
+   ]
+  },
+  {
+   "id": "nutrition_label",
+   "en": "nutrition label",
+   "uz": "ozuqaviy qiymat yorlig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the nutrition label, one small pot of this yoghurt contains four teaspoons of sugar.",
+   "gap": "nutrition label",
+   "alt": [
+    "nutrition labels"
+   ]
+  },
+  {
+   "id": "traffic_light_labelling",
+   "en": "traffic-light labelling",
+   "uz": "svetofor ranglaridagi yorliq tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to traffic-light labelling, shoppers can see at a glance that a red circle means too much salt.",
+   "gap": "traffic-light labelling",
+   "alt": [
+    "traffic light labelling",
+    "traffic-light labels"
+   ]
+  },
+  {
+   "id": "fair_trade",
+   "en": "fair trade",
+   "uz": "adolatli savdo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school café sells only fair trade chocolate, so the cocoa farmers receive a decent price.",
+   "gap": "fair trade",
+   "alt": [
+    "fair-trade"
+   ]
+  },
+  {
+   "id": "recipe_for_disaster",
+   "en": "recipe for disaster",
+   "uz": "falokatga olib boradigan vaziyat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Putting the two rival captains in charge of the class trip together was a recipe for disaster.",
+   "gap": "recipe for disaster",
+   "alt": [
+    "a recipe for disaster"
+   ]
+  },
+  {
+   "id": "cook_up",
+   "en": "cook up",
+   "uz": "(bahona) to‘qib chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the teacher asked about her missing homework, Lola cooked up an excuse about her cat sleeping on her notebook.",
+   "gap": "cooked up",
+   "alt": [
+    "cooked up",
+    "cooks up",
+    "cooking up"
+   ]
+  },
+  {
+   "id": "all_the_ingredients",
+   "en": "all the ingredients",
+   "uz": "kerakli barcha unsurlar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With friendly neighbours, a big garden and a river nearby, the village had all the ingredients for a perfect summer holiday.",
+   "gap": "all the ingredients",
+   "alt": []
+  },
+  {
+   "id": "stew",
+   "en": "stew",
+   "uz": "(o‘z aybidan) xavotirda qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't answer his message yet; let him stew for a day, because he really should have apologised.",
+   "gap": "stew",
+   "alt": [
+    "stewing",
+    "stewed",
+    "stews"
+   ]
+  },
+  {
+   "id": "cup_of_tea",
+   "en": "my cup of tea",
+   "uz": "menga yoqadigan narsa (didimga mos)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother loves chess tournaments, but sitting in silence for hours really isn't my cup of tea.",
+   "gap": "my cup of tea",
+   "alt": [
+    "cup of tea"
+   ]
+  },
+  {
+   "id": "grill",
+   "en": "grill",
+   "uz": "so‘roqqa tutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the press conference, journalists grilled the minister about the rising price of bread.",
+   "gap": "grilled",
+   "alt": [
+    "grilled",
+    "grilling",
+    "grills"
+   ]
+  },
+  {
+   "id": "half_baked",
+   "en": "half-baked",
+   "uz": "puxta o‘ylanmagan, xom",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His half-baked plan to sell ice cream at the school gate in January didn't make any money at all.",
+   "gap": "half-baked",
+   "alt": [
+    "half baked"
+   ]
+  },
+  {
+   "id": "spice_up",
+   "en": "spice up",
+   "uz": "jonlantirmoq, qiziqroq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A few funny photos and a short quiz would really spice up your presentation.",
+   "gap": "spice up",
+   "alt": [
+    "spiced up",
+    "spices up",
+    "spicing up"
+   ]
+  },
+  {
+   "id": "unsavoury",
+   "en": "unsavoury",
+   "uz": "shubhali, axloqan yoqimsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His parents got worried when he started spending time with some unsavoury characters who hang around the bus station at night.",
+   "gap": "unsavoury",
+   "alt": [
+    "unsavory"
+   ]
+  },
+  {
+   "id": "juicy",
+   "en": "juicy",
+   "uz": "qiziq, shov-shuvli (gap-so‘z)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Come on, tell me all the juicy details of what happened at the school concert after I left!",
+   "gap": "juicy",
+   "alt": []
+  },
+  {
+   "id": "farm_fresh",
+   "en": "farm fresh",
+   "uz": "fermadan yangi keltirilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The eggs at the market were advertised as farm fresh, but the date on the box showed they were two weeks old.",
+   "gap": "farm fresh",
+   "alt": [
+    "farm-fresh"
+   ]
+  },
+  {
+   "id": "homemade",
+   "en": "homemade",
+   "uz": "uyda tayyorlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The roadside café near Gulistan sells homemade apricot jam in small jars with hand-written labels.",
+   "gap": "homemade",
+   "alt": [
+    "home-made"
+   ]
+  },
+  {
+   "id": "artificial_colours",
+   "en": "artificial colours",
+   "uz": "sun’iy bo‘yoqlar (taomda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "These bright green sweets are full of artificial colours, so Ella's parents only buy them as an occasional treat.",
+   "gap": "artificial colours",
+   "alt": [
+    "artificial colour",
+    "artificial colors"
+   ]
+  },
+  {
+   "id": "vegetarian",
+   "en": "vegetarian",
+   "uz": "go‘sht-baliq yemaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since Timur became a vegetarian, he still eats cheese and eggs but never meat or fish.",
+   "gap": "vegetarian",
+   "alt": [
+    "vegetarians"
+   ]
+  },
+  {
+   "id": "stew_in_own_juice",
+   "en": "stew in your own juice",
+   "uz": "o‘z aybining jabrini tortmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After he refused to apologise to the team, the coach decided to let him stew in his own juice on the bench for a while.",
+   "gap": "stew in his own juice",
+   "alt": [
+    "stew in his own juice",
+    "stew in her own juice",
+    "stew in their own juice",
+    "stewing in his own juice"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "additive",
+   "preservative"
+  ],
+  [
+   "wholefoods",
+   "unprocessed"
+  ],
+  [
+   "wholesome",
+   "unprocessed"
+  ],
+  [
+   "allergy",
+   "allergic"
+  ],
+  [
+   "nutrition_label",
+   "traffic_light_labelling"
+  ],
+  [
+   "free_range",
+   "animal_welfare"
+  ],
+  [
+   "battery_farming",
+   "animal_welfare"
+  ],
+  [
+   "convenience_food",
+   "unprocessed"
+  ],
+  [
+   "unsavoury",
+   "half_baked"
+  ],
+  [
+   "spice_up",
+   "cook_up"
+  ],
+  [
+   "wholesome",
+   "vegan"
+  ],
+  [
+   "farm_fresh",
+   "free_range"
+  ],
+  [
+   "farm_fresh",
+   "unprocessed"
+  ],
+  [
+   "farm_fresh",
+   "wholesome"
+  ],
+  [
+   "farm_fresh",
+   "homemade"
+  ],
+  [
+   "homemade",
+   "wholesome"
+  ],
+  [
+   "homemade",
+   "unprocessed"
+  ],
+  [
+   "artificial_colours",
+   "additive"
+  ],
+  [
+   "artificial_colours",
+   "preservative"
+  ],
+  [
+   "vegetarian",
+   "vegan"
+  ],
+  [
+   "stew_in_own_juice",
+   "stew"
+  ]
+ ]
+}

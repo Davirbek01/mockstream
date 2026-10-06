@@ -1,0 +1,868 @@
+{
+ "book": "advanced",
+ "unit": 98,
+ "title": "Divided by a common language",
+ "title_uz": "Bir til, ikki xil odat: Britaniya va Amerika inglizchasi",
+ "words": [
+  {
+   "id": "kitty_corner",
+   "en": "kitty-corner",
+   "uz": "diagonal qarshisida (AQSh, so‘zl.)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "In our neighborhood in Chicago, the bakery is kitty-corner to the post office, across both streets.",
+   "gap": "kitty-corner",
+   "alt": [
+    "kitty corner",
+    "catty-corner"
+   ]
+  },
+  {
+   "id": "gas_station",
+   "en": "gas station",
+   "uz": "yoqilg‘i quyish shoxobchasi (AQSh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We stopped at a gas station outside Denver to fill up the tank and buy snacks for the road.",
+   "gap": "gas station",
+   "alt": [
+    "gas stations"
+   ]
+  },
+  {
+   "id": "petrol_station",
+   "en": "petrol station",
+   "uz": "yoqilg‘i quyish shoxobchasi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fill up before you leave Manchester; there isn't a single petrol station on the mountain road.",
+   "gap": "petrol station",
+   "alt": [
+    "petrol stations"
+   ]
+  },
+  {
+   "id": "crosswalk",
+   "en": "crosswalk",
+   "uz": "piyodalar o‘tish joyi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The snow in Minneapolis was so deep that the white stripes of the crosswalk had completely disappeared.",
+   "gap": "crosswalk",
+   "alt": [
+    "crosswalks"
+   ]
+  },
+  {
+   "id": "creek",
+   "en": "creek",
+   "uz": "soy, irmoq (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In summer the children caught tiny fish in the creek behind their cabin in Oregon.",
+   "gap": "creek",
+   "alt": [
+    "creeks"
+   ]
+  },
+  {
+   "id": "take_a_left",
+   "en": "take a left",
+   "uz": "chapga burilmoq (AQSh)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you reach Main Street in Austin, take a left and the stadium will be right in front of you.",
+   "gap": "take a left",
+   "alt": [
+    "took a left",
+    "taking a left",
+    "takes a left"
+   ]
+  },
+  {
+   "id": "interstate",
+   "en": "Interstate",
+   "uz": "shtatlararo avtomagistral (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We crossed three states on the Interstate in a single day of driving.",
+   "gap": "Interstate",
+   "alt": [
+    "interstate",
+    "Interstates"
+   ]
+  },
+  {
+   "id": "motorway",
+   "en": "motorway",
+   "uz": "avtomagistral (Brit.)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the motorway from London to Birmingham, Zafar's coach stopped once at a service station for twenty minutes.",
+   "gap": "motorway",
+   "alt": [
+    "motorways"
+   ]
+  },
+  {
+   "id": "intersection",
+   "en": "intersection",
+   "uz": "chorraha (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a long traffic jam at the busiest intersection in Phoenix because the lights weren't working.",
+   "gap": "intersection",
+   "alt": [
+    "intersections"
+   ]
+  },
+  {
+   "id": "shopping_cart",
+   "en": "shopping cart",
+   "uz": "savdo aravachasi (AQSh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Shoppers at the grocery store in Atlanta are asked to return their shopping cart to the entrance before driving away.",
+   "gap": "shopping cart",
+   "alt": [
+    "shopping carts"
+   ]
+  },
+  {
+   "id": "trolley",
+   "en": "trolley",
+   "uz": "savdo aravachasi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our supermarket in Cardiff asks for a one-pound coin to unlock a trolley.",
+   "gap": "trolley",
+   "alt": [
+    "trolleys"
+   ]
+  },
+  {
+   "id": "parking_lot",
+   "en": "parking lot",
+   "uz": "avtoturargoh (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The parking lot at the mall outside Dallas was so huge that we forgot where we had left the car.",
+   "gap": "parking lot",
+   "alt": [
+    "parking lots"
+   ]
+  },
+  {
+   "id": "car_park",
+   "en": "car park",
+   "uz": "avtoturargoh (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The multi-storey car park near the theatre in Bristol charges by the hour.",
+   "gap": "car park",
+   "alt": [
+    "car parks"
+   ]
+  },
+  {
+   "id": "back_up_reverse",
+   "en": "back up",
+   "uz": "(mashinani) orqaga yurgizmoq (AQSh)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In his host family's driveway in Arizona, Dilshod backed up slowly until the rear bumper touched the garage wall.",
+   "gap": "backed up",
+   "alt": [
+    "backed up",
+    "backing up",
+    "backs up"
+   ]
+  },
+  {
+   "id": "overpass",
+   "en": "overpass",
+   "uz": "estakada, yo‘l ustidagi ko‘prik (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school bus in Houston slowed down as it passed under a concrete overpass covered in graffiti.",
+   "gap": "overpass",
+   "alt": [
+    "overpasses"
+   ]
+  },
+  {
+   "id": "flyover",
+   "en": "flyover",
+   "uz": "estakada (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The council in Norwich plans to build a flyover across the railway line to end the long queues at the level crossing.",
+   "gap": "flyover",
+   "alt": [
+    "flyovers"
+   ]
+  },
+  {
+   "id": "downtown",
+   "en": "downtown",
+   "uz": "shahar markazi(da) (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kevin works downtown in a glass tower, so he takes the subway every morning instead of driving.",
+   "gap": "downtown",
+   "alt": []
+  },
+  {
+   "id": "semester",
+   "en": "semester",
+   "uz": "o‘quv yarim yili (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This semester Javohir is taking three courses at his university in Texas, including one on film.",
+   "gap": "semester",
+   "alt": [
+    "semesters"
+   ]
+  },
+  {
+   "id": "freshman",
+   "en": "freshman",
+   "uz": "birinchi kurs talabasi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a freshman in Boston, Behruz got lost on campus at least twice a day during his first week.",
+   "gap": "freshman",
+   "alt": [
+    "freshmen"
+   ]
+  },
+  {
+   "id": "fresher",
+   "en": "fresher",
+   "uz": "birinchi kurs talabasi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last October Iroda moved to Edinburgh as a fresher, nervous but excited about her first term.",
+   "gap": "fresher",
+   "alt": [
+    "freshers"
+   ]
+  },
+  {
+   "id": "sophomore",
+   "en": "sophomore",
+   "uz": "ikkinchi kurs talabasi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Now a sophomore, Sanjar finds his second year at college in Iowa much easier than the first.",
+   "gap": "sophomore",
+   "alt": [
+    "sophomores"
+   ]
+  },
+  {
+   "id": "junior_student",
+   "en": "junior",
+   "uz": "uchinchi kurs talabasi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulshan is a junior at a college in Virginia, so she has only one more year before graduation.",
+   "gap": "junior",
+   "alt": [
+    "juniors"
+   ]
+  },
+  {
+   "id": "module_course",
+   "en": "module",
+   "uz": "semestrlik fan kursi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At her university in Sheffield, Nodira has chosen a module on Victorian poetry for the spring term.",
+   "gap": "module",
+   "alt": [
+    "modules"
+   ]
+  },
+  {
+   "id": "lecturer",
+   "en": "lecturer",
+   "uz": "oliygoh o‘qituvchisi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My lecturers at university in Belfast always answer students' emails within a day.",
+   "gap": "lecturers",
+   "alt": [
+    "lecturers"
+   ]
+  },
+  {
+   "id": "major_in",
+   "en": "major in",
+   "uz": "(fan bo‘yicha) ixtisoslashmoq (AQSh)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Charos is majoring in biology at a state university in California.",
+   "gap": "majoring in",
+   "alt": [
+    "majors in",
+    "majored in",
+    "majoring in"
+   ]
+  },
+  {
+   "id": "elementary_school",
+   "en": "elementary school",
+   "uz": "boshlang‘ich maktab (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ms Davis taught first-graders at an elementary school in Ohio for ten years before she became a principal.",
+   "gap": "elementary school",
+   "alt": [
+    "elementary schools"
+   ]
+  },
+  {
+   "id": "primary_school",
+   "en": "primary school",
+   "uz": "boshlang‘ich maktab (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother has just started at a primary school in Glasgow, and he loves his new uniform.",
+   "gap": "primary school",
+   "alt": [
+    "primary schools"
+   ]
+  },
+  {
+   "id": "zebra_crossing",
+   "en": "zebra crossing",
+   "uz": "piyodalar o‘tish joyi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Outside the village school near Exeter, a lollipop lady in a yellow coat helps the children over the zebra crossing.",
+   "gap": "zebra crossing",
+   "alt": [
+    "zebra crossings"
+   ]
+  },
+  {
+   "id": "dumpster",
+   "en": "dumpster",
+   "uz": "katta axlat konteyneri (AQSh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The builders in our New York apartment block filled a whole dumpster with old bricks and broken tiles.",
+   "gap": "dumpster",
+   "alt": [
+    "dumpsters",
+    "Dumpster"
+   ]
+  },
+  {
+   "id": "skip_container",
+   "en": "skip",
+   "uz": "katta axlat konteyneri (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We hired a skip for a week while we cleared out the garage of our house in Leeds.",
+   "gap": "skip",
+   "alt": [
+    "skips"
+   ]
+  },
+  {
+   "id": "faucet",
+   "en": "faucet",
+   "uz": "jo‘mrak (AQSh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The kitchen faucet in our apartment in Philadelphia drips all night long.",
+   "gap": "faucet",
+   "alt": [
+    "faucets"
+   ]
+  },
+  {
+   "id": "tap_water",
+   "en": "tap",
+   "uz": "jo‘mrak (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our landlady in Liverpool has put a note above the sink: 'Please turn off the tap while brushing your teeth.'",
+   "gap": "tap",
+   "alt": [
+    "taps"
+   ]
+  },
+  {
+   "id": "stove_cooking",
+   "en": "stove",
+   "uz": "oshxona plitasi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old gas stove in our rented apartment in Baltimore takes ages to light, so we mostly use the microwave.",
+   "gap": "stove",
+   "alt": [
+    "stoves"
+   ]
+  },
+  {
+   "id": "cooker",
+   "en": "cooker",
+   "uz": "oshxona plitasi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We bought a new electric cooker with a double oven for our kitchen in Brighton.",
+   "gap": "cooker",
+   "alt": [
+    "cookers"
+   ]
+  },
+  {
+   "id": "skillet",
+   "en": "skillet",
+   "uz": "tova (AQSh)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My host mother in Tennessee makes cornbread in a heavy cast-iron skillet.",
+   "gap": "skillet",
+   "alt": [
+    "skillets"
+   ]
+  },
+  {
+   "id": "frying_pan",
+   "en": "frying pan",
+   "uz": "tova (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her student flat in York, Lola fries eggs in a small frying pan every morning before lectures.",
+   "gap": "frying pan",
+   "alt": [
+    "frying pans"
+   ]
+  },
+  {
+   "id": "cross_the_street",
+   "en": "cross the street",
+   "uz": "ko‘chani kesib o‘tmoq (AQSh)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In New York, people often cross the street wherever there's a gap in the traffic, not only at the lights.",
+   "gap": "cross the street",
+   "alt": [
+    "crossed the street",
+    "crossing the street",
+    "crosses the street"
+   ]
+  },
+  {
+   "id": "cross_the_road",
+   "en": "cross the road",
+   "uz": "ko‘chani kesib o‘tmoq (Brit.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In London, children are taught to look right first when they cross the road.",
+   "gap": "cross the road",
+   "alt": [
+    "crossed the road",
+    "crossing the road",
+    "crosses the road"
+   ]
+  },
+  {
+   "id": "block_city",
+   "en": "block",
+   "uz": "kvartal (ikki ko‘cha orasi, AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bakery is just three blocks from our hotel in Manhattan, so we walk there every morning.",
+   "gap": "blocks",
+   "alt": [
+    "blocks"
+   ]
+  },
+  {
+   "id": "trail",
+   "en": "trail",
+   "uz": "so‘qmoq yo‘l (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our hiking map shows a trail that zigzags up the mountain in Utah to a lookout point.",
+   "gap": "trail",
+   "alt": [
+    "trails"
+   ]
+  },
+  {
+   "id": "path",
+   "en": "path",
+   "uz": "so‘qmoq, yo‘lka (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Walkers in the Cotswolds are asked to keep to the path so that they don't trample the wild flowers.",
+   "gap": "path",
+   "alt": [
+    "paths"
+   ]
+  },
+  {
+   "id": "stream_brook",
+   "en": "stream",
+   "uz": "soy, jilg‘a (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children took off their shoes and paddled in the shallow stream behind the cottage in Wales.",
+   "gap": "stream",
+   "alt": [
+    "streams"
+   ]
+  },
+  {
+   "id": "turn_left",
+   "en": "turn left",
+   "uz": "chapga burilmoq (Brit.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the centre of Oxford, turn left into George Street and you'll soon see the bus station.",
+   "gap": "turn left",
+   "alt": [
+    "turned left",
+    "turning left",
+    "turns left"
+   ]
+  },
+  {
+   "id": "exit_road",
+   "en": "exit",
+   "uz": "avtomagistraldan chiqish yo‘li",
+   "pos": "noun",
+   "img": false,
+   "ex": "We missed our exit on the highway and had to drive another twenty miles before we could turn round.",
+   "gap": "exit",
+   "alt": [
+    "exits"
+   ]
+  },
+  {
+   "id": "reverse_car",
+   "en": "reverse",
+   "uz": "(mashinani) orqaga yurgizmoq (Brit.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On her driving test in Kent, Megan reversed slowly into the narrow space between two vans.",
+   "gap": "reversed",
+   "alt": [
+    "reversed",
+    "reverses",
+    "reversing"
+   ]
+  },
+  {
+   "id": "college_us",
+   "en": "college",
+   "uz": "oliygoh (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her parents in Ohio saved for years so that she could go to college in California.",
+   "gap": "college",
+   "alt": [
+    "colleges"
+   ]
+  },
+  {
+   "id": "university",
+   "en": "university",
+   "uz": "oliy o‘quv yurti (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After school in Manchester, Tom went to university in Edinburgh to study geology.",
+   "gap": "university",
+   "alt": [
+    "universities"
+   ]
+  },
+  {
+   "id": "course_us",
+   "en": "course",
+   "uz": "semestrlik o‘quv fani (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Which courses are you taking at Boston University next fall?",
+   "gap": "courses",
+   "alt": [
+    "courses"
+   ]
+  },
+  {
+   "id": "term_uk",
+   "en": "term",
+   "uz": "o‘quv davri, chorak (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At most British universities, the main exams take place at the end of the summer term.",
+   "gap": "term",
+   "alt": [
+    "terms"
+   ]
+  },
+  {
+   "id": "first_year",
+   "en": "first year",
+   "uz": "birinchi kurs (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every first year in our hall of residence in Leeds got a city map in their welcome pack, since none of them knew their way around yet.",
+   "gap": "first year",
+   "alt": [
+    "first years",
+    "first-year"
+   ]
+  },
+  {
+   "id": "second_year",
+   "en": "second year",
+   "uz": "ikkinchi kurs (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ollie is a second year now: he started his degree in Bristol just over twelve months ago.",
+   "gap": "second year",
+   "alt": [
+    "second years",
+    "second-year"
+   ]
+  },
+  {
+   "id": "third_year",
+   "en": "third year",
+   "uz": "uchinchi kurs (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most third years in Durham are busy with their final dissertations, as their degree ends this summer.",
+   "gap": "third years",
+   "alt": [
+    "third years",
+    "third-year"
+   ]
+  },
+  {
+   "id": "honours_degree",
+   "en": "honours degree",
+   "uz": "imtiyozli bakalavr darajasi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jess is doing an honours degree in French at Glasgow, which includes a year in Lyon.",
+   "gap": "honours degree",
+   "alt": [
+    "honours degrees"
+   ]
+  },
+  {
+   "id": "professor",
+   "en": "professor",
+   "uz": "oliygoh domlasi (AQSh, umumiy nom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history professor at Yale gives every lecture without a single note.",
+   "gap": "professor",
+   "alt": [
+    "professors"
+   ]
+  },
+  {
+   "id": "high_school",
+   "en": "high school",
+   "uz": "o‘rta maktab (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After graduating from high school in Texas at eighteen, Mason moved to Chicago to study engineering.",
+   "gap": "high school",
+   "alt": [
+    "high schools"
+   ]
+  },
+  {
+   "id": "secondary_school",
+   "en": "secondary school",
+   "uz": "o‘rta maktab (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children in England usually start secondary school at the age of eleven.",
+   "gap": "secondary school",
+   "alt": [
+    "secondary schools"
+   ]
+  },
+  {
+   "id": "ground_cable",
+   "en": "ground",
+   "uz": "yerga ulash simi (AQSh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The electrician in Chicago checked that the ground was properly connected before switching the power back on.",
+   "gap": "ground",
+   "alt": []
+  },
+  {
+   "id": "earth_cable",
+   "en": "earth",
+   "uz": "yerga ulash simi (Brit.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a British plug, the green and yellow wire is the earth.",
+   "gap": "earth",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "gas_station",
+   "petrol_station"
+  ],
+  [
+   "interstate",
+   "motorway"
+  ],
+  [
+   "shopping_cart",
+   "trolley"
+  ],
+  [
+   "parking_lot",
+   "car_park"
+  ],
+  [
+   "overpass",
+   "flyover"
+  ],
+  [
+   "freshman",
+   "fresher"
+  ],
+  [
+   "freshman",
+   "sophomore"
+  ],
+  [
+   "fresher",
+   "sophomore"
+  ],
+  [
+   "elementary_school",
+   "primary_school"
+  ],
+  [
+   "dumpster",
+   "skip_container"
+  ],
+  [
+   "faucet",
+   "tap_water"
+  ],
+  [
+   "skillet",
+   "frying_pan"
+  ],
+  [
+   "crosswalk",
+   "intersection"
+  ],
+  [
+   "crosswalk",
+   "zebra_crossing"
+  ],
+  [
+   "zebra_crossing",
+   "intersection"
+  ],
+  [
+   "junior_student",
+   "freshman"
+  ],
+  [
+   "junior_student",
+   "sophomore"
+  ],
+  [
+   "junior_student",
+   "fresher"
+  ],
+  [
+   "stove_cooking",
+   "cooker"
+  ],
+  [
+   "stove_cooking",
+   "skillet"
+  ],
+  [
+   "cooker",
+   "frying_pan"
+  ],
+  [
+   "cross_the_street",
+   "cross_the_road"
+  ],
+  [
+   "trail",
+   "path"
+  ],
+  [
+   "stream_brook",
+   "creek"
+  ],
+  [
+   "turn_left",
+   "take_a_left"
+  ],
+  [
+   "reverse_car",
+   "back_up_reverse"
+  ],
+  [
+   "college_us",
+   "university"
+  ],
+  [
+   "course_us",
+   "module_course"
+  ],
+  [
+   "term_uk",
+   "semester"
+  ],
+  [
+   "first_year",
+   "fresher"
+  ],
+  [
+   "first_year",
+   "freshman"
+  ],
+  [
+   "second_year",
+   "sophomore"
+  ],
+  [
+   "third_year",
+   "junior_student"
+  ],
+  [
+   "professor",
+   "lecturer"
+  ],
+  [
+   "high_school",
+   "secondary_school"
+  ],
+  [
+   "ground_cable",
+   "earth_cable"
+  ],
+  [
+   "take_a_left",
+   "cross_the_street"
+  ]
+ ]
+}

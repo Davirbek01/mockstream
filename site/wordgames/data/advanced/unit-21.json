@@ -1,0 +1,804 @@
+{
+ "book": "advanced",
+ "unit": 21,
+ "title": "The visual arts",
+ "title_uz": "Tasviriy san’at",
+ "words": [
+  {
+   "id": "impressionism",
+   "en": "Impressionism",
+   "uz": "lahzalik taassurotni tasvirlovchi oqim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our art club set up easels by the Ankhor canal to try Impressionism, catching the flickering sunlight on the water with quick, loose brushstrokes.",
+   "gap": "Impressionism",
+   "alt": [
+    "impressionism"
+   ]
+  },
+  {
+   "id": "cubist",
+   "en": "Cubist",
+   "uz": "shakllarni geometrik bo‘laklab tasvirlovchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In her Cubist portrait of her brother, Malika showed his nose from the side and both eyes from the front at the same time.",
+   "gap": "Cubist",
+   "alt": [
+    "cubist",
+    "Cubists"
+   ]
+  },
+  {
+   "id": "surrealist",
+   "en": "Surrealist",
+   "uz": "tushdek g‘ayritabiiy uslubdagi (rassom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodira's dreamlike paintings of fish floating above the desert and staircases leading into the clouds show that she is a true Surrealist at heart.",
+   "gap": "Surrealist",
+   "alt": [
+    "surrealist",
+    "Surrealists"
+   ]
+  },
+  {
+   "id": "dauber",
+   "en": "dauber",
+   "uz": "pala-partish surat chizuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "He calls himself an artist, but his teacher says he is just a dauber who throws paint at the canvas without a thought.",
+   "gap": "dauber",
+   "alt": [
+    "daubers"
+   ]
+  },
+  {
+   "id": "deem",
+   "en": "deem",
+   "uz": "deb hisoblamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When it was first shown, the exhibition was deemed too shocking for visitors under sixteen.",
+   "gap": "deemed",
+   "alt": [
+    "deemed",
+    "deems"
+   ]
+  },
+  {
+   "id": "op_art",
+   "en": "Op-art",
+   "uz": "ko‘zni aldovchi naqshlar san’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school corridor is painted with Op-art: black-and-white zigzags that seem to wobble when you walk past quickly.",
+   "gap": "Op-art",
+   "alt": [
+    "op art"
+   ]
+  },
+  {
+   "id": "subject_matter",
+   "en": "subject matter",
+   "uz": "mavzu (asar mazmuni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The style of the photos is simple, but their subject matter, everyday life in a mountain village near Boysun, is fascinating.",
+   "gap": "subject matter",
+   "alt": []
+  },
+  {
+   "id": "school_of_art",
+   "en": "school of art",
+   "uz": "san’at oqimi (maktabi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this museum the paintings are arranged by period and school of art, so you can see how styles changed over time.",
+   "gap": "school of art",
+   "alt": [
+    "schools of art"
+   ]
+  },
+  {
+   "id": "visually_literate",
+   "en": "visually literate",
+   "uz": "tasvirlarni tez tushunadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Children who grow up with screens are often more visually literate than their parents and understand images very quickly.",
+   "gap": "visually literate",
+   "alt": []
+  },
+  {
+   "id": "inured_to",
+   "en": "inured to",
+   "uz": "ko‘nikib, befarq bo‘lib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After ten years in a flat above the main road, Dilshod has become inured to the noise of the traffic.",
+   "gap": "inured to",
+   "alt": []
+  },
+  {
+   "id": "original",
+   "en": "original",
+   "uz": "o‘ziga xos, yangicha (betakror)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her sculptures made from old bicycle parts are wonderfully original: nobody has made anything like them before.",
+   "gap": "original",
+   "alt": []
+  },
+  {
+   "id": "highbrow",
+   "en": "highbrow",
+   "uz": "faqat ziyolilarga mo‘ljallangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The gallery's lectures used to be very highbrow, but now they try to attract families and teenagers too.",
+   "gap": "highbrow",
+   "alt": []
+  },
+  {
+   "id": "lowbrow",
+   "en": "lowbrow",
+   "uz": "oddiy omma didiga mo‘ljallangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some critics dismiss comic books as lowbrow entertainment, but many of them are beautifully drawn.",
+   "gap": "lowbrow",
+   "alt": []
+  },
+  {
+   "id": "impenetrable",
+   "en": "impenetrable",
+   "uz": "tushunib bo‘lmas darajada murakkab",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The artist's notes beside each painting were written in such impenetrable jargon that even our art teacher couldn't make sense of them.",
+   "gap": "impenetrable",
+   "alt": []
+  },
+  {
+   "id": "sophisticated",
+   "en": "sophisticated",
+   "uz": "yuksak mahorat va didni ko‘rsatuvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Compared with his clumsy early sketches, the artist's later paintings show a far more sophisticated understanding of perspective and composition.",
+   "gap": "sophisticated",
+   "alt": []
+  },
+  {
+   "id": "dazzling",
+   "en": "dazzling",
+   "uz": "ko‘zni qamashtiradigan, porloq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the midday sun, the blue and turquoise tiles of the Shah-i-Zinda in Samarkand are so dazzling that you can hardly look at them.",
+   "gap": "dazzling",
+   "alt": []
+  },
+  {
+   "id": "pedestrian",
+   "en": "pedestrian",
+   "uz": "ilhomsiz, siyqa (zerikarli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The colours are pleasant, but the composition is rather pedestrian; there is nothing we haven't seen a hundred times before.",
+   "gap": "pedestrian",
+   "alt": []
+  },
+  {
+   "id": "evocative",
+   "en": "evocative",
+   "uz": "xotira va tasavvur uyg‘otadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her photographs of old Kokand courtyards are wonderfully evocative; they take me straight back to summer evenings at my aunt's house.",
+   "gap": "evocative",
+   "alt": []
+  },
+  {
+   "id": "thought_provoking",
+   "en": "thought-provoking",
+   "uz": "o‘ylantirib qo‘yadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The exhibition about plastic in the oceans was so thought-provoking that our class discussed it for days afterwards.",
+   "gap": "thought-provoking",
+   "alt": [
+    "thought provoking"
+   ]
+  },
+  {
+   "id": "exquisite",
+   "en": "exquisite",
+   "uz": "nafis, noyob go‘zallikdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum in Khiva has some exquisite wooden doors, carved with patterns as fine as lace.",
+   "gap": "exquisite",
+   "alt": []
+  },
+  {
+   "id": "intriguing",
+   "en": "intriguing",
+   "uz": "sirliligi bilan qiziqtiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the corner of the painting there is an intriguing figure with a hidden face, and nobody knows who he is.",
+   "gap": "intriguing",
+   "alt": []
+  },
+  {
+   "id": "peerless",
+   "en": "peerless",
+   "uz": "tengsiz, beqiyos",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As a woodcarver, Usta Karim was peerless; in fifty years, no craftsman in the whole valley produced finer work.",
+   "gap": "peerless",
+   "alt": []
+  },
+  {
+   "id": "tongue_in_cheek",
+   "en": "tongue-in-cheek",
+   "uz": "hazil aralash (jiddiydek ko‘rinsa ham)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The portrait of a cat dressed as a king was clearly tongue-in-cheek, although a few visitors took it seriously.",
+   "gap": "tongue-in-cheek",
+   "alt": [
+    "tongue in cheek"
+   ]
+  },
+  {
+   "id": "priceless",
+   "en": "priceless",
+   "uz": "bebaho (narxlab bo‘lmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The guide whispered that the tiny tenth-century bowl in the glass case is priceless, insured for more than the whole museum building.",
+   "gap": "priceless",
+   "alt": []
+  },
+  {
+   "id": "worthless",
+   "en": "worthless",
+   "uz": "hech qanday qiymati yo‘q",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old vase he bought so proudly turned out to be a cheap modern copy, completely worthless.",
+   "gap": "worthless",
+   "alt": []
+  },
+  {
+   "id": "skilful",
+   "en": "skilful",
+   "uz": "mohirona bajarilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The restorers did a skilful job: you can't see where the old wall painting was damaged.",
+   "gap": "skilful",
+   "alt": [
+    "skillful"
+   ]
+  },
+  {
+   "id": "depict",
+   "en": "depict",
+   "uz": "tasvirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The huge mural in our school hall depicts the history of the Silk Road, from camel caravans to modern trains.",
+   "gap": "depicts",
+   "alt": [
+    "depicted",
+    "depicts",
+    "depicting"
+   ]
+  },
+  {
+   "id": "portray",
+   "en": "portray",
+   "uz": "obrazini gavdalantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the film, the old shepherd is portrayed as a quiet, wise man who talks more to his dogs than to people.",
+   "gap": "portrayed",
+   "alt": [
+    "portrayed",
+    "portrays",
+    "portraying"
+   ]
+  },
+  {
+   "id": "sketchy",
+   "en": "sketchy",
+   "uz": "yuzaki, chala tasvirlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film's plot is gripping, but the villain's background is sketchy: we never find out why he hates the hero so much.",
+   "gap": "sketchy",
+   "alt": []
+  },
+  {
+   "id": "illuminate",
+   "en": "illuminate",
+   "uz": "yoritib (ochib) bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The writer uses the diary of a single cotton picker to illuminate the hard lives of farm workers a century ago.",
+   "gap": "illuminate",
+   "alt": [
+    "illuminates",
+    "illuminated",
+    "illuminating"
+   ]
+  },
+  {
+   "id": "mould",
+   "en": "mould",
+   "uz": "shakllantirmoq (fe’l-atvorni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her years at a strict boarding school moulded her into a tough and independent woman.",
+   "gap": "moulded",
+   "alt": [
+    "moulded",
+    "moulds",
+    "mold",
+    "molded"
+   ]
+  },
+  {
+   "id": "surrealism",
+   "en": "Surrealism",
+   "uz": "tush va g‘ayritabiiylik san’ati oqimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum's new room on Surrealism is full of melting clocks, floating rocks and doors that open onto the sea.",
+   "gap": "Surrealism",
+   "alt": [
+    "surrealism"
+   ]
+  },
+  {
+   "id": "transparent",
+   "en": "transparent",
+   "uz": "tushunarli, oydin (matn)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike the jargon-filled catalogue, the guide's explanations were transparent, and even the youngest visitors followed them easily.",
+   "gap": "transparent",
+   "alt": []
+  },
+  {
+   "id": "primitive",
+   "en": "primitive",
+   "uz": "sodda, ibtidoiy (mahoratsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Compared with the later masterpieces, the earliest rock drawings in the gorge look primitive: flat stick figures by artists who had not yet discovered perspective.",
+   "gap": "primitive",
+   "alt": []
+  },
+  {
+   "id": "undemanding",
+   "en": "undemanding",
+   "uz": "ko‘p kuch talab qilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a long week of exams, Rustam wanted an undemanding film that he could watch without thinking too hard.",
+   "gap": "undemanding",
+   "alt": []
+  },
+  {
+   "id": "uninspiring",
+   "en": "uninspiring",
+   "uz": "ilhom bermaydigan, rangsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new bus station is a grey, uninspiring block of concrete that nobody ever stops to photograph.",
+   "gap": "uninspiring",
+   "alt": []
+  },
+  {
+   "id": "unstimulating",
+   "en": "unstimulating",
+   "uz": "fikrga turtki bermaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lecture was so unstimulating that half the students were checking their phones within ten minutes.",
+   "gap": "unstimulating",
+   "alt": []
+  },
+  {
+   "id": "clumsy",
+   "en": "clumsy",
+   "uz": "qo‘pol, beo‘xshov ishlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The repair on the old carpet was clumsy: thick red thread ran right across the delicate blue pattern.",
+   "gap": "clumsy",
+   "alt": []
+  },
+  {
+   "id": "dreary",
+   "en": "dreary",
+   "uz": "xira va zerikarli, g‘ussali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rain fell all afternoon on the dreary little station where we waited for the delayed train.",
+   "gap": "dreary",
+   "alt": []
+  },
+  {
+   "id": "earnest",
+   "en": "earnest",
+   "uz": "jiddiy, samimiy (hazilsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike his playful cartoons, the artist's portrait of his late teacher is deeply earnest, without a trace of humour.",
+   "gap": "earnest",
+   "alt": []
+  },
+  {
+   "id": "poorly_done",
+   "en": "poorly done",
+   "uz": "sifatsiz bajarilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cheap copy of the famous painting was so poorly done that the faces looked like potatoes.",
+   "gap": "poorly done",
+   "alt": [
+    "poorly-done"
+   ]
+  },
+  {
+   "id": "paint_light",
+   "en": "paint",
+   "uz": "(muayyan tarzda) tasvirlab bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The biography paints the young poet in a sympathetic light, as a shy boy who loved his village.",
+   "gap": "paints",
+   "alt": [
+    "paints",
+    "painted",
+    "painting"
+   ]
+  },
+  {
+   "id": "shadowy",
+   "en": "shadowy",
+   "uz": "soyada qolgan, noaniq (obraz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the novel the narrator's brother remains a shadowy figure: we never learn what he looks like or where he lives.",
+   "gap": "shadowy",
+   "alt": []
+  },
+  {
+   "id": "colourful",
+   "en": "colourful",
+   "uz": "yorqin, rang-barang (xarakter)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The most colourful character in the story is a loud market trader who sings while she weighs the apples.",
+   "gap": "colourful",
+   "alt": [
+    "colorful"
+   ]
+  },
+  {
+   "id": "shape_character",
+   "en": "shape",
+   "uz": "shaxsiyatiga ta’sir qilib o‘zgartirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Growing up beside a busy port shaped her love of travel and foreign languages.",
+   "gap": "shaped",
+   "alt": [
+    "shaped",
+    "shapes",
+    "shaping"
+   ]
+  },
+  {
+   "id": "illustrate",
+   "en": "illustrate",
+   "uz": "misol orqali ko‘rsatib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The author uses the story of one small family bakery to illustrate how the whole town changed after the factory closed.",
+   "gap": "illustrate",
+   "alt": [
+    "illustrates",
+    "illustrated",
+    "illustrating"
+   ]
+  },
+  {
+   "id": "black_and_white",
+   "en": "black-and-white",
+   "uz": "oq-qora (o‘ta soddalashtirilgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Real life is more complicated than the film's black-and-white view of heroes and villains.",
+   "gap": "black-and-white",
+   "alt": [
+    "black and white"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cubist",
+   "surrealist"
+  ],
+  [
+   "impressionism",
+   "surrealist"
+  ],
+  [
+   "highbrow",
+   "impenetrable"
+  ],
+  [
+   "sophisticated",
+   "skilful"
+  ],
+  [
+   "sophisticated",
+   "dazzling"
+  ],
+  [
+   "exquisite",
+   "dazzling"
+  ],
+  [
+   "thought_provoking",
+   "intriguing"
+  ],
+  [
+   "thought_provoking",
+   "evocative"
+  ],
+  [
+   "evocative",
+   "intriguing"
+  ],
+  [
+   "priceless",
+   "peerless"
+  ],
+  [
+   "depict",
+   "portray"
+  ],
+  [
+   "depict",
+   "illuminate"
+  ],
+  [
+   "portray",
+   "illuminate"
+  ],
+  [
+   "pedestrian",
+   "sketchy"
+  ],
+  [
+   "dauber",
+   "surrealist"
+  ],
+  [
+   "impressionism",
+   "op_art"
+  ],
+  [
+   "cubist",
+   "op_art"
+  ],
+  [
+   "surrealist",
+   "op_art"
+  ],
+  [
+   "original",
+   "intriguing"
+  ],
+  [
+   "original",
+   "evocative"
+  ],
+  [
+   "lowbrow",
+   "worthless"
+  ],
+  [
+   "exquisite",
+   "sophisticated"
+  ],
+  [
+   "peerless",
+   "skilful"
+  ],
+  [
+   "highbrow",
+   "sophisticated"
+  ],
+  [
+   "exquisite",
+   "priceless"
+  ],
+  [
+   "surrealism",
+   "impressionism"
+  ],
+  [
+   "surrealism",
+   "op_art"
+  ],
+  [
+   "primitive",
+   "clumsy"
+  ],
+  [
+   "primitive",
+   "sketchy"
+  ],
+  [
+   "primitive",
+   "poorly_done"
+  ],
+  [
+   "undemanding",
+   "lowbrow"
+  ],
+  [
+   "undemanding",
+   "lightweight"
+  ],
+  [
+   "undemanding",
+   "unstimulating"
+  ],
+  [
+   "uninspiring",
+   "dreary"
+  ],
+  [
+   "uninspiring",
+   "pedestrian"
+  ],
+  [
+   "uninspiring",
+   "unstimulating"
+  ],
+  [
+   "uninspiring",
+   "tedious"
+  ],
+  [
+   "unstimulating",
+   "dreary"
+  ],
+  [
+   "unstimulating",
+   "tedious"
+  ],
+  [
+   "unstimulating",
+   "pedestrian"
+  ],
+  [
+   "dreary",
+   "tedious"
+  ],
+  [
+   "dreary",
+   "lugubrious"
+  ],
+  [
+   "dreary",
+   "pedestrian"
+  ],
+  [
+   "clumsy",
+   "poorly_done"
+  ],
+  [
+   "paint_light",
+   "depict"
+  ],
+  [
+   "paint_light",
+   "portray"
+  ],
+  [
+   "shadowy",
+   "sketchy"
+  ],
+  [
+   "shadowy",
+   "enigmatic"
+  ],
+  [
+   "colourful",
+   "intriguing"
+  ],
+  [
+   "colourful",
+   "dazzling"
+  ],
+  [
+   "colourful",
+   "original"
+  ],
+  [
+   "shape_character",
+   "mould"
+  ],
+  [
+   "illustrate",
+   "illuminate"
+  ],
+  [
+   "illustrate",
+   "depict"
+  ],
+  [
+   "illustrate",
+   "portray"
+  ],
+  [
+   "black_and_white",
+   "sketchy"
+  ],
+  [
+   "black_and_white",
+   "pedestrian"
+  ],
+  [
+   "primitive",
+   "uninspiring"
+  ],
+  [
+   "primitive",
+   "dreary"
+  ],
+  [
+   "earnest",
+   "moving"
+  ],
+  [
+   "earnest",
+   "poignant"
+  ],
+  [
+   "colourful",
+   "engaging"
+  ],
+  [
+   "unstimulating",
+   "impenetrable"
+  ],
+  [
+   "unstimulating",
+   "highbrow"
+  ],
+  [
+   "unstimulating",
+   "heavy_going"
+  ],
+  [
+   "pedestrian",
+   "tedious"
+  ]
+ ]
+}

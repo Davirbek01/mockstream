@@ -1,0 +1,228 @@
+{
+ "book": "preint",
+ "unit": 94,
+ "title": "Reason, purpose, result, condition",
+ "title_uz": "Sabab, maqsad, natija, shart",
+ "words": [
+  {
+   "id": "because",
+   "en": "because",
+   "uz": "chunki",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Mohira wore her thickest coat because the forecast said minus ten.",
+   "gap": "because",
+   "alt": []
+  },
+  {
+   "id": "as_reason",
+   "en": "as",
+   "uz": "…gani uchun (sabab)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "We stayed at home, as it was snowing heavily.",
+   "gap": "as",
+   "alt": []
+  },
+  {
+   "id": "since_reason",
+   "en": "since",
+   "uz": "…gani sababli",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Could you help me carry these boxes, since you're not busy right now?",
+   "gap": "since",
+   "alt": []
+  },
+  {
+   "id": "reason",
+   "en": "reason",
+   "uz": "sabab",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody knows the reason for the strange noise coming from the old library.",
+   "gap": "reason",
+   "alt": [
+    "reasons"
+   ]
+  },
+  {
+   "id": "because_of",
+   "en": "because of",
+   "uz": "… tufayli",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The football match was stopped for ten minutes because of a power cut at the stadium.",
+   "gap": "because of",
+   "alt": []
+  },
+  {
+   "id": "due_to",
+   "en": "due to",
+   "uz": "…sababli (rasmiyroq)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The school gym is closed this week due to repair work.",
+   "gap": "due to",
+   "alt": []
+  },
+  {
+   "id": "purpose",
+   "en": "purpose",
+   "uz": "maqsad, vazifa",
+   "pos": "noun",
+   "img": false,
+   "ex": "What is the purpose of this little button on the side of the camera?",
+   "gap": "purpose",
+   "alt": [
+    "purposes"
+   ]
+  },
+  {
+   "id": "intention",
+   "en": "intention",
+   "uz": "niyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "I have no intention of selling my old guitar; it was a present from my teacher.",
+   "gap": "intention",
+   "alt": [
+    "intentions"
+   ]
+  },
+  {
+   "id": "so_that",
+   "en": "so that",
+   "uz": "…sin deb (maqsadida)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "I set two alarms so that I wouldn't miss the early train.",
+   "gap": "so that",
+   "alt": []
+  },
+  {
+   "id": "in_order_to",
+   "en": "in order to",
+   "uz": "… uchun (maqsadida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The cleaners at our school arrive at five in order to finish before the first lesson.",
+   "gap": "in order to",
+   "alt": []
+  },
+  {
+   "id": "so_result",
+   "en": "so",
+   "uz": "shuning uchun",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The museum was closed on Monday, so we went to the park instead.",
+   "gap": "so",
+   "alt": []
+  },
+  {
+   "id": "therefore",
+   "en": "therefore",
+   "uz": "shuning uchun (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new bridge is open, and therefore the journey to the city now takes only twenty minutes.",
+   "gap": "therefore",
+   "alt": []
+  },
+  {
+   "id": "as_a_result",
+   "en": "as a result",
+   "uz": "natijada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Elyor didn't charge his phone; as a result, he couldn't call anyone when the bus broke down.",
+   "gap": "as a result",
+   "alt": []
+  },
+  {
+   "id": "whether",
+   "en": "whether",
+   "uz": "…mi yo‘qmi",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "I'm not sure whether the shop is open on Sundays.",
+   "gap": "whether",
+   "alt": []
+  },
+  {
+   "id": "unless",
+   "en": "unless",
+   "uz": "agar …-masa (shart)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The tomatoes in our garden will die unless someone waters them while we're away.",
+   "gap": "unless",
+   "alt": []
+  },
+  {
+   "id": "otherwise",
+   "en": "otherwise",
+   "uz": "aks holda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Put a lid on the pan, otherwise the oil will splash everywhere.",
+   "gap": "otherwise",
+   "alt": []
+  },
+  {
+   "id": "as_long_as",
+   "en": "as long as",
+   "uz": "faqat … sharti bilan",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "You can play on my tablet as long as you don't delete any of my games.",
+   "gap": "as long as",
+   "alt": []
+  },
+  {
+   "id": "in_case",
+   "en": "in case",
+   "uz": "…ib qolsa deb (ehtiyotdan)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Write down my phone number in case you get lost at the bazaar.",
+   "gap": "in case",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "because",
+   "as_reason"
+  ],
+  [
+   "because",
+   "since_reason"
+  ],
+  [
+   "as_reason",
+   "since_reason"
+  ],
+  [
+   "because_of",
+   "due_to"
+  ],
+  [
+   "so_result",
+   "therefore"
+  ],
+  [
+   "so_result",
+   "as_a_result"
+  ],
+  [
+   "therefore",
+   "as_a_result"
+  ],
+  [
+   "so_result",
+   "so_that"
+  ]
+ ]
+}

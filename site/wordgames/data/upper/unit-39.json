@@ -1,0 +1,1180 @@
+{
+ "book": "upper",
+ "unit": 39,
+ "title": "Crime",
+ "title_uz": "Jinoyat",
+ "words": [
+  {
+   "id": "shoplifting",
+   "en": "shoplifting",
+   "uz": "do‘kondan o‘g‘irlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The supermarket put up more cameras to stop shoplifting, after customers kept walking out with chocolate bars in their pockets.",
+   "gap": "shoplifting",
+   "alt": []
+  },
+  {
+   "id": "burglar",
+   "en": "burglar",
+   "uz": "uyga o‘g‘rilikka tushuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lock your windows before you go on holiday; a burglar only needs a few minutes to get into an empty house.",
+   "gap": "burglar",
+   "alt": [
+    "burglars"
+   ]
+  },
+  {
+   "id": "smuggle",
+   "en": "smuggle",
+   "uz": "kontrabanda qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Customs officers caught a man trying to smuggle rare parrots across the border in his suitcase.",
+   "gap": "smuggle",
+   "alt": [
+    "smuggles",
+    "smuggled",
+    "smuggling"
+   ]
+  },
+  {
+   "id": "kidnap",
+   "en": "kidnap",
+   "uz": "o‘g‘irlab ketmoq (odamni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the film, the villain kidnaps a famous scientist and demands a huge ransom.",
+   "gap": "kidnaps",
+   "alt": [
+    "kidnaps",
+    "kidnapped",
+    "kidnapping"
+   ]
+  },
+  {
+   "id": "fraud",
+   "en": "fraud",
+   "uz": "firibgarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "He sold tickets for a concert that didn't exist, and two months later he was arrested for fraud.",
+   "gap": "fraud",
+   "alt": []
+  },
+  {
+   "id": "commit",
+   "en": "commit",
+   "uz": "(jinoyat) sodir etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The detective was sure that the gardener had committed the crime, but she couldn't prove it yet.",
+   "gap": "committed",
+   "alt": [
+    "commits",
+    "committed",
+    "committing"
+   ]
+  },
+  {
+   "id": "rob",
+   "en": "rob",
+   "uz": "talamoq (bank, do‘kon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two men in masks robbed a jewellery shop in the city centre and escaped on a motorbike.",
+   "gap": "robbed",
+   "alt": [
+    "robs",
+    "robbed",
+    "robbing"
+   ]
+  },
+  {
+   "id": "arrest",
+   "en": "arrest",
+   "uz": "hibsga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The police arrested the driver at the airport just as he was about to get on a plane.",
+   "gap": "arrested",
+   "alt": [
+    "arrests",
+    "arrested",
+    "arresting"
+   ]
+  },
+  {
+   "id": "charge",
+   "en": "charge with",
+   "uz": "(rasman) ayblov qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After questioning him for six hours, the police charged him with stealing three cars.",
+   "gap": "charged",
+   "alt": [
+    "charge",
+    "charges",
+    "charged",
+    "charging"
+   ]
+  },
+  {
+   "id": "accuse",
+   "en": "accuse of",
+   "uz": "ayblamoq (birovni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother accused me of eating his ice cream, but it was the cat!",
+   "gap": "accused",
+   "alt": [
+    "accuse",
+    "accuses",
+    "accused",
+    "accusing"
+   ]
+  },
+  {
+   "id": "accomplice",
+   "en": "accomplice",
+   "uz": "jinoyatdagi sherik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The thief couldn't have opened the safe alone; he must have had an accomplice who worked inside the bank.",
+   "gap": "accomplice",
+   "alt": [
+    "accomplices"
+   ]
+  },
+  {
+   "id": "investigate",
+   "en": "investigate",
+   "uz": "tergov qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Detectives are investigating a number of thefts from cars parked near the stadium.",
+   "gap": "investigating",
+   "alt": [
+    "investigates",
+    "investigated",
+    "investigating"
+   ]
+  },
+  {
+   "id": "evidence",
+   "en": "evidence",
+   "uz": "dalillar (sud uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The detectives collected evidence from the flat: a footprint, a broken cup and a few hairs.",
+   "gap": "evidence",
+   "alt": []
+  },
+  {
+   "id": "crime_scene",
+   "en": "crime scene",
+   "uz": "jinoyat sodir bo‘lgan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Officers closed the street and searched the crime scene for clues.",
+   "gap": "crime scene",
+   "alt": [
+    "crime scenes"
+   ]
+  },
+  {
+   "id": "fingerprints",
+   "en": "fingerprints",
+   "uz": "barmoq izlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The thief wore gloves, so he didn't leave any fingerprints on the window.",
+   "gap": "fingerprints",
+   "alt": [
+    "fingerprint"
+   ]
+  },
+  {
+   "id": "proof",
+   "en": "proof",
+   "uz": "isbot (aniq dalil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dated train ticket was proof that she had been in Nukus on the day of the robbery.",
+   "gap": "proof",
+   "alt": []
+  },
+  {
+   "id": "guilty",
+   "en": "guilty",
+   "uz": "aybdor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the end the shop assistant admitted she was guilty and paid back every som she had taken.",
+   "gap": "guilty",
+   "alt": []
+  },
+  {
+   "id": "innocent",
+   "en": "innocent",
+   "uz": "aybsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She spent years trying to show that her brother was innocent, and at last a new witness came forward.",
+   "gap": "innocent",
+   "alt": []
+  },
+  {
+   "id": "trial",
+   "en": "trial",
+   "uz": "sud jarayoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trial lasted three weeks, and more than forty people answered questions in court.",
+   "gap": "trial",
+   "alt": [
+    "trials"
+   ]
+  },
+  {
+   "id": "plead_not_guilty",
+   "en": "plead not guilty",
+   "uz": "aybini tan olmaslik (sudda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In court, both men pleaded not guilty and said they had been at home all evening.",
+   "gap": "pleaded not guilty",
+   "alt": [
+    "pleaded not guilty",
+    "pleads not guilty",
+    "pled not guilty",
+    "pleading not guilty"
+   ]
+  },
+  {
+   "id": "jury",
+   "en": "jury",
+   "uz": "qasamyodli maslahatchilar (sudda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The twelve members of the jury discussed the case for two days before they reached a decision.",
+   "gap": "jury",
+   "alt": [
+    "juries"
+   ]
+  },
+  {
+   "id": "verdict",
+   "en": "verdict",
+   "uz": "sud qarori (aybdor yoki aybsiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone in the courtroom went silent as one member of the jury stood up to announce the verdict.",
+   "gap": "verdict",
+   "alt": [
+    "verdicts"
+   ]
+  },
+  {
+   "id": "convict",
+   "en": "convict of",
+   "uz": "aybdor deb topmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a two-week trial, the court convicted her of stealing from her employer.",
+   "gap": "convicted",
+   "alt": [
+    "convict",
+    "convicts",
+    "convicted",
+    "convicting"
+   ]
+  },
+  {
+   "id": "acquit",
+   "en": "acquit",
+   "uz": "oqlamoq (sudda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Because there was no real case against him, the court acquitted him and he walked out a free man.",
+   "gap": "acquitted",
+   "alt": [
+    "acquits",
+    "acquitted",
+    "acquitting"
+   ]
+  },
+  {
+   "id": "sentence",
+   "en": "sentence",
+   "uz": "jazo tayinlamoq (qamoq, jarima)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of prison, the judge sentenced the teenager to 100 hours of cleaning city parks.",
+   "gap": "sentenced",
+   "alt": [
+    "sentences",
+    "sentenced",
+    "sentencing"
+   ]
+  },
+  {
+   "id": "court",
+   "en": "court",
+   "uz": "sud (sud zali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two men will appear in court next week, where a judge will hear their case.",
+   "gap": "court",
+   "alt": [
+    "courts"
+   ]
+  },
+  {
+   "id": "release_prison",
+   "en": "release",
+   "uz": "(qamoqdan) ozod qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the day he was released from prison, his whole family were waiting at the gate with flowers.",
+   "gap": "released",
+   "alt": [
+    "releases",
+    "released",
+    "releasing"
+   ]
+  },
+  {
+   "id": "fine_penalty",
+   "en": "fine",
+   "uz": "jarima",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you park in front of the metro entrance, you'll have to pay a fine.",
+   "gap": "fine",
+   "alt": [
+    "fines"
+   ]
+  },
+  {
+   "id": "offender",
+   "en": "offender",
+   "uz": "huquqbuzar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new centre helps young offenders find work and a place to live after they leave prison.",
+   "gap": "offenders",
+   "alt": [
+    "offenders"
+   ]
+  },
+  {
+   "id": "suspect",
+   "en": "suspect",
+   "uz": "gumonlanuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police are questioning two suspects, but they haven't charged anyone yet.",
+   "gap": "suspects",
+   "alt": [
+    "suspects"
+   ]
+  },
+  {
+   "id": "witness",
+   "en": "witness",
+   "uz": "guvoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "A witness told the police that she had seen a red car driving away at high speed.",
+   "gap": "witness",
+   "alt": [
+    "witnesses"
+   ]
+  },
+  {
+   "id": "crime",
+   "en": "crime",
+   "uz": "jinoyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the police report, car theft is the most common crime in our city.",
+   "gap": "crime",
+   "alt": [
+    "crimes"
+   ]
+  },
+  {
+   "id": "criminal",
+   "en": "criminal",
+   "uz": "jinoyatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new camera system helps the police to recognise known criminals in large crowds.",
+   "gap": "criminals",
+   "alt": [
+    "criminals"
+   ]
+  },
+  {
+   "id": "murder",
+   "en": "murder",
+   "uz": "qotillik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Agatha Christie's famous novel, Hercule Poirot solves the murder of a rich American on a train stuck in the snow.",
+   "gap": "murder",
+   "alt": [
+    "murders"
+   ]
+  },
+  {
+   "id": "murder_v",
+   "en": "murder",
+   "uz": "qasddan o‘ldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In Shakespeare's play, Macbeth murders the king so that he can take the throne himself.",
+   "gap": "murders",
+   "alt": [
+    "murders",
+    "murdered",
+    "murdering"
+   ]
+  },
+  {
+   "id": "murderer",
+   "en": "murderer",
+   "uz": "qotil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twenty years after the crime, DNA evidence finally identified the murderer of a young taxi driver.",
+   "gap": "murderer",
+   "alt": [
+    "murderers"
+   ]
+  },
+  {
+   "id": "shoplifter",
+   "en": "shoplifter",
+   "uz": "do‘kon o‘g‘risi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The store detective stopped a shoplifter at the door with three bottles of perfume hidden in her coat.",
+   "gap": "shoplifter",
+   "alt": [
+    "shoplifters"
+   ]
+  },
+  {
+   "id": "shoplift",
+   "en": "shoplift",
+   "uz": "do‘kondan o‘g‘irlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two teenagers were caught on camera trying to shoplift sweets from the corner shop.",
+   "gap": "shoplift",
+   "alt": [
+    "shoplifts",
+    "shoplifted"
+   ]
+  },
+  {
+   "id": "burglary",
+   "en": "burglary",
+   "uz": "uyga o‘g‘rilikka tushish",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a burglary at our neighbours' flat while they were away: someone climbed in through the balcony and took their laptops.",
+   "gap": "burglary",
+   "alt": [
+    "burglaries"
+   ]
+  },
+  {
+   "id": "burgle",
+   "en": "burgle",
+   "uz": "(uyni) o‘marmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our house was burgled while we were at the seaside, and the thieves took the TV and a bag of coins.",
+   "gap": "burgled",
+   "alt": [
+    "burgles",
+    "burgled",
+    "burgling"
+   ]
+  },
+  {
+   "id": "smuggler",
+   "en": "smuggler",
+   "uz": "kontrabandachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Border guards caught a smuggler with hundreds of fake designer watches hidden under the floor of his van.",
+   "gap": "smuggler",
+   "alt": [
+    "smugglers"
+   ]
+  },
+  {
+   "id": "smuggling",
+   "en": "smuggling",
+   "uz": "kontrabanda (yashirin olib o‘tish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cigarette smuggling across the border costs the government millions in lost taxes.",
+   "gap": "smuggling",
+   "alt": []
+  },
+  {
+   "id": "kidnapping",
+   "en": "kidnapping",
+   "uz": "pul uchun odam o‘g‘irlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Police are treating the businessman's disappearance as a kidnapping after his family received a ransom demand.",
+   "gap": "kidnapping",
+   "alt": [
+    "kidnappings"
+   ]
+  },
+  {
+   "id": "kidnapper",
+   "en": "kidnapper",
+   "uz": "odam o‘g‘irlovchi (pul talab qiluvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The kidnappers demanded a huge ransom for the safe return of the businessman's son.",
+   "gap": "kidnappers",
+   "alt": [
+    "kidnappers"
+   ]
+  },
+  {
+   "id": "terrorism",
+   "en": "terrorism",
+   "uz": "terrorizm",
+   "pos": "noun",
+   "img": false,
+   "ex": "After 2001, security at airports was tightened around the world to fight terrorism.",
+   "gap": "terrorism",
+   "alt": []
+  },
+  {
+   "id": "terrorise",
+   "en": "terrorise",
+   "uz": "vahimaga solib turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last summer a gang of teenagers on noisy motorbikes terrorised the quiet village every weekend.",
+   "gap": "terrorised",
+   "alt": [
+    "terrorises",
+    "terrorised",
+    "terrorising",
+    "terrorize",
+    "terrorized",
+    "terrorizing"
+   ]
+  },
+  {
+   "id": "fraudster",
+   "en": "fraudster",
+   "uz": "firibgar",
+   "pos": "noun",
+   "img": false,
+   "ex": "A fraudster phoned elderly people, pretended to be from their bank and asked for their card numbers.",
+   "gap": "fraudster",
+   "alt": [
+    "fraudsters"
+   ]
+  },
+  {
+   "id": "defraud",
+   "en": "defraud",
+   "uz": "aldab pulini olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The fake charity defrauded hundreds of people who thought they were helping sick children.",
+   "gap": "defrauded",
+   "alt": [
+    "defrauds",
+    "defrauded",
+    "defrauding"
+   ]
+  },
+  {
+   "id": "abduction",
+   "en": "abduction",
+   "uz": "zo‘rlab olib ketish (bolani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Police opened an investigation into the abduction of a girl from a park, and she was found safe the next day.",
+   "gap": "abduction",
+   "alt": [
+    "abductions"
+   ]
+  },
+  {
+   "id": "abductor",
+   "en": "abductor",
+   "uz": "zo‘rlab olib ketuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to a clear description from a witness, the girl's abductor was caught within hours.",
+   "gap": "abductor",
+   "alt": [
+    "abductors"
+   ]
+  },
+  {
+   "id": "abduct",
+   "en": "abduct",
+   "uz": "zo‘rlab olib ketmoq (bolani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A man tried to abduct a child from the shopping centre, but a security guard stopped him at the exit.",
+   "gap": "abduct",
+   "alt": [
+    "abducts",
+    "abducted",
+    "abducting"
+   ]
+  },
+  {
+   "id": "robbery",
+   "en": "robbery",
+   "uz": "talonchilik (bosqin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the bank robbery, the thieves locked the staff in a back room and took the cash.",
+   "gap": "robbery",
+   "alt": [
+    "robberies"
+   ]
+  },
+  {
+   "id": "case_crime",
+   "en": "case",
+   "uz": "jinoiy ish (tergovdagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Detectives have reopened the case of a painting that disappeared from the museum twenty years ago.",
+   "gap": "case",
+   "alt": [
+    "cases"
+   ]
+  },
+  {
+   "id": "defend",
+   "en": "defend",
+   "uz": "himoya qilmoq (sudda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A young lawyer agreed to defend the farmer in court without asking for any money.",
+   "gap": "defend",
+   "alt": [
+    "defends",
+    "defended",
+    "defending"
+   ]
+  },
+  {
+   "id": "prosecute",
+   "en": "prosecute",
+   "uz": "sudga bermoq (ayblov bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The supermarket warns that it will prosecute anyone caught stealing, however small the item.",
+   "gap": "prosecute",
+   "alt": [
+    "prosecutes",
+    "prosecuted",
+    "prosecuting"
+   ]
+  },
+  {
+   "id": "deliberations",
+   "en": "deliberations",
+   "uz": "muhokamalar (qaror oldidan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two days of deliberations behind closed doors, the jury finally reached a decision.",
+   "gap": "deliberations",
+   "alt": [
+    "deliberation"
+   ]
+  },
+  {
+   "id": "try_court",
+   "en": "try",
+   "uz": "sudda ishini ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two men will be tried in the city court next month, and nobody can yet say whether they are guilty.",
+   "gap": "tried",
+   "alt": [
+    "tries",
+    "tried",
+    "trying"
+   ]
+  },
+  {
+   "id": "prison",
+   "en": "prison",
+   "uz": "qamoqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old prison in the city centre closed years ago, and its cells are now rooms in a hotel.",
+   "gap": "prison",
+   "alt": [
+    "prisons"
+   ]
+  },
+  {
+   "id": "jail",
+   "en": "jail",
+   "uz": "turma (qamoq, so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer spent a night in jail after he refused to stop a noisy party at 3 a.m.",
+   "gap": "jail",
+   "alt": [
+    "jails",
+    "gaol"
+   ]
+  },
+  {
+   "id": "prison_sentence",
+   "en": "prison sentence",
+   "uz": "qamoq jazosi (muddati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The judge gave the driver a six-month prison sentence for causing an accident while texting.",
+   "gap": "prison sentence",
+   "alt": [
+    "prison sentences"
+   ]
+  },
+  {
+   "id": "serve_time",
+   "en": "serve",
+   "uz": "(qamoq muddatini) o‘tamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He served five years in prison and then started a new life as a baker.",
+   "gap": "served",
+   "alt": [
+    "serves",
+    "served",
+    "serving"
+   ]
+  },
+  {
+   "id": "time_off_good_behaviour",
+   "en": "time off for good behaviour",
+   "uz": "yaxshi xulq uchun muddat qisqarishi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "She was released a year early because she got time off for good behaviour.",
+   "gap": "time off for good behaviour",
+   "alt": [
+    "time off for good behavior"
+   ]
+  },
+  {
+   "id": "pass_verdict",
+   "en": "pass verdict",
+   "uz": "hukm chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After hearing all the evidence, the jury passed verdict on the three men.",
+   "gap": "passed verdict",
+   "alt": [
+    "passes verdict",
+    "passed verdict",
+    "passing verdict"
+   ]
+  },
+  {
+   "id": "offence",
+   "en": "offence",
+   "uz": "huquqbuzarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In some cities riding a bicycle on the pavement is an offence, and you can be fined for it.",
+   "gap": "offence",
+   "alt": [
+    "offences",
+    "offense"
+   ]
+  },
+  {
+   "id": "terrorist",
+   "en": "terrorist",
+   "uz": "qo‘poruvchi (siyosiy maqsadda zo‘ravon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A court found him guilty of belonging to a terrorist group that had planned attacks on the city's metro.",
+   "gap": "terrorist",
+   "alt": [
+    "terrorists"
+   ]
+  },
+  {
+   "id": "hostage",
+   "en": "hostage",
+   "uz": "garovdagi odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "After three days of talks, all ten hostages were freed unharmed from the plane.",
+   "gap": "hostages",
+   "alt": [
+    "hostages"
+   ]
+  },
+  {
+   "id": "lawyer",
+   "en": "lawyer",
+   "uz": "advokat (huquqshunos)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her lawyer advised her to say nothing until he arrived at the police station.",
+   "gap": "lawyer",
+   "alt": [
+    "lawyers"
+   ]
+  },
+  {
+   "id": "come_to_court",
+   "en": "come to court",
+   "uz": "sudda ko‘rila boshlamoq (ish)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took almost two years before the case finally came to court.",
+   "gap": "came to court",
+   "alt": [
+    "comes to court",
+    "came to court",
+    "coming to court"
+   ]
+  },
+  {
+   "id": "the_accused",
+   "en": "the accused",
+   "uz": "ayblanuvchi (sudda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The judge asked the accused to stand up and say whether he pleaded guilty or not guilty.",
+   "gap": "the accused",
+   "alt": [
+    "accused"
+   ]
+  },
+  {
+   "id": "punishment",
+   "en": "punishment",
+   "uz": "jazo",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the old days, writing lines a hundred times was a common punishment for talking in class.",
+   "gap": "punishment",
+   "alt": [
+    "punishments"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "the_accused",
+   "murderer"
+  ],
+  [
+   "terrorist",
+   "criminal"
+  ],
+  [
+   "hostage",
+   "suspect"
+  ],
+  [
+   "lawyer",
+   "witness"
+  ],
+  [
+   "the_accused",
+   "suspect"
+  ],
+  [
+   "the_accused",
+   "accuse"
+  ],
+  [
+   "the_accused",
+   "criminal"
+  ],
+  [
+   "the_accused",
+   "offender"
+  ],
+  [
+   "punishment",
+   "fine_penalty"
+  ],
+  [
+   "punishment",
+   "prison_sentence"
+  ],
+  [
+   "murderer",
+   "kidnapper"
+  ],
+  [
+   "smuggling",
+   "smuggle"
+  ],
+  [
+   "smuggling",
+   "smuggler"
+  ],
+  [
+   "kidnapping",
+   "kidnap"
+  ],
+  [
+   "kidnapping",
+   "abduction"
+  ],
+  [
+   "kidnapping",
+   "kidnapper"
+  ],
+  [
+   "evidence",
+   "proof"
+  ],
+  [
+   "charge",
+   "accuse"
+  ],
+  [
+   "convict",
+   "acquit"
+  ],
+  [
+   "guilty",
+   "innocent"
+  ],
+  [
+   "suspect",
+   "offender"
+  ],
+  [
+   "suspect",
+   "witness"
+  ],
+  [
+   "trial",
+   "verdict"
+  ],
+  [
+   "commit",
+   "rob"
+  ],
+  [
+   "convict",
+   "accuse"
+  ],
+  [
+   "trial",
+   "court"
+  ],
+  [
+   "acquit",
+   "release_prison"
+  ],
+  [
+   "fingerprints",
+   "evidence"
+  ],
+  [
+   "murder",
+   "abduction"
+  ],
+  [
+   "murder",
+   "robbery"
+  ],
+  [
+   "murder_v",
+   "kidnap"
+  ],
+  [
+   "murder_v",
+   "abduct"
+  ],
+  [
+   "murder_v",
+   "rob"
+  ],
+  [
+   "murder",
+   "murder_v"
+  ],
+  [
+   "murderer",
+   "accomplice"
+  ],
+  [
+   "murderer",
+   "criminal"
+  ],
+  [
+   "murderer",
+   "offender"
+  ],
+  [
+   "shoplifter",
+   "burglar"
+  ],
+  [
+   "shoplifter",
+   "criminal"
+  ],
+  [
+   "shoplift",
+   "shoplifting"
+  ],
+  [
+   "shoplift",
+   "smuggle"
+  ],
+  [
+   "burglary",
+   "robbery"
+  ],
+  [
+   "burglary",
+   "crime"
+  ],
+  [
+   "burgle",
+   "rob"
+  ],
+  [
+   "smuggler",
+   "criminal"
+  ],
+  [
+   "smuggler",
+   "fraudster"
+  ],
+  [
+   "kidnapper",
+   "abductor"
+  ],
+  [
+   "kidnap",
+   "abduct"
+  ],
+  [
+   "terrorism",
+   "fraud"
+  ],
+  [
+   "terrorism",
+   "crime"
+  ],
+  [
+   "fraudster",
+   "suspect"
+  ],
+  [
+   "fraudster",
+   "fraud"
+  ],
+  [
+   "defraud",
+   "rob"
+  ],
+  [
+   "abduction",
+   "kidnapper"
+  ],
+  [
+   "abductor",
+   "murderer"
+  ],
+  [
+   "crime",
+   "offence"
+  ],
+  [
+   "criminal",
+   "offender"
+  ],
+  [
+   "criminal",
+   "suspect"
+  ],
+  [
+   "defend",
+   "acquit"
+  ],
+  [
+   "prosecute",
+   "charge"
+  ],
+  [
+   "prosecute",
+   "arrest"
+  ],
+  [
+   "deliberations",
+   "trial"
+  ],
+  [
+   "try_court",
+   "charge"
+  ],
+  [
+   "try_court",
+   "trial"
+  ],
+  [
+   "prison",
+   "jail"
+  ],
+  [
+   "prison",
+   "court"
+  ],
+  [
+   "prison_sentence",
+   "sentence"
+  ],
+  [
+   "prison_sentence",
+   "fine_penalty"
+  ],
+  [
+   "pass_verdict",
+   "verdict"
+  ],
+  [
+   "serve_time",
+   "release_prison"
+  ],
+  [
+   "case_crime",
+   "trial"
+  ],
+  [
+   "shoplifting",
+   "crime"
+  ]
+ ]
+}

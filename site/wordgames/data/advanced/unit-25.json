@@ -1,0 +1,464 @@
+{
+ "book": "advanced",
+ "unit": 25,
+ "title": "On the road: traffic and driving",
+ "title_uz": "Yo‘lda: transport harakati va avtomobil haydash",
+ "words": [
+  {
+   "id": "give_way",
+   "en": "give way",
+   "uz": "yo‘l bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The driving instructor reminded Jasur to give way to the bus that was already going round the roundabout.",
+   "gap": "give way",
+   "alt": [
+    "gave way",
+    "gives way",
+    "giving way"
+   ]
+  },
+  {
+   "id": "right_of_way",
+   "en": "right of way",
+   "uz": "birinchi o‘tish huquqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "An ambulance with its lights flashing always has the right of way, so other drivers must move aside.",
+   "gap": "right of way",
+   "alt": []
+  },
+  {
+   "id": "pedestrian_crossing",
+   "en": "pedestrian crossing",
+   "uz": "piyodalar o‘tish joyi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every morning a traffic warden helps the younger children across the pedestrian crossing outside our school.",
+   "gap": "pedestrian crossing",
+   "alt": [
+    "pedestrian crossings"
+   ]
+  },
+  {
+   "id": "sound_your_horn",
+   "en": "sound your horn",
+   "uz": "signal chalmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The taxi driver sounded his horn angrily when the car in front didn't move at the green light.",
+   "gap": "sounded his horn",
+   "alt": [
+    "sounded his horn",
+    "sound the horn",
+    "sounding his horn"
+   ]
+  },
+  {
+   "id": "jump_a_red_light",
+   "en": "jump a red light",
+   "uz": "qizil chiroqqa o‘tib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A camera caught him jumping a red light at three in the morning, when the streets were completely empty.",
+   "gap": "jumping a red light",
+   "alt": [
+    "jumped a red light",
+    "jumping a red light",
+    "jumps a red light"
+   ]
+  },
+  {
+   "id": "reckless",
+   "en": "reckless",
+   "uz": "o‘ta ehtiyotsiz, beparvo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Racing at 140 km/h past a school is reckless driving, and he lost his licence for it.",
+   "gap": "reckless",
+   "alt": []
+  },
+  {
+   "id": "hit_and_run",
+   "en": "hit-and-run",
+   "uz": "urib qochib ketgan (haydovchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Police are looking for the driver of a white car after a hit-and-run accident in which a cyclist was injured.",
+   "gap": "hit-and-run",
+   "alt": [
+    "hit and run"
+   ]
+  },
+  {
+   "id": "ban",
+   "en": "ban",
+   "uz": "haydovchilik huquqidan mahrum etish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After being caught speeding five times in one year, she received a two-year driving ban.",
+   "gap": "ban",
+   "alt": [
+    "bans"
+   ]
+  },
+  {
+   "id": "penalty_points",
+   "en": "penalty points",
+   "uz": "jarima ballari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour already has six penalty points on his licence, so he now drives very carefully past every speed camera.",
+   "gap": "penalty points",
+   "alt": []
+  },
+  {
+   "id": "on_the_spot",
+   "en": "on-the-spot",
+   "uz": "joyning o‘zida (darhol) beriladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The police officer gave him an on-the-spot fine for using his phone at the wheel.",
+   "gap": "on-the-spot",
+   "alt": [
+    "on the spot"
+   ]
+  },
+  {
+   "id": "exhaust_emissions",
+   "en": "exhaust emissions",
+   "uz": "chiqindi gazlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Electric buses produce no exhaust emissions, which helps to keep the city air cleaner.",
+   "gap": "exhaust emissions",
+   "alt": []
+  },
+  {
+   "id": "roadworthy",
+   "en": "roadworthy",
+   "uz": "yo‘lga chiqishga yaroqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before the long drive to Fergana over the mountain pass, Dad took the car to a mechanic to check it was roadworthy.",
+   "gap": "roadworthy",
+   "alt": []
+  },
+  {
+   "id": "tread",
+   "en": "tread",
+   "uz": "protektor (shina naqshi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tread on my bicycle tyres is almost worn away, so they slip on wet roads.",
+   "gap": "tread",
+   "alt": []
+  },
+  {
+   "id": "bald",
+   "en": "bald",
+   "uz": "yeyilib silliqlashgan (shina)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Driving in the rain on a bald tyre is extremely dangerous because it can't grip the road.",
+   "gap": "bald",
+   "alt": []
+  },
+  {
+   "id": "junction",
+   "en": "junction",
+   "uz": "yo‘llar kesishmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Turn left at the next junction and you'll see the hospital on your right.",
+   "gap": "junction",
+   "alt": [
+    "junctions"
+   ]
+  },
+  {
+   "id": "roundabout",
+   "en": "roundabout",
+   "uz": "aylanma harakatli chorraha",
+   "pos": "noun",
+   "img": true,
+   "ex": "Go all the way round the roundabout and take the third exit towards the airport.",
+   "gap": "roundabout",
+   "alt": [
+    "roundabouts"
+   ]
+  },
+  {
+   "id": "rush_hour",
+   "en": "rush hour",
+   "uz": "tig‘iz soat (pik vaqti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The metro is so crowded during the rush hour that you can hardly move your arms.",
+   "gap": "rush hour",
+   "alt": []
+  },
+  {
+   "id": "tailback",
+   "en": "tailback",
+   "uz": "uzun mashinalar qatori (tiqilinch)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A broken-down lorry caused a five-kilometre tailback on the road to the airport.",
+   "gap": "tailback",
+   "alt": [
+    "tailbacks"
+   ]
+  },
+  {
+   "id": "congestion",
+   "en": "congestion",
+   "uz": "yo‘llardagi tirbandlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "To reduce congestion in the city centre, the council built new bus lanes and cycle paths.",
+   "gap": "congestion",
+   "alt": []
+  },
+  {
+   "id": "congestion_charge",
+   "en": "congestion charge",
+   "uz": "shahar markaziga kirish to‘lovi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the city introduced a congestion charge, Bekzod leaves his car at home and takes the bus to his office in the centre.",
+   "gap": "congestion charge",
+   "alt": []
+  },
+  {
+   "id": "toll",
+   "en": "toll",
+   "uz": "yo‘ldan foydalanish haqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "To avoid paying the toll on the new bridge, many lorry drivers take the long road through the villages.",
+   "gap": "toll",
+   "alt": [
+    "tolls"
+   ]
+  },
+  {
+   "id": "pile_up",
+   "en": "pile-up",
+   "uz": "ko‘p mashinali to‘qnashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "A sudden dust storm on the desert highway near Navoi caused a pile-up of fifteen vehicles.",
+   "gap": "pile-up",
+   "alt": [
+    "pile-ups",
+    "pile up"
+   ]
+  },
+  {
+   "id": "divert",
+   "en": "divert",
+   "uz": "boshqa yo‘lga burib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Because of the marathon, buses were diverted away from the city centre all morning.",
+   "gap": "diverted",
+   "alt": [
+    "diverted",
+    "diverts",
+    "diverting"
+   ]
+  },
+  {
+   "id": "disruption",
+   "en": "disruption",
+   "uz": "izdan chiqish (uzilishlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Repairs to the water pipes under our street will cause disruption for residents for at least a week.",
+   "gap": "disruption",
+   "alt": [
+    "disruptions"
+   ]
+  },
+  {
+   "id": "tow_away_zone",
+   "en": "tow-away zone",
+   "uz": "evakuator olib ketadigan hudud",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't leave the car here: it's a tow-away zone, and the truck comes round every hour.",
+   "gap": "tow-away zone",
+   "alt": [
+    "tow away zone",
+    "tow-away zones"
+   ]
+  },
+  {
+   "id": "clamp",
+   "en": "clamp",
+   "uz": "g‘ildirakka qisqich o‘rnatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He parked in the hospital's ambulance bay, and when he came back his car had been clamped.",
+   "gap": "clamped",
+   "alt": [
+    "clamped",
+    "clamps",
+    "clamping"
+   ]
+  },
+  {
+   "id": "road_rage",
+   "en": "road rage",
+   "uz": "yo‘ldagi g‘azab (haydovchilar janjali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a case of road rage, two drivers got out of their cars and started shouting at each other at the lights.",
+   "gap": "road rage",
+   "alt": []
+  },
+  {
+   "id": "skid",
+   "en": "skid",
+   "uz": "sirpanib ketmoq (boshqaruvni yo‘qotib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Dad braked suddenly on the wet autumn leaves, the car skidded sideways and hit the kerb.",
+   "gap": "skidded",
+   "alt": [
+    "skidded",
+    "skids",
+    "skidding"
+   ]
+  },
+  {
+   "id": "head_on_collision",
+   "en": "head-on collision",
+   "uz": "peshonama-peshona to‘qnashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Overtaking on a blind bend can lead to a head-on collision with a car coming the other way.",
+   "gap": "head-on collision",
+   "alt": [
+    "head on collision",
+    "head-on collisions"
+   ]
+  },
+  {
+   "id": "beep_your_horn",
+   "en": "beep your horn",
+   "uz": "signal bermoq (bip-bip qilmoq, so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The minibus driver beeped his horn twice to let us know he was waiting outside the gate.",
+   "gap": "beeped his horn",
+   "alt": [
+    "beeped his horn",
+    "beep the horn",
+    "beeping his horn",
+    "beeped her horn",
+    "beeps his horn"
+   ]
+  },
+  {
+   "id": "drink_driving",
+   "en": "drink-driving",
+   "uz": "mast holda mashina haydash",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the party Leyla took a taxi home, because she knew that drink-driving could cost her her licence.",
+   "gap": "drink-driving",
+   "alt": [
+    "drink driving"
+   ]
+  },
+  {
+   "id": "drug_driving",
+   "en": "drug-driving",
+   "uz": "giyohvand ta’sirida mashina haydash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Police now use a quick saliva test to catch drivers suspected of drug-driving.",
+   "gap": "drug-driving",
+   "alt": [
+    "drug driving"
+   ]
+  },
+  {
+   "id": "breathalyser",
+   "en": "breathalyser",
+   "uz": "alkotester (nafas tekshirish asbobi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The officer stopped the van and asked the driver to blow into a breathalyser at the side of the road.",
+   "gap": "breathalyser",
+   "alt": [
+    "breathalyzer",
+    "breathalysers"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "give_way",
+   "right_of_way"
+  ],
+  [
+   "junction",
+   "roundabout"
+  ],
+  [
+   "tailback",
+   "congestion"
+  ],
+  [
+   "congestion",
+   "congestion_charge"
+  ],
+  [
+   "congestion",
+   "disruption"
+  ],
+  [
+   "toll",
+   "congestion_charge"
+  ],
+  [
+   "pile_up",
+   "head_on_collision"
+  ],
+  [
+   "tread",
+   "bald"
+  ],
+  [
+   "reckless",
+   "hit_and_run"
+  ],
+  [
+   "tow_away_zone",
+   "clamp"
+  ],
+  [
+   "rush_hour",
+   "congestion"
+  ],
+  [
+   "ban",
+   "penalty_points"
+  ],
+  [
+   "skid",
+   "divert"
+  ],
+  [
+   "beep_your_horn",
+   "sound_your_horn"
+  ],
+  [
+   "drink_driving",
+   "drug_driving"
+  ]
+ ]
+}

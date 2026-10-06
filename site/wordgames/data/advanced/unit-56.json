@@ -1,0 +1,513 @@
+{
+ "book": "advanced",
+ "unit": 56,
+ "title": "Technology and its impact",
+ "title_uz": "Texnologiya va uning ta’siri",
+ "words": [
+  {
+   "id": "digital_technology",
+   "en": "digital technology",
+   "uz": "raqamli uskunalar va usullar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to digital technology, Aunt Nodira keeps thousands of family photos on a memory card no bigger than a fingernail.",
+   "gap": "digital technology",
+   "alt": []
+  },
+  {
+   "id": "analogue",
+   "en": "analogue",
+   "uz": "raqamli bo‘lmagan (eski turdagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The café owner on our street still plays records on an old analogue turntable and insists they sound warmer than any streaming app.",
+   "gap": "analogue",
+   "alt": [
+    "analog"
+   ]
+  },
+  {
+   "id": "wi_fi",
+   "en": "wi-fi",
+   "uz": "simsiz internet aloqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new library in Gulistan offers free wi-fi, so students come there after school to do their online research.",
+   "gap": "wi-fi",
+   "alt": [
+    "wifi",
+    "Wi-Fi"
+   ]
+  },
+  {
+   "id": "satnav",
+   "en": "satnav",
+   "uz": "avtomobil navigatori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Without the satnav on the dashboard, our driver would never have found the little guesthouse in the hills above Zaamin.",
+   "gap": "satnav",
+   "alt": [
+    "SATNAV",
+    "sat nav",
+    "satellite navigation"
+   ]
+  },
+  {
+   "id": "gps",
+   "en": "GPS",
+   "uz": "joylashuvni aniqlash tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin's running watch uses GPS to record exactly where she ran and how far.",
+   "gap": "GPS",
+   "alt": [
+    "gps"
+   ]
+  },
+  {
+   "id": "satellite_communications",
+   "en": "satellite",
+   "uz": "sun’iy yo‘ldosh (aloqa uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ships far out in the ocean stay in touch with the coast by satellite, even when there is no phone signal for hundreds of kilometres.",
+   "gap": "satellite",
+   "alt": [
+    "satellites"
+   ]
+  },
+  {
+   "id": "biotechnology",
+   "en": "biotechnology",
+   "uz": "tirik organizmlardan foydalanish fani",
+   "pos": "noun",
+   "img": false,
+   "ex": "A biotechnology start-up in Tashkent is producing medicine inside harmless bacteria grown in huge steel tanks.",
+   "gap": "biotechnology",
+   "alt": []
+  },
+  {
+   "id": "disease_resistant",
+   "en": "disease-resistant",
+   "uz": "kasalliklarga chidamli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Orchard owners near Urgut are planting disease-resistant apricot trees so that fewer harvests are lost.",
+   "gap": "disease-resistant",
+   "alt": [
+    "disease resistant"
+   ]
+  },
+  {
+   "id": "artificial_intelligence",
+   "en": "artificial intelligence",
+   "uz": "sun’iy aql (o‘ylovchi dasturlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister's new phone uses artificial intelligence to translate street signs and menus the moment she points the camera at them.",
+   "gap": "artificial intelligence",
+   "alt": [
+    "AI"
+   ]
+  },
+  {
+   "id": "ergonomics",
+   "en": "ergonomics",
+   "uz": "qulay ish joyi dizayni fani",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before designing the new school desks, the team studied ergonomics so that pupils could sit comfortably through long lessons.",
+   "gap": "ergonomics",
+   "alt": []
+  },
+  {
+   "id": "bluetooth",
+   "en": "Bluetooth",
+   "uz": "qurilmalarni simsiz ulash tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My wireless headphones connect to my phone by Bluetooth, so there are no cables to get tangled in my bag.",
+   "gap": "Bluetooth",
+   "alt": [
+    "bluetooth"
+   ]
+  },
+  {
+   "id": "techie",
+   "en": "techie",
+   "uz": "yangi texnika ishqibozi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother is a real techie: he reads every review and buys each new gadget the week it comes out.",
+   "gap": "techie",
+   "alt": [
+    "techies"
+   ]
+  },
+  {
+   "id": "smartphone",
+   "en": "smartphone",
+   "uz": "aqlli telefon",
+   "pos": "noun",
+   "img": true,
+   "ex": "He keeps his smartphone in his pocket wherever he goes and uses it to call, chat, pay and take photos.",
+   "gap": "smartphone",
+   "alt": [
+    "smartphones"
+   ]
+  },
+  {
+   "id": "hands_free_earpiece",
+   "en": "hands-free earpiece",
+   "uz": "quloqqa taqiladigan garnitura",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since he drives a taxi all day, Uncle Bahrom wears a hands-free earpiece so he can take calls without holding his phone.",
+   "gap": "hands-free earpiece",
+   "alt": [
+    "hands free earpiece"
+   ]
+  },
+  {
+   "id": "smart_id_card",
+   "en": "smart ID card",
+   "uz": "elektron kirish kartasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the entrance of the new sports centre, every member taps a smart ID card on the reader and the barrier opens.",
+   "gap": "smart ID card",
+   "alt": [
+    "smart ID cards",
+    "smart card"
+   ]
+  },
+  {
+   "id": "laptop",
+   "en": "laptop",
+   "uz": "noutbuk",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the lid of my laptop cracked, the keyboard still worked but the screen was useless.",
+   "gap": "laptop",
+   "alt": [
+    "laptops",
+    "laptop computer"
+   ]
+  },
+  {
+   "id": "desktop_computer",
+   "en": "desktop computer",
+   "uz": "stol kompyuteri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school's computer room has thirty desktop computers, each with a big monitor fixed to the table.",
+   "gap": "desktop computers",
+   "alt": [
+    "desktop computers",
+    "desktop"
+   ]
+  },
+  {
+   "id": "games_console",
+   "en": "games console",
+   "uz": "o‘yin pristavkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every evening my brothers argue about whose turn it is to play on the games console connected to the TV.",
+   "gap": "games console",
+   "alt": [
+    "games consoles",
+    "game console"
+   ]
+  },
+  {
+   "id": "tablet",
+   "en": "tablet",
+   "uz": "planshet",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister swipes through picture books on our family's old tablet, pinching the screen to make the animals bigger.",
+   "gap": "tablet",
+   "alt": [
+    "tablets"
+   ]
+  },
+  {
+   "id": "touchscreen",
+   "en": "touchscreen",
+   "uz": "sensorli ekran",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ticket machine at the station has a touchscreen, so you just tap the name of your stop.",
+   "gap": "touchscreen",
+   "alt": [
+    "touch screen",
+    "touch-screen"
+   ]
+  },
+  {
+   "id": "e_reader",
+   "en": "e-reader",
+   "uz": "elektron kitob o‘qish qurilmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the long train ride to Urgench, Gulnora takes her e-reader, which holds hundreds of novels and doesn't tire her eyes.",
+   "gap": "e-reader",
+   "alt": [
+    "e-readers",
+    "ereader"
+   ]
+  },
+  {
+   "id": "flat_screen_tv",
+   "en": "flat-screen TV",
+   "uz": "yassi ekranli televizor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The heavy old box-shaped television was replaced by a thin flat-screen TV that hangs on the living-room wall.",
+   "gap": "flat-screen TV",
+   "alt": [
+    "flat screen TV",
+    "flat-screen TVs"
+   ]
+  },
+  {
+   "id": "router",
+   "en": "router",
+   "uz": "internet tarqatuvchi qurilma",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the internet stopped working, the IT teacher switched the router off and on again, and the whole school was back online.",
+   "gap": "router",
+   "alt": [
+    "routers"
+   ]
+  },
+  {
+   "id": "technical",
+   "en": "technical",
+   "uz": "uskuna va jihozlarga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The concert in the park started half an hour late because of a technical problem with the sound system.",
+   "gap": "technical",
+   "alt": []
+  },
+  {
+   "id": "technically",
+   "en": "technically",
+   "uz": "qat’iy aytganda (rasman)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Jamshid is technically still a student, but he spends most of his time running a small delivery start-up.",
+   "gap": "technically",
+   "alt": []
+  },
+  {
+   "id": "technologically",
+   "en": "technologically",
+   "uz": "zamonaviy uskunalar jihatidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new hospital is technologically far ahead of the old clinic, with scanners the doctors had only read about before.",
+   "gap": "technologically",
+   "alt": []
+  },
+  {
+   "id": "notebook_computer",
+   "en": "notebook",
+   "uz": "kichik yengil ko‘chma kompyuter",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zulfiya carries a light notebook to her lectures so that she can type her notes as the professor speaks.",
+   "gap": "notebook",
+   "alt": [
+    "notebooks"
+   ]
+  },
+  {
+   "id": "mp3_player",
+   "en": "MP3 player",
+   "uz": "kichik raqamli musiqa qurilmasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Years ago, Diyor listened to music on a tiny MP3 player clipped to his jacket, which held just two hundred songs.",
+   "gap": "MP3 player",
+   "alt": [
+    "MP3 players",
+    "mp3 player"
+   ]
+  },
+  {
+   "id": "microphone",
+   "en": "microphone",
+   "uz": "mikrofon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before the school concert began, the singer tapped the microphone twice to check that the speakers were on.",
+   "gap": "microphone",
+   "alt": [
+    "microphones"
+   ]
+  },
+  {
+   "id": "interactive",
+   "en": "interactive",
+   "uz": "interfaol (teginishga javob beradigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our classroom now has an interactive whiteboard, so pupils can drag pictures across it with their fingers.",
+   "gap": "interactive",
+   "alt": []
+  },
+  {
+   "id": "technological",
+   "en": "technological",
+   "uz": "fan-texnika yutuqlariga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rapid technological progress means that even remote mountain villages can now get fast internet.",
+   "gap": "technological",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "satnav",
+   "gps"
+  ],
+  [
+   "wi_fi",
+   "bluetooth"
+  ],
+  [
+   "tablet",
+   "e_reader"
+  ],
+  [
+   "tablet",
+   "smartphone"
+  ],
+  [
+   "laptop",
+   "desktop_computer"
+  ],
+  [
+   "digital_technology",
+   "artificial_intelligence"
+  ],
+  [
+   "technically",
+   "technologically"
+  ],
+  [
+   "technical",
+   "technically"
+  ],
+  [
+   "technical",
+   "technologically"
+  ],
+  [
+   "satellite_communications",
+   "gps"
+  ],
+  [
+   "satellite_communications",
+   "satnav"
+  ],
+  [
+   "satellite_communications",
+   "wi_fi"
+  ],
+  [
+   "smartphone",
+   "e_reader"
+  ],
+  [
+   "desktop_computer",
+   "flat_screen_tv"
+  ],
+  [
+   "biotechnology",
+   "genetic_modification"
+  ],
+  [
+   "nanotechnology",
+   "biotechnology"
+  ],
+  [
+   "analogue",
+   "low_tech"
+  ],
+  [
+   "tablet",
+   "touchscreen"
+  ],
+  [
+   "biotechnology",
+   "high_tech"
+  ],
+  [
+   "biotechnology",
+   "cutting_edge"
+  ],
+  [
+   "notebook_computer",
+   "laptop"
+  ],
+  [
+   "notebook_computer",
+   "tablet"
+  ],
+  [
+   "notebook_computer",
+   "desktop_computer"
+  ],
+  [
+   "notebook_computer",
+   "e_reader"
+  ],
+  [
+   "mp3_player",
+   "smartphone"
+  ],
+  [
+   "mp3_player",
+   "e_reader"
+  ],
+  [
+   "mp3_player",
+   "games_console"
+  ],
+  [
+   "microphone",
+   "hands_free_earpiece"
+  ],
+  [
+   "interactive",
+   "analogue"
+  ],
+  [
+   "interactive",
+   "digital_technology"
+  ],
+  [
+   "interactive",
+   "touchscreen"
+  ],
+  [
+   "technological",
+   "technical"
+  ],
+  [
+   "technological",
+   "technically"
+  ],
+  [
+   "technological",
+   "technologically"
+  ]
+ ]
+}

@@ -1,0 +1,669 @@
+{
+ "book": "advanced",
+ "unit": 5,
+ "title": "At work: colleagues and routines",
+ "title_uz": "Ishda: hamkasblar va ish tartibi",
+ "words": [
+  {
+   "id": "opposite_number",
+   "en": "opposite number",
+   "uz": "xuddi shu lavozimdagi hamkasb",
+   "pos": "noun",
+   "img": false,
+   "ex": "My opposite number in the Samarkand branch does exactly the same job as me, so we often compare notes.",
+   "gap": "opposite number",
+   "alt": []
+  },
+  {
+   "id": "counterpart",
+   "en": "counterpart",
+   "uz": "teng mavqedagi shaxs (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school director flew to Kuala Lumpur to sign an exchange agreement with her Malaysian counterpart.",
+   "gap": "counterpart",
+   "alt": [
+    "counterparts"
+   ]
+  },
+  {
+   "id": "working_relationship",
+   "en": "working relationship",
+   "uz": "ish yuzasidan munosabat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Although we argue sometimes, Laylo and I have a good working relationship and respect each other's ideas.",
+   "gap": "working relationship",
+   "alt": []
+  },
+  {
+   "id": "collaboration",
+   "en": "collaboration",
+   "uz": "hamkorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new bridge was built in close collaboration between Uzbek and Japanese engineers.",
+   "gap": "collaboration",
+   "alt": []
+  },
+  {
+   "id": "rapport",
+   "en": "rapport",
+   "uz": "til topishish (o‘zaro iliqlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new teacher quickly built a strong rapport with even the shyest pupils in the class.",
+   "gap": "rapport",
+   "alt": []
+  },
+  {
+   "id": "take_the_initiative",
+   "en": "take the initiative",
+   "uz": "tashabbus ko‘rsatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nobody told Anvar to fix the broken printer; he just took the initiative and did it.",
+   "gap": "took the initiative",
+   "alt": [
+    "took the initiative",
+    "takes the initiative"
+   ]
+  },
+  {
+   "id": "pecking_order",
+   "en": "pecking order",
+   "uz": "mavqe tartibi (kim kimdan ustun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our office there's a strict pecking order: the most senior staff always choose their holiday dates first.",
+   "gap": "pecking order",
+   "alt": []
+  },
+  {
+   "id": "job_share",
+   "en": "job-share",
+   "uz": "bitta ishni ikki kishi bo‘lishishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two nurses do a job-share: one works Monday to Wednesday, the other Thursday to Saturday.",
+   "gap": "job-share",
+   "alt": [
+    "job share"
+   ]
+  },
+  {
+   "id": "hot_desking",
+   "en": "hot-desking",
+   "uz": "doimiy stolsiz ishlash tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the new hot-desking policy, Malika never knows whether she'll be sitting by the window or next to the noisy coffee machine.",
+   "gap": "hot-desking",
+   "alt": [
+    "hot desking"
+   ]
+  },
+  {
+   "id": "workmates",
+   "en": "workmates",
+   "uz": "ishxonadagi o‘rtoqlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Friday evenings I play football with a few of my workmates from the factory.",
+   "gap": "workmates",
+   "alt": [
+    "workmate"
+   ]
+  },
+  {
+   "id": "talk_shop",
+   "en": "talk shop",
+   "uz": "ishdan tashqarida ish haqida gapirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We promised each other not to talk shop on our weekend trip to Khiva, but within an hour we were arguing about the budget.",
+   "gap": "talk shop",
+   "alt": []
+  },
+  {
+   "id": "mundane",
+   "en": "mundane",
+   "uz": "oddiy va zerikarli (kundalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Films make archaeology look thrilling, but most of the work is surprisingly mundane: labelling bits of pottery and filling in forms.",
+   "gap": "mundane",
+   "alt": []
+  },
+  {
+   "id": "meet_a_deadline",
+   "en": "meet a deadline",
+   "uz": "belgilangan muddatga ulgurmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We worked all weekend to meet the deadline for the government tender.",
+   "gap": "meet the deadline",
+   "alt": [
+    "meet the deadline",
+    "met the deadline",
+    "meet deadlines"
+   ]
+  },
+  {
+   "id": "volunteer",
+   "en": "volunteer",
+   "uz": "o‘z ixtiyori bilan taklif qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the boss asked who could stay late, Gulnora volunteered before anyone else could say a word.",
+   "gap": "volunteered",
+   "alt": [
+    "volunteered",
+    "volunteers"
+   ]
+  },
+  {
+   "id": "rewarding",
+   "en": "rewarding",
+   "uz": "mazmunli (qoniqish beradigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Helping families rebuild their homes after the floods was exhausting but deeply rewarding.",
+   "gap": "rewarding",
+   "alt": []
+  },
+  {
+   "id": "stimulating",
+   "en": "stimulating",
+   "uz": "yangi g‘oyalarga undaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The workshop was really stimulating; I came away full of new ideas for my lessons.",
+   "gap": "stimulating",
+   "alt": []
+  },
+  {
+   "id": "workload",
+   "en": "workload",
+   "uz": "ish yuklamasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "With two colleagues on holiday, my workload has doubled this month.",
+   "gap": "workload",
+   "alt": []
+  },
+  {
+   "id": "day_shift",
+   "en": "day shift",
+   "uz": "kunduzgi smena",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the day shift I start at 7 a.m. and finish in time to collect my kids from school.",
+   "gap": "day shift",
+   "alt": []
+  },
+  {
+   "id": "repetitive",
+   "en": "repetitive",
+   "uz": "bir xil takrorlanadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Packing the same box in the same way five hundred times a day is extremely repetitive work.",
+   "gap": "repetitive",
+   "alt": []
+  },
+  {
+   "id": "knock_off",
+   "en": "knock off",
+   "uz": "ishni tugatib ketmoq (so‘zl.)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "On Fridays we knock off at four and head to the five-a-side pitch near the office.",
+   "gap": "knock off",
+   "alt": []
+  },
+  {
+   "id": "monotonous",
+   "en": "monotonous",
+   "uz": "bir xilda zeriktiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The road across the Kyzylkum is a monotonous stretch of sand and saxaul bushes, with nothing to look at for hours.",
+   "gap": "monotonous",
+   "alt": []
+  },
+  {
+   "id": "glamorous",
+   "en": "glamorous",
+   "uz": "jozibali (havas qilinadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Everyone thinks working at a fashion show in Paris is glamorous, but it's mostly carrying heavy boxes.",
+   "gap": "glamorous",
+   "alt": []
+  },
+  {
+   "id": "anti_social",
+   "en": "anti-social",
+   "uz": "ijtimoiy hayotga xalal beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bakers work anti-social hours, starting at 3 a.m. while the rest of the city is asleep.",
+   "gap": "anti-social",
+   "alt": [
+    "antisocial",
+    "anti social"
+   ]
+  },
+  {
+   "id": "stuck_behind_a_desk",
+   "en": "stuck behind a desk",
+   "uz": "kun bo‘yi stol ortida qamalib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As a tour guide I love being outdoors; I could never be stuck behind a desk all day.",
+   "gap": "stuck behind a desk",
+   "alt": []
+  },
+  {
+   "id": "mind_numbing",
+   "en": "mind-numbing",
+   "uz": "miyani o‘tmaslashtiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Typing thousands of invoice numbers into a spreadsheet eight hours a day is utterly mind-numbing.",
+   "gap": "mind-numbing",
+   "alt": [
+    "mind numbing"
+   ]
+  },
+  {
+   "id": "tight_schedule",
+   "en": "tight schedule",
+   "uz": "zich jadval",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builders are working to a tight schedule because the stadium must open before the tournament.",
+   "gap": "tight schedule",
+   "alt": [
+    "tight schedules"
+   ]
+  },
+  {
+   "id": "stuck_in_a_rut",
+   "en": "stuck in a rut",
+   "uz": "bir xil turmushga mixlanib qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After fifteen years in the same office, Rano felt stuck in a rut and decided to retrain as a chef.",
+   "gap": "stuck in a rut",
+   "alt": []
+  },
+  {
+   "id": "dead_end",
+   "en": "dead-end",
+   "uz": "istiqbolsiz (ko‘tarilish imkoni yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamol has spent ten years in a dead-end job with no hope of promotion.",
+   "gap": "dead-end",
+   "alt": [
+    "dead end"
+   ]
+  },
+  {
+   "id": "self_employed",
+   "en": "self-employed",
+   "uz": "o‘zini o‘zi ish bilan band qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since he became self-employed, he has no boss, but he also gets no paid holidays.",
+   "gap": "self-employed",
+   "alt": [
+    "self employed"
+   ]
+  },
+  {
+   "id": "freelance",
+   "en": "freelance",
+   "uz": "buyurtma asosida mustaqil ishlovchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilshod is a freelance translator who works for several agencies whenever they need him.",
+   "gap": "freelance",
+   "alt": []
+  },
+  {
+   "id": "hierarchical",
+   "en": "hierarchical",
+   "uz": "qat’iy pog‘onali (bo‘ysunish zinapoyali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In such a hierarchical bank, a junior clerk would never dream of emailing the chairman directly.",
+   "gap": "hierarchical",
+   "alt": []
+  },
+  {
+   "id": "satisfying",
+   "en": "satisfying",
+   "uz": "ko‘ngilni to‘ldiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Fixing an old engine that nobody else could repair gave Botir a deeply satisfying feeling.",
+   "gap": "satisfying",
+   "alt": []
+  },
+  {
+   "id": "start_up",
+   "en": "start-up",
+   "uz": "yangi kichik kompaniya (endi ochilgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three students founded a tech start-up in Namangan that now delivers groceries across the whole valley.",
+   "gap": "start-up",
+   "alt": [
+    "startup",
+    "start up",
+    "start-ups",
+    "startups"
+   ]
+  },
+  {
+   "id": "go_in_with",
+   "en": "go in with",
+   "uz": "…bilan sheriklikda biznes boshlamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Instead of opening a café alone, Aziza went in with her cousin, and they now run it together.",
+   "gap": "went in with",
+   "alt": [
+    "went in with"
+   ]
+  },
+  {
+   "id": "night_shift",
+   "en": "night shift",
+   "uz": "tungi smena",
+   "pos": "noun",
+   "img": false,
+   "ex": "Security guards at the airport take turns on the night shift, patrolling the empty halls until dawn.",
+   "gap": "night shift",
+   "alt": [
+    "night shifts"
+   ]
+  },
+  {
+   "id": "mechanical",
+   "en": "mechanical",
+   "uz": "o‘ylamasdan, odatdagidek bajariladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sorting letters by postcode is so mechanical that I can do it while planning my weekend.",
+   "gap": "mechanical",
+   "alt": []
+  },
+  {
+   "id": "technician",
+   "en": "technician",
+   "uz": "texnik xodim (uskuna ustasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A lab technician tested the water samples and repaired the broken microscope before lunch.",
+   "gap": "technician",
+   "alt": [
+    "technicians"
+   ]
+  },
+  {
+   "id": "retrain",
+   "en": "retrain",
+   "uz": "qayta o‘qib, yangi kasb egallamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At forty, Lobar left her job at the bank and retrained as a primary school teacher.",
+   "gap": "retrained",
+   "alt": [
+    "retraining",
+    "retrained",
+    "retrains"
+   ]
+  },
+  {
+   "id": "computer_programmer",
+   "en": "computer programmer",
+   "uz": "dasturchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank hired a computer programmer to rebuild its mobile app from scratch.",
+   "gap": "computer programmer",
+   "alt": [
+    "computer programmers",
+    "programmer"
+   ]
+  },
+  {
+   "id": "day_to_day",
+   "en": "day-to-day",
+   "uz": "kundalik (har kungi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The head chef plans the menus, while her assistant handles the day-to-day running of the kitchen.",
+   "gap": "day-to-day",
+   "alt": [
+    "day to day"
+   ]
+  },
+  {
+   "id": "long_haul",
+   "en": "long-haul",
+   "uz": "uzoq masofali (reys)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the long-haul flight from Seoul to New York, the cabin crew rested for two days.",
+   "gap": "long-haul",
+   "alt": [
+    "long haul"
+   ]
+  },
+  {
+   "id": "socialise",
+   "en": "socialise",
+   "uz": "davra qurib dam olmoq (ishdan keyin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new nurses often socialise with one another at a café near the hospital after their shift.",
+   "gap": "socialise",
+   "alt": [
+    "socialize",
+    "socialising",
+    "socialised"
+   ]
+  },
+  {
+   "id": "childcare",
+   "en": "childcare",
+   "uz": "bola parvarishi (qarovi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The factory opened a nursery on site, so workers no longer have to pay for childcare in town.",
+   "gap": "childcare",
+   "alt": [
+    "child care"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "opposite_number",
+   "counterpart"
+  ],
+  [
+   "working_relationship",
+   "rapport"
+  ],
+  [
+   "working_relationship",
+   "collaboration"
+  ],
+  [
+   "rewarding",
+   "stimulating"
+  ],
+  [
+   "rewarding",
+   "glamorous"
+  ],
+  [
+   "mundane",
+   "repetitive"
+  ],
+  [
+   "mundane",
+   "monotonous"
+  ],
+  [
+   "mundane",
+   "mind_numbing"
+  ],
+  [
+   "repetitive",
+   "monotonous"
+  ],
+  [
+   "repetitive",
+   "mind_numbing"
+  ],
+  [
+   "monotonous",
+   "mind_numbing"
+  ],
+  [
+   "dead_end",
+   "mundane"
+  ],
+  [
+   "dead_end",
+   "repetitive"
+  ],
+  [
+   "dead_end",
+   "monotonous"
+  ],
+  [
+   "dead_end",
+   "mind_numbing"
+  ],
+  [
+   "stuck_behind_a_desk",
+   "stuck_in_a_rut"
+  ],
+  [
+   "self_employed",
+   "freelance"
+  ],
+  [
+   "anti_social",
+   "monotonous"
+  ],
+  [
+   "anti_social",
+   "mind_numbing"
+  ],
+  [
+   "take_the_initiative",
+   "volunteer"
+  ],
+  [
+   "rewarding",
+   "satisfying"
+  ],
+  [
+   "stimulating",
+   "satisfying"
+  ],
+  [
+   "glamorous",
+   "satisfying"
+  ],
+  [
+   "hierarchical",
+   "pecking_order"
+  ],
+  [
+   "knock_off",
+   "talk_shop"
+  ],
+  [
+   "anti_social",
+   "repetitive"
+  ],
+  [
+   "start_up",
+   "self_employed"
+  ],
+  [
+   "go_in_with",
+   "volunteer"
+  ],
+  [
+   "mechanical",
+   "mundane"
+  ],
+  [
+   "mechanical",
+   "repetitive"
+  ],
+  [
+   "mechanical",
+   "monotonous"
+  ],
+  [
+   "mechanical",
+   "mind_numbing"
+  ],
+  [
+   "mechanical",
+   "dead_end"
+  ],
+  [
+   "socialise",
+   "talk_shop"
+  ],
+  [
+   "socialise",
+   "go_in_with"
+  ],
+  [
+   "day_to_day",
+   "mundane"
+  ],
+  [
+   "day_to_day",
+   "repetitive"
+  ],
+  [
+   "day_to_day",
+   "monotonous"
+  ],
+  [
+   "long_haul",
+   "mind_numbing"
+  ],
+  [
+   "long_haul",
+   "glamorous"
+  ],
+  [
+   "technician",
+   "computer_programmer"
+  ],
+  [
+   "technician",
+   "volunteer"
+  ],
+  [
+   "retrain",
+   "volunteer"
+  ]
+ ]
+}

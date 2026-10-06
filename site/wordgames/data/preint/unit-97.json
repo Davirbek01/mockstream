@@ -1,0 +1,397 @@
+{
+ "book": "preint",
+ "unit": 97,
+ "title": "Writing an essay",
+ "title_uz": "Insho yozish",
+ "words": [
+  {
+   "id": "discursive_essay",
+   "en": "discursive essay",
+   "uz": "muhokama inshosi (bahsli insho)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For homework, our English teacher asked us to write a discursive essay about homework at weekends, with reasons for and against.",
+   "gap": "discursive essay",
+   "alt": [
+    "discursive essays"
+   ]
+  },
+  {
+   "id": "point_of_view",
+   "en": "point of view",
+   "uz": "nuqtai nazar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zilola listened politely to her brother's point of view, but she still thought the trip was too expensive.",
+   "gap": "point of view",
+   "alt": [
+    "points of view"
+   ]
+  },
+  {
+   "id": "argument",
+   "en": "argument",
+   "uz": "dalil (fikrni asoslovchi sabab)",
+   "pos": "noun",
+   "img": false,
+   "ex": "One strong argument for a longer lunch break is that students need time to eat properly.",
+   "gap": "argument",
+   "alt": [
+    "arguments"
+   ]
+  },
+  {
+   "id": "express",
+   "en": "express",
+   "uz": "ifodalamoq (fikrni bildirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Some students find it easier to express their feelings in a poem than in a conversation.",
+   "gap": "express",
+   "alt": [
+    "expresses",
+    "expressed",
+    "expressing"
+   ]
+  },
+  {
+   "id": "on_the_one_hand",
+   "en": "on the one hand",
+   "uz": "bir tomondan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Think about both sides: on the one hand, a part-time job gives teenagers their own money, but it also leaves less time for homework.",
+   "gap": "on the one hand",
+   "alt": []
+  },
+  {
+   "id": "on_the_other_hand",
+   "en": "on the other hand",
+   "uz": "boshqa tomondan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A smartphone is useful for school work. It can, on the other hand, take your attention away from your homework.",
+   "gap": "on the other hand",
+   "alt": []
+  },
+  {
+   "id": "human_being",
+   "en": "human being",
+   "uz": "inson (odamzot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Robots can lift heavy boxes all day, but they still can't feel things the way human beings do.",
+   "gap": "human beings",
+   "alt": [
+    "human beings"
+   ]
+  },
+  {
+   "id": "dependent_on",
+   "en": "dependent on",
+   "uz": "…ga qaram (bog‘lanib qolgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour's son is so dependent on his tablet that he gets bored after five minutes without it.",
+   "gap": "dependent on",
+   "alt": []
+  },
+  {
+   "id": "compared_with",
+   "en": "compared with",
+   "uz": "…bilan solishtirganda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our new flat is very quiet compared with the old one, which was right next to the main road.",
+   "gap": "compared with",
+   "alt": [
+    "compared to"
+   ]
+  },
+  {
+   "id": "comparison",
+   "en": "comparison",
+   "uz": "taqqoslash (solishtirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her essay, Saida makes a comparison between travelling by train and travelling by plane.",
+   "gap": "comparison",
+   "alt": [
+    "comparisons"
+   ]
+  },
+  {
+   "id": "in_contrast",
+   "en": "in contrast",
+   "uz": "bunga qarama-qarshi o‘laroq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shahzoda gets up at five every morning. Her brother, in contrast, rarely gets out of bed before ten.",
+   "gap": "in contrast",
+   "alt": []
+  },
+  {
+   "id": "generalisation",
+   "en": "generalisation",
+   "uz": "umumlashtirish (umumiy xulosa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Saying that all teenagers hate reading is a generalisation; many of my friends love books.",
+   "gap": "generalisation",
+   "alt": [
+    "generalization",
+    "generalisations",
+    "generalizations"
+   ]
+  },
+  {
+   "id": "on_the_whole",
+   "en": "on the whole",
+   "uz": "asosan (umumiy hisobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There were a few problems with the hotel, but on the whole we had a very good holiday.",
+   "gap": "on the whole",
+   "alt": []
+  },
+  {
+   "id": "tend_to",
+   "en": "tend to",
+   "uz": "odatda …ga moyil bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus on our street tends to run late when it rains.",
+   "gap": "tends to",
+   "alt": [
+    "tends to",
+    "tended to"
+   ]
+  },
+  {
+   "id": "freedom",
+   "en": "freedom",
+   "uz": "erkinlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students at college have more freedom to choose their own subjects than they had at school.",
+   "gap": "freedom",
+   "alt": []
+  },
+  {
+   "id": "society",
+   "en": "society",
+   "uz": "jamiyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Older people have a lot of experience and knowledge to share with the rest of society.",
+   "gap": "society",
+   "alt": []
+  },
+  {
+   "id": "cause_v",
+   "en": "cause",
+   "uz": "keltirib chiqarmoq (sabab bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Too much screen time late at night can cause headaches and poor sleep.",
+   "gap": "cause",
+   "alt": [
+    "causes",
+    "caused",
+    "causing"
+   ]
+  },
+  {
+   "id": "affect",
+   "en": "affect",
+   "uz": "ta’sir qilmoq (o‘zgartirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The rain didn't affect our plans much; we simply moved the football match into the sports hall.",
+   "gap": "affect",
+   "alt": [
+    "affects",
+    "affected",
+    "affecting"
+   ]
+  },
+  {
+   "id": "obesity",
+   "en": "obesity",
+   "uz": "semizlik (kasallik darajasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors are worried about obesity in children, because more and more of them are seriously overweight.",
+   "gap": "obesity",
+   "alt": []
+  },
+  {
+   "id": "lack_of",
+   "en": "lack of",
+   "uz": "…ning yetishmasligi",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "Ulugbek felt tired all week because of a lack of sleep before his exams.",
+   "gap": "lack of",
+   "alt": []
+  },
+  {
+   "id": "poor_diet",
+   "en": "poor diet",
+   "uz": "noto‘g‘ri ovqatlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our PE teacher explained that a poor diet, with lots of sugar and few vegetables, can leave you tired all day.",
+   "gap": "poor diet",
+   "alt": []
+  },
+  {
+   "id": "consequently",
+   "en": "consequently",
+   "uz": "shu sababli (oqibatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Farrux missed the last bus and consequently had to walk all the way home.",
+   "gap": "consequently",
+   "alt": []
+  },
+  {
+   "id": "the_developed_world",
+   "en": "the developed world",
+   "uz": "rivojlangan davlatlar",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "Almost every home in the developed world has clean running water and electricity.",
+   "gap": "the developed world",
+   "alt": []
+  },
+  {
+   "id": "company_of",
+   "en": "company",
+   "uz": "hamrohlik (birga bo‘lish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since her children moved abroad, our neighbour really enjoys the company of her friends from the choir.",
+   "gap": "company",
+   "alt": []
+  },
+  {
+   "id": "both_sides",
+   "en": "both sides",
+   "uz": "ikkala tomon (bahsda)",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "A fair judge listens to both sides before deciding who is right.",
+   "gap": "both sides",
+   "alt": []
+  },
+  {
+   "id": "some_people_believe",
+   "en": "some people believe",
+   "uz": "ba’zilar … deb hisoblaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In our class, some people believe that school uniforms should be banned.",
+   "gap": "some people believe",
+   "alt": []
+  },
+  {
+   "id": "it_seems_to_me",
+   "en": "it seems to me",
+   "uz": "menga shunday tuyuladiki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I've read both reports, and it seems to me that the second one is more accurate.",
+   "gap": "it seems to me",
+   "alt": []
+  },
+  {
+   "id": "in_the_past",
+   "en": "in the past",
+   "uz": "o‘tmishda (ilgari)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Letters could take weeks to arrive in the past, but today an email arrives in seconds.",
+   "gap": "in the past",
+   "alt": []
+  },
+  {
+   "id": "cause_n",
+   "en": "cause",
+   "uz": "sabab (asosiy omil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors say that stress is a common cause of headaches.",
+   "gap": "cause",
+   "alt": [
+    "causes"
+   ]
+  },
+  {
+   "id": "result_cause",
+   "en": "result",
+   "uz": "oqibat (biror narsa tufayli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The flooded kitchen was the result of a tiny hole in an old pipe.",
+   "gap": "result",
+   "alt": [
+    "results"
+   ]
+  },
+  {
+   "id": "have_an_effect_on",
+   "en": "have an effect on",
+   "uz": "…ga ta’sir ko‘rsatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Loud music late at night can have an effect on your sleep.",
+   "gap": "have an effect on",
+   "alt": [
+    "has an effect on",
+    "had an effect on",
+    "having an effect on"
+   ]
+  },
+  {
+   "id": "lonely",
+   "en": "lonely",
+   "uz": "yolg‘izlikdan siqilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Anvar felt lonely during his first weeks in a new city, until he joined a football team.",
+   "gap": "lonely",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "point_of_view",
+   "argument"
+  ],
+  [
+   "on_the_other_hand",
+   "in_contrast"
+  ],
+  [
+   "on_the_whole",
+   "on_the_other_hand"
+  ],
+  [
+   "cause_n",
+   "cause_v"
+  ],
+  [
+   "have_an_effect_on",
+   "affect"
+  ],
+  [
+   "some_people_believe",
+   "it_seems_to_me"
+  ],
+  [
+   "cause_n",
+   "result_cause"
+  ]
+ ]
+}

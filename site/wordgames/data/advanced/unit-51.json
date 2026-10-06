@@ -1,0 +1,557 @@
+{
+ "book": "advanced",
+ "unit": 51,
+ "title": "Healthcare",
+ "title_uz": "Sog‘liqni saqlash",
+ "words": [
+  {
+   "id": "primary_care",
+   "en": "primary care",
+   "uz": "birlamchi tibbiy yordam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of Dr Karimova's patients never need a hospital: as a family doctor, she deals with their colds, rashes and check-ups in primary care.",
+   "gap": "primary care",
+   "alt": []
+  },
+  {
+   "id": "secondary_care",
+   "en": "secondary care",
+   "uz": "ikkilamchi (ixtisoslashgan) yordam",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Laziz's cough hadn't cleared up after a month, his family doctor passed him on to secondary care at the regional hospital in Termez.",
+   "gap": "secondary care",
+   "alt": []
+  },
+  {
+   "id": "physician",
+   "en": "physician",
+   "uz": "shifokor (vrach)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new hospital in Urgench employs more than a hundred physicians, ranging from heart doctors to children's doctors.",
+   "gap": "physicians",
+   "alt": [
+    "physicians"
+   ]
+  },
+  {
+   "id": "home_visit",
+   "en": "home visit",
+   "uz": "shifokorning uyga kelishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour is ninety-two and can't manage the stairs, so the doctor makes a home visit once a month.",
+   "gap": "home visit",
+   "alt": [
+    "home visits"
+   ]
+  },
+  {
+   "id": "locum",
+   "en": "locum",
+   "uz": "vaqtincha o‘rinbosar shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dr Saidova is on a training course in Qarshi this week, so a locum from the next town is covering for her and seeing her patients until she gets back.",
+   "gap": "locum",
+   "alt": [
+    "locums"
+   ]
+  },
+  {
+   "id": "acute_condition",
+   "en": "acute condition",
+   "uz": "o‘tkir (to‘satdan boshlangan) kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Laylo woke up with a sudden, sharp pain in her stomach, the doctor said it was an acute condition and sent her straight to hospital.",
+   "gap": "acute condition",
+   "alt": [
+    "acute conditions"
+   ]
+  },
+  {
+   "id": "chronic_condition",
+   "en": "chronic condition",
+   "uz": "surunkali kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eczema is a chronic condition, so my classmate Shahnoza has to use a special cream on her hands all year round.",
+   "gap": "chronic condition",
+   "alt": [
+    "chronic conditions"
+   ]
+  },
+  {
+   "id": "specialist",
+   "en": "specialist",
+   "uz": "tor mutaxassis shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the cream doesn't help, your GP will probably send you to a specialist in skin problems.",
+   "gap": "specialist",
+   "alt": [
+    "specialists"
+   ]
+  },
+  {
+   "id": "refer",
+   "en": "refer",
+   "uz": "(boshqa shifokorga) yo‘llanma bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After three months of headaches, Kamola was referred to a hospital in Tashkent for some tests.",
+   "gap": "referred",
+   "alt": [
+    "referred",
+    "refers",
+    "referring"
+   ]
+  },
+  {
+   "id": "ophthalmologist",
+   "en": "ophthalmologist",
+   "uz": "ko‘z shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since his eyesight started getting worse, Mr Rasulov has his eyes checked by an ophthalmologist every year.",
+   "gap": "ophthalmologist",
+   "alt": [
+    "ophthalmologists"
+   ]
+  },
+  {
+   "id": "cardiologist",
+   "en": "cardiologist",
+   "uz": "yurak shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "When a routine check showed that his heartbeat was irregular, our PE teacher was sent to a cardiologist.",
+   "gap": "cardiologist",
+   "alt": [
+    "cardiologists"
+   ]
+  },
+  {
+   "id": "dermatologist",
+   "en": "dermatologist",
+   "uz": "teri shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dry patches on my elbows wouldn't go away, so I finally made an appointment with a dermatologist.",
+   "gap": "dermatologist",
+   "alt": [
+    "dermatologists"
+   ]
+  },
+  {
+   "id": "paediatrician",
+   "en": "paediatrician",
+   "uz": "bolalar shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every newborn baby in the maternity ward is checked by a paediatrician before going home.",
+   "gap": "paediatrician",
+   "alt": [
+    "pediatrician",
+    "paediatricians"
+   ]
+  },
+  {
+   "id": "anaesthetist",
+   "en": "anaesthetist",
+   "uz": "anesteziolog (og‘riqsizlantiruvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before my appendix operation, the anaesthetist explained that I would sleep through it and feel no pain.",
+   "gap": "anaesthetist",
+   "alt": [
+    "anesthetist",
+    "anaesthetists"
+   ]
+  },
+  {
+   "id": "psychiatrist",
+   "en": "psychiatrist",
+   "uz": "ruhiy salomatlik shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a very stressful year at work, Mr Nazarov was referred to a psychiatrist, who helped him to understand and manage his constant worrying.",
+   "gap": "psychiatrist",
+   "alt": [
+    "psychiatrists"
+   ]
+  },
+  {
+   "id": "organ",
+   "en": "organ",
+   "uz": "(tana) a’zosi (yurak, jigar kabi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During her yearly check-up, Mrs Qodirova had an ultrasound scan to make sure that every organ, from her liver to her kidneys, was working properly.",
+   "gap": "organ",
+   "alt": [
+    "organs"
+   ]
+  },
+  {
+   "id": "alternative_medicine",
+   "en": "alternative medicine",
+   "uz": "muqobil tibbiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some people try alternative medicine instead of hospital treatment, but doctors warn that this can be risky for serious illnesses.",
+   "gap": "alternative medicine",
+   "alt": []
+  },
+  {
+   "id": "complementary_medicine",
+   "en": "complementary medicine",
+   "uz": "qo‘shimcha (yondosh) tibbiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The clinic offers massage as complementary medicine, used alongside the treatment patients get from their doctors.",
+   "gap": "complementary medicine",
+   "alt": []
+  },
+  {
+   "id": "acupuncturist",
+   "en": "acupuncturist",
+   "uz": "igna bilan davolovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The acupuncturist placed several very thin needles along Mrs Yusupova's shoulders.",
+   "gap": "acupuncturist",
+   "alt": [
+    "acupuncturists"
+   ]
+  },
+  {
+   "id": "chiropractor",
+   "en": "chiropractor",
+   "uz": "bo‘g‘imlarni qo‘lda davolovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After hurting his back lifting boxes, our neighbour Rustam went to a chiropractor, who pressed and moved the joints of his spine.",
+   "gap": "chiropractor",
+   "alt": [
+    "chiropractors"
+   ]
+  },
+  {
+   "id": "homeopathic_doctor",
+   "en": "homeopathic doctor",
+   "uz": "gomeopat shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of ordinary medicine, Mrs Ergasheva's homeopathic doctor prescribed her a small bottle of remedy drops after asking a long list of questions about her sleep, diet and moods.",
+   "gap": "homeopathic doctor",
+   "alt": [
+    "homeopathic doctors",
+    "homoeopathic doctor"
+   ]
+  },
+  {
+   "id": "aromatherapist",
+   "en": "aromatherapist",
+   "uz": "xushbo‘y moylar bilan davolovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The aromatherapist added a few drops of lavender oil to the cream before starting the massage.",
+   "gap": "aromatherapist",
+   "alt": [
+    "aromatherapists"
+   ]
+  },
+  {
+   "id": "healthcare",
+   "en": "healthcare",
+   "uz": "sog‘liqni saqlash xizmatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The regional budget for healthcare in Surkhandarya covers everything from the children's hospital to the dentist and the optician in the main square.",
+   "gap": "healthcare",
+   "alt": [
+    "health care"
+   ]
+  },
+  {
+   "id": "national_insurance",
+   "en": "national insurance",
+   "uz": "milliy sug‘urta badali (Britaniya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Now that Harry has his first full-time job in Leeds, he is surprised by how much national insurance comes out of his salary each month.",
+   "gap": "national insurance",
+   "alt": []
+  },
+  {
+   "id": "nhs",
+   "en": "NHS",
+   "uz": "Britaniya davlat tibbiyot tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Ellie broke her wrist on a school trip to York, she was treated on the NHS, so her parents didn't have to pay anything.",
+   "gap": "NHS",
+   "alt": [
+    "National Health Service"
+   ]
+  },
+  {
+   "id": "gp",
+   "en": "GP",
+   "uz": "umumiy amaliyot shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you still feel unwell after a few days, the first person to see is your GP, not a hospital consultant.",
+   "gap": "GP",
+   "alt": [
+    "GPs",
+    "general practitioner"
+   ]
+  },
+  {
+   "id": "surgery",
+   "en": "surgery",
+   "uz": "shifokor qabulxonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dr Usmonova shares a small surgery near the bus station with two other family doctors.",
+   "gap": "surgery",
+   "alt": [
+    "surgeries"
+   ]
+  },
+  {
+   "id": "clinic",
+   "en": "clinic",
+   "uz": "ixtisoslashgan klinika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twice a year, Shahnoza goes to a special eczema clinic at the children's hospital for a check-up.",
+   "gap": "clinic",
+   "alt": [
+    "clinics"
+   ]
+  },
+  {
+   "id": "prescription_charge",
+   "en": "prescription charge",
+   "uz": "retseptli dori uchun to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Mr Brown moved from London to Edinburgh, he was pleased that he no longer had to pay a prescription charge for his eye drops.",
+   "gap": "prescription charge",
+   "alt": [
+    "prescription charges"
+   ]
+  },
+  {
+   "id": "private_healthcare",
+   "en": "private healthcare",
+   "uz": "xususiy tibbiy xizmat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodir's company pays for private healthcare, so he can see a specialist without joining a long waiting list.",
+   "gap": "private healthcare",
+   "alt": []
+  },
+  {
+   "id": "go_private",
+   "en": "go private",
+   "uz": "xususiy klinikada davolanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The waiting list for a knee operation was six months long, so Mrs Holt decided to go private.",
+   "gap": "go private",
+   "alt": [
+    "went private",
+    "going private",
+    "goes private"
+   ]
+  },
+  {
+   "id": "insurance_scheme",
+   "en": "insurance scheme",
+   "uz": "sug‘urta dasturi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to the sports club's insurance scheme, treatment for players hurt during matches is paid for.",
+   "gap": "insurance scheme",
+   "alt": [
+    "insurance schemes"
+   ]
+  },
+  {
+   "id": "gynaecologist",
+   "en": "gynaecologist",
+   "uz": "ayollar shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Once a year, Mrs Rahmonova has a routine check-up with her gynaecologist, who looks after the health of her womb and ovaries.",
+   "gap": "gynaecologist",
+   "alt": [
+    "gynecologist",
+    "gynaecologists"
+   ]
+  },
+  {
+   "id": "obstetrician",
+   "en": "obstetrician",
+   "uz": "akusher (tug‘ruq shifokori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Throughout her pregnancy, Dilnoza saw the same obstetrician, who was also in the delivery room when her twins were born.",
+   "gap": "obstetrician",
+   "alt": [
+    "obstetricians"
+   ]
+  },
+  {
+   "id": "surgery_branch",
+   "en": "surgery",
+   "uz": "jarrohlik (tibbiyot sohasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After medical school, Aziza decided to specialise in surgery, because she wanted to spend her working days carrying out operations.",
+   "gap": "surgery",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "alternative_medicine",
+   "complementary_medicine"
+  ],
+  [
+   "physician",
+   "gp"
+  ],
+  [
+   "physician",
+   "locum"
+  ],
+  [
+   "physician",
+   "specialist"
+  ],
+  [
+   "gp",
+   "locum"
+  ],
+  [
+   "specialist",
+   "ophthalmologist"
+  ],
+  [
+   "specialist",
+   "cardiologist"
+  ],
+  [
+   "specialist",
+   "dermatologist"
+  ],
+  [
+   "specialist",
+   "paediatrician"
+  ],
+  [
+   "specialist",
+   "anaesthetist"
+  ],
+  [
+   "specialist",
+   "chiropractor"
+  ],
+  [
+   "specialist",
+   "psychiatrist"
+  ],
+  [
+   "surgery",
+   "clinic"
+  ],
+  [
+   "primary_care",
+   "healthcare"
+  ],
+  [
+   "primary_care",
+   "private_healthcare"
+  ],
+  [
+   "secondary_care",
+   "healthcare"
+  ],
+  [
+   "specialist",
+   "locum"
+  ],
+  [
+   "homeopathic_doctor",
+   "aromatherapist"
+  ],
+  [
+   "homeopathic_doctor",
+   "acupuncturist"
+  ],
+  [
+   "homeopathic_doctor",
+   "chiropractor"
+  ],
+  [
+   "healthcare",
+   "private_healthcare"
+  ],
+  [
+   "national_insurance",
+   "insurance_scheme"
+  ],
+  [
+   "private_healthcare",
+   "insurance_scheme"
+  ],
+  [
+   "gynaecologist",
+   "obstetrician"
+  ],
+  [
+   "specialist",
+   "gynaecologist"
+  ],
+  [
+   "specialist",
+   "obstetrician"
+  ],
+  [
+   "physician",
+   "gynaecologist"
+  ],
+  [
+   "physician",
+   "obstetrician"
+  ],
+  [
+   "obstetrician",
+   "paediatrician"
+  ],
+  [
+   "gp",
+   "gynaecologist"
+  ],
+  [
+   "gp",
+   "obstetrician"
+  ],
+  [
+   "surgery",
+   "surgery_branch"
+  ],
+  [
+   "gp",
+   "dermatologist"
+  ]
+ ]
+}

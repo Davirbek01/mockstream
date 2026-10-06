@@ -1,0 +1,378 @@
+{
+ "book": "upper",
+ "unit": 66,
+ "title": "Referring words",
+ "title_uz": "Matnga ishora qiluvchi so‘zlar",
+ "words": [
+  {
+   "id": "problem",
+   "en": "problem",
+   "uz": "muammo",
+   "pos": "noun",
+   "img": false,
+   "ex": "The biggest problem with our old fridge is that it hums so loudly at night that nobody in the flat can sleep.",
+   "gap": "problem",
+   "alt": [
+    "problems"
+   ]
+  },
+  {
+   "id": "issue",
+   "en": "issue",
+   "uz": "bahsli masala",
+   "pos": "noun",
+   "img": false,
+   "ex": "Whether mobile phones should be allowed in lessons has become a real issue among parents at our school.",
+   "gap": "issue",
+   "alt": [
+    "issues"
+   ]
+  },
+  {
+   "id": "question",
+   "en": "question",
+   "uz": "javobsiz savol (ochiq masala)",
+   "pos": "noun",
+   "img": false,
+   "ex": "How the old craftsmen made the blue tiles of Shah-i-Zinda so bright is still an unanswered question.",
+   "gap": "question",
+   "alt": [
+    "questions"
+   ]
+  },
+  {
+   "id": "topic",
+   "en": "topic",
+   "uz": "mavzu (suhbat, insho)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Football is my uncle's favourite topic of conversation: once he starts, he never stops.",
+   "gap": "topic",
+   "alt": [
+    "topics"
+   ]
+  },
+  {
+   "id": "aspect",
+   "en": "aspect",
+   "uz": "jihat (mavzuning bir qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For me, the most stressful aspect of moving to a new school was not knowing a single person in my class.",
+   "gap": "aspect",
+   "alt": [
+    "aspects"
+   ]
+  },
+  {
+   "id": "situation",
+   "en": "situation",
+   "uz": "vaziyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our car broke down on a mountain road at night with no phone signal — what would you have done in our situation?",
+   "gap": "situation",
+   "alt": [
+    "situations"
+   ]
+  },
+  {
+   "id": "state_of_affairs",
+   "en": "state of affairs",
+   "uz": "ishlar holati (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only two buses an hour for a town of forty thousand people — this sorry state of affairs has to change.",
+   "gap": "state of affairs",
+   "alt": []
+  },
+  {
+   "id": "position",
+   "en": "position",
+   "uz": "(moliyaviy) ahvol, holat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the hailstorm destroyed their apricot harvest, many farmers were in a very difficult financial position.",
+   "gap": "position",
+   "alt": [
+    "positions"
+   ]
+  },
+  {
+   "id": "crisis",
+   "en": "crisis",
+   "uz": "inqiroz",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the river dried up, the water shortage in the town reached crisis point, and drinking water had to be brought in by lorry.",
+   "gap": "crisis",
+   "alt": [
+    "crises"
+   ]
+  },
+  {
+   "id": "matter",
+   "en": "matter",
+   "uz": "ishlar (battar qilmoq iborasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Trying to fix the leaking tap without turning off the water only made matters worse: the whole kitchen floor got wet.",
+   "gap": "matters",
+   "alt": [
+    "matters"
+   ]
+  },
+  {
+   "id": "response",
+   "en": "response",
+   "uz": "javob chorasi (…ga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school canteen started serving more fruit in response to complaints from parents.",
+   "gap": "response",
+   "alt": [
+    "responses"
+   ]
+  },
+  {
+   "id": "reaction",
+   "en": "reaction",
+   "uz": "ta’sirlanish (…ga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz had an allergic reaction to the nuts in the cake, and his face went bright red.",
+   "gap": "reaction",
+   "alt": [
+    "reactions"
+   ]
+  },
+  {
+   "id": "attitude",
+   "en": "attitude",
+   "uz": "munosabat, qarash (…ga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin has a very relaxed attitude to deadlines: she always starts her projects the night before.",
+   "gap": "attitude",
+   "alt": [
+    "attitudes"
+   ]
+  },
+  {
+   "id": "approach",
+   "en": "approach",
+   "uz": "yondashuv (…ga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new English teacher has a fresh approach to grammar: we learn it through songs and games.",
+   "gap": "approach",
+   "alt": [
+    "approaches"
+   ]
+  },
+  {
+   "id": "solution",
+   "en": "solution",
+   "uz": "yechim (…ga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Engineers are still looking for a cheap solution to the plastic waste in our rivers.",
+   "gap": "solution",
+   "alt": [
+    "solutions"
+   ]
+  },
+  {
+   "id": "answer_to",
+   "en": "answer",
+   "uz": "chora, najot (muammoga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Banning phones completely is not the answer to pupils' screen addiction; teaching them self-control is.",
+   "gap": "answer",
+   "alt": [
+    "answers"
+   ]
+  },
+  {
+   "id": "key_to",
+   "en": "key",
+   "uz": "kalit, sir (muvaffaqiyatning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to our basketball coach, the key to good free throws is bending your knees, not just your arms.",
+   "gap": "key",
+   "alt": []
+  },
+  {
+   "id": "way_out",
+   "en": "way out",
+   "uz": "chiqish yo‘li (…dan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two neighbours argued about the fence for months before they found a way out of the disagreement.",
+   "gap": "way out",
+   "alt": []
+  },
+  {
+   "id": "resolution",
+   "en": "resolution",
+   "uz": "(nizoni) tinch hal etish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both countries say they want a peaceful resolution to the long dispute over water from the river.",
+   "gap": "resolution",
+   "alt": []
+  },
+  {
+   "id": "assessment",
+   "en": "assessment",
+   "uz": "baholash (holatni o‘rganib)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the old bridge reopens, engineers will carry out a careful safety assessment.",
+   "gap": "assessment",
+   "alt": [
+    "assessments"
+   ]
+  },
+  {
+   "id": "judgment",
+   "en": "judgment",
+   "uz": "to‘g‘ri baho bera olish (aql)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't let anger cloud your judgment — wait until tomorrow before you reply to her message.",
+   "gap": "judgment",
+   "alt": [
+    "judgement"
+   ]
+  },
+  {
+   "id": "claim",
+   "en": "claim",
+   "uz": "da’vo (isbotsiz tasdiq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's claim that its new phone is unbreakable was proved false when mine cracked on the first day.",
+   "gap": "claim",
+   "alt": [
+    "claims"
+   ]
+  },
+  {
+   "id": "fact",
+   "en": "fact",
+   "uz": "haqiqat, rost voqea",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fact that Sardor was ill all week explains why he did so badly in the test.",
+   "gap": "fact",
+   "alt": [
+    "facts"
+   ]
+  },
+  {
+   "id": "argument",
+   "en": "argument",
+   "uz": "dalil, vaj (…uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Diyora's main argument for a four-day school week is that tired pupils learn very little on Fridays.",
+   "gap": "argument",
+   "alt": [
+    "arguments"
+   ]
+  },
+  {
+   "id": "view",
+   "en": "view",
+   "uz": "fikr, nuqtai nazar",
+   "pos": "noun",
+   "img": false,
+   "ex": "In my view, schools should start an hour later in winter, when it's still dark at eight.",
+   "gap": "view",
+   "alt": [
+    "views"
+   ]
+  },
+  {
+   "id": "point",
+   "en": "point",
+   "uz": "asosli fikr (o‘rinli gap)",
+   "pos": "noun",
+   "img": false,
+   "ex": "You've made a good point: if we leave at six, we'll miss the worst of the morning traffic.",
+   "gap": "point",
+   "alt": [
+    "points"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "problem",
+   "issue"
+  ],
+  [
+   "issue",
+   "topic"
+  ],
+  [
+   "issue",
+   "question"
+  ],
+  [
+   "situation",
+   "state_of_affairs"
+  ],
+  [
+   "situation",
+   "position"
+  ],
+  [
+   "state_of_affairs",
+   "position"
+  ],
+  [
+   "response",
+   "reaction"
+  ],
+  [
+   "response",
+   "answer_to"
+  ],
+  [
+   "attitude",
+   "approach"
+  ],
+  [
+   "solution",
+   "answer_to"
+  ],
+  [
+   "solution",
+   "resolution"
+  ],
+  [
+   "answer_to",
+   "key_to"
+  ],
+  [
+   "assessment",
+   "judgment"
+  ],
+  [
+   "claim",
+   "argument"
+  ],
+  [
+   "point",
+   "argument"
+  ],
+  [
+   "view",
+   "judgment"
+  ]
+ ]
+}

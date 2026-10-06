@@ -1,0 +1,600 @@
+{
+ "book": "advanced",
+ "unit": 31,
+ "title": "Taking root and reaping rewards",
+ "title_uz": "Ildiz otish va hosilni o‘rish",
+ "words": [
+  {
+   "id": "seeds_of",
+   "en": "the seeds of",
+   "uz": "…ning urug‘i (boshlanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first friendly match between the two village schools sowed the seeds of a rivalry that is still going strong thirty years later.",
+   "gap": "seeds",
+   "alt": [
+    "seeds",
+    "seed",
+    "the seeds of",
+    "seeds of"
+   ]
+  },
+  {
+   "id": "root_of",
+   "en": "the root of",
+   "uz": "…ning ildizi (asl sababi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mechanic took half the engine apart before he found the root of the strange rattling noise: one loose bolt.",
+   "gap": "root",
+   "alt": [
+    "root",
+    "the root of",
+    "root of"
+   ]
+  },
+  {
+   "id": "go_back_to_your_roots",
+   "en": "go back to your roots",
+   "uz": "ota-bobolari yurtiga qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After twenty years as a chef in Dubai, Sardor went back to his roots and opened a small teahouse in the Khorezm village where his parents grew up.",
+   "gap": "went back to his roots",
+   "alt": [
+    "went back to his roots",
+    "went back to her roots",
+    "went back to my roots",
+    "go back to my roots",
+    "go back to one's roots",
+    "going back to her roots",
+    "going back to his roots",
+    "goes back to his roots"
+   ]
+  },
+  {
+   "id": "put_down_roots",
+   "en": "put down roots",
+   "uz": "bir joyga o‘rnashib qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After years of moving between rented flats, Kamola and her husband finally put down roots in Jizzakh, buying a house with a big garden.",
+   "gap": "put down roots",
+   "alt": [
+    "putting down roots",
+    "puts down roots"
+   ]
+  },
+  {
+   "id": "take_root",
+   "en": "take root",
+   "uz": "ildiz otmoq (qabul qilinmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It took a few years for the idea of recycling to take root in our neighbourhood, but now almost every home sorts its rubbish.",
+   "gap": "take root",
+   "alt": [
+    "took root",
+    "taken root",
+    "takes root",
+    "taking root"
+   ]
+  },
+  {
+   "id": "grassroots",
+   "en": "grassroots",
+   "uz": "quyidan, oddiy odamlardan chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The campaign to save the old cinema in Chirchiq was a grassroots effort: students and shopkeepers raised the money themselves, without a single sponsor.",
+   "gap": "grassroots",
+   "alt": [
+    "grass-roots"
+   ]
+  },
+  {
+   "id": "deeply_rooted",
+   "en": "deeply rooted",
+   "uz": "chuqur ildiz otgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cooking sumalak together at Navruz is a custom deeply rooted in the culture of Central Asia.",
+   "gap": "deeply rooted",
+   "alt": [
+    "firmly rooted",
+    "rooted"
+   ]
+  },
+  {
+   "id": "stem_from",
+   "en": "stem from",
+   "uz": "…dan kelib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many of his sleep problems stem from spending late nights in front of a screen.",
+   "gap": "stem from",
+   "alt": [
+    "stems from",
+    "stemmed from",
+    "stemming from"
+   ]
+  },
+  {
+   "id": "nip_in_the_bud",
+   "en": "nip in the bud",
+   "uz": "boshidayoq bartaraf etmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the teacher noticed a few pupils copying homework, she nipped it in the bud by giving each of them different questions.",
+   "gap": "nipped it in the bud",
+   "alt": [
+    "nipped it in the bud",
+    "nip it in the bud",
+    "nipped in the bud",
+    "nipping it in the bud"
+   ]
+  },
+  {
+   "id": "budding",
+   "en": "budding",
+   "uz": "endi ochilayotgan, umidli (yosh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Every summer the old caravanserai in Shahrisabz hosts free workshops for budding photographers.",
+   "gap": "budding",
+   "alt": []
+  },
+  {
+   "id": "branch",
+   "en": "branch",
+   "uz": "filial (bo‘lim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank is opening a new branch in Urgench next month, so local people won't have to travel so far.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "branch_out",
+   "en": "branch out",
+   "uz": "yangi yo‘nalishga kengaymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The company started by making school bags and later branched out into sports equipment.",
+   "gap": "branched out",
+   "alt": [
+    "branched out",
+    "branches out",
+    "branching out"
+   ]
+  },
+  {
+   "id": "weed_out",
+   "en": "weed out",
+   "uz": "saralab chiqarib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The first round of the competition is designed to weed out weaker teams before the final.",
+   "gap": "weed out",
+   "alt": [
+    "weeded out",
+    "weeds out",
+    "weeding out"
+   ]
+  },
+  {
+   "id": "prune_back",
+   "en": "prune back",
+   "uz": "qisqartirmoq (kesib kamaytirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Because of a smaller budget, the council had to prune back its plans for new cycle lanes.",
+   "gap": "prune back",
+   "alt": [
+    "pruned back",
+    "prunes back",
+    "pruning back"
+   ]
+  },
+  {
+   "id": "reap_the_rewards",
+   "en": "reap the rewards",
+   "uz": "mehnati samarasini ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Lola practised the dutar every evening all winter, and she is now reaping the rewards of that effort with an invitation to play at the regional festival.",
+   "gap": "reaping the rewards",
+   "alt": [
+    "reaping the rewards",
+    "reaped the rewards",
+    "reaps the rewards"
+   ]
+  },
+  {
+   "id": "reap_what_you_sow",
+   "en": "reap what you sow",
+   "uz": "ekkanini o‘rmoq (qilmish-qidirmish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you are rude to everyone in your class, don't be surprised when nobody helps you: you reap what you sow.",
+   "gap": "reap what you sow",
+   "alt": [
+    "reaping what we sowed",
+    "reap what we sowed"
+   ]
+  },
+  {
+   "id": "dig_up",
+   "en": "dig up",
+   "uz": "kovlab topmoq (faktlarni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A local journalist dug up old documents showing that the bridge had never been properly inspected.",
+   "gap": "dug up",
+   "alt": [
+    "dug up",
+    "digs up",
+    "digging up"
+   ]
+  },
+  {
+   "id": "germinate",
+   "en": "germinate",
+   "uz": "unib chiqa boshlamoq (g‘oya)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The idea for her cleaning robot had been germinating in her mind long before she entered the contest.",
+   "gap": "germinating",
+   "alt": [
+    "germinating",
+    "germinated",
+    "germinates"
+   ]
+  },
+  {
+   "id": "sprout_up",
+   "en": "sprout up",
+   "uz": "qo‘ziqorindek ko‘payib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since the new university opened, cheap cafés and copy shops have been sprouting up all along the street.",
+   "gap": "sprouting up",
+   "alt": [
+    "sprouting up",
+    "sprouted up",
+    "sprouts up"
+   ]
+  },
+  {
+   "id": "flourish",
+   "en": "flourish",
+   "uz": "gullab-yashnamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Now that tourists are returning to the old city, local craft workshops are flourishing again.",
+   "gap": "flourishing",
+   "alt": [
+    "flourishing",
+    "flourished",
+    "flourishes"
+   ]
+  },
+  {
+   "id": "green_shoots",
+   "en": "green shoots",
+   "uz": "tiklanishning ilk belgilari",
+   "pos": "noun",
+   "img": false,
+   "ex": "A rise in hotel bookings is one of the first green shoots of recovery after a difficult year for tourism.",
+   "gap": "green shoots",
+   "alt": []
+  },
+  {
+   "id": "shed",
+   "en": "shed",
+   "uz": "(ish o‘rni, vazn) yo‘qotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The factory shed two hundred jobs when it replaced its old machines with robots.",
+   "gap": "shed",
+   "alt": [
+    "sheds",
+    "shedding"
+   ]
+  },
+  {
+   "id": "thrive",
+   "en": "thrive",
+   "uz": "ravnaq topmoq (o‘sib ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since it started selling its embroidered bags online, the little workshop in Boysun has been thriving, and it now employs twelve women.",
+   "gap": "thriving",
+   "alt": [
+    "thriving",
+    "thrived",
+    "thrives"
+   ]
+  },
+  {
+   "id": "thrive_on",
+   "en": "thrive on",
+   "uz": "…dan kuch-g‘ayrat olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our football coach seems to thrive on difficult matches: the stronger the opponent, the happier he looks.",
+   "gap": "thrive on",
+   "alt": [
+    "thrives on",
+    "thrived on",
+    "thriving on"
+   ]
+  },
+  {
+   "id": "fade",
+   "en": "fade",
+   "uz": "so‘nmoq (asta-sekin kamaymoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Jahongir's enthusiasm for the guitar began to fade once he realised how many hours of practice it would take.",
+   "gap": "fade",
+   "alt": [
+    "faded",
+    "fades",
+    "fading"
+   ]
+  },
+  {
+   "id": "shrivel",
+   "en": "shrivel",
+   "uz": "keskin qisqarib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The theatre's audiences have shrivelled since ticket prices doubled, and on some nights only a handful of seats are taken.",
+   "gap": "shrivelled",
+   "alt": [
+    "shrivelled",
+    "shriveled",
+    "shrivels",
+    "shrivelling"
+   ]
+  },
+  {
+   "id": "wilt",
+   "en": "wilt",
+   "uz": "holdan toymoq (so‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The choir sounded wonderful for the first hour, but by the end of the long rehearsal the youngest singers were beginning to wilt.",
+   "gap": "wilt",
+   "alt": [
+    "wilting",
+    "wilted",
+    "wilts"
+   ]
+  },
+  {
+   "id": "withering",
+   "en": "withering",
+   "uz": "kesatiqli, nafratli (gap, nigoh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The critic's withering review of the film was just three words long: Don't bother going.",
+   "gap": "withering",
+   "alt": []
+  },
+  {
+   "id": "seed",
+   "en": "seed",
+   "uz": "urug‘ (o‘simlik urug‘i)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before the rains came, Nilufar pressed one sunflower seed into each little pot on the windowsill.",
+   "gap": "seed",
+   "alt": [
+    "seeds"
+   ]
+  },
+  {
+   "id": "bud",
+   "en": "bud",
+   "uz": "g‘uncha (kurtak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "By the end of March, the apricot tree in the yard was covered in tiny pink buds.",
+   "gap": "buds",
+   "alt": [
+    "buds"
+   ]
+  },
+  {
+   "id": "stem",
+   "en": "stem",
+   "uz": "poya (gul bandi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The florist cut each rose stem at an angle so that the flowers could drink more water.",
+   "gap": "stem",
+   "alt": [
+    "stems"
+   ]
+  },
+  {
+   "id": "branch_tree",
+   "en": "branch",
+   "uz": "daraxt shoxi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A strong wind in the night broke a heavy branch off the old walnut tree, and it landed right across the garden path.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "root_plant",
+   "en": "root",
+   "uz": "ildiz (o‘simlikning)",
+   "pos": "noun",
+   "img": true,
+   "ex": "When Timur pulled up the dandelion, he made sure to get the whole root out of the soil so that it would not grow back.",
+   "gap": "root",
+   "alt": [
+    "roots"
+   ]
+  },
+  {
+   "id": "wither",
+   "en": "wither",
+   "uz": "qovjirab qurimoq (so‘nib bormoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With nobody to water them during the long August holiday, the tomato plants on the school roof had withered and turned brown.",
+   "gap": "withered",
+   "alt": [
+    "withered",
+    "withers"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "seeds_of",
+   "root_of"
+  ],
+  [
+   "root_of",
+   "go_back_to_your_roots"
+  ],
+  [
+   "take_root",
+   "germinate"
+  ],
+  [
+   "take_root",
+   "put_down_roots"
+  ],
+  [
+   "flourish",
+   "thrive"
+  ],
+  [
+   "flourish",
+   "sprout_up"
+  ],
+  [
+   "thrive",
+   "sprout_up"
+  ],
+  [
+   "thrive",
+   "thrive_on"
+  ],
+  [
+   "weed_out",
+   "prune_back"
+  ],
+  [
+   "weed_out",
+   "shed"
+  ],
+  [
+   "prune_back",
+   "shed"
+  ],
+  [
+   "reap_the_rewards",
+   "reap_what_you_sow"
+  ],
+  [
+   "branch",
+   "branch_out"
+  ],
+  [
+   "fade",
+   "shrivel"
+  ],
+  [
+   "fade",
+   "wilt"
+  ],
+  [
+   "shrivel",
+   "wilt"
+  ],
+  [
+   "deeply_rooted",
+   "grassroots"
+  ],
+  [
+   "green_shoots",
+   "seeds_of"
+  ],
+  [
+   "germinate",
+   "flourish"
+  ],
+  [
+   "go_back_to_your_roots",
+   "put_down_roots"
+  ],
+  [
+   "deeply_rooted",
+   "thrive"
+  ],
+  [
+   "deeply_rooted",
+   "flourish"
+  ],
+  [
+   "germinate",
+   "sprout_up"
+  ],
+  [
+   "flourish",
+   "reap_the_rewards"
+  ],
+  [
+   "thrive",
+   "reap_the_rewards"
+  ],
+  [
+   "seed",
+   "seeds_of"
+  ],
+  [
+   "root_plant",
+   "root_of"
+  ],
+  [
+   "branch_tree",
+   "branch"
+  ],
+  [
+   "branch_tree",
+   "branch_out"
+  ],
+  [
+   "branch_tree",
+   "horn"
+  ],
+  [
+   "wither",
+   "fade"
+  ],
+  [
+   "wither",
+   "wilt"
+  ],
+  [
+   "wither",
+   "shrivel"
+  ],
+  [
+   "wither",
+   "withering"
+  ]
+ ]
+}

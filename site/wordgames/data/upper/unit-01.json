@@ -1,0 +1,545 @@
+{
+ "book": "upper",
+ "unit": 1,
+ "title": "Learning vocabulary",
+ "title_uz": "So‘z boyligini o‘rganish",
+ "words": [
+  {
+   "id": "native_speaker",
+   "en": "native speaker",
+   "uz": "ona tili sohibi (tashuvchisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new teacher grew up in London, so she is a native speaker of English.",
+   "gap": "native speaker",
+   "alt": [
+    "native speakers"
+   ]
+  },
+  {
+   "id": "collocation",
+   "en": "collocation",
+   "uz": "barqaror so‘z birikmasi (kollokatsiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbek learners often say 'make a photo', but the correct collocation is 'take a photo'.",
+   "gap": "collocation",
+   "alt": [
+    "collocations"
+   ]
+  },
+  {
+   "id": "register",
+   "en": "register",
+   "uz": "nutq uslubi (registr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A message to your headteacher and a message to your best friend need a different register.",
+   "gap": "register",
+   "alt": []
+  },
+  {
+   "id": "formal",
+   "en": "formal",
+   "uz": "rasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Commence' is a formal word for 'begin'; you see it in official letters, not in chats with friends.",
+   "gap": "formal",
+   "alt": []
+  },
+  {
+   "id": "informal",
+   "en": "informal",
+   "uz": "norasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Gonna' is very informal, so don't use it in your IELTS essay.",
+   "gap": "informal",
+   "alt": []
+  },
+  {
+   "id": "neutral",
+   "en": "neutral",
+   "uz": "betaraf (neytral)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Get' is a fairly neutral verb: you can use it both in a chat with friends and in a letter to the bank.",
+   "gap": "neutral",
+   "alt": []
+  },
+  {
+   "id": "pronunciation",
+   "en": "pronunciation",
+   "uz": "talaffuz",
+   "pos": "noun",
+   "img": false,
+   "ex": "My spelling is fine, but my pronunciation of 'thought' and 'though' still needs work.",
+   "gap": "pronunciation",
+   "alt": []
+  },
+  {
+   "id": "irregular_verb",
+   "en": "irregular verb",
+   "uz": "noto‘g‘ri fe’l",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many learners write 'catched', forgetting that 'catch' is an irregular verb.",
+   "gap": "irregular verb",
+   "alt": [
+    "irregular verbs"
+   ]
+  },
+  {
+   "id": "uncountable",
+   "en": "uncountable",
+   "uz": "sanalmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Homework' is uncountable in English, so you can't say 'three homeworks'.",
+   "gap": "uncountable",
+   "alt": []
+  },
+  {
+   "id": "in_isolation",
+   "en": "in isolation",
+   "uz": "alohida holda (kontekstsiz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Learning words in isolation is like collecting bricks without cement: you can't build sentences with them.",
+   "gap": "in isolation",
+   "alt": []
+  },
+  {
+   "id": "memorise",
+   "en": "memorise",
+   "uz": "yod olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the exam, Dilshod tried to memorise fifty new words a day, but he forgot most of them within a week.",
+   "gap": "memorise",
+   "alt": [
+    "memorize"
+   ]
+  },
+  {
+   "id": "word_root",
+   "en": "word root",
+   "uz": "so‘z o‘zagi",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Telephone', 'microphone' and 'saxophone' share the word root 'phone', which is connected with sound.",
+   "gap": "word root",
+   "alt": [
+    "root"
+   ]
+  },
+  {
+   "id": "rich_vocabulary",
+   "en": "rich vocabulary",
+   "uz": "boy so‘z zaxirasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Reading lots of novels helped Malika build a rich vocabulary.",
+   "gap": "rich vocabulary",
+   "alt": []
+  },
+  {
+   "id": "express_an_opinion",
+   "en": "express an opinion",
+   "uz": "fikr bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the speaking test you will be asked to express an opinion about your hometown and give reasons for it.",
+   "gap": "express an opinion",
+   "alt": []
+  },
+  {
+   "id": "take_sides",
+   "en": "take sides",
+   "uz": "kimningdir tomonini olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When my two brothers argued over the TV remote, Mum refused to take sides and simply turned the TV off.",
+   "gap": "take sides",
+   "alt": []
+  },
+  {
+   "id": "common_sense",
+   "en": "common sense",
+   "uz": "sog‘lom fikr (aql-farosat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's common sense to keep your phone in an inside pocket at the busy Chorsu Bazaar.",
+   "gap": "common sense",
+   "alt": []
+  },
+  {
+   "id": "sense_of_humour",
+   "en": "sense of humour",
+   "uz": "hazil tuyg‘usi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our maths teacher has a great sense of humour; her jokes make the lessons fun.",
+   "gap": "sense of humour",
+   "alt": [
+    "sense of humor"
+   ]
+  },
+  {
+   "id": "in_touch",
+   "en": "in touch",
+   "uz": "aloqada (bog‘lanib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After moving to Samarkand, I still keep in touch with my old classmates online.",
+   "gap": "in touch",
+   "alt": [
+    "in touch with"
+   ]
+  },
+  {
+   "id": "at_a_loss_for_words",
+   "en": "at a loss for words",
+   "uz": "nima deyishni bilmay qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When they called my name for the first prize, I was so surprised that I was at a loss for words.",
+   "gap": "at a loss for words",
+   "alt": []
+  },
+  {
+   "id": "in_particular",
+   "en": "in particular",
+   "uz": "ayniqsa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I like all Uzbek fruit, and Fergana apricots in particular.",
+   "gap": "in particular",
+   "alt": []
+  },
+  {
+   "id": "accurately",
+   "en": "accurately",
+   "uz": "aniq, xatosiz",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Don't guess the spelling; copy the new words accurately from the board.",
+   "gap": "accurately",
+   "alt": []
+  },
+  {
+   "id": "appropriately",
+   "en": "appropriately",
+   "uz": "o‘rinli, vaziyatga mos ravishda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Rustam dressed appropriately for the job interview, in a dark suit and tie.",
+   "gap": "appropriately",
+   "alt": []
+  },
+  {
+   "id": "fiction",
+   "en": "fiction",
+   "uz": "badiiy adabiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "I read a lot of fiction, especially detective novels.",
+   "gap": "fiction",
+   "alt": []
+  },
+  {
+   "id": "podcast",
+   "en": "podcast",
+   "uz": "podkast",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning on the metro I listen to an English podcast about history.",
+   "gap": "podcast",
+   "alt": [
+    "podcasts"
+   ]
+  },
+  {
+   "id": "recipe",
+   "en": "recipe",
+   "uz": "taom retsepti",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister found a recipe for samsa online and baked it in an ordinary oven.",
+   "gap": "recipe",
+   "alt": [
+    "recipes"
+   ]
+  },
+  {
+   "id": "encyclopedia",
+   "en": "encyclopedia",
+   "uz": "ensiklopediya",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you need facts about the history of Bukhara, look in an encyclopedia.",
+   "gap": "encyclopedia",
+   "alt": [
+    "encyclopaedia"
+   ]
+  },
+  {
+   "id": "poetry",
+   "en": "poetry",
+   "uz": "she’riyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Alisher Navoi's poetry is full of rhymes and beautiful images, and many people know his poems by heart.",
+   "gap": "poetry",
+   "alt": []
+  },
+  {
+   "id": "train_set",
+   "en": "train set",
+   "uz": "o‘yinchoq poyezd to‘plami",
+   "pos": "noun",
+   "img": false,
+   "ex": "For his seventh birthday, Kamron got a toy train set with tracks that went all round his bedroom.",
+   "gap": "train set",
+   "alt": []
+  },
+  {
+   "id": "undertake",
+   "en": "undertake",
+   "uz": "zimmasiga olmoq (ishni boshlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The city council has undertaken a huge project to repair every old bridge in Namangan.",
+   "gap": "undertaken",
+   "alt": [
+    "undertook",
+    "undertaken",
+    "undertakes"
+   ]
+  },
+  {
+   "id": "scissors",
+   "en": "scissors",
+   "uz": "qaychi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Could you pass me the scissors? I need to cut this ribbon for the present.",
+   "gap": "scissors",
+   "alt": []
+  },
+  {
+   "id": "newspaper",
+   "en": "newspaper",
+   "uz": "gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning Davron buys a newspaper at the kiosk and reads the football results first.",
+   "gap": "newspaper",
+   "alt": [
+    "newspapers"
+   ]
+  },
+  {
+   "id": "magazine",
+   "en": "magazine",
+   "uz": "jurnal (rasmli nashr)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The fashion magazine on the coffee table had a famous model on its glossy cover.",
+   "gap": "magazine",
+   "alt": [
+    "magazines"
+   ]
+  },
+  {
+   "id": "song",
+   "en": "song",
+   "uz": "qo‘shiq",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end-of-year concert, the whole class sang a song in English.",
+   "gap": "song",
+   "alt": [
+    "songs"
+   ]
+  },
+  {
+   "id": "film",
+   "en": "film",
+   "uz": "kino (badiiy yoki hujjatli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our biology lesson we watched a film about penguins in the Antarctic.",
+   "gap": "film",
+   "alt": [
+    "films"
+   ]
+  },
+  {
+   "id": "sports_report",
+   "en": "sports report",
+   "uz": "sport xabarlari (sharhi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the sports report on the evening news, Pakhtakor won 3–0 last night.",
+   "gap": "sports report",
+   "alt": [
+    "sports reports"
+   ]
+  },
+  {
+   "id": "audio_book",
+   "en": "audio book",
+   "uz": "ovozli kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the long drive to Nukus, we listened to an audio book of Sherlock Holmes stories.",
+   "gap": "audio book",
+   "alt": [
+    "audiobook",
+    "audio books"
+   ]
+  },
+  {
+   "id": "reference_material",
+   "en": "reference material",
+   "uz": "ma’lumotnoma adabiyoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dictionaries, atlases and other reference material are kept on the shelf by the library door.",
+   "gap": "reference material",
+   "alt": []
+  },
+  {
+   "id": "dictionary",
+   "en": "dictionary",
+   "uz": "lug‘at (kitob)",
+   "pos": "noun",
+   "img": true,
+   "ex": "If you aren't sure how to spell a word, check it in a dictionary.",
+   "gap": "dictionary",
+   "alt": [
+    "dictionaries"
+   ]
+  },
+  {
+   "id": "academic_literature",
+   "en": "academic literature",
+   "uz": "ilmiy adabiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Master's students have to read a lot of academic literature, such as research articles in scientific journals, before writing their thesis.",
+   "gap": "academic literature",
+   "alt": []
+  },
+  {
+   "id": "radio",
+   "en": "radio",
+   "uz": "radio (efir eshittirishi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every evening, Laziz listens to the BBC World Service on the radio while he cooks dinner.",
+   "gap": "radio",
+   "alt": []
+  },
+  {
+   "id": "systematic",
+   "en": "systematic",
+   "uz": "tizimli (izchil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of learning random words, take a systematic approach: ten words on one topic every day.",
+   "gap": "systematic",
+   "alt": []
+  },
+  {
+   "id": "grammatical",
+   "en": "grammatical",
+   "uz": "grammatikaga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The essay had good ideas, but it was full of grammatical mistakes, such as missing articles.",
+   "gap": "grammatical",
+   "alt": []
+  },
+  {
+   "id": "conversation",
+   "en": "conversation",
+   "uz": "suhbat",
+   "pos": "noun",
+   "img": false,
+   "ex": "I had a long conversation with a tourist from Canada at the bus stop and picked up lots of new phrases.",
+   "gap": "conversation",
+   "alt": [
+    "conversations"
+   ]
+  },
+  {
+   "id": "tv",
+   "en": "TV",
+   "uz": "televizor",
+   "pos": "noun",
+   "img": true,
+   "ex": "We usually watch the news on TV after dinner.",
+   "gap": "TV",
+   "alt": [
+    "television"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "formal",
+   "informal"
+  ],
+  [
+   "express_an_opinion",
+   "take_sides"
+  ],
+  [
+   "accurately",
+   "appropriately"
+  ],
+  [
+   "fiction",
+   "poetry"
+  ],
+  [
+   "newspaper",
+   "magazine"
+  ],
+  [
+   "audio_book",
+   "podcast"
+  ],
+  [
+   "dictionary",
+   "encyclopedia"
+  ],
+  [
+   "academic_literature",
+   "fiction"
+  ],
+  [
+   "radio",
+   "podcast"
+  ],
+  [
+   "tv",
+   "radio"
+  ],
+  [
+   "song",
+   "track"
+  ],
+  [
+   "film",
+   "tv"
+  ],
+  [
+   "sports_report",
+   "podcast"
+  ]
+ ]
+}

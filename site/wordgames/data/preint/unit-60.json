@@ -1,0 +1,489 @@
+{
+ "book": "preint",
+ "unit": 60,
+ "title": "Time",
+ "title_uz": "Vaqt",
+ "words": [
+  {
+   "id": "in_time",
+   "en": "in time",
+   "uz": "ulgurib (kechikmay)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We got to the cinema just in time; the film was starting as we sat down.",
+   "gap": "in time",
+   "alt": []
+  },
+  {
+   "id": "on_time",
+   "en": "on time",
+   "uz": "aynan belgilangan vaqtda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The Afrosiyob fast train always leaves on time, so don't be late.",
+   "gap": "on time",
+   "alt": []
+  },
+  {
+   "id": "its_time",
+   "en": "it's time",
+   "uz": "… vaqti bo‘ldi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Come on, kids, it's time for bed!",
+   "gap": "it's time",
+   "alt": [
+    "it is time"
+   ]
+  },
+  {
+   "id": "have_time",
+   "en": "have time",
+   "uz": "vaqti bo‘lmoq (ulgurmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Do you have time to help me with my maths homework after lunch?",
+   "gap": "have time",
+   "alt": [
+    "has time",
+    "had time",
+    "having time"
+   ]
+  },
+  {
+   "id": "next_time",
+   "en": "the next time",
+   "uz": "keyingi safar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bring your swimming things the next time you come to our dacha; there's a pool in the garden.",
+   "gap": "the next time",
+   "alt": [
+    "next time"
+   ]
+  },
+  {
+   "id": "last_time",
+   "en": "the last time",
+   "uz": "o‘tgan safar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It snowed in May the last time we went to the mountains!",
+   "gap": "the last time",
+   "alt": [
+    "last time"
+   ]
+  },
+  {
+   "id": "same_time",
+   "en": "at the same time",
+   "uz": "bir vaqtda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Laylo and I finished the exam at the same time, so we walked home together.",
+   "gap": "at the same time",
+   "alt": []
+  },
+  {
+   "id": "until",
+   "en": "until",
+   "uz": "… gacha (to‘xtamay)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The library stays open until 8 p.m., so we can study there after school.",
+   "gap": "until",
+   "alt": []
+  },
+  {
+   "id": "by_latest",
+   "en": "by",
+   "uz": "… dan kechiktirmay",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Mum says I must be home by nine o'clock at the latest on school nights.",
+   "gap": "by",
+   "alt": []
+  },
+  {
+   "id": "for_period",
+   "en": "for",
+   "uz": "(qancha muddat) davomida",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Our neighbours lived in Nukus for three years, and then they moved to Jizzakh.",
+   "gap": "for",
+   "alt": []
+  },
+  {
+   "id": "since",
+   "en": "since",
+   "uz": "… dan beri",
+   "pos": "preposition",
+   "img": false,
+   "ex": "We've had this car since 2019, and it has never broken down.",
+   "gap": "since",
+   "alt": []
+  },
+  {
+   "id": "during",
+   "en": "during",
+   "uz": "(biror voqea) paytida",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Dad fell asleep during the film and missed the best part.",
+   "gap": "during",
+   "alt": []
+  },
+  {
+   "id": "in_a_weeks_time",
+   "en": "in a week's time",
+   "uz": "bir haftadan keyin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's the 3rd of March today, and the school concert is on the 10th, in a week's time.",
+   "gap": "in a week's time",
+   "alt": []
+  },
+  {
+   "id": "for_ages",
+   "en": "for ages",
+   "uz": "juda uzoq vaqtdan beri",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Aziz and I have known each other for ages: we went to the same kindergarten.",
+   "gap": "for ages",
+   "alt": []
+  },
+  {
+   "id": "recently",
+   "en": "recently",
+   "uz": "yaqinda (yaqin o‘tmishda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our town recently opened a new swimming pool next to the park.",
+   "gap": "recently",
+   "alt": []
+  },
+  {
+   "id": "lately",
+   "en": "lately",
+   "uz": "so‘nggi paytlarda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Have you seen Dilshod lately? He hasn't been at football practice.",
+   "gap": "lately",
+   "alt": []
+  },
+  {
+   "id": "long_time_ago",
+   "en": "a long time ago",
+   "uz": "ancha oldin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I used to play the piano, but that was a long time ago.",
+   "gap": "a long time ago",
+   "alt": []
+  },
+  {
+   "id": "the_other_day",
+   "en": "the other day",
+   "uz": "o‘tgan kuni (bir necha kun oldin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I saw your teacher at the pharmacy the other day; she said hello.",
+   "gap": "the other day",
+   "alt": []
+  },
+  {
+   "id": "these_days",
+   "en": "these days",
+   "uz": "hozirgi kunda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Not many people write letters these days; everyone sends messages.",
+   "gap": "these days",
+   "alt": []
+  },
+  {
+   "id": "nowadays",
+   "en": "nowadays",
+   "uz": "bugungi kunda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Children nowadays spend more time on screens than outside.",
+   "gap": "nowadays",
+   "alt": []
+  },
+  {
+   "id": "for_the_time_being",
+   "en": "for the time being",
+   "uz": "hozircha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We're living in a rented flat for the time being, until our new home is ready.",
+   "gap": "for the time being",
+   "alt": []
+  },
+  {
+   "id": "one_day",
+   "en": "one day",
+   "uz": "bir kun kelib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sevara hopes to visit Japan one day and see the cherry trees in spring.",
+   "gap": "one day",
+   "alt": []
+  },
+  {
+   "id": "fortnight",
+   "en": "fortnight",
+   "uz": "ikki hafta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our summer camp in Zaamin is a fortnight long, from the 1st to the 14th of July.",
+   "gap": "fortnight",
+   "alt": [
+    "fortnights"
+   ]
+  },
+  {
+   "id": "decade",
+   "en": "decade",
+   "uz": "o‘n yil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our town has changed a lot in the last decade, with many new parks and buildings.",
+   "gap": "decade",
+   "alt": [
+    "decades"
+   ]
+  },
+  {
+   "id": "century",
+   "en": "century",
+   "uz": "asr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old mosque in our street is almost a century old; it was built in the 1920s.",
+   "gap": "century",
+   "alt": [
+    "centuries"
+   ]
+  },
+  {
+   "id": "take_time",
+   "en": "take",
+   "uz": "(vaqt) olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It takes me twenty minutes to walk to school.",
+   "gap": "takes",
+   "alt": [
+    "takes",
+    "took",
+    "taken",
+    "taking"
+   ]
+  },
+  {
+   "id": "ages_ago",
+   "en": "ages ago",
+   "uz": "allaqachon, qachonlardir",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I read that book ages ago, so I don't remember how it ends.",
+   "gap": "ages ago",
+   "alt": []
+  },
+  {
+   "id": "second_time",
+   "en": "second",
+   "uz": "soniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fastest boy in our class can run a hundred metres in thirteen seconds.",
+   "gap": "seconds",
+   "alt": [
+    "seconds"
+   ]
+  },
+  {
+   "id": "minute",
+   "en": "minute",
+   "uz": "daqiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus to the airport comes every twenty minutes.",
+   "gap": "minutes",
+   "alt": [
+    "minutes"
+   ]
+  },
+  {
+   "id": "hour",
+   "en": "hour",
+   "uz": "soat (60 daqiqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The flight from Nukus to Moscow takes about four hours.",
+   "gap": "hours",
+   "alt": [
+    "hours"
+   ]
+  },
+  {
+   "id": "day_unit",
+   "en": "day",
+   "uz": "kun (sutka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school trip to the mountains lasted three days, and we slept in tents.",
+   "gap": "days",
+   "alt": [
+    "days"
+   ]
+  },
+  {
+   "id": "week",
+   "en": "week",
+   "uz": "hafta",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister has swimming lessons twice a week, on Tuesday and Friday.",
+   "gap": "week",
+   "alt": [
+    "weeks"
+   ]
+  },
+  {
+   "id": "year_unit",
+   "en": "year",
+   "uz": "yil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher has worked at this school for twenty-two years.",
+   "gap": "years",
+   "alt": [
+    "years"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "in_time",
+   "on_time"
+  ],
+  [
+   "next_time",
+   "last_time"
+  ],
+  [
+   "recently",
+   "lately"
+  ],
+  [
+   "recently",
+   "the_other_day"
+  ],
+  [
+   "lately",
+   "the_other_day"
+  ],
+  [
+   "these_days",
+   "nowadays"
+  ],
+  [
+   "decade",
+   "century"
+  ],
+  [
+   "for_period",
+   "during"
+  ],
+  [
+   "for_ages",
+   "for_the_time_being"
+  ],
+  [
+   "its_time",
+   "have_time"
+  ],
+  [
+   "same_time",
+   "on_time"
+  ],
+  [
+   "same_time",
+   "in_time"
+  ],
+  [
+   "lately",
+   "these_days"
+  ],
+  [
+   "the_other_day",
+   "long_time_ago"
+  ],
+  [
+   "the_other_day",
+   "one_day"
+  ],
+  [
+   "for_the_time_being",
+   "these_days"
+  ],
+  [
+   "for_the_time_being",
+   "nowadays"
+  ],
+  [
+   "ages_ago",
+   "long_time_ago"
+  ],
+  [
+   "ages_ago",
+   "for_ages"
+  ],
+  [
+   "ages_ago",
+   "the_other_day"
+  ],
+  [
+   "second_time",
+   "minute"
+  ],
+  [
+   "minute",
+   "hour"
+  ],
+  [
+   "hour",
+   "day_unit"
+  ],
+  [
+   "day_unit",
+   "week"
+  ],
+  [
+   "week",
+   "fortnight"
+  ],
+  [
+   "year_unit",
+   "decade"
+  ],
+  [
+   "day_unit",
+   "fortnight"
+  ],
+  [
+   "year_unit",
+   "week"
+  ],
+  [
+   "year_unit",
+   "day_unit"
+  ]
+ ]
+}

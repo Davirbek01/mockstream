@@ -1,0 +1,628 @@
+{
+ "book": "preint",
+ "unit": 58,
+ "title": "Climate change",
+ "title_uz": "Iqlim o‘zgarishi",
+ "words": [
+  {
+   "id": "climate_change",
+   "en": "climate change",
+   "uz": "iqlim o‘zgarishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Farmers in Surkhandarya already feel climate change: spring comes earlier and summers are drier.",
+   "gap": "climate change",
+   "alt": []
+  },
+  {
+   "id": "greenhouse_effect",
+   "en": "greenhouse effect",
+   "uz": "issiqxona effekti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the science lesson, we put a glass jar over a thermometer in the sun to show how the greenhouse effect works.",
+   "gap": "greenhouse effect",
+   "alt": []
+  },
+  {
+   "id": "greenhouse_gas",
+   "en": "greenhouse gas",
+   "uz": "issiqxona gazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilnoza's science project showed how much greenhouse gas her family's car produces in a year.",
+   "gap": "greenhouse gas",
+   "alt": [
+    "greenhouse gases"
+   ]
+  },
+  {
+   "id": "carbon_dioxide",
+   "en": "carbon dioxide",
+   "uz": "karbonat angidrid (CO₂)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We put plants in every classroom because they take in carbon dioxide and make the air fresher.",
+   "gap": "carbon dioxide",
+   "alt": []
+  },
+  {
+   "id": "fossil_fuels",
+   "en": "fossil fuels",
+   "uz": "qazilma yoqilg‘ilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of our country's electricity still comes from fossil fuels, but new solar parks are opening every year.",
+   "gap": "fossil fuels",
+   "alt": [
+    "fossil fuel"
+   ]
+  },
+  {
+   "id": "coal",
+   "en": "coal",
+   "uz": "ko‘mir",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the past, many village families heated their homes with coal in winter.",
+   "gap": "coal",
+   "alt": []
+  },
+  {
+   "id": "natural_gas",
+   "en": "natural gas",
+   "uz": "tabiiy gaz",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cooker runs on natural gas, so Mum always checks that it's turned off before we leave.",
+   "gap": "natural gas",
+   "alt": []
+  },
+  {
+   "id": "exist",
+   "en": "exist",
+   "uz": "mavjud bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Snow leopards still exist in the mountains of Uzbekistan, but they are very rare.",
+   "gap": "exist",
+   "alt": [
+    "exists",
+    "existed",
+    "existing"
+   ]
+  },
+  {
+   "id": "excessive",
+   "en": "excessive",
+   "uz": "haddan tashqari ko‘p",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Doctors say that excessive screen time can hurt your eyes and your sleep.",
+   "gap": "excessive",
+   "alt": []
+  },
+  {
+   "id": "global_warming",
+   "en": "global warming",
+   "uz": "global isish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our class debate, we talked about how global warming is making summers in our city longer and hotter.",
+   "gap": "global warming",
+   "alt": []
+  },
+  {
+   "id": "on_record",
+   "en": "on record",
+   "uz": "qayd etilgan (rasmiy hisobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Yesterday was the hottest October day on record in our town, so we had our PE lesson indoors.",
+   "gap": "on record",
+   "alt": []
+  },
+  {
+   "id": "occur",
+   "en": "occur",
+   "uz": "sodir bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the mountains, floods usually occur in spring, when the snow melts.",
+   "gap": "occur",
+   "alt": [
+    "occurs",
+    "occurred",
+    "occurring"
+   ]
+  },
+  {
+   "id": "effect",
+   "en": "effect",
+   "uz": "ta’sir (oqibat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "One effect of hotter summers is that people use more electricity for air conditioning.",
+   "gap": "effect",
+   "alt": [
+    "effects"
+   ]
+  },
+  {
+   "id": "drought",
+   "en": "drought",
+   "uz": "qurg‘oqchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After months with no rain, the drought left the fields dry and the farmers worried.",
+   "gap": "drought",
+   "alt": [
+    "droughts"
+   ]
+  },
+  {
+   "id": "flood",
+   "en": "flood",
+   "uz": "suv toshqini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy rain caused a flood in the lower part of the village, and some families had to leave their homes for a week.",
+   "gap": "flood",
+   "alt": [
+    "floods"
+   ]
+  },
+  {
+   "id": "species",
+   "en": "species",
+   "uz": "tur (hayvon, o‘simlik turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our trip to the Ustyurt Plateau, the guide showed us a group of saigas, a rare species of antelope.",
+   "gap": "species",
+   "alt": []
+  },
+  {
+   "id": "suffer",
+   "en": "suffer",
+   "uz": "aziyat chekmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the river dried up last summer, the farms along it suffered a lot.",
+   "gap": "suffered",
+   "alt": [
+    "suffers",
+    "suffered",
+    "suffering"
+   ]
+  },
+  {
+   "id": "disappear",
+   "en": "disappear",
+   "uz": "yo‘qolib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the glaciers in the Pamir mountains disappear, rivers like the Amu Darya will carry less water.",
+   "gap": "disappear",
+   "alt": [
+    "disappears",
+    "disappeared",
+    "disappearing"
+   ]
+  },
+  {
+   "id": "destroy",
+   "en": "destroy",
+   "uz": "vayron qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last night's strong wind destroyed the old wooden shed at the end of our garden.",
+   "gap": "destroyed",
+   "alt": [
+    "destroys",
+    "destroyed",
+    "destroying"
+   ]
+  },
+  {
+   "id": "environment",
+   "en": "environment",
+   "uz": "atrof-muhit",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school garden club collects rubbish from the riverbank to protect the environment.",
+   "gap": "environment",
+   "alt": []
+  },
+  {
+   "id": "solution",
+   "en": "solution",
+   "uz": "yechim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Riding a bike to school is a simple solution to the traffic problem outside our gate.",
+   "gap": "solution",
+   "alt": [
+    "solutions"
+   ]
+  },
+  {
+   "id": "take_action",
+   "en": "take action",
+   "uz": "chora ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class took action and put a box for old paper in every classroom.",
+   "gap": "took action",
+   "alt": [
+    "takes action",
+    "took action",
+    "taking action"
+   ]
+  },
+  {
+   "id": "recycle",
+   "en": "recycle",
+   "uz": "qayta ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We recycle all our plastic bottles at the collection point near the metro.",
+   "gap": "recycle",
+   "alt": [
+    "recycles",
+    "recycled",
+    "recycling"
+   ]
+  },
+  {
+   "id": "save_energy",
+   "en": "save energy",
+   "uz": "energiyani tejamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "LED lamps help you save energy because they use much less electricity.",
+   "gap": "save energy",
+   "alt": [
+    "saves energy",
+    "saved energy",
+    "saving energy"
+   ]
+  },
+  {
+   "id": "waste",
+   "en": "waste",
+   "uz": "isrof qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't waste food; take only what you can eat.",
+   "gap": "waste",
+   "alt": [
+    "wastes",
+    "wasted",
+    "wasting"
+   ]
+  },
+  {
+   "id": "light_bulb",
+   "en": "light bulb",
+   "uz": "lampochka",
+   "pos": "noun",
+   "img": true,
+   "ex": "The kitchen light bulb stopped working, so we put a new one in.",
+   "gap": "light bulb",
+   "alt": [
+    "light bulbs"
+   ]
+  },
+  {
+   "id": "energy_efficient",
+   "en": "energy-efficient",
+   "uz": "energiya tejamkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new fridge is more energy-efficient, so the electricity bill is lower.",
+   "gap": "energy-efficient",
+   "alt": [
+    "energy efficient"
+   ]
+  },
+  {
+   "id": "switch_off",
+   "en": "switch off",
+   "uz": "o‘chirmoq (chiroq, asbob)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before we go out, Dad walks round the flat to switch off the TV and the computer.",
+   "gap": "switch off",
+   "alt": [
+    "switches off",
+    "switched off",
+    "switching off"
+   ]
+  },
+  {
+   "id": "plant_trees",
+   "en": "plant trees",
+   "uz": "daraxt ekmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every spring our mahalla plants trees along the main road.",
+   "gap": "plants trees",
+   "alt": [
+    "plants trees",
+    "planted trees",
+    "planting trees"
+   ]
+  },
+  {
+   "id": "methane",
+   "en": "methane",
+   "uz": "botqoq gazi (CH₄)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cows produce a lot of methane, which is one of the gases that warm the planet.",
+   "gap": "methane",
+   "alt": []
+  },
+  {
+   "id": "ozone",
+   "en": "ozone",
+   "uz": "uch atomli kislorod (O₃)",
+   "pos": "noun",
+   "img": false,
+   "ex": "High above the Earth, a thin layer of ozone protects us from the strongest rays of the sun.",
+   "gap": "ozone",
+   "alt": []
+  },
+  {
+   "id": "support_v",
+   "en": "support",
+   "uz": "(hayotni) ta’minlab turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Without water, the desert soil can't support many plants.",
+   "gap": "support",
+   "alt": [
+    "supports",
+    "supported",
+    "supporting"
+   ]
+  },
+  {
+   "id": "oil_fuel",
+   "en": "oil",
+   "uz": "neft",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the country's money comes from selling oil and gas abroad.",
+   "gap": "oil",
+   "alt": []
+  },
+  {
+   "id": "hay_fever",
+   "en": "hay fever",
+   "uz": "gul changi allergiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every May, when the trees are in flower, Aziza's hay fever makes her sneeze all day.",
+   "gap": "hay fever",
+   "alt": []
+  },
+  {
+   "id": "asthma",
+   "en": "asthma",
+   "uz": "bo‘g‘ma kasalligi (nafas qisishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur has asthma, so he always carries an inhaler in his school bag.",
+   "gap": "asthma",
+   "alt": []
+  },
+  {
+   "id": "atmosphere_air",
+   "en": "atmosphere",
+   "uz": "Yerning havo qobig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Smoke from the factory chimneys goes high up into the atmosphere.",
+   "gap": "atmosphere",
+   "alt": []
+  },
+  {
+   "id": "act_together",
+   "en": "act together",
+   "uz": "birgalikda harakat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If all the families in the street act together, we can keep the river clean.",
+   "gap": "act together",
+   "alt": [
+    "acts together",
+    "acted together",
+    "acting together"
+   ]
+  },
+  {
+   "id": "in_the_meantime",
+   "en": "in the meantime",
+   "uz": "shu orada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new library won't open until spring; in the meantime, we can borrow books from the school.",
+   "gap": "in the meantime",
+   "alt": []
+  },
+  {
+   "id": "individual",
+   "en": "individual",
+   "uz": "alohida shaxs (har bir odam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The prize is for teams, not for individuals, so find two friends to work with.",
+   "gap": "individuals",
+   "alt": [
+    "individuals"
+   ]
+  },
+  {
+   "id": "nation",
+   "en": "nation",
+   "uz": "davlat, millat",
+   "pos": "noun",
+   "img": false,
+   "ex": "More than a hundred nations sent athletes to the games.",
+   "gap": "nations",
+   "alt": [
+    "nations"
+   ]
+  },
+  {
+   "id": "energy",
+   "en": "energy",
+   "uz": "quvvat (gaz va elektr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Solar panels on the school roof give us free energy on sunny days.",
+   "gap": "energy",
+   "alt": []
+  },
+  {
+   "id": "glass_material",
+   "en": "glass",
+   "uz": "shisha (material)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bottles made of glass can be melted down and made into new ones.",
+   "gap": "glass",
+   "alt": []
+  },
+  {
+   "id": "paper_material",
+   "en": "paper",
+   "uz": "qog‘oz",
+   "pos": "noun",
+   "img": false,
+   "ex": "We collected forty kilos of old paper for the school recycling competition.",
+   "gap": "paper",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "global_warming",
+   "greenhouse_effect"
+  ],
+  [
+   "climate_change",
+   "global_warming"
+  ],
+  [
+   "climate_change",
+   "greenhouse_effect"
+  ],
+  [
+   "greenhouse_gas",
+   "carbon_dioxide"
+  ],
+  [
+   "fossil_fuels",
+   "coal"
+  ],
+  [
+   "fossil_fuels",
+   "natural_gas"
+  ],
+  [
+   "coal",
+   "natural_gas"
+  ],
+  [
+   "drought",
+   "flood"
+  ],
+  [
+   "exist",
+   "disappear"
+  ],
+  [
+   "save_energy",
+   "switch_off"
+  ],
+  [
+   "methane",
+   "carbon_dioxide"
+  ],
+  [
+   "methane",
+   "greenhouse_gas"
+  ],
+  [
+   "methane",
+   "natural_gas"
+  ],
+  [
+   "methane",
+   "ozone"
+  ],
+  [
+   "ozone",
+   "carbon_dioxide"
+  ],
+  [
+   "ozone",
+   "greenhouse_gas"
+  ],
+  [
+   "oil_fuel",
+   "coal"
+  ],
+  [
+   "oil_fuel",
+   "fossil_fuels"
+  ],
+  [
+   "oil_fuel",
+   "natural_gas"
+  ],
+  [
+   "hay_fever",
+   "asthma"
+  ],
+  [
+   "atmosphere_air",
+   "environment"
+  ],
+  [
+   "act_together",
+   "take_action"
+  ],
+  [
+   "glass_material",
+   "paper_material"
+  ],
+  [
+   "support_v",
+   "support_n"
+  ],
+  [
+   "energy",
+   "coal"
+  ],
+  [
+   "energy",
+   "natural_gas"
+  ],
+  [
+   "ozone",
+   "environment"
+  ],
+  [
+   "atmosphere_air",
+   "ozone"
+  ],
+  [
+   "act_together",
+   "recycle"
+  ]
+ ]
+}

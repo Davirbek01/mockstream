@@ -1,0 +1,393 @@
+{
+ "book": "advanced",
+ "unit": 55,
+ "title": "Industries: from manufacturing to service",
+ "title_uz": "Sanoat: ishlab chiqarishdan xizmat ko‘rsatishgacha",
+ "words": [
+  {
+   "id": "heavy_industry",
+   "en": "heavy industry",
+   "uz": "og‘ir sanoat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Abdullayev has spent twenty years at the steel plant in Bekabad, so he knows all about the noise and heat of heavy industry.",
+   "gap": "heavy industry",
+   "alt": []
+  },
+  {
+   "id": "light_industry",
+   "en": "light industry",
+   "uz": "yengil sanoat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the town's light industry is small workshops making clothes, shoes and furniture parts.",
+   "gap": "light industry",
+   "alt": []
+  },
+  {
+   "id": "manufacturing_industry",
+   "en": "manufacturing industry",
+   "uz": "ishlab chiqarish sanoati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The country's manufacturing industry needs engineers who know how to run modern production lines.",
+   "gap": "manufacturing industry",
+   "alt": []
+  },
+  {
+   "id": "service_industry",
+   "en": "service industry",
+   "uz": "xizmat ko‘rsatish sohasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the shoe factory closed, Dilshod found work in the service industry as a receptionist at a new hotel in Bukhara.",
+   "gap": "service industry",
+   "alt": [
+    "service industries"
+   ]
+  },
+  {
+   "id": "high_tech",
+   "en": "high-tech",
+   "uz": "yuqori texnologiyali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Several start-ups in Tashkent are developing high-tech products, such as apps that help farmers water their fields.",
+   "gap": "high-tech",
+   "alt": [
+    "high tech",
+    "hi-tech"
+   ]
+  },
+  {
+   "id": "low_tech",
+   "en": "low-tech",
+   "uz": "oddiy (texnologiyasiz) usuldagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The village bakery is completely low-tech: a clay tandir, a wooden table and a baker's skilled hands.",
+   "gap": "low-tech",
+   "alt": [
+    "low tech"
+   ]
+  },
+  {
+   "id": "cutting_edge",
+   "en": "cutting-edge",
+   "uz": "eng ilg‘or (yangi chiqqan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The laboratory uses cutting-edge technology that didn't even exist five years ago.",
+   "gap": "cutting-edge",
+   "alt": [
+    "cutting edge"
+   ]
+  },
+  {
+   "id": "conventional_technology",
+   "en": "conventional technology",
+   "uz": "an’anaviy (sinalgan) texnologiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rather than trying something new and risky, the builders chose conventional technology that had worked for decades.",
+   "gap": "conventional technology",
+   "alt": []
+  },
+  {
+   "id": "privatisation",
+   "en": "privatisation",
+   "uz": "xususiylashtirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Soon after privatisation, the new private owners of the cement plant replaced all its old machines.",
+   "gap": "privatisation",
+   "alt": [
+    "privatization"
+   ]
+  },
+  {
+   "id": "nationalisation",
+   "en": "nationalisation",
+   "uz": "davlat mulkiga o‘tkazish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many workers welcomed the nationalisation of the railways, hoping that the government would invest in new trains.",
+   "gap": "nationalisation",
+   "alt": [
+    "nationalization"
+   ]
+  },
+  {
+   "id": "state_ownership",
+   "en": "state ownership",
+   "uz": "davlat egaligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The airline has remained under state ownership, so the government still decides how much it can spend.",
+   "gap": "state ownership",
+   "alt": []
+  },
+  {
+   "id": "subsidy",
+   "en": "subsidy",
+   "uz": "davlat yordam puli",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to a government subsidy, the factory can sell its solar panels for less than they cost to make.",
+   "gap": "subsidy",
+   "alt": [
+    "subsidies"
+   ]
+  },
+  {
+   "id": "inward_investment",
+   "en": "inward investment",
+   "uz": "mamlakatga kiruvchi xorijiy sarmoya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lower taxes in the new industrial zone have attracted inward investment from Korean and Turkish companies.",
+   "gap": "inward investment",
+   "alt": []
+  },
+  {
+   "id": "consumer_goods",
+   "en": "consumer goods",
+   "uz": "iste’mol tovarlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The factory near Andijan makes consumer goods such as fridges, washing machines and TV sets for families across Central Asia.",
+   "gap": "consumer goods",
+   "alt": []
+  },
+  {
+   "id": "piecework",
+   "en": "piecework",
+   "uz": "ishbay ish (bajarilgan ishga haq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The workers in the sewing workshop are on piecework, so the more shirts they finish, the more they earn.",
+   "gap": "piecework",
+   "alt": []
+  },
+  {
+   "id": "zero_hours_contract",
+   "en": "zero-hours contract",
+   "uz": "ish soati kafolatlanmagan shartnoma",
+   "pos": "noun",
+   "img": false,
+   "ex": "On a zero-hours contract, Tom never knows whether he'll work forty hours next week or none at all.",
+   "gap": "zero-hours contract",
+   "alt": [
+    "zero hours contract",
+    "zero-hours contracts"
+   ]
+  },
+  {
+   "id": "job_security",
+   "en": "job security",
+   "uz": "ish joyi kafolati (barqarorligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teaching doesn't pay very well, but Ms Yuldasheva values the job security: she knows her post will still be there next year.",
+   "gap": "job security",
+   "alt": []
+  },
+  {
+   "id": "child_labour",
+   "en": "child labour",
+   "uz": "bolalar mehnati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Big clothing brands now inspect their suppliers to make sure that no child labour is used.",
+   "gap": "child labour",
+   "alt": [
+    "child labor"
+   ]
+  },
+  {
+   "id": "trade_union",
+   "en": "trade union",
+   "uz": "kasaba uyushmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After long talks with the managers, the trade union won an eight per cent pay rise for the factory's workers.",
+   "gap": "trade union",
+   "alt": [
+    "trade unions"
+   ]
+  },
+  {
+   "id": "sweatshop",
+   "en": "sweatshop",
+   "uz": "og‘ir sharoitli arzon ustaxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The documentary showed a sweatshop where people sewed T-shirts for fourteen hours a day for very little money.",
+   "gap": "sweatshop",
+   "alt": [
+    "sweatshops"
+   ]
+  },
+  {
+   "id": "retraining",
+   "en": "retraining",
+   "uz": "qayta tayyorlash (yangi kasbga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the coal mine closed, the government paid for retraining so that the miners could become electricians.",
+   "gap": "retraining",
+   "alt": []
+  },
+  {
+   "id": "reskilling",
+   "en": "reskilling",
+   "uz": "yangi ko‘nikmalarga o‘rgatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "As AI changes office work, many companies are investing in reskilling their staff.",
+   "gap": "reskilling",
+   "alt": []
+  },
+  {
+   "id": "multinational",
+   "en": "multinational",
+   "uz": "transmilliy kompaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "A multinational with offices in thirty countries has just opened its first branch in Tashkent.",
+   "gap": "multinational",
+   "alt": [
+    "multinationals"
+   ]
+  },
+  {
+   "id": "cost_cutting",
+   "en": "cost-cutting exercise",
+   "uz": "xarajatlarni qisqartirish chorasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a cost-cutting exercise, the bank stopped printing paper statements for its customers.",
+   "gap": "cost-cutting exercise",
+   "alt": [
+    "cost cutting exercise"
+   ]
+  },
+  {
+   "id": "relocate",
+   "en": "relocate",
+   "uz": "(ofisni) boshqa joyga ko‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The company plans to relocate its head office from the city centre to cheaper premises on the edge of town.",
+   "gap": "relocate",
+   "alt": [
+    "relocated",
+    "relocates",
+    "relocating"
+   ]
+  },
+  {
+   "id": "switch_production",
+   "en": "switch production",
+   "uz": "ishlab chiqarishni ko‘chirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When wages rose, the toy company decided to switch production of its dolls to a factory abroad where labour was cheaper.",
+   "gap": "switch production",
+   "alt": [
+    "switched production",
+    "switching production",
+    "switches production"
+   ]
+  },
+  {
+   "id": "components",
+   "en": "components",
+   "uz": "butlovchi qismlar (detallar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the components for these phones are made abroad and only put together here.",
+   "gap": "components",
+   "alt": [
+    "component"
+   ]
+  },
+  {
+   "id": "assemble",
+   "en": "assemble",
+   "uz": "yig‘moq (qismlardan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With the instructions in front of them, Asadbek and Doniyor managed to assemble the new bookcase in under an hour.",
+   "gap": "assemble",
+   "alt": [
+    "assembled",
+    "assembles",
+    "assembling"
+   ]
+  },
+  {
+   "id": "public_private_partnership",
+   "en": "public-private partnership",
+   "uz": "davlat-xususiy sheriklik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town's new sports centre is being built as a public-private partnership: the council provides the land and a building company pays for the construction and runs the gym for twenty years.",
+   "gap": "public-private partnership",
+   "alt": [
+    "public-private partnerships",
+    "public private partnership"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "heavy_industry",
+   "light_industry"
+  ],
+  [
+   "manufacturing_industry",
+   "heavy_industry"
+  ],
+  [
+   "manufacturing_industry",
+   "light_industry"
+  ],
+  [
+   "high_tech",
+   "cutting_edge"
+  ],
+  [
+   "low_tech",
+   "conventional_technology"
+  ],
+  [
+   "nationalisation",
+   "state_ownership"
+  ],
+  [
+   "retraining",
+   "reskilling"
+  ],
+  [
+   "sweatshop",
+   "child_labour"
+  ],
+  [
+   "relocate",
+   "switch_production"
+  ],
+  [
+   "public_private_partnership",
+   "privatisation"
+  ],
+  [
+   "public_private_partnership",
+   "state_ownership"
+  ],
+  [
+   "public_private_partnership",
+   "nationalisation"
+  ]
+ ]
+}

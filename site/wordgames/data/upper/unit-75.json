@@ -1,0 +1,508 @@
+{
+ "book": "upper",
+ "unit": 75,
+ "title": "Compound nouns 1: noun + noun",
+ "title_uz": "Qo‘shma otlar 1: ot + ot",
+ "words": [
+  {
+   "id": "human_being",
+   "en": "human being",
+   "uz": "inson (odamzod)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the lights went out in the museum, the wax figure in the corner looked so much like a real human being that I jumped.",
+   "gap": "human being",
+   "alt": [
+    "human beings"
+   ]
+  },
+  {
+   "id": "science_fiction",
+   "en": "science fiction",
+   "uz": "ilmiy fantastika",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother loves science fiction: stories about space travel, robots and life on other planets.",
+   "gap": "science fiction",
+   "alt": [
+    "sci-fi"
+   ]
+  },
+  {
+   "id": "tin_opener",
+   "en": "tin opener",
+   "uz": "konserva ochqich",
+   "pos": "noun",
+   "img": true,
+   "ex": "We took three tins of beans on the camping trip but forgot to pack the tin opener!",
+   "gap": "tin opener",
+   "alt": [
+    "tin openers",
+    "can opener"
+   ]
+  },
+  {
+   "id": "bank_account",
+   "en": "bank account",
+   "uz": "pul saqlanadigan hisob raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her salary goes straight into her bank account on the first day of each month.",
+   "gap": "bank account",
+   "alt": [
+    "bank accounts"
+   ]
+  },
+  {
+   "id": "pedestrian_crossing",
+   "en": "pedestrian crossing",
+   "uz": "piyodalar o‘tish joyi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A new pedestrian crossing has been painted outside the school, so the children can get to the other side safely.",
+   "gap": "pedestrian crossing",
+   "alt": [
+    "pedestrian crossings"
+   ]
+  },
+  {
+   "id": "self_control",
+   "en": "self-control",
+   "uz": "o‘zini tuta bilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "It takes a lot of self-control not to shout back when someone is rude to you.",
+   "gap": "self-control",
+   "alt": []
+  },
+  {
+   "id": "earring",
+   "en": "earring",
+   "uz": "sirg‘a",
+   "pos": "noun",
+   "img": false,
+   "ex": "She lost an earring at the concert, so now she only has the left one.",
+   "gap": "earring",
+   "alt": [
+    "earrings"
+   ]
+  },
+  {
+   "id": "trademark",
+   "en": "trademark",
+   "uz": "savdo belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "You can't put another company's trademark on your own products without permission.",
+   "gap": "trademark",
+   "alt": [
+    "trademarks"
+   ]
+  },
+  {
+   "id": "babysitter",
+   "en": "babysitter",
+   "uz": "vaqtincha bola qarovchi (enaga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the Rakhimovs go out in the evening, they pay a babysitter to look after their two little boys.",
+   "gap": "babysitter",
+   "alt": [
+    "babysitters"
+   ]
+  },
+  {
+   "id": "alarm_clock",
+   "en": "alarm clock",
+   "uz": "budilnik",
+   "pos": "noun",
+   "img": true,
+   "ex": "My alarm clock rings at half past six every morning, even on Saturdays.",
+   "gap": "alarm clock",
+   "alt": [
+    "alarm clocks"
+   ]
+  },
+  {
+   "id": "contact_lens",
+   "en": "contact lens",
+   "uz": "ko‘zga taqiladigan yupqa oynacha",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every night she takes out her contact lenses and puts them in a small case of special liquid.",
+   "gap": "contact lenses",
+   "alt": [
+    "contact lenses"
+   ]
+  },
+  {
+   "id": "mineral_water",
+   "en": "mineral water",
+   "uz": "tabiiy shifobaxsh suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Would you like still or sparkling mineral water with your meal?",
+   "gap": "mineral water",
+   "alt": []
+  },
+  {
+   "id": "voicemail",
+   "en": "voicemail",
+   "uz": "ovozli pochta",
+   "pos": "noun",
+   "img": false,
+   "ex": "She didn't answer her phone, so I left a message on her voicemail.",
+   "gap": "voicemail",
+   "alt": [
+    "voice mail"
+   ]
+  },
+  {
+   "id": "credit_card",
+   "en": "credit card",
+   "uz": "qarz bilan to‘lash kartasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The hotel asked for my credit card number when I booked, just in case I didn't turn up.",
+   "gap": "credit card",
+   "alt": [
+    "credit cards"
+   ]
+  },
+  {
+   "id": "burglar_alarm",
+   "en": "burglar alarm",
+   "uz": "o‘g‘rilarga qarshi signalizatsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The burglar alarm in the shop went off in the middle of the night, but it was only the cat.",
+   "gap": "burglar alarm",
+   "alt": [
+    "burglar alarms"
+   ]
+  },
+  {
+   "id": "light_bulb",
+   "en": "light bulb",
+   "uz": "lampochka",
+   "pos": "noun",
+   "img": true,
+   "ex": "The light bulb in the hall has gone, so we're walking around in the dark.",
+   "gap": "light bulb",
+   "alt": [
+    "light bulbs"
+   ]
+  },
+  {
+   "id": "tea_bag",
+   "en": "tea bag",
+   "uz": "choy paketchasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Leave the tea bag in the cup for three minutes if you like your tea strong.",
+   "gap": "tea bag",
+   "alt": [
+    "tea bags",
+    "teabag"
+   ]
+  },
+  {
+   "id": "windscreen",
+   "en": "windscreen",
+   "uz": "avtomobilning old oynasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A small stone flew up from the road and left a crack in the windscreen, right in front of the driver.",
+   "gap": "windscreen",
+   "alt": [
+    "windscreens",
+    "windshield"
+   ]
+  },
+  {
+   "id": "blood_donor",
+   "en": "blood donor",
+   "uz": "qon topshiruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "As soon as she turned eighteen, my sister registered as a blood donor at the city hospital.",
+   "gap": "blood donor",
+   "alt": [
+    "blood donors"
+   ]
+  },
+  {
+   "id": "windscreen_wiper",
+   "en": "windscreen wiper",
+   "uz": "oyna artgich (dvornik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was raining so hard that even with the windscreen wipers on, I could hardly see the road.",
+   "gap": "windscreen wipers",
+   "alt": [
+    "windscreen wipers",
+    "windshield wiper"
+   ]
+  },
+  {
+   "id": "bus_stop",
+   "en": "bus stop",
+   "uz": "jamoat transporti bekati",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a bus stop right outside the school gates, so I never walk far.",
+   "gap": "bus stop",
+   "alt": [
+    "bus stops"
+   ]
+  },
+  {
+   "id": "food_poisoning",
+   "en": "food poisoning",
+   "uz": "ovqatdan zaharlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Half the class got food poisoning from the chicken sandwiches at the picnic.",
+   "gap": "food poisoning",
+   "alt": []
+  },
+  {
+   "id": "cotton_wool",
+   "en": "cotton wool",
+   "uz": "tibbiy paxta",
+   "pos": "noun",
+   "img": true,
+   "ex": "The nurse cleaned the cut on my knee with a piece of cotton wool.",
+   "gap": "cotton wool",
+   "alt": []
+  },
+  {
+   "id": "hay_fever",
+   "en": "hay fever",
+   "uz": "gul changiga allergiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every spring my hay fever makes my eyes itch and I sneeze all day.",
+   "gap": "hay fever",
+   "alt": []
+  },
+  {
+   "id": "mail_order",
+   "en": "mail order",
+   "uz": "pochta orqali buyurtma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before online shopping, people in small villages often bought clothes by mail order from a paper catalogue.",
+   "gap": "mail order",
+   "alt": [
+    "mail-order"
+   ]
+  },
+  {
+   "id": "computer_technology",
+   "en": "computer technology",
+   "uz": "raqamli hisoblash texnikasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school uses computer technology to mark multiple-choice tests in a few seconds.",
+   "gap": "computer technology",
+   "alt": []
+  },
+  {
+   "id": "pocket_money",
+   "en": "pocket money",
+   "uz": "cho‘ntak puli",
+   "pos": "noun",
+   "img": false,
+   "ex": "I save half of my weekly pocket money to buy a new phone.",
+   "gap": "pocket money",
+   "alt": []
+  },
+  {
+   "id": "generation_gap",
+   "en": "generation gap",
+   "uz": "avlodlar o‘rtasidagi tafovut",
+   "pos": "noun",
+   "img": false,
+   "ex": "The generation gap is obvious when teenagers and their parents start talking about music.",
+   "gap": "generation gap",
+   "alt": []
+  },
+  {
+   "id": "labour_force",
+   "en": "labour force",
+   "uz": "ishchi kuchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new car factory will need a labour force of about two thousand people.",
+   "gap": "labour force",
+   "alt": [
+    "labor force"
+   ]
+  },
+  {
+   "id": "sound_barrier",
+   "en": "sound barrier",
+   "uz": "tovush to‘sig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "When a jet breaks the sound barrier, people on the ground hear a loud bang like thunder.",
+   "gap": "sound barrier",
+   "alt": []
+  },
+  {
+   "id": "luxury_goods",
+   "en": "luxury goods",
+   "uz": "hashamatli (qimmatbaho) mollar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shops at the airport sell luxury goods such as expensive watches and designer handbags.",
+   "gap": "luxury goods",
+   "alt": []
+  },
+  {
+   "id": "sunglasses",
+   "en": "sunglasses",
+   "uz": "quyosh ko‘zoynagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "On a sunny day at the beach, don't forget your sunglasses and a hat.",
+   "gap": "sunglasses",
+   "alt": []
+  },
+  {
+   "id": "headphones",
+   "en": "headphones",
+   "uz": "quloqchinlar",
+   "pos": "noun",
+   "img": true,
+   "ex": "Please use headphones if you want to listen to music on the bus.",
+   "gap": "headphones",
+   "alt": []
+  },
+  {
+   "id": "kitchen_scissors",
+   "en": "kitchen scissors",
+   "uz": "oshxona qaychisi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Use the kitchen scissors to cut the fresh herbs into small pieces.",
+   "gap": "kitchen scissors",
+   "alt": []
+  },
+  {
+   "id": "roadworks",
+   "en": "roadworks",
+   "uz": "yo‘l ta’mirlash ishlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are roadworks on the main street, so the bus has to take a different route.",
+   "gap": "roadworks",
+   "alt": [
+    "road works"
+   ]
+  },
+  {
+   "id": "traffic_lights",
+   "en": "traffic lights",
+   "uz": "svetofor",
+   "pos": "noun",
+   "img": true,
+   "ex": "The traffic lights at the crossroads broke down, so a police officer had to direct the cars by hand.",
+   "gap": "traffic lights",
+   "alt": []
+  },
+  {
+   "id": "air_traffic_control",
+   "en": "air traffic control",
+   "uz": "aviadispetcherlik xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pilot waited for permission from air traffic control before taking off.",
+   "gap": "air traffic control",
+   "alt": []
+  },
+  {
+   "id": "birth_control",
+   "en": "birth control",
+   "uz": "homiladorlikdan saqlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The clinic gives young couples free advice on family planning and birth control.",
+   "gap": "birth control",
+   "alt": []
+  },
+  {
+   "id": "data_processing",
+   "en": "data processing",
+   "uz": "ma’lumotlarga ishlov berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank does its data processing overnight, so payments appear in your account the next morning.",
+   "gap": "data processing",
+   "alt": []
+  },
+  {
+   "id": "arms_race",
+   "en": "arms race",
+   "uz": "qurollanish poygasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the Cold War, the USA and the Soviet Union were locked in an arms race, each building more and more nuclear missiles.",
+   "gap": "arms race",
+   "alt": []
+  },
+  {
+   "id": "death_penalty",
+   "en": "death penalty",
+   "uz": "o‘lim jazosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many countries, including Uzbekistan since 2008, no longer use the death penalty for any crime.",
+   "gap": "death penalty",
+   "alt": []
+  },
+  {
+   "id": "welfare_state",
+   "en": "welfare state",
+   "uz": "ijtimoiy ta’minot davlati",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a welfare state, the government helps people who are ill, old or out of work.",
+   "gap": "welfare state",
+   "alt": []
+  },
+  {
+   "id": "grass_roots",
+   "en": "grass roots",
+   "uz": "oddiy a’zolar (quyi bo‘g‘in)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The party's leaders are popular in the capital, but the ordinary members at the grass roots feel ignored.",
+   "gap": "grass roots",
+   "alt": [
+    "grassroots"
+   ]
+  },
+  {
+   "id": "race_relations",
+   "en": "race relations",
+   "uz": "irqlararo munosabatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new mayor promised to improve race relations in a city where people of different skin colours had lived apart for decades.",
+   "gap": "race relations",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "alarm_clock",
+   "burglar_alarm"
+  ],
+  [
+   "windscreen",
+   "windscreen_wiper"
+  ]
+ ]
+}

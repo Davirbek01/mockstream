@@ -1,0 +1,484 @@
+{
+ "book": "upper",
+ "unit": 48,
+ "title": "Praising and criticising",
+ "title_uz": "Maqtash va tanqid qilish",
+ "words": [
+  {
+   "id": "praise",
+   "en": "praise",
+   "uz": "maqtamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The head teacher praised our class for collecting so many warm clothes for the children's home.",
+   "gap": "praised",
+   "alt": [
+    "praises",
+    "praised",
+    "praising"
+   ]
+  },
+  {
+   "id": "highly_praised",
+   "en": "highly praised",
+   "uz": "juda yuqori baholangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Her first novel was highly praised by readers and teachers alike, and it has already been translated into twelve languages.",
+   "gap": "highly praised",
+   "alt": []
+  },
+  {
+   "id": "brilliantly",
+   "en": "brilliantly",
+   "uz": "zo‘r mahorat bilan, qoyilmaqom qilib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Nodira plays the rubab so brilliantly that the whole hall falls silent the moment she starts.",
+   "gap": "brilliantly",
+   "alt": []
+  },
+  {
+   "id": "first_rate",
+   "en": "first-rate",
+   "uz": "birinchi darajali, a’lo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hospital in our town has first-rate surgeons, so patients come from other regions for operations.",
+   "gap": "first-rate",
+   "alt": [
+    "first rate"
+   ]
+  },
+  {
+   "id": "top_notch",
+   "en": "top-notch",
+   "uz": "eng zo‘r saviyadagi (so‘zlashuv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new sports centre has top-notch equipment: the treadmills even show you a film of running through the mountains.",
+   "gap": "top-notch",
+   "alt": [
+    "top notch"
+   ]
+  },
+  {
+   "id": "on_the_ball",
+   "en": "on the ball",
+   "uz": "ziyrak, hamma narsani tez ilg‘aydigan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Our new class monitor is really on the ball: she spotted the mistake in the timetable before any of the teachers did.",
+   "gap": "on the ball",
+   "alt": []
+  },
+  {
+   "id": "have_a_way_with",
+   "en": "have a way with",
+   "uz": "(kimgadir) til topishga usta bo‘lmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Uncle Rustam has a way with animals: even the noisiest dog in the mahalla calms down when he talks to it.",
+   "gap": "has a way with",
+   "alt": [
+    "has a way with",
+    "had a way with"
+   ]
+  },
+  {
+   "id": "green_fingers",
+   "en": "green fingers",
+   "uz": "bog‘dorchilikka qo‘li gul",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Our biology teacher has green fingers: tomatoes, roses and even lemons grow beautifully in the little greenhouse behind the school.",
+   "gap": "green fingers",
+   "alt": []
+  },
+  {
+   "id": "gift_of_the_gab",
+   "en": "the gift of the gab",
+   "uz": "so‘zamollik, gapga chechanlik",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Anvar could sell sand in the desert: he's got the gift of the gab and never runs out of things to say.",
+   "gap": "the gift of the gab",
+   "alt": [
+    "gift of the gab"
+   ]
+  },
+  {
+   "id": "miles_better",
+   "en": "miles better",
+   "uz": "(kimdandir) ancha yaxshiroq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My sister's handwriting is miles better than mine; teachers can actually read hers.",
+   "gap": "miles better",
+   "alt": []
+  },
+  {
+   "id": "streets_ahead",
+   "en": "streets ahead",
+   "uz": "(boshqalardan) ancha oldinda",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Our school's robotics club is streets ahead of the others in the region; it has won the competition three years running.",
+   "gap": "streets ahead",
+   "alt": []
+  },
+  {
+   "id": "among_the_best",
+   "en": "among the best",
+   "uz": "eng yaxshilari qatorida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bekzod is among the best chess players in our school, though he still loses to his little sister sometimes.",
+   "gap": "among the best",
+   "alt": []
+  },
+  {
+   "id": "out_of_this_world",
+   "en": "out of this world",
+   "uz": "aql bovar qilmas darajada zo‘r",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The apricot jam from that small farm in the Fergana Valley was out of this world; we finished the whole jar in two days.",
+   "gap": "out of this world",
+   "alt": []
+  },
+  {
+   "id": "criticise",
+   "en": "criticise",
+   "uz": "tanqid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The food critic criticised the new restaurant for its tiny portions and painfully slow service.",
+   "gap": "criticised",
+   "alt": [
+    "criticises",
+    "criticised",
+    "criticising",
+    "criticize",
+    "criticized"
+   ]
+  },
+  {
+   "id": "critical",
+   "en": "critical",
+   "uz": "tanqidiy (norozilik bildiruvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The newspaper article was very critical of the new car park, saying it had destroyed a lovely old garden.",
+   "gap": "critical",
+   "alt": []
+  },
+  {
+   "id": "critically_important",
+   "en": "critically important",
+   "uz": "o‘ta muhim, hal qiluvchi ahamiyatli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the long hike across the hills, the guide reminded us that carrying enough water was critically important.",
+   "gap": "critically important",
+   "alt": []
+  },
+  {
+   "id": "critically_acclaimed",
+   "en": "critically acclaimed",
+   "uz": "tanqidchilar olqishiga sazovor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Newspaper reviewers loved the young director's first film; it was critically acclaimed and won prizes at three international festivals.",
+   "gap": "critically acclaimed",
+   "alt": []
+  },
+  {
+   "id": "critically_ill",
+   "en": "critically ill",
+   "uz": "og‘ir ahvoldagi (bemor)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the motorway crash, the lorry driver was critically ill in hospital for a week, but he has now made a full recovery.",
+   "gap": "critically ill",
+   "alt": []
+  },
+  {
+   "id": "run_down_criticise",
+   "en": "run down",
+   "uz": "yomonlamoq, kamsitib gapirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Javohir is always running down his old school, but secretly he misses his teachers there.",
+   "gap": "running down",
+   "alt": [
+    "runs down",
+    "ran down",
+    "running down"
+   ]
+  },
+  {
+   "id": "pick_holes_in",
+   "en": "pick holes in",
+   "uz": "har narsadan kamchilik qidirmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "However carefully I plan our class trip, Doniyor always manages to pick holes in it.",
+   "gap": "pick holes in",
+   "alt": [
+    "picks holes in",
+    "picked holes in",
+    "picking holes in"
+   ]
+  },
+  {
+   "id": "absurd",
+   "en": "absurd",
+   "uz": "bema’ni, kulgili",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wearing a winter coat in the middle of a Bukhara summer? What an absurd idea!",
+   "gap": "absurd",
+   "alt": []
+  },
+  {
+   "id": "at_fault",
+   "en": "at fault",
+   "uz": "aybdor (xato qilgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The referee decided that both players were at fault and showed each of them a yellow card.",
+   "gap": "at fault",
+   "alt": []
+  },
+  {
+   "id": "to_blame",
+   "en": "to blame",
+   "uz": "aybi bor, aybdor tomon",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't look at me! I'm not to blame for the missing scissors; I gave them back to Komila yesterday.",
+   "gap": "to blame",
+   "alt": []
+  },
+  {
+   "id": "cats_whiskers",
+   "en": "the cat's whiskers",
+   "uz": "kekkaygan, o‘zini zo‘r sanaydigan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Since he got the lead role in the school play, Jamshid thinks he's the cat's whiskers and hardly talks to the rest of us.",
+   "gap": "the cat's whiskers",
+   "alt": [
+    "cat's whiskers"
+   ]
+  },
+  {
+   "id": "bees_knees",
+   "en": "the bee's knees",
+   "uz": "manman, «mendan zo‘ri yo‘q» deydigan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Ever since her dance video got a thousand views, Gulnora thinks she's the bee's knees.",
+   "gap": "the bee's knees",
+   "alt": [
+    "bee's knees"
+   ]
+  },
+  {
+   "id": "worlds_worst",
+   "en": "the world's worst",
+   "uz": "eng yomoni, undan battari yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When it comes to remembering birthdays, my uncle is the world's worst; one year he even forgot his own.",
+   "gap": "the world's worst",
+   "alt": [
+    "world's worst"
+   ]
+  },
+  {
+   "id": "take_the_biscuit",
+   "en": "take the biscuit",
+   "uz": "hamma narsadan oshib tushmoq (salbiy)",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Plenty of people whisper during films, but answering a phone call in the middle of the cinema really takes the biscuit!",
+   "gap": "takes the biscuit",
+   "alt": [
+    "takes the biscuit",
+    "took the biscuit"
+   ]
+  },
+  {
+   "id": "have_cake_and_eat_it",
+   "en": "have your cake and eat it",
+   "uz": "hech narsa bermay, hammasini istamoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Timur wants to skip every team practice and still play in every match; he wants to have his cake and eat it.",
+   "gap": "have his cake and eat it",
+   "alt": [
+    "have his cake and eat it",
+    "have her cake and eat it",
+    "have their cake and eat it"
+   ]
+  },
+  {
+   "id": "criticism",
+   "en": "criticism",
+   "uz": "tanqid (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The coach accepted the criticism calmly and promised to change the team's tactics.",
+   "gap": "criticism",
+   "alt": [
+    "criticisms"
+   ]
+  },
+  {
+   "id": "criticise_review",
+   "en": "criticise",
+   "uz": "(asarga) baho bermoq, muhokama qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In our photography club, members bring their latest pictures and criticise each other's work honestly.",
+   "gap": "criticise",
+   "alt": [
+    "criticises",
+    "criticised",
+    "criticising",
+    "criticize",
+    "criticized"
+   ]
+  },
+  {
+   "id": "critical_vital",
+   "en": "critical",
+   "uz": "hal qiluvchi, juda muhim",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Getting enough sleep the night before an exam is critical to doing well.",
+   "gap": "critical",
+   "alt": []
+  },
+  {
+   "id": "critical_acclaim",
+   "en": "critical acclaim",
+   "uz": "tanqidchilar olqishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her first novel won critical acclaim and has been translated into twelve languages.",
+   "gap": "critical acclaim",
+   "alt": []
+  },
+  {
+   "id": "critical_condition",
+   "en": "in a critical condition",
+   "uz": "hayoti xavf ostida (og‘ir holatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After falling from the scaffolding, the worker was taken to hospital in a critical condition.",
+   "gap": "in a critical condition",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "highly_praised",
+   "critically_acclaimed"
+  ],
+  [
+   "first_rate",
+   "top_notch"
+  ],
+  [
+   "first_rate",
+   "out_of_this_world"
+  ],
+  [
+   "top_notch",
+   "out_of_this_world"
+  ],
+  [
+   "miles_better",
+   "streets_ahead"
+  ],
+  [
+   "among_the_best",
+   "first_rate"
+  ],
+  [
+   "criticise",
+   "run_down_criticise"
+  ],
+  [
+   "criticise",
+   "pick_holes_in"
+  ],
+  [
+   "run_down_criticise",
+   "pick_holes_in"
+  ],
+  [
+   "critical",
+   "critically_important"
+  ],
+  [
+   "cats_whiskers",
+   "bees_knees"
+  ],
+  [
+   "at_fault",
+   "to_blame"
+  ],
+  [
+   "have_a_way_with",
+   "gift_of_the_gab"
+  ],
+  [
+   "among_the_best",
+   "top_notch"
+  ],
+  [
+   "criticism",
+   "praise"
+  ],
+  [
+   "criticise_review",
+   "criticise"
+  ],
+  [
+   "criticise_review",
+   "praise"
+  ],
+  [
+   "criticise_review",
+   "pick_holes_in"
+  ],
+  [
+   "critical_vital",
+   "critical"
+  ],
+  [
+   "critical_vital",
+   "critically_important"
+  ],
+  [
+   "critical_acclaim",
+   "critically_acclaimed"
+  ],
+  [
+   "critical_acclaim",
+   "highly_praised"
+  ],
+  [
+   "critical_condition",
+   "critically_ill"
+  ],
+  [
+   "critical_condition",
+   "at_deaths_door"
+  ]
+ ]
+}

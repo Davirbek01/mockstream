@@ -1,0 +1,207 @@
+{
+ "book": "preint",
+ "unit": 86,
+ "title": "Uncountable nouns",
+ "title_uz": "Sanalmaydigan otlar",
+ "words": [
+  {
+   "id": "rubbish",
+   "en": "rubbish",
+   "uz": "axlat (keraksiz narsalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the class party, we put the paper cups and all the other rubbish into big black bags.",
+   "gap": "rubbish",
+   "alt": []
+  },
+  {
+   "id": "information",
+   "en": "information",
+   "uz": "ma’lumot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum website has useful information about opening times and ticket prices.",
+   "gap": "information",
+   "alt": []
+  },
+  {
+   "id": "pocket_money",
+   "en": "pocket money",
+   "uz": "cho‘ntak puli (ota-onadan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laylo saves half of her weekly pocket money to buy a new bike.",
+   "gap": "pocket money",
+   "alt": []
+  },
+  {
+   "id": "equipment",
+   "en": "equipment",
+   "uz": "jihozlar (asbob-anjomlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new school gym has modern equipment: running machines, mats and climbing ropes.",
+   "gap": "equipment",
+   "alt": []
+  },
+  {
+   "id": "sleeping_bag",
+   "en": "sleeping bag",
+   "uz": "uxlash qopi",
+   "pos": "noun",
+   "img": true,
+   "ex": "It gets cold in the mountains at night, so take a warm sleeping bag.",
+   "gap": "sleeping bag",
+   "alt": [
+    "sleeping bags"
+   ]
+  },
+  {
+   "id": "torch",
+   "en": "torch",
+   "uz": "qo‘l chirog‘i (fonar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "When the lights went off, Nodir used a torch to find the stairs.",
+   "gap": "torch",
+   "alt": [
+    "torches"
+   ]
+  },
+  {
+   "id": "furniture",
+   "en": "furniture",
+   "uz": "mebel",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new flat looks empty: there's no sofa, no beds and no other furniture yet.",
+   "gap": "furniture",
+   "alt": []
+  },
+  {
+   "id": "knowledge",
+   "en": "knowledge",
+   "uz": "bilim (biror sohani bilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Javohir's knowledge of computers helped us fix the printer in five minutes.",
+   "gap": "knowledge",
+   "alt": []
+  },
+  {
+   "id": "room_space",
+   "en": "room",
+   "uz": "sig‘ish uchun joy (odam, narsa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Is there room in your backpack for my water bottle? Mine is completely full.",
+   "gap": "room",
+   "alt": []
+  },
+  {
+   "id": "toast",
+   "en": "toast",
+   "uz": "qizartirilgan non bo‘lagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "For breakfast I usually have toast with butter and honey and a cup of tea.",
+   "gap": "toast",
+   "alt": []
+  },
+  {
+   "id": "behaviour",
+   "en": "behaviour",
+   "uz": "xulq-atvor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher praised the class for their good behaviour on the school trip.",
+   "gap": "behaviour",
+   "alt": [
+    "behavior"
+   ]
+  },
+  {
+   "id": "experience_event",
+   "en": "experience",
+   "uz": "boshdan kechirilgan voqea (taassurot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Climbing to the top of Big Chimgan was one of the best experiences of my life.",
+   "gap": "experiences",
+   "alt": [
+    "experiences"
+   ]
+  },
+  {
+   "id": "a_piece_of",
+   "en": "a piece of",
+   "uz": "bitta, bir dona (sanash uchun)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the exam, my teacher gave me a useful piece of advice: sleep well the night before.",
+   "gap": "piece of",
+   "alt": [
+    "piece of",
+    "pieces of"
+   ]
+  },
+  {
+   "id": "a_bit_of",
+   "en": "a bit of",
+   "uz": "ozgina, bitta (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Could you give me a bit of paper? I want to write down your phone number.",
+   "gap": "bit of",
+   "alt": [
+    "bit of"
+   ]
+  },
+  {
+   "id": "news",
+   "en": "news",
+   "uz": "yangilik (xabar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Have you heard the news? Our volleyball team has reached the final!",
+   "gap": "news",
+   "alt": []
+  },
+  {
+   "id": "chance_luck",
+   "en": "chance",
+   "uz": "omad (tasodif)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Whether you win this card game or not is all down to chance, not skill.",
+   "gap": "chance",
+   "alt": []
+  },
+  {
+   "id": "chance_opportunity",
+   "en": "chance",
+   "uz": "imkon (biror ishni qilish uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trip to the research centre will give the students a chance to see how real scientists work.",
+   "gap": "chance",
+   "alt": [
+    "chances"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "a_piece_of",
+   "a_bit_of"
+  ],
+  [
+   "chance_luck",
+   "chance_opportunity"
+  ],
+  [
+   "news",
+   "information"
+  ]
+ ]
+}

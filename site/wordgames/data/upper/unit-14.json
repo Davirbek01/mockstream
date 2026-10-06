@@ -1,0 +1,514 @@
+{
+ "book": "upper",
+ "unit": 14,
+ "title": "Education",
+ "title_uz": "Ta’lim",
+ "words": [
+  {
+   "id": "creche",
+   "en": "crèche",
+   "uz": "yasli (go‘daklar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her mum went back to work when Asal was one, so she now spends the day at a crèche near the office, with other babies and toddlers.",
+   "gap": "crèche",
+   "alt": [
+    "creche",
+    "crèches",
+    "creches"
+   ]
+  },
+  {
+   "id": "nursery_school",
+   "en": "nursery school",
+   "uz": "bolalar bog‘chasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At four, Timur started nursery school, where he learned colours, songs and how to share his toys.",
+   "gap": "nursery school",
+   "alt": [
+    "nursery schools",
+    "nursery"
+   ]
+  },
+  {
+   "id": "primary_school",
+   "en": "primary school",
+   "uz": "boshlang‘ich maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother is in his last year of primary school and will move up to secondary school in September.",
+   "gap": "primary school",
+   "alt": [
+    "primary schools"
+   ]
+  },
+  {
+   "id": "arithmetic",
+   "en": "arithmetic",
+   "uz": "arifmetika (hisob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children practise basic arithmetic by adding up the prices of fruit in a pretend shop.",
+   "gap": "arithmetic",
+   "alt": []
+  },
+  {
+   "id": "secondary_education",
+   "en": "secondary education",
+   "uz": "o‘rta ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Uzbekistan, general secondary education lasts eleven years, from grade 1 to grade 11.",
+   "gap": "secondary education",
+   "alt": []
+  },
+  {
+   "id": "comprehensive_school",
+   "en": "comprehensive school",
+   "uz": "umumta’lim davlat maktabi (UK)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most British teenagers go to a comprehensive school, which accepts children of all abilities without a test.",
+   "gap": "comprehensive school",
+   "alt": [
+    "comprehensive schools",
+    "comprehensive"
+   ]
+  },
+  {
+   "id": "grammar_school",
+   "en": "grammar school",
+   "uz": "imtihonli davlat maktabi (UK)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ben had to pass a difficult exam at the age of eleven to get a place at the local grammar school, which is free.",
+   "gap": "grammar school",
+   "alt": [
+    "grammar schools"
+   ]
+  },
+  {
+   "id": "public_school",
+   "en": "public school",
+   "uz": "pullik xususiy maktab (UK)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Prince William and Prince Harry were both educated at Eton, one of Britain's most famous public schools.",
+   "gap": "public schools",
+   "alt": [
+    "public schools"
+   ]
+  },
+  {
+   "id": "fee_paying",
+   "en": "fee-paying",
+   "uz": "to‘lovli (pullik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her parents chose a fee-paying school in Tashkent because classes there have only twelve pupils.",
+   "gap": "fee-paying",
+   "alt": []
+  },
+  {
+   "id": "compulsory",
+   "en": "compulsory",
+   "uz": "majburiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wearing a school uniform is compulsory at our school; you can't come in jeans.",
+   "gap": "compulsory",
+   "alt": []
+  },
+  {
+   "id": "sixth_form_college",
+   "en": "sixth-form college",
+   "uz": "16–18 yoshlilar kolleji (UK)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After her GCSEs at sixteen, Emma moved to a sixth-form college to study for her A levels.",
+   "gap": "sixth-form college",
+   "alt": [
+    "sixth-form colleges"
+   ]
+  },
+  {
+   "id": "higher_education",
+   "en": "higher education",
+   "uz": "oliy ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "More young people in Uzbekistan now go on to higher education, and new universities have opened in many regions.",
+   "gap": "higher education",
+   "alt": []
+  },
+  {
+   "id": "school_leaving_age",
+   "en": "school-leaving age",
+   "uz": "maktabni bitirish yoshi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The government raised the school-leaving age, so teenagers now have to stay in education for longer.",
+   "gap": "school-leaving age",
+   "alt": []
+  },
+  {
+   "id": "sit_exam",
+   "en": "sit an exam",
+   "uz": "imtihon topshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lola is very nervous because tomorrow will be the first time she has ever had to sit a real exam.",
+   "gap": "sit",
+   "alt": [
+    "sit",
+    "sat",
+    "sits",
+    "sitting"
+   ]
+  },
+  {
+   "id": "resit",
+   "en": "resit",
+   "uz": "imtihonni qayta topshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Jasur got only 30% in maths, so the college is letting him resit the exam in August.",
+   "gap": "resit",
+   "alt": [
+    "resits",
+    "resat",
+    "resitting"
+   ]
+  },
+  {
+   "id": "marks",
+   "en": "marks",
+   "uz": "ball (masalan, 100 dan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our maths teacher gives marks out of 100, and I got 87 on the last test.",
+   "gap": "marks",
+   "alt": [
+    "mark"
+   ]
+  },
+  {
+   "id": "grades",
+   "en": "grades",
+   "uz": "baho (A, B, C kabi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On her school report, Madina's grades went up from C to A in just one term.",
+   "gap": "grades",
+   "alt": [
+    "grade"
+   ]
+  },
+  {
+   "id": "pass_exam",
+   "en": "pass",
+   "uz": "imtihondan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Rustam studied every evening for months, and in the end he passed his final maths exam with an A.",
+   "gap": "passed",
+   "alt": [
+    "passes",
+    "passed"
+   ]
+  },
+  {
+   "id": "fail_exam",
+   "en": "fail",
+   "uz": "imtihondan yiqilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He didn't study at all, so it was no surprise when he failed the chemistry exam.",
+   "gap": "failed",
+   "alt": [
+    "fails",
+    "failed"
+   ]
+  },
+  {
+   "id": "skip_classes",
+   "en": "skip classes",
+   "uz": "darsdan qochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you skip classes to play computer games, don't be surprised by your exam results.",
+   "gap": "skip classes",
+   "alt": [
+    "skipped classes",
+    "skip class"
+   ]
+  },
+  {
+   "id": "distance_learning",
+   "en": "distance learning",
+   "uz": "masofaviy ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring 2020, schools in Uzbekistan switched to distance learning, with lessons shown on TV and online.",
+   "gap": "distance learning",
+   "alt": []
+  },
+  {
+   "id": "blended_learning",
+   "en": "blended learning",
+   "uz": "aralash ta’lim (sinf + onlayn)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our course uses blended learning: two days a week in the classroom and the rest online.",
+   "gap": "blended learning",
+   "alt": []
+  },
+  {
+   "id": "monitor",
+   "en": "monitor",
+   "uz": "muntazam kuzatib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The online platform lets teachers monitor how many tasks each pupil has finished this week.",
+   "gap": "monitor",
+   "alt": [
+    "monitors",
+    "monitored"
+   ]
+  },
+  {
+   "id": "progress",
+   "en": "progress",
+   "uz": "o‘sish, yutuq (o‘qishda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My English teacher is pleased with my progress: I've gone from A2 to B1 in a year.",
+   "gap": "progress",
+   "alt": []
+  },
+  {
+   "id": "submit",
+   "en": "submit",
+   "uz": "topshirmoq (ishni o‘qituvchiga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please submit your essay through the school website before midnight on Friday.",
+   "gap": "submit",
+   "alt": [
+    "submits",
+    "submitted"
+   ]
+  },
+  {
+   "id": "entrance_exam",
+   "en": "entrance exam",
+   "uz": "kirish imtihoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every summer, applicants to Uzbek universities take a national entrance exam in their chosen subjects.",
+   "gap": "entrance exam",
+   "alt": [
+    "entrance exams"
+   ]
+  },
+  {
+   "id": "a_levels",
+   "en": "A levels",
+   "uz": "Britaniya maktab bitiruv imtihonlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hannah is taking her A levels in maths, physics and chemistry this summer and hopes to study engineering at Bristol.",
+   "gap": "A levels",
+   "alt": [
+    "A level",
+    "A-levels"
+   ]
+  },
+  {
+   "id": "do_well",
+   "en": "do well",
+   "uz": "yaxshi natija ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zebo revised every evening for a month, so it was no surprise that she did well in her final exams.",
+   "gap": "did well",
+   "alt": [
+    "does well",
+    "did well",
+    "doing well",
+    "done well"
+   ]
+  },
+  {
+   "id": "do_badly",
+   "en": "do badly",
+   "uz": "yomon natija ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Otabek did badly in the chemistry test because he had spent the whole weekend gaming instead of revising.",
+   "gap": "did badly",
+   "alt": [
+    "does badly",
+    "did badly",
+    "doing badly",
+    "done badly"
+   ]
+  },
+  {
+   "id": "vle",
+   "en": "VLE",
+   "uz": "virtual o‘quv muhiti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher uploads all the homework to the school's VLE, so nobody can say they didn't know about it.",
+   "gap": "VLE",
+   "alt": [
+    "VLEs",
+    "virtual learning environment"
+   ]
+  },
+  {
+   "id": "lms",
+   "en": "LMS",
+   "uz": "o‘qishni boshqarish tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The college's new LMS lets tutors see exactly which students have opened each online lesson.",
+   "gap": "LMS",
+   "alt": [
+    "learning management system"
+   ]
+  },
+  {
+   "id": "full_time_education",
+   "en": "full-time education",
+   "uz": "kunduzgi to‘liq ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of Laylo's classmates stayed in full-time education until eighteen, while a few started apprenticeships.",
+   "gap": "full-time education",
+   "alt": []
+  },
+  {
+   "id": "secondary_school",
+   "en": "secondary school",
+   "uz": "o‘rta maktab (11–18 yosh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After six years of lessons in a small village building, Daniel moved up to a large secondary school on the other side of town.",
+   "gap": "secondary school",
+   "alt": [
+    "secondary schools"
+   ]
+  },
+  {
+   "id": "gain_admission",
+   "en": "gain admission",
+   "uz": "o‘qishga qabul qilinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Only about one in five applicants gain admission to the city's top music academy each year.",
+   "gap": "gain admission",
+   "alt": [
+    "gains admission",
+    "gained admission",
+    "gaining admission"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "creche",
+   "nursery_school"
+  ],
+  [
+   "nursery_school",
+   "primary_school"
+  ],
+  [
+   "comprehensive_school",
+   "grammar_school"
+  ],
+  [
+   "grammar_school",
+   "public_school"
+  ],
+  [
+   "public_school",
+   "fee_paying"
+  ],
+  [
+   "comprehensive_school",
+   "public_school"
+  ],
+  [
+   "sit_exam",
+   "resit"
+  ],
+  [
+   "resit",
+   "pass_exam"
+  ],
+  [
+   "pass_exam",
+   "fail_exam"
+  ],
+  [
+   "marks",
+   "grades"
+  ],
+  [
+   "distance_learning",
+   "blended_learning"
+  ],
+  [
+   "secondary_education",
+   "higher_education"
+  ],
+  [
+   "a_levels",
+   "entrance_exam"
+  ],
+  [
+   "do_well",
+   "do_badly"
+  ],
+  [
+   "do_well",
+   "pass_exam"
+  ],
+  [
+   "do_badly",
+   "fail_exam"
+  ],
+  [
+   "vle",
+   "lms"
+  ],
+  [
+   "full_time_education",
+   "secondary_education"
+  ],
+  [
+   "full_time_education",
+   "higher_education"
+  ],
+  [
+   "secondary_school",
+   "comprehensive_school"
+  ],
+  [
+   "secondary_school",
+   "grammar_school"
+  ],
+  [
+   "secondary_school",
+   "primary_school"
+  ],
+  [
+   "secondary_school",
+   "secondary_education"
+  ]
+ ]
+}

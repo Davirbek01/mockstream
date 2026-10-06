@@ -1,0 +1,423 @@
+{
+ "book": "preint",
+ "unit": 31,
+ "title": "Classroom language",
+ "title_uz": "Sinfxona tili",
+ "words": [
+  {
+   "id": "dvd_player",
+   "en": "DVD player",
+   "uz": "DVD pleyer",
+   "pos": "noun",
+   "img": true,
+   "ex": "The school's DVD player is so old that it only works after you close the tray twice.",
+   "gap": "DVD player",
+   "alt": [
+    "DVD players"
+   ]
+  },
+  {
+   "id": "dvd",
+   "en": "DVD",
+   "uz": "DVD disk",
+   "pos": "noun",
+   "img": true,
+   "ex": "The listening tasks came with the textbook on a DVD, but none of our new laptops can read it.",
+   "gap": "DVD",
+   "alt": [
+    "DVDs"
+   ]
+  },
+  {
+   "id": "socket",
+   "en": "socket",
+   "uz": "rozetka",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's only one socket near the board, so our teacher uses a long cable for the projector.",
+   "gap": "socket",
+   "alt": [
+    "sockets"
+   ]
+  },
+  {
+   "id": "plug",
+   "en": "plug",
+   "uz": "vilka (elektr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I bought a charger in London, but its plug has three flat pins and doesn't fit anywhere in our flat in Termez.",
+   "gap": "plug",
+   "alt": [
+    "plugs"
+   ]
+  },
+  {
+   "id": "ruler",
+   "en": "ruler",
+   "uz": "chizg‘ich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Muslima used a ruler to check that each side of her triangle was exactly six centimetres.",
+   "gap": "ruler",
+   "alt": [
+    "rulers"
+   ]
+  },
+  {
+   "id": "pencil_sharpener",
+   "en": "pencil sharpener",
+   "uz": "qalam ochgich / qalamtarosh",
+   "pos": "noun",
+   "img": true,
+   "ex": "The tip of my coloured pencil broke in the art lesson, so Hulkar passed me her little pencil sharpener.",
+   "gap": "pencil sharpener",
+   "alt": [
+    "pencil sharpeners"
+   ]
+  },
+  {
+   "id": "sharpen",
+   "en": "sharpen",
+   "uz": "uchlamoq / o‘tkirlamoq (qalamni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the drawing competition, Bobur sharpened all his pencils so the points were really thin.",
+   "gap": "sharpened",
+   "alt": [
+    "sharpens",
+    "sharpened",
+    "sharpening"
+   ]
+  },
+  {
+   "id": "measure",
+   "en": "measure",
+   "uz": "o‘lchamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the physics lesson we had to measure the length of the corridor with a long tape.",
+   "gap": "measure",
+   "alt": [
+    "measures",
+    "measured",
+    "measuring"
+   ]
+  },
+  {
+   "id": "highlight",
+   "en": "highlight",
+   "uz": "marker bilan ajratib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please highlight every verb in the past tense in yellow, then we'll check them together.",
+   "gap": "highlight",
+   "alt": [
+    "highlights",
+    "highlighted",
+    "highlighting"
+   ]
+  },
+  {
+   "id": "borrow",
+   "en": "borrow",
+   "uz": "qarzga olmoq (vaqtincha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I left my calculator at home, so can I borrow yours for this lesson?",
+   "gap": "borrow",
+   "alt": [
+    "borrows",
+    "borrowed",
+    "borrowing"
+   ]
+  },
+  {
+   "id": "lend",
+   "en": "lend",
+   "uz": "qarzga bermoq (vaqtincha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you forget your textbook, Otabek always lends you his and reads from his phone instead.",
+   "gap": "lends",
+   "alt": [
+    "lends",
+    "lent",
+    "lending"
+   ]
+  },
+  {
+   "id": "plug_in",
+   "en": "plug in",
+   "uz": "tokka ulamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The projector screen stayed black until Yulduz noticed that nobody had plugged it in.",
+   "gap": "plugged it in",
+   "alt": [
+    "plug it in",
+    "plugged in",
+    "plugged it in",
+    "plugs in"
+   ]
+  },
+  {
+   "id": "turn_up",
+   "en": "turn up",
+   "uz": "ovozini balandlatmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The students at the back could only just hear the recording, so the teacher turned it up.",
+   "gap": "turned it up",
+   "alt": [
+    "turn it up",
+    "turned up",
+    "turned it up",
+    "turns up"
+   ]
+  },
+  {
+   "id": "turn_down",
+   "en": "turn down",
+   "uz": "ovozini pasaytirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The music from the next room was so loud that our teacher knocked on their door and asked them to turn it down.",
+   "gap": "turn it down",
+   "alt": [
+    "turn it down",
+    "turned down",
+    "turned it down",
+    "turns down"
+   ]
+  },
+  {
+   "id": "volume",
+   "en": "volume",
+   "uz": "ovoz balandligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The volume on my laptop is already at maximum, but the listening task is still too quiet.",
+   "gap": "volume",
+   "alt": []
+  },
+  {
+   "id": "partner",
+   "en": "partner",
+   "uz": "sherik (juftlikda ishda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the speaking task my partner was Gulnoza, so we interviewed each other about our hobbies.",
+   "gap": "partner",
+   "alt": [
+    "partners"
+   ]
+  },
+  {
+   "id": "swap_places",
+   "en": "swap places",
+   "uz": "joy almashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Asadbek can't read the board without his glasses, so he asked Doniyor in the front row to swap places with him.",
+   "gap": "swap places",
+   "alt": [
+    "swapped places",
+    "swaps places",
+    "swapping places"
+   ]
+  },
+  {
+   "id": "mean_v",
+   "en": "mean",
+   "uz": "ma’noni anglatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Do you know what 'gloomy' means? It's in the first line of the story.",
+   "gap": "means",
+   "alt": [
+    "means",
+    "meant"
+   ]
+  },
+  {
+   "id": "spell",
+   "en": "spell",
+   "uz": "harfma-harf aytmoq / yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the class competition, Diyor had to spell 'necessary' without looking at it, and he forgot one of the S's.",
+   "gap": "spell",
+   "alt": [
+    "spells",
+    "spelt",
+    "spelled"
+   ]
+  },
+  {
+   "id": "explain",
+   "en": "explain",
+   "uz": "tushuntirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I didn't understand the maths homework, so my older sister sat with me and explained it step by step.",
+   "gap": "explained",
+   "alt": [
+    "explains",
+    "explained",
+    "explaining"
+   ]
+  },
+  {
+   "id": "difference",
+   "en": "difference",
+   "uz": "farq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Look at these two pictures of the same street: can you find all six differences between them?",
+   "gap": "differences",
+   "alt": [
+    "differences"
+   ]
+  },
+  {
+   "id": "repetition",
+   "en": "repetition",
+   "uz": "takrorlash (qayta-qayta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Little children love repetition: my nephew wants to hear the same bedtime story every single night.",
+   "gap": "repetition",
+   "alt": []
+  },
+  {
+   "id": "wow",
+   "en": "wow",
+   "uz": "Voy! (hayrat undovi)",
+   "pos": "exclamation",
+   "img": false,
+   "ex": "When Rano saw the view from the top of the mountain, she just said, 'Wow!' and took out her camera.",
+   "gap": "Wow",
+   "alt": [
+    "Wow"
+   ]
+  },
+  {
+   "id": "use_v",
+   "en": "use",
+   "uz": "ishlatmoq (qo‘llamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you haven't got a screwdriver, you can use a coin to open the battery cover.",
+   "gap": "use",
+   "alt": [
+    "uses",
+    "used",
+    "using"
+   ]
+  },
+  {
+   "id": "use_n",
+   "en": "use",
+   "uz": "foydalanish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new sports hall will be ready for use from Monday morning.",
+   "gap": "use",
+   "alt": []
+  },
+  {
+   "id": "give_back",
+   "en": "give back",
+   "uz": "qaytarib bermoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I lent Iroda my headphones last week, and she still hasn't given them back.",
+   "gap": "given them back",
+   "alt": [
+    "gives back",
+    "gave back",
+    "given back",
+    "giving back",
+    "give it back",
+    "given them back",
+    "gave it back"
+   ]
+  },
+  {
+   "id": "keep_v",
+   "en": "keep",
+   "uz": "o‘zida qoldirmoq (qaytarmasdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You don't need to return this pen; please keep it as a gift from our club.",
+   "gap": "keep",
+   "alt": [
+    "keeps",
+    "kept",
+    "keeping"
+   ]
+  },
+  {
+   "id": "give_v",
+   "en": "give",
+   "uz": "bermoq (butunlay, sovg‘a qilib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Teachers' Day every pupil in our class gave the teacher a flower.",
+   "gap": "gave",
+   "alt": [
+    "gives",
+    "gave",
+    "given",
+    "giving"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "dvd",
+   "dvd_player"
+  ],
+  [
+   "socket",
+   "plug"
+  ],
+  [
+   "ruler",
+   "measure"
+  ],
+  [
+   "pencil_sharpener",
+   "sharpen"
+  ],
+  [
+   "socket",
+   "plug_in"
+  ],
+  [
+   "use_v",
+   "use_n"
+  ],
+  [
+   "use_v",
+   "borrow"
+  ],
+  [
+   "give_v",
+   "lend"
+  ],
+  [
+   "keep_v",
+   "borrow"
+  ],
+  [
+   "give_back",
+   "lend"
+  ],
+  [
+   "keep_v",
+   "give_back"
+  ]
+ ]
+}

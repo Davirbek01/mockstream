@@ -1,0 +1,406 @@
+{
+ "book": "preint",
+ "unit": 37,
+ "title": "Making a career",
+ "title_uz": "Martaba qurish",
+ "words": [
+  {
+   "id": "apply_for",
+   "en": "apply for",
+   "uz": "(ishga) ariza topshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Umida applied for a job at a travel agency and was invited to an interview the next week.",
+   "gap": "applied for",
+   "alt": [
+    "applies for",
+    "applied for",
+    "applying for"
+   ]
+  },
+  {
+   "id": "cv",
+   "en": "CV",
+   "uz": "rezyume (tarjimai hol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you send your CV to a company, check it carefully for spelling mistakes.",
+   "gap": "CV",
+   "alt": [
+    "CVs"
+   ]
+  },
+  {
+   "id": "letter_of_application",
+   "en": "letter of application",
+   "uz": "ishga ariza xati",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her letter of application, Nigora explained why she wanted to work at the botanical garden.",
+   "gap": "letter of application",
+   "alt": []
+  },
+  {
+   "id": "interview",
+   "en": "interview",
+   "uz": "suhbat (ishga qabul qilishda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the interview, the hotel manager asked Timur why he wanted the job.",
+   "gap": "interview",
+   "alt": [
+    "interviews"
+   ]
+  },
+  {
+   "id": "employ",
+   "en": "employ",
+   "uz": "ishga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new shopping centre is going to employ about three hundred local people.",
+   "gap": "employ",
+   "alt": [
+    "employs",
+    "employed",
+    "employing"
+   ]
+  },
+  {
+   "id": "training",
+   "en": "training",
+   "uz": "kasbga o‘rgatish (tayyorgarlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "New staff at the bank get two weeks of training before they can work with customers.",
+   "gap": "training",
+   "alt": []
+  },
+  {
+   "id": "training_course",
+   "en": "training course",
+   "uz": "o‘quv kursi (malaka oshirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last month all the nurses went on a first-aid training course in the capital.",
+   "gap": "training course",
+   "alt": [
+    "training courses"
+   ]
+  },
+  {
+   "id": "promote",
+   "en": "promote",
+   "uz": "lavozimini ko‘tarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After three years at the supermarket checkout, Akmal was promoted to store manager.",
+   "gap": "promoted",
+   "alt": [
+    "promoted",
+    "promotes",
+    "promoting"
+   ]
+  },
+  {
+   "id": "pay_rise",
+   "en": "pay rise",
+   "uz": "maosh oshishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The factory workers asked for a pay rise because food prices were going up.",
+   "gap": "pay rise",
+   "alt": [
+    "pay rises"
+   ]
+  },
+  {
+   "id": "experience",
+   "en": "experience",
+   "uz": "ish tajribasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora has ten years' experience as a pharmacist, so the new pharmacy hired her at once.",
+   "gap": "experience",
+   "alt": []
+  },
+  {
+   "id": "promotion",
+   "en": "promotion",
+   "uz": "lavozimga ko‘tarilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ravshan got a promotion, and now he is the head of the whole department.",
+   "gap": "promotion",
+   "alt": [
+    "promotions"
+   ]
+  },
+  {
+   "id": "abroad",
+   "en": "abroad",
+   "uz": "chet elda / chet elga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "After university, Sanjar wants to work abroad for a few years, maybe in Korea or Germany.",
+   "gap": "abroad",
+   "alt": []
+  },
+  {
+   "id": "quit",
+   "en": "quit",
+   "uz": "ishni tashlab ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nilufar quit her job at the bank because she wanted to open her own flower shop.",
+   "gap": "quit",
+   "alt": [
+    "quits",
+    "quitting"
+   ]
+  },
+  {
+   "id": "resign",
+   "en": "resign",
+   "uz": "iste’foga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The football coach resigned after his team lost six games one after another.",
+   "gap": "resigned",
+   "alt": [
+    "resigns",
+    "resigned",
+    "resigning"
+   ]
+  },
+  {
+   "id": "sack",
+   "en": "sack",
+   "uz": "ishdan haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The shop sacked two workers who were late almost every day.",
+   "gap": "sacked",
+   "alt": [
+    "sacks",
+    "sacked",
+    "sacking"
+   ]
+  },
+  {
+   "id": "unemployed",
+   "en": "unemployed",
+   "uz": "ishsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the old factory closed, many people in the town were unemployed for months.",
+   "gap": "unemployed",
+   "alt": []
+  },
+  {
+   "id": "out_of_work",
+   "en": "out of work",
+   "uz": "ishsiz (ishdan ayrilgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour has been out of work since March, but he's got an interview next week.",
+   "gap": "out of work",
+   "alt": []
+  },
+  {
+   "id": "part_time",
+   "en": "part-time",
+   "uz": "yarim stavkali (qisqa vaqtli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many students have part-time jobs in cafés at the weekends.",
+   "gap": "part-time",
+   "alt": [
+    "part time"
+   ]
+  },
+  {
+   "id": "full_time",
+   "en": "full-time",
+   "uz": "to‘liq stavkali (butun kun)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum works full-time at the hospital: eight hours a day, five days a week.",
+   "gap": "full-time",
+   "alt": [
+    "full time"
+   ]
+  },
+  {
+   "id": "owner",
+   "en": "owner",
+   "uz": "ega (xo‘jayin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The owner of the new gym gave our class a free week to try it.",
+   "gap": "owner",
+   "alt": [
+    "owners"
+   ]
+  },
+  {
+   "id": "retire",
+   "en": "retire",
+   "uz": "nafaqaga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our maths teacher is going to retire next summer after forty years at the school.",
+   "gap": "retire",
+   "alt": [
+    "retires",
+    "retired",
+    "retiring"
+   ]
+  },
+  {
+   "id": "fed_up_with",
+   "en": "fed up with",
+   "uz": "…dan bezor bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bobur got fed up with the long journey to work every day, so he found a job nearer home.",
+   "gap": "fed up with",
+   "alt": [
+    "fed up"
+   ]
+  },
+  {
+   "id": "give_the_sack",
+   "en": "give someone the sack",
+   "uz": "ishdan bo‘shatib yubormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The hotel gave him the sack after he fell asleep at the reception desk twice.",
+   "gap": "gave him the sack",
+   "alt": [
+    "give the sack",
+    "gave him the sack",
+    "gave her the sack",
+    "give him the sack",
+    "gives them the sack",
+    "gave me the sack"
+   ]
+  },
+  {
+   "id": "boss",
+   "en": "boss",
+   "uz": "boshliq (ishdagi rahbar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laylo asked her boss if she could leave early to collect her son from nursery.",
+   "gap": "boss",
+   "alt": [
+    "bosses"
+   ]
+  },
+  {
+   "id": "own_adj",
+   "en": "own",
+   "uz": "o‘zining (shaxsiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After years of working for other people, Botir finally opened his own garage.",
+   "gap": "own",
+   "alt": []
+  },
+  {
+   "id": "resignation",
+   "en": "resignation",
+   "uz": "iste’fo (ishdan ketish arizasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The director handed in his resignation and left the company at the end of the month.",
+   "gap": "resignation",
+   "alt": [
+    "resignations"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cv",
+   "letter_of_application"
+  ],
+  [
+   "quit",
+   "resign"
+  ],
+  [
+   "quit",
+   "retire"
+  ],
+  [
+   "resign",
+   "retire"
+  ],
+  [
+   "unemployed",
+   "out_of_work"
+  ],
+  [
+   "part_time",
+   "full_time"
+  ],
+  [
+   "promote",
+   "promotion"
+  ],
+  [
+   "pay_rise",
+   "promotion"
+  ],
+  [
+   "training",
+   "training_course"
+  ],
+  [
+   "training",
+   "experience"
+  ],
+  [
+   "sack",
+   "quit"
+  ],
+  [
+   "interview",
+   "appointment"
+  ],
+  [
+   "letter_of_application",
+   "interview"
+  ],
+  [
+   "abroad",
+   "part_time"
+  ],
+  [
+   "abroad",
+   "full_time"
+  ],
+  [
+   "unemployed",
+   "abroad"
+  ],
+  [
+   "out_of_work",
+   "abroad"
+  ],
+  [
+   "give_the_sack",
+   "sack"
+  ],
+  [
+   "boss",
+   "owner"
+  ],
+  [
+   "resignation",
+   "resign"
+  ]
+ ]
+}

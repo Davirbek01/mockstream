@@ -1,0 +1,350 @@
+{
+ "book": "preint",
+ "unit": 77,
+ "title": "Verb or adjective + preposition",
+ "title_uz": "Fe’l yoki sifat + predlog",
+ "words": [
+  {
+   "id": "worry_about",
+   "en": "worry about",
+   "uz": "… haqida xavotirlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't worry about the broken cup; it was very old anyway.",
+   "gap": "worry about",
+   "alt": [
+    "worried about",
+    "worrying about",
+    "worries about"
+   ]
+  },
+  {
+   "id": "satisfied_with",
+   "en": "satisfied with",
+   "uz": "… dan mamnun",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The owner was very satisfied with the café's first month: it made more money than she expected.",
+   "gap": "satisfied with",
+   "alt": []
+  },
+  {
+   "id": "spend_on",
+   "en": "spend on",
+   "uz": "… ga (pul) sarflamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "How much money do you usually spend on bus tickets every month?",
+   "gap": "spend on",
+   "alt": [
+    "spent on",
+    "spends on",
+    "spending on"
+   ]
+  },
+  {
+   "id": "thinking_of",
+   "en": "be thinking of",
+   "uz": "… ni niyat qilib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shoxrux is thinking of joining the chess club next term, so he's already practising every evening.",
+   "gap": "thinking of",
+   "alt": [
+    "thinking of"
+   ]
+  },
+  {
+   "id": "belong_to",
+   "en": "belong to",
+   "uz": "… ga tegishli bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whose umbrella is this? Does it belong to you?",
+   "gap": "belong to",
+   "alt": [
+    "belongs to",
+    "belonged to"
+   ]
+  },
+  {
+   "id": "concentrate_on",
+   "en": "concentrate on",
+   "uz": "… ga diqqatni jamlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please switch your phones off during the exam so that you can concentrate on the questions.",
+   "gap": "concentrate on",
+   "alt": [
+    "concentrated on",
+    "concentrating on",
+    "concentrates on"
+   ]
+  },
+  {
+   "id": "rely_on",
+   "en": "rely on",
+   "uz": "… ga tayanmoq (ishonmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can always rely on Feruza; when she promises to help, she always comes.",
+   "gap": "rely on",
+   "alt": [
+    "relies on",
+    "relied on"
+   ]
+  },
+  {
+   "id": "shout_at",
+   "en": "shout at",
+   "uz": "… ga (jahl bilan) baqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus driver got angry and shouted at the boys for putting their feet on the seats.",
+   "gap": "shouted at",
+   "alt": [
+    "shouted at",
+    "shouts at",
+    "shouting at"
+   ]
+  },
+  {
+   "id": "shout_to",
+   "en": "shout to",
+   "uz": "(eshitsin deb) … ga qichqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The field was so noisy that Ozoda had to cup her hands and shout to her friend on the other side.",
+   "gap": "shout to",
+   "alt": [
+    "shouted to",
+    "shouts to",
+    "shouting to"
+   ]
+  },
+  {
+   "id": "throw_at",
+   "en": "throw at",
+   "uz": "(tegizish uchun) … ga otmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The snowball that Islom threw at me hit me right on the hat.",
+   "gap": "threw at",
+   "alt": [
+    "threw at",
+    "throws at",
+    "throwing at"
+   ]
+  },
+  {
+   "id": "throw_to",
+   "en": "throw to",
+   "uz": "(ilib olsin deb) … ga otmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The ball that Behruz threw to his little sister was soft and slow, so she caught it easily.",
+   "gap": "threw to",
+   "alt": [
+    "threw to",
+    "throws to",
+    "throwing to"
+   ]
+  },
+  {
+   "id": "good_at",
+   "en": "good at",
+   "uz": "… ni yaxshi uddalaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zarina is very good at languages: she learned to speak Arabic well in just one year.",
+   "gap": "good at",
+   "alt": []
+  },
+  {
+   "id": "bad_at",
+   "en": "bad at",
+   "uz": "… ga no‘noq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm really bad at drawing; even my cat looks like a potato in my pictures.",
+   "gap": "bad at",
+   "alt": []
+  },
+  {
+   "id": "afraid_of",
+   "en": "afraid of",
+   "uz": "… dan qo‘rqadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little sister is afraid of dogs, so she always crosses the road when she sees one.",
+   "gap": "afraid of",
+   "alt": []
+  },
+  {
+   "id": "fond_of",
+   "en": "fond of",
+   "uz": "… ga mehri bor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Old Mr Rahimov is very fond of the stray cats in our yard and brings them food every morning.",
+   "gap": "fond of",
+   "alt": []
+  },
+  {
+   "id": "similar_to",
+   "en": "similar to",
+   "uz": "… ga o‘xshash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your new phone is very similar to mine; only the colour is different.",
+   "gap": "similar to",
+   "alt": []
+  },
+  {
+   "id": "different_from",
+   "en": "different from",
+   "uz": "… dan farq qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Life in a small village is very different from life in a big city: it's much quieter.",
+   "gap": "different from",
+   "alt": []
+  },
+  {
+   "id": "aware_of",
+   "en": "aware of",
+   "uz": "… dan xabardor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The students aren't aware of the new timetable yet, because nobody has told them about it.",
+   "gap": "aware of",
+   "alt": []
+  },
+  {
+   "id": "tired_of",
+   "en": "tired of",
+   "uz": "… dan bezor bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm tired of eating the same sandwich every day, so tomorrow I'll bring soup instead.",
+   "gap": "tired of",
+   "alt": []
+  },
+  {
+   "id": "mad_about",
+   "en": "mad about",
+   "uz": "… ga o‘ta ishqiboz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Diyora is mad about basketball: she plays every day and has posters of her favourite players all over her wall.",
+   "gap": "mad about",
+   "alt": []
+  },
+  {
+   "id": "short_of",
+   "en": "short of",
+   "uz": "… yetishmayapti (kam qolgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our football team is short of players this week, so the coach asked me to play.",
+   "gap": "short of",
+   "alt": []
+  },
+  {
+   "id": "wrong_with",
+   "en": "something wrong with",
+   "uz": "… da nosozlik bor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's something wrong with my laptop; it switches itself off every ten minutes.",
+   "gap": "something wrong with",
+   "alt": [
+    "wrong with"
+   ]
+  },
+  {
+   "id": "translate_into",
+   "en": "translate into",
+   "uz": "… tiliga tarjima qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her poems have been translated into twelve languages, including Japanese.",
+   "gap": "translated into",
+   "alt": [
+    "translated into",
+    "translates into",
+    "translating into"
+   ]
+  },
+  {
+   "id": "complain_to",
+   "en": "complain to",
+   "uz": "… ga shikoyat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The soup was cold, so Bahrom complained to the waiter, and he quickly brought a hot bowl.",
+   "gap": "complained to",
+   "alt": [
+    "complained to",
+    "complains to",
+    "complaining to"
+   ]
+  },
+  {
+   "id": "depend_on_need",
+   "en": "depend on",
+   "uz": "(yordamiga) … ga qaram bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Baby birds depend on their parents for food until they can fly.",
+   "gap": "depend on",
+   "alt": [
+    "depends on",
+    "depended on",
+    "depending on"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "shout_at",
+   "shout_to"
+  ],
+  [
+   "throw_at",
+   "throw_to"
+  ],
+  [
+   "good_at",
+   "bad_at"
+  ],
+  [
+   "similar_to",
+   "different_from"
+  ],
+  [
+   "fond_of",
+   "mad_about"
+  ],
+  [
+   "good_at",
+   "fond_of"
+  ],
+  [
+   "good_at",
+   "mad_about"
+  ],
+  [
+   "complain_to",
+   "shout_at"
+  ],
+  [
+   "complain_to",
+   "shout_to"
+  ],
+  [
+   "depend_on_need",
+   "rely_on"
+  ]
+ ]
+}

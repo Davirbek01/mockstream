@@ -1,0 +1,388 @@
+{
+ "book": "preint",
+ "unit": 62,
+ "title": "Distance, dimensions and size",
+ "title_uz": "Masofa, o‘lchamlar va kattalik",
+ "words": [
+  {
+   "id": "mile",
+   "en": "mile",
+   "uz": "mil (≈1,6 km)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Edinburgh 26', said the road sign: 26 miles, so about 42 kilometres.",
+   "gap": "miles",
+   "alt": [
+    "miles"
+   ]
+  },
+  {
+   "id": "yard",
+   "en": "yard",
+   "uz": "ingliz uzunlik o‘lchovi (≈0,9 m)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The British commentator said the ball landed thirty yards from the goal, about 27 metres.",
+   "gap": "yards",
+   "alt": [
+    "yards"
+   ]
+  },
+  {
+   "id": "foot",
+   "en": "foot",
+   "uz": "fut (≈30 sm)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pilot told us we were flying at 35,000 feet, which is more than ten kilometres up.",
+   "gap": "feet",
+   "alt": [
+    "feet"
+   ]
+  },
+  {
+   "id": "inch",
+   "en": "inch",
+   "uz": "dyuym (≈2,5 sm)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The carpenter measured the gap with a ruler: just one inch, about two and a half centimetres.",
+   "gap": "inch",
+   "alt": [
+    "inches"
+   ]
+  },
+  {
+   "id": "nearest",
+   "en": "nearest",
+   "uz": "eng yaqin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Which pharmacy is nearest to our hotel? We need one quickly.",
+   "gap": "nearest",
+   "alt": []
+  },
+  {
+   "id": "far",
+   "en": "far",
+   "uz": "uzoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Can we walk to the river?' 'Sure, it isn't far, just across the park.'",
+   "gap": "far",
+   "alt": []
+  },
+  {
+   "id": "a_long_way",
+   "en": "a long way",
+   "uz": "ancha uzoqda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nukus is a long way from Tashkent, so most people fly there.",
+   "gap": "a long way",
+   "alt": []
+  },
+  {
+   "id": "minutes_walk",
+   "en": "minutes' walk",
+   "uz": "… daqiqalik piyoda yo‘l",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The beach is just ten minutes' walk from our hotel, so we never need a taxi.",
+   "gap": "minutes' walk",
+   "alt": []
+  },
+  {
+   "id": "up_the_road",
+   "en": "up the road",
+   "uz": "ko‘chada biroz narida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Where can I buy bread?' 'There's a little shop just up the road, next to the car wash.'",
+   "gap": "up the road",
+   "alt": [
+    "down the road"
+   ]
+  },
+  {
+   "id": "length",
+   "en": "length",
+   "uz": "uzunlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The length of the bridge is 300 metres, from one side of the river to the other.",
+   "gap": "length",
+   "alt": []
+  },
+  {
+   "id": "width",
+   "en": "width",
+   "uz": "kenglik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Measure the width of the window from left to right before you buy curtains.",
+   "gap": "width",
+   "alt": []
+  },
+  {
+   "id": "height_size",
+   "en": "height",
+   "uz": "balandlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The height of the climbing wall at the sports centre is twelve metres, from the floor to the top.",
+   "gap": "height",
+   "alt": []
+  },
+  {
+   "id": "depth",
+   "en": "depth",
+   "uz": "chuqurlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The divers measured the depth of the lake: forty metres from the surface to the bottom.",
+   "gap": "depth",
+   "alt": []
+  },
+  {
+   "id": "long",
+   "en": "long",
+   "uz": "uzun",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'How long is the film?' 'About two hours, so we'll be home by ten.'",
+   "gap": "long",
+   "alt": []
+  },
+  {
+   "id": "wide",
+   "en": "wide",
+   "uz": "keng (eniga)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The river here is about fifty metres wide, so we crossed it by bridge.",
+   "gap": "wide",
+   "alt": []
+  },
+  {
+   "id": "high",
+   "en": "high",
+   "uz": "baland (tog‘, devor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The top shelf is so high that I need a chair to reach it.",
+   "gap": "high",
+   "alt": []
+  },
+  {
+   "id": "tall",
+   "en": "tall",
+   "uz": "baland (bo‘yli, bino, daraxt)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our basketball coach is 1.98 metres tall, so he can touch the hoop without jumping.",
+   "gap": "tall",
+   "alt": []
+  },
+  {
+   "id": "shallow",
+   "en": "shallow",
+   "uz": "sayoz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The stream was so shallow that we walked across it without getting our knees wet.",
+   "gap": "shallow",
+   "alt": []
+  },
+  {
+   "id": "thick",
+   "en": "thick",
+   "uz": "qalin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ice on the lake is thick enough to walk on now: about twenty centimetres.",
+   "gap": "thick",
+   "alt": []
+  },
+  {
+   "id": "thin",
+   "en": "thin",
+   "uz": "yupqa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The walls in our flat are so thin that I can hear the neighbours' TV.",
+   "gap": "thin",
+   "alt": []
+  },
+  {
+   "id": "huge",
+   "en": "huge",
+   "uz": "ulkan (juda katta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new school library is huge: it has more than ten thousand books.",
+   "gap": "huge",
+   "alt": []
+  },
+  {
+   "id": "enormous",
+   "en": "enormous",
+   "uz": "bahaybat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the match we were so hungry that we ordered an enormous pizza and ate it all.",
+   "gap": "enormous",
+   "alt": []
+  },
+  {
+   "id": "giant",
+   "en": "giant",
+   "uz": "gigant (o‘xshashlaridan ancha katta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The science museum has a giant model of a human heart that you can walk inside.",
+   "gap": "giant",
+   "alt": []
+  },
+  {
+   "id": "tiny",
+   "en": "tiny",
+   "uz": "juda kichkina (mitti)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The kitten was so tiny that it could sit in a teacup.",
+   "gap": "tiny",
+   "alt": []
+  },
+  {
+   "id": "narrow_road",
+   "en": "narrow",
+   "uz": "tor (ko‘cha, yo‘l)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The road up to the village is very narrow, so two cars can't pass each other.",
+   "gap": "narrow",
+   "alt": []
+  },
+  {
+   "id": "dimensions",
+   "en": "dimensions",
+   "uz": "o‘lchamlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write down all three dimensions of the box, length, width and height, before you order it.",
+   "gap": "dimensions",
+   "alt": []
+  },
+  {
+   "id": "metre",
+   "en": "metre",
+   "uz": "metr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sign on the bridge said 'Max height 4 m', only four metres, so the lorry couldn't pass under it.",
+   "gap": "metres",
+   "alt": [
+    "metres",
+    "meter",
+    "meters"
+   ]
+  },
+  {
+   "id": "centimetre",
+   "en": "centimetre",
+   "uz": "santimetr",
+   "pos": "noun",
+   "img": false,
+   "ex": "My ruler is 30 cm long: thirty centimetres from end to end.",
+   "gap": "centimetres",
+   "alt": [
+    "centimetres",
+    "centimeter",
+    "centimeters"
+   ]
+  },
+  {
+   "id": "millimetre",
+   "en": "millimetre",
+   "uz": "millimetr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The rain gauge showed 5 mm, just five millimetres of rain, so the garden was still dry.",
+   "gap": "millimetres",
+   "alt": [
+    "millimetres",
+    "millimeter",
+    "millimeters"
+   ]
+  },
+  {
+   "id": "how_far",
+   "en": "how far",
+   "uz": "qancha uzoq (masofa so‘rash)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before we set off, I asked the taxi driver how far it was to the airport. 'About twelve kilometres,' he said.",
+   "gap": "how far",
+   "alt": []
+  },
+  {
+   "id": "deep_end",
+   "en": "deep end",
+   "uz": "basseynning chuqur tomoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children who can't swim must stay out of the deep end of the pool.",
+   "gap": "deep end",
+   "alt": []
+  },
+  {
+   "id": "shallow_end",
+   "en": "shallow end",
+   "uz": "basseynning sayoz tomoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Little Asal is only four, so she plays in the shallow end, where the water only reaches her waist.",
+   "gap": "shallow end",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "far",
+   "a_long_way"
+  ],
+  [
+   "yard",
+   "foot"
+  ],
+  [
+   "length",
+   "width"
+  ],
+  [
+   "long",
+   "wide"
+  ],
+  [
+   "high",
+   "tall"
+  ],
+  [
+   "huge",
+   "enormous"
+  ],
+  [
+   "huge",
+   "giant"
+  ],
+  [
+   "enormous",
+   "giant"
+  ],
+  [
+   "metre",
+   "foot"
+  ]
+ ]
+}

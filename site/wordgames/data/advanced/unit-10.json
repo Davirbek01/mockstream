@@ -1,0 +1,482 @@
+{
+ "book": "advanced",
+ "unit": 10,
+ "title": "Describing people: personality and character traits",
+ "title_uz": "Odamlarni tasvirlash: shaxsiyat va xarakter xususiyatlari",
+ "words": [
+  {
+   "id": "impetuous",
+   "en": "impetuous",
+   "uz": "o‘ylamay ish tutadigan (shoshma-shoshar)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In an impetuous moment, Bobur resigned by text message and regretted it the next morning.",
+   "gap": "impetuous",
+   "alt": []
+  },
+  {
+   "id": "impulsive",
+   "en": "impulsive",
+   "uz": "birdan qaror qiladigan (hissiyotli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Feeling impulsive, they booked train tickets to Samarkand at breakfast and were standing in the Registan by lunchtime.",
+   "gap": "impulsive",
+   "alt": []
+  },
+  {
+   "id": "effusive",
+   "en": "effusive",
+   "uz": "maqtovni haddan oshirib yuboradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The guests were effusive in their praise of the dinner, thanking the cook again and again.",
+   "gap": "effusive",
+   "alt": []
+  },
+  {
+   "id": "excitable",
+   "en": "excitable",
+   "uz": "tez hayajonlanadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our excitable puppy jumps up at every visitor who comes through the gate.",
+   "gap": "excitable",
+   "alt": []
+  },
+  {
+   "id": "pushy",
+   "en": "pushy",
+   "uz": "o‘z manfaatini tiqishtiradigan (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At every match, pushy parents on the touchline kept shouting instructions at the young players, ignoring the coach completely.",
+   "gap": "pushy",
+   "alt": []
+  },
+  {
+   "id": "self_conscious",
+   "en": "self-conscious",
+   "uz": "odamlar oldida o‘ng‘aysizlanadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamila felt self-conscious about her new braces and tried not to smile in photos.",
+   "gap": "self-conscious",
+   "alt": [
+    "self conscious"
+   ]
+  },
+  {
+   "id": "well_balanced",
+   "en": "well-balanced",
+   "uz": "aqli raso va muvozanatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Despite a difficult childhood, Sardor grew up to be a happy, well-balanced young man.",
+   "gap": "well-balanced",
+   "alt": [
+    "well balanced"
+   ]
+  },
+  {
+   "id": "taciturn",
+   "en": "taciturn",
+   "uz": "kamgap (indamas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The taciturn shepherd answered all our questions with a nod or a single word.",
+   "gap": "taciturn",
+   "alt": []
+  },
+  {
+   "id": "introvert",
+   "en": "introvert",
+   "uz": "o‘ziga yopiq, kamgap odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "As an introvert, Farhod needs a quiet evening alone after a busy day of meetings.",
+   "gap": "introvert",
+   "alt": [
+    "introverts"
+   ]
+  },
+  {
+   "id": "extrovert",
+   "en": "extrovert",
+   "uz": "davrani sevuvchi, ochiqko‘ngil odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "A natural extrovert, Diyora was chatting with complete strangers within minutes of boarding the train.",
+   "gap": "extrovert",
+   "alt": [
+    "extroverts",
+    "extravert"
+   ]
+  },
+  {
+   "id": "outgoing",
+   "en": "outgoing",
+   "uz": "kirishimli, odamlarga tez el bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new neighbour is so outgoing that within a week she knew everyone on the street by name.",
+   "gap": "outgoing",
+   "alt": []
+  },
+  {
+   "id": "diffident",
+   "en": "diffident",
+   "uz": "o‘ziga ishonmaydigan, tortinchoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Shy and diffident, the young scientist hardly dared to raise her hand at the conference.",
+   "gap": "diffident",
+   "alt": []
+  },
+  {
+   "id": "self_esteem",
+   "en": "self-esteem",
+   "uz": "o‘zini qadrlash (o‘ziga baho)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Constant criticism from her coach left the young gymnast with very low self-esteem.",
+   "gap": "self-esteem",
+   "alt": [
+    "self esteem"
+   ]
+  },
+  {
+   "id": "reserved",
+   "en": "reserved",
+   "uz": "o‘zini tutib turadigan (vazmin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "People in the village seemed reserved at first, but within a few weeks they were inviting us in for tea.",
+   "gap": "reserved",
+   "alt": []
+  },
+  {
+   "id": "aloof",
+   "en": "aloof",
+   "uz": "o‘zini chetga oladigan (sovuq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The star player stayed aloof from his teammates, eating alone and never joining in their jokes.",
+   "gap": "aloof",
+   "alt": []
+  },
+  {
+   "id": "haughty",
+   "en": "haughty",
+   "uz": "kibrli, manman",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The haughty assistant in the designer boutique looked us up and down and asked whether we were lost.",
+   "gap": "haughty",
+   "alt": []
+  },
+  {
+   "id": "disdainful",
+   "en": "disdainful",
+   "uz": "nazar-pisand qilmaydigan (mensimaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The chef gave the frozen chips a disdainful glance and dropped them straight into the bin.",
+   "gap": "disdainful",
+   "alt": []
+  },
+  {
+   "id": "unapproachable",
+   "en": "unapproachable",
+   "uz": "yoniga borib bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Students found the new dean so unapproachable that they took all their complaints to his deputy instead.",
+   "gap": "unapproachable",
+   "alt": []
+  },
+  {
+   "id": "approachable",
+   "en": "approachable",
+   "uz": "bemalol murojaat qilsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our head teacher is very approachable; pupils knock on her door with all kinds of problems.",
+   "gap": "approachable",
+   "alt": []
+  },
+  {
+   "id": "conceited",
+   "en": "conceited",
+   "uz": "o‘ziga bino qo‘ygan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's so conceited that he keeps a large framed photo of himself on his own office desk.",
+   "gap": "conceited",
+   "alt": []
+  },
+  {
+   "id": "self_important",
+   "en": "self-important",
+   "uz": "o‘zini juda muhim sanaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A self-important official kept us waiting for an hour, then stamped our form in ten seconds.",
+   "gap": "self-important",
+   "alt": [
+    "self important"
+   ]
+  },
+  {
+   "id": "modest",
+   "en": "modest",
+   "uz": "kamtar",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Despite winning Olympic gold, the judoka was modest about her success and gave all the credit to her coach.",
+   "gap": "modest",
+   "alt": []
+  },
+  {
+   "id": "respectful",
+   "en": "respectful",
+   "uz": "hurmat ko‘rsatadigan (odobli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In many Uzbek families, children are taught to be respectful towards older relatives and to stand up when they enter.",
+   "gap": "respectful",
+   "alt": []
+  },
+  {
+   "id": "naive",
+   "en": "naive",
+   "uz": "go‘l (soddadil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was naive of me to believe the seller when he said the car had never been in an accident.",
+   "gap": "naive",
+   "alt": [
+    "naïve"
+   ]
+  },
+  {
+   "id": "gullible",
+   "en": "gullible",
+   "uz": "laqma (oson aldanadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Scammers send fake prize messages, hoping that gullible people will reply with their card details.",
+   "gap": "gullible",
+   "alt": []
+  },
+  {
+   "id": "conscientious",
+   "en": "conscientious",
+   "uz": "vijdonan ishlaydigan (mas’uliyatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A conscientious nurse, Malika checks every dose twice before giving it to a patient.",
+   "gap": "conscientious",
+   "alt": []
+  },
+  {
+   "id": "restless",
+   "en": "restless",
+   "uz": "doim yangilik izlovchi (tinib-tinchimas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After two years in the same office, Javlon grew restless and started looking for work abroad.",
+   "gap": "restless",
+   "alt": []
+  },
+  {
+   "id": "obstinate",
+   "en": "obstinate",
+   "uz": "qaysar (ko‘ndirib bo‘lmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The obstinate old man refused to leave his flooded house, even when rescuers arrived with a boat.",
+   "gap": "obstinate",
+   "alt": []
+  },
+  {
+   "id": "pig_headed",
+   "en": "pig-headed",
+   "uz": "o‘ta qaysar, gapga kirmaydigan (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't be so pig-headed; everyone has told you the bridge is closed, so take the other road!",
+   "gap": "pig-headed",
+   "alt": [
+    "pig headed",
+    "pigheaded"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "impetuous",
+   "impulsive"
+  ],
+  [
+   "impetuous",
+   "excitable"
+  ],
+  [
+   "impulsive",
+   "excitable"
+  ],
+  [
+   "effusive",
+   "excitable"
+  ],
+  [
+   "introvert",
+   "extrovert"
+  ],
+  [
+   "outgoing",
+   "approachable"
+  ],
+  [
+   "extrovert",
+   "outgoing"
+  ],
+  [
+   "diffident",
+   "self_conscious"
+  ],
+  [
+   "diffident",
+   "modest"
+  ],
+  [
+   "diffident",
+   "reserved"
+  ],
+  [
+   "taciturn",
+   "reserved"
+  ],
+  [
+   "taciturn",
+   "aloof"
+  ],
+  [
+   "reserved",
+   "aloof"
+  ],
+  [
+   "aloof",
+   "unapproachable"
+  ],
+  [
+   "aloof",
+   "haughty"
+  ],
+  [
+   "haughty",
+   "disdainful"
+  ],
+  [
+   "haughty",
+   "conceited"
+  ],
+  [
+   "haughty",
+   "self_important"
+  ],
+  [
+   "haughty",
+   "unapproachable"
+  ],
+  [
+   "conceited",
+   "self_important"
+  ],
+  [
+   "pushy",
+   "self_important"
+  ],
+  [
+   "naive",
+   "gullible"
+  ],
+  [
+   "obstinate",
+   "pig_headed"
+  ],
+  [
+   "well_balanced",
+   "modest"
+  ],
+  [
+   "conscientious",
+   "respectful"
+  ],
+  [
+   "restless",
+   "impetuous"
+  ],
+  [
+   "restless",
+   "impulsive"
+  ],
+  [
+   "excitable",
+   "outgoing"
+  ],
+  [
+   "taciturn",
+   "diffident"
+  ],
+  [
+   "taciturn",
+   "self_conscious"
+  ],
+  [
+   "reserved",
+   "unapproachable"
+  ],
+  [
+   "reserved",
+   "haughty"
+  ],
+  [
+   "pushy",
+   "excitable"
+  ],
+  [
+   "well_balanced",
+   "outgoing"
+  ],
+  [
+   "well_balanced",
+   "respectful"
+  ],
+  [
+   "well_balanced",
+   "conscientious"
+  ],
+  [
+   "well_balanced",
+   "approachable"
+  ],
+  [
+   "unapproachable",
+   "self_important"
+  ],
+  [
+   "unapproachable",
+   "obstinate"
+  ],
+  [
+   "unapproachable",
+   "pig_headed"
+  ],
+  [
+   "taciturn",
+   "introvert"
+  ]
+ ]
+}

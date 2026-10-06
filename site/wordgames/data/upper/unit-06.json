@@ -1,0 +1,453 @@
+{
+ "book": "upper",
+ "unit": 6,
+ "title": "The weather",
+ "title_uz": "Ob-havo",
+ "words": [
+  {
+   "id": "daytime",
+   "en": "daytime",
+   "uz": "kunduzgi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Tashkent in July, daytime temperatures often go above 35°C, but the nights are a little cooler.",
+   "gap": "daytime",
+   "alt": []
+  },
+  {
+   "id": "mild",
+   "en": "mild",
+   "uz": "mo‘tadil, iliq (qattiq sovuq emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Compared with the bitter cold in Nukus, winters in Termez are quite mild: it rarely snows, and most days are above zero.",
+   "gap": "mild",
+   "alt": []
+  },
+  {
+   "id": "misty",
+   "en": "misty",
+   "uz": "yengil tumanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was a misty morning near Chimgan, and the mountain peaks were hidden behind thin grey clouds.",
+   "gap": "misty",
+   "alt": []
+  },
+  {
+   "id": "foggy",
+   "en": "foggy",
+   "uz": "quyuq tumanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The airport was closed for three hours because it was so foggy that the pilots couldn't see the runway.",
+   "gap": "foggy",
+   "alt": []
+  },
+  {
+   "id": "damp",
+   "en": "damp",
+   "uz": "zax, nimnam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a week of rain, the walls of the old house felt cold and damp, and the washing would not dry.",
+   "gap": "damp",
+   "alt": []
+  },
+  {
+   "id": "frost",
+   "en": "frost",
+   "uz": "qirov",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the morning there was frost on the car windows, so Dad had to scrape them before we left.",
+   "gap": "frost",
+   "alt": []
+  },
+  {
+   "id": "icy",
+   "en": "icy",
+   "uz": "muz qoplagan (yaxmalak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a night of minus fifteen, the roads to the ski resort were icy, so only cars with winter tyres could get through.",
+   "gap": "icy",
+   "alt": []
+  },
+  {
+   "id": "severe",
+   "en": "severe",
+   "uz": "o‘ta og‘ir, keskin (ob-havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Schools in Jizzakh were closed for two days because of severe weather: snowstorms blocked the roads and cut off the electricity.",
+   "gap": "severe",
+   "alt": []
+  },
+  {
+   "id": "freeze",
+   "en": "freeze",
+   "uz": "qattiq sovqotmoq (muzlab qolmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Put on a hat and gloves, or you'll freeze waiting at the bus stop.",
+   "gap": "freeze",
+   "alt": [
+    "freezing",
+    "froze"
+   ]
+  },
+  {
+   "id": "thaw",
+   "en": "thaw",
+   "uz": "(muzlagan yer) yumshamoq, muzdan tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "By late February the snow on the hills above Bostanliq starts to thaw, and the streams fill with cold brown water.",
+   "gap": "thaw",
+   "alt": [
+    "thaws",
+    "thawed"
+   ]
+  },
+  {
+   "id": "melt",
+   "en": "melt",
+   "uz": "erimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We left a chocolate bar on the car dashboard in August, and within twenty minutes it had melted into a sticky mess.",
+   "gap": "melted",
+   "alt": [
+    "melts",
+    "melted"
+   ]
+  },
+  {
+   "id": "tropical",
+   "en": "tropical",
+   "uz": "tropik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike Uzbekistan, Sri Lanka has a tropical climate: it's hot and wet all year round.",
+   "gap": "tropical",
+   "alt": []
+  },
+  {
+   "id": "stifling",
+   "en": "stifling",
+   "uz": "dim, nafasni bo‘g‘adigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The minibus was packed, the windows wouldn't open, and the air inside was stifling, so I got off two stops early.",
+   "gap": "stifling",
+   "alt": []
+  },
+  {
+   "id": "muggy",
+   "en": "muggy",
+   "uz": "dim va nam (bulutli kunda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It isn't sunny today, but it's warm and muggy, and my shirt is sticking to my back.",
+   "gap": "muggy",
+   "alt": []
+  },
+  {
+   "id": "humid",
+   "en": "humid",
+   "uz": "rutubatli, havosi nam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Summer air in Tashkent is dry, but in Singapore it's so humid that your glasses steam up when you leave a cool shop.",
+   "gap": "humid",
+   "alt": []
+  },
+  {
+   "id": "boiling",
+   "en": "boiling",
+   "uz": "jazirama, o‘ta issiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was boiling in Bukhara yesterday: 43 degrees in the shade!",
+   "gap": "boiling",
+   "alt": [
+    "boiling hot"
+   ]
+  },
+  {
+   "id": "heatwave",
+   "en": "heatwave",
+   "uz": "jazirama davri (issiq to‘lqini)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During last summer's heatwave in Fergana, the school moved sports day to seven in the morning to avoid the afternoon heat.",
+   "gap": "heatwave",
+   "alt": [
+    "heatwaves",
+    "heat wave"
+   ]
+  },
+  {
+   "id": "shower",
+   "en": "shower",
+   "uz": "qisqa yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "We waited under a tree in the park for the quick shower to pass, and ten minutes later the sun was out again.",
+   "gap": "shower",
+   "alt": [
+    "showers"
+   ]
+  },
+  {
+   "id": "heavy_rain",
+   "en": "heavy rain",
+   "uz": "kuchli yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football match was stopped after heavy rain turned the pitch into mud.",
+   "gap": "heavy rain",
+   "alt": []
+  },
+  {
+   "id": "pour_down",
+   "en": "pour down",
+   "uz": "chelaklab quymoq (yomg‘ir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I had to wait in the metro station for twenty minutes because it was pouring down and I'd left my umbrella at home.",
+   "gap": "pouring down",
+   "alt": [
+    "pouring down",
+    "poured down",
+    "pours down"
+   ]
+  },
+  {
+   "id": "downpour",
+   "en": "downpour",
+   "uz": "jala",
+   "pos": "noun",
+   "img": false,
+   "ex": "We got caught in a real downpour on the way home from school and arrived soaked to the skin.",
+   "gap": "downpour",
+   "alt": []
+  },
+  {
+   "id": "torrential_rain",
+   "en": "torrential rain",
+   "uz": "sel keltiradigan jala",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three days of torrential rain in the mountains caused mudslides and closed the road to the village.",
+   "gap": "torrential rain",
+   "alt": []
+  },
+  {
+   "id": "flood",
+   "en": "flood",
+   "uz": "suv toshqini",
+   "pos": "noun",
+   "img": true,
+   "ex": "The river burst its banks, and the flood damaged dozens of houses along the shore.",
+   "gap": "flood",
+   "alt": [
+    "floods",
+    "flooded"
+   ]
+  },
+  {
+   "id": "overcast",
+   "en": "overcast",
+   "uz": "bulut qoplagan (osmon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sky over Samarkand was overcast all day, so our photos of the Registan came out flat and grey.",
+   "gap": "overcast",
+   "alt": []
+  },
+  {
+   "id": "drought",
+   "en": "drought",
+   "uz": "qurg‘oqchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two summers of drought, farmers in Karakalpakstan had to dig deeper wells just to water their melons.",
+   "gap": "drought",
+   "alt": [
+    "droughts"
+   ]
+  },
+  {
+   "id": "breeze",
+   "en": "breeze",
+   "uz": "shabada (yengil shamol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the evening a cool breeze comes down from the mountains, so the terrace is a pleasant place to sit.",
+   "gap": "breeze",
+   "alt": []
+  },
+  {
+   "id": "gale",
+   "en": "gale",
+   "uz": "bo‘ronli kuchli shamol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night's gale tore the metal roof off our garage and threw it into the neighbours' garden.",
+   "gap": "gale",
+   "alt": [
+    "gales"
+   ]
+  },
+  {
+   "id": "high_wind",
+   "en": "high wind",
+   "uz": "kuchli shamol",
+   "pos": "noun",
+   "img": false,
+   "ex": "The high wind knocked over the fruit stalls at the bazaar and sent apples rolling down the street.",
+   "gap": "high wind",
+   "alt": [
+    "high winds"
+   ]
+  },
+  {
+   "id": "hurricane",
+   "en": "hurricane",
+   "uz": "dovul (to‘fon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the hurricane hit the coast of Florida, my cousin's family spent two nights in a school gym with hundreds of other people.",
+   "gap": "hurricane",
+   "alt": [
+    "hurricanes"
+   ]
+  },
+  {
+   "id": "late",
+   "en": "late",
+   "uz": "…ning oxirlarida (kech)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In late October the leaves in our street turn yellow and the mornings get chilly.",
+   "gap": "late",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "misty",
+   "foggy"
+  ],
+  [
+   "misty",
+   "overcast"
+  ],
+  [
+   "foggy",
+   "overcast"
+  ],
+  [
+   "thaw",
+   "melt"
+  ],
+  [
+   "severe",
+   "icy"
+  ],
+  [
+   "tropical",
+   "humid"
+  ],
+  [
+   "stifling",
+   "muggy"
+  ],
+  [
+   "stifling",
+   "humid"
+  ],
+  [
+   "stifling",
+   "boiling"
+  ],
+  [
+   "muggy",
+   "humid"
+  ],
+  [
+   "damp",
+   "humid"
+  ],
+  [
+   "heatwave",
+   "drought"
+  ],
+  [
+   "shower",
+   "downpour"
+  ],
+  [
+   "heavy_rain",
+   "torrential_rain"
+  ],
+  [
+   "pour_down",
+   "downpour"
+  ],
+  [
+   "gale",
+   "hurricane"
+  ],
+  [
+   "misty",
+   "damp"
+  ],
+  [
+   "foggy",
+   "damp"
+  ],
+  [
+   "muggy",
+   "damp"
+  ],
+  [
+   "tropical",
+   "muggy"
+  ],
+  [
+   "tropical",
+   "stifling"
+  ],
+  [
+   "downpour",
+   "torrential_rain"
+  ],
+  [
+   "high_wind",
+   "gale"
+  ],
+  [
+   "high_wind",
+   "hurricane"
+  ],
+  [
+   "high_wind",
+   "breeze"
+  ],
+  [
+   "misty",
+   "muggy"
+  ],
+  [
+   "hurricane",
+   "flood"
+  ],
+  [
+   "frost",
+   "icy"
+  ]
+ ]
+}

@@ -1,0 +1,393 @@
+{
+ "book": "advanced",
+ "unit": 3,
+ "title": "Applying for a job",
+ "title_uz": "Ishga ariza topshirish",
+ "words": [
+  {
+   "id": "stand_out",
+   "en": "stand out",
+   "uz": "ajralib turmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "In a pile of three hundred grey CVs, the one printed on pale green paper certainly stood out.",
+   "gap": "stood out",
+   "alt": [
+    "stood out",
+    "stands out"
+   ]
+  },
+  {
+   "id": "cover_letter",
+   "en": "cover letter",
+   "uz": "ilova xat (motivatsion xat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Attach a one-page cover letter to your CV, explaining why you want this particular job.",
+   "gap": "cover letter",
+   "alt": [
+    "covering letter"
+   ]
+  },
+  {
+   "id": "passion_for",
+   "en": "passion for",
+   "uz": "…ga ishtiyoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dildora has a real passion for cooking, so she's applying to work in a restaurant kitchen in Samarkand.",
+   "gap": "passion for",
+   "alt": [
+    "a passion for",
+    "have a passion for"
+   ]
+  },
+  {
+   "id": "challenging",
+   "en": "challenging",
+   "uz": "murakkab, ammo qiziqarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bored by work he could do in his sleep, Rustam wants a job that will really stretch him, something far more challenging.",
+   "gap": "challenging",
+   "alt": []
+  },
+  {
+   "id": "fast_paced",
+   "en": "fast-paced",
+   "uz": "jadal sur’atli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's a fast-paced newsroom where stories change by the minute.",
+   "gap": "fast-paced",
+   "alt": [
+    "fast paced"
+   ]
+  },
+  {
+   "id": "opening",
+   "en": "opening",
+   "uz": "bo‘sh ish o‘rni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new hotel near the Registan has several openings for receptionists who speak English and Korean.",
+   "gap": "openings",
+   "alt": [
+    "openings"
+   ]
+  },
+  {
+   "id": "report_to",
+   "en": "report to",
+   "uz": "…ga bo‘ysunmoq (hisobot bermoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "As a junior architect, you will report to the chief architect, who will check every drawing you produce.",
+   "gap": "report to",
+   "alt": [
+    "reporting to"
+   ]
+  },
+  {
+   "id": "previous_experience",
+   "en": "previous experience",
+   "uz": "oldingi ish tajribasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamol had no previous experience of retail, but his enthusiasm won over the interviewers.",
+   "gap": "previous experience",
+   "alt": []
+  },
+  {
+   "id": "full_training",
+   "en": "full training",
+   "uz": "to‘liq o‘qitish (kurs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even if you have never driven a city bus, you can apply: full training is provided at the depot.",
+   "gap": "full training",
+   "alt": []
+  },
+  {
+   "id": "post",
+   "en": "post",
+   "uz": "lavozim",
+   "pos": "noun",
+   "img": false,
+   "ex": "She has held the post of head teacher at School No. 110 for eight years.",
+   "gap": "post",
+   "alt": []
+  },
+  {
+   "id": "career_prospects",
+   "en": "career prospects",
+   "uz": "martaba istiqbollari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pay is low at first, but the career prospects are excellent: many trainees become branch managers within five years.",
+   "gap": "career prospects",
+   "alt": []
+  },
+  {
+   "id": "leadership_qualities",
+   "en": "leadership qualities",
+   "uz": "yetakchilik fazilatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the guide fell ill, Shahzod showed real leadership qualities, calmly organising the group's descent from the mountain.",
+   "gap": "leadership qualities",
+   "alt": []
+  },
+  {
+   "id": "competitive_salary",
+   "en": "competitive salary",
+   "uz": "raqobatbardosh maosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Young programmers can now earn a competitive salary at home, so fewer of them are moving abroad.",
+   "gap": "competitive salary",
+   "alt": []
+  },
+  {
+   "id": "benefits_package",
+   "en": "benefits package",
+   "uz": "imtiyozlar to‘plami",
+   "pos": "noun",
+   "img": false,
+   "ex": "The benefits package includes health insurance, gym membership and free lunches.",
+   "gap": "benefits package",
+   "alt": [
+    "benefit package"
+   ]
+  },
+  {
+   "id": "subsidised",
+   "en": "subsidised",
+   "uz": "qisman kompaniya to‘laydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Employees can send their children to the company's subsidised kindergarten for a fraction of the usual fee.",
+   "gap": "subsidised",
+   "alt": [
+    "subsidized"
+   ]
+  },
+  {
+   "id": "application_form",
+   "en": "application form",
+   "uz": "ariza shakli (anketa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The application form for the internship asked for two references and a 500-word personal statement.",
+   "gap": "application form",
+   "alt": []
+  },
+  {
+   "id": "salary_expectations",
+   "en": "salary expectations",
+   "uz": "kutilayotgan maosh miqdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the recruiter asked about her salary expectations, Nargiza named a figure slightly above what she really wanted.",
+   "gap": "salary expectations",
+   "alt": []
+  },
+  {
+   "id": "dear_sir_or_madam",
+   "en": "Dear Sir or Madam",
+   "uz": "Hurmatli janob yoki xonim",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Writing to the admissions office without a named contact, Timur opened his email with 'Dear Sir or Madam'.",
+   "gap": "Dear Sir or Madam",
+   "alt": []
+  },
+  {
+   "id": "hands_on",
+   "en": "hands-on",
+   "uz": "amaliy (bevosita qo‘l bilan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Medical students need hands-on practice with real patients, not just lectures and textbooks.",
+   "gap": "hands-on",
+   "alt": [
+    "hands on"
+   ]
+  },
+  {
+   "id": "field",
+   "en": "field",
+   "uz": "soha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Professor Yusupov is one of the leading experts in the field of renewable energy.",
+   "gap": "field",
+   "alt": []
+  },
+  {
+   "id": "customer_facing",
+   "en": "customer-facing",
+   "uz": "mijozlar bilan yuzma-yuz ishlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After years in the back office, Sevara moved to a customer-facing role at the airline's check-in desk.",
+   "gap": "customer-facing",
+   "alt": [
+    "customer facing"
+   ]
+  },
+  {
+   "id": "team_player",
+   "en": "team player",
+   "uz": "jamoada ishlay oladigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a kitchen of twelve cooks, one selfish chef can ruin a whole evening, so the restaurant only hires team players.",
+   "gap": "team players",
+   "alt": [
+    "team players"
+   ]
+  },
+  {
+   "id": "managerial_experience",
+   "en": "managerial experience",
+   "uz": "rahbarlik tajribasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bekzod is a brilliant engineer, but he has no managerial experience, so the board hesitated to make him head of department.",
+   "gap": "managerial experience",
+   "alt": []
+  },
+  {
+   "id": "yours_faithfully",
+   "en": "Yours faithfully",
+   "uz": "Hurmat bilan (xat yakuni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kamila read the complaint letter once more, signed it 'Yours faithfully' and posted it to the electricity company.",
+   "gap": "Yours faithfully",
+   "alt": []
+  },
+  {
+   "id": "relevant",
+   "en": "relevant",
+   "uz": "tegishli (aloqador)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your summer job selling ice cream isn't really relevant to a career in banking, so leave it off your CV.",
+   "gap": "relevant",
+   "alt": []
+  },
+  {
+   "id": "suitability",
+   "en": "suitability",
+   "uz": "lavozimga munosiblik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The interview is designed to test each candidate's suitability for a job working with young children.",
+   "gap": "suitability",
+   "alt": []
+  },
+  {
+   "id": "specify",
+   "en": "specify",
+   "uz": "aniq ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When ordering the spare part, be sure to specify the exact model number of your washing machine.",
+   "gap": "specify",
+   "alt": []
+  },
+  {
+   "id": "job_ad",
+   "en": "job ad",
+   "uz": "ish e’loni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Behruz saw a job ad for a hotel receptionist in the Sunday newspaper and applied the same afternoon.",
+   "gap": "job ad",
+   "alt": [
+    "job ads",
+    "job advert",
+    "job advertisement"
+   ]
+  },
+  {
+   "id": "carry_out",
+   "en": "carry out",
+   "uz": "amalga oshirmoq (bajarmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "In her last role, Zebo carried out a survey of two hundred hotel guests about their breakfast.",
+   "gap": "carried out",
+   "alt": [
+    "carried out",
+    "carrying out",
+    "carries out"
+   ]
+  },
+  {
+   "id": "cv",
+   "en": "CV",
+   "uz": "rezyume (tarjimai hol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep your CV to two pages and list your most recent job first.",
+   "gap": "CV",
+   "alt": [
+    "CVs",
+    "curriculum vitae"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "challenging",
+   "fast_paced"
+  ],
+  [
+   "opening",
+   "post"
+  ],
+  [
+   "previous_experience",
+   "managerial_experience"
+  ],
+  [
+   "hands_on",
+   "customer_facing"
+  ],
+  [
+   "competitive_salary",
+   "salary_expectations"
+  ],
+  [
+   "hands_on",
+   "relevant"
+  ],
+  [
+   "dear_sir_or_madam",
+   "yours_faithfully"
+  ],
+  [
+   "cover_letter",
+   "application_form"
+  ],
+  [
+   "job_ad",
+   "opening"
+  ],
+  [
+   "job_ad",
+   "post"
+  ],
+  [
+   "cv",
+   "cover_letter"
+  ],
+  [
+   "cv",
+   "application_form"
+  ]
+ ]
+}

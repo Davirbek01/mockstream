@@ -1,0 +1,312 @@
+{
+ "book": "preint",
+ "unit": 76,
+ "title": "Fixed phrases in conversation",
+ "title_uz": "Suhbatdagi turg‘un iboralar",
+ "words": [
+  {
+   "id": "no_idea",
+   "en": "I've no idea",
+   "uz": "Bilmadim, hech tasavvurim yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Where did Otabek put the car keys?' 'I've no idea; you'll have to ask him when he gets back.'",
+   "gap": "I've no idea",
+   "alt": [
+    "I have no idea",
+    "no idea"
+   ]
+  },
+  {
+   "id": "that_depends",
+   "en": "That depends",
+   "uz": "Vaziyatga qarab (bog‘liq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Are you coming to the football match on Saturday?' 'Well, that depends on how much homework I get.'",
+   "gap": "that depends",
+   "alt": [
+    "It depends"
+   ]
+  },
+  {
+   "id": "why_not",
+   "en": "why not",
+   "uz": "Nega endi yo‘q? (Mayli)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Shall we take the bus to the park instead of walking?' 'Yeah, why not? It's far too hot to walk.'",
+   "gap": "why not",
+   "alt": []
+  },
+  {
+   "id": "not_really",
+   "en": "Not really",
+   "uz": "Unchalik emas",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Are you hungry? Lunch is ready.' 'Hmm, not really. I had a big breakfast, so I'll eat a bit later.'",
+   "gap": "not really",
+   "alt": []
+  },
+  {
+   "id": "what_for",
+   "en": "What for",
+   "uz": "Nima uchun? (Nimaga kerak?)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I need to go back to school this evening.' 'Oh? What for? Lessons finished hours ago.'",
+   "gap": "What for",
+   "alt": []
+  },
+  {
+   "id": "no_way",
+   "en": "No way",
+   "uz": "Aslo! (Iloji yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Can I have your piece of honey cake?' 'Sorry, no way! It's my favourite.'",
+   "gap": "no way",
+   "alt": []
+  },
+  {
+   "id": "i_suppose_so",
+   "en": "I suppose so",
+   "uz": "Shunday bo‘lsa kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'The pharmacy will still be open at eight, won't it?' 'Yes, I suppose so, but I'm not completely sure.'",
+   "gap": "I suppose so",
+   "alt": [
+    "suppose so"
+   ]
+  },
+  {
+   "id": "couldnt_believe_my_eyes",
+   "en": "I couldn't believe my eyes",
+   "uz": "Ko‘zlarimga ishonmadim",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When I saw my little brother washing the dishes without being asked, I couldn't believe my eyes!",
+   "gap": "couldn't believe my eyes",
+   "alt": [
+    "couldn't believe my eyes"
+   ]
+  },
+  {
+   "id": "you_must_be_joking",
+   "en": "You must be joking",
+   "uz": "Hazillashyapsiz-ku!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We've got a maths test tomorrow and another one on Wednesday.' 'Oh, you must be joking! Two tests in one week?'",
+   "gap": "you must be joking",
+   "alt": [
+    "you're joking"
+   ]
+  },
+  {
+   "id": "dont_believe_it",
+   "en": "I don't believe it",
+   "uz": "Ishonmayman! (Bo‘lishi mumkin emas!)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Our class won first prize at the school science fair!' 'Wow, I don't believe it! That's wonderful news!'",
+   "gap": "I don't believe it",
+   "alt": []
+  },
+  {
+   "id": "have_a_word",
+   "en": "have a word with",
+   "uz": "(yakkama-yakka) gaplashib olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After training, the coach wants to have a word with Rustam about missing so many practices.",
+   "gap": "have a word with",
+   "alt": [
+    "had a word with",
+    "having a word with"
+   ]
+  },
+  {
+   "id": "you_know",
+   "en": "you know",
+   "uz": "haligi… (gapdagi pauzani to‘ldiradi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I really like our new flat, but, you know, it's a bit far from the city centre.",
+   "gap": "you know",
+   "alt": []
+  },
+  {
+   "id": "pay_attention",
+   "en": "pay attention",
+   "uz": "e’tibor bermoq (quloq solmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Elyor failed his driving test because he didn't pay attention to the road signs.",
+   "gap": "pay attention",
+   "alt": [
+    "pays attention",
+    "paid attention",
+    "paying attention"
+   ]
+  },
+  {
+   "id": "in_that_case",
+   "en": "in that case",
+   "uz": "unday bo‘lsa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'The café is closed on Mondays.' 'Well, in that case, let's have lunch at home.'",
+   "gap": "in that case",
+   "alt": []
+  },
+  {
+   "id": "feel_bad_about",
+   "en": "feel bad about",
+   "uz": "(biror narsadan) xijolat chekmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I forgot my best friend's birthday last week, and I still feel bad about it.",
+   "gap": "feel bad about",
+   "alt": [
+    "felt bad about",
+    "feels bad about"
+   ]
+  },
+  {
+   "id": "cant_help_it",
+   "en": "can't help it",
+   "uz": "o‘zini tutolmaslik (beixtiyor qilmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I know I shouldn't laugh in the library, but my friend's face is so funny that I can't help it.",
+   "gap": "can't help it",
+   "alt": [
+    "couldn't help it"
+   ]
+  },
+  {
+   "id": "wait_and_see",
+   "en": "wait and see",
+   "uz": "kutib ko‘rmoq (nima bo‘lishini)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nobody knows yet whether the new swimming pool will open before the holidays; we'll have to wait and see.",
+   "gap": "wait and see",
+   "alt": []
+  },
+  {
+   "id": "what_if",
+   "en": "what if",
+   "uz": "agar … bo‘lsa-chi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A picnic by the river sounds great, but what if it rains on Saturday?",
+   "gap": "what if",
+   "alt": []
+  },
+  {
+   "id": "change_your_mind",
+   "en": "change your mind",
+   "uz": "fikridan qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nozima wanted the red dress, but in the shop she changed her mind and bought the green one.",
+   "gap": "changed her mind",
+   "alt": [
+    "change my mind",
+    "changed my mind",
+    "changed her mind",
+    "changes his mind"
+   ]
+  },
+  {
+   "id": "that_sort_of_thing",
+   "en": "that sort of thing",
+   "uz": "shunga o‘xshash narsalar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For the camping trip, pack a torch, warm socks, a water bottle, that sort of thing.",
+   "gap": "that sort of thing",
+   "alt": [
+    "that kind of thing"
+   ]
+  },
+  {
+   "id": "sort_of",
+   "en": "sort of",
+   "uz": "qandaydir, sal-pal",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The soup tasted sort of strange, so I asked the waiter what was in it.",
+   "gap": "sort of",
+   "alt": [
+    "kind of"
+   ]
+  },
+  {
+   "id": "no_chance",
+   "en": "No chance",
+   "uz": "Hech qanaqasiga!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Will you lend me your new bike for the weekend?' 'Sorry, no chance! You broke my last one.'",
+   "gap": "no chance",
+   "alt": []
+  },
+  {
+   "id": "youre_kidding",
+   "en": "You're kidding",
+   "uz": "Rostdanmi?! (Hazillashma!)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Our maths teacher has cancelled tomorrow's test!' 'Oh, you're kidding! Then I can watch the match tonight.'",
+   "gap": "you're kidding",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "you_must_be_joking",
+   "dont_believe_it"
+  ],
+  [
+   "no_way",
+   "dont_believe_it"
+  ],
+  [
+   "no_way",
+   "you_must_be_joking"
+  ],
+  [
+   "change_your_mind",
+   "make_up_your_mind"
+  ],
+  [
+   "couldnt_believe_my_eyes",
+   "dont_believe_it"
+  ],
+  [
+   "no_chance",
+   "no_way"
+  ],
+  [
+   "youre_kidding",
+   "you_must_be_joking"
+  ],
+  [
+   "youre_kidding",
+   "dont_believe_it"
+  ],
+  [
+   "youre_kidding",
+   "no_way"
+  ],
+  [
+   "youre_kidding",
+   "couldnt_believe_my_eyes"
+  ]
+ ]
+}

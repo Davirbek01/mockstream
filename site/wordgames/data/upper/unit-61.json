@@ -1,0 +1,352 @@
+{
+ "book": "upper",
+ "unit": 61,
+ "title": "Time: connecting words and expressions",
+ "title_uz": "Vaqt: bog‘lovchi so‘z va iboralar",
+ "words": [
+  {
+   "id": "prior_to",
+   "en": "prior to",
+   "uz": "…dan oldin (rasmiy)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Candidates must switch off their phones prior to entering the exam hall.",
+   "gap": "prior to",
+   "alt": []
+  },
+  {
+   "id": "previously",
+   "en": "previously",
+   "uz": "ilgari, bundan avval",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Aunt Nodira now teaches at a college in Fergana; previously she worked at a village school near Kokand.",
+   "gap": "previously",
+   "alt": []
+  },
+  {
+   "id": "earlier_on",
+   "en": "earlier on",
+   "uz": "sal oldinroq (o‘sha kuni; so‘zl.)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Dad has been at home since lunchtime, but he was at the car wash earlier on.",
+   "gap": "earlier on",
+   "alt": []
+  },
+  {
+   "id": "formerly",
+   "en": "formerly",
+   "uz": "avvallari (nomi, holati o‘zgargan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The small hotel near the Ark in Bukhara was formerly a merchant's house.",
+   "gap": "formerly",
+   "alt": []
+  },
+  {
+   "id": "in_the_meantime",
+   "en": "in the meantime",
+   "uz": "shu orada (…gacha bo‘lgan vaqtda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The plumber can't come until Thursday, so in the meantime we're washing the dishes in the bathroom sink.",
+   "gap": "in the meantime",
+   "alt": []
+  },
+  {
+   "id": "meanwhile",
+   "en": "meanwhile",
+   "uz": "ayni shu paytda (boshqa joyda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Mum was busy decorating the cake in the living room; meanwhile, in the kitchen, Dad was secretly tasting the cream.",
+   "gap": "meanwhile",
+   "alt": []
+  },
+  {
+   "id": "the_very_moment",
+   "en": "the very moment",
+   "uz": "aynan o‘sha lahzada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My phone started ringing at the very moment the teacher handed out the test papers.",
+   "gap": "the very moment",
+   "alt": []
+  },
+  {
+   "id": "simultaneously",
+   "en": "simultaneously",
+   "uz": "bir vaqtning o‘zida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The two runners crossed the finish line simultaneously, so the judges declared a draw.",
+   "gap": "simultaneously",
+   "alt": []
+  },
+  {
+   "id": "during",
+   "en": "during",
+   "uz": "…paytida (davomida bir payt)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Please don't talk to your partner during the test; you can ask me questions when it's over.",
+   "gap": "during",
+   "alt": []
+  },
+  {
+   "id": "throughout",
+   "en": "throughout",
+   "uz": "boshidan oxirigacha (…bo‘yi)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "It rained throughout our three days at Charvak, so we never went swimming once.",
+   "gap": "throughout",
+   "alt": []
+  },
+  {
+   "id": "following",
+   "en": "following",
+   "uz": "…dan so‘ng (rasmiy)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The mountain road was closed for repairs following the landslide that destroyed part of it.",
+   "gap": "following",
+   "alt": []
+  },
+  {
+   "id": "subsequently",
+   "en": "subsequently",
+   "uz": "keyinchalik",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Malika started going to a drawing class at the age of ten and subsequently, after years of practice, held her first exhibition at seventeen.",
+   "gap": "subsequently",
+   "alt": []
+  },
+  {
+   "id": "thereafter",
+   "en": "thereafter",
+   "uz": "shundan keyin (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our flight landed in Urgench at midnight, and the bus to the hotel left shortly thereafter.",
+   "gap": "thereafter",
+   "alt": []
+  },
+  {
+   "id": "immediate",
+   "en": "immediate",
+   "uz": "zudlik bilan yuz bergan (sifat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new traffic lights near our school had an immediate effect: there hasn't been a single accident since.",
+   "gap": "immediate",
+   "alt": []
+  },
+  {
+   "id": "the_moment",
+   "en": "the moment",
+   "uz": "…gan zahoti",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The audience burst into applause the moment the curtain came down.",
+   "gap": "the moment",
+   "alt": []
+  },
+  {
+   "id": "the_time",
+   "en": "the time",
+   "uz": "…gan o‘sha safar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We stayed with my uncle in Khiva the time our flat was being repainted.",
+   "gap": "the time",
+   "alt": [
+    "the time that"
+   ]
+  },
+  {
+   "id": "on_that_occasion",
+   "en": "on that occasion",
+   "uz": "o‘sha gal (rasmiyroq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I've taken part in three spelling competitions; the first was in Jizzakh, and on that occasion I came last.",
+   "gap": "on that occasion",
+   "alt": []
+  },
+  {
+   "id": "at_a_later_stage",
+   "en": "at a later stage",
+   "uz": "keyingi bosqichda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The architects have shown us the plans for the new library; the furniture and colours will only be chosen at a later stage, once the walls are built.",
+   "gap": "at a later stage",
+   "alt": []
+  },
+  {
+   "id": "at_some_point",
+   "en": "at some point",
+   "uz": "qachondir (kelajakda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nobody has fixed the broken slide in the playground yet, but I'm sure someone will repair it at some point.",
+   "gap": "at some point",
+   "alt": []
+  },
+  {
+   "id": "for_the_moment",
+   "en": "for the moment",
+   "uz": "hozircha (vaqtincha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm happy with my old bike for the moment, but I'd love a faster one next year.",
+   "gap": "for the moment",
+   "alt": []
+  },
+  {
+   "id": "the_very_time",
+   "en": "the very time",
+   "uz": "xuddi o‘sha vaqtning o‘zida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The fire alarm went off at the very time our class was starting the chemistry test.",
+   "gap": "the very time",
+   "alt": []
+  },
+  {
+   "id": "the_minute",
+   "en": "the minute",
+   "uz": "…gan daqiqadayoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our cat runs into the kitchen the minute she hears the fridge door open.",
+   "gap": "the minute",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "previously",
+   "formerly"
+  ],
+  [
+   "previously",
+   "earlier_on"
+  ],
+  [
+   "formerly",
+   "earlier_on"
+  ],
+  [
+   "in_the_meantime",
+   "meanwhile"
+  ],
+  [
+   "meanwhile",
+   "simultaneously"
+  ],
+  [
+   "the_very_moment",
+   "the_moment"
+  ],
+  [
+   "the_very_moment",
+   "the_time"
+  ],
+  [
+   "the_moment",
+   "the_time"
+  ],
+  [
+   "the_time",
+   "on_that_occasion"
+  ],
+  [
+   "during",
+   "throughout"
+  ],
+  [
+   "prior_to",
+   "following"
+  ],
+  [
+   "subsequently",
+   "thereafter"
+  ],
+  [
+   "following",
+   "subsequently"
+  ],
+  [
+   "at_a_later_stage",
+   "at_some_point"
+  ],
+  [
+   "for_the_moment",
+   "in_the_meantime"
+  ],
+  [
+   "at_some_point",
+   "previously"
+  ],
+  [
+   "at_some_point",
+   "earlier_on"
+  ],
+  [
+   "at_some_point",
+   "formerly"
+  ],
+  [
+   "at_some_point",
+   "subsequently"
+  ],
+  [
+   "at_a_later_stage",
+   "subsequently"
+  ],
+  [
+   "at_a_later_stage",
+   "thereafter"
+  ],
+  [
+   "for_the_moment",
+   "meanwhile"
+  ],
+  [
+   "the_very_time",
+   "the_very_moment"
+  ],
+  [
+   "the_very_time",
+   "the_moment"
+  ],
+  [
+   "the_very_time",
+   "the_time"
+  ],
+  [
+   "the_minute",
+   "the_moment"
+  ],
+  [
+   "the_minute",
+   "the_very_moment"
+  ],
+  [
+   "the_minute",
+   "the_very_time"
+  ],
+  [
+   "the_minute",
+   "the_time"
+  ],
+  [
+   "the_very_time",
+   "simultaneously"
+  ]
+ ]
+}

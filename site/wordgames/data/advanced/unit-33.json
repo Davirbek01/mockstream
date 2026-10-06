@@ -1,0 +1,385 @@
+{
+ "book": "advanced",
+ "unit": 33,
+ "title": "Our endangered world",
+ "title_uz": "Xavf ostidagi dunyomiz",
+ "words": [
+  {
+   "id": "shrinking_habitats",
+   "en": "shrinking habitats",
+   "uz": "qisqarib borayotgan yashash joylari",
+   "pos": "noun",
+   "img": false,
+   "ex": "As towns spread further into the foothills, shrinking habitats leave snow leopards with fewer places to hunt.",
+   "gap": "shrinking habitats",
+   "alt": [
+    "shrinking habitat"
+   ]
+  },
+  {
+   "id": "biodiversity",
+   "en": "biodiversity",
+   "uz": "biologik xilma-xillik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school garden club planted wild flowers instead of lawn grass to increase biodiversity and attract more bees and butterflies.",
+   "gap": "biodiversity",
+   "alt": []
+  },
+  {
+   "id": "endangered_species",
+   "en": "endangered species",
+   "uz": "yo‘qolib ketish xavfidagi tur",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school eco-club adopted an endangered species, the Turkestan lynx, and raised money for the reserve that protects it.",
+   "gap": "endangered species",
+   "alt": []
+  },
+  {
+   "id": "climate_change_sceptic",
+   "en": "climate change sceptic",
+   "uz": "iqlim o‘zgarishiga ishonmaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even the most stubborn climate change sceptic in our debate club changed his mind after studying thirty years of temperature records.",
+   "gap": "climate change sceptic",
+   "alt": [
+    "climate change sceptics",
+    "climate change skeptic"
+   ]
+  },
+  {
+   "id": "global_warming",
+   "en": "global warming",
+   "uz": "global isish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our geography teacher showed us two photos of the same glacier taken fifty years apart; because of global warming, it had shrunk to half its size.",
+   "gap": "global warming",
+   "alt": []
+  },
+  {
+   "id": "carbon_emissions",
+   "en": "carbon emissions",
+   "uz": "uglerod chiqindilari (CO₂ emissiyasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Switching the city's buses from diesel to electric power should cut carbon emissions significantly.",
+   "gap": "carbon emissions",
+   "alt": [
+    "carbon dioxide emissions"
+   ]
+  },
+  {
+   "id": "fossil_fuels",
+   "en": "fossil fuels",
+   "uz": "qazilma yoqilg‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school still heats its classrooms with a coal boiler, but the head teacher wants to stop relying on fossil fuels and install heat pumps.",
+   "gap": "fossil fuels",
+   "alt": [
+    "fossil fuel"
+   ]
+  },
+  {
+   "id": "greenhouse_effect",
+   "en": "greenhouse effect",
+   "uz": "issiqxona effekti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our science lesson we left a thermometer inside a closed glass jar in the sun to show how the greenhouse effect traps heat.",
+   "gap": "greenhouse effect",
+   "alt": []
+  },
+  {
+   "id": "exert_pressure_on",
+   "en": "exert pressure on",
+   "uz": "…ga kuchli bosim o‘tkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Thousands of extra visitors each summer exert severe pressure on the mountain village's small water supply.",
+   "gap": "exert severe pressure on",
+   "alt": [
+    "exert severe pressure on",
+    "exerts pressure on",
+    "exerted pressure on",
+    "exerting pressure on"
+   ]
+  },
+  {
+   "id": "finite_resources",
+   "en": "finite resources",
+   "uz": "tugaydigan (cheklangan) resurslar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since gas is one of the country's finite resources, the government is already planning what will replace it when the fields run dry.",
+   "gap": "finite resources",
+   "alt": [
+    "finite resource"
+   ]
+  },
+  {
+   "id": "ecological_balance",
+   "en": "ecological balance",
+   "uz": "ekologik muvozanat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Releasing a foreign fish into the lake upset the ecological balance, and several local species soon disappeared.",
+   "gap": "ecological balance",
+   "alt": []
+  },
+  {
+   "id": "deforestation",
+   "en": "deforestation",
+   "uz": "o‘rmonlarni kesib yo‘qotish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Villagers in the hills above Bostanliq say that deforestation has left the slopes bare, so every spring the rain washes the soil away.",
+   "gap": "deforestation",
+   "alt": []
+  },
+  {
+   "id": "demographic_projections",
+   "en": "demographic projections",
+   "uz": "aholi soni bo‘yicha prognozlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town council studied demographic projections to decide how many new schools the district will need in ten years' time.",
+   "gap": "demographic projections",
+   "alt": [
+    "demographic projection"
+   ]
+  },
+  {
+   "id": "grow_exponentially",
+   "en": "grow exponentially",
+   "uz": "nihoyatda tez sur’atda o‘smoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The number of electric cars in the city has grown exponentially, almost doubling every year.",
+   "gap": "grown exponentially",
+   "alt": [
+    "grown exponentially",
+    "grows exponentially",
+    "growing exponentially",
+    "grew exponentially"
+   ]
+  },
+  {
+   "id": "depleting_resources",
+   "en": "depleting resources",
+   "uz": "kamayib borayotgan resurslar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fishermen on the lake have to sail further every year to find fish, a clear sign of depleting resources.",
+   "gap": "depleting resources",
+   "alt": []
+  },
+  {
+   "id": "waste_disposal",
+   "en": "waste disposal",
+   "uz": "chiqindilarni yo‘q qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the small island, waste disposal is a real headache, because all the rubbish has to be shipped to the mainland.",
+   "gap": "waste disposal",
+   "alt": []
+  },
+  {
+   "id": "toxic_waste",
+   "en": "toxic waste",
+   "uz": "zaharli chiqindilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old battery factory was closed after toxic waste was found leaking into the river.",
+   "gap": "toxic waste",
+   "alt": []
+  },
+  {
+   "id": "contaminate",
+   "en": "contaminate",
+   "uz": "zaharlab ifloslantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Chemicals from nearby fields have contaminated the village well, so the water is no longer safe to drink.",
+   "gap": "contaminated",
+   "alt": [
+    "contaminated",
+    "contaminates",
+    "contaminating"
+   ]
+  },
+  {
+   "id": "precious_commodity",
+   "en": "precious commodity",
+   "uz": "qimmatbaho ne’mat",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the long, dry summer, water in the village became such a precious commodity that neighbours took turns at the only working pump.",
+   "gap": "precious commodity",
+   "alt": []
+  },
+  {
+   "id": "water_security",
+   "en": "water security",
+   "uz": "suv xavfsizligi (ichimlik suvi kafolati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lining the old canals with concrete is part of the government's plan to improve water security for farmers in the south.",
+   "gap": "water security",
+   "alt": []
+  },
+  {
+   "id": "worst_case_scenario",
+   "en": "worst-case scenario",
+   "uz": "eng yomon ssenariy",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the worst-case scenario, parts of the coastal city could be under water by the end of the century.",
+   "gap": "worst-case scenario",
+   "alt": [
+    "worst case scenario"
+   ]
+  },
+  {
+   "id": "pristine",
+   "en": "pristine",
+   "uz": "musaffo, daxlsiz (tabiat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "High in the mountains, the lakes are still pristine, with crystal-clear water and not a single piece of litter.",
+   "gap": "pristine",
+   "alt": []
+  },
+  {
+   "id": "green_credentials",
+   "en": "green credentials",
+   "uz": "ekologik obro‘",
+   "pos": "noun",
+   "img": false,
+   "ex": "The airline planted a million trees in an attempt to improve its green credentials.",
+   "gap": "green credentials",
+   "alt": []
+  },
+  {
+   "id": "prophets_of_doom",
+   "en": "prophets of doom",
+   "uz": "faqat yomonlikni bashorat qiluvchilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The prophets of doom said the new park would never attract anyone, but it is now full of families every weekend.",
+   "gap": "prophets of doom",
+   "alt": [
+    "prophets of doom and gloom",
+    "prophet of doom"
+   ]
+  },
+  {
+   "id": "sustainable_development",
+   "en": "sustainable development",
+   "uz": "barqaror rivojlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new eco-village was planned with sustainable development in mind: local building materials, rainwater tanks and jobs for local people.",
+   "gap": "sustainable development",
+   "alt": []
+  },
+  {
+   "id": "renewable_energy",
+   "en": "renewable energy",
+   "uz": "qayta tiklanuvchi energiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school roof is now covered with solar panels, so most of its electricity comes from renewable energy.",
+   "gap": "renewable energy",
+   "alt": []
+  },
+  {
+   "id": "cause_damage",
+   "en": "cause damage",
+   "uz": "zarar yetkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The spring floods caused serious damage to the roads, and some villages were cut off for days.",
+   "gap": "caused serious damage",
+   "alt": [
+    "caused serious damage",
+    "caused damage",
+    "causes damage",
+    "causing damage"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "finite_resources",
+   "depleting_resources"
+  ],
+  [
+   "finite_resources",
+   "precious_commodity"
+  ],
+  [
+   "global_warming",
+   "greenhouse_effect"
+  ],
+  [
+   "carbon_emissions",
+   "fossil_fuels"
+  ],
+  [
+   "toxic_waste",
+   "waste_disposal"
+  ],
+  [
+   "contaminate",
+   "cause_damage"
+  ],
+  [
+   "sustainable_development",
+   "renewable_energy"
+  ],
+  [
+   "biodiversity",
+   "ecological_balance"
+  ],
+  [
+   "precious_commodity",
+   "water_security"
+  ],
+  [
+   "climate_change_sceptic",
+   "prophets_of_doom"
+  ],
+  [
+   "shrinking_habitats",
+   "deforestation"
+  ],
+  [
+   "endangered_species",
+   "shrinking_habitats"
+  ],
+  [
+   "habitat",
+   "shrinking_habitats"
+  ],
+  [
+   "fossil_fuels",
+   "finite_resources"
+  ],
+  [
+   "fossil_fuels",
+   "renewable_energy"
+  ],
+  [
+   "global_warming",
+   "carbon_emissions"
+  ],
+  [
+   "global_warming",
+   "fossil_fuels"
+  ]
+ ]
+}

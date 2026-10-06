@@ -1,0 +1,436 @@
+{
+ "book": "upper",
+ "unit": 12,
+ "title": "Everyday minor problems",
+ "title_uz": "Kundalik mayda muammolar",
+ "words": [
+  {
+   "id": "leak",
+   "en": "leak",
+   "uz": "oqib turmoq (quvur, tom)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Water has been leaking from the old pipe under the sink all night, and now the kitchen floor is soaking.",
+   "gap": "leaking",
+   "alt": [
+    "leaks",
+    "leaking",
+    "leaked"
+   ]
+  },
+  {
+   "id": "smash",
+   "en": "smash",
+   "uz": "chil-chil sindirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A gust of wind slammed the balcony door so hard that the glass smashed into tiny pieces all over the floor.",
+   "gap": "smashed",
+   "alt": [
+    "smashes",
+    "smashed",
+    "smashing"
+   ]
+  },
+  {
+   "id": "cracked",
+   "en": "cracked",
+   "uz": "darz ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't pour water into that vase: it's cracked, and the water will seep out through the thin line down its side.",
+   "gap": "cracked",
+   "alt": [
+    "crack"
+   ]
+  },
+  {
+   "id": "chipped",
+   "en": "chipped",
+   "uz": "cheti uchgan (kemtik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My favourite blue bowl fell into the sink, and now it's chipped: a small piece is missing from the rim.",
+   "gap": "chipped",
+   "alt": [
+    "chip"
+   ]
+  },
+  {
+   "id": "run_out",
+   "en": "run out",
+   "uz": "tugab qolmoq (batareya quvvati)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My son's toy car stopped halfway across the room because its batteries had run out.",
+   "gap": "run out",
+   "alt": [
+    "runs out",
+    "ran out",
+    "running out"
+   ]
+  },
+  {
+   "id": "power_cut",
+   "en": "power cut",
+   "uz": "elektr uzilishi (svet o‘chishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During last night's power cut, we finished dinner by candlelight while the fridge slowly warmed up.",
+   "gap": "power cut",
+   "alt": [
+    "power cuts"
+   ]
+  },
+  {
+   "id": "come_off",
+   "en": "come off",
+   "uz": "ko‘chib tushmoq (dasta, tugma)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I was doing up my coat on the bus when the top button came off and rolled under the seat.",
+   "gap": "came off",
+   "alt": [
+    "comes off",
+    "came off",
+    "coming off"
+   ]
+  },
+  {
+   "id": "break_down",
+   "en": "break down",
+   "uz": "buzilib qolmoq (mashina, texnika)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our minibus broke down on the road to Shahrisabz, and we waited two hours by the roadside for a mechanic.",
+   "gap": "broke down",
+   "alt": [
+    "breaks down",
+    "broke down",
+    "broken down"
+   ]
+  },
+  {
+   "id": "crushed",
+   "en": "crushed",
+   "uz": "ezilib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The flowers I'd bought for my teacher got crushed in my crowded school bag, and half the petals fell off.",
+   "gap": "crushed",
+   "alt": [
+    "crush"
+   ]
+  },
+  {
+   "id": "crash",
+   "en": "crash",
+   "uz": "qotib qolmoq (kompyuter)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The game crashed three times during the final level, and each time I lost everything since the last save.",
+   "gap": "crashed",
+   "alt": [
+    "crashes",
+    "crashed",
+    "crashing"
+   ]
+  },
+  {
+   "id": "twist",
+   "en": "twist",
+   "uz": "(oyoqni) qayirib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dilnoza twisted her ankle when she stepped awkwardly off the bus, and now it's swollen.",
+   "gap": "twisted",
+   "alt": [
+    "twists",
+    "twisted"
+   ]
+  },
+  {
+   "id": "bump",
+   "en": "bump",
+   "uz": "(boshni) urib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our ceiling is so low that tall visitors often bump their heads on the light in the hall.",
+   "gap": "bump",
+   "alt": [
+    "bumps",
+    "bumped",
+    "bang",
+    "banged"
+   ]
+  },
+  {
+   "id": "bruise",
+   "en": "bruise",
+   "uz": "ko‘karish (lat yegan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ball hit his leg hard during the match, and the next day there was a big purple bruise.",
+   "gap": "bruise",
+   "alt": [
+    "bruises"
+   ]
+  },
+  {
+   "id": "trip",
+   "en": "trip",
+   "uz": "qoqilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Be careful with that cable: I tripped over it this morning and nearly fell.",
+   "gap": "tripped",
+   "alt": [
+    "trips",
+    "tripped"
+   ]
+  },
+  {
+   "id": "graze",
+   "en": "graze",
+   "uz": "(terini) shilib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Akmal fell off his bike and grazed both knees on the road; they were red and sore, but not bleeding.",
+   "gap": "grazed",
+   "alt": [
+    "grazes",
+    "grazed"
+   ]
+  },
+  {
+   "id": "spill",
+   "en": "spill",
+   "uz": "to‘kib yubormoq (suyuqlik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zarina spilt green tea all over her keyboard during an online lesson.",
+   "gap": "spilt",
+   "alt": [
+    "spills",
+    "spilt",
+    "spilled"
+   ]
+  },
+  {
+   "id": "stain",
+   "en": "stain",
+   "uz": "dog‘ (ketmaydigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've washed my white shirt twice, but the pomegranate juice stain is still there.",
+   "gap": "stain",
+   "alt": [
+    "stains"
+   ]
+  },
+  {
+   "id": "blocked",
+   "en": "blocked",
+   "uz": "tiqilib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The water won't go down the kitchen sink; I think it's blocked with rice.",
+   "gap": "blocked",
+   "alt": [
+    "block"
+   ]
+  },
+  {
+   "id": "dent",
+   "en": "dent",
+   "uz": "pachoq joy (metallda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Someone reversed into my car in the supermarket car park and left a big dent in the door.",
+   "gap": "dent",
+   "alt": [
+    "dents",
+    "dented"
+   ]
+  },
+  {
+   "id": "lock_yourself_out",
+   "en": "lock yourself out",
+   "uz": "kalitsiz tashqarida qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I left my keys on the table and locked myself out, so I had to wait two hours for my sister to come home.",
+   "gap": "locked myself out",
+   "alt": [
+    "locked myself out",
+    "lock myself out",
+    "locked herself out",
+    "locked himself out"
+   ]
+  },
+  {
+   "id": "wont_start",
+   "en": "won't start",
+   "uz": "o‘t olmaydi (mashina)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's minus fifteen in Urgench this morning, and my old car won't start, however many times I turn the key.",
+   "gap": "won't start",
+   "alt": [
+    "will not start",
+    "wouldn't start"
+   ]
+  },
+  {
+   "id": "flat_battery",
+   "en": "flat",
+   "uz": "o‘tirib qolgan (akkumulyator)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum left the car lights on all night, so the battery was flat in the morning.",
+   "gap": "flat",
+   "alt": []
+  },
+  {
+   "id": "slow_clock",
+   "en": "slow",
+   "uz": "orqada qolayotgan (soat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My watch is five minutes slow, which is why I'm always a little late for the first lesson.",
+   "gap": "slow",
+   "alt": []
+  },
+  {
+   "id": "fast_clock",
+   "en": "fast",
+   "uz": "oldinga ketgan (soat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The kitchen clock is ten minutes fast, so we always think we're later than we really are.",
+   "gap": "fast",
+   "alt": []
+  },
+  {
+   "id": "fall_off",
+   "en": "fall off",
+   "uz": "tushib ketmoq (oyna, g‘ildirak)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The wing mirror on Farrukh's old car finally fell off when he drove over a deep pothole, and he had to stop and pick it up from the road.",
+   "gap": "fell off",
+   "alt": [
+    "falls off",
+    "fell off",
+    "fallen off",
+    "falling off"
+   ]
+  },
+  {
+   "id": "dead_battery",
+   "en": "dead",
+   "uz": "quvvati butunlay tugagan (batareya)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The torch gave no light at all on our camping trip because the batteries inside were dead.",
+   "gap": "dead",
+   "alt": []
+  },
+  {
+   "id": "lock_n",
+   "en": "lock",
+   "uz": "qulf",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lock on the garden gate is so rusty that the key hardly turns.",
+   "gap": "lock",
+   "alt": [
+    "locks"
+   ]
+  },
+  {
+   "id": "stopped_clock",
+   "en": "stopped",
+   "uz": "to‘xtab qolgan (soat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The station clock has stopped at 7:15, so check the time on your phone instead.",
+   "gap": "stopped",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "smash",
+   "cracked"
+  ],
+  [
+   "leak",
+   "cracked"
+  ],
+  [
+   "run_out",
+   "flat_battery"
+  ],
+  [
+   "crash",
+   "break_down"
+  ],
+  [
+   "smash",
+   "crushed"
+  ],
+  [
+   "twist",
+   "bump"
+  ],
+  [
+   "twist",
+   "graze"
+  ],
+  [
+   "bump",
+   "graze"
+  ],
+  [
+   "bruise",
+   "stain"
+  ],
+  [
+   "slow_clock",
+   "fast_clock"
+  ],
+  [
+   "break_down",
+   "wont_start"
+  ],
+  [
+   "dent",
+   "crushed"
+  ],
+  [
+   "fall_off",
+   "come_off"
+  ],
+  [
+   "dead_battery",
+   "flat_battery"
+  ],
+  [
+   "dead_battery",
+   "run_out"
+  ],
+  [
+   "lock_n",
+   "lock_yourself_out"
+  ],
+  [
+   "stopped_clock",
+   "slow_clock"
+  ],
+  [
+   "stopped_clock",
+   "fast_clock"
+  ]
+ ]
+}

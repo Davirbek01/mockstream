@@ -1,0 +1,735 @@
+{
+ "book": "upper",
+ "unit": 33,
+ "title": "Science and technology",
+ "title_uz": "Fan va texnologiya",
+ "words": [
+  {
+   "id": "genetic_engineering",
+   "en": "genetic engineering",
+   "uz": "gen muhandisligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Through genetic engineering, researchers hope to create a type of wheat that survives long summers without rain.",
+   "gap": "genetic engineering",
+   "alt": []
+  },
+  {
+   "id": "gm_food",
+   "en": "GM food",
+   "uz": "genetik o‘zgartirilgan oziq-ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "In some countries, packets of GM food must carry a special label, so shoppers know the crop's genes have been changed.",
+   "gap": "GM food",
+   "alt": [
+    "GM foods",
+    "genetically modified food"
+   ]
+  },
+  {
+   "id": "ergonomics",
+   "en": "ergonomics",
+   "uz": "ergonomika (ish joyi qulayligi fani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "An expert in ergonomics helped the bank choose desks and chairs that don't hurt the workers' backs.",
+   "gap": "ergonomics",
+   "alt": []
+  },
+  {
+   "id": "molecular_biology",
+   "en": "molecular biology",
+   "uz": "molekulyar biologiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister is studying molecular biology, so she spends hours in the lab looking at proteins and DNA.",
+   "gap": "molecular biology",
+   "alt": []
+  },
+  {
+   "id": "voice_technology",
+   "en": "voice technology",
+   "uz": "nutqni taniydigan texnologiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to voice technology, I can tell my phone to set a timer while my hands are covered in flour.",
+   "gap": "voice technology",
+   "alt": []
+  },
+  {
+   "id": "stem_cell_research",
+   "en": "stem cell research",
+   "uz": "o‘zak hujayra tadqiqotlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors hope that stem cell research will one day help them repair damaged hearts.",
+   "gap": "stem cell research",
+   "alt": [
+    "stem-cell research"
+   ]
+  },
+  {
+   "id": "cloning",
+   "en": "cloning",
+   "uz": "klonlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "In biology class we watched a film about cloning and then argued about whether it is right to make an exact copy of an animal.",
+   "gap": "cloning",
+   "alt": []
+  },
+  {
+   "id": "hydroponics",
+   "en": "hydroponics",
+   "uz": "gidroponika (tuproqsiz o‘stirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Using hydroponics, the farm grows tomatoes in pipes of water mixed with nutrients, right inside a city warehouse.",
+   "gap": "hydroponics",
+   "alt": []
+  },
+  {
+   "id": "botany",
+   "en": "botany",
+   "uz": "botanika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our biology teacher loves botany and can name every tree and wild flower in the park.",
+   "gap": "botany",
+   "alt": []
+  },
+  {
+   "id": "zoology",
+   "en": "zoology",
+   "uz": "zoologiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika chose to study zoology because she wants to work with wild animals in a national park.",
+   "gap": "zoology",
+   "alt": []
+  },
+  {
+   "id": "alter",
+   "en": "alter",
+   "uz": "biroz o‘zgartirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The scientists altered just one gene in the plant to help it survive frost.",
+   "gap": "altered",
+   "alt": [
+    "alters",
+    "altered",
+    "altering"
+   ]
+  },
+  {
+   "id": "interact",
+   "en": "interact",
+   "uz": "o‘zaro muloqotga kirishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the new science museum, visitors can interact with the exhibits by touching screens and talking to robots.",
+   "gap": "interact",
+   "alt": [
+    "interacts",
+    "interacted",
+    "interacting"
+   ]
+  },
+  {
+   "id": "molecule",
+   "en": "molecule",
+   "uz": "molekula",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our chemistry teacher built a model of a molecule out of plasticine balls and toothpicks.",
+   "gap": "molecule",
+   "alt": [
+    "molecules"
+   ]
+  },
+  {
+   "id": "soil",
+   "en": "soil",
+   "uz": "tuproq",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the spring rain, the soil in the garden was soft enough to dig with our hands.",
+   "gap": "soil",
+   "alt": []
+  },
+  {
+   "id": "enable",
+   "en": "enable",
+   "uz": "imkon bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new app enables blind users to hear the text on any web page read aloud.",
+   "gap": "enables",
+   "alt": [
+    "enables",
+    "enabled",
+    "enabling"
+   ]
+  },
+  {
+   "id": "interpret",
+   "en": "interpret",
+   "uz": "talqin qilmoq (ma’nosini aniqlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The voice assistant sometimes interprets my words wrongly and phones the wrong person.",
+   "gap": "interprets",
+   "alt": [
+    "interprets",
+    "interpreted",
+    "interpreting"
+   ]
+  },
+  {
+   "id": "satnav",
+   "en": "satnav",
+   "uz": "navigator (GPS qurilmasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We'd have got lost in the narrow streets without the satnav, which told us exactly where to turn.",
+   "gap": "satnav",
+   "alt": [
+    "sat nav",
+    "satnavs",
+    "GPS"
+   ]
+  },
+  {
+   "id": "camcorder",
+   "en": "camcorder",
+   "uz": "videokamera",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad filmed my first steps with an old camcorder, and the tape is still in a drawer somewhere.",
+   "gap": "camcorder",
+   "alt": [
+    "camcorders"
+   ]
+  },
+  {
+   "id": "digital_photo_frame",
+   "en": "digital photo frame",
+   "uz": "raqamli fotoramka",
+   "pos": "noun",
+   "img": false,
+   "ex": "The digital photo frame on the shelf shows a different family picture every ten seconds.",
+   "gap": "digital photo frame",
+   "alt": [
+    "digital photo frames"
+   ]
+  },
+  {
+   "id": "smartphone",
+   "en": "smartphone",
+   "uz": "smartfon",
+   "pos": "noun",
+   "img": true,
+   "ex": "These days almost every teenager has a smartphone and uses it for maps, music and homework.",
+   "gap": "smartphone",
+   "alt": [
+    "smartphones"
+   ]
+  },
+  {
+   "id": "experiment",
+   "en": "experiment",
+   "uz": "tajriba qilib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before choosing glass, the engineers experimented with several materials for the bridge's new walkway.",
+   "gap": "experimented",
+   "alt": [
+    "experiments",
+    "experimented",
+    "experimenting"
+   ]
+  },
+  {
+   "id": "utilise",
+   "en": "utilise",
+   "uz": "foydalanmoq (rasmiy, ilmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The factory utilises the heat from its own machines to warm the offices in winter.",
+   "gap": "utilises",
+   "alt": [
+    "utilize",
+    "utilises",
+    "utilised",
+    "utilising"
+   ]
+  },
+  {
+   "id": "lever",
+   "en": "lever",
+   "uz": "richag (dastak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To open the old gates, the worker had to pull a heavy iron lever with both hands.",
+   "gap": "lever",
+   "alt": [
+    "levers"
+   ]
+  },
+  {
+   "id": "rotate",
+   "en": "rotate",
+   "uz": "aylanmoq (o‘q atrofida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The blades of the wind turbines rotate slowly even when there is only a light breeze.",
+   "gap": "rotate",
+   "alt": [
+    "rotates",
+    "rotated",
+    "rotating"
+   ]
+  },
+  {
+   "id": "dissect",
+   "en": "dissect",
+   "uz": "kesib o‘rganmoq (tana, o‘simlikni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In biology class we carefully dissected a tulip to look at all the parts inside the flower.",
+   "gap": "dissected",
+   "alt": [
+    "dissects",
+    "dissected",
+    "dissecting"
+   ]
+  },
+  {
+   "id": "extract_v",
+   "en": "extract",
+   "uz": "ajratib olmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Factories in Uzbekistan extract oil from cotton seeds, and it is widely used for cooking.",
+   "gap": "extract",
+   "alt": [
+    "extracts",
+    "extracted",
+    "extracting"
+   ]
+  },
+  {
+   "id": "react",
+   "en": "react",
+   "uz": "reaksiyaga kirishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Iron reacts with water and air, which is why a bicycle left out in the rain soon goes rusty.",
+   "gap": "reacts",
+   "alt": [
+    "reacts",
+    "reacted",
+    "reacting"
+   ]
+  },
+  {
+   "id": "analyse",
+   "en": "analyse",
+   "uz": "tahlil qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After analysing the answers to our class survey, we found that most pupils sleep less than eight hours.",
+   "gap": "analysing",
+   "alt": [
+    "analyze",
+    "analyses",
+    "analysed",
+    "analysing",
+    "analyzed",
+    "analyzing"
+   ]
+  },
+  {
+   "id": "conclude",
+   "en": "conclude",
+   "uz": "xulosaga kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After testing the water for a month, the scientists concluded that it was safe to drink.",
+   "gap": "concluded",
+   "alt": [
+    "concludes",
+    "concluded",
+    "concluding"
+   ]
+  },
+  {
+   "id": "flaw",
+   "en": "flaw",
+   "uz": "nuqson, kamchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Engineers found a flaw in the design of the bridge and had to strengthen it before it opened.",
+   "gap": "flaw",
+   "alt": [
+    "flaws"
+   ]
+  },
+  {
+   "id": "insert",
+   "en": "insert",
+   "uz": "kiritmoq, joylamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To pay for parking, insert your card into the slot and type in your PIN.",
+   "gap": "insert",
+   "alt": [
+    "inserts",
+    "inserted",
+    "inserting"
+   ]
+  },
+  {
+   "id": "install",
+   "en": "install",
+   "uz": "o‘rnatmoq (dasturni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the online exam, every pupil had to install a special program on their laptop.",
+   "gap": "install",
+   "alt": [
+    "installs",
+    "installed",
+    "installing"
+   ]
+  },
+  {
+   "id": "chemistry",
+   "en": "chemistry",
+   "uz": "kimyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "In chemistry lessons we mix substances in test tubes and watch them change colour.",
+   "gap": "chemistry",
+   "alt": []
+  },
+  {
+   "id": "physics",
+   "en": "physics",
+   "uz": "fizika",
+   "pos": "noun",
+   "img": false,
+   "ex": "In physics we learned why a heavy ball and a light ball fall to the ground at the same speed.",
+   "gap": "physics",
+   "alt": []
+  },
+  {
+   "id": "feature_quality",
+   "en": "feature",
+   "uz": "o‘ziga xos jihat (xususiyat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The most useful feature of this washing machine is its quiet night mode.",
+   "gap": "feature",
+   "alt": [
+    "features"
+   ]
+  },
+  {
+   "id": "structure",
+   "en": "structure",
+   "uz": "tuzilish (qismlar joylashuvi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Using a microscope, the students examined the structure of a leaf, layer by layer.",
+   "gap": "structure",
+   "alt": [
+    "structures"
+   ]
+  },
+  {
+   "id": "function_purpose",
+   "en": "function",
+   "uz": "vazifa (organ yoki qismning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The main function of the heart is to pump blood round the body.",
+   "gap": "function",
+   "alt": [
+    "functions"
+   ]
+  },
+  {
+   "id": "associated",
+   "en": "associated",
+   "uz": "bog‘liq (…bilan xayolda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In many cultures, bright yellow is associated with sunshine and happiness.",
+   "gap": "associated",
+   "alt": []
+  },
+  {
+   "id": "cell",
+   "en": "cell",
+   "uz": "hujayra",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the microscope we could see that the onion skin is made of thousands of tiny cells.",
+   "gap": "cells",
+   "alt": [
+    "cells"
+   ]
+  },
+  {
+   "id": "creation",
+   "en": "creation",
+   "uz": "yaratilishi (avval bo‘lmagan narsaning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The creation of a new football academy in our town has given hundreds of children a place to train.",
+   "gap": "creation",
+   "alt": []
+  },
+  {
+   "id": "tv_3d",
+   "en": "3D TV",
+   "uz": "hajmli tasvirli televizor",
+   "pos": "noun",
+   "img": false,
+   "ex": "To watch films on our new 3D TV, everyone in the family has to wear special glasses.",
+   "gap": "3D TV",
+   "alt": [
+    "3D TVs",
+    "3-D TV"
+   ]
+  },
+  {
+   "id": "high_definition",
+   "en": "high-definition",
+   "uz": "yuqori aniqlikdagi (tasvir)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The match was filmed with high-definition cameras, so you could see every drop of sweat on the players' faces.",
+   "gap": "high-definition",
+   "alt": [
+    "high definition",
+    "HD"
+   ]
+  },
+  {
+   "id": "press_button",
+   "en": "press",
+   "uz": "bosmoq (tugmani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the lift stops between floors, press the red alarm button and wait for help.",
+   "gap": "press",
+   "alt": [
+    "presses",
+    "pressed",
+    "pressing"
+   ]
+  },
+  {
+   "id": "flash_v",
+   "en": "flash",
+   "uz": "yonib-o‘chib turmoq (chiroq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the battery is low, a small red light on the camera starts flashing.",
+   "gap": "flashing",
+   "alt": [
+    "flashes",
+    "flashed",
+    "flashing"
+   ]
+  },
+  {
+   "id": "combine",
+   "en": "combine",
+   "uz": "qo‘shmoq, birlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you combine blue and yellow paint, you get green.",
+   "gap": "combine",
+   "alt": [
+    "combines",
+    "combined",
+    "combining"
+   ]
+  },
+  {
+   "id": "gene",
+   "en": "gene",
+   "uz": "gen (irsiyat birligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single faulty gene can cause an illness that passes from parents to their children.",
+   "gap": "gene",
+   "alt": [
+    "genes"
+   ]
+  },
+  {
+   "id": "technician",
+   "en": "technician",
+   "uz": "laborant, texnik xodim",
+   "pos": "noun",
+   "img": false,
+   "ex": "A lab technician sets out all the equipment before the students arrive for their practical lesson.",
+   "gap": "technician",
+   "alt": [
+    "technicians"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "gene",
+   "molecule"
+  ],
+  [
+   "gene",
+   "cell"
+  ],
+  [
+   "molecular_biology",
+   "genetic_engineering"
+  ],
+  [
+   "molecular_biology",
+   "botany"
+  ],
+  [
+   "molecular_biology",
+   "zoology"
+  ],
+  [
+   "botany",
+   "zoology"
+  ],
+  [
+   "stem_cell_research",
+   "genetic_engineering"
+  ],
+  [
+   "genetic_engineering",
+   "gm_food"
+  ],
+  [
+   "genetic_engineering",
+   "cloning"
+  ],
+  [
+   "alter",
+   "extract_v"
+  ],
+  [
+   "alter",
+   "interpret"
+  ],
+  [
+   "interact",
+   "react"
+  ],
+  [
+   "utilise",
+   "extract_v"
+  ],
+  [
+   "smartphone",
+   "tablet_computer"
+  ],
+  [
+   "insert",
+   "key_in"
+  ],
+  [
+   "insert",
+   "plug_in"
+  ],
+  [
+   "install",
+   "upgrade"
+  ],
+  [
+   "install",
+   "run_program"
+  ],
+  [
+   "satnav",
+   "smartphone"
+  ],
+  [
+   "smartphone",
+   "laptop"
+  ],
+  [
+   "stem_cell_research",
+   "molecular_biology"
+  ],
+  [
+   "voice_technology",
+   "smartphone"
+  ],
+  [
+   "genetic_engineering",
+   "hydroponics"
+  ],
+  [
+   "structure",
+   "function_purpose"
+  ],
+  [
+   "cell",
+   "molecule"
+  ],
+  [
+   "chemistry",
+   "physics"
+  ],
+  [
+   "chemistry",
+   "molecular_biology"
+  ],
+  [
+   "physics",
+   "botany"
+  ],
+  [
+   "press_button",
+   "click"
+  ],
+  [
+   "press_button",
+   "insert"
+  ],
+  [
+   "flash_v",
+   "rotate"
+  ],
+  [
+   "combine",
+   "react"
+  ],
+  [
+   "tv_3d",
+   "smartphone"
+  ],
+  [
+   "tv_3d",
+   "high_definition"
+  ],
+  [
+   "high_definition",
+   "camcorder"
+  ],
+  [
+   "feature_quality",
+   "flaw"
+  ]
+ ]
+}

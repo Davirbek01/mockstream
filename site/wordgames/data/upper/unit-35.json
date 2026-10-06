@@ -1,0 +1,684 @@
+{
+ "book": "upper",
+ "unit": 35,
+ "title": "Communications and the Internet",
+ "title_uz": "Aloqa va Internet",
+ "words": [
+  {
+   "id": "broadband",
+   "en": "broadband",
+   "uz": "keng polosali (tezkor) internet",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since we got broadband, films stream without stopping, even when the whole family is online at once.",
+   "gap": "broadband",
+   "alt": []
+  },
+  {
+   "id": "wi_fi",
+   "en": "wi-fi",
+   "uz": "Wi-Fi (simsiz internet)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The café offers free wi-fi, so students come here with their laptops and stay for hours.",
+   "gap": "wi-fi",
+   "alt": [
+    "wifi",
+    "Wi-Fi",
+    "WiFi"
+   ]
+  },
+  {
+   "id": "browse",
+   "en": "browse",
+   "uz": "ko‘zdan kechirmoq (sahifalarni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I spent the evening browsing online shops for a winter jacket but didn't buy anything.",
+   "gap": "browsing",
+   "alt": [
+    "browses",
+    "browsed",
+    "browsing"
+   ]
+  },
+  {
+   "id": "browser",
+   "en": "browser",
+   "uz": "brauzer",
+   "pos": "noun",
+   "img": false,
+   "ex": "If a page won't load properly, try opening it in a different browser, such as Firefox or Chrome.",
+   "gap": "browser",
+   "alt": [
+    "browsers",
+    "web browser"
+   ]
+  },
+  {
+   "id": "search_engine",
+   "en": "search engine",
+   "uz": "qidiruv tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I typed a line of the song into a search engine, and the first result was the official video.",
+   "gap": "search engine",
+   "alt": [
+    "search engines"
+   ]
+  },
+  {
+   "id": "google",
+   "en": "google",
+   "uz": "Google orqali qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the interview, Nodira googled the company to find out what it actually does.",
+   "gap": "googled",
+   "alt": [
+    "googles",
+    "googled",
+    "googling",
+    "Google"
+   ]
+  },
+  {
+   "id": "surf_the_net",
+   "en": "surf the net",
+   "uz": "internetda maqsadsiz kezmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of doing my homework, I wasted two hours surfing the net, jumping from one video to another.",
+   "gap": "surfing the net",
+   "alt": [
+    "surfs the net",
+    "surfed the net",
+    "surfing the net",
+    "surf the web"
+   ]
+  },
+  {
+   "id": "website",
+   "en": "website",
+   "uz": "veb-sayt",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the theatre's website you can read about tonight's play and book your seats online.",
+   "gap": "website",
+   "alt": [
+    "websites",
+    "web site"
+   ]
+  },
+  {
+   "id": "navigate",
+   "en": "navigate",
+   "uz": "yo‘l topib yurmoq (saytda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new railway website is easy to navigate: you can find and buy a ticket in three clicks.",
+   "gap": "navigate",
+   "alt": [
+    "navigates",
+    "navigated",
+    "navigating"
+   ]
+  },
+  {
+   "id": "faq",
+   "en": "FAQ",
+   "uz": "ko‘p beriladigan savollar (FAQ)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before emailing the support team, check the FAQ page; your question has probably been answered already.",
+   "gap": "FAQ",
+   "alt": [
+    "FAQs"
+   ]
+  },
+  {
+   "id": "bookmark",
+   "en": "bookmark",
+   "uz": "xatcho‘pga qo‘shmoq (saytni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've bookmarked the online dictionary, so I can open it with one click whenever I need it.",
+   "gap": "bookmarked",
+   "alt": [
+    "bookmarks",
+    "bookmarked",
+    "bookmarking"
+   ]
+  },
+  {
+   "id": "log_in",
+   "en": "log in",
+   "uz": "tizimga kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can't see your marks until you log in with your username and password.",
+   "gap": "log in",
+   "alt": [
+    "log on",
+    "logs in",
+    "logged in",
+    "logging in"
+   ]
+  },
+  {
+   "id": "log_off",
+   "en": "log off",
+   "uz": "tizimdan chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Always log off when you finish on a library computer, or the next person could read your messages.",
+   "gap": "log off",
+   "alt": [
+    "log out",
+    "logs off",
+    "logged off",
+    "logging off"
+   ]
+  },
+  {
+   "id": "hits",
+   "en": "hits",
+   "uz": "tashriflar soni (saytga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her cooking site got thousands of hits after a famous chef shared one of her recipes.",
+   "gap": "hits",
+   "alt": [
+    "hit"
+   ]
+  },
+  {
+   "id": "username",
+   "en": "username",
+   "uz": "foydalanuvchi nomi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My username on the chess site is 'nightowl', but my real name is Shahzod.",
+   "gap": "username",
+   "alt": [
+    "user name",
+    "usernames"
+   ]
+  },
+  {
+   "id": "the_cloud",
+   "en": "the cloud",
+   "uz": "bulut (onlayn xotira)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class keeps all its project files in the cloud, so we can work on them at home, at school or on a phone.",
+   "gap": "the cloud",
+   "alt": [
+    "cloud"
+   ]
+  },
+  {
+   "id": "attachment",
+   "en": "attachment",
+   "uz": "biriktirilgan fayl",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher sent the new timetable as an attachment, so I opened the email and saved the file.",
+   "gap": "attachment",
+   "alt": [
+    "attachments"
+   ]
+  },
+  {
+   "id": "e_card",
+   "en": "e-card",
+   "uz": "elektron tabriknoma",
+   "pos": "noun",
+   "img": false,
+   "ex": "I forgot my friend's birthday, so I quickly sent him an e-card with a dancing cat on it.",
+   "gap": "e-card",
+   "alt": [
+    "e-cards",
+    "ecard"
+   ]
+  },
+  {
+   "id": "server",
+   "en": "server",
+   "uz": "server (markaziy kompyuter)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When thousands of fans tried to buy concert tickets at once, the ticket company's server couldn't cope and the site crashed.",
+   "gap": "server",
+   "alt": [
+    "servers"
+   ]
+  },
+  {
+   "id": "down",
+   "en": "down",
+   "uz": "ishlamay turibdi (server, sayt)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nobody could send any emails all morning because the office server was down.",
+   "gap": "down",
+   "alt": []
+  },
+  {
+   "id": "webcam",
+   "en": "webcam",
+   "uz": "veb-kamera",
+   "pos": "noun",
+   "img": true,
+   "ex": "During online lessons our teacher asks us to switch on our webcams so she can see our faces.",
+   "gap": "webcams",
+   "alt": [
+    "webcams",
+    "web cam"
+   ]
+  },
+  {
+   "id": "interactive",
+   "en": "interactive",
+   "uz": "interaktiv (foydalanuvchi qatnashadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our teacher uses an interactive whiteboard, so we can come to the front and move the words around with our fingers.",
+   "gap": "interactive",
+   "alt": []
+  },
+  {
+   "id": "social_networking",
+   "en": "social networking",
+   "uz": "ijtimoiy tarmoq (saytlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum uses social networking sites to keep in touch with old school friends who now live abroad.",
+   "gap": "social networking",
+   "alt": [
+    "social-networking"
+   ]
+  },
+  {
+   "id": "wiki",
+   "en": "wiki",
+   "uz": "viki (hamma tahrirlaydigan sayt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class made a wiki about the history of our town, and every pupil added and edited a few pages.",
+   "gap": "wiki",
+   "alt": [
+    "wikis"
+   ]
+  },
+  {
+   "id": "blog",
+   "en": "blog",
+   "uz": "blog (onlayn kundalik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilshod writes a travel blog, and readers leave comments under every post about the places he visits.",
+   "gap": "blog",
+   "alt": [
+    "blogs"
+   ]
+  },
+  {
+   "id": "online_gaming",
+   "en": "online gaming",
+   "uz": "onlayn o‘yinlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother spends his weekends on online gaming, playing in a team with boys from Korea and Brazil he has never met.",
+   "gap": "online gaming",
+   "alt": []
+  },
+  {
+   "id": "virtual_reality",
+   "en": "virtual reality",
+   "uz": "virtual reallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "With a virtual reality headset, you can walk around ancient Rome without leaving your bedroom.",
+   "gap": "virtual reality",
+   "alt": [
+    "VR"
+   ]
+  },
+  {
+   "id": "the_internet",
+   "en": "the Internet",
+   "uz": "global kompyuter tarmog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the Internet, people looked up train times in thick printed timetables.",
+   "gap": "the Internet",
+   "alt": [
+    "Internet",
+    "internet",
+    "the internet",
+    "the net"
+   ]
+  },
+  {
+   "id": "the_web",
+   "en": "the Web",
+   "uz": "Butunjahon o‘rgimchak to‘ri (WWW)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every page you open in a browser, from online shops to the news, is part of the World Wide Web.",
+   "gap": "the World Wide Web",
+   "alt": [
+    "the World Wide Web",
+    "the web",
+    "World Wide Web"
+   ]
+  },
+  {
+   "id": "access_v",
+   "en": "access",
+   "uz": "kira olmoq, foydalana olmoq (tarmoqda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With their new cards, students can access the library's online journals from home.",
+   "gap": "access",
+   "alt": [
+    "accesses",
+    "accessed",
+    "accessing"
+   ]
+  },
+  {
+   "id": "wireless",
+   "en": "wireless",
+   "uz": "simsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I bought a wireless mouse, so there are no wires getting tangled on my desk.",
+   "gap": "wireless",
+   "alt": []
+  },
+  {
+   "id": "cable",
+   "en": "cable",
+   "uz": "kabel (ulovchi sim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The printer stopped working because someone had pulled the cable out of the back of the computer.",
+   "gap": "cable",
+   "alt": [
+    "cables"
+   ]
+  },
+  {
+   "id": "attach",
+   "en": "attach",
+   "uz": "biriktirmoq (faylni xatga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't forget to attach your CV when you send the application email.",
+   "gap": "attach",
+   "alt": [
+    "attaches",
+    "attached",
+    "attaching"
+   ]
+  },
+  {
+   "id": "skype",
+   "en": "Skype",
+   "uz": "Skype orqali qo‘ng‘iroq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every Sunday evening, Timur skypes his sister in Canada so that their children can see each other.",
+   "gap": "skypes",
+   "alt": [
+    "skype",
+    "skypes",
+    "skyped",
+    "skyping"
+   ]
+  },
+  {
+   "id": "contact_list",
+   "en": "contact list",
+   "uz": "aloqadagilar ro‘yxati (kontaktlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the trip, Rustam saved the hostel's number in his contact list in case he got lost.",
+   "gap": "contact list",
+   "alt": [
+    "contact lists"
+   ]
+  },
+  {
+   "id": "isp",
+   "en": "ISP",
+   "uz": "internet provayderi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We changed our ISP because the old company kept raising its monthly prices.",
+   "gap": "ISP",
+   "alt": [
+    "internet service provider",
+    "ISPs"
+   ]
+  },
+  {
+   "id": "connection",
+   "en": "connection",
+   "uz": "ulanish (internetga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The video call kept freezing because the hotel's internet connection was so slow.",
+   "gap": "connection",
+   "alt": [
+    "connections"
+   ]
+  },
+  {
+   "id": "online_adj",
+   "en": "online",
+   "uz": "hozir tarmoqda (aloqada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The green dot next to her name shows that she is online at the moment.",
+   "gap": "online",
+   "alt": []
+  },
+  {
+   "id": "keep_in_touch",
+   "en": "keep in touch",
+   "uz": "aloqani uzmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "After graduation, our class promised to keep in touch through a group chat.",
+   "gap": "keep in touch",
+   "alt": [
+    "keeps in touch",
+    "kept in touch",
+    "keeping in touch"
+   ]
+  },
+  {
+   "id": "edit",
+   "en": "edit",
+   "uz": "tahrirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before posting the video, Zarina edited out the boring parts and added some music.",
+   "gap": "edited",
+   "alt": [
+    "edits",
+    "edited",
+    "editing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "hits",
+   "like_n"
+  ],
+  [
+   "social_networking",
+   "social_media"
+  ],
+  [
+   "connection",
+   "broadband"
+  ],
+  [
+   "connection",
+   "wi_fi"
+  ],
+  [
+   "online_adj",
+   "down"
+  ],
+  [
+   "broadband",
+   "wi_fi"
+  ],
+  [
+   "browse",
+   "google"
+  ],
+  [
+   "browse",
+   "navigate"
+  ],
+  [
+   "browse",
+   "surf_the_net"
+  ],
+  [
+   "browser",
+   "search_engine"
+  ],
+  [
+   "log_in",
+   "log_off"
+  ],
+  [
+   "the_cloud",
+   "server"
+  ],
+  [
+   "blog",
+   "wiki"
+  ],
+  [
+   "online_gaming",
+   "virtual_reality"
+  ],
+  [
+   "website",
+   "wiki"
+  ],
+  [
+   "attachment",
+   "e_card"
+  ],
+  [
+   "network",
+   "server"
+  ],
+  [
+   "network",
+   "the_cloud"
+  ],
+  [
+   "app",
+   "browser"
+  ],
+  [
+   "bookmark",
+   "follow"
+  ],
+  [
+   "bookmark",
+   "share"
+  ],
+  [
+   "hits",
+   "views"
+  ],
+  [
+   "website",
+   "profile"
+  ],
+  [
+   "username",
+   "profile"
+  ],
+  [
+   "attachment",
+   "direct_message"
+  ],
+  [
+   "e_card",
+   "direct_message"
+  ],
+  [
+   "blog",
+   "profile"
+  ],
+  [
+   "server",
+   "website"
+  ],
+  [
+   "server",
+   "broadband"
+  ],
+  [
+   "the_internet",
+   "the_cloud"
+  ],
+  [
+   "the_internet",
+   "the_web"
+  ],
+  [
+   "the_web",
+   "the_cloud"
+  ],
+  [
+   "access_v",
+   "browse"
+  ],
+  [
+   "access_v",
+   "navigate"
+  ],
+  [
+   "access_v",
+   "log_in"
+  ],
+  [
+   "attach",
+   "attachment"
+  ],
+  [
+   "isp",
+   "server"
+  ],
+  [
+   "isp",
+   "broadband"
+  ],
+  [
+   "wireless",
+   "interactive"
+  ],
+  [
+   "cable",
+   "broadband"
+  ],
+  [
+   "the_internet",
+   "broadband"
+  ]
+ ]
+}

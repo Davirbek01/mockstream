@@ -1,0 +1,673 @@
+{
+ "book": "upper",
+ "unit": 42,
+ "title": "Belief and opinion",
+ "title_uz": "E’tiqod va fikr",
+ "words": [
+  {
+   "id": "convinced",
+   "en": "convinced",
+   "uz": "ishonchi komil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm convinced I left my keys on the bus; I definitely had them when I got on.",
+   "gap": "convinced",
+   "alt": []
+  },
+  {
+   "id": "hold_belief",
+   "en": "hold",
+   "uz": "(qat’iy) fikrda bo‘lmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our old music teacher has always held that every child can learn to sing in tune.",
+   "gap": "held",
+   "alt": [
+    "holds",
+    "held",
+    "holding"
+   ]
+  },
+  {
+   "id": "maintain_view",
+   "en": "maintain",
+   "uz": "(dalilga qaramay) turib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The video clearly shows the ball crossing the line, but the goalkeeper still maintains that it never went in.",
+   "gap": "maintains",
+   "alt": [
+    "maintains",
+    "maintained",
+    "maintaining"
+   ]
+  },
+  {
+   "id": "feel_opinion",
+   "en": "feel",
+   "uz": "(shaxsan) deb hisoblamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I feel strongly that nobody should be made to play a sport they hate.",
+   "gap": "feel",
+   "alt": [
+    "feels",
+    "felt"
+   ]
+  },
+  {
+   "id": "reckon",
+   "en": "reckon",
+   "uz": "chamalamoq, deb o‘ylamoq (so‘zlashuv)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Look at those dark clouds over the hills; I reckon it'll rain before we get home.",
+   "gap": "reckon",
+   "alt": [
+    "reckons",
+    "reckoned"
+   ]
+  },
+  {
+   "id": "doubt_v",
+   "en": "doubt",
+   "uz": "shubha qilmoq, ishonmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "I doubt the bus will come on time; it's been late every single day this week.",
+   "gap": "doubt",
+   "alt": [
+    "doubts",
+    "doubted"
+   ]
+  },
+  {
+   "id": "suspect_v",
+   "en": "suspect",
+   "uz": "(yomon narsadan) gumon qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I suspect someone has been reading my diary; it wasn't in the drawer where I left it.",
+   "gap": "suspect",
+   "alt": [
+    "suspects",
+    "suspected"
+   ]
+  },
+  {
+   "id": "in_my_view",
+   "en": "in my view",
+   "uz": "menimcha, mening nazarimda (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new car park is a waste of money, in my view; the town needs a library much more.",
+   "gap": "in my view",
+   "alt": []
+  },
+  {
+   "id": "to_my_mind",
+   "en": "to my mind",
+   "uz": "mening fikrimcha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This little café near the station is, to my mind, the best place for breakfast in town.",
+   "gap": "to my mind",
+   "alt": []
+  },
+  {
+   "id": "if_you_ask_me",
+   "en": "if you ask me",
+   "uz": "mendan so‘rasangiz (so‘zlashuv)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new school uniform looks really old-fashioned, if you ask me.",
+   "gap": "if you ask me",
+   "alt": []
+  },
+  {
+   "id": "point_of_view",
+   "en": "point of view",
+   "uz": "nuqtai nazar",
+   "pos": "noun",
+   "img": false,
+   "ex": "From a parent's point of view, the new timetable is a nightmare: lessons now finish at different times every day.",
+   "gap": "point of view",
+   "alt": []
+  },
+  {
+   "id": "believe_in",
+   "en": "believe in",
+   "uz": "(…ning borligiga, foydasiga) ishonmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Six-year-old Laylo still believes in the tooth fairy and puts every lost tooth under her pillow.",
+   "gap": "believes in",
+   "alt": [
+    "believes in",
+    "believed in"
+   ]
+  },
+  {
+   "id": "views_on",
+   "en": "views on",
+   "uz": "…haqidagi qarashlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two candidates have very different views on how to reduce traffic in the city centre.",
+   "gap": "views on",
+   "alt": [
+    "view on"
+   ]
+  },
+  {
+   "id": "think_of",
+   "en": "think of",
+   "uz": "(…ni) qanday deb bilmoq, fikri",
+   "pos": "verb",
+   "img": false,
+   "ex": "What did you think of the new science teacher? I found her lessons really clear.",
+   "gap": "think of",
+   "alt": [
+    "thought of",
+    "thinks of"
+   ]
+  },
+  {
+   "id": "for_or_against",
+   "en": "for or against",
+   "uz": "tarafdormisiz yoki qarshimisiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Are you for or against a ban on phones during school breaks? We're having a class debate on it.",
+   "gap": "for or against",
+   "alt": []
+  },
+  {
+   "id": "in_favour_of",
+   "en": "in favour of",
+   "uz": "(…ning) tarafdori",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Most of the class were in favour of a trip to the mountains, so the teacher booked a bus for Saturday.",
+   "gap": "in favour of",
+   "alt": [
+    "in favor of"
+   ]
+  },
+  {
+   "id": "opposed_to",
+   "en": "opposed to",
+   "uz": "(…ga) qarshi (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My parents are opposed to me buying a motorbike; they say it's far too dangerous.",
+   "gap": "opposed to",
+   "alt": []
+  },
+  {
+   "id": "have_doubts",
+   "en": "have doubts about",
+   "uz": "(…ga) shubhasi bor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The whole class loves Nodira's idea of a weekly school podcast, but I have my doubts about it; who will find time to edit it?",
+   "gap": "have my doubts about",
+   "alt": [
+    "have my doubts about",
+    "has doubts about",
+    "had doubts about",
+    "had my doubts about"
+   ]
+  },
+  {
+   "id": "conviction",
+   "en": "conviction",
+   "uz": "qat’iy e’tiqod, ishonch",
+   "pos": "noun",
+   "img": false,
+   "ex": "She doesn't eat meat, and her convictions are so strong that she won't even wear leather shoes.",
+   "gap": "convictions",
+   "alt": [
+    "convictions"
+   ]
+  },
+  {
+   "id": "ideology",
+   "en": "ideology",
+   "uz": "mafkura",
+   "pos": "noun",
+   "img": false,
+   "ex": "The documentary shows how a dangerous political ideology spread across Europe in the 1930s.",
+   "gap": "ideology",
+   "alt": [
+    "ideologies"
+   ]
+  },
+  {
+   "id": "philosophy",
+   "en": "philosophy",
+   "uz": "hayotiy tamoyil, falsafa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our coach's philosophy is simple: train hard, sleep well and never blame the referee.",
+   "gap": "philosophy",
+   "alt": [
+    "philosophies"
+   ]
+  },
+  {
+   "id": "pacifist",
+   "en": "pacifist",
+   "uz": "pasifist (har qanday urushga qarshi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a pacifist, the young writer refused to fight in the war and drove an ambulance instead.",
+   "gap": "pacifist",
+   "alt": [
+    "pacifists"
+   ]
+  },
+  {
+   "id": "conservative",
+   "en": "conservative",
+   "uz": "konservativ, eskicha qarashli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our landlord has very conservative tastes: he still wears the same style of suit he wore in the 1970s and won't try any new food.",
+   "gap": "conservative",
+   "alt": []
+  },
+  {
+   "id": "fanatical",
+   "en": "fanatical",
+   "uz": "mutaassib, o‘ta ashaddiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's a fanatical Navbahor supporter and hasn't missed a single home match in eleven years.",
+   "gap": "fanatical",
+   "alt": []
+  },
+  {
+   "id": "obsessive",
+   "en": "obsessive",
+   "uz": "(bir narsaga) haddan tashqari berilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My flatmate is obsessive about tidiness; she lines up her pens by colour every morning.",
+   "gap": "obsessive",
+   "alt": []
+  },
+  {
+   "id": "weird",
+   "en": "weird",
+   "uz": "g‘alati, tushunib bo‘lmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My classmate has some weird ideas about food; he thinks eating carrots lets you see in the dark.",
+   "gap": "weird",
+   "alt": []
+  },
+  {
+   "id": "moderate",
+   "en": "moderate",
+   "uz": "mo‘tadil (o‘ta ketmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She doesn't fully agree with either the left or the right; her views are moderate, somewhere in the middle.",
+   "gap": "moderate",
+   "alt": []
+  },
+  {
+   "id": "committed",
+   "en": "committed",
+   "uz": "astoydil berilgan, sadoqatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The members of our eco club are really committed: they come to clean the park every Saturday, even in the rain.",
+   "gap": "committed",
+   "alt": []
+  },
+  {
+   "id": "radical",
+   "en": "radical",
+   "uz": "radikal, tubdan o‘zgartirish tarafdori",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new head teacher has radical ideas: she wants to get rid of homework and exams completely.",
+   "gap": "radical",
+   "alt": []
+  },
+  {
+   "id": "in_my_opinion",
+   "en": "in my opinion",
+   "uz": "fikrimcha, o‘z fikrimni aytsam",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The second half of the book is, in my opinion, much more exciting than the first.",
+   "gap": "in my opinion",
+   "alt": []
+  },
+  {
+   "id": "left_wing",
+   "en": "left-wing",
+   "uz": "so‘l qanot (siyosatda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The newspaper's left-wing editor often writes about workers' rights and free healthcare for all.",
+   "gap": "left-wing",
+   "alt": [
+    "left wing"
+   ]
+  },
+  {
+   "id": "right_wing",
+   "en": "right-wing",
+   "uz": "o‘ng qanot (siyosatda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The right-wing party promised lower taxes, fewer rules for business and a smaller government.",
+   "gap": "right-wing",
+   "alt": [
+    "right wing"
+   ]
+  },
+  {
+   "id": "religious",
+   "en": "religious",
+   "uz": "diniy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old quarter has many religious buildings, including mosques, churches and a synagogue.",
+   "gap": "religious",
+   "alt": []
+  },
+  {
+   "id": "moral",
+   "en": "moral",
+   "uz": "axloqiy, ma’naviy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most of the old fables end with a moral lesson, such as 'slow and steady wins the race'.",
+   "gap": "moral",
+   "alt": []
+  },
+  {
+   "id": "intellectual",
+   "en": "intellectual",
+   "uz": "aqliy, fikriy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Chess is a game of intellectual skill rather than luck.",
+   "gap": "intellectual",
+   "alt": []
+  },
+  {
+   "id": "personal",
+   "en": "personal",
+   "uz": "shaxsiy, o‘ziga tegishli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please put my diary back; it's full of personal secrets.",
+   "gap": "personal",
+   "alt": []
+  },
+  {
+   "id": "socialist",
+   "en": "socialist",
+   "uz": "jamoat mulki g‘oyasi tarafdori",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The socialist candidate promised free university education and higher taxes on large companies.",
+   "gap": "socialist",
+   "alt": []
+  },
+  {
+   "id": "darwinist",
+   "en": "Darwinist",
+   "uz": "evolyutsiya nazariyasi tarafdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a Darwinist, the biology professor explained the shape of every beak as the result of natural selection.",
+   "gap": "Darwinist",
+   "alt": [
+    "Darwinists"
+   ]
+  },
+  {
+   "id": "muslim",
+   "en": "Muslim",
+   "uz": "islom diniga e’tiqod qiluvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "During Ramadan, the Muslim families in our building break their fast together at sunset.",
+   "gap": "Muslim",
+   "alt": []
+  },
+  {
+   "id": "traditional",
+   "en": "traditional",
+   "uz": "an’anaviy, qadimdan kelgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the festival, the dancers wore traditional costumes with embroidered caps and long silk coats.",
+   "gap": "traditional",
+   "alt": []
+  },
+  {
+   "id": "dedicated",
+   "en": "dedicated",
+   "uz": "fidoyi, ishiga sadoqatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She's a dedicated nurse who often stays after her shift to sit with lonely patients.",
+   "gap": "dedicated",
+   "alt": []
+  },
+  {
+   "id": "extreme",
+   "en": "extreme",
+   "uz": "haddan oshgan, o‘ta keskin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most people want small changes, but the group's ideas are extreme: they want to ban all cars from the city by next week.",
+   "gap": "extreme",
+   "alt": []
+  },
+  {
+   "id": "strong_views",
+   "en": "strong",
+   "uz": "qat’iy, kuchli (fikr, e’tiqod)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilnoza has strong opinions about recycling and lectures anyone who throws a can into the wrong bin.",
+   "gap": "strong",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "reckon",
+   "suspect_v"
+  ],
+  [
+   "reckon",
+   "feel_opinion"
+  ],
+  [
+   "in_my_view",
+   "to_my_mind"
+  ],
+  [
+   "in_my_view",
+   "if_you_ask_me"
+  ],
+  [
+   "to_my_mind",
+   "if_you_ask_me"
+  ],
+  [
+   "ideology",
+   "philosophy"
+  ],
+  [
+   "doubt_v",
+   "have_doubts"
+  ],
+  [
+   "fanatical",
+   "obsessive"
+  ],
+  [
+   "fanatical",
+   "committed"
+  ],
+  [
+   "radical",
+   "weird"
+  ],
+  [
+   "weird",
+   "bizarre"
+  ],
+  [
+   "hold_belief",
+   "maintain_view"
+  ],
+  [
+   "hold_belief",
+   "feel_opinion"
+  ],
+  [
+   "maintain_view",
+   "reckon"
+  ],
+  [
+   "suspect_v",
+   "feel_opinion"
+  ],
+  [
+   "conservative",
+   "conventional"
+  ],
+  [
+   "committed",
+   "enthusiastic"
+  ],
+  [
+   "radical",
+   "bizarre"
+  ],
+  [
+   "philosophy",
+   "point_of_view"
+  ],
+  [
+   "fanatical",
+   "enthusiastic"
+  ],
+  [
+   "weird",
+   "confused"
+  ],
+  [
+   "convinced",
+   "conviction"
+  ],
+  [
+   "hold_belief",
+   "reckon"
+  ],
+  [
+   "point_of_view",
+   "views_on"
+  ],
+  [
+   "for_or_against",
+   "in_favour_of"
+  ],
+  [
+   "for_or_against",
+   "opposed_to"
+  ],
+  [
+   "in_my_opinion",
+   "in_my_view"
+  ],
+  [
+   "in_my_opinion",
+   "to_my_mind"
+  ],
+  [
+   "in_my_opinion",
+   "if_you_ask_me"
+  ],
+  [
+   "left_wing",
+   "right_wing"
+  ],
+  [
+   "left_wing",
+   "socialist"
+  ],
+  [
+   "right_wing",
+   "conservative"
+  ],
+  [
+   "socialist",
+   "radical"
+  ],
+  [
+   "muslim",
+   "religious"
+  ],
+  [
+   "darwinist",
+   "pacifist"
+  ],
+  [
+   "traditional",
+   "conservative"
+  ],
+  [
+   "traditional",
+   "conventional"
+  ],
+  [
+   "dedicated",
+   "committed"
+  ],
+  [
+   "dedicated",
+   "fanatical"
+  ],
+  [
+   "extreme",
+   "radical"
+  ],
+  [
+   "extreme",
+   "fanatical"
+  ],
+  [
+   "strong_views",
+   "fanatical"
+  ],
+  [
+   "moral",
+   "personal"
+  ],
+  [
+   "moral",
+   "intellectual"
+  ],
+  [
+   "strong_views",
+   "strong_object"
+  ],
+  [
+   "strong_views",
+   "extreme"
+  ]
+ ]
+}

@@ -1,0 +1,565 @@
+{
+ "book": "preint",
+ "unit": 10,
+ "title": "Describing appearance",
+ "title_uz": "Tashqi ko‘rinishni tasvirlash",
+ "words": [
+  {
+   "id": "appearance",
+   "en": "appearance",
+   "uz": "tashqi ko‘rinish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the job interview at IT Park, Aziza thought carefully about her appearance: a dark suit and neat hair.",
+   "gap": "appearance",
+   "alt": []
+  },
+  {
+   "id": "attractive",
+   "en": "attractive",
+   "uz": "jozibali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With its glass walls and green garden, the new library is a very attractive building.",
+   "gap": "attractive",
+   "alt": []
+  },
+  {
+   "id": "good_looking",
+   "en": "good-looking",
+   "uz": "kelishgan, ko‘rkam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Jasur is so good-looking that a fashion magazine put his face on its cover.",
+   "gap": "good-looking",
+   "alt": [
+    "good looking"
+   ]
+  },
+  {
+   "id": "pretty",
+   "en": "pretty",
+   "uz": "yoqimtoy (qizlar haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Little Mohira looks so pretty in her new yellow dress and red shoes.",
+   "gap": "pretty",
+   "alt": []
+  },
+  {
+   "id": "beautiful",
+   "en": "beautiful",
+   "uz": "go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Everyone took photos of the beautiful sunset over the old walls of Khiva.",
+   "gap": "beautiful",
+   "alt": []
+  },
+  {
+   "id": "gorgeous",
+   "en": "gorgeous",
+   "uz": "nihoyatda chiroyli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When Lola came down the stairs in her new evening dress, her friends said, 'Wow, you look gorgeous!'",
+   "gap": "gorgeous",
+   "alt": []
+  },
+  {
+   "id": "handsome",
+   "en": "handsome",
+   "uz": "xushbichim (erkaklar haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother looked so handsome in his new army uniform that Mum took fifty photos.",
+   "gap": "handsome",
+   "alt": []
+  },
+  {
+   "id": "ugly",
+   "en": "ugly",
+   "uz": "xunuk",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new shopping centre is so ugly that everyone calls it 'the big grey box'.",
+   "gap": "ugly",
+   "alt": []
+  },
+  {
+   "id": "ordinary",
+   "en": "ordinary",
+   "uz": "oddiy (o‘rtacha ko‘rinishli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She isn't a film star; she has an ordinary face, like most of us.",
+   "gap": "ordinary",
+   "alt": []
+  },
+  {
+   "id": "overweight",
+   "en": "overweight",
+   "uz": "ortiqcha vaznli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctor told him he was a bit overweight and should eat less sugar.",
+   "gap": "overweight",
+   "alt": []
+  },
+  {
+   "id": "height",
+   "en": "height",
+   "uz": "bo‘y (balandligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Basketball players are often chosen for their height: many are over two metres tall.",
+   "gap": "height",
+   "alt": []
+  },
+  {
+   "id": "weight",
+   "en": "weight",
+   "uz": "vazn",
+   "pos": "noun",
+   "img": false,
+   "ex": "Boxers have to check their weight on the scales before every fight.",
+   "gap": "weight",
+   "alt": []
+  },
+  {
+   "id": "roughly",
+   "en": "roughly",
+   "uz": "taxminan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Tashkent is a big city with roughly three million people.",
+   "gap": "roughly",
+   "alt": []
+  },
+  {
+   "id": "weigh",
+   "en": "weigh",
+   "uz": "vazni … bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother weighs only twenty kilograms, so Dad can easily carry him.",
+   "gap": "weighs",
+   "alt": [
+    "weighs",
+    "weighed",
+    "weighing"
+   ]
+  },
+  {
+   "id": "medium_height",
+   "en": "medium height",
+   "uz": "o‘rta bo‘yli",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police are looking for a man of medium height, about one metre seventy, in a black jacket.",
+   "gap": "medium height",
+   "alt": []
+  },
+  {
+   "id": "average",
+   "en": "average",
+   "uz": "o‘rtacha (bo‘y-basti)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most boys in my class are of average size, but Doston is much taller and heavier than everyone.",
+   "gap": "average",
+   "alt": []
+  },
+  {
+   "id": "blonde",
+   "en": "blonde",
+   "uz": "sariq (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many people in Sweden and Norway have light blonde hair.",
+   "gap": "blonde",
+   "alt": [
+    "blond"
+   ]
+  },
+  {
+   "id": "fair",
+   "en": "fair",
+   "uz": "och rangli (teri, soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With such fair skin, you should stay out of the summer sun in Bukhara.",
+   "gap": "fair",
+   "alt": []
+  },
+  {
+   "id": "dark",
+   "en": "dark",
+   "uz": "qora, to‘q rangli (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sherzod's hair is so dark that it looks almost black.",
+   "gap": "dark",
+   "alt": []
+  },
+  {
+   "id": "straight",
+   "en": "straight",
+   "uz": "to‘g‘ri, tekis (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her hair is completely straight, without a single wave.",
+   "gap": "straight",
+   "alt": []
+  },
+  {
+   "id": "wavy",
+   "en": "wavy",
+   "uz": "to‘lqinsimon (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His hair isn't flat, but it isn't in tight rings either; it's a bit wavy.",
+   "gap": "wavy",
+   "alt": []
+  },
+  {
+   "id": "curly",
+   "en": "curly",
+   "uz": "jingalak",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The baby has thick, curly hair in little rings, like a lamb's wool.",
+   "gap": "curly",
+   "alt": []
+  },
+  {
+   "id": "look_like",
+   "en": "look like",
+   "uz": "(tashqi) ko‘rinishi qanday",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've only spoken to my pen friend on the phone, so I don't know what she looks like.",
+   "gap": "looks like",
+   "alt": [
+    "looks like"
+   ]
+  },
+  {
+   "id": "tallish",
+   "en": "tallish",
+   "uz": "baland bo‘yliroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bekzod isn't really tall, just tallish, but he's still the best basketball player in our class.",
+   "gap": "tallish",
+   "alt": []
+  },
+  {
+   "id": "broad",
+   "en": "broad",
+   "uz": "keng (yelka)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The wrestler had such broad shoulders that he had to turn sideways to get through the door.",
+   "gap": "broad",
+   "alt": []
+  },
+  {
+   "id": "narrow",
+   "en": "narrow",
+   "uz": "tor (yelka)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The jacket was made for narrow shoulders, so it was too tight for my brother.",
+   "gap": "narrow",
+   "alt": []
+  },
+  {
+   "id": "athletic",
+   "en": "athletic",
+   "uz": "sportchi qomatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She runs every morning and plays volleyball, so she looks very athletic.",
+   "gap": "athletic",
+   "alt": []
+  },
+  {
+   "id": "smart",
+   "en": "smart",
+   "uz": "ozoda va did bilan kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "An ironed shirt, clean shoes and a tie: Bobur always looks smart at the office.",
+   "gap": "smart",
+   "alt": []
+  },
+  {
+   "id": "dress_well",
+   "en": "dress well",
+   "uz": "yaxshi kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister dresses well; her clothes are always simple but stylish.",
+   "gap": "dresses well",
+   "alt": [
+    "dresses well",
+    "dressed well"
+   ]
+  },
+  {
+   "id": "beauty",
+   "en": "beauty",
+   "uz": "go‘zallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The beauty of the mountain lake at sunrise made all of us stop and take photos.",
+   "gap": "beauty",
+   "alt": []
+  },
+  {
+   "id": "fat",
+   "en": "fat",
+   "uz": "semiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The neighbours' cat is so fat that it can hardly jump onto the sofa.",
+   "gap": "fat",
+   "alt": []
+  },
+  {
+   "id": "short_height",
+   "en": "short",
+   "uz": "past bo‘yli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Feruza is quite short, so she always stands in the front row in class photos.",
+   "gap": "short",
+   "alt": []
+  },
+  {
+   "id": "brown_hair",
+   "en": "brown",
+   "uz": "jigarrang (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her hair is brown, the same colour as milk chocolate.",
+   "gap": "brown",
+   "alt": []
+  },
+  {
+   "id": "black_hair",
+   "en": "black",
+   "uz": "qop-qora (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His hair is black and shiny, like a crow's feathers.",
+   "gap": "black",
+   "alt": []
+  },
+  {
+   "id": "hair",
+   "en": "hair",
+   "uz": "soch",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zarina has very long hair, so she ties it back for volleyball.",
+   "gap": "hair",
+   "alt": []
+  },
+  {
+   "id": "longish",
+   "en": "longish",
+   "uz": "uzunroq (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His hair is longish now: not really long, but it almost touches his collar.",
+   "gap": "longish",
+   "alt": []
+  },
+  {
+   "id": "twentyish",
+   "en": "twentyish",
+   "uz": "yigirma yoshlar chamasida",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I don't know her exact age, but she looks twentyish, about the same as my sister at university.",
+   "gap": "twentyish",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "attractive",
+   "good_looking"
+  ],
+  [
+   "attractive",
+   "pretty"
+  ],
+  [
+   "attractive",
+   "beautiful"
+  ],
+  [
+   "attractive",
+   "gorgeous"
+  ],
+  [
+   "attractive",
+   "handsome"
+  ],
+  [
+   "good_looking",
+   "pretty"
+  ],
+  [
+   "good_looking",
+   "beautiful"
+  ],
+  [
+   "good_looking",
+   "gorgeous"
+  ],
+  [
+   "good_looking",
+   "handsome"
+  ],
+  [
+   "pretty",
+   "beautiful"
+  ],
+  [
+   "pretty",
+   "gorgeous"
+  ],
+  [
+   "pretty",
+   "handsome"
+  ],
+  [
+   "beautiful",
+   "gorgeous"
+  ],
+  [
+   "beautiful",
+   "handsome"
+  ],
+  [
+   "gorgeous",
+   "handsome"
+  ],
+  [
+   "smart",
+   "attractive"
+  ],
+  [
+   "smart",
+   "good_looking"
+  ],
+  [
+   "smart",
+   "handsome"
+  ],
+  [
+   "smart",
+   "gorgeous"
+  ],
+  [
+   "smart",
+   "athletic"
+  ],
+  [
+   "ugly",
+   "ordinary"
+  ],
+  [
+   "ordinary",
+   "average"
+  ],
+  [
+   "smart",
+   "pretty"
+  ],
+  [
+   "smart",
+   "beautiful"
+  ],
+  [
+   "athletic",
+   "attractive"
+  ],
+  [
+   "athletic",
+   "good_looking"
+  ],
+  [
+   "height",
+   "weight"
+  ],
+  [
+   "medium_height",
+   "average"
+  ],
+  [
+   "blonde",
+   "fair"
+  ],
+  [
+   "wavy",
+   "curly"
+  ],
+  [
+   "tallish",
+   "athletic"
+  ],
+  [
+   "smart",
+   "dress_well"
+  ],
+  [
+   "appearance",
+   "look_like"
+  ],
+  [
+   "beauty",
+   "appearance"
+  ],
+  [
+   "fat",
+   "overweight"
+  ],
+  [
+   "brown_hair",
+   "dark"
+  ],
+  [
+   "brown_hair",
+   "blonde"
+  ],
+  [
+   "brown_hair",
+   "black_hair"
+  ],
+  [
+   "black_hair",
+   "dark"
+  ],
+  [
+   "longish",
+   "wavy"
+  ],
+  [
+   "longish",
+   "curly"
+  ],
+  [
+   "longish",
+   "straight"
+  ],
+  [
+   "short_height",
+   "tallish"
+  ]
+ ]
+}

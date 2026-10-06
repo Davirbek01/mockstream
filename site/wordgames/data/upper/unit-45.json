@@ -1,0 +1,638 @@
+{
+ "book": "upper",
+ "unit": 45,
+ "title": "Speaking",
+ "title_uz": "Gapirish",
+ "words": [
+  {
+   "id": "whisper",
+   "en": "whisper",
+   "uz": "pichirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the reading room, Malika whispered the page number to me so that the librarian wouldn't hear.",
+   "gap": "whispered",
+   "alt": [
+    "whispers",
+    "whispered",
+    "whispering"
+   ]
+  },
+  {
+   "id": "murmur",
+   "en": "murmur",
+   "uz": "ohista, mayin ovozda demoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "'What a beautiful sunset,' she murmured softly, almost to herself.",
+   "gap": "murmured",
+   "alt": [
+    "murmurs",
+    "murmured",
+    "murmuring"
+   ]
+  },
+  {
+   "id": "mumble",
+   "en": "mumble",
+   "uz": "g‘o‘ldiramoq (tushunarsiz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "He mumbled something into his collar, and nobody could make out a single word.",
+   "gap": "mumbled",
+   "alt": [
+    "mumbles",
+    "mumbled",
+    "mumbling"
+   ]
+  },
+  {
+   "id": "mutter",
+   "en": "mutter",
+   "uz": "g‘udranmoq (jahl bilan, past ovozda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "'Typical, the printer's broken again,' Mr Saidov muttered angrily under his breath.",
+   "gap": "muttered",
+   "alt": [
+    "mutters",
+    "muttered",
+    "muttering"
+   ]
+  },
+  {
+   "id": "shout",
+   "en": "shout",
+   "uz": "baqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the other end of the football pitch, the coach shouted at us to run faster.",
+   "gap": "shouted",
+   "alt": [
+    "shouts",
+    "shouted",
+    "shouting"
+   ]
+  },
+  {
+   "id": "scream",
+   "en": "scream",
+   "uz": "chinqirmoq (qo‘rquvdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As the roller coaster plunged down the first drop, everyone in the front row screamed.",
+   "gap": "screamed",
+   "alt": [
+    "screams",
+    "screamed",
+    "screaming"
+   ]
+  },
+  {
+   "id": "shriek",
+   "en": "shriek",
+   "uz": "chiyillamoq (kulgidan, qo‘rquvdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little children shrieked with laughter when the clown slipped and sat down in a bucket of water.",
+   "gap": "shrieked",
+   "alt": [
+    "shrieks",
+    "shrieked",
+    "shrieking"
+   ]
+  },
+  {
+   "id": "stutter",
+   "en": "stutter",
+   "uz": "duduqlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When he's nervous, my friend stutters and repeats the first sound of a word, like 'b-b-b-ball'.",
+   "gap": "stutters",
+   "alt": [
+    "stutters",
+    "stuttered",
+    "stuttering"
+   ]
+  },
+  {
+   "id": "boast",
+   "en": "boast",
+   "uz": "maqtanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Rustam keeps boasting to everyone about his new phone, as if he had invented it himself.",
+   "gap": "boasting",
+   "alt": [
+    "boasts",
+    "boasted",
+    "boasting"
+   ]
+  },
+  {
+   "id": "insist",
+   "en": "insist",
+   "uz": "turib olmoq, qattiq talab qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our host insisted on walking us all the way to the bus stop, even though it was only two minutes away.",
+   "gap": "insisted",
+   "alt": [
+    "insists",
+    "insisted",
+    "insisting"
+   ]
+  },
+  {
+   "id": "object_v",
+   "en": "object",
+   "uz": "e’tiroz bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Several parents objected to having lessons on Saturday mornings.",
+   "gap": "objected",
+   "alt": [
+    "objects",
+    "objected",
+    "objecting"
+   ]
+  },
+  {
+   "id": "confess",
+   "en": "confess",
+   "uz": "(aybini) bo‘yniga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the end, Jasur confessed to eating the last piece of birthday cake.",
+   "gap": "confessed",
+   "alt": [
+    "confesses",
+    "confessed",
+    "confessing"
+   ]
+  },
+  {
+   "id": "threaten",
+   "en": "threaten",
+   "uz": "do‘q qilmoq, tahdid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The shop owner threatened to call the police if the boys kept skateboarding in front of his door.",
+   "gap": "threatened",
+   "alt": [
+    "threatens",
+    "threatened",
+    "threatening"
+   ]
+  },
+  {
+   "id": "urge",
+   "en": "urge",
+   "uz": "qattiq maslahat bermoq, undamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doctor urged him to cut down on sugar and to walk for at least thirty minutes a day.",
+   "gap": "urged",
+   "alt": [
+    "urges",
+    "urged",
+    "urging"
+   ]
+  },
+  {
+   "id": "beg",
+   "en": "beg",
+   "uz": "yalinmoq, yolvormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With tears in his eyes, the boy begged the shopkeeper not to tell his parents about the broken window.",
+   "gap": "begged",
+   "alt": [
+    "begs",
+    "begged",
+    "begging"
+   ]
+  },
+  {
+   "id": "complain",
+   "en": "complain",
+   "uz": "shikoyat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Several guests complained to the hotel manager about the noise from the street at night.",
+   "gap": "complained",
+   "alt": [
+    "complains",
+    "complained",
+    "complaining"
+   ]
+  },
+  {
+   "id": "argue",
+   "en": "argue",
+   "uz": "bahslashmoq, tortishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Those two brothers always argue with each other about whose turn it is to sit in the front seat.",
+   "gap": "argue",
+   "alt": [
+    "argues",
+    "argued",
+    "arguing"
+   ]
+  },
+  {
+   "id": "groan",
+   "en": "groan",
+   "uz": "ingramoq, oh tortmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bekzod lay on the grass, holding his ankle and groaning quietly with pain, until the coach ran over.",
+   "gap": "groaning",
+   "alt": [
+    "groans",
+    "groaned",
+    "groaning"
+   ]
+  },
+  {
+   "id": "grumble",
+   "en": "grumble",
+   "uz": "to‘ng‘illab nolimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle always grumbles about the traffic, but he still won't take the metro.",
+   "gap": "grumbles",
+   "alt": [
+    "grumbles",
+    "grumbled",
+    "grumbling"
+   ]
+  },
+  {
+   "id": "bitterly",
+   "en": "bitterly",
+   "uz": "alam bilan, achchiq ohangda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'You promised you'd come, and you didn't even call,' she said bitterly.",
+   "gap": "bitterly",
+   "alt": []
+  },
+  {
+   "id": "gloomily",
+   "en": "gloomily",
+   "uz": "ma’yus, tushkun ohangda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'It's going to rain for the whole holiday,' he said gloomily, staring at the weather app.",
+   "gap": "gloomily",
+   "alt": []
+  },
+  {
+   "id": "cheerfully",
+   "en": "cheerfully",
+   "uz": "quvnoq ohangda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Good morning, everyone!' the bus driver said cheerfully, just as he does every single morning.",
+   "gap": "cheerfully",
+   "alt": []
+  },
+  {
+   "id": "hopefully",
+   "en": "hopefully",
+   "uz": "umid bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Maybe the rain will stop before the match starts,' Bobur said hopefully, looking up at the sky.",
+   "gap": "hopefully",
+   "alt": []
+  },
+  {
+   "id": "anxiously",
+   "en": "anxiously",
+   "uz": "xavotir bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'What if I've failed?' she asked anxiously, checking her phone again and again for the exam results.",
+   "gap": "anxiously",
+   "alt": []
+  },
+  {
+   "id": "desperately",
+   "en": "desperately",
+   "uz": "jon holatda, umidsiz ahvolda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Please, somebody help me find my passport; my flight leaves in an hour!' he cried desperately.",
+   "gap": "desperately",
+   "alt": []
+  },
+  {
+   "id": "excitedly",
+   "en": "excitedly",
+   "uz": "hayajon bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'We've won! We're in the final!' the boys yelled excitedly, jumping up and down.",
+   "gap": "excitedly",
+   "alt": []
+  },
+  {
+   "id": "impatiently",
+   "en": "impatiently",
+   "uz": "sabrsizlik bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Come on, how long does it take to put on your shoes?' her older sister called impatiently from the front door.",
+   "gap": "impatiently",
+   "alt": []
+  },
+  {
+   "id": "reluctantly",
+   "en": "reluctantly",
+   "uz": "istar-istamas",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Fine, you can borrow my bike,' Diyor said reluctantly; he clearly didn't want to lend it.",
+   "gap": "reluctantly",
+   "alt": []
+  },
+  {
+   "id": "shyly",
+   "en": "shyly",
+   "uz": "uyalib, tortinib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new girl smiled shyly and said hello in a very quiet voice.",
+   "gap": "shyly",
+   "alt": []
+  },
+  {
+   "id": "stammer",
+   "en": "stammer",
+   "uz": "tutilib gapirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nervous at his first job interview, he stammered 'I-I-I'm sorry' before he could say his name clearly.",
+   "gap": "stammered",
+   "alt": [
+    "stammers",
+    "stammered",
+    "stammering"
+   ]
+  },
+  {
+   "id": "speech_impediment",
+   "en": "speech impediment",
+   "uz": "nutq nuqsoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The famous actor had a speech impediment as a child and worked hard with a therapist to overcome it.",
+   "gap": "speech impediment",
+   "alt": []
+  },
+  {
+   "id": "angrily",
+   "en": "angrily",
+   "uz": "jahl bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Who left the gate open?' the farmer shouted angrily as the sheep ran off down the road.",
+   "gap": "angrily",
+   "alt": []
+  },
+  {
+   "id": "furiously",
+   "en": "furiously",
+   "uz": "qahr-g‘azab bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The referee waved his arms furiously at the players who were still arguing.",
+   "gap": "furiously",
+   "alt": []
+  },
+  {
+   "id": "miserably",
+   "en": "miserably",
+   "uz": "baxtsiz, ezilgan ohangda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'I've failed again,' he said miserably, staring at his test paper.",
+   "gap": "miserably",
+   "alt": []
+  },
+  {
+   "id": "sadly",
+   "en": "sadly",
+   "uz": "g‘amgin, xafa bo‘lib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "She smiled sadly as she waved goodbye to her best friend, who was moving to another country for good.",
+   "gap": "sadly",
+   "alt": []
+  },
+  {
+   "id": "happily",
+   "en": "happily",
+   "uz": "xursand bo‘lib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The children played happily in the snow until it got dark.",
+   "gap": "happily",
+   "alt": []
+  },
+  {
+   "id": "gladly",
+   "en": "gladly",
+   "uz": "jon deb, mamnuniyat bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Could you help me carry these boxes upstairs?' 'Of course, I'd gladly help.'",
+   "gap": "gladly",
+   "alt": []
+  },
+  {
+   "id": "nervously",
+   "en": "nervously",
+   "uz": "asabiylashib, hayajonlanib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "He laughed nervously and kept checking his phone while he waited for the interview to start.",
+   "gap": "nervously",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "bitterly",
+   "sadly"
+  ],
+  [
+   "whisper",
+   "murmur"
+  ],
+  [
+   "whisper",
+   "mumble"
+  ],
+  [
+   "murmur",
+   "mumble"
+  ],
+  [
+   "murmur",
+   "mutter"
+  ],
+  [
+   "mutter",
+   "grumble"
+  ],
+  [
+   "shout",
+   "scream"
+  ],
+  [
+   "scream",
+   "shriek"
+  ],
+  [
+   "complain",
+   "grumble"
+  ],
+  [
+   "anxiously",
+   "desperately"
+  ],
+  [
+   "mumble",
+   "mutter"
+  ],
+  [
+   "groan",
+   "grumble"
+  ],
+  [
+   "beg",
+   "urge"
+  ],
+  [
+   "whisper",
+   "mutter"
+  ],
+  [
+   "shout",
+   "shriek"
+  ],
+  [
+   "bitterly",
+   "gloomily"
+  ],
+  [
+   "gloomily",
+   "anxiously"
+  ],
+  [
+   "cheerfully",
+   "excitedly"
+  ],
+  [
+   "hopefully",
+   "anxiously"
+  ],
+  [
+   "anxiously",
+   "impatiently"
+  ],
+  [
+   "insist",
+   "urge"
+  ],
+  [
+   "stammer",
+   "stutter"
+  ],
+  [
+   "angrily",
+   "furiously"
+  ],
+  [
+   "angrily",
+   "bitterly"
+  ],
+  [
+   "furiously",
+   "bitterly"
+  ],
+  [
+   "angrily",
+   "impatiently"
+  ],
+  [
+   "angrily",
+   "mutter"
+  ],
+  [
+   "miserably",
+   "sadly"
+  ],
+  [
+   "miserably",
+   "gloomily"
+  ],
+  [
+   "sadly",
+   "gloomily"
+  ],
+  [
+   "sadly",
+   "shyly"
+  ],
+  [
+   "happily",
+   "gladly"
+  ],
+  [
+   "happily",
+   "cheerfully"
+  ],
+  [
+   "gladly",
+   "cheerfully"
+  ],
+  [
+   "happily",
+   "excitedly"
+  ],
+  [
+   "nervously",
+   "anxiously"
+  ],
+  [
+   "nervously",
+   "shyly"
+  ],
+  [
+   "nervously",
+   "desperately"
+  ],
+  [
+   "furiously",
+   "impatiently"
+  ],
+  [
+   "angrily",
+   "desperately"
+  ],
+  [
+   "miserably",
+   "bitterly"
+  ],
+  [
+   "nervously",
+   "impatiently"
+  ]
+ ]
+}

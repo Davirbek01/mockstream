@@ -1,0 +1,682 @@
+{
+ "book": "upper",
+ "unit": 16,
+ "title": "Work",
+ "title_uz": "Ish",
+ "words": [
+  {
+   "id": "company_director",
+   "en": "director",
+   "uz": "direktor (boshqaruv kengashi a’zosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After twenty years at the bank, Nodira now sits on its board as one of the five directors.",
+   "gap": "directors",
+   "alt": [
+    "directors"
+   ]
+  },
+  {
+   "id": "executive",
+   "en": "executive",
+   "uz": "yuqori lavozimli rahbar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's top executives spent the whole weekend deciding whether to close the factory in Navoi.",
+   "gap": "executives",
+   "alt": [
+    "executives"
+   ]
+  },
+  {
+   "id": "administrator",
+   "en": "administrator",
+   "uz": "ma’mur (ofis ishini yurituvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our office administrator, Zarina, pays the bills, orders paper and printer ink, and keeps the staff records up to date.",
+   "gap": "administrator",
+   "alt": [
+    "administrators"
+   ]
+  },
+  {
+   "id": "skilled_worker",
+   "en": "skilled worker",
+   "uz": "malakali ishchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Building aircraft engines needs skilled workers who have trained for years.",
+   "gap": "skilled workers",
+   "alt": [
+    "skilled workers"
+   ]
+  },
+  {
+   "id": "unskilled_worker",
+   "en": "unskilled worker",
+   "uz": "malakasiz ishchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every autumn the farm hires unskilled workers to pick apples; anyone can learn the job in ten minutes.",
+   "gap": "unskilled workers",
+   "alt": [
+    "unskilled workers"
+   ]
+  },
+  {
+   "id": "receptionist",
+   "en": "receptionist",
+   "uz": "qabulxona xodimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the dental clinic in Chilonzor, the receptionist at the front desk took my name and asked me to wait.",
+   "gap": "receptionist",
+   "alt": [
+    "receptionists"
+   ]
+  },
+  {
+   "id": "pr_officer",
+   "en": "public relations officer",
+   "uz": "jamoatchilik bilan aloqalar xodimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's her job to talk to journalists, so after the fire the factory's public relations officer gave three interviews in one day.",
+   "gap": "public relations officer",
+   "alt": [
+    "PR officer",
+    "public relations officers"
+   ]
+  },
+  {
+   "id": "union_representative",
+   "en": "union representative",
+   "uz": "kasaba uyushmasi vakili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Elected by the workers, the union representative demanded that the managers pay for all the unpaid overtime.",
+   "gap": "union representative",
+   "alt": [
+    "union representatives",
+    "union rep"
+   ]
+  },
+  {
+   "id": "researcher",
+   "en": "researcher",
+   "uz": "tadqiqotchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A team of researchers in the company's lab is developing a new kind of wheat that needs less water.",
+   "gap": "researchers",
+   "alt": [
+    "researchers"
+   ]
+  },
+  {
+   "id": "supervisor",
+   "en": "supervisor",
+   "uz": "nazoratchi (ish boshlig‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The night supervisor walks round the factory floor, checking that everyone is following the safety rules.",
+   "gap": "supervisor",
+   "alt": [
+    "supervisors"
+   ]
+  },
+  {
+   "id": "civil_servant",
+   "en": "civil servant",
+   "uz": "davlat xizmatchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Farrux has been a civil servant for fifteen years and has worked in three different ministries.",
+   "gap": "civil servant",
+   "alt": [
+    "civil servants"
+   ]
+  },
+  {
+   "id": "judge",
+   "en": "judge",
+   "uz": "sudya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The judge listened to both sides in court and then decided that the company had to pay the money back.",
+   "gap": "judge",
+   "alt": [
+    "judges"
+   ]
+  },
+  {
+   "id": "ambassador",
+   "en": "ambassador",
+   "uz": "elchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new ambassador arrived in Tashkent and met the Foreign Minister to present a letter from her president.",
+   "gap": "ambassador",
+   "alt": [
+    "ambassadors"
+   ]
+  },
+  {
+   "id": "physiotherapist",
+   "en": "physiotherapist",
+   "uz": "fizioterapevt",
+   "pos": "noun",
+   "img": false,
+   "ex": "After he hurt his knee playing football, Sardor saw a physiotherapist twice a week to get it moving again.",
+   "gap": "physiotherapist",
+   "alt": [
+    "physiotherapists",
+    "physio"
+   ]
+  },
+  {
+   "id": "economist",
+   "en": "economist",
+   "uz": "iqtisodchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank hired an economist to study how rising prices affect people's savings.",
+   "gap": "economist",
+   "alt": [
+    "economists"
+   ]
+  },
+  {
+   "id": "carpenter",
+   "en": "carpenter",
+   "uz": "duradgor",
+   "pos": "noun",
+   "img": false,
+   "ex": "A local carpenter made us a heavy wooden gate and a dining table to match.",
+   "gap": "carpenter",
+   "alt": [
+    "carpenters"
+   ]
+  },
+  {
+   "id": "plumber",
+   "en": "plumber",
+   "uz": "santexnik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Water was pouring out of the pipe under the kitchen sink, so we called a plumber.",
+   "gap": "plumber",
+   "alt": [
+    "plumbers"
+   ]
+  },
+  {
+   "id": "childminder",
+   "en": "childminder",
+   "uz": "enaga (bolalarni o‘z uyida qaraydi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "While both his parents are at work, little Aziz stays with a childminder who looks after three children in her own flat.",
+   "gap": "childminder",
+   "alt": [
+    "childminders",
+    "child minder"
+   ]
+  },
+  {
+   "id": "make_a_living",
+   "en": "make a living",
+   "uz": "tirikchilik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's hard to make a living as a musician, so Bekzod also gives guitar lessons in the evenings.",
+   "gap": "make a living",
+   "alt": [
+    "made a living",
+    "making a living",
+    "makes a living"
+   ]
+  },
+  {
+   "id": "work_shifts",
+   "en": "work shifts",
+   "uz": "smenali ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Workers at the cement plant work shifts, so Lola's father sometimes starts at 8 a.m. and sometimes at 10 p.m.",
+   "gap": "work shifts",
+   "alt": [
+    "works shifts",
+    "worked shifts",
+    "working shifts",
+    "shiftwork"
+   ]
+  },
+  {
+   "id": "flexi_time",
+   "en": "flexi-time",
+   "uz": "erkin ish jadvali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because she's on flexi-time, Dilnoza can start at ten and finish later in the evening.",
+   "gap": "flexi-time",
+   "alt": [
+    "flexitime",
+    "flextime"
+   ]
+  },
+  {
+   "id": "on_strike",
+   "en": "on strike",
+   "uz": "ish tashlashda (ish tashlamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bus drivers went on strike for three days because they wanted higher pay.",
+   "gap": "on strike",
+   "alt": []
+  },
+  {
+   "id": "get_the_sack",
+   "en": "get the sack",
+   "uz": "ishdan haydalmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you keep arriving at the office an hour late, you'll get the sack.",
+   "gap": "get the sack",
+   "alt": [
+    "got the sack",
+    "gets the sack",
+    "getting the sack"
+   ]
+  },
+  {
+   "id": "made_redundant",
+   "en": "be made redundant",
+   "uz": "shtat qisqarishi bilan bo‘shatilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the old textile factory closed, three hundred workers were made redundant.",
+   "gap": "made redundant",
+   "alt": [
+    "made redundant"
+   ]
+  },
+  {
+   "id": "laid_off",
+   "en": "be laid off",
+   "uz": "ish yo‘qligi sababli bo‘shatilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With no orders over the winter, the brick factory laid off two hundred workers until the spring.",
+   "gap": "laid off",
+   "alt": [
+    "laid off",
+    "lay off",
+    "lays off"
+   ]
+  },
+  {
+   "id": "maternity_leave",
+   "en": "maternity leave",
+   "uz": "dekret ta’tili (onalar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shahnoza is on maternity leave until her baby daughter is one year old.",
+   "gap": "maternity leave",
+   "alt": []
+  },
+  {
+   "id": "paternity_leave",
+   "en": "paternity leave",
+   "uz": "otalik ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "After his twins were born, Jamshid took two weeks' paternity leave to help at home.",
+   "gap": "paternity leave",
+   "alt": []
+  },
+  {
+   "id": "sick_leave",
+   "en": "sick leave",
+   "uz": "kasallik ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ulug‘bek broke his leg skiing, so he is on sick leave for a month.",
+   "gap": "sick leave",
+   "alt": []
+  },
+  {
+   "id": "early_retirement",
+   "en": "early retirement",
+   "uz": "muddatidan oldin pensiyaga chiqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tired of the long hours, my uncle took early retirement at fifty-two and now looks after his orchard.",
+   "gap": "early retirement",
+   "alt": []
+  },
+  {
+   "id": "workaholic",
+   "en": "workaholic",
+   "uz": "ishga mukkasidan ketgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamola is a real workaholic: she answers emails at midnight and even works on holidays.",
+   "gap": "workaholic",
+   "alt": [
+    "workaholics"
+   ]
+  },
+  {
+   "id": "promoted",
+   "en": "be promoted",
+   "uz": "lavozimi oshirilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After three years as a junior developer, Rustam was promoted to team leader.",
+   "gap": "promoted",
+   "alt": [
+    "promoted",
+    "promote",
+    "promotes"
+   ]
+  },
+  {
+   "id": "apply_for",
+   "en": "apply for",
+   "uz": "(ishga) ariza topshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "More than four hundred graduates applied for the job at the new bank.",
+   "gap": "applied for",
+   "alt": [
+    "applied for",
+    "applies for",
+    "applying for"
+   ]
+  },
+  {
+   "id": "work_nine_to_five",
+   "en": "work nine-to-five",
+   "uz": "odatiy kunduzgi ish vaqtida ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Tired of night shifts at the hospital, Akmal found an office job where he can work nine-to-five and be home for dinner.",
+   "gap": "work nine-to-five",
+   "alt": [
+    "works nine-to-five",
+    "worked nine-to-five",
+    "working nine-to-five",
+    "work nine to five",
+    "nine-to-five"
+   ]
+  },
+  {
+   "id": "take_on",
+   "en": "take on",
+   "uz": "(ish, mas’uliyatni) zimmasiga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bobur is already managing three big projects, so he can't take on any more responsibility this month.",
+   "gap": "take on",
+   "alt": [
+    "takes on",
+    "took on",
+    "taken on",
+    "taking on"
+   ]
+  },
+  {
+   "id": "banker",
+   "en": "banker",
+   "uz": "bank sohasi mutaxassisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The banker agreed to lend the farmers enough money to buy two new tractors.",
+   "gap": "banker",
+   "alt": [
+    "bankers"
+   ]
+  },
+  {
+   "id": "scientist",
+   "en": "scientist",
+   "uz": "olim",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years in the lab, the scientist discovered a bacterium that can break down plastic bottles.",
+   "gap": "scientist",
+   "alt": [
+    "scientists"
+   ]
+  },
+  {
+   "id": "firefighter",
+   "en": "firefighter",
+   "uz": "o‘t o‘chiruvchi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Two firefighters climbed a ladder and carried an old man out through the smoke.",
+   "gap": "firefighters",
+   "alt": [
+    "firefighters"
+   ]
+  },
+  {
+   "id": "designer_job",
+   "en": "designer",
+   "uz": "buyum ko‘rinishini loyihalovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ozoda works as a designer at a furniture company, planning new chairs and sofas on her computer.",
+   "gap": "designer",
+   "alt": [
+    "designers"
+   ]
+  },
+  {
+   "id": "be_fired",
+   "en": "be fired",
+   "uz": "ishdan bo‘shatilmoq (rasman)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The manager was fired after money went missing from the company's accounts.",
+   "gap": "fired",
+   "alt": [
+    "fired",
+    "was fired",
+    "were fired",
+    "been fired"
+   ]
+  },
+  {
+   "id": "freelance",
+   "en": "freelance",
+   "uz": "mustaqil (shtatsiz) ishlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of working for one newspaper, Diyora is a freelance journalist who writes for several magazines.",
+   "gap": "freelance",
+   "alt": []
+  },
+  {
+   "id": "profession",
+   "en": "profession",
+   "uz": "kasb (uzoq o‘qish talab qiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Medicine is a demanding profession: doctors study for at least six years before they can treat patients alone.",
+   "gap": "profession",
+   "alt": [
+    "professions"
+   ]
+  },
+  {
+   "id": "trade",
+   "en": "trade",
+   "uz": "hunar (qo‘l mehnati kasbi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Plumbing is a useful trade, and young apprentices learn it from experienced workers on building sites.",
+   "gap": "trade",
+   "alt": [
+    "trades"
+   ]
+  },
+  {
+   "id": "do_for_a_living",
+   "en": "do for a living",
+   "uz": "kasbi (nima ish bilan band ekani)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When I asked Sevara what she does for a living, she said she repairs old violins.",
+   "gap": "does for a living",
+   "alt": [
+    "does for a living",
+    "did for a living",
+    "doing for a living"
+   ]
+  },
+  {
+   "id": "job",
+   "en": "job",
+   "uz": "ish o‘rni (lavozim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lena has just got a new job as a receptionist at a hotel near the airport.",
+   "gap": "job",
+   "alt": [
+    "jobs"
+   ]
+  },
+  {
+   "id": "work_n",
+   "en": "work",
+   "uz": "ish (faoliyat; ishxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It takes Botir forty minutes to get to work by metro every morning.",
+   "gap": "work",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "company_director",
+   "executive"
+  ],
+  [
+   "executive",
+   "administrator"
+  ],
+  [
+   "administrator",
+   "supervisor"
+  ],
+  [
+   "skilled_worker",
+   "unskilled_worker"
+  ],
+  [
+   "researcher",
+   "economist"
+  ],
+  [
+   "work_shifts",
+   "flexi_time"
+  ],
+  [
+   "get_the_sack",
+   "made_redundant"
+  ],
+  [
+   "get_the_sack",
+   "laid_off"
+  ],
+  [
+   "made_redundant",
+   "laid_off"
+  ],
+  [
+   "maternity_leave",
+   "paternity_leave"
+  ],
+  [
+   "maternity_leave",
+   "sick_leave"
+  ],
+  [
+   "paternity_leave",
+   "sick_leave"
+  ],
+  [
+   "early_retirement",
+   "sick_leave"
+  ],
+  [
+   "work_shifts",
+   "work_nine_to_five"
+  ],
+  [
+   "flexi_time",
+   "work_nine_to_five"
+  ],
+  [
+   "administrator",
+   "receptionist"
+  ],
+  [
+   "banker",
+   "economist"
+  ],
+  [
+   "scientist",
+   "researcher"
+  ],
+  [
+   "designer_job",
+   "carpenter"
+  ],
+  [
+   "be_fired",
+   "get_the_sack"
+  ],
+  [
+   "be_fired",
+   "made_redundant"
+  ],
+  [
+   "be_fired",
+   "laid_off"
+  ],
+  [
+   "profession",
+   "trade"
+  ],
+  [
+   "do_for_a_living",
+   "make_a_living"
+  ],
+  [
+   "profession",
+   "job"
+  ],
+  [
+   "profession",
+   "work_n"
+  ],
+  [
+   "trade",
+   "job"
+  ],
+  [
+   "job",
+   "work_n"
+  ],
+  [
+   "do_for_a_living",
+   "profession"
+  ]
+ ]
+}

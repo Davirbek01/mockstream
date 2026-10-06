@@ -1,0 +1,460 @@
+{
+ "book": "upper",
+ "unit": 85,
+ "title": "Countable and uncountable nouns with different meanings",
+ "title_uz": "Sanaladigan va sanalmaydigan shakli boshqa ma’noli otlar",
+ "words": [
+  {
+   "id": "a_glass",
+   "en": "a glass",
+   "uz": "bitta stakan (idish)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Could I have a glass of cold water, please? I'm really thirsty after the run.",
+   "gap": "a glass",
+   "alt": [
+    "glasses"
+   ]
+  },
+  {
+   "id": "glass",
+   "en": "glass",
+   "uz": "shisha (material)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new museum has a roof made entirely of glass, so the halls are full of daylight.",
+   "gap": "glass",
+   "alt": []
+  },
+  {
+   "id": "a_cloth",
+   "en": "a cloth",
+   "uz": "bitta latta (artish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The car windows were covered in dust, so Timur took a cloth and polished them until they shone.",
+   "gap": "a cloth",
+   "alt": [
+    "cloths"
+   ]
+  },
+  {
+   "id": "a_fish",
+   "en": "a fish",
+   "uz": "bitta baliq (suvdagi jonivor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Look, there's a fish swimming slowly near the bottom of the pond!",
+   "gap": "a fish",
+   "alt": []
+  },
+  {
+   "id": "fish",
+   "en": "fish",
+   "uz": "baliq go‘shti (taom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the café by the lake we had fried fish that had been caught that same morning.",
+   "gap": "fish",
+   "alt": []
+  },
+  {
+   "id": "a_hair",
+   "en": "a hair",
+   "uz": "bitta soch tolasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I opened my library book, I found a hair as long as my arm stuck between the pages.",
+   "gap": "a hair",
+   "alt": [
+    "hairs"
+   ]
+  },
+  {
+   "id": "hair",
+   "en": "hair",
+   "uz": "soch (umuman)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the swimming lesson, Lola spent ten minutes drying her hair in the changing room.",
+   "gap": "hair",
+   "alt": []
+  },
+  {
+   "id": "a_paper",
+   "en": "a paper",
+   "uz": "bitta gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "On his way to work, our neighbour buys a paper from the kiosk next to the metro station.",
+   "gap": "a paper",
+   "alt": [
+    "papers"
+   ]
+  },
+  {
+   "id": "paper",
+   "en": "paper",
+   "uz": "qog‘oz (material)",
+   "pos": "noun",
+   "img": false,
+   "ex": "These notebooks are made from recycled paper, so no new trees were cut down for them.",
+   "gap": "paper",
+   "alt": []
+  },
+  {
+   "id": "peoples",
+   "en": "peoples",
+   "uz": "xalqlar (millatlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The festival celebrates the music and dances of the many peoples of Central Asia.",
+   "gap": "peoples",
+   "alt": []
+  },
+  {
+   "id": "an_iron",
+   "en": "an iron",
+   "uz": "bitta dazmol (kiyim uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The hotel room had a kettle, a hairdryer and an iron, so I could press my trousers before the meeting.",
+   "gap": "an iron",
+   "alt": [
+    "irons"
+   ]
+  },
+  {
+   "id": "iron",
+   "en": "iron",
+   "uz": "temir (metall)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old gates of the park are made of heavy iron, painted black.",
+   "gap": "iron",
+   "alt": []
+  },
+  {
+   "id": "arts",
+   "en": "arts",
+   "uz": "gumanitar fanlar (til, tarix)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zilola loves literature, history and foreign languages, so she's planning to study arts at university.",
+   "gap": "arts",
+   "alt": []
+  },
+  {
+   "id": "experiences",
+   "en": "experiences",
+   "uz": "boshdan kechirilgan voqealar",
+   "pos": "noun",
+   "img": false,
+   "ex": "During her year as a volunteer in a mountain village school, she had some unforgettable experiences.",
+   "gap": "experiences",
+   "alt": [
+    "an experience"
+   ]
+  },
+  {
+   "id": "good_times",
+   "en": "good times",
+   "uz": "yaxshi damlar (shirin xotiralar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Looking at the old photos reminded us of the good times we had at summer camp.",
+   "gap": "good times",
+   "alt": []
+  },
+  {
+   "id": "a_coffee",
+   "en": "a coffee",
+   "uz": "bir chashka qahva",
+   "pos": "noun",
+   "img": false,
+   "ex": "Let's stop at the café on the corner for a coffee before the lecture starts.",
+   "gap": "a coffee",
+   "alt": [
+    "coffees"
+   ]
+  },
+  {
+   "id": "a_chocolate",
+   "en": "a chocolate",
+   "uz": "bitta konfet (qutidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our guest opened the box and offered everyone a chocolate with a nut inside.",
+   "gap": "a chocolate",
+   "alt": [
+    "chocolates"
+   ]
+  },
+  {
+   "id": "chocolate",
+   "en": "chocolate",
+   "uz": "kakaodan qilingan shirinlik",
+   "pos": "noun",
+   "img": true,
+   "ex": "My favourite birthday cake is made with dark chocolate and cherries.",
+   "gap": "chocolate",
+   "alt": []
+  },
+  {
+   "id": "a_pepper",
+   "en": "a pepper",
+   "uz": "bitta bolgar qalampiri",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cut a pepper into thin strips and add it to the salad.",
+   "gap": "a pepper",
+   "alt": [
+    "peppers"
+   ]
+  },
+  {
+   "id": "pepper",
+   "en": "pepper",
+   "uz": "qora murch (ziravor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This soup is a bit bland; it needs a little more salt and pepper.",
+   "gap": "pepper",
+   "alt": []
+  },
+  {
+   "id": "an_onion",
+   "en": "an onion",
+   "uz": "bitta bosh piyoz",
+   "pos": "noun",
+   "img": true,
+   "ex": "First chop an onion and fry it in a little oil until it turns golden.",
+   "gap": "an onion",
+   "alt": [
+    "onions"
+   ]
+  },
+  {
+   "id": "onion",
+   "en": "onion",
+   "uz": "to‘g‘ralgan piyoz (taomda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'd like a beef burger with extra onion and no tomato, please.",
+   "gap": "onion",
+   "alt": []
+  },
+  {
+   "id": "a_work",
+   "en": "a work",
+   "uz": "asar (san’at, adabiyot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum has a work by Monet hanging in its main hall.",
+   "gap": "a work",
+   "alt": [
+    "works"
+   ]
+  },
+  {
+   "id": "people",
+   "en": "people",
+   "uz": "odamlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I love meeting people from different countries at the youth festival.",
+   "gap": "people",
+   "alt": []
+  },
+  {
+   "id": "art",
+   "en": "art",
+   "uz": "tasviriy san’at (rasm, haykal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The modern art museum has paintings and sculptures from all over the world.",
+   "gap": "art",
+   "alt": []
+  },
+  {
+   "id": "time_clock",
+   "en": "time",
+   "uz": "vaqt",
+   "pos": "noun",
+   "img": false,
+   "ex": "On a boring afternoon, time seems to pass very slowly.",
+   "gap": "time",
+   "alt": []
+  },
+  {
+   "id": "times_occasions",
+   "en": "times",
+   "uz": "marta (marotaba)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've watched that cartoon five times, and it still makes me laugh.",
+   "gap": "times",
+   "alt": []
+  },
+  {
+   "id": "coffee",
+   "en": "coffee",
+   "uz": "qahva (umuman, ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't sleep if I drink strong black coffee in the evening.",
+   "gap": "coffee",
+   "alt": []
+  },
+  {
+   "id": "a_tea",
+   "en": "a tea",
+   "uz": "bir piyola choy (buyurtma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can we have two coffees and a tea with lemon, please?",
+   "gap": "a tea",
+   "alt": [
+    "teas"
+   ]
+  },
+  {
+   "id": "potato",
+   "en": "potato",
+   "uz": "kartoshka (taomda, ezilgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For lunch there was grilled chicken with mashed potato and peas.",
+   "gap": "potato",
+   "alt": []
+  },
+  {
+   "id": "a_potato",
+   "en": "a potato",
+   "uz": "bitta kartoshka (dona)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Peel a potato and cut it into small cubes for the soup.",
+   "gap": "a potato",
+   "alt": [
+    "potatoes"
+   ]
+  },
+  {
+   "id": "salt",
+   "en": "salt",
+   "uz": "tuz",
+   "pos": "noun",
+   "img": true,
+   "ex": "Add a pinch of salt to the boiling water before you put the pasta in.",
+   "gap": "salt",
+   "alt": []
+  },
+  {
+   "id": "hot_dog",
+   "en": "hot dog",
+   "uz": "sosiskali bulochka",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the football match we bought a hot dog with mustard and onion.",
+   "gap": "hot dog",
+   "alt": [
+    "hot dogs"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "a_glass",
+   "glass"
+  ],
+  [
+   "a_fish",
+   "fish"
+  ],
+  [
+   "a_hair",
+   "hair"
+  ],
+  [
+   "a_paper",
+   "paper"
+  ],
+  [
+   "an_iron",
+   "iron"
+  ],
+  [
+   "a_chocolate",
+   "chocolate"
+  ],
+  [
+   "a_pepper",
+   "pepper"
+  ],
+  [
+   "an_onion",
+   "onion"
+  ],
+  [
+   "a_cloth",
+   "a_paper"
+  ],
+  [
+   "good_times",
+   "experiences"
+  ],
+  [
+   "a_coffee",
+   "a_chocolate"
+  ],
+  [
+   "an_onion",
+   "a_pepper"
+  ],
+  [
+   "onion",
+   "pepper"
+  ],
+  [
+   "a_paper",
+   "a_coffee"
+  ],
+  [
+   "a_paper",
+   "a_chocolate"
+  ],
+  [
+   "people",
+   "peoples"
+  ],
+  [
+   "art",
+   "arts"
+  ],
+  [
+   "coffee",
+   "a_coffee"
+  ],
+  [
+   "a_tea",
+   "a_coffee"
+  ],
+  [
+   "potato",
+   "a_potato"
+  ],
+  [
+   "a_potato",
+   "an_onion"
+  ],
+  [
+   "salt",
+   "pepper"
+  ],
+  [
+   "a_potato",
+   "a_pepper"
+  ]
+ ]
+}

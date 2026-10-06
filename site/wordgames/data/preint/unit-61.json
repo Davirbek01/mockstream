@@ -1,0 +1,486 @@
+{
+ "book": "preint",
+ "unit": 61,
+ "title": "Numbers",
+ "title_uz": "Sonlar",
+ "words": [
+  {
+   "id": "hundred",
+   "en": "hundred",
+   "uz": "yuz (son)",
+   "pos": "number",
+   "img": false,
+   "ex": "The school hall has 300 seats, so three hundred parents can come to the spring concert.",
+   "gap": "hundred",
+   "alt": []
+  },
+  {
+   "id": "thousand",
+   "en": "thousand",
+   "uz": "ming",
+   "pos": "number",
+   "img": false,
+   "ex": "Our town's football stadium holds 8,000 fans: eight thousand people shouting at once!",
+   "gap": "thousand",
+   "alt": []
+  },
+  {
+   "id": "million",
+   "en": "million",
+   "uz": "mln (1 000 000)",
+   "pos": "number",
+   "img": false,
+   "ex": "Aziza's parents paid ninety million sum (90,000,000) for their first car.",
+   "gap": "million",
+   "alt": []
+  },
+  {
+   "id": "billion",
+   "en": "billion",
+   "uz": "milliard",
+   "pos": "number",
+   "img": false,
+   "ex": "The town spent 40,000,000,000 sum, forty billion, on the new swimming centre.",
+   "gap": "billion",
+   "alt": []
+  },
+  {
+   "id": "thousands_of",
+   "en": "thousands of",
+   "uz": "minglab",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every April, thousands of red tulips cover the hills outside Gallaorol.",
+   "gap": "thousands of",
+   "alt": []
+  },
+  {
+   "id": "millions_of",
+   "en": "millions of",
+   "uz": "millionlab",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The video of a cat playing the dutar got millions of views in a single week.",
+   "gap": "millions of",
+   "alt": []
+  },
+  {
+   "id": "fraction",
+   "en": "fraction",
+   "uz": "oddiy kasr (½, ¾)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Year 5 we learnt how to add fractions like ½ and ¼.",
+   "gap": "fractions",
+   "alt": [
+    "fractions"
+   ]
+  },
+  {
+   "id": "decimal",
+   "en": "decimal",
+   "uz": "o‘nli kasr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The calculator shows the answer as a decimal, so you see 0.25 instead of ¼.",
+   "gap": "decimal",
+   "alt": [
+    "decimals"
+   ]
+  },
+  {
+   "id": "point_decimal",
+   "en": "point",
+   "uz": "nuqta (o‘nli kasrda: 2.5)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The scoreboard showed Shahzoda's long jump as 4.35 m: four point three five metres.",
+   "gap": "point",
+   "alt": []
+  },
+  {
+   "id": "a_quarter",
+   "en": "a quarter",
+   "uz": "chorak (to‘rtdan bir)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There are 28 of us in class, and 7, a quarter of the class, wear glasses.",
+   "gap": "a quarter",
+   "alt": []
+  },
+  {
+   "id": "half",
+   "en": "half",
+   "uz": "yarim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamol cut the melon in half and gave one piece to his friend.",
+   "gap": "half",
+   "alt": []
+  },
+  {
+   "id": "three_quarters",
+   "en": "three quarters",
+   "uz": "to‘rtdan uch",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Of the 20 questions in the quiz, Javlon got 15 right, three quarters of them.",
+   "gap": "three quarters",
+   "alt": []
+  },
+  {
+   "id": "majority",
+   "en": "majority",
+   "uz": "ko‘pchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our class vote, 18 of the 30 students chose the zoo, so the majority wanted the zoo.",
+   "gap": "majority",
+   "alt": []
+  },
+  {
+   "id": "vast_majority",
+   "en": "vast majority",
+   "uz": "mutlaq ko‘pchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "28 of the 30 students passed the test: the vast majority of the class.",
+   "gap": "vast majority",
+   "alt": []
+  },
+  {
+   "id": "minority",
+   "en": "minority",
+   "uz": "ozchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only a small minority of the students, three out of forty, come to school by car.",
+   "gap": "minority",
+   "alt": []
+  },
+  {
+   "id": "addition",
+   "en": "addition",
+   "uz": "qo‘shish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first page of the maths test was all addition: 23 + 48, 105 + 77 and so on.",
+   "gap": "addition",
+   "alt": []
+  },
+  {
+   "id": "subtraction",
+   "en": "subtraction",
+   "uz": "ayirish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The second page was subtraction: 90 − 37, 61 − 18 and other problems with a minus sign.",
+   "gap": "subtraction",
+   "alt": []
+  },
+  {
+   "id": "multiplication",
+   "en": "multiplication",
+   "uz": "ko‘paytirish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher gave us ten quick multiplication questions, like 6 × 7 and 8 × 9.",
+   "gap": "multiplication",
+   "alt": []
+  },
+  {
+   "id": "division",
+   "en": "division",
+   "uz": "bo‘lish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Splitting the café bill between five friends is an easy division if you have a calculator.",
+   "gap": "division",
+   "alt": []
+  },
+  {
+   "id": "plus",
+   "en": "plus",
+   "uz": "qo‘shuv (+)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Seven plus eight is fifteen, so we need fifteen tickets for both groups.",
+   "gap": "plus",
+   "alt": []
+  },
+  {
+   "id": "minus",
+   "en": "minus",
+   "uz": "ayiruv (−)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Twenty minus six is fourteen, so fourteen students are still in the room.",
+   "gap": "minus",
+   "alt": []
+  },
+  {
+   "id": "times",
+   "en": "times",
+   "uz": "karra (×)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "There are five rows of nine seats in the small cinema: five times nine is forty-five seats.",
+   "gap": "times",
+   "alt": []
+  },
+  {
+   "id": "divided_by",
+   "en": "divided by",
+   "uz": "bo‘lingan (÷)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Thirty-six divided by three is twelve, so each team gets twelve players.",
+   "gap": "divided by",
+   "alt": []
+  },
+  {
+   "id": "equals",
+   "en": "equals",
+   "uz": "teng (=)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The teacher wrote '9 × 3 = 27' on the board and read it as 'nine times three equals twenty-seven'.",
+   "gap": "equals",
+   "alt": [
+    "equal"
+   ]
+  },
+  {
+   "id": "add_up",
+   "en": "add up",
+   "uz": "qo‘shib chiqmoq (jamlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you add up these five prices for me? I think the shop has made a mistake.",
+   "gap": "add up",
+   "alt": [
+    "adds up",
+    "added up",
+    "adding up"
+   ]
+  },
+  {
+   "id": "work_out_sum",
+   "en": "work out",
+   "uz": "hisoblab chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamola worked out that the trip would cost each of us 50,000 sum.",
+   "gap": "worked out",
+   "alt": [
+    "works out",
+    "worked out",
+    "working out"
+   ]
+  },
+  {
+   "id": "get_stuck_on",
+   "en": "get stuck",
+   "uz": "qiynalib qolmoq (masalada)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you get stuck on a question, leave it and come back to it at the end of the test.",
+   "gap": "get stuck",
+   "alt": [
+    "gets stuck",
+    "got stuck",
+    "getting stuck"
+   ]
+  },
+  {
+   "id": "total",
+   "en": "total",
+   "uz": "jami (umumiy summa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three books at 40,000 sum each: that's 120,000 sum in total.",
+   "gap": "total",
+   "alt": []
+  },
+  {
+   "id": "nought",
+   "en": "nought",
+   "uz": "nol (matematikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The winner was only 0.3 seconds faster: 'nought point three seconds!' shouted the commentator.",
+   "gap": "nought",
+   "alt": []
+  },
+  {
+   "id": "oh_zero",
+   "en": "oh",
+   "uz": "nol (telefon, xona raqamida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dentist's office is room 307, 'three oh seven', on the third floor.",
+   "gap": "oh",
+   "alt": []
+  },
+  {
+   "id": "double_digit",
+   "en": "double",
+   "uz": "ikki marta (bir xil raqam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My locker code is 5518, so I remember it as 'double five, one, eight'.",
+   "gap": "double",
+   "alt": []
+  },
+  {
+   "id": "cardinal_number",
+   "en": "cardinal number",
+   "uz": "sanoq son (bir, ikki, yuz…)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Words like 'seven' and 'forty' are cardinal numbers; we use them for counting things.",
+   "gap": "cardinal numbers",
+   "alt": [
+    "cardinal numbers"
+   ]
+  },
+  {
+   "id": "fourth",
+   "en": "fourth",
+   "uz": "to‘rtinchi",
+   "pos": "number",
+   "img": false,
+   "ex": "Nilufar's birthday is on 4 March, so she says it as 'the fourth of March'.",
+   "gap": "fourth",
+   "alt": []
+  },
+  {
+   "id": "seventh",
+   "en": "seventh",
+   "uz": "yettinchi",
+   "pos": "number",
+   "img": false,
+   "ex": "The scoreboard showed our team in 7th place, so we came seventh out of twelve.",
+   "gap": "seventh",
+   "alt": []
+  },
+  {
+   "id": "twenty_first",
+   "en": "twenty-first",
+   "uz": "yigirma birinchi",
+   "pos": "number",
+   "img": false,
+   "ex": "The longest day of the year is usually 21 June, the twenty-first of June.",
+   "gap": "twenty-first",
+   "alt": [
+    "21st"
+   ]
+  },
+  {
+   "id": "small_minority",
+   "en": "small minority",
+   "uz": "kichik ozchilik (juda oz qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the town wanted the new park; only a small minority, about 2%, wanted a car park instead.",
+   "gap": "small minority",
+   "alt": []
+  },
+  {
+   "id": "calculation",
+   "en": "calculation",
+   "uz": "hisob-kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "Engineers do hundreds of careful calculations before they build a bridge.",
+   "gap": "calculations",
+   "alt": [
+    "calculations"
+   ]
+  },
+  {
+   "id": "multiplied_by",
+   "en": "multiplied by",
+   "uz": "ko‘paytirilgan (×)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our maths teacher wrote 12 × 5 on the board and asked, 'What is twelve multiplied by five?'",
+   "gap": "multiplied by",
+   "alt": []
+  },
+  {
+   "id": "zero",
+   "en": "zero",
+   "uz": "nol (0, umumiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Water freezes at zero degrees Celsius.",
+   "gap": "zero",
+   "alt": []
+  },
+  {
+   "id": "minus_temp",
+   "en": "minus",
+   "uz": "manfiy (harorat, masalan: −10°)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the coldest winter nights in Nukus, it can be minus twenty degrees.",
+   "gap": "minus",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "thousands_of",
+   "millions_of"
+  ],
+  [
+   "majority",
+   "vast_majority"
+  ],
+  [
+   "add_up",
+   "work_out_sum"
+  ],
+  [
+   "nought",
+   "oh_zero"
+  ],
+  [
+   "fraction",
+   "decimal"
+  ],
+  [
+   "small_minority",
+   "minority"
+  ],
+  [
+   "multiplied_by",
+   "times"
+  ],
+  [
+   "zero",
+   "nought"
+  ],
+  [
+   "zero",
+   "oh_zero"
+  ],
+  [
+   "minus_temp",
+   "minus"
+  ],
+  [
+   "calculation",
+   "division"
+  ],
+  [
+   "calculation",
+   "addition"
+  ],
+  [
+   "calculation",
+   "subtraction"
+  ]
+ ]
+}

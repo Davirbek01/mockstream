@@ -1,0 +1,278 @@
+{
+ "book": "upper",
+ "unit": 62,
+ "title": "Condition",
+ "title_uz": "Shart",
+ "words": [
+  {
+   "id": "unless",
+   "en": "unless",
+   "uz": "agar … bo‘lmasa",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "You won't be allowed into the stadium unless you show your ticket at the gate.",
+   "gap": "unless",
+   "alt": []
+  },
+  {
+   "id": "on_condition_that",
+   "en": "on condition that",
+   "uz": "…sharti bilan (qat’iy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad agreed to lend me his car on condition that I brought it back with a full tank.",
+   "gap": "on condition that",
+   "alt": []
+  },
+  {
+   "id": "in_case_of",
+   "en": "in case of",
+   "uz": "… yuz berganda (e’lonlarda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Pupils must leave the building calmly by the nearest exit in case of an earthquake.",
+   "gap": "in case of",
+   "alt": []
+  },
+  {
+   "id": "in_the_event_of",
+   "en": "in the event of",
+   "uz": "… sodir bo‘lgan taqdirda (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The final will be moved to Sunday in the event of heavy rain on Saturday.",
+   "gap": "in the event of",
+   "alt": []
+  },
+  {
+   "id": "as_long_as",
+   "en": "as long as",
+   "uz": "…sa bo‘ldi (so‘zl.)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "You can play football in the yard as long as you're home before it gets dark.",
+   "gap": "as long as",
+   "alt": []
+  },
+  {
+   "id": "so_long_as",
+   "en": "so long as",
+   "uz": "modomiki … ekan",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "You may use the school computers after lessons so long as you switch them off when you leave.",
+   "gap": "so long as",
+   "alt": []
+  },
+  {
+   "id": "provided",
+   "en": "provided",
+   "uz": "…sa, shu shart bilan",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "You can borrow my camera for the trip to Khiva, provided you keep it away from sand.",
+   "gap": "provided",
+   "alt": [
+    "provided that",
+    "providing",
+    "providing that"
+   ]
+  },
+  {
+   "id": "in_case",
+   "en": "in case",
+   "uz": "…ib qolsa deb (ehtiyot uchun)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Let's buy an extra loaf of bread in case more guests turn up this evening.",
+   "gap": "in case",
+   "alt": []
+  },
+  {
+   "id": "supposing",
+   "en": "supposing",
+   "uz": "faraz qilaylik, …sa",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Tell me, supposing you won a free trip anywhere in the world, where would you go?",
+   "gap": "supposing",
+   "alt": []
+  },
+  {
+   "id": "what_if",
+   "en": "what if",
+   "uz": "…sa-chi? (unda nima bo‘ladi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'd love to sing at the school concert, but what if I forget the words?",
+   "gap": "what if",
+   "alt": []
+  },
+  {
+   "id": "however_cond",
+   "en": "however",
+   "uz": "qanday qilib …sa ham",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bread in my lunch box is always squashed by lunchtime, however carefully I pack it.",
+   "gap": "however",
+   "alt": []
+  },
+  {
+   "id": "whichever",
+   "en": "whichever",
+   "uz": "qaysi birini …sa ham",
+   "pos": "determiner",
+   "img": false,
+   "ex": "You'll need good boots and plenty of water, whichever path you choose to the top of the hill.",
+   "gap": "whichever",
+   "alt": []
+  },
+  {
+   "id": "wherever",
+   "en": "wherever",
+   "uz": "qayerga …sa ham",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our cat follows Jasur wherever he goes, even into the bathroom.",
+   "gap": "wherever",
+   "alt": []
+  },
+  {
+   "id": "whoever",
+   "en": "whoever",
+   "uz": "kim …sa ham",
+   "pos": "pronoun",
+   "img": false,
+   "ex": "Mum says she'll be proud of both of us, whoever wins the chess game tonight.",
+   "gap": "whoever",
+   "alt": []
+  },
+  {
+   "id": "no_matter",
+   "en": "no matter",
+   "uz": "qanchalik …sa ham (farqi yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I always wake up at six, no matter what time I go to bed.",
+   "gap": "no matter",
+   "alt": []
+  },
+  {
+   "id": "conditions",
+   "en": "conditions",
+   "uz": "shartlar (bajarilishi kerak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The coach accepted us onto the team, but with two conditions: no missed practices and no fizzy drinks.",
+   "gap": "conditions",
+   "alt": [
+    "condition"
+   ]
+  },
+  {
+   "id": "prerequisite",
+   "en": "prerequisite",
+   "uz": "zaruriy shart (juda rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Passing a first-aid course is a prerequisite for becoming a swimming coach at the sports centre.",
+   "gap": "prerequisite",
+   "alt": [
+    "prerequisites"
+   ]
+  },
+  {
+   "id": "requirements_cond",
+   "en": "requirements",
+   "uz": "rasmiy talablar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bobur checked the requirements for the scholarship: an IELTS certificate and two reference letters.",
+   "gap": "requirements",
+   "alt": [
+    "requirement"
+   ]
+  },
+  {
+   "id": "under_any_circumstances",
+   "en": "under any circumstances",
+   "uz": "hech qanday holatda (ham)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad says he wouldn't sell his old guitar under any circumstances.",
+   "gap": "under any circumstances",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "on_condition_that",
+   "as_long_as"
+  ],
+  [
+   "on_condition_that",
+   "so_long_as"
+  ],
+  [
+   "on_condition_that",
+   "provided"
+  ],
+  [
+   "as_long_as",
+   "so_long_as"
+  ],
+  [
+   "as_long_as",
+   "provided"
+  ],
+  [
+   "so_long_as",
+   "provided"
+  ],
+  [
+   "in_case_of",
+   "in_the_event_of"
+  ],
+  [
+   "in_case_of",
+   "in_case"
+  ],
+  [
+   "supposing",
+   "what_if"
+  ],
+  [
+   "conditions",
+   "requirements_cond"
+  ],
+  [
+   "conditions",
+   "prerequisite"
+  ],
+  [
+   "prerequisite",
+   "requirements_cond"
+  ],
+  [
+   "however_cond",
+   "no_matter"
+  ],
+  [
+   "whichever",
+   "no_matter"
+  ],
+  [
+   "wherever",
+   "no_matter"
+  ],
+  [
+   "whoever",
+   "no_matter"
+  ],
+  [
+   "whoever",
+   "whichever"
+  ]
+ ]
+}

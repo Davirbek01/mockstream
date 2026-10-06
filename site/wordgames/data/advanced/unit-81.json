@@ -1,0 +1,664 @@
+{
+ "book": "advanced",
+ "unit": 81,
+ "title": "Writing: style and format",
+ "title_uz": "Yozuv: uslub va shakl",
+ "words": [
+  {
+   "id": "scribble",
+   "en": "scribble",
+   "uz": "shosha-pisha qoralab yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Running late for the bus, Oydin scribbled a message on the back of a receipt so messily that her brother could hardly read it.",
+   "gap": "scribbled",
+   "alt": [
+    "scribbled",
+    "scribbles",
+    "scribbling"
+   ]
+  },
+  {
+   "id": "chatty",
+   "en": "chatty",
+   "uz": "samimiy, gapdon (yozuv uslubi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her emails to old classmates are long and chatty, full of jokes and news about the neighbours.",
+   "gap": "chatty",
+   "alt": []
+  },
+  {
+   "id": "jot_down",
+   "en": "jot down",
+   "uz": "esdan chiqmasin deb yozib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Keep a small notebook by your bed so you can quickly jot down any ideas that come to you in the night before they slip away.",
+   "gap": "jot down",
+   "alt": [
+    "jotted down",
+    "jots down",
+    "jotting down"
+   ]
+  },
+  {
+   "id": "make_a_note_of",
+   "en": "make a note of",
+   "uz": "qayd etib qo‘ymoq (rasmiyroq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The secretary made a note of every question the parents raised so the head teacher could answer them later.",
+   "gap": "made a note of",
+   "alt": [
+    "made a note of",
+    "makes a note of",
+    "making a note of"
+   ]
+  },
+  {
+   "id": "doodle",
+   "en": "doodle",
+   "uz": "beixtiyor chizg‘ilamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "During the endless phone call, Sherzod doodled little stars and spirals all over the margins of his notebook.",
+   "gap": "doodled",
+   "alt": [
+    "doodled",
+    "doodles",
+    "doodling"
+   ]
+  },
+  {
+   "id": "copy_out",
+   "en": "copy out",
+   "uz": "qo‘lda ko‘chirib yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our teacher asked us to copy out the poem by hand, word for word, in our neatest handwriting.",
+   "gap": "copy out",
+   "alt": [
+    "copied out",
+    "copies out",
+    "copying out"
+   ]
+  },
+  {
+   "id": "draft",
+   "en": "draft",
+   "uz": "qoralama tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nigora spent the evening drafting a letter of complaint to the bus company, knowing she would rewrite it the next day.",
+   "gap": "drafting",
+   "alt": [
+    "drafted",
+    "drafts",
+    "drafting"
+   ]
+  },
+  {
+   "id": "write_up",
+   "en": "write up",
+   "uz": "yakuniy matn holiga keltirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Now that the experiments are over, Iroda is writing up her results, turning months of rough notes into the full, finished chapters of her thesis.",
+   "gap": "writing up",
+   "alt": [
+    "writing up",
+    "wrote up",
+    "writes up",
+    "written up"
+   ]
+  },
+  {
+   "id": "touch_type",
+   "en": "touch-type",
+   "uz": "klaviaturaga qaramay terish",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since learning to touch-type, Ulugbek keeps his eyes on the screen and never glances down at the keys.",
+   "gap": "touch-type",
+   "alt": [
+    "touch type",
+    "touch-typing",
+    "touch-types",
+    "touch-typed"
+   ]
+  },
+  {
+   "id": "typescript",
+   "en": "typescript",
+   "uz": "nashrga yuboriladigan terilgan matn",
+   "pos": "noun",
+   "img": false,
+   "ex": "The finished typescript, all four hundred pages of it, sat on the editor's desk for months before anyone at the publishing house read it.",
+   "gap": "typescript",
+   "alt": [
+    "typescripts"
+   ]
+  },
+  {
+   "id": "run_off",
+   "en": "run off",
+   "uz": "printerdan nusxa chiqarib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you run off twenty copies of the timetable before the meeting starts?",
+   "gap": "run off",
+   "alt": [
+    "ran off",
+    "runs off",
+    "running off"
+   ]
+  },
+  {
+   "id": "format",
+   "en": "format",
+   "uz": "sahifa ko‘rinishini tartiblamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The table looked fine on screen, but the columns came out crooked on paper until Lobar formatted the page properly, with equal margins and spacing.",
+   "gap": "formatted",
+   "alt": [
+    "formatted",
+    "formats",
+    "formatting"
+   ]
+  },
+  {
+   "id": "copy_and_paste",
+   "en": "copy and paste",
+   "uz": "nusxalab boshqa joyga qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Rather than retyping the whole list, just copy and paste it from the email into your report.",
+   "gap": "copy and paste",
+   "alt": [
+    "copied and pasted",
+    "copies and pastes",
+    "copying and pasting"
+   ]
+  },
+  {
+   "id": "in_bold",
+   "en": "in bold",
+   "uz": "qalin harflarda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In our textbook every key term is printed in bold, so the thick dark letters jump out from the rest of the page.",
+   "gap": "in bold",
+   "alt": []
+  },
+  {
+   "id": "in_italics",
+   "en": "in italics",
+   "uz": "qiya harflarda (kursivda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Titles of books and films are often written in italics, with the letters sloping slightly to the right.",
+   "gap": "in italics",
+   "alt": [
+    "italics"
+   ]
+  },
+  {
+   "id": "font",
+   "en": "font",
+   "uz": "shrift (harf turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The poster looked messy because Dilfuza had used five different fonts, including one that looked like handwriting.",
+   "gap": "fonts",
+   "alt": [
+    "fonts"
+   ]
+  },
+  {
+   "id": "indented",
+   "en": "indented",
+   "uz": "xat boshidan ichkariga surilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Asal's essay the first line of a new paragraph was never indented, so the page looked like one solid block and it was hard to see where each paragraph began.",
+   "gap": "indented",
+   "alt": [
+    "indent",
+    "indents",
+    "indenting"
+   ]
+  },
+  {
+   "id": "asterisk",
+   "en": "asterisk",
+   "uz": "yulduzcha belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the café menu, dishes marked with an asterisk are suitable for vegetarians; the little star is explained at the bottom.",
+   "gap": "asterisk",
+   "alt": [
+    "asterisks"
+   ]
+  },
+  {
+   "id": "bullet_point",
+   "en": "bullet point",
+   "uz": "ro‘yxat boshidagi nuqta belgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put the main advantages as short bullet points so the reader can scan them quickly.",
+   "gap": "bullet points",
+   "alt": [
+    "bullet points",
+    "bullet"
+   ]
+  },
+  {
+   "id": "square_brackets",
+   "en": "square brackets",
+   "uz": "to‘rtburchak qavslar [ ]",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many dictionaries, the pronunciation of a word is given between square brackets, like this: [kæt].",
+   "gap": "square brackets",
+   "alt": [
+    "square bracket"
+   ]
+  },
+  {
+   "id": "curly_brackets",
+   "en": "curly brackets",
+   "uz": "figurali qavslar { }",
+   "pos": "noun",
+   "img": false,
+   "ex": "In some programming languages, lines of code are grouped together inside curly brackets, { and }.",
+   "gap": "curly brackets",
+   "alt": [
+    "curly bracket"
+   ]
+  },
+  {
+   "id": "quotation_marks",
+   "en": "quotation marks",
+   "uz": "qo‘shtirnoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you use a writer's exact words in your essay, put them between quotation marks and name the source.",
+   "gap": "quotation marks",
+   "alt": [
+    "quotation mark"
+   ]
+  },
+  {
+   "id": "upper_case",
+   "en": "upper case",
+   "uz": "bosh harflar (texnik atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The password must contain at least one letter in upper case, for example a capital A or B.",
+   "gap": "upper case",
+   "alt": [
+    "upper-case"
+   ]
+  },
+  {
+   "id": "lower_case",
+   "en": "lower case",
+   "uz": "kichik harflar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My password was rejected because I had typed every letter in lower case instead of starting with a capital.",
+   "gap": "lower case",
+   "alt": [
+    "lower-case"
+   ]
+  },
+  {
+   "id": "block_capitals",
+   "en": "block capitals",
+   "uz": "alohida-alohida bosh harflar (anketada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the parcel label, Temur wrote the address in large block capitals, each letter separate and clear, so the courier couldn't misread it.",
+   "gap": "block capitals",
+   "alt": []
+  },
+  {
+   "id": "superscript",
+   "en": "superscript",
+   "uz": "qator ustiga kichik yozilgan belgi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Footnote numbers in this book appear in superscript, as tiny figures raised above the line at the end of a sentence.",
+   "gap": "superscript",
+   "alt": []
+  },
+  {
+   "id": "subtitle",
+   "en": "subtitle",
+   "uz": "kitob nomi ostidagi qo‘shimcha nom",
+   "pos": "noun",
+   "img": false,
+   "ex": "The book is called 'Green Cities', and its subtitle, 'Designing for a Hotter Planet', explains what it is really about.",
+   "gap": "subtitle",
+   "alt": [
+    "subtitles"
+   ]
+  },
+  {
+   "id": "round_brackets",
+   "en": "round brackets",
+   "uz": "oddiy (dumaloq) qavslar ( )",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this exercise, a hint is given after each sentence in round brackets, like this: (two words).",
+   "gap": "round brackets",
+   "alt": [
+    "round bracket"
+   ]
+  },
+  {
+   "id": "chapter_heading",
+   "en": "chapter heading",
+   "uz": "bob sarlavhasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each chapter heading in the travel guide names a different region, so you can find the section you need quickly.",
+   "gap": "chapter heading",
+   "alt": [
+    "chapter headings"
+   ]
+  },
+  {
+   "id": "sub_heading",
+   "en": "sub-heading",
+   "uz": "bob ichidagi bo‘lim sarlavhasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chapter is long, but each short section inside it starts with its own sub-heading, so it is easy to find your place.",
+   "gap": "sub-heading",
+   "alt": [
+    "sub-headings",
+    "subheading",
+    "subheadings",
+    "sub heading"
+   ]
+  },
+  {
+   "id": "write_down",
+   "en": "write down",
+   "uz": "eshitganini yozib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The lecturer speaks so fast that nobody manages to write down everything she says.",
+   "gap": "write down",
+   "alt": [
+    "writes down",
+    "wrote down",
+    "written down",
+    "writing down"
+   ]
+  },
+  {
+   "id": "draft_noun",
+   "en": "draft",
+   "uz": "qoralama (birinchi nusxa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ozoda handed in a rough draft of her essay, full of crossings-out, and her tutor suggested changes before the final version.",
+   "gap": "draft",
+   "alt": [
+    "drafts"
+   ]
+  },
+  {
+   "id": "cut_and_paste",
+   "en": "cut and paste",
+   "uz": "kesib olib boshqa joyga ko‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of having the same paragraph twice, cut and paste it so that it moves to the top of the page.",
+   "gap": "cut and paste",
+   "alt": [
+    "cuts and pastes",
+    "cut and pasted",
+    "cutting and pasting"
+   ]
+  },
+  {
+   "id": "shaded_box",
+   "en": "shaded box",
+   "uz": "fon bilan bo‘yalgan ramka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Key facts are printed in a shaded box with a pale grey background, so you can find them quickly.",
+   "gap": "shaded box",
+   "alt": [
+    "shaded boxes"
+   ]
+  },
+  {
+   "id": "font_size",
+   "en": "font size",
+   "uz": "harf o‘lchami (shrift kattaligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ravshan increased the font size on his phone so that he could read messages without his glasses.",
+   "gap": "font size",
+   "alt": [
+    "font sizes"
+   ]
+  },
+  {
+   "id": "typeface",
+   "en": "typeface",
+   "uz": "harf shakli (shrift dizayni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The designer created a new typeface for the city's street signs, with clear, rounded letters.",
+   "gap": "typeface",
+   "alt": [
+    "typefaces"
+   ]
+  },
+  {
+   "id": "inverted_commas",
+   "en": "inverted commas",
+   "uz": "qo‘shtirnoq (britancha atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In British schools, children learn to put the exact words a character says in inverted commas.",
+   "gap": "inverted commas",
+   "alt": [
+    "inverted comma",
+    "double inverted commas"
+   ]
+  },
+  {
+   "id": "angle_brackets",
+   "en": "angle brackets",
+   "uz": "burchakli qavslar < >",
+   "pos": "noun",
+   "img": false,
+   "ex": "In web code, every tag is written between angle brackets, like this: <p>.",
+   "gap": "angle brackets",
+   "alt": [
+    "angle bracket",
+    "diamond brackets",
+    "diamond bracket"
+   ]
+  },
+  {
+   "id": "capitals",
+   "en": "capitals",
+   "uz": "katta harflar (oddiy nomi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please fill in your surname in capitals, so that every letter is easy to read.",
+   "gap": "capitals",
+   "alt": [
+    "capital"
+   ]
+  },
+  {
+   "id": "small_letters",
+   "en": "small letters",
+   "uz": "mayda harflar (oddiy nomi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some modern poets write their whole poems in small letters, without a single capital.",
+   "gap": "small letters",
+   "alt": [
+    "small letter"
+   ]
+  },
+  {
+   "id": "title",
+   "en": "title",
+   "uz": "kitob nomi (sarlavhasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The author changed the title of her novel three times before choosing 'Salt and Silk' for the front cover.",
+   "gap": "title",
+   "alt": [
+    "titles"
+   ]
+  },
+  {
+   "id": "character_typed",
+   "en": "characters",
+   "uz": "belgi (harf, raqam, simvol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Text messages on old mobile phones were limited to 160 characters, so people invented short forms like 'gr8'.",
+   "gap": "characters",
+   "alt": [
+    "character"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "scribble",
+   "jot_down"
+  ],
+  [
+   "round_brackets",
+   "square_brackets"
+  ],
+  [
+   "round_brackets",
+   "curly_brackets"
+  ],
+  [
+   "chapter_heading",
+   "sub_heading"
+  ],
+  [
+   "scribble",
+   "doodle"
+  ],
+  [
+   "jot_down",
+   "make_a_note_of"
+  ],
+  [
+   "draft",
+   "write_up"
+  ],
+  [
+   "in_bold",
+   "in_italics"
+  ],
+  [
+   "upper_case",
+   "block_capitals"
+  ],
+  [
+   "upper_case",
+   "lower_case"
+  ],
+  [
+   "square_brackets",
+   "curly_brackets"
+  ],
+  [
+   "scribble",
+   "make_a_note_of"
+  ],
+  [
+   "write_down",
+   "jot_down"
+  ],
+  [
+   "write_down",
+   "copy_out"
+  ],
+  [
+   "write_down",
+   "make_a_note_of"
+  ],
+  [
+   "draft_noun",
+   "draft"
+  ],
+  [
+   "draft_noun",
+   "typescript"
+  ],
+  [
+   "cut_and_paste",
+   "copy_and_paste"
+  ],
+  [
+   "font",
+   "font_size"
+  ],
+  [
+   "font",
+   "typeface"
+  ],
+  [
+   "inverted_commas",
+   "quotation_marks"
+  ],
+  [
+   "capitals",
+   "upper_case"
+  ],
+  [
+   "capitals",
+   "block_capitals"
+  ],
+  [
+   "small_letters",
+   "lower_case"
+  ],
+  [
+   "title",
+   "subtitle"
+  ],
+  [
+   "title",
+   "chapter_heading"
+  ],
+  [
+   "write_down",
+   "scribble"
+  ],
+  [
+   "character_typed",
+   "capitals"
+  ],
+  [
+   "character_typed",
+   "small_letters"
+  ],
+  [
+   "character_typed",
+   "asterisk"
+  ]
+ ]
+}

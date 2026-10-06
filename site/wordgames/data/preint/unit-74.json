@@ -1,0 +1,469 @@
+{
+ "book": "preint",
+ "unit": 74,
+ "title": "Word partners",
+ "title_uz": "So‘z hamkorlari (kollokatsiyalar)",
+ "words": [
+  {
+   "id": "spend_time",
+   "en": "spend time",
+   "uz": "vaqt o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class spent three days in the mountains last spring, and nobody wanted to come back.",
+   "gap": "spent",
+   "alt": [
+    "spent",
+    "spends",
+    "spending",
+    "spend"
+   ]
+  },
+  {
+   "id": "miss_the_bus",
+   "en": "miss the bus",
+   "uz": "avtobusdan qolib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hurry up, or we'll miss the bus and be late for school!",
+   "gap": "miss the bus",
+   "alt": [
+    "missed the bus",
+    "misses the bus",
+    "missing the bus"
+   ]
+  },
+  {
+   "id": "make_a_mistake",
+   "en": "make a mistake",
+   "uz": "xato qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Check your answers again; it's easy to make a mistake in long sums.",
+   "gap": "make a mistake",
+   "alt": [
+    "made a mistake",
+    "makes a mistake",
+    "making a mistake"
+   ]
+  },
+  {
+   "id": "serious_injury",
+   "en": "serious injury",
+   "uz": "jiddiy jarohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The goalkeeper had a serious injury to his knee and couldn't play for six months.",
+   "gap": "serious injury",
+   "alt": [
+    "serious injuries"
+   ]
+  },
+  {
+   "id": "depend_on",
+   "en": "depend on",
+   "uz": "...ga bog‘liq bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whether we go to the lake on Sunday depends on the weather.",
+   "gap": "depends on",
+   "alt": [
+    "depends on",
+    "depended on",
+    "depending on"
+   ]
+  },
+  {
+   "id": "tell_a_joke",
+   "en": "tell a joke",
+   "uz": "hazil (latifa) aytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the test, our teacher told us a joke about a cat and a computer, and the whole class laughed.",
+   "gap": "told us a joke",
+   "alt": [
+    "told us a joke",
+    "told a joke",
+    "tells a joke",
+    "telling a joke"
+   ]
+  },
+  {
+   "id": "lose_weight",
+   "en": "lose weight",
+   "uz": "ozmoq (vazn tashlamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The doctor said I should eat less sugar and walk more if I want to lose weight.",
+   "gap": "lose weight",
+   "alt": [
+    "lost weight",
+    "loses weight",
+    "losing weight"
+   ]
+  },
+  {
+   "id": "put_on_weight",
+   "en": "put on weight",
+   "uz": "semirmoq (vazn olmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother eats sweets all day, and he's started to put on weight.",
+   "gap": "put on weight",
+   "alt": [
+    "puts on weight",
+    "putting on weight"
+   ]
+  },
+  {
+   "id": "go_on_a_diet",
+   "en": "go on a diet",
+   "uz": "parhezga o‘tmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "She's only eating salad and fruit because she went on a diet last week.",
+   "gap": "went on a diet",
+   "alt": [
+    "went on a diet",
+    "goes on a diet",
+    "going on a diet"
+   ]
+  },
+  {
+   "id": "predict_the_future",
+   "en": "predict the future",
+   "uz": "kelajakni bashorat qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nobody can really predict the future, but weather apps try to tell us about tomorrow.",
+   "gap": "predict the future",
+   "alt": []
+  },
+  {
+   "id": "score_a_goal",
+   "en": "score a goal",
+   "uz": "gol urmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our best player scored a goal in the last minute, and we won 2–1.",
+   "gap": "scored a goal",
+   "alt": [
+    "scored a goal",
+    "scores a goal",
+    "scoring a goal"
+   ]
+  },
+  {
+   "id": "alarm_go_off",
+   "en": "go off",
+   "uz": "jiringlamoq (budilnik, signal)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My alarm went off at six o'clock, but I stayed in bed for ten more minutes.",
+   "gap": "went off",
+   "alt": [
+    "went off",
+    "goes off",
+    "going off",
+    "gone off"
+   ]
+  },
+  {
+   "id": "large_number",
+   "en": "a large number of",
+   "uz": "ko‘p sonli (sanaladigan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A large number of students signed up for the new robotics club.",
+   "gap": "large number",
+   "alt": []
+  },
+  {
+   "id": "large_amount",
+   "en": "a large amount of",
+   "uz": "katta miqdordagi (sanalmaydigan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our class collected a large amount of waste paper for recycling.",
+   "gap": "large amount",
+   "alt": []
+  },
+  {
+   "id": "wide_choice",
+   "en": "wide choice",
+   "uz": "keng tanlov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new school canteen has a wide choice of dishes, from soup to salads.",
+   "gap": "wide choice",
+   "alt": []
+  },
+  {
+   "id": "loud_noise",
+   "en": "loud noise",
+   "uz": "baland shovqin",
+   "pos": "noun",
+   "img": false,
+   "ex": "A loud noise from the kitchen woke the whole family: the cat had knocked over a pan.",
+   "gap": "loud noise",
+   "alt": [
+    "loud noises"
+   ]
+  },
+  {
+   "id": "great_importance",
+   "en": "of great importance",
+   "uz": "katta ahamiyatga ega",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Clean drinking water is of great importance to every village.",
+   "gap": "great importance",
+   "alt": []
+  },
+  {
+   "id": "great_fun",
+   "en": "great fun",
+   "uz": "juda maroqli (qiziqarli)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The trip to the water park was great fun; we all want to go again.",
+   "gap": "great fun",
+   "alt": []
+  },
+  {
+   "id": "heavy_traffic",
+   "en": "heavy traffic",
+   "uz": "tirbandlik (gavjum harakat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was heavy traffic on the ring road, so the twenty-minute trip took an hour.",
+   "gap": "heavy traffic",
+   "alt": []
+  },
+  {
+   "id": "well_aware",
+   "en": "well aware",
+   "uz": "yaxshi xabardor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The teacher is well aware that some students copy homework from each other.",
+   "gap": "well aware",
+   "alt": []
+  },
+  {
+   "id": "vitally_important",
+   "en": "vitally important",
+   "uz": "hayotiy muhim (o‘ta muhim)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's vitally important to drink enough water when you run in hot weather.",
+   "gap": "vitally important",
+   "alt": []
+  },
+  {
+   "id": "fast_asleep",
+   "en": "fast asleep",
+   "uz": "qattiq uxlab yotgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The baby was fast asleep and didn't wake up even when the dog barked.",
+   "gap": "fast asleep",
+   "alt": []
+  },
+  {
+   "id": "wide_awake",
+   "en": "wide awake",
+   "uz": "butunlay bedor (uyqusi yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I drank strong coffee at nine in the evening, and at two in the morning I was still wide awake.",
+   "gap": "wide awake",
+   "alt": []
+  },
+  {
+   "id": "have_children",
+   "en": "have children",
+   "uz": "farzandli bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The couple next door would like to have children one day, and they've already painted a small bedroom yellow.",
+   "gap": "have children",
+   "alt": [
+    "has children",
+    "had children",
+    "having children"
+   ]
+  },
+  {
+   "id": "serious_illness_wp",
+   "en": "serious illness",
+   "uz": "og‘ir kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors at the new hospital treat people with a serious illness of the heart or lungs.",
+   "gap": "serious illness",
+   "alt": [
+    "serious illnesses"
+   ]
+  },
+  {
+   "id": "fall_in_love",
+   "en": "fall in love",
+   "uz": "sevib qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The prince in the cartoon fell in love with a poor girl the moment he saw her dancing.",
+   "gap": "fell in love",
+   "alt": [
+    "fell in love",
+    "falls in love",
+    "falling in love",
+    "fallen in love"
+   ]
+  },
+  {
+   "id": "expecting_a_baby",
+   "en": "be expecting a baby",
+   "uz": "farzand kutmoq (homilador bo‘lmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our English teacher is expecting a baby in March, so a new teacher will take our class in the spring.",
+   "gap": "expecting a baby",
+   "alt": [
+    "expecting a baby",
+    "is expecting a baby",
+    "was expecting a baby"
+   ]
+  },
+  {
+   "id": "small_number",
+   "en": "a small number of",
+   "uz": "oz sonli (sanaladigan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Only a small number of fans came to the match because of the heavy rain.",
+   "gap": "small number",
+   "alt": []
+  },
+  {
+   "id": "limited_number",
+   "en": "a limited number of",
+   "uz": "cheklangan sonli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The museum lets in a limited number of visitors each hour, so book your ticket online.",
+   "gap": "limited number",
+   "alt": []
+  },
+  {
+   "id": "limited_choice",
+   "en": "limited choice",
+   "uz": "cheklangan tanlov",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter the village shop has only a limited choice of fruit: apples and not much else.",
+   "gap": "limited choice",
+   "alt": []
+  },
+  {
+   "id": "narrow_choice",
+   "en": "narrow choice",
+   "uz": "tor tanlov (kam variant)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The airport café offers a narrow choice of snacks, so I always bring my own sandwiches.",
+   "gap": "narrow choice",
+   "alt": []
+  },
+  {
+   "id": "limited_vocabulary",
+   "en": "limited vocabulary",
+   "uz": "kam so‘z zaxirasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Young children have a limited vocabulary, so picture books use short, simple words.",
+   "gap": "limited vocabulary",
+   "alt": []
+  },
+  {
+   "id": "toy_gun",
+   "en": "toy gun",
+   "uz": "o‘yinchoq to‘pponcha",
+   "pos": "noun",
+   "img": true,
+   "ex": "The little boy ran round the yard with a plastic toy gun that made a clicking sound.",
+   "gap": "toy gun",
+   "alt": [
+    "toy guns"
+   ]
+  },
+  {
+   "id": "light_traffic",
+   "en": "light traffic",
+   "uz": "siyrak qatnov (yo‘l bo‘sh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Early on Sunday morning there was only light traffic, so the taxi got to the station in ten minutes.",
+   "gap": "light traffic",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "lose_weight",
+   "go_on_a_diet"
+  ],
+  [
+   "lose_weight",
+   "put_on_weight"
+  ],
+  [
+   "fast_asleep",
+   "wide_awake"
+  ],
+  [
+   "large_number",
+   "large_amount"
+  ],
+  [
+   "wide_choice",
+   "large_number"
+  ],
+  [
+   "serious_illness_wp",
+   "serious_injury"
+  ],
+  [
+   "small_number",
+   "limited_number"
+  ],
+  [
+   "small_number",
+   "large_number"
+  ],
+  [
+   "limited_number",
+   "large_number"
+  ],
+  [
+   "limited_choice",
+   "narrow_choice"
+  ],
+  [
+   "limited_choice",
+   "wide_choice"
+  ],
+  [
+   "narrow_choice",
+   "wide_choice"
+  ],
+  [
+   "heavy_traffic",
+   "light_traffic"
+  ],
+  [
+   "limited_choice",
+   "limited_vocabulary"
+  ]
+ ]
+}

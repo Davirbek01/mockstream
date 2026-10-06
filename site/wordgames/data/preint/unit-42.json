@@ -1,0 +1,519 @@
+{
+ "book": "preint",
+ "unit": 42,
+ "title": "Competitive sport",
+ "title_uz": "Sport musobaqalari",
+ "words": [
+  {
+   "id": "win",
+   "en": "win",
+   "uz": "yutmoq (o‘yinda g‘olib bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school team won the final of the city volleyball cup, and the players lifted the trophy together.",
+   "gap": "won",
+   "alt": [
+    "won",
+    "wins"
+   ]
+  },
+  {
+   "id": "lose",
+   "en": "lose",
+   "uz": "yutqazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We lost the game 3–1 and had to watch the other team celebrate on our own pitch.",
+   "gap": "lost",
+   "alt": [
+    "lost",
+    "loses",
+    "losing"
+   ]
+  },
+  {
+   "id": "beat",
+   "en": "beat",
+   "uz": "(raqibni) yengmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "During the long break, our class beat 9B 4–2 in a quick football match.",
+   "gap": "beat",
+   "alt": [
+    "beats",
+    "beaten",
+    "beating"
+   ]
+  },
+  {
+   "id": "defeat",
+   "en": "defeat",
+   "uz": "mag‘lub etmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last year's champions were defeated 3–0 by a team from a small village.",
+   "gap": "defeated",
+   "alt": [
+    "defeated",
+    "defeats",
+    "defeating"
+   ]
+  },
+  {
+   "id": "draw_game",
+   "en": "draw",
+   "uz": "durang o‘ynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Neither team scored a single goal, so they drew 0–0.",
+   "gap": "drew",
+   "alt": [
+    "drew",
+    "drawn",
+    "draws"
+   ]
+  },
+  {
+   "id": "score",
+   "en": "score",
+   "uz": "hisob (o‘yin davomida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "What's the score? — It's 2–1 to us, with ten minutes left to play.",
+   "gap": "score",
+   "alt": [
+    "scores"
+   ]
+  },
+  {
+   "id": "nil",
+   "en": "nil",
+   "uz": "nol (o‘yin hisobida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The final score was three nil, so the visitors went home without a single goal.",
+   "gap": "nil",
+   "alt": []
+  },
+  {
+   "id": "result",
+   "en": "result",
+   "uz": "natija (yakuniy hisob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The result of Sunday's match will decide which team moves up to the higher league.",
+   "gap": "result",
+   "alt": [
+    "results"
+   ]
+  },
+  {
+   "id": "half_time",
+   "en": "half-time",
+   "uz": "tanaffus (o‘yin o‘rtasidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At half-time the players drank some water and listened to their coach.",
+   "gap": "half-time",
+   "alt": [
+    "half time"
+   ]
+  },
+  {
+   "id": "competition",
+   "en": "competition",
+   "uz": "tanlov (musobaqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zarina sent three pictures to a photography competition and won first prize.",
+   "gap": "competition",
+   "alt": [
+    "competitions"
+   ]
+  },
+  {
+   "id": "take_part_in",
+   "en": "take part in",
+   "uz": "qatnashmoq (ishtirok etmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "More than two hundred runners took part in the city marathon last spring.",
+   "gap": "took part in",
+   "alt": [
+    "took part in",
+    "takes part in",
+    "taking part in",
+    "taken part in"
+   ]
+  },
+  {
+   "id": "enter",
+   "en": "enter",
+   "uz": "(musobaqaga) yozilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To enter the chess tournament, you have to fill in a form before the first of March.",
+   "gap": "enter",
+   "alt": [
+    "entered",
+    "enters",
+    "entering"
+   ]
+  },
+  {
+   "id": "tournament",
+   "en": "tournament",
+   "uz": "turnir",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tennis tournament lasts a week, and the best player gets a silver trophy and a new racket.",
+   "gap": "tournament",
+   "alt": [
+    "tournaments"
+   ]
+  },
+  {
+   "id": "league",
+   "en": "league",
+   "uz": "liga",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our club finished third in the league after playing every other team twice this season.",
+   "gap": "league",
+   "alt": [
+    "leagues"
+   ]
+  },
+  {
+   "id": "cup",
+   "en": "cup",
+   "uz": "kubok",
+   "pos": "noun",
+   "img": true,
+   "ex": "The captain lifted the shiny silver cup above his head, and the fans went wild.",
+   "gap": "cup",
+   "alt": [
+    "cups"
+   ]
+  },
+  {
+   "id": "final",
+   "en": "final",
+   "uz": "final (hal qiluvchi o‘yin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two teams from the same town reached the final, so on Sunday the whole town watched the last match.",
+   "gap": "final",
+   "alt": [
+    "finals"
+   ]
+  },
+  {
+   "id": "winner",
+   "en": "winner",
+   "uz": "g‘olib",
+   "pos": "noun",
+   "img": false,
+   "ex": "The winner of the bike race gets a new helmet, and every rider who finishes gets a medal.",
+   "gap": "winner",
+   "alt": [
+    "winners"
+   ]
+  },
+  {
+   "id": "loser",
+   "en": "loser",
+   "uz": "yutqazgan (mag‘lub tomon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the last whistle, the losers walked off the pitch with their heads down.",
+   "gap": "losers",
+   "alt": [
+    "losers"
+   ]
+  },
+  {
+   "id": "champion",
+   "en": "champion",
+   "uz": "chempion",
+   "pos": "noun",
+   "img": false,
+   "ex": "After winning every match this season, the girls' team are now the national champions.",
+   "gap": "champions",
+   "alt": [
+    "champions"
+   ]
+  },
+  {
+   "id": "captain",
+   "en": "captain",
+   "uz": "sardor (jamoa kapitani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As captain, Bekzod wears a special armband and speaks to the referee for the whole team.",
+   "gap": "captain",
+   "alt": [
+    "captains"
+   ]
+  },
+  {
+   "id": "break_a_record",
+   "en": "break a record",
+   "uz": "rekord yangilamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At sports day, Shoira broke the record for the 100 metres: no girl at our school had ever run it faster.",
+   "gap": "broke the record",
+   "alt": [
+    "broke the record",
+    "break the record",
+    "breaks the record",
+    "broken the record"
+   ]
+  },
+  {
+   "id": "world_record",
+   "en": "world record",
+   "uz": "jahon rekordi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The swimmer touched the wall, looked at the clock and screamed: she had set a new world record!",
+   "gap": "world record",
+   "alt": [
+    "world records"
+   ]
+  },
+  {
+   "id": "victory",
+   "en": "victory",
+   "uz": "g‘alaba",
+   "pos": "noun",
+   "img": false,
+   "ex": "The 5–0 victory over last year's champions was the best moment of our season.",
+   "gap": "victory",
+   "alt": [
+    "victories"
+   ]
+  },
+  {
+   "id": "gold_medal",
+   "en": "gold medal",
+   "uz": "oltin medal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Diyora finished first in the judo final and stood on the podium with a gold medal round her neck.",
+   "gap": "gold medal",
+   "alt": [
+    "gold medals"
+   ]
+  },
+  {
+   "id": "championship",
+   "en": "championship",
+   "uz": "chempionat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our wrestling club has won the regional championship three years running.",
+   "gap": "championship",
+   "alt": [
+    "championships"
+   ]
+  },
+  {
+   "id": "lead",
+   "en": "lead",
+   "uz": "oldinda bormoq (hisobda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With two laps to go, Kamola was leading the race by ten metres, but she got tired and finished third.",
+   "gap": "leading",
+   "alt": [
+    "leads",
+    "led",
+    "leading"
+   ]
+  },
+  {
+   "id": "point",
+   "en": "point",
+   "uz": "ochko",
+   "pos": "noun",
+   "img": false,
+   "ex": "A win gives a team three points in the league table, and a draw gives just one.",
+   "gap": "points",
+   "alt": [
+    "points"
+   ]
+  },
+  {
+   "id": "superb",
+   "en": "superb",
+   "uz": "a’lo darajadagi (zo‘r)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new stadium is superb: comfortable seats, a perfect pitch and a great view from every row.",
+   "gap": "superb",
+   "alt": []
+  },
+  {
+   "id": "incredible",
+   "en": "incredible",
+   "uz": "aql bovar qilmas / hayratlanarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's incredible: our little goalkeeper saved four penalties in a row and won the match for us.",
+   "gap": "incredible",
+   "alt": []
+  },
+  {
+   "id": "outstanding",
+   "en": "outstanding",
+   "uz": "juda zo‘r / ko‘zga ko‘ringan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Akmal's science project on clean water was outstanding, so the judges sent it to the national final.",
+   "gap": "outstanding",
+   "alt": []
+  },
+  {
+   "id": "game",
+   "en": "game",
+   "uz": "o‘yin (bitta o‘yin, partiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was a long game of chess: after three hours, neither player had won.",
+   "gap": "game",
+   "alt": [
+    "games"
+   ]
+  },
+  {
+   "id": "race_contest",
+   "en": "race",
+   "uz": "poyga",
+   "pos": "noun",
+   "img": false,
+   "ex": "The race is ten kilometres long: the runners start at the old bridge and finish in the main square.",
+   "gap": "race",
+   "alt": [
+    "races"
+   ]
+  },
+  {
+   "id": "one_all",
+   "en": "one all",
+   "uz": "bir-bir (1:1 hisob)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Each team scored once, so the match ended one all.",
+   "gap": "one all",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "win",
+   "lose"
+  ],
+  [
+   "win",
+   "lead"
+  ],
+  [
+   "win",
+   "beat"
+  ],
+  [
+   "beat",
+   "defeat"
+  ],
+  [
+   "score",
+   "result"
+  ],
+  [
+   "competition",
+   "tournament"
+  ],
+  [
+   "competition",
+   "championship"
+  ],
+  [
+   "tournament",
+   "championship"
+  ],
+  [
+   "tournament",
+   "league"
+  ],
+  [
+   "league",
+   "championship"
+  ],
+  [
+   "take_part_in",
+   "enter"
+  ],
+  [
+   "winner",
+   "champion"
+  ],
+  [
+   "winner",
+   "loser"
+  ],
+  [
+   "cup",
+   "gold_medal"
+  ],
+  [
+   "victory",
+   "result"
+  ],
+  [
+   "superb",
+   "incredible"
+  ],
+  [
+   "superb",
+   "outstanding"
+  ],
+  [
+   "incredible",
+   "outstanding"
+  ],
+  [
+   "championship",
+   "cup"
+  ],
+  [
+   "captain",
+   "champion"
+  ],
+  [
+   "competition",
+   "league"
+  ],
+  [
+   "tournament",
+   "cup"
+  ],
+  [
+   "race_contest",
+   "competition"
+  ],
+  [
+   "game",
+   "result"
+  ],
+  [
+   "one_all",
+   "nil"
+  ],
+  [
+   "race_contest",
+   "final"
+  ]
+ ]
+}

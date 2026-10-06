@@ -1,0 +1,292 @@
+{
+ "book": "preint",
+ "unit": 93,
+ "title": "Addition and contrast",
+ "title_uz": "Qo‘shimcha va zidlik",
+ "words": [
+  {
+   "id": "as_well",
+   "en": "as well",
+   "uz": "ham (gap oxirida)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Their pizzas are great, and they sell fresh juice as well.",
+   "gap": "as well",
+   "alt": []
+  },
+  {
+   "id": "too_also",
+   "en": "too",
+   "uz": "ham, shuningdek",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Gulnora loves chess, and her little brother is learning to play it too.",
+   "gap": "too",
+   "alt": []
+  },
+  {
+   "id": "as_well_as",
+   "en": "as well as",
+   "uz": "…dan tashqari yana",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our art club teaches drawing as well as painting.",
+   "gap": "as well as",
+   "alt": []
+  },
+  {
+   "id": "whats_more",
+   "en": "what's more",
+   "uz": "buning ustiga",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This backpack is light and waterproof, and what's more, it has a special pocket for your laptop.",
+   "gap": "what's more",
+   "alt": [
+    "what is more"
+   ]
+  },
+  {
+   "id": "in_addition",
+   "en": "in addition",
+   "uz": "bundan tashqari (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The library offers free Wi-Fi; in addition, students can print ten pages a day for free.",
+   "gap": "in addition",
+   "alt": []
+  },
+  {
+   "id": "in_addition_to",
+   "en": "in addition to",
+   "uz": "…ga qo‘shimcha ravishda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sitora speaks Russian and Turkish in addition to Uzbek.",
+   "gap": "in addition to",
+   "alt": []
+  },
+  {
+   "id": "besides",
+   "en": "besides",
+   "uz": "…dan boshqa (yana)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Who else is coming to the party besides Anvar and Nigora?",
+   "gap": "besides",
+   "alt": []
+  },
+  {
+   "id": "good_value",
+   "en": "good value",
+   "uz": "narxiga arziydigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The school canteen is good value: soup, salad and bread for just 15,000 soums.",
+   "gap": "good value",
+   "alt": []
+  },
+  {
+   "id": "although",
+   "en": "although",
+   "uz": "garchi … bo‘lsa ham",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The museum tour, although nearly three hours long, was never boring.",
+   "gap": "although",
+   "alt": []
+  },
+  {
+   "id": "even_though",
+   "en": "even though",
+   "uz": "…ganiga qaramay",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Hamid went to school even though he had a bad cold.",
+   "gap": "even though",
+   "alt": []
+  },
+  {
+   "id": "despite",
+   "en": "despite",
+   "uz": "…ga qaramasdan",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The little shop on our corner is always full of customers despite its terrible location.",
+   "gap": "despite",
+   "alt": []
+  },
+  {
+   "id": "in_spite_of",
+   "en": "in spite of",
+   "uz": "…ga qaramay (hamma narsaga)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The concert started on time in spite of all the problems with the sound.",
+   "gap": "in spite of",
+   "alt": []
+  },
+  {
+   "id": "still_contrast",
+   "en": "still",
+   "uz": "hamon, baribir",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our car is twenty years old, but it still works perfectly.",
+   "gap": "still",
+   "alt": []
+  },
+  {
+   "id": "however",
+   "en": "however",
+   "uz": "biroq, ammo",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The test was long and difficult. Most of us, however, finished it on time.",
+   "gap": "however",
+   "alt": []
+  },
+  {
+   "id": "yet",
+   "en": "yet",
+   "uz": "shunga qaramay (va lekin)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Doniyor practised for months, and yet he didn't win a single game.",
+   "gap": "yet",
+   "alt": []
+  },
+  {
+   "id": "though_end",
+   "en": "though",
+   "uz": "lekin (gap oxirida, so‘zlashuvda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The old cinema in our street has really uncomfortable seats. The tickets are very cheap, though.",
+   "gap": "though",
+   "alt": []
+  },
+  {
+   "id": "particularly",
+   "en": "particularly",
+   "uz": "ayniqsa (inkor bilan: unchalik)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I don't particularly like football, but I watch the big matches with my friends.",
+   "gap": "particularly",
+   "alt": []
+  },
+  {
+   "id": "whereas",
+   "en": "whereas",
+   "uz": "holbuki (solishtirganda)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "In the north of the country winters are long and cold, whereas in the south they are short and mild.",
+   "gap": "whereas",
+   "alt": []
+  },
+  {
+   "id": "while_contrast",
+   "en": "while",
+   "uz": "…sa, … esa (qiyoslaganda)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "My best friend is crazy about football, while I can't even kick a ball straight.",
+   "gap": "while",
+   "alt": []
+  },
+  {
+   "id": "also",
+   "en": "also",
+   "uz": "yana, shuningdek (fe’l oldidan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Nodir plays the violin in the school orchestra, and he can also sing quite well.",
+   "gap": "also",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "while_contrast",
+   "whereas"
+  ],
+  [
+   "as_well",
+   "too_also"
+  ],
+  [
+   "as_well_as",
+   "in_addition_to"
+  ],
+  [
+   "as_well_as",
+   "besides"
+  ],
+  [
+   "in_addition_to",
+   "besides"
+  ],
+  [
+   "whats_more",
+   "in_addition"
+  ],
+  [
+   "whats_more",
+   "besides"
+  ],
+  [
+   "in_addition",
+   "besides"
+  ],
+  [
+   "although",
+   "even_though"
+  ],
+  [
+   "although",
+   "though_end"
+  ],
+  [
+   "even_though",
+   "though_end"
+  ],
+  [
+   "though_end",
+   "however"
+  ],
+  [
+   "despite",
+   "in_spite_of"
+  ],
+  [
+   "yet",
+   "still_contrast"
+  ],
+  [
+   "although",
+   "while_contrast"
+  ],
+  [
+   "while_contrast",
+   "while_time"
+  ],
+  [
+   "also",
+   "too_also"
+  ],
+  [
+   "also",
+   "as_well"
+  ],
+  [
+   "also",
+   "whats_more"
+  ],
+  [
+   "also",
+   "in_addition"
+  ]
+ ]
+}

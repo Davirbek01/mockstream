@@ -1,0 +1,396 @@
+{
+ "book": "advanced",
+ "unit": 18,
+ "title": "Home styles, lifestyles",
+ "title_uz": "Uy-joy turlari va turmush tarzlari",
+ "words": [
+  {
+   "id": "squat",
+   "en": "squat",
+   "uz": "egasining ruxsatisiz egallangan bino",
+   "pos": "noun",
+   "img": false,
+   "ex": "The empty warehouse became a squat when a group of young artists moved in without asking the owner.",
+   "gap": "squat",
+   "alt": [
+    "squats"
+   ]
+  },
+  {
+   "id": "hovel",
+   "en": "hovel",
+   "uz": "kulba (iflos, xaroba uy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the renovation, the cottage was a damp hovel with a leaking roof and no running water.",
+   "gap": "hovel",
+   "alt": [
+    "hovels"
+   ]
+  },
+  {
+   "id": "run_down",
+   "en": "run-down",
+   "uz": "qarovsiz, eskirib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After years of neglect, the old cinema on our street had become so run-down that the city closed it for safety reasons.",
+   "gap": "run-down",
+   "alt": [
+    "run down"
+   ]
+  },
+  {
+   "id": "furnished",
+   "en": "furnished",
+   "uz": "mebel bilan jihozlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We rented a furnished flat near the metro, so we only had to bring our clothes and books.",
+   "gap": "furnished",
+   "alt": []
+  },
+  {
+   "id": "unfurnished",
+   "en": "unfurnished",
+   "uz": "mebelsiz (bo‘sh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The flat was completely unfurnished, so our first purchases were a fridge and two beds.",
+   "gap": "unfurnished",
+   "alt": []
+  },
+  {
+   "id": "penthouse",
+   "en": "penthouse",
+   "uz": "eng yuqori qavatdagi hashamatli xonadon",
+   "pos": "noun",
+   "img": false,
+   "ex": "From their penthouse on the top floor of the tower, they can see the mountains on a clear day.",
+   "gap": "penthouse",
+   "alt": [
+    "penthouses"
+   ]
+  },
+  {
+   "id": "social_housing",
+   "en": "social housing",
+   "uz": "davlat beradigan arzon ijara uy-joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the flood destroyed their home, the family was offered a two-room flat in social housing at a very low rent.",
+   "gap": "social housing",
+   "alt": []
+  },
+  {
+   "id": "council_estate",
+   "en": "council estate",
+   "uz": "davlat ijara uylari mavzesi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The footballer grew up on a council estate in Liverpool and still visits the youth club where he first kicked a ball.",
+   "gap": "council estate",
+   "alt": [
+    "council estates"
+   ]
+  },
+  {
+   "id": "high_rise",
+   "en": "high-rise",
+   "uz": "ko‘p qavatli baland bino",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twenty-storey high-rises now stand where low mud-brick houses used to line the street.",
+   "gap": "high-rises",
+   "alt": [
+    "high-rises",
+    "high rise"
+   ]
+  },
+  {
+   "id": "tower_block",
+   "en": "tower block",
+   "uz": "ko‘p qavatli turar-joy binosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is on the sixteenth floor of a tower block, so when the lift breaks, it's a long walk up.",
+   "gap": "tower block",
+   "alt": [
+    "tower blocks"
+   ]
+  },
+  {
+   "id": "granny_flat",
+   "en": "granny flat",
+   "uz": "uyga tutash keksalar xonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Mrs Ergasheva turned eighty, her son built a granny flat next to his house so that she could live close by.",
+   "gap": "granny flat",
+   "alt": [
+    "granny flats"
+   ]
+  },
+  {
+   "id": "household_name",
+   "en": "household name",
+   "uz": "hamma taniydigan nom",
+   "pos": "noun",
+   "img": false,
+   "ex": "Within ten years, the small family bakery had become a household name across the whole region.",
+   "gap": "household name",
+   "alt": [
+    "household names",
+    "household word"
+   ]
+  },
+  {
+   "id": "on_the_house",
+   "en": "on the house",
+   "uz": "tekin (muassasa hisobidan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The barber told me that the first haircut for new customers is on the house.",
+   "gap": "on the house",
+   "alt": []
+  },
+  {
+   "id": "home_truths",
+   "en": "home truths",
+   "uz": "achchiq haqiqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the team lost five games in a row, the coach told the players some home truths about their attitude.",
+   "gap": "home truths",
+   "alt": [
+    "home truth"
+   ]
+  },
+  {
+   "id": "nothing_to_write_home_about",
+   "en": "nothing to write home about",
+   "uz": "unchalik ajoyib narsa emas",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everyone raved about the new burger place, but I thought the burgers were nothing to write home about: edible, but no better than the ones I make at home.",
+   "gap": "nothing to write home about",
+   "alt": []
+  },
+  {
+   "id": "hit_home",
+   "en": "hit home",
+   "uz": "to‘liq anglab yetilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Only when he saw his empty classroom on the last day did it really hit home that his school days were over.",
+   "gap": "hit home",
+   "alt": [
+    "hits home",
+    "hitting home"
+   ]
+  },
+  {
+   "id": "make_yourself_at_home",
+   "en": "make yourself at home",
+   "uz": "o‘zingizni uydagidek his qiling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take your shoes off, grab a cushion and make yourself at home; the tea will be ready in a minute.",
+   "gap": "make yourself at home",
+   "alt": [
+    "make yourselves at home"
+   ]
+  },
+  {
+   "id": "life_in_the_fast_lane",
+   "en": "life in the fast lane",
+   "uz": "shiddatli, sershovqin hayot",
+   "pos": "noun",
+   "img": false,
+   "ex": "After fifteen years of life in the fast lane as a TV presenter, she moved to a quiet village near Nurata.",
+   "gap": "life in the fast lane",
+   "alt": []
+  },
+  {
+   "id": "have_the_time_of_your_life",
+   "en": "have the time of your life",
+   "uz": "umrida unutilmas maza qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The children are having the time of their lives at the summer camp by Lake Aydarkul.",
+   "gap": "the time of their lives",
+   "alt": [
+    "the time of their lives",
+    "the time of my life",
+    "the time of her life",
+    "the time of his life",
+    "the time of your life"
+   ]
+  },
+  {
+   "id": "new_lease_of_life",
+   "en": "new lease of life",
+   "uz": "yangi kuch-g‘ayrat (ikkinchi nafas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With a new roof and fresh paint, the old village school got a new lease of life as a community centre.",
+   "gap": "new lease of life",
+   "alt": [
+    "a new lease of life"
+   ]
+  },
+  {
+   "id": "a_dogs_life",
+   "en": "a dog's life",
+   "uz": "itning kuni (og‘ir, baxtsiz hayot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Working two jobs and sleeping four hours a night, Rustam felt he was living a dog's life.",
+   "gap": "a dog's life",
+   "alt": []
+  },
+  {
+   "id": "lead_a_sheltered_life",
+   "en": "lead a sheltered life",
+   "uz": "hayot qiyinchiliklarini ko‘rmay yashamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Having led a sheltered life with parents who did everything for him, Akbar was shocked the first time he had to pay his own bills.",
+   "gap": "led a sheltered life",
+   "alt": [
+    "led a sheltered life",
+    "leads a sheltered life",
+    "leading a sheltered life"
+   ]
+  },
+  {
+   "id": "matter_of_life_and_death",
+   "en": "matter of life and death",
+   "uz": "hayot-mamot masalasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Relax, it's only a practice quiz, not a matter of life and death!",
+   "gap": "matter of life and death",
+   "alt": [
+    "a matter of life and death"
+   ]
+  },
+  {
+   "id": "take_your_life_in_your_hands",
+   "en": "take your life in your hands",
+   "uz": "jonini xavf ostiga qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Riding a scooter without a helmet on that busy ring road, you're taking your life in your hands.",
+   "gap": "taking your life in your hands",
+   "alt": [
+    "taking your life in your hands",
+    "took his life in his hands"
+   ]
+  },
+  {
+   "id": "breathe_new_life_into",
+   "en": "breathe new life into",
+   "uz": "yangi ruh bag‘ishlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The young director breathed new life into the old puppet theatre with modern music and lighting.",
+   "gap": "breathed new life into",
+   "alt": [
+    "breathed new life into",
+    "breathes new life into",
+    "breathing new life into"
+   ]
+  },
+  {
+   "id": "council_housing",
+   "en": "council housing",
+   "uz": "munitsipal ijara uy-joyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Waiting lists for council housing in London are so long that some families wait for years.",
+   "gap": "council housing",
+   "alt": []
+  },
+  {
+   "id": "rented_accommodation",
+   "en": "rented accommodation",
+   "uz": "ijaraga olingan uy-joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most students in the city live in rented accommodation, sharing a flat with two or three friends.",
+   "gap": "rented accommodation",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "squat",
+   "hovel"
+  ],
+  [
+   "hovel",
+   "run_down"
+  ],
+  [
+   "furnished",
+   "unfurnished"
+  ],
+  [
+   "social_housing",
+   "council_estate"
+  ],
+  [
+   "high_rise",
+   "penthouse"
+  ],
+  [
+   "high_rise",
+   "tower_block"
+  ],
+  [
+   "tower_block",
+   "penthouse"
+  ],
+  [
+   "life_in_the_fast_lane",
+   "a_dogs_life"
+  ],
+  [
+   "a_dogs_life",
+   "lead_a_sheltered_life"
+  ],
+  [
+   "new_lease_of_life",
+   "breathe_new_life_into"
+  ],
+  [
+   "home_truths",
+   "hit_home"
+  ],
+  [
+   "granny_flat",
+   "penthouse"
+  ],
+  [
+   "council_housing",
+   "social_housing"
+  ],
+  [
+   "council_housing",
+   "council_estate"
+  ],
+  [
+   "rented_accommodation",
+   "social_housing"
+  ],
+  [
+   "rented_accommodation",
+   "council_housing"
+  ],
+  [
+   "rented_accommodation",
+   "furnished"
+  ]
+ ]
+}

@@ -1,0 +1,270 @@
+{
+ "book": "preint",
+ "unit": 3,
+ "title": "Using a dictionary",
+ "title_uz": "Lug‘atdan foydalanish",
+ "words": [
+  {
+   "id": "dictionary",
+   "en": "dictionary",
+   "uz": "lug‘at (kitob)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My dictionary is so old that some of its pages are falling out.",
+   "gap": "dictionary",
+   "alt": []
+  },
+  {
+   "id": "bilingual",
+   "en": "bilingual",
+   "uz": "ikki tilli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My cousin grew up in Germany, so she is bilingual in Uzbek and German.",
+   "gap": "bilingual",
+   "alt": []
+  },
+  {
+   "id": "online",
+   "en": "online",
+   "uz": "internetda, onlayn",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I don't buy paper dictionaries any more; I check new words online.",
+   "gap": "online",
+   "alt": []
+  },
+  {
+   "id": "available",
+   "en": "available",
+   "uz": "mavjud (topsa bo‘ladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sorry, this dictionary isn't available in our school library yet.",
+   "gap": "available",
+   "alt": []
+  },
+  {
+   "id": "look_up",
+   "en": "look up",
+   "uz": "(lug‘atdan) qidirib topmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I didn't know the word 'shy', so I looked it up on my phone.",
+   "gap": "looked it up",
+   "alt": [
+    "look it up",
+    "looked up",
+    "looked it up"
+   ]
+  },
+  {
+   "id": "definition",
+   "en": "definition",
+   "uz": "ta’rif (so‘z ma’nosining izohi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My dictionary gives two meanings for 'bank', and the second definition is about the side of a river.",
+   "gap": "definition",
+   "alt": []
+  },
+  {
+   "id": "spelling",
+   "en": "spelling",
+   "uz": "imlo (so‘zning yozilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Check your spelling: 'tomorrow' has one 'm' and two 'r's.",
+   "gap": "spelling",
+   "alt": []
+  },
+  {
+   "id": "silent",
+   "en": "silent",
+   "uz": "o‘qilmaydigan (harf)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't say the 'h' in 'hour'; it's silent.",
+   "gap": "silent",
+   "alt": []
+  },
+  {
+   "id": "pronounce",
+   "en": "pronounce",
+   "uz": "talaffuz qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "How do you pronounce 'Wednesday'? Do you say the first 'd' or not?",
+   "gap": "pronounce",
+   "alt": []
+  },
+  {
+   "id": "phonemic_symbols",
+   "en": "phonemic symbols",
+   "uz": "transkripsiya belgilari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dictionaries use phonemic symbols, like /kæt/ for 'cat', to show how a word sounds.",
+   "gap": "phonemic symbols",
+   "alt": [
+    "phonemic symbol"
+   ]
+  },
+  {
+   "id": "fixed_phrase",
+   "en": "fixed phrase",
+   "uz": "turg‘un ibora",
+   "pos": "noun",
+   "img": false,
+   "ex": "'By the way' is a fixed phrase, so you can't change its words.",
+   "gap": "fixed phrase",
+   "alt": []
+  },
+  {
+   "id": "correct",
+   "en": "correct",
+   "uz": "tuzatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The teacher corrected the spelling mistakes in my essay with a red pen.",
+   "gap": "corrected",
+   "alt": [
+    "corrected",
+    "corrects"
+   ]
+  },
+  {
+   "id": "define",
+   "en": "define",
+   "uz": "ta’riflamoq (ma’nosini izohlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "How does your dictionary define the word 'home'?",
+   "gap": "define",
+   "alt": []
+  },
+  {
+   "id": "emphasise",
+   "en": "emphasise",
+   "uz": "alohida ta’kidlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our football coach always emphasises that sleep is as important as training.",
+   "gap": "emphasises",
+   "alt": [
+    "emphasize",
+    "emphasises",
+    "emphasizes"
+   ]
+  },
+  {
+   "id": "connected_with",
+   "en": "connected with",
+   "uz": "…bilan bog‘liq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The word 'football' is connected with 'foot' and 'ball'.",
+   "gap": "connected with",
+   "alt": [
+    "connected to"
+   ]
+  },
+  {
+   "id": "related_to",
+   "en": "related to",
+   "uz": "…ga aloqador",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Teacher' is related to the verb 'teach'.",
+   "gap": "related to",
+   "alt": []
+  },
+  {
+   "id": "amount",
+   "en": "amount",
+   "uz": "miqdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "On hot days, drink a small amount of water every hour.",
+   "gap": "amount",
+   "alt": []
+  },
+  {
+   "id": "official",
+   "en": "official",
+   "uz": "rasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "To get a cheap student metro card, you need an official letter from your university.",
+   "gap": "official",
+   "alt": []
+  },
+  {
+   "id": "behave",
+   "en": "behave",
+   "uz": "o‘zini tutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class always behaves well when the head teacher comes in.",
+   "gap": "behaves",
+   "alt": [
+    "behaves",
+    "behaved"
+   ]
+  },
+  {
+   "id": "make_fun_of",
+   "en": "make fun of",
+   "uz": "masxara qilmoq, ustidan kulmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It isn't kind to make fun of someone's accent when they are learning a language.",
+   "gap": "make fun of",
+   "alt": [
+    "made fun of",
+    "makes fun of",
+    "making fun of"
+   ]
+  },
+  {
+   "id": "have_fun",
+   "en": "have fun",
+   "uz": "maza qilib vaqt o‘tkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We had fun at the water park and went down every slide twice.",
+   "gap": "had fun",
+   "alt": [
+    "had fun",
+    "having fun",
+    "has fun"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "online",
+   "available"
+  ],
+  [
+   "connected_with",
+   "related_to"
+  ],
+  [
+   "define",
+   "pronounce"
+  ],
+  [
+   "definition",
+   "spelling"
+  ],
+  [
+   "definition",
+   "fixed_phrase"
+  ],
+  [
+   "correct",
+   "emphasise"
+  ]
+ ]
+}

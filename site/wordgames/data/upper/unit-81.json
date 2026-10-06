@@ -1,0 +1,318 @@
+{
+ "book": "upper",
+ "unit": 81,
+ "title": "Onomatopoeic words",
+ "title_uz": "Tovushga taqlid qiluvchi so‘zlar",
+ "words": [
+  {
+   "id": "moo",
+   "en": "moo",
+   "uz": "mo‘ramoq (sigir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cows in the field started to moo as soon as the farmer came with their hay.",
+   "gap": "moo",
+   "alt": [
+    "moos",
+    "mooed",
+    "mooing"
+   ]
+  },
+  {
+   "id": "meow",
+   "en": "meow",
+   "uz": "miyovlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every evening the kitten meows at the kitchen door until somebody feeds it.",
+   "gap": "meows",
+   "alt": [
+    "miaow",
+    "meows",
+    "meowed",
+    "meowing"
+   ]
+  },
+  {
+   "id": "purr",
+   "en": "purr",
+   "uz": "xurillamoq (mushuk erkalanganda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you scratch her gently under the chin, our cat closes her eyes and starts to purr.",
+   "gap": "purr",
+   "alt": [
+    "purrs",
+    "purred",
+    "purring"
+   ]
+  },
+  {
+   "id": "buzz",
+   "en": "buzz",
+   "uz": "g‘ing‘illamoq (ari, pashsha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bees were buzzing quietly around the hive while the beekeeper collected the honey.",
+   "gap": "buzzing",
+   "alt": [
+    "buzzes",
+    "buzzed",
+    "buzzing"
+   ]
+  },
+  {
+   "id": "grumpy",
+   "en": "grumpy",
+   "uz": "qovog‘i soliq, jahldor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our bus driver gets grumpy when passengers try to pay with big notes and no change.",
+   "gap": "grumpy",
+   "alt": []
+  },
+  {
+   "id": "growl",
+   "en": "growl",
+   "uz": "irillamoq (it, jahl bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The neighbours' dog growled and showed its teeth when the delivery man opened the gate.",
+   "gap": "growled",
+   "alt": [
+    "growls",
+    "growled",
+    "growling"
+   ]
+  },
+  {
+   "id": "clip_clop",
+   "en": "clip-clop",
+   "uz": "taq-tuq (tuyoq tovushi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Early in the morning we heard the clip-clop of a horse pulling a cart along the village road.",
+   "gap": "clip-clop",
+   "alt": [
+    "clip clop"
+   ]
+  },
+  {
+   "id": "splash",
+   "en": "splash",
+   "uz": "suv sachratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every time the boys jumped into the pool, they splashed water all over the people sitting at the edge.",
+   "gap": "splashed",
+   "alt": [
+    "splashes",
+    "splashed",
+    "splashing"
+   ]
+  },
+  {
+   "id": "spit_out",
+   "en": "spit out",
+   "uz": "og‘zidan tupurib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cough medicine tasted so bitter that my little brother spat it out at once.",
+   "gap": "spat",
+   "alt": [
+    "spat out",
+    "spit",
+    "spat",
+    "spits out",
+    "spitting out"
+   ]
+  },
+  {
+   "id": "spray",
+   "en": "spray",
+   "uz": "purkaladigan suyuqlik (flakonda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The gardener uses a special spray to keep insects off the roses.",
+   "gap": "spray",
+   "alt": [
+    "sprays"
+   ]
+  },
+  {
+   "id": "sprinkle",
+   "en": "sprinkle",
+   "uz": "ustiga sepmoq (mayda qilib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The baker sprinkled sesame seeds over the round loaves before putting them in the oven.",
+   "gap": "sprinkled",
+   "alt": [
+    "sprinkles",
+    "sprinkled",
+    "sprinkling"
+   ]
+  },
+  {
+   "id": "spurt",
+   "en": "spurt",
+   "uz": "otilib chiqmoq (suyuqlik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I bit into the ripe peach, juice spurted out and ran down my chin.",
+   "gap": "spurted",
+   "alt": [
+    "spurts",
+    "spurted",
+    "spurting"
+   ]
+  },
+  {
+   "id": "whizz",
+   "en": "whizz",
+   "uz": "vizillab o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The ball whizzed past the goalkeeper's ear and hit the back of the net.",
+   "gap": "whizzed",
+   "alt": [
+    "whiz",
+    "whizzes",
+    "whizzed",
+    "whizzing"
+   ]
+  },
+  {
+   "id": "wheeze",
+   "en": "wheeze",
+   "uz": "xirillab nafas olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The dusty old storeroom made Aziz cough and wheeze, so he opened the window wide.",
+   "gap": "wheeze",
+   "alt": [
+    "wheezes",
+    "wheezed",
+    "wheezing"
+   ]
+  },
+  {
+   "id": "dash",
+   "en": "dash",
+   "uz": "shoshib yugurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sorry, I can't chat now: I have to dash or I'll miss the last bus home.",
+   "gap": "dash",
+   "alt": [
+    "dashes",
+    "dashed",
+    "dashing"
+   ]
+  },
+  {
+   "id": "bash",
+   "en": "bash",
+   "uz": "qattiq urib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamola stood up too quickly and bashed her head on the low shelf above her desk.",
+   "gap": "bashed",
+   "alt": [
+    "bashes",
+    "bashed",
+    "bashing"
+   ]
+  },
+  {
+   "id": "mash",
+   "en": "mash",
+   "uz": "ezib pyure qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For the baby's breakfast, mash a ripe banana with a fork and stir it into her porridge.",
+   "gap": "mash",
+   "alt": [
+    "mashes",
+    "mashed",
+    "mashing"
+   ]
+  },
+  {
+   "id": "gash",
+   "en": "gash",
+   "uz": "chuqur kesilgan jarohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "He slipped on the rocks by the river and got a deep gash on his knee that needed stitches.",
+   "gap": "gash",
+   "alt": [
+    "gashes"
+   ]
+  },
+  {
+   "id": "tweet_bird",
+   "en": "tweet",
+   "uz": "chirqillamoq (kichik qush)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning little birds tweet in the apple tree outside my bedroom window.",
+   "gap": "tweet",
+   "alt": [
+    "tweets",
+    "tweeted",
+    "tweeting"
+   ]
+  },
+  {
+   "id": "crash_collide",
+   "en": "crash",
+   "uz": "to‘qnashib ketmoq (mashina)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The van skidded on the icy road and crashed into a parked car.",
+   "gap": "crashed",
+   "alt": [
+    "crashes",
+    "crashed",
+    "crashing"
+   ]
+  },
+  {
+   "id": "onomatopoeic",
+   "en": "onomatopoeic",
+   "uz": "tovushga taqlid qiluvchi (so‘z)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Tick-tock' is an onomatopoeic word because it sounds like a clock.",
+   "gap": "onomatopoeic",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "meow",
+   "purr"
+  ],
+  [
+   "splash",
+   "spurt"
+  ],
+  [
+   "whizz",
+   "whistle"
+  ],
+  [
+   "wheeze",
+   "whistle"
+  ],
+  [
+   "splash",
+   "sprinkle"
+  ],
+  [
+   "crash_collide",
+   "bash"
+  ]
+ ]
+}

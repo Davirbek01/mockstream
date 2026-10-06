@@ -1,0 +1,332 @@
+{
+ "book": "advanced",
+ "unit": 30,
+ "title": "Brick walls and glass ceilings",
+ "title_uz": "G‘isht devorlar va shisha shiftlar",
+ "words": [
+  {
+   "id": "build_up",
+   "en": "build up",
+   "uz": "maqtab ko‘kka ko‘tarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the film came out, the adverts had built it up so much that we were disappointed when we finally saw it.",
+   "gap": "built it up",
+   "alt": [
+    "built it up",
+    "built up",
+    "building up",
+    "builds up",
+    "build it up"
+   ]
+  },
+  {
+   "id": "cement",
+   "en": "cement",
+   "uz": "mustahkamlamoq (do‘stlik, aloqa)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Working together on the science fair project cemented the friendship between the two boys.",
+   "gap": "cemented",
+   "alt": [
+    "cemented",
+    "cementing",
+    "cements"
+   ]
+  },
+  {
+   "id": "brick_wall",
+   "en": "brick wall",
+   "uz": "yengib bo‘lmas to‘siq (g‘isht devor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our campaign for a safer crossing outside the school came up against a brick wall: the council simply refused to discuss it.",
+   "gap": "brick wall",
+   "alt": [
+    "a brick wall"
+   ]
+  },
+  {
+   "id": "ceiling",
+   "en": "ceiling",
+   "uz": "yuqori chegara (cheklov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum has put a ceiling on the number of visitors allowed inside at one time, to protect the ancient wall paintings.",
+   "gap": "ceiling",
+   "alt": []
+  },
+  {
+   "id": "glass_ceiling",
+   "en": "glass ceiling",
+   "uz": "ko‘rinmas to‘siq (martaba yo‘lida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Although women make up most of the hospital's doctors, very few of them get past the glass ceiling into senior management.",
+   "gap": "glass ceiling",
+   "alt": []
+  },
+  {
+   "id": "roof_fell_in",
+   "en": "the roof fell in",
+   "uz": "hamma narsa birdan barbod bo‘ldi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Business was going well until a huge supermarket opened across the road, and then the roof fell in on the little shop.",
+   "gap": "the roof fell in",
+   "alt": [
+    "roof fell in"
+   ]
+  },
+  {
+   "id": "go_through_the_roof",
+   "en": "go through the roof",
+   "uz": "(narx) osmonga chiqib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the poor harvest, the price of onions went through the roof.",
+   "gap": "went through the roof",
+   "alt": [
+    "went through the roof",
+    "gone through the roof",
+    "going through the roof",
+    "goes through the roof"
+   ]
+  },
+  {
+   "id": "hit_the_roof",
+   "en": "hit the roof",
+   "uz": "qattiq jahli chiqmoq (portlamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Dad saw the scratch on his new car, he hit the roof and shouted for ten minutes.",
+   "gap": "hit the roof",
+   "alt": [
+    "hits the roof",
+    "hitting the roof"
+   ]
+  },
+  {
+   "id": "window_of_opportunity",
+   "en": "window of opportunity",
+   "uz": "qisqa qulay fursat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The storm calmed down for a few hours, giving the climbers a short window of opportunity to reach the summit.",
+   "gap": "window of opportunity",
+   "alt": []
+  },
+  {
+   "id": "go_out_of_the_window",
+   "en": "go out of the window",
+   "uz": "butkul unutilib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Once the exams were over, all our healthy-eating plans went out of the window and we lived on pizza for a week.",
+   "gap": "went out of the window",
+   "alt": [
+    "went out of the window",
+    "goes out of the window",
+    "go out the window",
+    "went out the window"
+   ]
+  },
+  {
+   "id": "ivory_tower",
+   "en": "ivory tower",
+   "uz": "hayotdan uzilgan dunyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Officials who never take the bus are living in an ivory tower if they think the new fares are cheap.",
+   "gap": "ivory tower",
+   "alt": [
+    "ivory towers"
+   ]
+  },
+  {
+   "id": "tower_of_strength",
+   "en": "tower of strength",
+   "uz": "mustahkam tayanch (ruhiy suyanch)",
+   "pos": "noun",
+   "img": false,
+   "ex": "While Mum was in hospital, our neighbour was a tower of strength, cooking for us and driving us to visit her.",
+   "gap": "tower of strength",
+   "alt": []
+  },
+  {
+   "id": "tower_above",
+   "en": "tower above",
+   "uz": "(hammadan) baland ko‘tarilib turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new fifty-storey hotel towers above the old two-storey houses around it.",
+   "gap": "towers above",
+   "alt": [
+    "towers above",
+    "towered above",
+    "towering above"
+   ]
+  },
+  {
+   "id": "gateway",
+   "en": "gateway to",
+   "uz": "…ga olib boradigan yo‘l (darvoza)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the town's teenagers, the new programming school has become a gateway to careers they never imagined.",
+   "gap": "gateway to",
+   "alt": [
+    "gateway",
+    "a gateway to"
+   ]
+  },
+  {
+   "id": "open_doors",
+   "en": "open doors",
+   "uz": "imkoniyat eshiklarini ochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A summer internship at the hospital opened doors for her in medicine that she had never expected.",
+   "gap": "opened doors",
+   "alt": [
+    "opens doors",
+    "opened doors",
+    "opening doors"
+   ]
+  },
+  {
+   "id": "close_the_door_on",
+   "en": "close the door on",
+   "uz": "…ga nuqta qo‘ymoq (ortda qoldirmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After losing the final, the coach told the players to close the door on that defeat and focus on next season.",
+   "gap": "close the door on",
+   "alt": [
+    "closed the door on",
+    "closing the door on",
+    "closes the door on"
+   ]
+  },
+  {
+   "id": "by_the_back_door",
+   "en": "by the back door",
+   "uz": "norasmiy yo‘l bilan (orqa eshikdan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A few students got onto the popular course by the back door, without ever taking the entrance exam.",
+   "gap": "by the back door",
+   "alt": [
+    "through the back door"
+   ]
+  },
+  {
+   "id": "behind_closed_doors",
+   "en": "behind closed doors",
+   "uz": "yopiq eshiklar ortida (maxfiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The two companies negotiated behind closed doors, and the public only learned about the deal a month later.",
+   "gap": "behind closed doors",
+   "alt": []
+  },
+  {
+   "id": "key",
+   "en": "key",
+   "uz": "kalit (eng muhim omil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Daily practice is the key to playing the dutar well; talent alone is not enough.",
+   "gap": "key",
+   "alt": [
+    "the key to",
+    "key to"
+   ]
+  },
+  {
+   "id": "floor_give_way",
+   "en": "the floor gives way",
+   "uz": "oyog‘i ostidan yer qochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When her name was read out as the winner, Nilufar felt as if the floor had given way beneath her.",
+   "gap": "the floor had given way",
+   "alt": [
+    "the floor gave way",
+    "the floor had given way",
+    "floor gave way",
+    "floor gives way"
+   ]
+  },
+  {
+   "id": "close_doors",
+   "en": "close doors",
+   "uz": "imkoniyat eshiklarini yopmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Leaving school at fifteen closed a lot of doors for him, so years later he went back to study at evening classes.",
+   "gap": "closed a lot of doors",
+   "alt": [
+    "closed a lot of doors",
+    "closes doors",
+    "shut doors",
+    "shut a lot of doors",
+    "closed doors"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "ceiling",
+   "glass_ceiling"
+  ],
+  [
+   "go_through_the_roof",
+   "hit_the_roof"
+  ],
+  [
+   "roof_fell_in",
+   "hit_the_roof"
+  ],
+  [
+   "roof_fell_in",
+   "go_through_the_roof"
+  ],
+  [
+   "gateway",
+   "key"
+  ],
+  [
+   "gateway",
+   "open_doors"
+  ],
+  [
+   "key",
+   "open_doors"
+  ],
+  [
+   "by_the_back_door",
+   "behind_closed_doors"
+  ],
+  [
+   "brick_wall",
+   "glass_ceiling"
+  ],
+  [
+   "ivory_tower",
+   "tower_of_strength"
+  ],
+  [
+   "tower_above",
+   "build_up"
+  ],
+  [
+   "close_the_door_on",
+   "go_out_of_the_window"
+  ],
+  [
+   "window_of_opportunity",
+   "gateway"
+  ]
+ ]
+}

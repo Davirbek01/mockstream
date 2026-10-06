@@ -1,0 +1,467 @@
+{
+ "book": "preint",
+ "unit": 15,
+ "title": "Romance, marriage and divorce",
+ "title_uz": "Muhabbat, nikoh va ajrim",
+ "words": [
+  {
+   "id": "romantic_date",
+   "en": "date",
+   "uz": "sevgi uchrashuvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For their first date, Aziz took Malika to a café on Broadway in Tashkent and was so nervous that he spilled his tea.",
+   "gap": "date",
+   "alt": []
+  },
+  {
+   "id": "go_out_with",
+   "en": "go out with",
+   "uz": "bilan uchrashib yurmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My cousin went out with Nodir for two years before he finally met her parents.",
+   "gap": "went out with",
+   "alt": [
+    "went out with",
+    "goes out with",
+    "going out with"
+   ]
+  },
+  {
+   "id": "break_up",
+   "en": "break up",
+   "uz": "munosabatni uzmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Sardor and his girlfriend broke up last month, but they're still friends.",
+   "gap": "broke up",
+   "alt": [
+    "broke up",
+    "breaks up",
+    "broken up"
+   ]
+  },
+  {
+   "id": "relationship",
+   "en": "relationship",
+   "uz": "munosabat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film is about the relationship between a young doctor and a musician who meet on a train.",
+   "gap": "relationship",
+   "alt": []
+  },
+  {
+   "id": "get_engaged",
+   "en": "get engaged",
+   "uz": "unashtirilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother has just got engaged to Laylo, and their big day is planned for next summer.",
+   "gap": "got engaged",
+   "alt": [
+    "got engaged",
+    "engaged"
+   ]
+  },
+  {
+   "id": "engagement",
+   "en": "engagement",
+   "uz": "unashtiruv (fotiha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "They announced their engagement on Instagram, and two hundred friends sent congratulations.",
+   "gap": "engagement",
+   "alt": []
+  },
+  {
+   "id": "a_couple_of",
+   "en": "a couple of",
+   "uz": "bir-ikkita",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'll be ready in a couple of minutes; I just need to find my keys.",
+   "gap": "a couple of",
+   "alt": []
+  },
+  {
+   "id": "in_love",
+   "en": "in love",
+   "uz": "sevib qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the old fairy tale, the prince falls in love with a poor girl from the bazaar.",
+   "gap": "in love",
+   "alt": []
+  },
+  {
+   "id": "get_married",
+   "en": "get married",
+   "uz": "turmush qurmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our English teacher got married last summer, and now she has a new surname.",
+   "gap": "got married",
+   "alt": [
+    "got married",
+    "getting married",
+    "gets married"
+   ]
+  },
+  {
+   "id": "marriage",
+   "en": "marriage",
+   "uz": "nikoh, er-xotinlik hayoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr and Mrs Karimov have a happy marriage: after forty years together they still hold hands in the park.",
+   "gap": "marriage",
+   "alt": []
+  },
+  {
+   "id": "ceremony",
+   "en": "ceremony",
+   "uz": "marosim",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the graduation ceremony in the big hall, each student got a diploma from the director.",
+   "gap": "ceremony",
+   "alt": []
+  },
+  {
+   "id": "wedding",
+   "en": "wedding",
+   "uz": "to‘y (nikoh to‘yi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin's wedding had more than four hundred guests, and the bride and groom danced until midnight.",
+   "gap": "wedding",
+   "alt": [
+    "weddings"
+   ]
+  },
+  {
+   "id": "reception",
+   "en": "reception",
+   "uz": "to‘y ziyofati",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the ceremony at the registry office, all the guests went to a restaurant for the reception.",
+   "gap": "reception",
+   "alt": []
+  },
+  {
+   "id": "honeymoon",
+   "en": "honeymoon",
+   "uz": "asal oyi (to‘ydan keyingi sayohat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the wedding, the couple went on their honeymoon to Turkey for a week.",
+   "gap": "honeymoon",
+   "alt": []
+  },
+  {
+   "id": "bride",
+   "en": "bride",
+   "uz": "kelin",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bride wore a long white dress, and her new husband wore a dark suit.",
+   "gap": "bride",
+   "alt": []
+  },
+  {
+   "id": "groom",
+   "en": "groom",
+   "uz": "kuyov",
+   "pos": "noun",
+   "img": false,
+   "ex": "At an Uzbek wedding, the groom and his friends arrive at the girl's house with music and dancing.",
+   "gap": "groom",
+   "alt": [
+    "bridegroom"
+   ]
+  },
+  {
+   "id": "pregnant",
+   "en": "pregnant",
+   "uz": "homilador",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My aunt is pregnant, and the baby is due in May.",
+   "gap": "pregnant",
+   "alt": []
+  },
+  {
+   "id": "anniversary",
+   "en": "anniversary",
+   "uz": "yillik sana (to‘y yilligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents had dinner at a restaurant in Bukhara for their twentieth wedding anniversary.",
+   "gap": "anniversary",
+   "alt": []
+  },
+  {
+   "id": "celebration",
+   "en": "celebration",
+   "uz": "bayram, tantana",
+   "pos": "noun",
+   "img": false,
+   "ex": "After our team won the city championship, there was a big celebration in the school hall with music, dancing and lots of cake.",
+   "gap": "celebration",
+   "alt": []
+  },
+  {
+   "id": "celebrate",
+   "en": "celebrate",
+   "uz": "nishonlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "How do you usually celebrate your birthday: with a big party or a quiet dinner at home?",
+   "gap": "celebrate",
+   "alt": [
+    "celebrated",
+    "celebrates"
+   ]
+  },
+  {
+   "id": "go_wrong",
+   "en": "go wrong",
+   "uz": "chappasiga ketmoq, izdan chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everything started to go wrong when the band arrived late and the electricity went off.",
+   "gap": "go wrong",
+   "alt": [
+    "went wrong",
+    "goes wrong",
+    "going wrong"
+   ]
+  },
+  {
+   "id": "alone",
+   "en": "alone",
+   "uz": "yolg‘iz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum works abroad, so Dad is often alone with three children.",
+   "gap": "alone",
+   "alt": []
+  },
+  {
+   "id": "on_your_own",
+   "en": "on your own",
+   "uz": "o‘zi yakka, hech kimsiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since her children moved to Moscow, my aunt has lived on her own in a small flat in Chilanzar.",
+   "gap": "on her own",
+   "alt": [
+    "on her own",
+    "on his own",
+    "on my own"
+   ]
+  },
+  {
+   "id": "give_up",
+   "en": "give up",
+   "uz": "tashlamoq, voz kechmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Dad didn't want to give up his job in Tashkent, so the whole family stayed there.",
+   "gap": "give up",
+   "alt": [
+    "gave up",
+    "gives up",
+    "giving up"
+   ]
+  },
+  {
+   "id": "get_divorced",
+   "en": "get divorced",
+   "uz": "(rasman) ajrashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After ten unhappy years, the couple went to court to get divorced.",
+   "gap": "get divorced",
+   "alt": [
+    "got divorced"
+   ]
+  },
+  {
+   "id": "divorce",
+   "en": "divorce",
+   "uz": "ajrim, nikohning bekor bo‘lishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Their parents' divorce was hard for the children: now Dad lives in one flat and Mum lives in another.",
+   "gap": "divorce",
+   "alt": []
+  },
+  {
+   "id": "marry",
+   "en": "marry",
+   "uz": "uylanmoq / turmushga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the top of the Tashkent TV Tower, Timur took out a ring and asked Dilnoza, 'Will you marry me?'",
+   "gap": "marry",
+   "alt": [
+    "married",
+    "marries"
+   ]
+  },
+  {
+   "id": "romance",
+   "en": "romance",
+   "uz": "ishqiy munosabat (romantika)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Their holiday romance began on a beach in Antalya and ended when the summer was over.",
+   "gap": "romance",
+   "alt": [
+    "romances"
+   ]
+  },
+  {
+   "id": "pregnancy",
+   "en": "pregnancy",
+   "uz": "homiladorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "During her pregnancy, Feruza went to the doctor every month to check that the baby was growing well.",
+   "gap": "pregnancy",
+   "alt": []
+  },
+  {
+   "id": "leave_partner",
+   "en": "leave",
+   "uz": "tashlab ketmoq (turmush o‘rtog‘ini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After years of arguments, Gavhar finally decided to leave her husband and move back to her home town.",
+   "gap": "leave",
+   "alt": [
+    "leaves",
+    "left",
+    "leaving"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "engagement",
+   "pregnancy"
+  ],
+  [
+   "get_divorced",
+   "divorce"
+  ],
+  [
+   "get_married",
+   "get_engaged"
+  ],
+  [
+   "wedding",
+   "ceremony"
+  ],
+  [
+   "wedding",
+   "reception"
+  ],
+  [
+   "ceremony",
+   "reception"
+  ],
+  [
+   "marriage",
+   "wedding"
+  ],
+  [
+   "marriage",
+   "relationship"
+  ],
+  [
+   "divorce",
+   "marriage"
+  ],
+  [
+   "celebration",
+   "reception"
+  ],
+  [
+   "alone",
+   "on_your_own"
+  ],
+  [
+   "romantic_date",
+   "relationship"
+  ],
+  [
+   "anniversary",
+   "celebration"
+  ],
+  [
+   "engagement",
+   "wedding"
+  ],
+  [
+   "engagement",
+   "relationship"
+  ],
+  [
+   "wedding",
+   "celebration"
+  ],
+  [
+   "celebration",
+   "ceremony"
+  ],
+  [
+   "marry",
+   "get_married"
+  ],
+  [
+   "romantic_date",
+   "anniversary"
+  ],
+  [
+   "engagement",
+   "marriage"
+  ],
+  [
+   "romance",
+   "relationship"
+  ],
+  [
+   "romance",
+   "marriage"
+  ],
+  [
+   "romance",
+   "romantic_date"
+  ],
+  [
+   "romance",
+   "engagement"
+  ],
+  [
+   "leave_partner",
+   "divorce"
+  ],
+  [
+   "leave_partner",
+   "marry"
+  ],
+  [
+   "leave_partner",
+   "get_divorced"
+  ],
+  [
+   "leave_partner",
+   "give_up"
+  ]
+ ]
+}

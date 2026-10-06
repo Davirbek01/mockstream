@@ -1,0 +1,518 @@
+{
+ "book": "upper",
+ "unit": 67,
+ "title": "Discourse markers in spoken English",
+ "title_uz": "Og‘zaki nutqdagi diskurs belgilari",
+ "words": [
+  {
+   "id": "well_dm",
+   "en": "well",
+   "uz": "aslida… (kutilgan «ha» o‘rniga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Did you enjoy the camping trip?\" \"Well, the views were amazing, but it rained for three days.\"",
+   "gap": "well",
+   "alt": []
+  },
+  {
+   "id": "right_dm",
+   "en": "right",
+   "uz": "xo‘p, qani (boshlaymiz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Are all the chairs out? Right, let's start the rehearsal from the beginning of scene two.\"",
+   "gap": "right",
+   "alt": []
+  },
+  {
+   "id": "now_then",
+   "en": "now then",
+   "uz": "qani endi (vaziyatni qo‘lga olish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The dentist smiled at the nervous boy in the chair. \"Now then, open wide and let's see which tooth is hurting.\"",
+   "gap": "now then",
+   "alt": []
+  },
+  {
+   "id": "well_then",
+   "en": "well then",
+   "uz": "xo‘sh, endi (asosiy gapga o‘tish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Thanks for waiting, Mrs Rakhimova — please take a seat. Well then, how can I help you today?\"",
+   "gap": "well then",
+   "alt": []
+  },
+  {
+   "id": "fine_dm",
+   "en": "fine",
+   "uz": "bo‘pti, kelishdik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"So I'll bring the ball and you bring the water?\" \"OK, fine, see you at the stadium at five.\"",
+   "gap": "fine",
+   "alt": []
+  },
+  {
+   "id": "then_dm",
+   "en": "then",
+   "uz": "unda (gap oxirida, xayrlashib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"The bus leaves at seven, so see you at the station tomorrow morning, then.\"",
+   "gap": "then",
+   "alt": []
+  },
+  {
+   "id": "where_was_i",
+   "en": "where was I?",
+   "uz": "qayerda to‘xtagan edim?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Sorry, I had to answer the door. Now, where was I? Oh yes — the night our tent blew away in the wind.\"",
+   "gap": "where was I",
+   "alt": [
+    "where was I"
+   ]
+  },
+  {
+   "id": "mind_you",
+   "en": "mind you",
+   "uz": "biroq, aytgancha (qo‘shimcha fikr)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"The new sports hall is tiny — mind you, it cost only half as much as the old one.\"",
+   "gap": "mind you",
+   "alt": []
+  },
+  {
+   "id": "let_me_see",
+   "en": "let me see",
+   "uz": "bir o‘ylab ko‘ray-chi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"What time does the last train to Gulistan leave?\" \"Hmm, let me see … I'll just check the timetable on my phone.\"",
+   "gap": "let me see",
+   "alt": []
+  },
+  {
+   "id": "listen_dm",
+   "en": "listen",
+   "uz": "eshit (taklif kiritish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"I've got nobody to practise my speaking with.\" \"Hey, listen — why don't we meet in the library every Tuesday?\"",
+   "gap": "listen",
+   "alt": []
+  },
+  {
+   "id": "look_dm",
+   "en": "look",
+   "uz": "qara (muhim gapni aytish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Look, I'm not angry that you borrowed my bike — I'm angry that you didn't ask me first.\"",
+   "gap": "look",
+   "alt": []
+  },
+  {
+   "id": "hang_on",
+   "en": "hang on",
+   "uz": "to‘xta, gapimni bo‘lma",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"So the bus driver turned round and—\" \"Was it the same driver as yesterday?\" \"Hang on a second, I haven't got to the funny part yet!\"",
+   "gap": "hang on",
+   "alt": []
+  },
+  {
+   "id": "hold_on",
+   "en": "hold on",
+   "uz": "kutib turing (telefonda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Can you hold on a minute? I'll just find a pen to write down the address.\"",
+   "gap": "hold on",
+   "alt": []
+  },
+  {
+   "id": "you_see",
+   "en": "you see",
+   "uz": "gap shundaki (izoh berish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Sorry I'm late — you see, the metro stopped between two stations for twenty minutes.\"",
+   "gap": "you see",
+   "alt": []
+  },
+  {
+   "id": "you_know",
+   "en": "you know",
+   "uz": "bilasan-ku (eslatish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Have you met Bobur — you know, the tall boy who plays the drums in the school band?\"",
+   "gap": "you know",
+   "alt": []
+  },
+  {
+   "id": "sort_of",
+   "en": "sort of",
+   "uz": "qaysidir ma’noda, salgina",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"Are you angry with me?\" \"Hmm, sort of — you did forget my birthday.\"",
+   "gap": "sort of",
+   "alt": []
+  },
+  {
+   "id": "kind_of",
+   "en": "kind of",
+   "uz": "allaqanday, -roq (taxminan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"What colour is your new bike?\" \"It's kind of greenish-blue — I can't really describe it.\"",
+   "gap": "kind of",
+   "alt": []
+  },
+  {
+   "id": "anyway_dm",
+   "en": "anyway",
+   "uz": "xullas (mavzuni yopish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"…and that's how we ended up living in Fergana — anyway, I'd better go, my bus is here.\"",
+   "gap": "anyway",
+   "alt": []
+  },
+  {
+   "id": "still_dm",
+   "en": "still",
+   "uz": "shunday bo‘lsa-da (taskin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"We lost the final 2–1. Still, we played much better than we did last year.\"",
+   "gap": "still",
+   "alt": []
+  },
+  {
+   "id": "i_mean",
+   "en": "I mean",
+   "uz": "demoqchimanki (aniqlashtirish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"My brother is terrible with money — I mean, he spent all his birthday money in one afternoon.\"",
+   "gap": "I mean",
+   "alt": []
+  },
+  {
+   "id": "ok_dm",
+   "en": "OK",
+   "uz": "mayli, qani (diqqatni jamlash)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "The coach blew her whistle and shouted, \"OK, everybody, two laps of the pitch and then we'll practise passing.\"",
+   "gap": "OK",
+   "alt": [
+    "okay"
+   ]
+  },
+  {
+   "id": "now_dm",
+   "en": "now",
+   "uz": "endi (navbatdagi ishga o‘tish)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "The music teacher closed the piano lid. \"That was the last song, everyone. Now, who wants to choose the next game?\"",
+   "gap": "now",
+   "alt": []
+  },
+  {
+   "id": "so_dm",
+   "en": "so",
+   "uz": "xo‘sh (taklif yoki savolga o‘tish)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "The waiter came over with a smile. \"So, are you ready to order, or do you need a few more minutes?\"",
+   "gap": "so",
+   "alt": []
+  },
+  {
+   "id": "good_dm",
+   "en": "good",
+   "uz": "yaxshi, unda shunday (kelishuv)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "\"The hall is booked for Friday? Good, that's just what we wanted — I'll tell the rest of the team, then.\"",
+   "gap": "good",
+   "alt": []
+  },
+  {
+   "id": "great_dm",
+   "en": "great",
+   "uz": "zo‘r, demak kelishdik (xayrlashuv)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "\"You've got the tickets? Oh, great, let's meet by the main entrance at six, then, shall we?\"",
+   "gap": "great",
+   "alt": []
+  },
+  {
+   "id": "like_dm",
+   "en": "like",
+   "uz": "-dek, qandaydir (so‘z topolmay)",
+   "pos": "discourse marker",
+   "img": false,
+   "ex": "\"Our new neighbour drives this, like, tiny yellow car that is no bigger than a fridge.\"",
+   "gap": "like",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "well_dm",
+   "i_mean"
+  ],
+  [
+   "well_dm",
+   "sort_of"
+  ],
+  [
+   "well_dm",
+   "kind_of"
+  ],
+  [
+   "right_dm",
+   "now_then"
+  ],
+  [
+   "right_dm",
+   "well_then"
+  ],
+  [
+   "now_then",
+   "well_then"
+  ],
+  [
+   "right_dm",
+   "fine_dm"
+  ],
+  [
+   "then_dm",
+   "anyway_dm"
+  ],
+  [
+   "mind_you",
+   "still_dm"
+  ],
+  [
+   "still_dm",
+   "anyway_dm"
+  ],
+  [
+   "let_me_see",
+   "hang_on"
+  ],
+  [
+   "let_me_see",
+   "hold_on"
+  ],
+  [
+   "listen_dm",
+   "look_dm"
+  ],
+  [
+   "hang_on",
+   "hold_on"
+  ],
+  [
+   "you_know",
+   "i_mean"
+  ],
+  [
+   "i_mean",
+   "you_see"
+  ],
+  [
+   "sort_of",
+   "kind_of"
+  ],
+  [
+   "well_dm",
+   "let_me_see"
+  ],
+  [
+   "fine_dm",
+   "then_dm"
+  ],
+  [
+   "look_dm",
+   "i_mean"
+  ],
+  [
+   "look_dm",
+   "well_dm"
+  ],
+  [
+   "anyway_dm",
+   "right_dm"
+  ],
+  [
+   "anyway_dm",
+   "well_dm"
+  ],
+  [
+   "you_see",
+   "you_know"
+  ],
+  [
+   "mind_you",
+   "you_see"
+  ],
+  [
+   "ok_dm",
+   "right_dm"
+  ],
+  [
+   "ok_dm",
+   "now_then"
+  ],
+  [
+   "ok_dm",
+   "well_then"
+  ],
+  [
+   "ok_dm",
+   "now_dm"
+  ],
+  [
+   "ok_dm",
+   "so_dm"
+  ],
+  [
+   "ok_dm",
+   "fine_dm"
+  ],
+  [
+   "ok_dm",
+   "good_dm"
+  ],
+  [
+   "ok_dm",
+   "great_dm"
+  ],
+  [
+   "ok_dm",
+   "well_dm"
+  ],
+  [
+   "ok_dm",
+   "anyway_dm"
+  ],
+  [
+   "now_dm",
+   "right_dm"
+  ],
+  [
+   "now_dm",
+   "now_then"
+  ],
+  [
+   "now_dm",
+   "well_then"
+  ],
+  [
+   "now_dm",
+   "so_dm"
+  ],
+  [
+   "now_dm",
+   "well_dm"
+  ],
+  [
+   "now_dm",
+   "anyway_dm"
+  ],
+  [
+   "so_dm",
+   "right_dm"
+  ],
+  [
+   "so_dm",
+   "now_then"
+  ],
+  [
+   "so_dm",
+   "well_then"
+  ],
+  [
+   "so_dm",
+   "well_dm"
+  ],
+  [
+   "so_dm",
+   "anyway_dm"
+  ],
+  [
+   "good_dm",
+   "fine_dm"
+  ],
+  [
+   "good_dm",
+   "great_dm"
+  ],
+  [
+   "good_dm",
+   "right_dm"
+  ],
+  [
+   "great_dm",
+   "fine_dm"
+  ],
+  [
+   "great_dm",
+   "right_dm"
+  ],
+  [
+   "like_dm",
+   "kind_of"
+  ],
+  [
+   "like_dm",
+   "sort_of"
+  ],
+  [
+   "like_dm",
+   "you_know"
+  ],
+  [
+   "like_dm",
+   "i_mean"
+  ],
+  [
+   "ok_dm",
+   "listen_dm"
+  ],
+  [
+   "ok_dm",
+   "look_dm"
+  ],
+  [
+   "now_dm",
+   "good_dm"
+  ],
+  [
+   "now_dm",
+   "great_dm"
+  ],
+  [
+   "now_dm",
+   "fine_dm"
+  ],
+  [
+   "good_dm",
+   "anyway_dm"
+  ]
+ ]
+}

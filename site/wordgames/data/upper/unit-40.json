@@ -1,0 +1,716 @@
+{
+ "book": "upper",
+ "unit": 40,
+ "title": "Money",
+ "title_uz": "Pul",
+ "words": [
+  {
+   "id": "current_account",
+   "en": "current account",
+   "uz": "joriy hisob (kundalik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My salary goes straight into my current account, and I pay for everyday things with the card linked to it.",
+   "gap": "current account",
+   "alt": [
+    "current accounts"
+   ]
+  },
+  {
+   "id": "interest_rate",
+   "en": "interest rate",
+   "uz": "foiz stavkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank offers a higher interest rate if you leave your money there for at least a year.",
+   "gap": "interest rate",
+   "alt": [
+    "interest rates"
+   ]
+  },
+  {
+   "id": "overdraft",
+   "en": "overdraft",
+   "uz": "hisobdan ortiqcha yechish imkoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "When my car broke down, I used my overdraft to pay for the repairs and paid it back the next month.",
+   "gap": "overdraft",
+   "alt": [
+    "overdrafts"
+   ]
+  },
+  {
+   "id": "debt",
+   "en": "debt",
+   "uz": "qarz (to‘lanishi kerak pul)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It took Anvar three years to pay off all his debts after he closed his café.",
+   "gap": "debts",
+   "alt": [
+    "debts"
+   ]
+  },
+  {
+   "id": "loan",
+   "en": "loan",
+   "uz": "kredit (bankdan olingan qarz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We took out a loan from the bank to pay for my sister's university fees.",
+   "gap": "loan",
+   "alt": [
+    "loans"
+   ]
+  },
+  {
+   "id": "mortgage",
+   "en": "mortgage",
+   "uz": "ipoteka",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents bought our flat with a mortgage and will be paying it back for twenty years.",
+   "gap": "mortgage",
+   "alt": [
+    "mortgages"
+   ]
+  },
+  {
+   "id": "deposit",
+   "en": "deposit",
+   "uz": "boshlang‘ich badal / oldindan to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "We paid a deposit of ten per cent to reserve the car, and the rest will be paid when it arrives.",
+   "gap": "deposit",
+   "alt": [
+    "deposits"
+   ]
+  },
+  {
+   "id": "repayments",
+   "en": "repayments",
+   "uz": "qarzni qaytarish to‘lovlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The monthly repayments on his car loan are higher than his rent.",
+   "gap": "repayments",
+   "alt": [
+    "repayment"
+   ]
+  },
+  {
+   "id": "credit_limit",
+   "en": "credit limit",
+   "uz": "kredit karta limiti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop wouldn't accept my card because the laptop cost more than my credit limit.",
+   "gap": "credit limit",
+   "alt": [
+    "credit limits"
+   ]
+  },
+  {
+   "id": "consolidate",
+   "en": "consolidate",
+   "uz": "(qarzlarni) birlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He consolidated his three small loans into one, so now he makes just one payment a month.",
+   "gap": "consolidated",
+   "alt": [
+    "consolidates",
+    "consolidated",
+    "consolidating"
+   ]
+  },
+  {
+   "id": "steady_income",
+   "en": "steady income",
+   "uz": "barqaror daromad",
+   "pos": "noun",
+   "img": false,
+   "ex": "Freelance designers often don't have a steady income; some months they earn a lot and some months almost nothing.",
+   "gap": "steady income",
+   "alt": []
+  },
+  {
+   "id": "outgoings",
+   "en": "outgoings",
+   "uz": "doimiy oylik xarajatlar (ijara va h.k.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum writes down all the family's incomings and outgoings in a notebook to see where the money goes.",
+   "gap": "outgoings",
+   "alt": []
+  },
+  {
+   "id": "expenses",
+   "en": "expenses",
+   "uz": "xarajatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company pays all my travel expenses when I go to conferences abroad.",
+   "gap": "expenses",
+   "alt": [
+    "expense"
+   ]
+  },
+  {
+   "id": "direct_debit",
+   "en": "direct debit",
+   "uz": "hisobdan avtomatik to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone bill is paid by direct debit on the first day of every month, so I never forget it.",
+   "gap": "direct debit",
+   "alt": [
+    "direct debits"
+   ]
+  },
+  {
+   "id": "credit_rating",
+   "en": "credit rating",
+   "uz": "kredit reytingi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because she always pays her bills on time, she has an excellent credit rating and can easily borrow money.",
+   "gap": "credit rating",
+   "alt": [
+    "credit ratings"
+   ]
+  },
+  {
+   "id": "finance_v",
+   "en": "finance",
+   "uz": "mablag‘ topmoq (moliyalashtirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new sports hall was financed by local businesses and parents.",
+   "gap": "financed",
+   "alt": [
+    "finances",
+    "financed",
+    "financing"
+   ]
+  },
+  {
+   "id": "savings_account",
+   "en": "savings account",
+   "uz": "jamg‘arma hisobi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every month I put a little money into a savings account for my summer holiday.",
+   "gap": "savings account",
+   "alt": [
+    "savings accounts"
+   ]
+  },
+  {
+   "id": "transfer",
+   "en": "transfer",
+   "uz": "(pul) o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I transferred the money to my brother's card in seconds using an app on my phone.",
+   "gap": "transferred",
+   "alt": [
+    "transfers",
+    "transferred",
+    "transferring"
+   ]
+  },
+  {
+   "id": "in_credit",
+   "en": "in credit",
+   "uz": "hisobda pul bor (musbat qoldiq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamola checks her banking app every morning to make sure her account is still in credit before she pays for anything.",
+   "gap": "in credit",
+   "alt": []
+  },
+  {
+   "id": "overdrawn",
+   "en": "overdrawn",
+   "uz": "minusga tushgan (hisob)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My account is overdrawn by 200 dollars, so the bank is charging me extra every day.",
+   "gap": "overdrawn",
+   "alt": []
+  },
+  {
+   "id": "in_the_red",
+   "en": "in the red",
+   "uz": "qarzda, minusda (so‘zlashuv)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After buying all the New Year presents, I was in the red until February.",
+   "gap": "in the red",
+   "alt": []
+  },
+  {
+   "id": "charge_interest",
+   "en": "charge interest",
+   "uz": "foiz undirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle lent me the money for a laptop and, unlike the bank, he didn't charge interest.",
+   "gap": "charge interest",
+   "alt": [
+    "charges interest",
+    "charged interest",
+    "charging interest"
+   ]
+  },
+  {
+   "id": "online_banking",
+   "en": "online banking",
+   "uz": "onlayn bank xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "With online banking, I can check my balance at midnight without leaving my bed.",
+   "gap": "online banking",
+   "alt": []
+  },
+  {
+   "id": "cash_machine",
+   "en": "cash machine",
+   "uz": "bankomat",
+   "pos": "noun",
+   "img": true,
+   "ex": "I took out some money from the cash machine at the metro station before going to the bazaar.",
+   "gap": "cash machine",
+   "alt": [
+    "cash machines"
+   ]
+  },
+  {
+   "id": "income_tax",
+   "en": "income tax",
+   "uz": "daromad solig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "After her pay rise, Zarina was surprised how much more income tax came out of her monthly salary.",
+   "gap": "income tax",
+   "alt": []
+  },
+  {
+   "id": "inheritance_tax",
+   "en": "inheritance tax",
+   "uz": "meros solig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "When an old family friend left him a flat in his will, Sardor had to pay inheritance tax on it.",
+   "gap": "inheritance tax",
+   "alt": []
+  },
+  {
+   "id": "customs_duty",
+   "en": "customs duty",
+   "uz": "bojxona boji",
+   "pos": "noun",
+   "img": false,
+   "ex": "The phone my cousin brought back from Dubai cost more than the allowed limit, so she had to pay customs duty on it at the airport.",
+   "gap": "customs duty",
+   "alt": [
+    "customs duties"
+   ]
+  },
+  {
+   "id": "duty_free",
+   "en": "duty-free",
+   "uz": "bojsiz (bojxona to‘lovisiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our flight was delayed, so I spent an hour looking at chocolates and watches in the duty-free area.",
+   "gap": "duty-free",
+   "alt": [
+    "duty free"
+   ]
+  },
+  {
+   "id": "corporation_tax",
+   "en": "corporation tax",
+   "uz": "korporativ soliq (kompaniya foydasiga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The software firm moved to a new technology park, where it pays less corporation tax on its profits.",
+   "gap": "corporation tax",
+   "alt": []
+  },
+  {
+   "id": "vat",
+   "en": "VAT",
+   "uz": "QQS (qo‘shilgan qiymat solig‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The price on the label already includes VAT, so you won't pay any extra at the till.",
+   "gap": "VAT",
+   "alt": []
+  },
+  {
+   "id": "personal_finance",
+   "en": "personal finance",
+   "uz": "shaxsiy moliya (o‘z pulini boshqarish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school now runs a short course in personal finance, where pupils learn to manage their own pocket money and savings.",
+   "gap": "personal finance",
+   "alt": []
+  },
+  {
+   "id": "short_of_cash",
+   "en": "short of cash",
+   "uz": "naqd puli yetishmaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I was a bit short of cash at the end of the month, so my friend paid for the cinema tickets.",
+   "gap": "short of cash",
+   "alt": [
+    "short of money"
+   ]
+  },
+  {
+   "id": "raise_money",
+   "en": "raise money",
+   "uz": "pul yig‘moq (biror maqsad uchun)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class sold home-made cakes to raise money for the children's hospital.",
+   "gap": "raise money",
+   "alt": [
+    "raises money",
+    "raised money",
+    "raising money"
+   ]
+  },
+  {
+   "id": "competitive_rates",
+   "en": "competitive",
+   "uz": "raqobatbardosh (boshqalardan arzon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This bank offers loans at very competitive rates, lower than any other bank in town.",
+   "gap": "competitive",
+   "alt": []
+  },
+  {
+   "id": "payment",
+   "en": "payment",
+   "uz": "to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little shop accepts payment by card, by phone or in cash.",
+   "gap": "payment",
+   "alt": [
+    "payments"
+   ]
+  },
+  {
+   "id": "overdraft_limit",
+   "en": "overdraft limit",
+   "uz": "minusga tushish chegarasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you go over your overdraft limit, the bank will charge you a large fee.",
+   "gap": "overdraft limit",
+   "alt": [
+    "overdraft limits"
+   ]
+  },
+  {
+   "id": "debit_v",
+   "en": "debit",
+   "uz": "hisobdan yechib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The gym debits my account on the fifth of each month for my membership.",
+   "gap": "debits",
+   "alt": [
+    "debits",
+    "debited",
+    "debiting"
+   ]
+  },
+  {
+   "id": "public_finance",
+   "en": "public finance",
+   "uz": "davlat moliyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Experts in public finance study how a government collects money and spends it on schools and roads.",
+   "gap": "public finance",
+   "alt": []
+  },
+  {
+   "id": "excise_duty",
+   "en": "excise duty",
+   "uz": "aksiz solig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many countries put a high excise duty on petrol and tobacco produced at home.",
+   "gap": "excise duty",
+   "alt": [
+    "excise duties",
+    "excise"
+   ]
+  },
+  {
+   "id": "branch_bank",
+   "en": "branch",
+   "uz": "filial (bank bo‘limi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank has closed its branch in our village, so now we have to go to town to speak to a manager.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "pop_into",
+   "en": "pop into",
+   "uz": "bir zumga kirib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On my way home I'll pop into the bank to pay in this cheque.",
+   "gap": "pop into",
+   "alt": [
+    "pops into",
+    "popped into",
+    "popping into",
+    "pop in"
+   ]
+  },
+  {
+   "id": "borrow",
+   "en": "borrow",
+   "uz": "qarzga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I borrow fifty dollars from you until Friday? I left my card at home.",
+   "gap": "borrow",
+   "alt": [
+    "borrows",
+    "borrowed",
+    "borrowing"
+   ]
+  },
+  {
+   "id": "bill",
+   "en": "bill",
+   "uz": "to‘lov hisobi (gaz, svet uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter our gas bill is almost three times higher than in summer.",
+   "gap": "bill",
+   "alt": [
+    "bills"
+   ]
+  },
+  {
+   "id": "tax",
+   "en": "tax",
+   "uz": "soliq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The government has put up the tax on cigarettes to persuade people to smoke less.",
+   "gap": "tax",
+   "alt": [
+    "taxes"
+   ]
+  },
+  {
+   "id": "wages",
+   "en": "wages",
+   "uz": "ish haqi (haftalik, kunbay)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The farm pays the fruit pickers their wages in cash at the end of every week.",
+   "gap": "wages",
+   "alt": [
+    "wage"
+   ]
+  },
+  {
+   "id": "goods",
+   "en": "goods",
+   "uz": "mollar (tovarlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the goods on this supermarket's shelves are imported from Turkey and China.",
+   "gap": "goods",
+   "alt": []
+  },
+  {
+   "id": "services_paid",
+   "en": "services",
+   "uz": "xizmatlar (pullik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel charges extra for services such as laundry and airport transfers.",
+   "gap": "services",
+   "alt": [
+    "service"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "borrow",
+   "transfer"
+  ],
+  [
+   "bill",
+   "debt"
+  ],
+  [
+   "tax",
+   "vat"
+  ],
+  [
+   "tax",
+   "customs_duty"
+  ],
+  [
+   "tax",
+   "income_tax"
+  ],
+  [
+   "tax",
+   "inheritance_tax"
+  ],
+  [
+   "tax",
+   "corporation_tax"
+  ],
+  [
+   "tax",
+   "excise_duty"
+  ],
+  [
+   "wages",
+   "expenses"
+  ],
+  [
+   "wages",
+   "steady_income"
+  ],
+  [
+   "goods",
+   "services_paid"
+  ],
+  [
+   "current_account",
+   "savings_account"
+  ],
+  [
+   "debt",
+   "loan"
+  ],
+  [
+   "mortgage",
+   "loan"
+  ],
+  [
+   "outgoings",
+   "expenses"
+  ],
+  [
+   "direct_debit",
+   "online_banking"
+  ],
+  [
+   "overdrawn",
+   "in_the_red"
+  ],
+  [
+   "in_credit",
+   "overdrawn"
+  ],
+  [
+   "customs_duty",
+   "vat"
+  ],
+  [
+   "income_tax",
+   "inheritance_tax"
+  ],
+  [
+   "repayments",
+   "expenses"
+  ],
+  [
+   "overdraft",
+   "credit_limit"
+  ],
+  [
+   "overdraft",
+   "loan"
+  ],
+  [
+   "debt",
+   "mortgage"
+  ],
+  [
+   "in_credit",
+   "in_the_red"
+  ],
+  [
+   "corporation_tax",
+   "income_tax"
+  ],
+  [
+   "corporation_tax",
+   "vat"
+  ],
+  [
+   "personal_finance",
+   "public_finance"
+  ],
+  [
+   "short_of_cash",
+   "in_the_red"
+  ],
+  [
+   "short_of_cash",
+   "overdrawn"
+  ],
+  [
+   "overdraft_limit",
+   "credit_limit"
+  ],
+  [
+   "overdraft_limit",
+   "overdraft"
+  ],
+  [
+   "payment",
+   "deposit"
+  ],
+  [
+   "payment",
+   "repayments"
+  ],
+  [
+   "excise_duty",
+   "vat"
+  ],
+  [
+   "excise_duty",
+   "customs_duty"
+  ],
+  [
+   "debit_v",
+   "direct_debit"
+  ],
+  [
+   "raise_money",
+   "finance_v"
+  ]
+ ]
+}

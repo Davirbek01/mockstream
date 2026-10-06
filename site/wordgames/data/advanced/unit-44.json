@@ -1,0 +1,574 @@
+{
+ "book": "advanced",
+ "unit": 44,
+ "title": "War and peace",
+ "title_uz": "Urush va tinchlik",
+ "words": [
+  {
+   "id": "last_resort",
+   "en": "last resort",
+   "uz": "so‘nggi chora",
+   "pos": "noun",
+   "img": false,
+   "ex": "Closing the whole school for a week was a last resort, used only after every other way of stopping the flu had failed.",
+   "gap": "last resort",
+   "alt": []
+  },
+  {
+   "id": "diplomacy",
+   "en": "diplomacy",
+   "uz": "davlatlararo muzokara san’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to quiet diplomacy behind closed doors, the two governments reopened the border crossing and families could visit each other again.",
+   "gap": "diplomacy",
+   "alt": []
+  },
+  {
+   "id": "economic_sanctions",
+   "en": "economic sanctions",
+   "uz": "iqtisodiy jazo choralari (cheklovlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of using force, the alliance chose economic sanctions and stopped almost all trade with the country.",
+   "gap": "economic sanctions",
+   "alt": [
+    "sanctions"
+   ]
+  },
+  {
+   "id": "civilian",
+   "en": "civilian",
+   "uz": "tinch aholi vakili (harbiy emas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the pause in the fighting, aid workers brought food and medicine to civilians trapped in the city.",
+   "gap": "civilians",
+   "alt": [
+    "civilians"
+   ]
+  },
+  {
+   "id": "regime_change",
+   "en": "regime change",
+   "uz": "hokimiyatni almashtirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The minister insisted that her country wanted its neighbour to change its policies, not its leaders: this was not about regime change.",
+   "gap": "regime change",
+   "alt": []
+  },
+  {
+   "id": "tyrannical",
+   "en": "tyrannical",
+   "uz": "zolim (zulmkor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The people of the kingdom lived in fear of their tyrannical king, who punished anyone who dared to criticise him.",
+   "gap": "tyrannical",
+   "alt": []
+  },
+  {
+   "id": "overthrow",
+   "en": "overthrow",
+   "uz": "hokimiyatdan ag‘darmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The government was overthrown by the army in a single night, and the president fled abroad.",
+   "gap": "overthrown",
+   "alt": [
+    "overthrown",
+    "overthrew",
+    "overthrows"
+   ]
+  },
+  {
+   "id": "civil_war",
+   "en": "civil war",
+   "uz": "fuqarolar urushi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families left the country during the long civil war and returned only when peace came.",
+   "gap": "civil war",
+   "alt": [
+    "Civil War"
+   ]
+  },
+  {
+   "id": "civil_unrest",
+   "en": "civil unrest",
+   "uz": "ommaviy notinchlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "A sudden rise in bread prices led to weeks of civil unrest in the capital.",
+   "gap": "civil unrest",
+   "alt": []
+  },
+  {
+   "id": "clashes",
+   "en": "clash",
+   "uz": "to‘qnashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Stewards kept the two groups of fans apart outside the stadium to prevent clashes after the match.",
+   "gap": "clashes",
+   "alt": [
+    "clashes"
+   ]
+  },
+  {
+   "id": "rival",
+   "en": "rival",
+   "uz": "raqib (bir-biri bilan bellashuvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The two rival delivery companies have been competing for the same customers for years.",
+   "gap": "rival",
+   "alt": [
+    "rivals"
+   ]
+  },
+  {
+   "id": "escalate",
+   "en": "escalate",
+   "uz": "avj olmoq (kuchayib ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "What started as a small argument about a parking space escalated into a court case that lasted two years.",
+   "gap": "escalated",
+   "alt": [
+    "escalated",
+    "escalates",
+    "escalating"
+   ]
+  },
+  {
+   "id": "all_out",
+   "en": "all-out",
+   "uz": "to‘liq (keng ko‘lamli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The price cuts between the two supermarkets soon became an all-out war, with each one selling milk at a loss.",
+   "gap": "all-out",
+   "alt": [
+    "all out"
+   ]
+  },
+  {
+   "id": "suppression",
+   "en": "suppression",
+   "uz": "kuch bilan bostirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Closing the student newspaper because of one critical article was seen by many as a suppression of free speech.",
+   "gap": "suppression",
+   "alt": []
+  },
+  {
+   "id": "conflict_resolution",
+   "en": "conflict resolution",
+   "uz": "nizolarni hal qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school trains older pupils in conflict resolution so they can help younger ones settle arguments in the playground.",
+   "gap": "conflict resolution",
+   "alt": []
+  },
+  {
+   "id": "mistrust",
+   "en": "mistrust",
+   "uz": "ishonchsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Years of broken promises had left deep mistrust between the factory owners and the workers.",
+   "gap": "mistrust",
+   "alt": []
+  },
+  {
+   "id": "hatred",
+   "en": "hatred",
+   "uz": "nafrat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film shows how two families overcome a hatred that has lasted three generations when their children become friends.",
+   "gap": "hatred",
+   "alt": []
+  },
+  {
+   "id": "wage_war",
+   "en": "wage war",
+   "uz": "urush olib bormoq (qarshi kurashmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our headteacher has waged war on chewing gum ever since she found some stuck under every desk in the science lab.",
+   "gap": "waged war",
+   "alt": [
+    "waged war",
+    "waging war",
+    "wages war"
+   ]
+  },
+  {
+   "id": "hostilities",
+   "en": "hostilities",
+   "uz": "harbiy harakatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both sides agreed that hostilities would end at midnight, and by morning the border was quiet.",
+   "gap": "hostilities",
+   "alt": []
+  },
+  {
+   "id": "besiege",
+   "en": "besiege",
+   "uz": "qamal qilmoq (o‘rab olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the first morning of the book fair, readers besieged the stall that was selling signed copies of the new fantasy novel.",
+   "gap": "besieged",
+   "alt": [
+    "besieged",
+    "besieges",
+    "besieging",
+    "siege"
+   ]
+  },
+  {
+   "id": "ambush",
+   "en": "ambush",
+   "uz": "pistirmadan hujum qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As she left the building, the minister was ambushed by reporters with questions about the new budget.",
+   "gap": "ambushed",
+   "alt": [
+    "ambushed",
+    "ambushes"
+   ]
+  },
+  {
+   "id": "truce",
+   "en": "truce",
+   "uz": "vaqtincha yarash (sulh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother and I called a truce over the TV remote so that we could both watch the football final.",
+   "gap": "truce",
+   "alt": []
+  },
+  {
+   "id": "ceasefire",
+   "en": "ceasefire",
+   "uz": "o‘q otishni to‘xtatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Once the ceasefire began, families could finally return to their villages to check on their homes.",
+   "gap": "ceasefire",
+   "alt": [
+    "cease-fire",
+    "ceasefires"
+   ]
+  },
+  {
+   "id": "peacekeeping_force",
+   "en": "peacekeeping force",
+   "uz": "tinchlikparvar kuchlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The UN sent a peacekeeping force of soldiers from twelve different countries to keep the two sides apart while the talks continued.",
+   "gap": "peacekeeping force",
+   "alt": []
+  },
+  {
+   "id": "observer",
+   "en": "observer",
+   "uz": "xalqaro kuzatuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two observers from a neighbouring country sat at the back of the polling station all day, checking that every vote was counted fairly.",
+   "gap": "observers",
+   "alt": [
+    "observers"
+   ]
+  },
+  {
+   "id": "rebel",
+   "en": "rebel",
+   "uz": "isyonchi (qo‘zg‘olonchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the novel, a small group of rebels hides in the mountains for months before agreeing to peace talks.",
+   "gap": "rebels",
+   "alt": [
+    "rebels"
+   ]
+  },
+  {
+   "id": "rebellion",
+   "en": "rebellion",
+   "uz": "qo‘zg‘olon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new homework rules caused a small rebellion in Year 10, with half the class refusing to hand anything in.",
+   "gap": "rebellion",
+   "alt": []
+  },
+  {
+   "id": "dictatorship",
+   "en": "dictatorship",
+   "uz": "yakkahokimlik tuzumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the dictatorship, people could not vote, and newspapers printed only what the government allowed.",
+   "gap": "dictatorship",
+   "alt": []
+  },
+  {
+   "id": "campaign",
+   "en": "campaign",
+   "uz": "rejali targ‘ibot harakati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school launched a campaign to get every pupil walking or cycling to school at least twice a week.",
+   "gap": "campaign",
+   "alt": [
+    "campaigns"
+   ]
+  },
+  {
+   "id": "battle",
+   "en": "battle",
+   "uz": "kurash olib bormoq (bellashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Three teams are battling for the last place in the final, and only goal difference separates them.",
+   "gap": "battling",
+   "alt": [
+    "battling",
+    "battled",
+    "battles"
+   ]
+  },
+  {
+   "id": "fight_on_your_hands",
+   "en": "fight on your hands",
+   "uz": "oldinda jiddiy kurash turibdi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We are three goals behind at half-time, so we have a real fight on our hands.",
+   "gap": "fight on our hands",
+   "alt": [
+    "fight on our hands",
+    "fight on their hands"
+   ]
+  },
+  {
+   "id": "fleet",
+   "en": "fleet",
+   "uz": "transport parki (bir egadagi mashinalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The city has bought a fleet of electric buses to cut pollution in the centre.",
+   "gap": "fleet",
+   "alt": [
+    "fleets"
+   ]
+  },
+  {
+   "id": "weaponry",
+   "en": "weaponry",
+   "uz": "qurol-yarog‘",
+   "pos": "noun",
+   "img": false,
+   "ex": "The castle museum's new hall displays medieval weaponry, from heavy swords to crossbows.",
+   "gap": "weaponry",
+   "alt": []
+  },
+  {
+   "id": "casualties",
+   "en": "casualties",
+   "uz": "qurbonlar (yarador va halok bo‘lganlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to the early warning, the earthquake caused very few casualties, although many old houses were damaged.",
+   "gap": "casualties",
+   "alt": [
+    "casualty"
+   ]
+  },
+  {
+   "id": "ethnic",
+   "en": "ethnic",
+   "uz": "millatlarga oid (turli xalqlar)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The city's restaurants reflect its ethnic mix, with Korean, Tatar and Uzbek dishes served on the same street.",
+   "gap": "ethnic",
+   "alt": []
+  },
+  {
+   "id": "ethnic_cleansing",
+   "en": "ethnic cleansing",
+   "uz": "millatiga ko‘ra quvg‘in qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The international court found the general guilty of ethnic cleansing for forcing thousands of families out of their villages because of their origin.",
+   "gap": "ethnic cleansing",
+   "alt": []
+  },
+  {
+   "id": "massacre",
+   "en": "massacre",
+   "uz": "ommaviy qirg‘in",
+   "pos": "noun",
+   "img": false,
+   "ex": "A stone memorial in the village square remembers the victims of a massacre that took place there during the war.",
+   "gap": "massacre",
+   "alt": [
+    "massacres"
+   ]
+  },
+  {
+   "id": "bloodshed",
+   "en": "bloodshed",
+   "uz": "qon to‘kilishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both leaders said they wanted to settle the border dispute without bloodshed.",
+   "gap": "bloodshed",
+   "alt": []
+  },
+  {
+   "id": "suicide_bomber",
+   "en": "suicide bomber",
+   "uz": "o‘zini portlatgan terrorchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Security at the airport was tightened after a suicide bomber attacked a bus station in a neighbouring country.",
+   "gap": "suicide bomber",
+   "alt": [
+    "suicide bombers"
+   ]
+  },
+  {
+   "id": "dictator",
+   "en": "dictator",
+   "uz": "mustabid hukmdor (yakkahokim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dictator ruled the island for thirty years and never allowed a free election.",
+   "gap": "dictator",
+   "alt": [
+    "dictators"
+   ]
+  },
+  {
+   "id": "supremacy",
+   "en": "supremacy",
+   "uz": "ustunlik (yetakchilik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two airlines are fighting for supremacy on the busy route between Seoul and Tokyo.",
+   "gap": "supremacy",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "truce",
+   "ceasefire"
+  ],
+  [
+   "civil_unrest",
+   "clashes"
+  ],
+  [
+   "civil_unrest",
+   "rebellion"
+  ],
+  [
+   "mistrust",
+   "hatred"
+  ],
+  [
+   "rebellion",
+   "dictatorship"
+  ],
+  [
+   "rebel",
+   "rebellion"
+  ],
+  [
+   "hostilities",
+   "clashes"
+  ],
+  [
+   "wage_war",
+   "battle"
+  ],
+  [
+   "regime_change",
+   "overthrow"
+  ],
+  [
+   "civil_war",
+   "rebellion"
+  ],
+  [
+   "besiege",
+   "ambush"
+  ],
+  [
+   "campaign",
+   "rebellion"
+  ],
+  [
+   "diplomacy",
+   "conflict_resolution"
+  ],
+  [
+   "civil_war",
+   "civil_unrest"
+  ],
+  [
+   "civilian",
+   "rebel"
+  ],
+  [
+   "civil_unrest",
+   "hostilities"
+  ],
+  [
+   "bloodshed",
+   "clashes"
+  ],
+  [
+   "bloodshed",
+   "hostilities"
+  ],
+  [
+   "ethnic_cleansing",
+   "massacre"
+  ],
+  [
+   "ethnic",
+   "ethnic_cleansing"
+  ],
+  [
+   "dictator",
+   "dictatorship"
+  ],
+  [
+   "casualties",
+   "civilian"
+  ],
+  [
+   "suicide_bomber",
+   "rebel"
+  ],
+  [
+   "massacre",
+   "rebellion"
+  ]
+ ]
+}

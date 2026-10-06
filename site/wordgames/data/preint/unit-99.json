@@ -1,0 +1,296 @@
+{
+ "book": "preint",
+ "unit": 99,
+ "title": "Informal emails and messages",
+ "title_uz": "Norasmiy xatlar va xabarlar",
+ "words": [
+  {
+   "id": "a_quick_message",
+   "en": "a quick message",
+   "uz": "qisqacha xabar",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "Kamron sent his teacher a quick message to say he would be ten minutes late.",
+   "gap": "a quick message",
+   "alt": []
+  },
+  {
+   "id": "a_laugh",
+   "en": "a laugh",
+   "uz": "quvnoq, kuldiradigan odam",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "Everyone wants to sit next to Shoxrux in class: he always has a funny story, and he's such a laugh.",
+   "gap": "a laugh",
+   "alt": []
+  },
+  {
+   "id": "give_my_regards_to",
+   "en": "give my regards to",
+   "uz": "…ga mendan salom ayting",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please give my regards to your parents when you see them at the weekend.",
+   "gap": "give my regards to",
+   "alt": [
+    "send my regards to"
+   ]
+  },
+  {
+   "id": "once_again",
+   "en": "once again",
+   "uz": "yana bir bor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Thank you once again for helping me carry all those boxes last Saturday.",
+   "gap": "once again",
+   "alt": []
+  },
+  {
+   "id": "as_always",
+   "en": "as always",
+   "uz": "har doimgidek",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour, as always, says hello to everyone who walks past his gate.",
+   "gap": "as always",
+   "alt": []
+  },
+  {
+   "id": "best_wishes",
+   "en": "Best wishes",
+   "uz": "Eng xayrli tilaklar bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Lola ended her email to her old classmate with 'Best wishes' and a smiley face.",
+   "gap": "Best wishes",
+   "alt": []
+  },
+  {
+   "id": "all_the_best",
+   "en": "all the best",
+   "uz": "Hammasi yaxshi bo‘lsin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Good luck with your new job, and all the best for the future!",
+   "gap": "all the best",
+   "alt": []
+  },
+  {
+   "id": "forward_email",
+   "en": "forward",
+   "uz": "(xatni) boshqa odamga jo‘natmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you forward me the email from the swimming coach? I didn't get it.",
+   "gap": "forward",
+   "alt": [
+    "forwards",
+    "forwarded",
+    "forwarding"
+   ]
+  },
+  {
+   "id": "its_been_ages",
+   "en": "it's been ages",
+   "uz": "ancha vaqt o‘tib ketdi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We haven't played tennis together since we left school; it's been ages! Are you free on Saturday?",
+   "gap": "it's been ages",
+   "alt": [
+    "it has been ages"
+   ]
+  },
+  {
+   "id": "let_you_know",
+   "en": "let you know",
+   "uz": "xabar bermoq (ma’lum qilmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'll check the bus times tonight and let you know tomorrow morning.",
+   "gap": "let you know",
+   "alt": [
+    "let me know",
+    "let them know"
+   ]
+  },
+  {
+   "id": "actually",
+   "en": "actually",
+   "uz": "aslida (kutilganidek emas)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Everyone thinks Ziyoda is the oldest, but actually she's the youngest of the three.",
+   "gap": "actually",
+   "alt": []
+  },
+  {
+   "id": "in_fact",
+   "en": "in fact",
+   "uz": "darhaqiqat (aniqrog‘i)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The test wasn't difficult at all; in fact, it was easier than last week's.",
+   "gap": "in fact",
+   "alt": []
+  },
+  {
+   "id": "join_us",
+   "en": "join us",
+   "uz": "bizga qo‘shilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We're going bowling after school; would you like to join us?",
+   "gap": "join us",
+   "alt": [
+    "join me",
+    "join them"
+   ]
+  },
+  {
+   "id": "exactly",
+   "en": "exactly",
+   "uz": "aniq (aynan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "What time exactly does the film start? I don't want to miss the beginning.",
+   "gap": "exactly",
+   "alt": []
+  },
+  {
+   "id": "dear_greeting",
+   "en": "Dear",
+   "uz": "Aziz/Hurmatli (xat boshida ism oldidan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zarina began her letter to her pen friend in Canada with 'Dear Lucy' and a smiley face.",
+   "gap": "Dear",
+   "alt": []
+  },
+  {
+   "id": "love_ending",
+   "en": "Love",
+   "uz": "Mehr bilan (xat oxirida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "To family and very close friends, Dilnoza signs her emails 'Love'; to everyone else she writes 'Kind regards'.",
+   "gap": "Love",
+   "alt": []
+  },
+  {
+   "id": "lots_of_love",
+   "en": "Lots of love",
+   "uz": "Ko‘p-ko‘p mehr bilan (yaqinlarga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every text Kamol's mother sends him at university ends with 'Lots of love' and a heart.",
+   "gap": "Lots of love",
+   "alt": []
+  },
+  {
+   "id": "give_my_love_to",
+   "en": "give my love to",
+   "uz": "…ga mendan mehr-salom yetkazing",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you call your sister tonight, please give my love to her and the new baby.",
+   "gap": "give my love to",
+   "alt": [
+    "send my love to"
+   ]
+  },
+  {
+   "id": "be_in_touch",
+   "en": "be in touch",
+   "uz": "aloqaga chiqmoq (xabarlashmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Thank you for coming to the interview; we will be in touch by Friday with our decision.",
+   "gap": "be in touch",
+   "alt": []
+  },
+  {
+   "id": "hoping_to",
+   "en": "be hoping to",
+   "uz": "…moqchi bo‘lmoq (umid bilan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Murod is hoping to find a part-time job at the new bookshop this summer.",
+   "gap": "hoping to",
+   "alt": [
+    "hoping to"
+   ]
+  },
+  {
+   "id": "in_two_weeks_time",
+   "en": "in two weeks' time",
+   "uz": "ikki haftadan keyin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our exams start in two weeks' time, so the library is full every evening.",
+   "gap": "in two weeks' time",
+   "alt": []
+  },
+  {
+   "id": "anyway_subject",
+   "en": "anyway",
+   "uz": "xullas (gapni boshqa yoqqa burish)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Well, that's enough about my new phone, so anyway, how was your weekend?",
+   "gap": "anyway",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "best_wishes",
+   "all_the_best"
+  ],
+  [
+   "actually",
+   "in_fact"
+  ],
+  [
+   "once_again",
+   "as_always"
+  ],
+  [
+   "dear_greeting",
+   "dear_sir_or_madam"
+  ],
+  [
+   "love_ending",
+   "lots_of_love"
+  ],
+  [
+   "love_ending",
+   "best_wishes"
+  ],
+  [
+   "love_ending",
+   "all_the_best"
+  ],
+  [
+   "lots_of_love",
+   "best_wishes"
+  ],
+  [
+   "lots_of_love",
+   "all_the_best"
+  ],
+  [
+   "give_my_love_to",
+   "give_my_regards_to"
+  ],
+  [
+   "be_in_touch",
+   "let_you_know"
+  ],
+  [
+   "kind_regards",
+   "best_wishes"
+  ]
+ ]
+}

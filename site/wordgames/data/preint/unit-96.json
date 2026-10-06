@@ -1,0 +1,332 @@
+{
+ "book": "preint",
+ "unit": 96,
+ "title": "Completing forms and CVs",
+ "title_uz": "Anketa va rezyume to‘ldirish",
+ "words": [
+  {
+   "id": "registration_form",
+   "en": "registration form",
+   "uz": "ro‘yxatdan o‘tish varaqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you can borrow books from the city library, you have to complete a registration form at the front desk.",
+   "gap": "registration form",
+   "alt": []
+  },
+  {
+   "id": "enrolment_form",
+   "en": "enrolment form",
+   "uz": "o‘quv kursiga yozilish arizasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Abbos wants to study web design at the college this autumn, so he has downloaded an enrolment form from its website.",
+   "gap": "enrolment form",
+   "alt": [
+    "enrollment form",
+    "enrolment forms"
+   ]
+  },
+  {
+   "id": "entry_form",
+   "en": "entry form",
+   "uz": "imtihon (tanlov)ga yozilish varaqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "To take part in the regional maths olympiad, give this entry form to Mr Hamidov by Friday.",
+   "gap": "entry form",
+   "alt": [
+    "entry forms"
+   ]
+  },
+  {
+   "id": "landing_card",
+   "en": "landing card",
+   "uz": "chet ellik yo‘lovchining kirish varaqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our flight, the cabin crew gave every foreign passenger a landing card to complete before arrival.",
+   "gap": "landing card",
+   "alt": [
+    "landing cards"
+   ]
+  },
+  {
+   "id": "visa_application_form",
+   "en": "visa application form",
+   "uz": "davlatga kirish ruxsati uchun ariza",
+   "pos": "noun",
+   "img": false,
+   "ex": "A university in Malaysia has accepted Xurshid, so now he is completing a visa application form on the embassy's website.",
+   "gap": "visa application form",
+   "alt": []
+  },
+  {
+   "id": "fill_in",
+   "en": "fill in",
+   "uz": "to‘ldirmoq (anketani)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Please use a black pen when you fill in this form, and don't leave any boxes empty.",
+   "gap": "fill in",
+   "alt": [
+    "fills in",
+    "filled in",
+    "filling in"
+   ]
+  },
+  {
+   "id": "date_of_birth",
+   "en": "date of birth",
+   "uz": "tug‘ilgan sana",
+   "pos": "noun",
+   "img": false,
+   "ex": "The app said Ilhom was only two years old, because he had typed the wrong year in the date of birth box.",
+   "gap": "date of birth",
+   "alt": []
+  },
+  {
+   "id": "place_of_birth",
+   "en": "place of birth",
+   "uz": "tug‘ilgan joy (shahar, qishloq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dildora was born in a small village near Urgut, so she wrote its name under place of birth.",
+   "gap": "place of birth",
+   "alt": []
+  },
+  {
+   "id": "country_of_origin",
+   "en": "country of origin",
+   "uz": "kelib chiqqan mamlakat",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our online language course, the profiles show each student's country of origin: there's a girl from Peru and a boy from Vietnam.",
+   "gap": "country of origin",
+   "alt": []
+  },
+  {
+   "id": "date_of_arrival",
+   "en": "date of arrival",
+   "uz": "kelish sanasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Check the date of arrival on the hotel booking carefully: our plane lands on the 5th, not the 6th.",
+   "gap": "date of arrival",
+   "alt": []
+  },
+  {
+   "id": "date_of_departure",
+   "en": "date of departure",
+   "uz": "jo‘nab ketish sanasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sabina is leaving the guesthouse on Sunday morning, so she wrote that day under date of departure.",
+   "gap": "date of departure",
+   "alt": []
+  },
+  {
+   "id": "signature",
+   "en": "signature",
+   "uz": "imzo",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank won't accept this form without your signature at the bottom of the second page.",
+   "gap": "signature",
+   "alt": [
+    "signatures"
+   ]
+  },
+  {
+   "id": "personal_details",
+   "en": "personal details",
+   "uz": "shaxsiy ma’lumotlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jamshid forgot to update the personal details on his CV, so the company kept calling his old phone number.",
+   "gap": "personal details",
+   "alt": []
+  },
+  {
+   "id": "skills",
+   "en": "skills",
+   "uz": "ko‘nikmalar (qobiliyatlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gavhar can edit videos and speaks Korean, so she listed both under skills on her CV.",
+   "gap": "skills",
+   "alt": [
+    "skill"
+   ]
+  },
+  {
+   "id": "career_aims",
+   "en": "career aims",
+   "uz": "kasbiy maqsadlar (kelajakdagi ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of his CV, Oybek explains his career aims: in five years he wants to lead his own group of engineers.",
+   "gap": "career aims",
+   "alt": []
+  },
+  {
+   "id": "reference",
+   "en": "reference",
+   "uz": "tavsiyanoma (tavsiya xati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My piano teacher agreed to write me a reference for the summer job at the children's camp.",
+   "gap": "reference",
+   "alt": [
+    "references"
+   ]
+  },
+  {
+   "id": "personal_statement",
+   "en": "personal statement",
+   "uz": "universitetga motivatsion xat",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her personal statement, Munisa explains why she wants to study medicine and how she has prepared for it.",
+   "gap": "personal statement",
+   "alt": []
+  },
+  {
+   "id": "educational_background",
+   "en": "educational background",
+   "uz": "ta’lim tarixi (qayerda o‘qigani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Durdona's educational background is unusual: she studied at schools in three different countries before university.",
+   "gap": "educational background",
+   "alt": []
+  },
+  {
+   "id": "relevant",
+   "en": "relevant",
+   "uz": "tegishli (ishga aloqador)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Only include relevant information: if you're applying for a job at a bank, nobody needs your football scores from school.",
+   "gap": "relevant",
+   "alt": []
+  },
+  {
+   "id": "handwriting",
+   "en": "handwriting",
+   "uz": "qo‘l yozuvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Davron's handwriting is so messy that even he can't read his own notes the next day.",
+   "gap": "handwriting",
+   "alt": []
+  },
+  {
+   "id": "keep_it_simple",
+   "en": "keep it simple",
+   "uz": "sodda va tushunarli qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you explain the rules of the game to the little kids, keep it simple, or they'll get confused.",
+   "gap": "keep it simple",
+   "alt": [
+    "kept it simple",
+    "keeping it simple"
+   ]
+  },
+  {
+   "id": "work_in_a_team",
+   "en": "work in a team",
+   "uz": "jamoada ishlamoq",
+   "pos": "verb phrase",
+   "img": false,
+   "ex": "Rayhona enjoys working in a team, so a busy office with lots of colleagues would suit her.",
+   "gap": "working in a team",
+   "alt": [
+    "working in a team",
+    "works in a team",
+    "worked in a team"
+   ]
+  },
+  {
+   "id": "marital_status",
+   "en": "marital status",
+   "uz": "oilaviy holat (turmush qurganmi)",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "Under marital status, Laylo ticked the box that said 'single'.",
+   "gap": "marital status",
+   "alt": []
+  },
+  {
+   "id": "resume",
+   "en": "résumé",
+   "uz": "ishga tarjimai hol (amerikacha so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Emily applied for a summer job in Chicago, she emailed the café a one-page résumé listing her past jobs.",
+   "gap": "résumé",
+   "alt": [
+    "resume",
+    "résumés",
+    "resumes"
+   ]
+  },
+  {
+   "id": "curriculum_vitae",
+   "en": "curriculum vitae",
+   "uz": "tarjimai hol (CV ning to‘liq nomi)",
+   "pos": "noun phrase",
+   "img": false,
+   "ex": "The job advert asks for a curriculum vitae of no more than two pages, listing your education and every job you have had.",
+   "gap": "curriculum vitae",
+   "alt": []
+  },
+  {
+   "id": "enter_for",
+   "en": "enter for",
+   "uz": "(imtihonga) yozilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Aziza is going to enter for the IELTS exam in June, so she studies every evening.",
+   "gap": "enter for",
+   "alt": [
+    "enters for",
+    "entered for",
+    "entering for"
+   ]
+  },
+  {
+   "id": "apply_to",
+   "en": "apply to",
+   "uz": "(universitetga) hujjat topshirmoq",
+   "pos": "verb phrase",
+   "img": false,
+   "ex": "Sherzod wants to study architecture, so he is going to apply to three universities in Turkey.",
+   "gap": "apply to",
+   "alt": [
+    "applies to",
+    "applied to",
+    "applying to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "registration_form",
+   "enrolment_form"
+  ],
+  [
+   "registration_form",
+   "entry_form"
+  ],
+  [
+   "place_of_birth",
+   "country_of_origin"
+  ],
+  [
+   "resume",
+   "curriculum_vitae"
+  ]
+ ]
+}

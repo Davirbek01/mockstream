@@ -1,0 +1,386 @@
+{
+ "book": "preint",
+ "unit": 85,
+ "title": "The senses",
+ "title_uz": "Sezgi a’zolari",
+ "words": [
+  {
+   "id": "sight",
+   "en": "sight",
+   "uz": "ko‘rish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sight isn't very good, so I always sit at the front to read the board.",
+   "gap": "sight",
+   "alt": []
+  },
+  {
+   "id": "hearing",
+   "en": "hearing",
+   "uz": "eshitish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bats have amazing hearing, so they can catch insects in total darkness.",
+   "gap": "hearing",
+   "alt": []
+  },
+  {
+   "id": "sense_of_taste",
+   "en": "sense of taste",
+   "uz": "ta’m bilish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good cook needs a good sense of taste to know when a soup needs more salt.",
+   "gap": "sense of taste",
+   "alt": []
+  },
+  {
+   "id": "sense_of_smell",
+   "en": "sense of smell",
+   "uz": "hid bilish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "With this cold I've lost my sense of smell; I didn't even notice the onions burning!",
+   "gap": "sense of smell",
+   "alt": []
+  },
+  {
+   "id": "touch_sense",
+   "en": "touch",
+   "uz": "teginish sezgisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The power was off, so I found my way to the door in the dark by touch.",
+   "gap": "touch",
+   "alt": []
+  },
+  {
+   "id": "look_tired",
+   "en": "look tired",
+   "uz": "charchagan ko‘rinmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilfuza looked tired after her night shift at the hospital, so we let her sleep.",
+   "gap": "looked tired",
+   "alt": [
+    "looks tired",
+    "looked tired"
+   ]
+  },
+  {
+   "id": "sound_foreign",
+   "en": "sound foreign",
+   "uz": "ovozidan chet ellik ekani bilinmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Her accent sounded foreign to me, but in fact she grew up in a village near Urgench.",
+   "gap": "sounded foreign",
+   "alt": [
+    "sounded foreign",
+    "sounds foreign"
+   ]
+  },
+  {
+   "id": "taste_strange",
+   "en": "taste strange",
+   "uz": "g‘alati ta’m bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Did you put sugar in the salad by mistake? It tastes strange.",
+   "gap": "tastes strange",
+   "alt": [
+    "tastes strange",
+    "tasted strange"
+   ]
+  },
+  {
+   "id": "smell_wonderful",
+   "en": "smell wonderful",
+   "uz": "juda yoqimli hid taratmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The garden smells wonderful in May, when all the roses are open.",
+   "gap": "smells wonderful",
+   "alt": [
+    "smells wonderful",
+    "smelled wonderful",
+    "smelt wonderful"
+   ]
+  },
+  {
+   "id": "damp",
+   "en": "damp",
+   "uz": "biroz nam (zax)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our basement is cold and damp, so we don't keep any books down there.",
+   "gap": "damp",
+   "alt": []
+  },
+  {
+   "id": "the_look_of",
+   "en": "the look of",
+   "uz": "...ning ko‘rinishi (qiyofasi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I don't like the look of those dark clouds; let's take an umbrella.",
+   "gap": "the look of",
+   "alt": []
+  },
+  {
+   "id": "the_sound_of",
+   "en": "the sound of",
+   "uz": "...ning tovushi (ovozi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I love falling asleep to the sound of rain on the roof.",
+   "gap": "the sound of",
+   "alt": []
+  },
+  {
+   "id": "sound_like",
+   "en": "sound like",
+   "uz": "...ga o‘xshab eshitilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "That noise outside sounds like thunder; I think a storm is coming.",
+   "gap": "sounds like",
+   "alt": [
+    "sounds like",
+    "sounded like"
+   ]
+  },
+  {
+   "id": "smell_like",
+   "en": "smell like",
+   "uz": "...ning hidi kelmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Your jacket smells like smoke; were you sitting near the barbecue?",
+   "gap": "smells like",
+   "alt": [
+    "smells like",
+    "smells of",
+    "smelled like"
+   ]
+  },
+  {
+   "id": "feel_like",
+   "en": "feel like",
+   "uz": "ushlaganda ...ga o‘xshamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This new carpet is so thick that walking on it feels like walking on a cloud.",
+   "gap": "feels like",
+   "alt": [
+    "feels like",
+    "felt like"
+   ]
+  },
+  {
+   "id": "as_if",
+   "en": "as if",
+   "uz": "go‘yo (xuddi ...dek)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The sky is so dark that it looks as if it's going to snow.",
+   "gap": "as if",
+   "alt": [
+    "as though"
+   ]
+  },
+  {
+   "id": "seem",
+   "en": "seem",
+   "uz": "...dek taassurot qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I only talked to your new neighbours for a minute, but they seemed very friendly.",
+   "gap": "seemed",
+   "alt": [
+    "seems",
+    "seemed"
+   ]
+  },
+  {
+   "id": "nectarine",
+   "en": "nectarine",
+   "uz": "silliq po‘stli shaftoli",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the bazaar I bought a kilo of nectarines; they were sweet, juicy and cheaper than mangoes.",
+   "gap": "nectarines",
+   "alt": [
+    "nectarines"
+   ]
+  },
+  {
+   "id": "see",
+   "en": "see",
+   "uz": "ko‘rmoq (ko‘ra olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the top floor of our building you can see the mountains on a clear day.",
+   "gap": "see",
+   "alt": [
+    "sees",
+    "saw",
+    "seen"
+   ]
+  },
+  {
+   "id": "watch",
+   "en": "watch",
+   "uz": "kuzatib turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The children sat on the bench and watched the builders at work for over an hour.",
+   "gap": "watched",
+   "alt": [
+    "watched",
+    "watches",
+    "watching"
+   ]
+  },
+  {
+   "id": "hear",
+   "en": "hear",
+   "uz": "eshitmoq (quloqqa chalinmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you speak a bit louder? I can't hear you at the back of the room.",
+   "gap": "hear",
+   "alt": [
+    "heard",
+    "hears"
+   ]
+  },
+  {
+   "id": "listen",
+   "en": "listen",
+   "uz": "quloq solmoq (diqqat bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please listen carefully: I'll only explain the homework once.",
+   "gap": "listen",
+   "alt": [
+    "listened",
+    "listens",
+    "listening"
+   ]
+  },
+  {
+   "id": "feel_touch",
+   "en": "feel",
+   "uz": "qo‘l bilan ushlab ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you feel my forehead? I think I've got a temperature.",
+   "gap": "feel",
+   "alt": [
+    "feels",
+    "felt"
+   ]
+  },
+  {
+   "id": "touch_verb",
+   "en": "touch",
+   "uz": "qo‘l tekkizmoq (tegmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't touch the bench; the paint on it is still wet.",
+   "gap": "touch",
+   "alt": [
+    "touched",
+    "touches",
+    "touching"
+   ]
+  },
+  {
+   "id": "look_at",
+   "en": "look at",
+   "uz": "(diqqat bilan) qaramoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Never look at the sun directly, even with sunglasses; it can damage your eyes.",
+   "gap": "look at",
+   "alt": [
+    "looked at",
+    "looks at",
+    "looking at"
+   ]
+  },
+  {
+   "id": "look_like_resemble",
+   "en": "look like",
+   "uz": "ko‘rinishdan …ga o‘xshamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "From far away, the white rocks on the hill look like a flock of sheep.",
+   "gap": "look like",
+   "alt": [
+    "looks like",
+    "looked like"
+   ]
+  },
+  {
+   "id": "alarm",
+   "en": "alarm",
+   "uz": "xavf signali (qo‘ng‘irog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When smoke reached the kitchen ceiling, a loud alarm started ringing in the whole building.",
+   "gap": "alarm",
+   "alt": [
+    "alarms"
+   ]
+  },
+  {
+   "id": "appear_seem",
+   "en": "appear",
+   "uz": "…bo‘lib ko‘rinmoq (tuyulmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new café appears to be very popular: there's always a queue outside.",
+   "gap": "appears",
+   "alt": [
+    "appears",
+    "appeared"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "sense_of_taste",
+   "sense_of_smell"
+  ],
+  [
+   "feel_touch",
+   "touch_sense"
+  ],
+  [
+   "see",
+   "watch"
+  ],
+  [
+   "touch_verb",
+   "touch_sense"
+  ],
+  [
+   "touch_verb",
+   "feel_touch"
+  ],
+  [
+   "look_at",
+   "watch"
+  ],
+  [
+   "look_at",
+   "see"
+  ],
+  [
+   "appear_seem",
+   "seem"
+  ]
+ ]
+}

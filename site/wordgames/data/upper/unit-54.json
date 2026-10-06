@@ -1,0 +1,577 @@
+{
+ "book": "upper",
+ "unit": 54,
+ "title": "Distances and dimensions",
+ "title_uz": "Masofa va o‘lchamlar",
+ "words": [
+  {
+   "id": "wide",
+   "en": "wide",
+   "uz": "keng (yo‘l, xona, daryo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new avenue is so wide that six cars can drive side by side.",
+   "gap": "wide",
+   "alt": []
+  },
+  {
+   "id": "broad",
+   "en": "broad",
+   "uz": "keng (maydon; ko‘lamli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The course covers a broad range of topics, from ancient history to modern art.",
+   "gap": "broad",
+   "alt": []
+  },
+  {
+   "id": "tall",
+   "en": "tall",
+   "uz": "baland bo‘yli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our basketball coach is so tall that he has to bend his head to get through the classroom door.",
+   "gap": "tall",
+   "alt": []
+  },
+  {
+   "id": "high",
+   "en": "high",
+   "uz": "baland (tog‘, devor, shift)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The top shelf is too high for our youngest pupils to reach, so the teacher keeps the paints there.",
+   "gap": "high",
+   "alt": []
+  },
+  {
+   "id": "shallow",
+   "en": "shallow",
+   "uz": "sayoz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The stream is so shallow here that we can walk across it without getting our knees wet.",
+   "gap": "shallow",
+   "alt": []
+  },
+  {
+   "id": "deep_river",
+   "en": "deep",
+   "uz": "chuqur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't dive in at this end: the lake is very deep here, and even adults can't touch the bottom.",
+   "gap": "deep",
+   "alt": []
+  },
+  {
+   "id": "length",
+   "en": "length",
+   "uz": "uzunlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The length of the new bridge is almost two kilometres, so it takes about twenty minutes to walk from one end to the other.",
+   "gap": "length",
+   "alt": []
+  },
+  {
+   "id": "lengthen",
+   "en": "lengthen",
+   "uz": "uzaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The ministry has lengthened the summer holiday by a week, so pupils now get an extra week of rest.",
+   "gap": "lengthened",
+   "alt": [
+    "lengthens",
+    "lengthened",
+    "lengthening"
+   ]
+  },
+  {
+   "id": "lengthy",
+   "en": "lengthy",
+   "uz": "uzoq cho‘ziladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a lengthy discussion that went on all afternoon, the class finally agreed on a name for our newspaper.",
+   "gap": "lengthy",
+   "alt": []
+  },
+  {
+   "id": "long_distance",
+   "en": "long-distance",
+   "uz": "uzoq masofaga qatnaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Night trains are still popular for long-distance travel in Uzbekistan, for example from Tashkent to Nukus.",
+   "gap": "long-distance",
+   "alt": [
+    "long distance"
+   ]
+  },
+  {
+   "id": "shorten",
+   "en": "shorten",
+   "uz": "qisqartirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The director shortened the film by cutting two slow scenes, and now it's only ninety minutes long.",
+   "gap": "shortened",
+   "alt": [
+    "shortens",
+    "shortened",
+    "shortening"
+   ]
+  },
+  {
+   "id": "short_cut",
+   "en": "short cut",
+   "uz": "yaqin yo‘l, qisqa yo‘l",
+   "pos": "noun",
+   "img": false,
+   "ex": "We took a short cut through the park and got to the bus stop early.",
+   "gap": "short cut",
+   "alt": [
+    "shortcut"
+   ]
+  },
+  {
+   "id": "width",
+   "en": "width",
+   "uz": "eni (o‘lcham)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The width of our corridor is just one metre, so two people can hardly pass each other.",
+   "gap": "width",
+   "alt": []
+  },
+  {
+   "id": "widen",
+   "en": "widen",
+   "uz": "kengaytirmoq (yo‘l, ko‘cha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Workers are widening the narrow entrance to the car park so that buses can get in.",
+   "gap": "widening",
+   "alt": [
+    "widens",
+    "widened",
+    "widening"
+   ]
+  },
+  {
+   "id": "broaden",
+   "en": "broaden",
+   "uz": "kengaytirmoq (qiziqish, tajriba)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Volunteering at the city library helped my brother broaden his interests.",
+   "gap": "broaden",
+   "alt": [
+    "broadens",
+    "broadened",
+    "broadening"
+   ]
+  },
+  {
+   "id": "broad_minded_tolerant",
+   "en": "broad-minded",
+   "uz": "keng fikrli, boshqalarga toqatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our class teacher is very broad-minded and listens to every opinion, even ones she disagrees with.",
+   "gap": "broad-minded",
+   "alt": [
+    "broad minded"
+   ]
+  },
+  {
+   "id": "breadth",
+   "en": "breadth",
+   "uz": "(bilim, tajriba) ko‘lami",
+   "pos": "noun",
+   "img": false,
+   "ex": "The breadth of the museum's collection surprised us: it has everything from dinosaur bones to space rockets.",
+   "gap": "breadth",
+   "alt": []
+  },
+  {
+   "id": "height",
+   "en": "height",
+   "uz": "balandlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please write your height and weight on the form for the school doctor.",
+   "gap": "height",
+   "alt": []
+  },
+  {
+   "id": "heighten",
+   "en": "heighten",
+   "uz": "kuchaytirmoq (hayajon, qo‘rquv)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The long wait for the results only heightened our excitement.",
+   "gap": "heightened",
+   "alt": [
+    "heightens",
+    "heightened",
+    "heightening"
+   ]
+  },
+  {
+   "id": "lower_mic",
+   "en": "lower",
+   "uz": "pastlatmoq, tushirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please lower your voice; the baby has just fallen asleep.",
+   "gap": "lower",
+   "alt": [
+    "lowers",
+    "lowered",
+    "lowering"
+   ]
+  },
+  {
+   "id": "faraway",
+   "en": "faraway",
+   "uz": "olis, uzoq (joy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The postcard came from a faraway island in the Pacific that I couldn't even find on the map.",
+   "gap": "faraway",
+   "alt": []
+  },
+  {
+   "id": "distance",
+   "en": "distance",
+   "uz": "masofa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new flat is within walking distance of the metro, so I don't need the bus any more.",
+   "gap": "distance",
+   "alt": []
+  },
+  {
+   "id": "depth",
+   "en": "depth",
+   "uz": "chuqurlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the storm, the depth of the snow in the mountain villages reached almost a metre.",
+   "gap": "depth",
+   "alt": []
+  },
+  {
+   "id": "deepen",
+   "en": "deepen",
+   "uz": "chuqurlashtirmoq (qayg‘u, tushuncha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Losing the final in the last minute deepened the team's disappointment.",
+   "gap": "deepened",
+   "alt": [
+    "deepens",
+    "deepened",
+    "deepening"
+   ]
+  },
+  {
+   "id": "stretch_far",
+   "en": "stretch",
+   "uz": "cho‘zilib yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The sandy beach stretches for twelve kilometres, so you can walk for hours without seeing a single hotel.",
+   "gap": "stretches",
+   "alt": [
+    "stretches",
+    "stretched",
+    "stretching"
+   ]
+  },
+  {
+   "id": "extend_house",
+   "en": "extend",
+   "uz": "kengaytirmoq (uyga xona qo‘shib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbours want to extend their house by building two extra bedrooms upstairs.",
+   "gap": "extend",
+   "alt": [
+    "extends",
+    "extended",
+    "extending"
+   ]
+  },
+  {
+   "id": "spread_city",
+   "en": "spread",
+   "uz": "yoyilib bormoq (shahar)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The suburbs of Tashkent are spreading fast, and villages that were once far away are now part of the city.",
+   "gap": "spreading",
+   "alt": [
+    "spreads",
+    "spreading"
+   ]
+  },
+  {
+   "id": "shrink",
+   "en": "shrink",
+   "uz": "kichraymoq, qisqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My new cotton T-shirt shrank in the wash, and now it's too small for me.",
+   "gap": "shrank",
+   "alt": [
+    "shrinks",
+    "shrank",
+    "shrunk"
+   ]
+  },
+  {
+   "id": "expand_business",
+   "en": "expand",
+   "uz": "kengaymoq, o‘smoq (biznes)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school's chess club has expanded so much that it now meets in two classrooms instead of one.",
+   "gap": "expanded",
+   "alt": [
+    "expands",
+    "expanded",
+    "expanding"
+   ]
+  },
+  {
+   "id": "expanse",
+   "en": "expanse",
+   "uz": "bepoyon maydon, keng sath",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the hilltop we looked out over a wide expanse of golden wheat fields.",
+   "gap": "expanse",
+   "alt": []
+  },
+  {
+   "id": "long_dim",
+   "en": "long",
+   "uz": "uzunligi …, …lik (o‘lcham)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The scarf my sister knitted is two metres long, so she can wrap it round her neck three times.",
+   "gap": "long",
+   "alt": []
+  },
+  {
+   "id": "length_pool",
+   "en": "length",
+   "uz": "basseyn bo‘ylab bir suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning before work, Feruza swims thirty lengths of the pool.",
+   "gap": "lengths",
+   "alt": [
+    "lengths"
+   ]
+  },
+  {
+   "id": "short_adj",
+   "en": "short",
+   "uz": "qisqa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The days get short in December, and it's dark by five o'clock.",
+   "gap": "short",
+   "alt": []
+  },
+  {
+   "id": "narrow_minded",
+   "en": "narrow-minded",
+   "uz": "tor fikrli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's narrow-minded to laugh at people just because their taste in music is different from yours.",
+   "gap": "narrow-minded",
+   "alt": [
+    "narrow minded"
+   ]
+  },
+  {
+   "id": "low",
+   "en": "low",
+   "uz": "past",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ceiling in the old cellar is so low that tall visitors have to bend their heads.",
+   "gap": "low",
+   "alt": []
+  },
+  {
+   "id": "raise",
+   "en": "raise",
+   "uz": "ko‘tarmoq (balandroqqa)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you raise the screen a little? The people at the back can't see it.",
+   "gap": "raise",
+   "alt": [
+    "raises",
+    "raised",
+    "raising"
+   ]
+  },
+  {
+   "id": "far",
+   "en": "far",
+   "uz": "uzoqda, olisda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Is the stadium far from the metro, or can we walk there?",
+   "gap": "far",
+   "alt": []
+  },
+  {
+   "id": "distant",
+   "en": "distant",
+   "uz": "yiroqdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Through the telescope we could see the rings of a distant planet.",
+   "gap": "distant",
+   "alt": []
+  },
+  {
+   "id": "contract",
+   "en": "contract",
+   "uz": "qisqarmoq, kichraymoq (biznes)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When tourists stopped coming, the hotel business contracted and half the rooms were closed.",
+   "gap": "contracted",
+   "alt": [
+    "contracts",
+    "contracted",
+    "contracting"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "wide",
+   "broad"
+  ],
+  [
+   "widen",
+   "broaden"
+  ],
+  [
+   "widen",
+   "extend_house"
+  ],
+  [
+   "widen",
+   "spread_city"
+  ],
+  [
+   "heighten",
+   "deepen"
+  ],
+  [
+   "spread_city",
+   "expand_business"
+  ],
+  [
+   "extend_house",
+   "expand_business"
+  ],
+  [
+   "lengthy",
+   "long_distance"
+  ],
+  [
+   "breadth",
+   "depth"
+  ],
+  [
+   "width",
+   "breadth"
+  ],
+  [
+   "broaden",
+   "extend_house"
+  ],
+  [
+   "broaden",
+   "expand_business"
+  ],
+  [
+   "widen",
+   "expand_business"
+  ],
+  [
+   "shrink",
+   "shorten"
+  ],
+  [
+   "long_dim",
+   "short_adj"
+  ],
+  [
+   "long_dim",
+   "wide"
+  ],
+  [
+   "length_pool",
+   "length"
+  ],
+  [
+   "low",
+   "shallow"
+  ],
+  [
+   "low",
+   "high"
+  ],
+  [
+   "raise",
+   "lower_mic"
+  ],
+  [
+   "far",
+   "distant"
+  ],
+  [
+   "distant",
+   "faraway"
+  ],
+  [
+   "far",
+   "faraway"
+  ],
+  [
+   "narrow_minded",
+   "broad_minded_tolerant"
+  ],
+  [
+   "contract",
+   "shrink"
+  ],
+  [
+   "contract",
+   "expand_business"
+  ],
+  [
+   "expanse",
+   "breadth"
+  ],
+  [
+   "expanse",
+   "distance"
+  ]
+ ]
+}

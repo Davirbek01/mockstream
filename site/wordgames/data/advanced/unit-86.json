@@ -1,0 +1,520 @@
+{
+ "book": "advanced",
+ "unit": 86,
+ "title": "Prefixes: creating new meanings",
+ "title_uz": "Old qo‘shimchalar: yangi ma’nolar yasash",
+ "words": [
+  {
+   "id": "inappropriate",
+   "en": "inappropriate",
+   "uz": "nojo‘ya, o‘rinsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Turning up to a formal job interview in beach shorts would look completely inappropriate.",
+   "gap": "inappropriate",
+   "alt": []
+  },
+  {
+   "id": "incapable",
+   "en": "incapable",
+   "uz": "…ga qodir emas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the twenty-kilometre hike, Dilfuza felt incapable of walking another step.",
+   "gap": "incapable",
+   "alt": []
+  },
+  {
+   "id": "inability",
+   "en": "inability",
+   "uz": "…ni qila olmaslik, ojizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "His inability to say no means he always ends up doing other people's chores.",
+   "gap": "inability",
+   "alt": []
+  },
+  {
+   "id": "inaccuracy",
+   "en": "inaccuracy",
+   "uz": "noaniqlik, xatolik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The editor spotted one small inaccuracy in the article: the bridge opened in 2019, not 2018.",
+   "gap": "inaccuracy",
+   "alt": [
+    "inaccuracies"
+   ]
+  },
+  {
+   "id": "imperfect",
+   "en": "imperfect",
+   "uz": "nuqsonli, benuqson emas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The vase had a tiny chip on its rim, so the shop sold it as imperfect at half price.",
+   "gap": "imperfect",
+   "alt": []
+  },
+  {
+   "id": "misbehave",
+   "en": "misbehave",
+   "uz": "o‘zini yomon tutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Toddlers often misbehave when they are tired and hungry after a long trip.",
+   "gap": "misbehave",
+   "alt": [
+    "misbehaves",
+    "misbehaved",
+    "misbehaving"
+   ]
+  },
+  {
+   "id": "misuse",
+   "en": "misuse",
+   "uz": "noto‘g‘ri maqsadda ishlatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't misuse the fire alarm; it is only for real emergencies.",
+   "gap": "misuse",
+   "alt": [
+    "misuses",
+    "misused",
+    "misusing"
+   ]
+  },
+  {
+   "id": "outnumber",
+   "en": "outnumber",
+   "uz": "sonda ustun kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In our robotics club, girls outnumber boys by two to one.",
+   "gap": "outnumber",
+   "alt": [
+    "outnumbers",
+    "outnumbered",
+    "outnumbering"
+   ]
+  },
+  {
+   "id": "outweigh",
+   "en": "outweigh",
+   "uz": "ahamiyatda ustun kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For most families in the village, the benefits of a car clearly outweigh the running costs.",
+   "gap": "outweigh",
+   "alt": [
+    "outweighs",
+    "outweighed",
+    "outweighing"
+   ]
+  },
+  {
+   "id": "reconsider",
+   "en": "reconsider",
+   "uz": "qarorni qayta ko‘rib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After hundreds of parents signed the letter, the council agreed to reconsider its decision to close the library.",
+   "gap": "reconsider",
+   "alt": [
+    "reconsiders",
+    "reconsidered",
+    "reconsidering"
+   ]
+  },
+  {
+   "id": "rethink",
+   "en": "rethink",
+   "uz": "rejani yangicha o‘ylab chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After losing three matches in a row, the coach had to rethink his whole game plan.",
+   "gap": "rethink",
+   "alt": [
+    "rethinks",
+    "rethought",
+    "rethinking"
+   ]
+  },
+  {
+   "id": "redevelop",
+   "en": "redevelop",
+   "uz": "hududni qaytadan qurib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The city plans to redevelop the old textile mill into flats, shops and a small park.",
+   "gap": "redevelop",
+   "alt": [
+    "redevelops",
+    "redeveloped",
+    "redeveloping"
+   ]
+  },
+  {
+   "id": "eco_friendly",
+   "en": "eco-friendly",
+   "uz": "tabiatga zararsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school now buys eco-friendly notebooks made from recycled cardboard.",
+   "gap": "eco-friendly",
+   "alt": [
+    "eco friendly",
+    "ecofriendly"
+   ]
+  },
+  {
+   "id": "eco_warrior",
+   "en": "eco-warrior",
+   "uz": "tabiat uchun kurashuvchi faol",
+   "pos": "noun",
+   "img": false,
+   "ex": "A passionate eco-warrior, our geography teacher spends every weekend collecting plastic from the riverbanks.",
+   "gap": "eco-warrior",
+   "alt": [
+    "eco-warriors",
+    "eco warrior"
+   ]
+  },
+  {
+   "id": "eco_city",
+   "en": "eco-city",
+   "uz": "toza energiyali yashil shahar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The planners want the new district to become an eco-city, powered by solar panels and served only by electric buses.",
+   "gap": "eco-city",
+   "alt": [
+    "eco-cities",
+    "eco city"
+   ]
+  },
+  {
+   "id": "overpriced",
+   "en": "overpriced",
+   "uz": "haddan tashqari qimmat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The café by the station is hugely overpriced: eighty thousand som for a small pot of tea!",
+   "gap": "overpriced",
+   "alt": []
+  },
+  {
+   "id": "overhang",
+   "en": "overhang",
+   "uz": "ustiga osilib turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The branches of the old fig tree overhang the wall and drop ripe fruit onto the pavement.",
+   "gap": "overhang",
+   "alt": [
+    "overhangs",
+    "overhung",
+    "overhanging"
+   ]
+  },
+  {
+   "id": "overshadow",
+   "en": "overshadow",
+   "uz": "soyada qoldirmoq (obro‘sini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "His older brother's football success has always overshadowed his own achievements at school.",
+   "gap": "overshadowed",
+   "alt": [
+    "overshadows",
+    "overshadowed",
+    "overshadowing"
+   ]
+  },
+  {
+   "id": "overstep_the_mark",
+   "en": "overstep the mark",
+   "uz": "odob chegarasidan chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The pupil overstepped the mark when he started mocking the new teacher's accent.",
+   "gap": "overstepped the mark",
+   "alt": [
+    "overstepped the mark",
+    "oversteps the mark",
+    "overstepping the mark"
+   ]
+  },
+  {
+   "id": "overnight",
+   "en": "overnight",
+   "uz": "tun bo‘yi, ertasigacha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The sleeper train leaves at nine in the evening and travels overnight, arriving just after dawn.",
+   "gap": "overnight",
+   "alt": []
+  },
+  {
+   "id": "underestimate",
+   "en": "underestimate",
+   "uz": "kam chamalamoq, past baholamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We underestimated how much paint we needed and had to go back to the shop twice.",
+   "gap": "underestimated",
+   "alt": [
+    "underestimates",
+    "underestimated",
+    "underestimating"
+   ]
+  },
+  {
+   "id": "understaffed",
+   "en": "understaffed",
+   "uz": "xodimlari yetishmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The clinic is so understaffed that patients wait three hours to see a doctor.",
+   "gap": "understaffed",
+   "alt": []
+  },
+  {
+   "id": "underfoot",
+   "en": "underfoot",
+   "uz": "oyoq ostida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Be careful on the path: the melting snow has made it very slippery underfoot.",
+   "gap": "underfoot",
+   "alt": []
+  },
+  {
+   "id": "underlying",
+   "en": "underlying",
+   "uz": "zamirida yotgan, tub",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The traffic is only a symptom; the underlying problem is the lack of good public transport.",
+   "gap": "underlying",
+   "alt": []
+  },
+  {
+   "id": "undermine",
+   "en": "undermine",
+   "uz": "putur yetkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Constant criticism can slowly undermine a child's confidence.",
+   "gap": "undermine",
+   "alt": [
+    "undermines",
+    "undermined",
+    "undermining"
+   ]
+  },
+  {
+   "id": "underhand",
+   "en": "underhand",
+   "uz": "yashirin va g‘irrom",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He won the contract by underhand methods, secretly copying his rival's proposal.",
+   "gap": "underhand",
+   "alt": []
+  },
+  {
+   "id": "upgrade",
+   "en": "upgrade",
+   "uz": "yuqoriroq toifaga o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hotel upgraded us to a room with a mountain view at no extra cost.",
+   "gap": "upgraded",
+   "alt": [
+    "upgrades",
+    "upgraded",
+    "upgrading"
+   ]
+  },
+  {
+   "id": "upturn",
+   "en": "upturn",
+   "uz": "yaxshi tomonga burilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a slow winter, the market traders noticed a welcome upturn in sales in spring.",
+   "gap": "upturn",
+   "alt": []
+  },
+  {
+   "id": "commiserate",
+   "en": "commiserate",
+   "uz": "hamdardlik bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I commiserated with my classmate over her bad luck when she narrowly missed winning the chess final.",
+   "gap": "commiserated",
+   "alt": [
+    "commiserates",
+    "commiserated",
+    "commiserating"
+   ]
+  },
+  {
+   "id": "converse",
+   "en": "converse",
+   "uz": "suhbatlashmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After five years working in Madrid, the engineer can converse comfortably in Spanish.",
+   "gap": "converse",
+   "alt": [
+    "converses",
+    "conversed",
+    "conversing"
+   ]
+  },
+  {
+   "id": "promote",
+   "en": "promote",
+   "uz": "targ‘ib qilmoq, rivojlantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school radio runs short daily programmes to promote healthy eating among pupils.",
+   "gap": "promote",
+   "alt": [
+    "promotes",
+    "promoted",
+    "promoting"
+   ]
+  },
+  {
+   "id": "proliferate",
+   "en": "proliferate",
+   "uz": "tez ko‘payib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Small coffee shops have proliferated in our neighbourhood over the last two years.",
+   "gap": "proliferated",
+   "alt": [
+    "proliferates",
+    "proliferated",
+    "proliferating"
+   ]
+  },
+  {
+   "id": "procrastinate",
+   "en": "procrastinate",
+   "uz": "ishni paysalga solmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you procrastinate until the night before the exam, you won't have time to revise.",
+   "gap": "procrastinate",
+   "alt": [
+    "procrastinates",
+    "procrastinated",
+    "procrastinating"
+   ]
+  },
+  {
+   "id": "eject",
+   "en": "eject",
+   "uz": "haydab chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cinema manager ejected a group of teenagers who kept shining their phone torches at the screen.",
+   "gap": "ejected",
+   "alt": [
+    "ejects",
+    "ejected",
+    "ejecting"
+   ]
+  },
+  {
+   "id": "emit",
+   "en": "emit",
+   "uz": "chiqarmoq (tutun, ovoz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Old diesel buses emit far more fumes than the new electric ones.",
+   "gap": "emit",
+   "alt": [
+    "emits",
+    "emitted",
+    "emitting"
+   ]
+  },
+  {
+   "id": "e_cigarette",
+   "en": "e-cigarette",
+   "uz": "elektron chekish moslamasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "In many countries it is illegal to sell e-cigarettes to anyone under eighteen.",
+   "gap": "e-cigarettes",
+   "alt": [
+    "e-cigarettes",
+    "e cigarette"
+   ]
+  },
+  {
+   "id": "procreate",
+   "en": "procreate",
+   "uz": "nasl qoldirmoq (ko‘payish)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Pacific salmon swim hundreds of kilometres upriver to procreate, and they die soon afterwards.",
+   "gap": "procreate",
+   "alt": [
+    "procreates",
+    "procreated",
+    "procreating"
+   ]
+  },
+  {
+   "id": "overshadow_literal",
+   "en": "overshadow",
+   "uz": "soya solib turmoq (bino, daraxt)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since the twelve-storey hotel was built, our little garden has been overshadowed for most of the afternoon.",
+   "gap": "overshadowed",
+   "alt": [
+    "overshadows",
+    "overshadowed",
+    "overshadowing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "outnumber",
+   "outweigh"
+  ],
+  [
+   "reconsider",
+   "rethink"
+  ],
+  [
+   "undermine",
+   "overshadow"
+  ],
+  [
+   "overhang",
+   "overshadow"
+  ],
+  [
+   "procreate",
+   "proliferate"
+  ],
+  [
+   "overshadow_literal",
+   "overshadow"
+  ],
+  [
+   "overshadow_literal",
+   "overhang"
+  ]
+ ]
+}

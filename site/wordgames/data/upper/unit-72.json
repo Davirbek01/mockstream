@@ -1,0 +1,512 @@
+{
+ "book": "upper",
+ "unit": 72,
+ "title": "Roots",
+ "title_uz": "So‘z o‘zaklari (lotincha ildizlar)",
+ "words": [
+  {
+   "id": "conduct",
+   "en": "conduct",
+   "uz": "dirijyorlik qilmoq (orkestrni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Holding a thin white baton, Ms Nazarova conducted the school choir at the spring concert.",
+   "gap": "conducted",
+   "alt": [
+    "conducts",
+    "conducted",
+    "conducting"
+   ]
+  },
+  {
+   "id": "induce",
+   "en": "induce",
+   "uz": "(…ga) ko‘ndirmoq, undamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After that terrible first ride, nothing could induce Sherzod to get on the roller coaster again.",
+   "gap": "induce",
+   "alt": [
+    "induces",
+    "induced",
+    "inducing"
+   ]
+  },
+  {
+   "id": "viaduct",
+   "en": "viaduct",
+   "uz": "baland ko‘prik (vodiy ustidan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "From the mountain road we could see the old railway viaduct stretching across the valley on twelve stone arches.",
+   "gap": "viaduct",
+   "alt": [
+    "viaducts"
+   ]
+  },
+  {
+   "id": "postpone",
+   "en": "postpone",
+   "uz": "keyinga qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The football match was postponed until Sunday because of heavy snow.",
+   "gap": "postponed",
+   "alt": [
+    "postpones",
+    "postponed",
+    "postponing"
+   ]
+  },
+  {
+   "id": "impose",
+   "en": "impose",
+   "uz": "joriy etmoq (soliq, taqiq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The city has imposed a ban on cars in the old town at weekends.",
+   "gap": "imposed",
+   "alt": [
+    "imposes",
+    "imposed",
+    "imposing"
+   ]
+  },
+  {
+   "id": "deposit_money",
+   "en": "deposit",
+   "uz": "pulni bank hisobiga qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every Friday the café owner deposits the week's takings at the bank round the corner.",
+   "gap": "deposits",
+   "alt": [
+    "deposits",
+    "deposited",
+    "depositing"
+   ]
+  },
+  {
+   "id": "transport",
+   "en": "transport",
+   "uz": "tashimoq (yuk, odam)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Melons are transported from the farms to the city markets in big lorries.",
+   "gap": "transported",
+   "alt": [
+    "transports",
+    "transported",
+    "transporting"
+   ]
+  },
+  {
+   "id": "import",
+   "en": "import",
+   "uz": "chetdan olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little shop on our corner imports toys from China and sells them cheaply here.",
+   "gap": "imports",
+   "alt": [
+    "imports",
+    "imported",
+    "importing"
+   ]
+  },
+  {
+   "id": "export",
+   "en": "export",
+   "uz": "chet elga sotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A small farm outside Fergana exports dried apricots to shops in Kazakhstan and Russia.",
+   "gap": "exports",
+   "alt": [
+    "exports",
+    "exported",
+    "exporting"
+   ]
+  },
+  {
+   "id": "deport",
+   "en": "deport",
+   "uz": "mamlakatdan chiqarib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Anyone who stays in the country after their visa runs out risks being deported.",
+   "gap": "deported",
+   "alt": [
+    "deports",
+    "deported",
+    "deporting"
+   ]
+  },
+  {
+   "id": "impress",
+   "en": "impress",
+   "uz": "qoyil qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her fluent Japanese really impressed the people who interviewed her.",
+   "gap": "impressed",
+   "alt": [
+    "impresses",
+    "impressed",
+    "impressing"
+   ]
+  },
+  {
+   "id": "depress",
+   "en": "depress",
+   "uz": "kayfiyatini tushirmoq, siqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Walking past the empty, boarded-up shops in the old market always depresses me a little.",
+   "gap": "depresses",
+   "alt": [
+    "depresses",
+    "depressed",
+    "depressing"
+   ]
+  },
+  {
+   "id": "express",
+   "en": "express",
+   "uz": "ifodalamoq (fikr, his)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Young children often find it hard to express their feelings in words.",
+   "gap": "express",
+   "alt": [
+    "expresses",
+    "expressed",
+    "expressing"
+   ]
+  },
+  {
+   "id": "respect",
+   "en": "respect",
+   "uz": "hurmat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In our mahalla, everyone respects the elders and asks for their advice.",
+   "gap": "respects",
+   "alt": [
+    "respects",
+    "respected",
+    "respecting"
+   ]
+  },
+  {
+   "id": "inspect",
+   "en": "inspect",
+   "uz": "sinchiklab tekshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the flight, the engineers inspected the plane's engines very carefully.",
+   "gap": "inspected",
+   "alt": [
+    "inspects",
+    "inspected",
+    "inspecting"
+   ]
+  },
+  {
+   "id": "prospect",
+   "en": "prospect",
+   "uz": "(oltin, neft) qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A mining company has started using drones to prospect for copper in the hills north of the city.",
+   "gap": "prospect",
+   "alt": [
+    "prospects",
+    "prospected",
+    "prospecting"
+   ]
+  },
+  {
+   "id": "revert",
+   "en": "revert",
+   "uz": "avvalgi holatga qaytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Diyor tried a new hairstyle for a week, then quickly reverted to his usual short cut.",
+   "gap": "reverted",
+   "alt": [
+    "reverts",
+    "reverted",
+    "reverting"
+   ]
+  },
+  {
+   "id": "convert",
+   "en": "convert",
+   "uz": "(boshqa shaklga) aylantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old cotton factory has been converted into a modern art gallery.",
+   "gap": "converted",
+   "alt": [
+    "converts",
+    "converted",
+    "converting"
+   ]
+  },
+  {
+   "id": "divert",
+   "en": "divert",
+   "uz": "(yo‘nalishini) boshqa tomonga burmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Because of a sandstorm, our plane was diverted to another airport two hundred kilometres away.",
+   "gap": "diverted",
+   "alt": [
+    "diverts",
+    "diverted",
+    "diverting"
+   ]
+  },
+  {
+   "id": "support_evidence",
+   "en": "support",
+   "uz": "(dalil bilan) tasdiqlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The scientists' claim that the lake is shrinking is supported by satellite photos taken over twenty years.",
+   "gap": "supported",
+   "alt": [
+    "supports",
+    "supported",
+    "supporting"
+   ]
+  },
+  {
+   "id": "inspector",
+   "en": "inspector",
+   "uz": "nazoratchi (tekshiruvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A ticket inspector got on the bus and asked everyone to show their tickets.",
+   "gap": "inspector",
+   "alt": [
+    "inspectors"
+   ]
+  },
+  {
+   "id": "inspection",
+   "en": "inspection",
+   "uz": "tekshiruv (nazorat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The café was closed after a health inspection found mice in the kitchen.",
+   "gap": "inspection",
+   "alt": [
+    "inspections"
+   ]
+  },
+  {
+   "id": "advertise",
+   "en": "advertise",
+   "uz": "reklama qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new café advertises its cheap breakfasts on Instagram and on posters at the bus stop.",
+   "gap": "advertises",
+   "alt": [
+    "advertises",
+    "advertised",
+    "advertising"
+   ]
+  },
+  {
+   "id": "advertiser",
+   "en": "advertiser",
+   "uz": "reklama beruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Websites with millions of visitors can charge advertisers a lot of money.",
+   "gap": "advertisers",
+   "alt": [
+    "advertisers"
+   ]
+  },
+  {
+   "id": "advertisement",
+   "en": "advertisement",
+   "uz": "reklama e’loni",
+   "pos": "noun",
+   "img": false,
+   "ex": "I saw an advertisement for a summer English course on the side of a bus.",
+   "gap": "advertisement",
+   "alt": [
+    "advertisements",
+    "advert",
+    "ad"
+   ]
+  },
+  {
+   "id": "introduce",
+   "en": "introduce",
+   "uz": "tanishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Let me introduce you to my neighbour Dilshod, who has just moved here from Nukus.",
+   "gap": "introduce",
+   "alt": [
+    "introduces",
+    "introduced",
+    "introducing"
+   ]
+  },
+  {
+   "id": "introduction",
+   "en": "introduction",
+   "uz": "kirish qismi (muqaddima)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the introduction to her essay, Kamola explains why she chose the topic.",
+   "gap": "introduction",
+   "alt": [
+    "introductions"
+   ]
+  },
+  {
+   "id": "composer",
+   "en": "composer",
+   "uz": "bastakor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our music teacher is also a composer: she has written the songs for three school concerts.",
+   "gap": "composer",
+   "alt": [
+    "composers"
+   ]
+  },
+  {
+   "id": "composition",
+   "en": "composition",
+   "uz": "(musiqiy) asar",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the concert, the pianist played one of her own compositions.",
+   "gap": "compositions",
+   "alt": [
+    "compositions"
+   ]
+  },
+  {
+   "id": "depose",
+   "en": "depose",
+   "uz": "taxtdan (hokimiyatdan) ag‘darmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the play, the cruel king is deposed by his own generals, and his younger brother is crowned in his place.",
+   "gap": "deposed",
+   "alt": [
+    "deposes",
+    "deposed",
+    "deposing"
+   ]
+  },
+  {
+   "id": "deportee",
+   "en": "deportee",
+   "uz": "mamlakatdan haydalgan shaxs",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plane carrying forty deportees landed early in the morning, and officials checked each person's papers.",
+   "gap": "deportees",
+   "alt": [
+    "deportees"
+   ]
+  },
+  {
+   "id": "deportation",
+   "en": "deportation",
+   "uz": "mamlakatdan haydab chiqarish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After his visa ran out, he faced deportation back to his home country.",
+   "gap": "deportation",
+   "alt": [
+    "deportations"
+   ]
+  },
+  {
+   "id": "introducer",
+   "en": "introducer",
+   "uz": "tanishtiruvchi (boshlovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The introducer stepped up to the microphone, said the guest speaker's name and a few facts about her, then handed her the microphone.",
+   "gap": "introducer",
+   "alt": [
+    "introducers"
+   ]
+  },
+  {
+   "id": "oppress",
+   "en": "oppress",
+   "uz": "zulm qilmoq, ezmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For centuries the cruel rulers oppressed the farmers, taking most of their harvest and punishing anyone who complained.",
+   "gap": "oppressed",
+   "alt": [
+    "oppresses",
+    "oppressed",
+    "oppressing"
+   ]
+  },
+  {
+   "id": "oppressor",
+   "en": "oppressor",
+   "uz": "zolim (ezuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the story, the villagers finally rise up against their oppressor, a greedy landlord who had taken their land.",
+   "gap": "oppressor",
+   "alt": [
+    "oppressors"
+   ]
+  },
+  {
+   "id": "oppression",
+   "en": "oppression",
+   "uz": "zulm, ezilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The poem describes the people's long years of oppression under a cruel ruler.",
+   "gap": "oppression",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "transport",
+   "export"
+  ],
+  [
+   "deport",
+   "transport"
+  ],
+  [
+   "import",
+   "transport"
+  ],
+  [
+   "depose",
+   "deport"
+  ],
+  [
+   "deport",
+   "deportation"
+  ],
+  [
+   "oppress",
+   "oppression"
+  ]
+ ]
+}

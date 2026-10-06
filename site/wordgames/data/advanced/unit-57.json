@@ -1,0 +1,369 @@
+{
+ "book": "advanced",
+ "unit": 57,
+ "title": "Technology of the future",
+ "title_uz": "Kelajak texnologiyalari",
+ "words": [
+  {
+   "id": "smart_home",
+   "en": "smart home",
+   "uz": "aqlli uy",
+   "pos": "noun",
+   "img": false,
+   "ex": "In my aunt's smart home, the lights come on by themselves as soon as anyone walks into a room.",
+   "gap": "smart home",
+   "alt": [
+    "smart homes"
+   ]
+  },
+  {
+   "id": "interplanetary_travel",
+   "en": "interplanetary travel",
+   "uz": "sayyoralararo sayohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Engineers say interplanetary travel will only become practical when a trip to Mars takes weeks rather than many months.",
+   "gap": "interplanetary travel",
+   "alt": []
+  },
+  {
+   "id": "space_tourism",
+   "en": "space tourism",
+   "uz": "koinotga sayyohlik safarlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "So far, space tourism has been so expensive that only a handful of very rich people have paid to fly above the Earth.",
+   "gap": "space tourism",
+   "alt": []
+  },
+  {
+   "id": "nanotechnology",
+   "en": "nanotechnology",
+   "uz": "atom o‘lchamidagi qurilmalar fani",
+   "pos": "noun",
+   "img": false,
+   "ex": "Using nanotechnology, a lab in Tashkent has made a sun cream whose particles are too small to leave white marks on the skin.",
+   "gap": "nanotechnology",
+   "alt": []
+  },
+  {
+   "id": "keyhole_surgery",
+   "en": "keyhole surgery",
+   "uz": "kichik teshik orqali jarrohlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After keyhole surgery on his knee, the team's goalkeeper was walking again within a few days, with only two tiny scars.",
+   "gap": "keyhole surgery",
+   "alt": []
+  },
+  {
+   "id": "doomsday_scenario",
+   "en": "doomsday scenario",
+   "uz": "eng dahshatli kelajak bashorati",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the doomsday scenario shown in the documentary, the ice caps melt and many coastal cities disappear under the sea.",
+   "gap": "doomsday scenario",
+   "alt": [
+    "doomsday scenarios"
+   ]
+  },
+  {
+   "id": "destiny",
+   "en": "destiny",
+   "uz": "taqdir (kelajakda kutayotgan narsa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the age of ten, Bobur believed his destiny was to become a surgeon, and he never once doubted it.",
+   "gap": "destiny",
+   "alt": []
+  },
+  {
+   "id": "foresee",
+   "en": "foresee",
+   "uz": "oldindan ko‘rmoq (sezmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Twenty years ago, few people could foresee how quickly phones would change the way we shop and travel.",
+   "gap": "foresee",
+   "alt": [
+    "foresaw",
+    "foreseen",
+    "foresees",
+    "foreseeing"
+   ]
+  },
+  {
+   "id": "mega_city",
+   "en": "mega-city",
+   "uz": "10 mln dan ortiq aholili shahar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Moving from a quiet village in the Zarafshan valley to a noisy mega-city of fifteen million people was a huge shock for Elyor.",
+   "gap": "mega-city",
+   "alt": [
+    "megacity",
+    "mega-cities",
+    "megacities"
+   ]
+  },
+  {
+   "id": "gridlocked",
+   "en": "gridlocked",
+   "uz": "butunlay tiqilib qolgan (yo‘l)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the evening before the holiday, every road out of the city was completely gridlocked and nobody moved for an hour.",
+   "gap": "gridlocked",
+   "alt": [
+    "gridlock"
+   ]
+  },
+  {
+   "id": "population_explosion",
+   "en": "population explosion",
+   "uz": "aholining keskin ko‘payishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of the population explosion in the suburbs, the town council had to build three new schools in just five years.",
+   "gap": "population explosion",
+   "alt": []
+  },
+  {
+   "id": "genetic_modification",
+   "en": "genetic modification",
+   "uz": "genlarni o‘zgartirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our biology lesson we discussed how genetic modification might help wheat grow in very dry soil.",
+   "gap": "genetic modification",
+   "alt": []
+  },
+  {
+   "id": "gm_food",
+   "en": "GM food",
+   "uz": "genlari o‘zgartirilgan oziq-ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some shoppers refuse to buy GM food because they are worried about its long-term effects on health.",
+   "gap": "GM food",
+   "alt": [
+    "GM foods",
+    "genetically modified food"
+   ]
+  },
+  {
+   "id": "gene_therapy",
+   "en": "gene therapy",
+   "uz": "genlarni tuzatib davolash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors hope that gene therapy will one day cure some rare illnesses that children inherit from their parents.",
+   "gap": "gene therapy",
+   "alt": []
+  },
+  {
+   "id": "human_genome",
+   "en": "human genome",
+   "uz": "odamning to‘liq gen xaritasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our knowledge of the human genome helps doctors understand why certain illnesses run in families.",
+   "gap": "human genome",
+   "alt": []
+  },
+  {
+   "id": "envisage",
+   "en": "envisage",
+   "uz": "(kelajakni) tasavvur qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The young architects envisage a city centre where cars are banned and everyone travels by electric tram.",
+   "gap": "envisage",
+   "alt": [
+    "envisaged",
+    "envisages",
+    "envisaging"
+   ]
+  },
+  {
+   "id": "designer_baby",
+   "en": "designer baby",
+   "uz": "genlari tanlangan chaqaloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some scientists warn that designer babies, whose eye colour or height could be chosen by their parents, raise serious ethical questions.",
+   "gap": "designer babies",
+   "alt": [
+    "designer babies"
+   ]
+  },
+  {
+   "id": "cloning",
+   "en": "cloning",
+   "uz": "genetik nusxa ko‘chirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film imagines a future in which cloning lets rich people order an exact copy of their favourite pet.",
+   "gap": "cloning",
+   "alt": []
+  },
+  {
+   "id": "breakdown",
+   "en": "breakdown",
+   "uz": "yemirilish (buzilib ketish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some sociologists blame long working hours for the breakdown of family life in big cities.",
+   "gap": "breakdown",
+   "alt": []
+  },
+  {
+   "id": "nuclear_family",
+   "en": "nuclear family",
+   "uz": "kichik oila (ota-ona va bolalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many villages three generations still live under one roof, but in the city the nuclear family is becoming more common.",
+   "gap": "nuclear family",
+   "alt": [
+    "nuclear families"
+   ]
+  },
+  {
+   "id": "globalisation",
+   "en": "globalisation",
+   "uz": "jahon miqyosida yaqinlashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of globalisation, the same coffee chains and clothing brands can be found in almost every large city.",
+   "gap": "globalisation",
+   "alt": [
+    "globalization"
+   ]
+  },
+  {
+   "id": "global_village",
+   "en": "global village",
+   "uz": "butun dunyo — bitta qishloqdek",
+   "pos": "noun",
+   "img": false,
+   "ex": "With video calls and messaging apps, the world has become a global village where friends on different continents chat every day.",
+   "gap": "global village",
+   "alt": []
+  },
+  {
+   "id": "extraterrestrial_beings",
+   "en": "extraterrestrial beings",
+   "uz": "o‘zga sayyoraliklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some astronomers listen for radio signals from deep space in case extraterrestrial beings are trying to contact us.",
+   "gap": "extraterrestrial beings",
+   "alt": [
+    "extraterrestrial being",
+    "extraterrestrials"
+   ]
+  },
+  {
+   "id": "gulf",
+   "en": "gulf",
+   "uz": "katta tafovut (jarlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The gulf between the richest and the poorest families in the country has grown wider over the past decade.",
+   "gap": "gulf",
+   "alt": []
+  },
+  {
+   "id": "drastic_measures",
+   "en": "drastic measures",
+   "uz": "keskin choralar",
+   "pos": "noun",
+   "img": false,
+   "ex": "To clean the air, the city council took drastic measures and banned all old lorries from the centre.",
+   "gap": "drastic measures",
+   "alt": [
+    "drastic measure"
+   ]
+  },
+  {
+   "id": "smart",
+   "en": "smart",
+   "uz": "kompyuter boshqaradigan (aqlli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbours' new smart fridge sends a message to their phones when they are running low on milk.",
+   "gap": "smart",
+   "alt": []
+  },
+  {
+   "id": "genetic_engineering",
+   "en": "genetic engineering",
+   "uz": "gen muhandisligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to genetic engineering, a type of rice has been developed that contains extra vitamin A.",
+   "gap": "genetic engineering",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "foresee",
+   "envisage"
+  ],
+  [
+   "interplanetary_travel",
+   "space_tourism"
+  ],
+  [
+   "genetic_modification",
+   "gm_food"
+  ],
+  [
+   "genetic_modification",
+   "gene_therapy"
+  ],
+  [
+   "genetic_modification",
+   "cloning"
+  ],
+  [
+   "globalisation",
+   "global_village"
+  ],
+  [
+   "gridlocked",
+   "mega_city"
+  ],
+  [
+   "gene_therapy",
+   "nanotechnology"
+  ],
+  [
+   "smart",
+   "smart_home"
+  ],
+  [
+   "genetic_engineering",
+   "genetic_modification"
+  ],
+  [
+   "genetic_engineering",
+   "gm_food"
+  ],
+  [
+   "genetic_engineering",
+   "gene_therapy"
+  ],
+  [
+   "genetic_engineering",
+   "cloning"
+  ],
+  [
+   "genetic_engineering",
+   "nanotechnology"
+  ]
+ ]
+}

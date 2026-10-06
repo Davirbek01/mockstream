@@ -1,0 +1,761 @@
+{
+ "book": "upper",
+ "unit": 52,
+ "title": "Numbers and shapes",
+ "title_uz": "Sonlar va shakllar",
+ "words": [
+  {
+   "id": "per_cent",
+   "en": "per cent",
+   "uz": "foiz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The download was stuck at 99 per cent for ten whole minutes.",
+   "gap": "per cent",
+   "alt": [
+    "percent"
+   ]
+  },
+  {
+   "id": "decimal_point",
+   "en": "point",
+   "uz": "nuqta (o‘nli kasrda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The scoreboard showed 13.2, and the announcer read it out as 'thirteen point two seconds'.",
+   "gap": "point",
+   "alt": []
+  },
+  {
+   "id": "squared",
+   "en": "squared",
+   "uz": "kvadratda (2-darajada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In today's maths quiz I had to work out twelve squared in my head; the answer was 144.",
+   "gap": "squared",
+   "alt": []
+  },
+  {
+   "id": "cubed",
+   "en": "cubed",
+   "uz": "kubda (3-darajada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Four cubed, or four times four times four, is sixty-four.",
+   "gap": "cubed",
+   "alt": []
+  },
+  {
+   "id": "to_the_power_of",
+   "en": "to the power of",
+   "uz": "…-darajada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On the board, our teacher wrote a million as ten to the power of six.",
+   "gap": "to the power of",
+   "alt": []
+  },
+  {
+   "id": "times_multiplied",
+   "en": "times",
+   "uz": "ko‘paytirilgan (×)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Eight times nine is seventy-two; the twins next door learnt that from a song.",
+   "gap": "times",
+   "alt": []
+  },
+  {
+   "id": "divided_by",
+   "en": "divided by",
+   "uz": "bo‘lingan (÷)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Twelve sweets divided by four children means three sweets each.",
+   "gap": "divided by",
+   "alt": []
+  },
+  {
+   "id": "addition",
+   "en": "addition",
+   "uz": "qo‘shish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fruit seller at our bazaar is brilliant at addition: she totals up a whole bag of shopping without a calculator.",
+   "gap": "addition",
+   "alt": []
+  },
+  {
+   "id": "subtraction",
+   "en": "subtraction",
+   "uz": "ayirish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Working out your change is simple subtraction: you take the price away from the money you paid.",
+   "gap": "subtraction",
+   "alt": []
+  },
+  {
+   "id": "multiplication",
+   "en": "multiplication",
+   "uz": "ko‘paytirish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Knowing your multiplication tables by heart makes sums like 7 × 8 easy.",
+   "gap": "multiplication",
+   "alt": []
+  },
+  {
+   "id": "division",
+   "en": "division",
+   "uz": "bo‘lish (amali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Today we practised division: how many times does 7 go into 56, and how many times does 9 go into 81?",
+   "gap": "division",
+   "alt": []
+  },
+  {
+   "id": "rectangle",
+   "en": "rectangle",
+   "uz": "to‘g‘ri to‘rtburchak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our classroom is a rectangle, nine metres long and six metres wide.",
+   "gap": "rectangle",
+   "alt": []
+  },
+  {
+   "id": "square_shape",
+   "en": "square",
+   "uz": "kvadrat",
+   "pos": "noun",
+   "img": false,
+   "ex": "A chessboard is one big square made up of 64 smaller ones.",
+   "gap": "square",
+   "alt": [
+    "squares"
+   ]
+  },
+  {
+   "id": "circle",
+   "en": "circle",
+   "uz": "doira, aylana",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little children held hands and stood in a circle around their teacher.",
+   "gap": "circle",
+   "alt": [
+    "circles"
+   ]
+  },
+  {
+   "id": "semi_circle",
+   "en": "semi-circle",
+   "uz": "yarim doira",
+   "pos": "noun",
+   "img": false,
+   "ex": "The choir stood in a semi-circle so that the audience could see every singer's face.",
+   "gap": "semi-circle",
+   "alt": [
+    "semicircle"
+   ]
+  },
+  {
+   "id": "triangle",
+   "en": "triangle",
+   "uz": "uchburchak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fold the square napkin from corner to corner to make a triangle.",
+   "gap": "triangle",
+   "alt": [
+    "triangles"
+   ]
+  },
+  {
+   "id": "pentagon",
+   "en": "pentagon",
+   "uz": "beshburchak",
+   "pos": "noun",
+   "img": false,
+   "ex": "The black patches on a classic football are pentagons, each with five sides.",
+   "gap": "pentagons",
+   "alt": [
+    "pentagons"
+   ]
+  },
+  {
+   "id": "octagon",
+   "en": "octagon",
+   "uz": "sakkizburchak",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many countries, stop signs are red octagons: count the edges and you'll find eight.",
+   "gap": "octagons",
+   "alt": [
+    "octagons"
+   ]
+  },
+  {
+   "id": "oval",
+   "en": "oval",
+   "uz": "tuxumsimon",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A rugby ball isn't round like a football; it's oval, a bit like a giant egg.",
+   "gap": "oval",
+   "alt": []
+  },
+  {
+   "id": "rectangular",
+   "en": "rectangular",
+   "uz": "to‘g‘ri to‘rtburchak shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most phone screens are rectangular: about twice as long as they are wide, with four right angles.",
+   "gap": "rectangular",
+   "alt": []
+  },
+  {
+   "id": "circular",
+   "en": "circular",
+   "uz": "doira shaklidagi, aylanma",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The little window in our bathroom is circular, just like a porthole on a ship.",
+   "gap": "circular",
+   "alt": []
+  },
+  {
+   "id": "triangular",
+   "en": "triangular",
+   "uz": "uchburchak shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sails of the little boats on the lake are triangular, with three sharp corners.",
+   "gap": "triangular",
+   "alt": []
+  },
+  {
+   "id": "right_angle",
+   "en": "right angle",
+   "uz": "to‘g‘ri burchak",
+   "pos": "noun",
+   "img": false,
+   "ex": "The corner of this page makes a perfect right angle of 90 degrees.",
+   "gap": "right angle",
+   "alt": [
+    "right angles"
+   ]
+  },
+  {
+   "id": "diameter",
+   "en": "diameter",
+   "uz": "diametr",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our big round dining table has a diameter of two metres, so ten people can sit around it.",
+   "gap": "diameter",
+   "alt": []
+  },
+  {
+   "id": "radius",
+   "en": "radius",
+   "uz": "markazdan aylanagacha masofa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new phone tower gives a good signal within a radius of five kilometres.",
+   "gap": "radius",
+   "alt": []
+  },
+  {
+   "id": "circumference",
+   "en": "circumference",
+   "uz": "aylana uzunligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My bicycle wheel has a circumference of about two metres, so the bike moves two metres every time the wheel turns once.",
+   "gap": "circumference",
+   "alt": []
+  },
+  {
+   "id": "hemisphere",
+   "en": "hemisphere",
+   "uz": "yarimshar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan lies north of the equator, in the northern hemisphere, so our summer comes in June, July and August.",
+   "gap": "hemisphere",
+   "alt": [
+    "hemispheres"
+   ]
+  },
+  {
+   "id": "sphere",
+   "en": "sphere",
+   "uz": "shar (geometrik jism)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lamp in our hall is a white glass sphere, perfectly round like a giant ball.",
+   "gap": "sphere",
+   "alt": []
+  },
+  {
+   "id": "cube",
+   "en": "cube",
+   "uz": "kub",
+   "pos": "noun",
+   "img": false,
+   "ex": "I dropped an ice cube into my lemonade to make it colder.",
+   "gap": "cube",
+   "alt": [
+    "cubes"
+   ]
+  },
+  {
+   "id": "pyramid",
+   "en": "pyramid",
+   "uz": "piramida",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the end of the show, the young acrobats climbed onto each other's shoulders to form a human pyramid.",
+   "gap": "pyramid",
+   "alt": [
+    "pyramids"
+   ]
+  },
+  {
+   "id": "spiral",
+   "en": "spiral",
+   "uz": "buram, burama chiziq",
+   "pos": "noun",
+   "img": true,
+   "ex": "The shell of a snail grows in a spiral, getting wider with every turn.",
+   "gap": "spiral",
+   "alt": [
+    "spirals"
+   ]
+  },
+  {
+   "id": "by_dimension",
+   "en": "by",
+   "uz": "…ga (o‘lchamda: 3 × 4 m)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The new rug is three metres by four, just right for the living room.",
+   "gap": "by",
+   "alt": []
+  },
+  {
+   "id": "third_fraction",
+   "en": "third",
+   "uz": "uchdan bir (kasr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "About two thirds of the pupils voted for a longer lunch break.",
+   "gap": "thirds",
+   "alt": [
+    "thirds"
+   ]
+  },
+  {
+   "id": "fifth_fraction",
+   "en": "fifth",
+   "uz": "beshdan bir (kasr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cake was cut into five pieces, and four fifths of it had gone by the time I got home.",
+   "gap": "fifths",
+   "alt": [
+    "fifths"
+   ]
+  },
+  {
+   "id": "over_fraction",
+   "en": "over",
+   "uz": "kasr chizig‘i ustida (3/8)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "In the maths quiz, 3/8 was read out as 'three over eight'.",
+   "gap": "over",
+   "alt": []
+  },
+  {
+   "id": "degree_temp",
+   "en": "degree",
+   "uz": "gradus",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was only two degrees outside this morning, so I put on my warmest coat.",
+   "gap": "degrees",
+   "alt": [
+    "degrees"
+   ]
+  },
+  {
+   "id": "celsius",
+   "en": "Celsius",
+   "uz": "harorat shkalasi (0° – muzlash)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In July the temperature in Termez can reach forty-five degrees Celsius.",
+   "gap": "Celsius",
+   "alt": []
+  },
+  {
+   "id": "fahrenheit",
+   "en": "Fahrenheit",
+   "uz": "harorat shkalasi (32° – muzlash)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "American weather apps usually show the temperature in Fahrenheit, so 'seventy degrees' there means a mild day.",
+   "gap": "Fahrenheit",
+   "alt": []
+  },
+  {
+   "id": "oh_zero",
+   "en": "oh",
+   "uz": "nol (telefon raqamida aytilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My office number is 204, and on the phone I read it out as 'two oh four'.",
+   "gap": "oh",
+   "alt": []
+  },
+  {
+   "id": "double_digit",
+   "en": "double",
+   "uz": "bir xil raqam ikki marta (tel.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel's phone number ends in 77, which you say as 'double seven'.",
+   "gap": "double",
+   "alt": []
+  },
+  {
+   "id": "decimal",
+   "en": "decimal",
+   "uz": "o‘nli (kasr)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On a calculator, a decimal number like 2.5 uses a dot, not a comma.",
+   "gap": "decimal",
+   "alt": []
+  },
+  {
+   "id": "digit",
+   "en": "digit",
+   "uz": "raqam (0–9)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Your PIN code must have four digits, for example 2580.",
+   "gap": "digits",
+   "alt": [
+    "digits"
+   ]
+  },
+  {
+   "id": "intonation",
+   "en": "intonation",
+   "uz": "ohang (ovozning ko‘tarilib-tushishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In English, a rising intonation at the end can turn a statement into a question.",
+   "gap": "intonation",
+   "alt": []
+  },
+  {
+   "id": "two_dimensional",
+   "en": "two-dimensional",
+   "uz": "ikki o‘lchamli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A drawing on paper is two-dimensional: it has length and width but no depth.",
+   "gap": "two-dimensional",
+   "alt": []
+  },
+  {
+   "id": "three_dimensional",
+   "en": "three-dimensional",
+   "uz": "uch o‘lchamli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the science museum we watched a three-dimensional film wearing special glasses.",
+   "gap": "three-dimensional",
+   "alt": []
+  },
+  {
+   "id": "side_shape",
+   "en": "side",
+   "uz": "tomon (shaklning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A hexagon has six equal sides, like the cells in a honeycomb.",
+   "gap": "sides",
+   "alt": [
+    "sides"
+   ]
+  },
+  {
+   "id": "pentagonal",
+   "en": "pentagonal",
+   "uz": "beshburchak shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new garden table is pentagonal, so five friends can each sit at their own edge.",
+   "gap": "pentagonal",
+   "alt": []
+  },
+  {
+   "id": "octagonal",
+   "en": "octagonal",
+   "uz": "sakkizburchak shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old music pavilion in the park is octagonal, with eight wooden walls and a pointed roof.",
+   "gap": "octagonal",
+   "alt": []
+  },
+  {
+   "id": "spherical",
+   "en": "spherical",
+   "uz": "shar shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "These cherry tomatoes are almost perfectly spherical, like little red marbles.",
+   "gap": "spherical",
+   "alt": []
+  },
+  {
+   "id": "cubic",
+   "en": "cubic",
+   "uz": "kub (hajm o‘lchovi: m³)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The water tank on the roof holds two cubic metres, enough for the whole garden.",
+   "gap": "cubic",
+   "alt": []
+  },
+  {
+   "id": "pyramidal",
+   "en": "pyramidal",
+   "uz": "piramida shaklidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The tent had a pyramidal roof that rose to a sharp point above the middle pole.",
+   "gap": "pyramidal",
+   "alt": []
+  },
+  {
+   "id": "plus_sign",
+   "en": "plus",
+   "uz": "qo‘shuv (+)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Ask any first-year pupil: nine plus six makes fifteen.",
+   "gap": "plus",
+   "alt": []
+  },
+  {
+   "id": "minus",
+   "en": "minus",
+   "uz": "ayiruv (−)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "If you have twenty coins and spend eight, that's twenty minus eight, so you have twelve left.",
+   "gap": "minus",
+   "alt": []
+  },
+  {
+   "id": "equals",
+   "en": "equals",
+   "uz": "teng (=)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the board the teacher wrote that five times four equals twenty.",
+   "gap": "equals",
+   "alt": [
+    "equal",
+    "equalled"
+   ]
+  },
+  {
+   "id": "multiplied_by",
+   "en": "multiplied by",
+   "uz": "…ga ko‘paytirilgan (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Seven multiplied by three gives twenty-one.",
+   "gap": "multiplied by",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "square_shape",
+   "rectangle"
+  ],
+  [
+   "circle",
+   "semi_circle"
+  ],
+  [
+   "sphere",
+   "circle"
+  ],
+  [
+   "diameter",
+   "radius"
+  ],
+  [
+   "rectangular",
+   "oval"
+  ],
+  [
+   "circular",
+   "oval"
+  ],
+  [
+   "sphere",
+   "hemisphere"
+  ],
+  [
+   "diameter",
+   "circumference"
+  ],
+  [
+   "pyramid",
+   "triangle"
+  ],
+  [
+   "pyramid",
+   "triangular"
+  ],
+  [
+   "spiral",
+   "circular"
+  ],
+  [
+   "third_fraction",
+   "fifth_fraction"
+  ],
+  [
+   "over_fraction",
+   "divided_by"
+  ],
+  [
+   "celsius",
+   "fahrenheit"
+  ],
+  [
+   "degree_temp",
+   "per_cent"
+  ],
+  [
+   "two_dimensional",
+   "three_dimensional"
+  ],
+  [
+   "two_dimensional",
+   "rectangular"
+  ],
+  [
+   "spherical",
+   "circular"
+  ],
+  [
+   "spherical",
+   "oval"
+  ],
+  [
+   "spherical",
+   "sphere"
+  ],
+  [
+   "cubic",
+   "square_shape"
+  ],
+  [
+   "cubic",
+   "cube"
+  ],
+  [
+   "cubic",
+   "squared"
+  ],
+  [
+   "pyramidal",
+   "triangular"
+  ],
+  [
+   "pyramidal",
+   "pyramid"
+  ],
+  [
+   "pentagonal",
+   "pentagon"
+  ],
+  [
+   "octagonal",
+   "octagon"
+  ],
+  [
+   "octagonal",
+   "circular"
+  ],
+  [
+   "pentagonal",
+   "circular"
+  ],
+  [
+   "pentagonal",
+   "octagonal"
+  ],
+  [
+   "multiplied_by",
+   "times_multiplied"
+  ],
+  [
+   "plus_sign",
+   "times_multiplied"
+  ],
+  [
+   "minus",
+   "times_multiplied"
+  ],
+  [
+   "plus_sign",
+   "minus"
+  ],
+  [
+   "minus",
+   "subtraction"
+  ],
+  [
+   "plus_sign",
+   "addition"
+  ],
+  [
+   "multiplied_by",
+   "multiplication"
+  ],
+  [
+   "equals",
+   "times_multiplied"
+  ],
+  [
+   "by_dimension",
+   "times_multiplied"
+  ],
+  [
+   "digit",
+   "decimal_point"
+  ],
+  [
+   "decimal",
+   "decimal_point"
+  ]
+ ]
+}

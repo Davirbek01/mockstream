@@ -1,0 +1,470 @@
+{
+ "book": "preint",
+ "unit": 64,
+ "title": "Containers and quantities",
+ "title_uz": "Idishlar va miqdorlar",
+ "words": [
+  {
+   "id": "bag_of",
+   "en": "bag",
+   "uz": "sumka (xalta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please don't take plastic bags at the market; bring a cloth one from home.",
+   "gap": "bags",
+   "alt": [
+    "bags"
+   ]
+  },
+  {
+   "id": "bottle",
+   "en": "bottle",
+   "uz": "shisha (butilka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The baby drank all her milk from the bottle and fell asleep.",
+   "gap": "bottle",
+   "alt": [
+    "bottles"
+   ]
+  },
+  {
+   "id": "jar",
+   "en": "jar",
+   "uz": "shisha banka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mrs Saidova keeps her cherry jam in glass jars in the cupboard all winter.",
+   "gap": "jars",
+   "alt": [
+    "jars"
+   ]
+  },
+  {
+   "id": "bowl",
+   "en": "bowl",
+   "uz": "kosa",
+   "pos": "noun",
+   "img": true,
+   "ex": "She poured the hot soup into a deep bowl and gave me a spoon.",
+   "gap": "bowl",
+   "alt": [
+    "bowls"
+   ]
+  },
+  {
+   "id": "jug",
+   "en": "jug",
+   "uz": "ko‘za (suv idishi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Holding the jug by its handle, the waiter poured cold water into our glasses.",
+   "gap": "jug",
+   "alt": [
+    "jugs"
+   ]
+  },
+  {
+   "id": "box_of",
+   "en": "box",
+   "uz": "quti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feruza keeps all her old letters in a shoe box under her bed.",
+   "gap": "box",
+   "alt": [
+    "boxes"
+   ]
+  },
+  {
+   "id": "packet",
+   "en": "packet",
+   "uz": "pachka (paket)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tear open the packet of instant noodles and put them in boiling water.",
+   "gap": "packet",
+   "alt": [
+    "packets"
+   ]
+  },
+  {
+   "id": "can_drink",
+   "en": "can",
+   "uz": "banka (ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you shake a can of cola and then open it, it'll spray all over you.",
+   "gap": "can",
+   "alt": [
+    "cans"
+   ]
+  },
+  {
+   "id": "carton",
+   "en": "carton",
+   "uz": "karton quti (sut, sharbat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fold the empty juice carton flat before you put it in the recycling bin.",
+   "gap": "carton",
+   "alt": [
+    "cartons"
+   ]
+  },
+  {
+   "id": "tube",
+   "en": "tube",
+   "uz": "tyubik",
+   "pos": "noun",
+   "img": true,
+   "ex": "Squeeze a little paint out of the tube onto your palette.",
+   "gap": "tube",
+   "alt": [
+    "tubes"
+   ]
+  },
+  {
+   "id": "vase",
+   "en": "vase",
+   "uz": "guldon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cat knocked the glass vase off the table, and the roses fell on the floor.",
+   "gap": "vase",
+   "alt": [
+    "vases"
+   ]
+  },
+  {
+   "id": "tin",
+   "en": "tin",
+   "uz": "konserva bankasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We couldn't open the tin of tuna because nobody had brought an opener.",
+   "gap": "tin",
+   "alt": [
+    "tins"
+   ]
+  },
+  {
+   "id": "bar_of",
+   "en": "bar",
+   "uz": "plitka (shokolad, sovun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a new bar of soap next to the sink.",
+   "gap": "bar",
+   "alt": [
+    "bars"
+   ]
+  },
+  {
+   "id": "contents",
+   "en": "contents",
+   "uz": "ichidagi narsalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamol emptied the contents of his school bag onto the floor, looking for his keys.",
+   "gap": "contents",
+   "alt": []
+  },
+  {
+   "id": "drop",
+   "en": "drop",
+   "uz": "tomchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single drop of rain fell on my nose, and a minute later it was pouring.",
+   "gap": "drop",
+   "alt": [
+    "drops"
+   ]
+  },
+  {
+   "id": "slice",
+   "en": "slice",
+   "uz": "tilim (yupqa bo‘lak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Could you cut me a slice of watermelon, please? It looks so sweet!",
+   "gap": "slice",
+   "alt": [
+    "slices"
+   ]
+  },
+  {
+   "id": "bunch",
+   "en": "bunch",
+   "uz": "dasta (shingil, bog‘lam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chef bought a bunch of fresh coriander and dill for the salad.",
+   "gap": "bunch",
+   "alt": [
+    "bunches"
+   ]
+  },
+  {
+   "id": "sheet_paper",
+   "en": "sheet",
+   "uz": "varaq (qog‘oz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put a sheet of newspaper under the paint pots before you start.",
+   "gap": "sheet",
+   "alt": [
+    "sheets"
+   ]
+  },
+  {
+   "id": "pair",
+   "en": "pair",
+   "uz": "juft",
+   "pos": "noun",
+   "img": false,
+   "ex": "I need a new pair of trainers for PE lessons; my old ones are too small.",
+   "gap": "pair",
+   "alt": [
+    "pairs"
+   ]
+  },
+  {
+   "id": "dozen",
+   "en": "a dozen",
+   "uz": "o‘n ikkita (bir dyujina)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The baker gave us a dozen hot samsas, twelve of them, for the price of ten.",
+   "gap": "a dozen",
+   "alt": [
+    "dozen"
+   ]
+  },
+  {
+   "id": "half_a_dozen",
+   "en": "half a dozen",
+   "uz": "oltita (yarim dyujina)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Out of a box of twelve eggs, exactly half a dozen broke on the way home, so six are left.",
+   "gap": "half a dozen",
+   "alt": []
+  },
+  {
+   "id": "several",
+   "en": "several",
+   "uz": "bir nechta",
+   "pos": "determiner",
+   "img": false,
+   "ex": "We tried several shops, four or five of them, before we found the right size.",
+   "gap": "several",
+   "alt": []
+  },
+  {
+   "id": "spoonful",
+   "en": "spoonful",
+   "uz": "bir qoshiq (miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The medicine tastes awful, but the doctor said I must take one spoonful three times a day.",
+   "gap": "spoonful",
+   "alt": [
+    "spoonfuls"
+   ]
+  },
+  {
+   "id": "large_quantities",
+   "en": "in large quantities",
+   "uz": "katta miqdorda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new factory makes school notebooks in large quantities, thousands of them every day.",
+   "gap": "in large quantities",
+   "alt": []
+  },
+  {
+   "id": "juice",
+   "en": "juice",
+   "uz": "sharbat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Otabek squeezed six oranges to make a glass of fresh juice.",
+   "gap": "juice",
+   "alt": []
+  },
+  {
+   "id": "jam",
+   "en": "jam",
+   "uz": "murabbo",
+   "pos": "noun",
+   "img": true,
+   "ex": "Shirin spread apricot jam on a piece of warm toast.",
+   "gap": "jam",
+   "alt": []
+  },
+  {
+   "id": "sugar",
+   "en": "sugar",
+   "uz": "shakar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I take my coffee with milk and two lumps of sugar.",
+   "gap": "sugar",
+   "alt": []
+  },
+  {
+   "id": "water",
+   "en": "water",
+   "uz": "suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most fish can only live for a short time out of water.",
+   "gap": "water",
+   "alt": []
+  },
+  {
+   "id": "chocolate",
+   "en": "chocolate",
+   "uz": "shokolad",
+   "pos": "noun",
+   "img": true,
+   "ex": "This cake is made with dark chocolate, so it's brown and a little bitter.",
+   "gap": "chocolate",
+   "alt": [
+    "chocolates"
+   ]
+  },
+  {
+   "id": "biscuit",
+   "en": "biscuit",
+   "uz": "pechenye",
+   "pos": "noun",
+   "img": false,
+   "ex": "Iroda offered her guests tea and a plate of small, sweet, crunchy biscuits.",
+   "gap": "biscuits",
+   "alt": [
+    "biscuits"
+   ]
+  },
+  {
+   "id": "cola",
+   "en": "cola",
+   "uz": "qora rangli gazli ichimlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waiter brought a glass of cola with lots of ice; it was dark brown and full of bubbles.",
+   "gap": "cola",
+   "alt": []
+  },
+  {
+   "id": "flower",
+   "en": "flower",
+   "uz": "gul",
+   "pos": "noun",
+   "img": true,
+   "ex": "In spring the apricot trees are covered in pink flowers.",
+   "gap": "flowers",
+   "alt": [
+    "flowers"
+   ]
+  },
+  {
+   "id": "bread",
+   "en": "bread",
+   "uz": "non",
+   "pos": "noun",
+   "img": true,
+   "ex": "The baker takes the round loaves of bread out of the tandoor at six every morning.",
+   "gap": "bread",
+   "alt": []
+  },
+  {
+   "id": "cake",
+   "en": "cake",
+   "uz": "tort",
+   "pos": "noun",
+   "img": true,
+   "ex": "We put fifteen candles on the birthday cake for Shoira.",
+   "gap": "cake",
+   "alt": [
+    "cakes"
+   ]
+  },
+  {
+   "id": "banana",
+   "en": "banana",
+   "uz": "banan",
+   "pos": "noun",
+   "img": true,
+   "ex": "The monkey at the zoo held a long yellow banana and peeled it like a person.",
+   "gap": "banana",
+   "alt": [
+    "bananas"
+   ]
+  },
+  {
+   "id": "key",
+   "en": "key",
+   "uz": "kalit",
+   "pos": "noun",
+   "img": true,
+   "ex": "Daler couldn't open the front door because he had left his key at school.",
+   "gap": "key",
+   "alt": [
+    "keys"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "bag_of",
+   "box_of"
+  ],
+  [
+   "box_of",
+   "packet"
+  ],
+  [
+   "bottle",
+   "carton"
+  ],
+  [
+   "bottle",
+   "jug"
+  ],
+  [
+   "bottle",
+   "can_drink"
+  ],
+  [
+   "can_drink",
+   "tin"
+  ],
+  [
+   "jar",
+   "tin"
+  ],
+  [
+   "drop",
+   "spoonful"
+  ],
+  [
+   "dozen",
+   "half_a_dozen"
+  ],
+  [
+   "bar_of",
+   "box_of"
+  ],
+  [
+   "carton",
+   "jug"
+  ],
+  [
+   "bag_of",
+   "packet"
+  ]
+ ]
+}

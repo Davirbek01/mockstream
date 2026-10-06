@@ -1,0 +1,420 @@
+{
+ "book": "upper",
+ "unit": 59,
+ "title": "Texture, brightness, weight and density",
+ "title_uz": "Sirt, yorqinlik, og‘irlik va zichlik",
+ "words": [
+  {
+   "id": "smooth",
+   "en": "smooth",
+   "uz": "silliq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Over hundreds of years, the river has worn the pebbles on its bank perfectly smooth.",
+   "gap": "smooth",
+   "alt": []
+  },
+  {
+   "id": "polished",
+   "en": "polished",
+   "uz": "jilolangan, sayqallangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The wooden floor of the school hall was so highly polished that you could see your reflection in it.",
+   "gap": "polished",
+   "alt": []
+  },
+  {
+   "id": "silky",
+   "en": "silky",
+   "uz": "ipakdek mayin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new scarf from Margilan feels cool and silky against your skin.",
+   "gap": "silky",
+   "alt": []
+  },
+  {
+   "id": "slippery",
+   "en": "slippery",
+   "uz": "sirpanchiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I dropped the bar of soap twice; it was too slippery to hold with wet hands.",
+   "gap": "slippery",
+   "alt": []
+  },
+  {
+   "id": "furry",
+   "en": "furry",
+   "uz": "qalin junli, paxmoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour's Persian cat is so furry that it looks like a big ball of wool.",
+   "gap": "furry",
+   "alt": []
+  },
+  {
+   "id": "rough_texture",
+   "en": "rough",
+   "uz": "g‘adir-budir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old fortress wall was rough and uneven under my hand.",
+   "gap": "rough",
+   "alt": []
+  },
+  {
+   "id": "coarse",
+   "en": "coarse",
+   "uz": "dag‘al, yirik donali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This bread is made from coarse flour, so you can feel little bits of grain in every bite.",
+   "gap": "coarse",
+   "alt": []
+  },
+  {
+   "id": "jagged",
+   "en": "jagged",
+   "uz": "o‘tkir, tishli-qirrali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Above the valley rose a line of jagged mountain peaks.",
+   "gap": "jagged",
+   "alt": []
+  },
+  {
+   "id": "prickly",
+   "en": "prickly",
+   "uz": "tikanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wear gloves when you pick blackberries; the bushes are very prickly.",
+   "gap": "prickly",
+   "alt": []
+  },
+  {
+   "id": "shady",
+   "en": "shady",
+   "uz": "soya-salqin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On hot afternoons our cat finds a shady spot in the yard and sleeps there until evening.",
+   "gap": "shady",
+   "alt": []
+  },
+  {
+   "id": "dazzling",
+   "en": "dazzling",
+   "uz": "ko‘zni qamashtiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When we came out of the dark cinema into the dazzling midday sun, we had to shut our eyes for a moment.",
+   "gap": "dazzling",
+   "alt": []
+  },
+  {
+   "id": "shiny",
+   "en": "shiny",
+   "uz": "yaltiroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A magpie flew down and stole a shiny teaspoon from our table on the terrace.",
+   "gap": "shiny",
+   "alt": []
+  },
+  {
+   "id": "dull_colour",
+   "en": "dull",
+   "uz": "xira, ko‘rimsiz (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The walls of the waiting room were painted a dull grey that made everyone feel tired.",
+   "gap": "dull",
+   "alt": []
+  },
+  {
+   "id": "bright_colour",
+   "en": "bright",
+   "uz": "yorqin (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new playground near our school is painted in bright colours: red, yellow and blue.",
+   "gap": "bright",
+   "alt": []
+  },
+  {
+   "id": "glare",
+   "en": "glare",
+   "uz": "ko‘zga tik uriladigan nur (quyosh, qor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The glare from the fresh snow was so strong that we could hardly open our eyes.",
+   "gap": "glare",
+   "alt": []
+  },
+  {
+   "id": "hollow",
+   "en": "hollow",
+   "uz": "ichi bo‘sh, kovak",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old walnut tree in the park is hollow inside, and an owl lives in it.",
+   "gap": "hollow",
+   "alt": []
+  },
+  {
+   "id": "thick_hair",
+   "en": "thick",
+   "uz": "qalin (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Aziza has such thick hair that it takes her almost an hour to dry it.",
+   "gap": "thick",
+   "alt": []
+  },
+  {
+   "id": "fine_hair",
+   "en": "fine",
+   "uz": "ingichka, mayin (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My baby niece's hair is still so fine and soft that you can hardly see it.",
+   "gap": "fine",
+   "alt": []
+  },
+  {
+   "id": "dense",
+   "en": "dense",
+   "uz": "zich, qalin (o‘simlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bushes along the river were so dense that we couldn't push our way through.",
+   "gap": "dense",
+   "alt": []
+  },
+  {
+   "id": "sparse",
+   "en": "sparse",
+   "uz": "siyrak (o‘simlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the road through the desert, the grass was so sparse that you could see sand between every plant.",
+   "gap": "sparse",
+   "alt": []
+  },
+  {
+   "id": "light_weight",
+   "en": "light",
+   "uz": "yengil (vazni)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This new bike is so light that I can carry it up to the fourth floor with one hand.",
+   "gap": "light",
+   "alt": []
+  },
+  {
+   "id": "heavy_weight",
+   "en": "heavy",
+   "uz": "og‘ir (vazni)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The suitcase weighed 28 kilos, far too heavy for the airline's 23-kilo limit.",
+   "gap": "heavy",
+   "alt": []
+  },
+  {
+   "id": "bulky",
+   "en": "bulky",
+   "uz": "katta, ko‘p joy oladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new fridge was too bulky to fit in the lift, so the delivery men carried it up six floors.",
+   "gap": "bulky",
+   "alt": []
+  },
+  {
+   "id": "cumbersome",
+   "en": "cumbersome",
+   "uz": "beso‘naqay, ko‘tarish noqulay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Old video cameras were big and cumbersome, but now a phone can film in high quality.",
+   "gap": "cumbersome",
+   "alt": []
+  },
+  {
+   "id": "feel_touch",
+   "en": "feel",
+   "uz": "(ushlaganda) sezilishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I love the soft feel of a new wool jumper.",
+   "gap": "feel",
+   "alt": []
+  },
+  {
+   "id": "to_the_touch",
+   "en": "to the touch",
+   "uz": "ushlab ko‘rganda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The radiator was still warm to the touch an hour after the heating went off.",
+   "gap": "to the touch",
+   "alt": []
+  },
+  {
+   "id": "surface",
+   "en": "surface",
+   "uz": "sirt, yuza",
+   "pos": "noun",
+   "img": false,
+   "ex": "Wipe the surface of the desk with a damp cloth before you paint on it.",
+   "gap": "surface",
+   "alt": [
+    "surfaces"
+   ]
+  },
+  {
+   "id": "underfoot",
+   "en": "underfoot",
+   "uz": "oyoq ostida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The mountain path was icy underfoot, so we walked very carefully.",
+   "gap": "underfoot",
+   "alt": []
+  },
+  {
+   "id": "thin_hair",
+   "en": "thin",
+   "uz": "siyraklashgan, yupqa (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As he got older, the actor's hair became thin on top, so he started wearing hats.",
+   "gap": "thin",
+   "alt": []
+  },
+  {
+   "id": "as_heavy_as_lead",
+   "en": "as heavy as lead",
+   "uz": "qo‘rg‘oshindek og‘ir",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the long hike in the rain, my wet boots felt as heavy as lead.",
+   "gap": "as heavy as lead",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "smooth",
+   "polished"
+  ],
+  [
+   "smooth",
+   "silky"
+  ],
+  [
+   "smooth",
+   "slippery"
+  ],
+  [
+   "rough_texture",
+   "coarse"
+  ],
+  [
+   "rough_texture",
+   "jagged"
+  ],
+  [
+   "dazzling",
+   "bright_colour"
+  ],
+  [
+   "dazzling",
+   "glare"
+  ],
+  [
+   "shiny",
+   "polished"
+  ],
+  [
+   "thick_hair",
+   "dense"
+  ],
+  [
+   "thick_hair",
+   "fine_hair"
+  ],
+  [
+   "bulky",
+   "cumbersome"
+  ],
+  [
+   "light_weight",
+   "heavy_weight"
+  ],
+  [
+   "fine_hair",
+   "sparse"
+  ],
+  [
+   "fine_hair",
+   "light_weight"
+  ],
+  [
+   "cumbersome",
+   "heavy_weight"
+  ],
+  [
+   "furry",
+   "thick_hair"
+  ],
+  [
+   "silky",
+   "fine_hair"
+  ],
+  [
+   "feel_touch",
+   "surface"
+  ],
+  [
+   "underfoot",
+   "to_the_touch"
+  ],
+  [
+   "thin_hair",
+   "fine_hair"
+  ],
+  [
+   "thin_hair",
+   "sparse"
+  ],
+  [
+   "thin_hair",
+   "thick_hair"
+  ],
+  [
+   "as_heavy_as_lead",
+   "heavy_weight"
+  ],
+  [
+   "as_heavy_as_lead",
+   "light_weight"
+  ],
+  [
+   "as_heavy_as_lead",
+   "bulky"
+  ],
+  [
+   "as_heavy_as_lead",
+   "cumbersome"
+  ],
+  [
+   "as_heavy_as_lead",
+   "hollow"
+  ]
+ ]
+}

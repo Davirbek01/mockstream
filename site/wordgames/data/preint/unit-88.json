@@ -1,0 +1,252 @@
+{
+ "book": "preint",
+ "unit": 88,
+ "title": "Verb constructions 2",
+ "title_uz": "Fe’l qurilmalari 2",
+ "words": [
+  {
+   "id": "opportunity",
+   "en": "opportunity",
+   "uz": "qulay imkoniyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The summer camp is a great opportunity to practise your English with students from other countries.",
+   "gap": "opportunity",
+   "alt": [
+    "opportunities"
+   ]
+  },
+  {
+   "id": "persuade",
+   "en": "persuade",
+   "uz": "ko‘ndirmoq (uzoq gapirib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took me an hour to persuade my brother to lend me his bike.",
+   "gap": "persuade",
+   "alt": [
+    "persuades",
+    "persuaded"
+   ]
+  },
+  {
+   "id": "warn",
+   "en": "warn",
+   "uz": "ogohlantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the hike, the guide warned us about the dangerous snakes near the river, so everyone watched their step.",
+   "gap": "warned",
+   "alt": [
+    "warns",
+    "warned"
+   ]
+  },
+  {
+   "id": "remind",
+   "en": "remind",
+   "uz": "esiga solmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you remind me to return my library books on Friday? I always forget.",
+   "gap": "remind",
+   "alt": [
+    "reminds",
+    "reminded"
+   ]
+  },
+  {
+   "id": "realise",
+   "en": "realise",
+   "uz": "anglab yetmoq (tushunib qolmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At first I didn't understand the joke, but then I realised what he meant.",
+   "gap": "realised",
+   "alt": [
+    "realises",
+    "realised",
+    "realize",
+    "realized"
+   ]
+  },
+  {
+   "id": "mention",
+   "en": "mention",
+   "uz": "gap orasida aytib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In her email, Nigora mentioned that she had a new job, but she didn't say where.",
+   "gap": "mentioned",
+   "alt": [
+    "mentions",
+    "mentioned"
+   ]
+  },
+  {
+   "id": "notice_v",
+   "en": "notice",
+   "uz": "payqab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Did you notice the new paintings when you walked down the school corridor this morning?",
+   "gap": "notice",
+   "alt": [
+    "notices",
+    "noticed"
+   ]
+  },
+  {
+   "id": "expect",
+   "en": "expect",
+   "uz": "kutmoq (shunday bo‘lishiga ishonmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I expect the bus will be late again because of the snow.",
+   "gap": "expect",
+   "alt": [
+    "expects",
+    "expected"
+   ]
+  },
+  {
+   "id": "convince",
+   "en": "convince",
+   "uz": "ishontirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Behruz convinced me that the film was worth seeing, so I bought a ticket.",
+   "gap": "convinced",
+   "alt": [
+    "convinces",
+    "convinced"
+   ]
+  },
+  {
+   "id": "encourage",
+   "en": "encourage",
+   "uz": "ruhlantirmoq (dalda bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our teacher always encourages us to ask questions when we don't understand something.",
+   "gap": "encourages",
+   "alt": [
+    "encourages",
+    "encouraged"
+   ]
+  },
+  {
+   "id": "tell_obj",
+   "en": "tell",
+   "uz": "(…ni qilishni) buyurmoq, aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus driver told us to move to the back because the bus was getting full.",
+   "gap": "told",
+   "alt": [
+    "tells",
+    "told"
+   ]
+  },
+  {
+   "id": "ask_obj",
+   "en": "ask",
+   "uz": "(…ni qilishni) iltimos qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My classmate asked me to keep her seat while she went to get a drink.",
+   "gap": "asked",
+   "alt": [
+    "asks",
+    "asked"
+   ]
+  },
+  {
+   "id": "say_that",
+   "en": "say",
+   "uz": "aytmoq (so‘z bilan bildirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I phoned the dentist, the receptionist said, 'Sorry, we have no free appointments until Thursday.'",
+   "gap": "said",
+   "alt": [
+    "says",
+    "said"
+   ]
+  },
+  {
+   "id": "show_obj",
+   "en": "show",
+   "uz": "ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Come and sit down; let me show you the photos from our trip to the mountains.",
+   "gap": "show",
+   "alt": [
+    "shows",
+    "showed",
+    "shown"
+   ]
+  },
+  {
+   "id": "want_obj",
+   "en": "want",
+   "uz": "xohlamoq (istamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Do you want me to open the window? It's quite hot in here.",
+   "gap": "want",
+   "alt": [
+    "wants",
+    "wanted"
+   ]
+  },
+  {
+   "id": "help_obj",
+   "en": "help",
+   "uz": "yordam bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you help me carry these chairs into the hall?",
+   "gap": "help",
+   "alt": [
+    "helps",
+    "helped"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "persuade",
+   "convince"
+  ],
+  [
+   "tell_obj",
+   "ask_obj"
+  ],
+  [
+   "warn",
+   "tell_obj"
+  ],
+  [
+   "warn",
+   "remind"
+  ],
+  [
+   "convince",
+   "tell_obj"
+  ],
+  [
+   "say_that",
+   "mention"
+  ],
+  [
+   "want_obj",
+   "encourage"
+  ],
+  [
+   "want_obj",
+   "expect"
+  ]
+ ]
+}

@@ -1,0 +1,439 @@
+{
+ "book": "preint",
+ "unit": 45,
+ "title": "Special events",
+ "title_uz": "Bayramlar va maxsus tadbirlar",
+ "words": [
+  {
+   "id": "fireworks",
+   "en": "fireworks",
+   "uz": "mushak (salyut)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our dog hides under the bed every time it hears fireworks outside.",
+   "gap": "fireworks",
+   "alt": [
+    "firework"
+   ]
+  },
+  {
+   "id": "display",
+   "en": "display",
+   "uz": "namoyish (tomosha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of families came to the park on Independence Day to watch the fireworks display.",
+   "gap": "display",
+   "alt": [
+    "displays"
+   ]
+  },
+  {
+   "id": "be_held",
+   "en": "be held",
+   "uz": "o‘tkazilmoq (tashkil etilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our city's book fair is held every September at the exhibition centre.",
+   "gap": "is held",
+   "alt": [
+    "is held",
+    "was held",
+    "are held",
+    "were held"
+   ]
+  },
+  {
+   "id": "gather",
+   "en": "gather",
+   "uz": "to‘planmoq (yig‘ilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After lessons, the pupils gather in the school yard to practise their dance for the spring concert.",
+   "gap": "gather",
+   "alt": [
+    "gathers",
+    "gathered",
+    "gathering"
+   ]
+  },
+  {
+   "id": "harbour",
+   "en": "harbour",
+   "uz": "bandargoh (kemalar turadigan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the sea is too rough, the fishing boats stay safely in the harbour.",
+   "gap": "harbour",
+   "alt": [
+    "harbours",
+    "harbor"
+   ]
+  },
+  {
+   "id": "parade",
+   "en": "parade",
+   "uz": "tantanali yurish qilmoq (parad)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the last day of the festival, dancers in bright costumes parade through the main square.",
+   "gap": "parade",
+   "alt": [
+    "parades",
+    "paraded",
+    "parading"
+   ]
+  },
+  {
+   "id": "spectacular",
+   "en": "spectacular",
+   "uz": "ko‘zni qamashtiradigan (hayratli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The laser show at the end of the evening was spectacular: the whole crowd shouted 'Wow!'",
+   "gap": "spectacular",
+   "alt": []
+  },
+  {
+   "id": "light_up",
+   "en": "light up",
+   "uz": "yoritib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When it got dark, thousands of small lanterns lit up the streets of the old town.",
+   "gap": "lit up",
+   "alt": [
+    "lights up",
+    "lit up",
+    "lighting up"
+   ]
+  },
+  {
+   "id": "new_years_eve",
+   "en": "New Year's Eve",
+   "uz": "Yangi yil arafasi (31-dekabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On New Year's Eve we stay up until midnight and watch the clock change to the first of January.",
+   "gap": "New Year's Eve",
+   "alt": []
+  },
+  {
+   "id": "age_group",
+   "en": "age group",
+   "uz": "yosh guruhi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fun run is open to every age group, from six-year-olds to pensioners.",
+   "gap": "age group",
+   "alt": [
+    "age groups"
+   ]
+  },
+  {
+   "id": "festival",
+   "en": "festival",
+   "uz": "festival (bir necha kunlik bayram)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our town's summer festival lasts three days, with music, dancing and food stalls in every street.",
+   "gap": "festival",
+   "alt": [
+    "festivals"
+   ]
+  },
+  {
+   "id": "annual",
+   "en": "annual",
+   "uz": "har yilgi (yilda bir marta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school holds its annual science fair every May, and this year is the tenth one.",
+   "gap": "annual",
+   "alt": []
+  },
+  {
+   "id": "take_place",
+   "en": "take place",
+   "uz": "bo‘lib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school football final will take place on Saturday at the new stadium.",
+   "gap": "take place",
+   "alt": [
+    "takes place",
+    "took place",
+    "taken place",
+    "taking place"
+   ]
+  },
+  {
+   "id": "popular",
+   "en": "popular",
+   "uz": "ommabop (ko‘pchilikka yoqadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ice cream stalls are always popular at the summer festival; the queues are huge.",
+   "gap": "popular",
+   "alt": []
+  },
+  {
+   "id": "up_to",
+   "en": "up to",
+   "uz": "…gacha (eng ko‘pi bilan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The concert hall can hold up to 2,000 people, but tonight it's only half full.",
+   "gap": "up to",
+   "alt": []
+  },
+  {
+   "id": "performance",
+   "en": "performance",
+   "uz": "spektakl (sahnadagi chiqish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are three performances of the school play: on Friday, Saturday and Sunday.",
+   "gap": "performances",
+   "alt": [
+    "performances"
+   ]
+  },
+  {
+   "id": "all_over",
+   "en": "all over",
+   "uz": "hamma joyidan (har tomonidan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Young actors from all over the region came to Karshi for the theatre festival.",
+   "gap": "all over",
+   "alt": []
+  },
+  {
+   "id": "dress_up",
+   "en": "dress up",
+   "uz": "bayramona kiyinmoq / yasanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the last day of term, our teachers dress up as cartoon characters just for fun.",
+   "gap": "dress up",
+   "alt": [
+    "dresses up",
+    "dressed up",
+    "dressing up"
+   ]
+  },
+  {
+   "id": "custom",
+   "en": "custom",
+   "uz": "odat (urf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Offering tea to every guest who comes in is a custom in many Uzbek homes.",
+   "gap": "custom",
+   "alt": [
+    "customs"
+   ]
+  },
+  {
+   "id": "tradition",
+   "en": "tradition",
+   "uz": "an’ana (qadimiy odat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Making sumalak at Navruz is a tradition that goes back hundreds of years.",
+   "gap": "tradition",
+   "alt": [
+    "traditions"
+   ]
+  },
+  {
+   "id": "traditional",
+   "en": "traditional",
+   "uz": "an’anaviy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the festival, the girls wore traditional atlas dresses made by local weavers.",
+   "gap": "traditional",
+   "alt": []
+  },
+  {
+   "id": "customary",
+   "en": "customary",
+   "uz": "odat bo‘yicha qabul qilingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In our mahalla it is customary to stand up when an older person comes into the room.",
+   "gap": "customary",
+   "alt": []
+  },
+  {
+   "id": "luck",
+   "en": "luck",
+   "uz": "omad",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the final, the coach shook each player's hand and wished them good luck.",
+   "gap": "luck",
+   "alt": []
+  },
+  {
+   "id": "event",
+   "en": "event",
+   "uz": "tadbir (voqea)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For our younger pupils, sports day is the biggest event of the whole school year.",
+   "gap": "event",
+   "alt": [
+    "events"
+   ]
+  },
+  {
+   "id": "envelope",
+   "en": "envelope",
+   "uz": "konvert",
+   "pos": "noun",
+   "img": true,
+   "ex": "I wrote the address on the envelope, stuck a stamp in the corner and posted the letter.",
+   "gap": "envelope",
+   "alt": [
+    "envelopes"
+   ]
+  },
+  {
+   "id": "be_involved",
+   "en": "be involved",
+   "uz": "jalb qilingan bo‘lmoq (qatnashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Over two hundred volunteers were involved in organising the city marathon.",
+   "gap": "involved",
+   "alt": [
+    "involved",
+    "is involved",
+    "are involved",
+    "was involved",
+    "were involved"
+   ]
+  },
+  {
+   "id": "arts_festival",
+   "en": "arts festival",
+   "uz": "san’at festivali",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town's arts festival has painting workshops, theatre shows and poetry readings for a whole week.",
+   "gap": "arts festival",
+   "alt": [
+    "arts festivals"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "be_held",
+   "take_place"
+  ],
+  [
+   "spectacular",
+   "popular"
+  ],
+  [
+   "annual",
+   "popular"
+  ],
+  [
+   "traditional",
+   "popular"
+  ],
+  [
+   "custom",
+   "tradition"
+  ],
+  [
+   "traditional",
+   "customary"
+  ],
+  [
+   "festival",
+   "event"
+  ],
+  [
+   "display",
+   "performance"
+  ],
+  [
+   "gather",
+   "dress_up"
+  ],
+  [
+   "gather",
+   "parade"
+  ],
+  [
+   "concert",
+   "festival"
+  ],
+  [
+   "concert",
+   "event"
+  ],
+  [
+   "concert",
+   "performance"
+  ],
+  [
+   "display",
+   "festival"
+  ],
+  [
+   "annual",
+   "traditional"
+  ],
+  [
+   "dress_up",
+   "parade"
+  ],
+  [
+   "annual",
+   "spectacular"
+  ],
+  [
+   "fireworks",
+   "display"
+  ],
+  [
+   "fireworks",
+   "harbour"
+  ],
+  [
+   "fireworks",
+   "new_years_eve"
+  ],
+  [
+   "fireworks",
+   "light_up"
+  ],
+  [
+   "fireworks",
+   "spectacular"
+  ],
+  [
+   "traditional",
+   "spectacular"
+  ],
+  [
+   "festival",
+   "arts_festival"
+  ],
+  [
+   "event",
+   "arts_festival"
+  ],
+  [
+   "concert",
+   "arts_festival"
+  ]
+ ]
+}

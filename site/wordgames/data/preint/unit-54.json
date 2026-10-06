@@ -1,0 +1,822 @@
+{
+ "book": "preint",
+ "unit": 54,
+ "title": "Computers",
+ "title_uz": "Kompyuterlar",
+ "words": [
+  {
+   "id": "webcam",
+   "en": "webcam",
+   "uz": "kompyuter kamerasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "In online lessons the teacher asks us to turn on our webcams so she can see our faces.",
+   "gap": "webcams",
+   "alt": [
+    "webcams"
+   ]
+  },
+  {
+   "id": "microphone",
+   "en": "microphone",
+   "uz": "mikrofon",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can see you, but I can't hear you. Is your microphone on?",
+   "gap": "microphone",
+   "alt": [
+    "microphones"
+   ]
+  },
+  {
+   "id": "screen",
+   "en": "screen",
+   "uz": "ekran",
+   "pos": "noun",
+   "img": false,
+   "ex": "I dropped my phone, and now there's a long crack across the screen, right over the clock.",
+   "gap": "screen",
+   "alt": [
+    "screens"
+   ]
+  },
+  {
+   "id": "spacebar",
+   "en": "spacebar",
+   "uz": "probel tugmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The spacebar on this old keyboard is broken, so all my words come out joined together.",
+   "gap": "spacebar",
+   "alt": []
+  },
+  {
+   "id": "escape_key",
+   "en": "Escape key",
+   "uz": "chiqish tugmasi (klaviaturada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If a video is playing full-screen, press the Escape key to make it small again.",
+   "gap": "Escape key",
+   "alt": [
+    "escape key"
+   ]
+  },
+  {
+   "id": "computer_mouse",
+   "en": "mouse",
+   "uz": "sichqoncha (kompyuter)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My laptop has a touchpad, but I prefer to use a mouse with a long cable.",
+   "gap": "mouse",
+   "alt": [
+    "mice"
+   ]
+  },
+  {
+   "id": "mouse_mat",
+   "en": "mouse mat",
+   "uz": "sichqoncha gilamchasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a map of Uzbekistan printed on my new mouse mat.",
+   "gap": "mouse mat",
+   "alt": [
+    "mouse mats"
+   ]
+  },
+  {
+   "id": "memory_stick",
+   "en": "memory stick",
+   "uz": "fleshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "I saved my presentation on a memory stick and carried it to school in my pocket.",
+   "gap": "memory stick",
+   "alt": [
+    "memory sticks"
+   ]
+  },
+  {
+   "id": "log_in",
+   "en": "log in",
+   "uz": "tizimga kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Each student must log in to the school website to see their homework marks.",
+   "gap": "log in",
+   "alt": [
+    "logs in",
+    "logged in",
+    "logging in",
+    "log on"
+   ]
+  },
+  {
+   "id": "log_out",
+   "en": "log out",
+   "uz": "tizimdan chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Always log out when you use a computer in the library, so the next person can't read your messages.",
+   "gap": "log out",
+   "alt": [
+    "logs out",
+    "logged out",
+    "logging out",
+    "log off"
+   ]
+  },
+  {
+   "id": "username",
+   "en": "username",
+   "uz": "foydalanuvchi nomi (login)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My username for the school system is my surname and my class: rashidova9b.",
+   "gap": "username",
+   "alt": [
+    "usernames"
+   ]
+  },
+  {
+   "id": "password",
+   "en": "password",
+   "uz": "parol",
+   "pos": "noun",
+   "img": false,
+   "ex": "I typed the wrong password three times, so the website locked my account for an hour.",
+   "gap": "password",
+   "alt": [
+    "passwords"
+   ]
+  },
+  {
+   "id": "double_click",
+   "en": "double-click",
+   "uz": "ikki marta bosmoq (sichqonchada)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To open the game, double-click on the little picture of a racing car.",
+   "gap": "double-click",
+   "alt": [
+    "double-clicks",
+    "double-clicked",
+    "double-clicking"
+   ]
+  },
+  {
+   "id": "icon",
+   "en": "icon",
+   "uz": "belgi (ikonka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To print the page, click the small icon that looks like a printer.",
+   "gap": "icon",
+   "alt": [
+    "icons"
+   ]
+  },
+  {
+   "id": "application",
+   "en": "application",
+   "uz": "ilova (dastur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle has a banking application on his phone, so he can pay his bills without going to the bank.",
+   "gap": "application",
+   "alt": [
+    "applications"
+   ]
+  },
+  {
+   "id": "store",
+   "en": "store",
+   "uz": "saqlab turmoq (ko‘p ma’lumotni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school's computer stores every student's marks from the last ten years.",
+   "gap": "stores",
+   "alt": [
+    "stores",
+    "stored",
+    "storing"
+   ]
+  },
+  {
+   "id": "back_up",
+   "en": "back up",
+   "uz": "zaxira nusxa olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahlo lost her whole project when her laptop broke, because she had never backed up her files.",
+   "gap": "backed up",
+   "alt": [
+    "backs up",
+    "backed up",
+    "backing up"
+   ]
+  },
+  {
+   "id": "create",
+   "en": "create",
+   "uz": "yaratmoq (yangi hujjat, sayt)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the IT lesson we learned how to create a simple website for our class.",
+   "gap": "create",
+   "alt": [
+    "creates",
+    "created",
+    "creating"
+   ]
+  },
+  {
+   "id": "document",
+   "en": "document",
+   "uz": "hujjat (fayl)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Open a new document and type the title of your essay at the top.",
+   "gap": "document",
+   "alt": [
+    "documents"
+   ]
+  },
+  {
+   "id": "copy",
+   "en": "copy",
+   "uz": "nusxa olmoq (kopiya qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can copy your friend's email address from her message instead of typing it all again.",
+   "gap": "copy",
+   "alt": [
+    "copies",
+    "copied",
+    "copying"
+   ]
+  },
+  {
+   "id": "paste",
+   "en": "paste",
+   "uz": "joylashtirmoq (qo‘yib qo‘ymoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After copying the photo, paste it into your presentation on slide three.",
+   "gap": "paste",
+   "alt": [
+    "pastes",
+    "pasted",
+    "pasting"
+   ]
+  },
+  {
+   "id": "save",
+   "en": "save",
+   "uz": "saqlamoq (faylni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The power went off for a second, and the essay I was typing disappeared because I hadn't saved it.",
+   "gap": "saved",
+   "alt": [
+    "saves",
+    "saved",
+    "saving"
+   ]
+  },
+  {
+   "id": "print_out",
+   "en": "print out",
+   "uz": "chop etmoq (qog‘ozga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you print out two copies of the train tickets for our trip to Qarshi?",
+   "gap": "print out",
+   "alt": [
+    "prints out",
+    "printed out",
+    "printing out"
+   ]
+  },
+  {
+   "id": "printout",
+   "en": "printout",
+   "uz": "chop etilgan nusxa (qog‘ozda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher wants a printout of our essay on her desk, not just an email.",
+   "gap": "printout",
+   "alt": [
+    "printouts"
+   ]
+  },
+  {
+   "id": "crash_computer",
+   "en": "crash",
+   "uz": "qotib qolmoq (kompyuter)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My computer crashed in the middle of the online test, and I had to start again.",
+   "gap": "crashed",
+   "alt": [
+    "crashes",
+    "crashed",
+    "crashing"
+   ]
+  },
+  {
+   "id": "exit",
+   "en": "exit",
+   "uz": "chiqmoq (dasturdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When you finish the game, exit properly before you turn off the computer.",
+   "gap": "exit",
+   "alt": [
+    "exits",
+    "exited",
+    "exiting"
+   ]
+  },
+  {
+   "id": "pc",
+   "en": "PC",
+   "uz": "shaxsiy kompyuter (stol usti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school library has six PCs on the desks by the window, but you can't take them home.",
+   "gap": "PCs",
+   "alt": [
+    "PCs"
+   ]
+  },
+  {
+   "id": "laptop",
+   "en": "laptop",
+   "uz": "noutbuk",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laziz takes his laptop to the café near his university and does his homework there.",
+   "gap": "laptop",
+   "alt": [
+    "laptops"
+   ]
+  },
+  {
+   "id": "hard_drive",
+   "en": "hard drive",
+   "uz": "qattiq disk",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hard drive of my old computer is almost full: there's no space for new games.",
+   "gap": "hard drive",
+   "alt": [
+    "hard drives",
+    "hard disk"
+   ]
+  },
+  {
+   "id": "operating_system",
+   "en": "operating system",
+   "uz": "operatsion tizim",
+   "pos": "noun",
+   "img": false,
+   "ex": "After my uncle updated the operating system, all the menus on his computer looked different.",
+   "gap": "operating system",
+   "alt": [
+    "operating systems"
+   ]
+  },
+  {
+   "id": "install",
+   "en": "install",
+   "uz": "o‘rnatmoq (dasturni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the online lesson, you need to install the video app on your laptop.",
+   "gap": "install",
+   "alt": [
+    "installs",
+    "installed",
+    "installing"
+   ]
+  },
+  {
+   "id": "software",
+   "en": "software",
+   "uz": "dasturiy ta’minot",
+   "pos": "noun",
+   "img": false,
+   "ex": "This drawing software is free for students and teachers.",
+   "gap": "software",
+   "alt": []
+  },
+  {
+   "id": "virus",
+   "en": "virus",
+   "uz": "zararli dastur (kompyuterga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A virus got into the office computer and deleted all the photos from the New Year party.",
+   "gap": "virus",
+   "alt": [
+    "viruses"
+   ]
+  },
+  {
+   "id": "anti_virus_software",
+   "en": "anti-virus software",
+   "uz": "antivirus dasturi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep your anti-virus software up to date to protect your computer.",
+   "gap": "anti-virus software",
+   "alt": []
+  },
+  {
+   "id": "cd_rom",
+   "en": "CD-ROM",
+   "uz": "kompakt disk (faqat o‘qiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old encyclopedia came on a CD-ROM, but my new laptop doesn't have a slot for discs.",
+   "gap": "CD-ROM",
+   "alt": [
+    "CD-ROMs"
+   ]
+  },
+  {
+   "id": "enter_password",
+   "en": "enter",
+   "uz": "kiritmoq (parol, ma’lumot)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To unlock the tablet, you have to enter a four-digit code.",
+   "gap": "enter",
+   "alt": [
+    "enters",
+    "entered",
+    "entering"
+   ]
+  },
+  {
+   "id": "backup",
+   "en": "backup",
+   "uz": "zaxira nusxa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the update, the technician made a backup of all the photos on my phone.",
+   "gap": "backup",
+   "alt": [
+    "backups"
+   ]
+  },
+  {
+   "id": "open_file",
+   "en": "open",
+   "uz": "ochmoq (faylni, papkani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Click on the folder to open it and see all the photos inside.",
+   "gap": "open",
+   "alt": [
+    "opens",
+    "opened",
+    "opening"
+   ]
+  },
+  {
+   "id": "cut_text",
+   "en": "cut",
+   "uz": "qirqib olmoq (matn, rasmni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you cut the paragraph instead of copying it, it disappears from the first page.",
+   "gap": "cut",
+   "alt": [
+    "cuts",
+    "cutting"
+   ]
+  },
+  {
+   "id": "select",
+   "en": "select",
+   "uz": "tanlamoq (belgilab olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To make the title bigger, select it with the mouse and change the size.",
+   "gap": "select",
+   "alt": [
+    "selects",
+    "selected",
+    "selecting"
+   ]
+  },
+  {
+   "id": "menu_computer",
+   "en": "menu",
+   "uz": "buyruqlar ro‘yxati (dastur oynasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To print the page, open the File menu at the top of the screen and click Print.",
+   "gap": "menu",
+   "alt": [
+    "menus"
+   ]
+  },
+  {
+   "id": "hard_copy",
+   "en": "hard copy",
+   "uz": "qog‘ozdagi nusxa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank wanted a hard copy of my passport, not a photo on my phone.",
+   "gap": "hard copy",
+   "alt": [
+    "hard copies"
+   ]
+  },
+  {
+   "id": "program_computer",
+   "en": "program",
+   "uz": "kompyuter dasturi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother wrote a small program that tells him when his plants need water.",
+   "gap": "program",
+   "alt": [
+    "programs"
+   ]
+  },
+  {
+   "id": "run_software",
+   "en": "run",
+   "uz": "ishga tushirmoq (dasturni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "This old laptop is too slow to run the new video games.",
+   "gap": "run",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "computer_file",
+   "en": "file",
+   "uz": "fayl (kompyuterdagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher emailed us one big file with all the exam questions in it.",
+   "gap": "file",
+   "alt": [
+    "files"
+   ]
+  },
+  {
+   "id": "data",
+   "en": "data",
+   "uz": "ma’lumotlar (raqamli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather station sends its data to the computer every ten minutes.",
+   "gap": "data",
+   "alt": []
+  },
+  {
+   "id": "faq",
+   "en": "FAQ",
+   "uz": "ko‘p beriladigan savollar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you write to the shop, read the FAQs on its website; your answer is probably there.",
+   "gap": "FAQs",
+   "alt": [
+    "FAQs"
+   ]
+  },
+  {
+   "id": "existing",
+   "en": "existing",
+   "uz": "mavjud (avvaldan bor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of starting again, Dilbar added three slides to her existing presentation.",
+   "gap": "existing",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "webcam",
+   "microphone"
+  ],
+  [
+   "computer_mouse",
+   "mouse_mat"
+  ],
+  [
+   "memory_stick",
+   "hard_drive"
+  ],
+  [
+   "log_in",
+   "log_out"
+  ],
+  [
+   "log_out",
+   "exit"
+  ],
+  [
+   "username",
+   "password"
+  ],
+  [
+   "copy",
+   "paste"
+  ],
+  [
+   "save",
+   "back_up"
+  ],
+  [
+   "software",
+   "application"
+  ],
+  [
+   "software",
+   "anti_virus_software"
+  ],
+  [
+   "software",
+   "operating_system"
+  ],
+  [
+   "virus",
+   "anti_virus_software"
+  ],
+  [
+   "install",
+   "download"
+  ],
+  [
+   "save",
+   "print_out"
+  ],
+  [
+   "save",
+   "copy"
+  ],
+  [
+   "screen",
+   "laptop"
+  ],
+  [
+   "pc",
+   "laptop"
+  ],
+  [
+   "store",
+   "save"
+  ],
+  [
+   "store",
+   "back_up"
+  ],
+  [
+   "print_out",
+   "printout"
+  ],
+  [
+   "escape_key",
+   "spacebar"
+  ],
+  [
+   "save",
+   "upload"
+  ],
+  [
+   "copy",
+   "back_up"
+  ],
+  [
+   "cd_rom",
+   "memory_stick"
+  ],
+  [
+   "cd_rom",
+   "hard_drive"
+  ],
+  [
+   "enter_password",
+   "create"
+  ],
+  [
+   "enter_password",
+   "paste"
+  ],
+  [
+   "backup",
+   "copy"
+  ],
+  [
+   "backup",
+   "printout"
+  ],
+  [
+   "backup",
+   "hard_copy"
+  ],
+  [
+   "backup",
+   "back_up"
+  ],
+  [
+   "hard_copy",
+   "printout"
+  ],
+  [
+   "hard_copy",
+   "copy"
+  ],
+  [
+   "select",
+   "double_click"
+  ],
+  [
+   "select",
+   "click_on"
+  ],
+  [
+   "menu_computer",
+   "icon"
+  ],
+  [
+   "program_computer",
+   "application"
+  ],
+  [
+   "program_computer",
+   "software"
+  ],
+  [
+   "run_software",
+   "install"
+  ],
+  [
+   "run_software",
+   "copy"
+  ],
+  [
+   "computer_file",
+   "document"
+  ],
+  [
+   "computer_file",
+   "attachment"
+  ],
+  [
+   "cut_text",
+   "copy"
+  ],
+  [
+   "cut_text",
+   "paste"
+  ],
+  [
+   "program_computer",
+   "document"
+  ],
+  [
+   "run_software",
+   "create"
+  ],
+  [
+   "open_file",
+   "create"
+  ],
+  [
+   "select",
+   "copy"
+  ],
+  [
+   "open_file",
+   "install"
+  ],
+  [
+   "run_software",
+   "open_file"
+  ],
+  [
+   "data",
+   "computer_file"
+  ],
+  [
+   "faq",
+   "document"
+  ]
+ ]
+}

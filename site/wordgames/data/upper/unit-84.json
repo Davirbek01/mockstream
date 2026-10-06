@@ -1,0 +1,408 @@
+{
+ "book": "upper",
+ "unit": 84,
+ "title": "Words that only occur in the plural",
+ "title_uz": "Faqat ko‘plikda qo‘llanadigan so‘zlar",
+ "words": [
+  {
+   "id": "pliers",
+   "en": "pliers",
+   "uz": "ombir (simni qisish asbobi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hand me the pliers so I can pull this bent old nail out of the wall.",
+   "gap": "pliers",
+   "alt": []
+  },
+  {
+   "id": "tweezers",
+   "en": "tweezers",
+   "uz": "pinset (mayda qisqich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dilnoza used tweezers to pull a tiny thorn out of her finger after picking roses.",
+   "gap": "tweezers",
+   "alt": []
+  },
+  {
+   "id": "tongs",
+   "en": "tongs",
+   "uz": "ovqat qisqichi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Use the tongs to turn the kebabs on the grill; the metal sticks are far too hot to touch.",
+   "gap": "tongs",
+   "alt": []
+  },
+  {
+   "id": "earphones",
+   "en": "earphones",
+   "uz": "quloqqa tiqiladigan naushnik",
+   "pos": "noun",
+   "img": false,
+   "ex": "I always put my earphones in on the metro and listen to English podcasts.",
+   "gap": "earphones",
+   "alt": []
+  },
+  {
+   "id": "scales",
+   "en": "scales",
+   "uz": "tarozi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The shopkeeper put the apples on the scales: exactly two kilos.",
+   "gap": "scales",
+   "alt": []
+  },
+  {
+   "id": "shears",
+   "en": "shears",
+   "uz": "katta bog‘ qaychisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every spring the gardener cuts the hedge into a neat shape with a big pair of shears.",
+   "gap": "shears",
+   "alt": []
+  },
+  {
+   "id": "goggles",
+   "en": "goggles",
+   "uz": "himoya ko‘zoynagi (suzish uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't keep my eyes open under water without my swimming goggles.",
+   "gap": "goggles",
+   "alt": []
+  },
+  {
+   "id": "overalls",
+   "en": "overalls",
+   "uz": "ish kombinezoni",
+   "pos": "noun",
+   "img": true,
+   "ex": "The mechanic came out from under the car in blue overalls covered in oil.",
+   "gap": "overalls",
+   "alt": []
+  },
+  {
+   "id": "dungarees",
+   "en": "dungarees",
+   "uz": "lyamkali shim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The toddler looked sweet in her little denim dungarees with a big pocket on the front.",
+   "gap": "dungarees",
+   "alt": []
+  },
+  {
+   "id": "leggings",
+   "en": "leggings",
+   "uz": "tanaga yopishgan elastik shim",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the yoga class, wear leggings or a pair of loose tracksuit bottoms.",
+   "gap": "leggings",
+   "alt": []
+  },
+  {
+   "id": "tights",
+   "en": "tights",
+   "uz": "kolgotki",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was so cold that Zarina wore thick woollen tights under her school skirt.",
+   "gap": "tights",
+   "alt": []
+  },
+  {
+   "id": "braces",
+   "en": "braces",
+   "uz": "shim tasmalari (yelkadan o‘tadigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our old history teacher never wears a belt; he holds his trousers up with bright red braces.",
+   "gap": "braces",
+   "alt": []
+  },
+  {
+   "id": "swimming_trunks",
+   "en": "swimming trunks",
+   "uz": "erkaklar suzish shortigi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't forget to pack your swimming trunks: the hotel has an outdoor pool.",
+   "gap": "swimming trunks",
+   "alt": [
+    "trunks"
+   ]
+  },
+  {
+   "id": "foundations",
+   "en": "foundations",
+   "uz": "bino poydevori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before they could build the walls, the workers spent a whole month laying the foundations.",
+   "gap": "foundations",
+   "alt": []
+  },
+  {
+   "id": "premises",
+   "en": "premises",
+   "uz": "muassasa binosi va hududi",
+   "pos": "noun",
+   "img": false,
+   "ex": "All visitors must sign in at reception before they enter the school premises.",
+   "gap": "premises",
+   "alt": []
+  },
+  {
+   "id": "headquarters",
+   "en": "headquarters",
+   "uz": "bosh qarorgoh (bosh ofis)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank's headquarters is a tall glass building in the city centre, but it has branches in every town.",
+   "gap": "headquarters",
+   "alt": [
+    "HQ"
+   ]
+  },
+  {
+   "id": "acoustics",
+   "en": "acoustics",
+   "uz": "zaldagi ovoz yangrashi sifati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school hall has terrible acoustics: from the back row you can't understand a word the speakers say.",
+   "gap": "acoustics",
+   "alt": []
+  },
+  {
+   "id": "contents",
+   "en": "contents",
+   "uz": "ichidagi narsalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The officer at the airport asked me to open my bag and show him its contents.",
+   "gap": "contents",
+   "alt": []
+  },
+  {
+   "id": "looks",
+   "en": "looks",
+   "uz": "tashqi ko‘rinish (chiroy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Choose a phone for its battery and camera, not just for its looks.",
+   "gap": "looks",
+   "alt": []
+  },
+  {
+   "id": "stairs",
+   "en": "stairs",
+   "uz": "zinapoya",
+   "pos": "noun",
+   "img": true,
+   "ex": "The stairs up to the old fortress are steep and uneven, so hold on to the rail.",
+   "gap": "stairs",
+   "alt": []
+  },
+  {
+   "id": "proceeds",
+   "en": "proceeds",
+   "uz": "tushum (sotuvdan tushgan pul)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The proceeds from the class cake sale paid for a new football for the PE department.",
+   "gap": "proceeds",
+   "alt": []
+  },
+  {
+   "id": "whereabouts",
+   "en": "whereabouts",
+   "uz": "qayerdaligi (turgan joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat disappeared on Monday, and her whereabouts are still a mystery.",
+   "gap": "whereabouts",
+   "alt": []
+  },
+  {
+   "id": "billiards",
+   "en": "billiards",
+   "uz": "stol ustida shar urish o‘yini",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a billiards table in the hotel's games room, but you need to book it.",
+   "gap": "billiards",
+   "alt": []
+  },
+  {
+   "id": "dominoes",
+   "en": "dominoes",
+   "uz": "nuqtali toshlar o‘yini",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every evening the neighbours sit outside and play dominoes, slapping the tiles down on the table.",
+   "gap": "dominoes",
+   "alt": []
+  },
+  {
+   "id": "draughts",
+   "en": "draughts",
+   "uz": "shashka o‘yini",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother beat me at draughts by jumping over three of my pieces in one move.",
+   "gap": "draughts",
+   "alt": [
+    "checkers"
+   ]
+  },
+  {
+   "id": "economics",
+   "en": "economics",
+   "uz": "iqtisodiyot (o‘quv fani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister is studying economics at university because she wants to work in a bank.",
+   "gap": "economics",
+   "alt": []
+  },
+  {
+   "id": "gymnastics",
+   "en": "gymnastics",
+   "uz": "turnik va gilamdagi akrobatik sport",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika goes to gymnastics three times a week and can already do a perfect cartwheel on the beam.",
+   "gap": "gymnastics",
+   "alt": []
+  },
+  {
+   "id": "athletics",
+   "en": "athletics",
+   "uz": "yugurish, sakrash va uloqtirish sporti",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the school sports day, the athletics events included sprints, relay races and the high jump.",
+   "gap": "athletics",
+   "alt": []
+  },
+  {
+   "id": "handcuffs",
+   "en": "handcuffs",
+   "uz": "kishan (qo‘l kishani)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The police officer put handcuffs on the thief and led him to the car.",
+   "gap": "handcuffs",
+   "alt": []
+  },
+  {
+   "id": "glasses_spectacles",
+   "en": "glasses",
+   "uz": "ko‘zoynak",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't read the board without my glasses, so I always sit in the front row.",
+   "gap": "glasses",
+   "alt": []
+  },
+  {
+   "id": "clothes",
+   "en": "clothes",
+   "uz": "kiyim-kechak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the trip she packed enough clothes for a whole week: shirts, trousers and two jumpers.",
+   "gap": "clothes",
+   "alt": []
+  },
+  {
+   "id": "knickers",
+   "en": "knickers",
+   "uz": "ayollar ichki kiyimi (trusik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The department store sells socks, knickers and other underwear for women and girls.",
+   "gap": "knickers",
+   "alt": []
+  },
+  {
+   "id": "pants",
+   "en": "pants",
+   "uz": "ichki ishton (BrE)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He packed three T-shirts, some socks and a pair of clean pants for each day of the camp.",
+   "gap": "pants",
+   "alt": []
+  },
+  {
+   "id": "bowls_game",
+   "en": "bowls",
+   "uz": "maysada shar dumalatish o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old men rolled heavy wooden balls across the grass in their weekly game of bowls.",
+   "gap": "bowls",
+   "alt": []
+  },
+  {
+   "id": "cards_game",
+   "en": "cards",
+   "uz": "karta o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ilhom shuffled the pack, dealt five to each of us, and we played cards until midnight.",
+   "gap": "cards",
+   "alt": []
+  },
+  {
+   "id": "classics",
+   "en": "classics",
+   "uz": "antik dunyo tillari va adabiyoti (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She studied classics at university, so she can read Latin and ancient Greek.",
+   "gap": "classics",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "overalls",
+   "dungarees"
+  ],
+  [
+   "leggings",
+   "tights"
+  ],
+  [
+   "goggles",
+   "swimming_trunks"
+  ],
+  [
+   "glasses_spectacles",
+   "goggles"
+  ],
+  [
+   "glasses_spectacles",
+   "a_glass"
+  ],
+  [
+   "knickers",
+   "pants"
+  ],
+  [
+   "knickers",
+   "tights"
+  ],
+  [
+   "cards_game",
+   "dominoes"
+  ]
+ ]
+}

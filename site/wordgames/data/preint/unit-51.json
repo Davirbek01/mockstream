@@ -1,0 +1,548 @@
+{
+ "book": "preint",
+ "unit": 51,
+ "title": "Holidays by the sea",
+ "title_uz": "Dengiz bo‘yida dam olish",
+ "words": [
+  {
+   "id": "beach",
+   "en": "beach",
+   "uz": "plyaj",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our hotel in Hurghada was only two minutes' walk from the beach, so we spent every morning by the sea.",
+   "gap": "beach",
+   "alt": [
+    "beaches"
+   ]
+  },
+  {
+   "id": "sand",
+   "en": "sand",
+   "uz": "qum",
+   "pos": "noun",
+   "img": true,
+   "ex": "At noon the sand under our feet was so hot that Dilnoza ran to the water on tiptoe.",
+   "gap": "sand",
+   "alt": []
+  },
+  {
+   "id": "sandy",
+   "en": "sandy",
+   "uz": "qumli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Little children love this part of the coast because the beaches are soft and sandy, with no sharp stones.",
+   "gap": "sandy",
+   "alt": []
+  },
+  {
+   "id": "cliff",
+   "en": "cliff",
+   "uz": "jarlik (tik qirg‘oq)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We sat on the grass at the top of the cliff and watched the boats on the sea far below.",
+   "gap": "cliff",
+   "alt": [
+    "cliffs"
+   ]
+  },
+  {
+   "id": "sea_wave",
+   "en": "wave",
+   "uz": "to‘lqin",
+   "pos": "noun",
+   "img": true,
+   "ex": "The waves were so big that day that the lifeguards put up a red flag and nobody could swim.",
+   "gap": "waves",
+   "alt": [
+    "waves"
+   ]
+  },
+  {
+   "id": "sea_rock",
+   "en": "rock",
+   "uz": "qoya tosh (suv bo‘yidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Be careful when you climb on the wet rocks by the water; they're covered in slippery green weed.",
+   "gap": "rocks",
+   "alt": [
+    "rocks"
+   ]
+  },
+  {
+   "id": "shore",
+   "en": "shore",
+   "uz": "qirg‘oq (suv chekkasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We put up our tent on the shore of one of the Arnasoy lakes, just a few metres from the water.",
+   "gap": "shore",
+   "alt": []
+  },
+  {
+   "id": "seaside_resort",
+   "en": "seaside resort",
+   "uz": "dengiz bo‘yidagi kurort shaharcha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every August this quiet fishing village turns into a busy seaside resort full of hotels, cafés and tourists.",
+   "gap": "seaside resort",
+   "alt": [
+    "seaside resorts"
+   ]
+  },
+  {
+   "id": "go_for_a_stroll",
+   "en": "go for a stroll",
+   "uz": "sayr qilgani chiqmoq (piyoda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After dinner, Nodira and her friends left their bags at the hotel and went for a stroll along the seafront, eating ice cream.",
+   "gap": "went for a stroll",
+   "alt": [
+    "goes for a stroll",
+    "went for a stroll",
+    "going for a stroll"
+   ]
+  },
+  {
+   "id": "sunshine",
+   "en": "sunshine",
+   "uz": "quyosh nuri (oftob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a week of grey skies and rain, the children ran outside to play in the bright sunshine.",
+   "gap": "sunshine",
+   "alt": []
+  },
+  {
+   "id": "breeze",
+   "en": "breeze",
+   "uz": "shabada (mayin shamol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a cool breeze from the sea, so the evening on the balcony didn't feel too hot.",
+   "gap": "breeze",
+   "alt": []
+  },
+  {
+   "id": "surfing",
+   "en": "surfing",
+   "uz": "serfing (to‘lqinda taxtada uchish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Bali, Jasur took surfing lessons and finally stood up on his board and rode a big wave.",
+   "gap": "surfing",
+   "alt": []
+  },
+  {
+   "id": "windsurfing",
+   "en": "windsurfing",
+   "uz": "vindserfing (yelkanli taxtada suzish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ravshan loves windsurfing; on windy days he holds the sail and flies across the lake on his board.",
+   "gap": "windsurfing",
+   "alt": []
+  },
+  {
+   "id": "diving",
+   "en": "diving",
+   "uz": "suv ostiga sho‘ng‘ish (dayving)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Sharm el-Sheikh our science teacher went diving in the Red Sea and saw colourful fish and coral.",
+   "gap": "diving",
+   "alt": []
+  },
+  {
+   "id": "volleyball",
+   "en": "volleyball",
+   "uz": "voleybol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every evening, a group of students played beach volleyball with a net between two poles.",
+   "gap": "volleyball",
+   "alt": []
+  },
+  {
+   "id": "go_for_a_swim",
+   "en": "go for a swim",
+   "uz": "cho‘milgani bormoq (suzmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The water was warm and there were no waves, so we went for a swim before breakfast.",
+   "gap": "went for a swim",
+   "alt": [
+    "goes for a swim",
+    "went for a swim",
+    "going for a swim"
+   ]
+  },
+  {
+   "id": "rough",
+   "en": "rough",
+   "uz": "notinch, to‘lqinli (dengiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sea was too rough for the little boats, so all the trips to the island were cancelled.",
+   "gap": "rough",
+   "alt": []
+  },
+  {
+   "id": "sunbathe",
+   "en": "sunbathe",
+   "uz": "quyoshda toblanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It isn't safe to sunbathe between twelve and three, when the sun is at its strongest, so we read in our room instead.",
+   "gap": "sunbathe",
+   "alt": [
+    "sunbathes",
+    "sunbathed",
+    "sunbathing"
+   ]
+  },
+  {
+   "id": "suntan",
+   "en": "suntan",
+   "uz": "oftobda qorayish (qoraygan teri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two weeks in Cyprus, Kamila came home with a golden suntan on her arms and face.",
+   "gap": "suntan",
+   "alt": [
+    "tan"
+   ]
+  },
+  {
+   "id": "sunburn",
+   "en": "sunburn",
+   "uz": "quyoshda kuyish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malik fell asleep under the midday sun, and by the evening his face was red and sore with sunburn.",
+   "gap": "sunburn",
+   "alt": []
+  },
+  {
+   "id": "sunscreen",
+   "en": "sunscreen",
+   "uz": "quyoshdan himoya kremi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the boat trip, the guide reminded everyone to rub sunscreen on their noses and shoulders.",
+   "gap": "sunscreen",
+   "alt": []
+  },
+  {
+   "id": "shade",
+   "en": "shade",
+   "uz": "soya (quyosh tushmaydigan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At lunchtime it was so hot that we moved our mats into the shade of a big tree.",
+   "gap": "shade",
+   "alt": []
+  },
+  {
+   "id": "protection",
+   "en": "protection",
+   "uz": "himoya",
+   "pos": "noun",
+   "img": false,
+   "ex": "A wide hat gives your face and neck good protection from the sun.",
+   "gap": "protection",
+   "alt": []
+  },
+  {
+   "id": "at_risk_of",
+   "en": "at risk of",
+   "uz": "… xavfi ostida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The old wooden pier is at risk of falling into the sea if nobody repairs it soon.",
+   "gap": "at risk of",
+   "alt": []
+  },
+  {
+   "id": "go_for_a_drive",
+   "en": "go for a drive",
+   "uz": "mashinada sayrga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the rain stopped us swimming, we went for a drive into the hills to look at the villages.",
+   "gap": "went for a drive",
+   "alt": [
+    "goes for a drive",
+    "went for a drive",
+    "going for a drive"
+   ]
+  },
+  {
+   "id": "calm_sea",
+   "en": "calm",
+   "uz": "sokin, to‘lqinsiz (dengiz, ko‘l)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the early morning the lake was so calm that it looked like a mirror.",
+   "gap": "calm",
+   "alt": []
+  },
+  {
+   "id": "sunblock",
+   "en": "sunblock",
+   "uz": "kuchli himoya kremi (oftobdan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Skiers in the mountains need sunblock too, because the sun on the snow is very strong.",
+   "gap": "sunblock",
+   "alt": []
+  },
+  {
+   "id": "sun_cream",
+   "en": "sun cream",
+   "uz": "oftob kremi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't forget to pack a bottle of sun cream; the beach in Antalya has almost no trees.",
+   "gap": "sun cream",
+   "alt": [
+    "sun creams"
+   ]
+  },
+  {
+   "id": "skin_cancer",
+   "en": "skin cancer",
+   "uz": "teri saratoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors check the moles on people's arms and backs to find skin cancer early.",
+   "gap": "skin cancer",
+   "alt": []
+  },
+  {
+   "id": "go_for_a_coffee",
+   "en": "go for a coffee",
+   "uz": "qahva ichgani chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the museum, Shoira and her guest went for a coffee in a little café on the square.",
+   "gap": "went for a coffee",
+   "alt": [
+    "goes for a coffee",
+    "went for a coffee",
+    "going for a coffee"
+   ]
+  },
+  {
+   "id": "go_for_a_drink",
+   "en": "go for a drink",
+   "uz": "biror narsa ichgani chiqmoq (bar, kafe)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the conference, some of the British visitors asked us to go for a drink at the hotel bar.",
+   "gap": "go for a drink",
+   "alt": [
+    "goes for a drink",
+    "went for a drink",
+    "going for a drink"
+   ]
+  },
+  {
+   "id": "have_a_swim",
+   "en": "have a swim",
+   "uz": "bir cho‘milib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was a hot afternoon, so we jumped into the hotel pool and had a swim to cool down.",
+   "gap": "had a swim",
+   "alt": [
+    "has a swim",
+    "had a swim",
+    "having a swim"
+   ]
+  },
+  {
+   "id": "have_a_coffee",
+   "en": "have a coffee",
+   "uz": "qahva ichib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We've got twenty minutes before the train leaves; let's have a coffee at the station café.",
+   "gap": "have a coffee",
+   "alt": [
+    "has a coffee",
+    "had a coffee",
+    "having a coffee"
+   ]
+  },
+  {
+   "id": "have_a_drink",
+   "en": "have a drink",
+   "uz": "biror narsa ichib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The runners stopped at the table by the road to have a drink of water.",
+   "gap": "have a drink",
+   "alt": [
+    "has a drink",
+    "had a drink",
+    "having a drink"
+   ]
+  },
+  {
+   "id": "wine",
+   "en": "wine",
+   "uz": "vino (sharob)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the restaurant table there was a bottle of red wine and a basket of bread.",
+   "gap": "wine",
+   "alt": []
+  },
+  {
+   "id": "beer",
+   "en": "beer",
+   "uz": "pivo",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the advert, a group of football fans were holding glasses of cold beer.",
+   "gap": "beer",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "beach",
+   "shore"
+  ],
+  [
+   "beach",
+   "sand"
+  ],
+  [
+   "sand",
+   "shore"
+  ],
+  [
+   "cliff",
+   "sea_rock"
+  ],
+  [
+   "surfing",
+   "windsurfing"
+  ],
+  [
+   "go_for_a_stroll",
+   "go_for_a_drive"
+  ],
+  [
+   "go_for_a_stroll",
+   "go_for_a_swim"
+  ],
+  [
+   "suntan",
+   "sunburn"
+  ],
+  [
+   "sunscreen",
+   "protection"
+  ],
+  [
+   "sunshine",
+   "shade"
+  ],
+  [
+   "sunshine",
+   "breeze"
+  ],
+  [
+   "beach",
+   "seaside_resort"
+  ],
+  [
+   "shade",
+   "protection"
+  ],
+  [
+   "sand",
+   "sandy"
+  ],
+  [
+   "beach",
+   "sandy"
+  ],
+  [
+   "sea_wave",
+   "rough"
+  ],
+  [
+   "sunblock",
+   "sunscreen"
+  ],
+  [
+   "sun_cream",
+   "sunscreen"
+  ],
+  [
+   "sunblock",
+   "sun_cream"
+  ],
+  [
+   "sunblock",
+   "protection"
+  ],
+  [
+   "sun_cream",
+   "protection"
+  ],
+  [
+   "calm_sea",
+   "rough"
+  ],
+  [
+   "go_for_a_coffee",
+   "have_a_coffee"
+  ],
+  [
+   "go_for_a_coffee",
+   "go_for_a_drink"
+  ],
+  [
+   "go_for_a_coffee",
+   "have_a_drink"
+  ],
+  [
+   "go_for_a_drink",
+   "have_a_drink"
+  ],
+  [
+   "go_for_a_drink",
+   "have_a_coffee"
+  ],
+  [
+   "have_a_coffee",
+   "have_a_drink"
+  ],
+  [
+   "have_a_swim",
+   "go_for_a_swim"
+  ],
+  [
+   "have_a_swim",
+   "have_a_drink"
+  ],
+  [
+   "wine",
+   "beer"
+  ],
+  [
+   "skin_cancer",
+   "sunburn"
+  ]
+ ]
+}
