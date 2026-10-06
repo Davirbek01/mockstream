@@ -4512,6 +4512,18 @@
           </div>
           <div class="tool-arrow">→</div>
         </a>
+        <a class="tool-card" href="/dailyquiz/" data-learn="dailyquiz">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #fbbf24, #d97706);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Daily Quiz</div>
+            <div class="tool-sub"><span class="tool-sub-text">10 questions, the same for everyone</span> <span class="tool-count" id="ltCountDailyquiz"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
         <a class="tool-card" href="javascript:void(0)" data-learn="tests">
           <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18857,6 +18869,7 @@
         else if (key === 'articles') openLearningCategory('articles');
         else if (key === 'idioms') openLearningCategory('idioms');
         else if (key === 'wordgames') location.href = '/wordgames/';
+        else if (key === 'dailyquiz') location.href = '/dailyquiz/';
       });
     });
 
@@ -18968,6 +18981,8 @@
         // read from a catalog — bump it when another EVU book goes live.
         var e4 = document.getElementById('ltCountWordgames');
         if (e4) e4.textContent = '359 units';
+        var e5 = document.getElementById('ltCountDailyquiz');
+        if (e5) e5.textContent = 'every day';
         // Sidebar clone badges mirror the originals (ids stripped on clone).
         document.querySelectorAll('[data-ltc-copy]').forEach(function (c) {
           var src = document.getElementById(c.getAttribute('data-ltc-copy'));
@@ -21138,6 +21153,7 @@
             else if (key === 'articles') openLearningCategory('articles');
             else if (key === 'idioms') openLearningCategory('idioms');
             else if (key === 'wordgames') location.href = '/wordgames/';
+            else if (key === 'dailyquiz') location.href = '/dailyquiz/';
           });
         });
         wrap.appendChild(grid);
@@ -23892,7 +23908,6 @@
           // greyed 'Idioms & Phrasals — Soon' card right under the working
           // one, which read as if the feature had not shipped.
           var TOOLS = [
-            ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
             ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
             ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear'],
             ['speakingclub', '🎙️', 'linear-gradient(135deg, #fb7185, #e11d48)', 'Speaking Club', 'Live practice rooms'],
