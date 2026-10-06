@@ -26,7 +26,7 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:18px;
     box-shadow:0 8px 30px rgba(84,56,160,.07)}
   .levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .levels button{flex:1 1 150px;padding:11px 12px;border:1px solid var(--line);background:#fff;border-radius:12px;
+  .levels button{flex:1 1 100%;padding:11px 12px;border:1px solid var(--line);background:#fff;border-radius:12px;
     font-weight:700;font-size:14px;color:var(--dim);cursor:pointer}
   .levels button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
   .meta{display:flex;justify-content:space-between;align-items:center;color:var(--dim);font-size:14px;font-weight:700}
@@ -39,7 +39,7 @@
   .opts button{text-align:left;padding:14px 16px;border:1.5px solid var(--line);background:#fff;border-radius:14px;
     font-size:1rem;font-weight:600;cursor:pointer;transition:.12s}
   .opts button:hover:not(:disabled){border-color:var(--brand);background:var(--soft)}
-  .opts button:disabled{cursor:default}
+  .opts button:disabled{cursor:default;opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)}
   .opts button.right{border-color:var(--ok);background:#e9f7ee;color:#0b6b3c}
   .opts button.wrong{border-color:var(--bad);background:#fdecea;color:#a3160d}
   .fb{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--soft);border:1px solid var(--line);
@@ -63,7 +63,7 @@
 <body>
 <div class="wrap">
   <div class="top">
-    <a class="back" href="/landing-v3?tab=learn">← Learn</a>
+    <a class="back" href="/landing-v3?tab=learn">← O‘rganish</a>
     <span class="sp"></span>
     <span class="streak" id="streak">🔥 0</span>
   </div>
@@ -148,17 +148,38 @@ function bumpStreak(day) {
   try { localStorage.setItem(LS_STREAK, JSON.stringify(s)); } catch (e) {}
   return s;
 }
-function resultKey(day, lvl) { return 'ms_dq_' + day + '_' + lvl; }
-function savedResult(day, lvl) {
-  try { return JSON.parse(localStorage.getItem(resultKey(day, lvl))); } catch (e) { return null; }
+/* One attempt A DAY, not one per level: the key deliberately ignores the
+   level, and the level the student played is stored inside the record. */
+function resultKey(day) { return 'ms_dq_' + day; }
+function savedResult(day) {
+  try { return JSON.parse(localStorage.getItem(resultKey(day))); } catch (e) { return null; }
 }
-function saveResult(day, lvl, res) {
-  try { localStorage.setItem(resultKey(day, lvl), JSON.stringify(res)); } catch (e) {}
+function saveResult(day, res) {
+  try { localStorage.setItem(resultKey(day), JSON.stringify(res)); } catch (e) {}
+}
+
+/* Progress is written after every answer so a reload, a dropped connection or
+   an incoming call does not cost the attempt — and cannot be used to get a
+   clean retry either. The set is deterministic, so resuming only needs the
+   level and how far the student got. */
+function progKey(day) { return 'ms_dq_prog_' + day; }
+function savedProgress(day) {
+  try { return JSON.parse(localStorage.getItem(progKey(day))); } catch (e) { return null; }
+}
+function saveProgress(day, p) {
+  try { localStorage.setItem(progKey(day), JSON.stringify(p)); } catch (e) {}
+}
+function clearProgress(day) {
+  try { localStorage.removeItem(progKey(day)); } catch (e) {}
 }
 function paintStreak() {
-  var s = getStreak();
-  $('streak').textContent = '🔥 ' + (s.n || 0);
-  $('streak').title = s.n ? ('Ketma-ket ' + s.n + ' kun') : 'Hali seriya yo‘q';
+  /* A streak is only alive if the last finish was today or yesterday —
+     showing the old number until the next finish overstated it. */
+  var s = getStreak(), day = todayKey();
+  var y = new Date(new Date(day + 'T00:00:00Z').getTime() - 86400000).toISOString().slice(0, 10);
+  var live = (s.last === day || s.last === y) ? (s.n || 0) : 0;
+  $('streak').textContent = '🔥 ' + live + ' kun';
+  $('streak').title = live ? ('Ketma-ket ' + live + ' kun') : 'Hali seriya yo‘q';
 }
 
 /* ── level choice ────────────────────────────────────────────────────────── */
@@ -236,7 +257,7 @@ function reviewList(items, sub) {
 }
 
 function screenStart() {
-  var done = savedResult(day, level);
+  var done = savedResult(day), prog = savedProgress(day);
   var lvl = LEVELS.filter(function (l) { return l[0] === level; })[0] || LEVELS[1];
   $('stage').innerHTML =
     '<div class="card">' +
@@ -244,17 +265,21 @@ function screenStart() {
       '<p style="margin-top:10px">Bugungi savollar <b>hamma uchun bir xil</b>. Darajangizni tanlang:</p>' +
       '<div class="levels" id="lv"></div>' +
       (done
-        ? '<p class="note">Bugungi quizni yechib bo‘lgansiz: <b>' + done.right + '/' + done.total +
+        ? '<p class="note">Bugungi testni yakunladingiz: <b>' + done.right + '/' + done.total +
           '</b>. Yangi savollar ertaga.</p>' +
-          (done.missed && done.missed.length ? reviewList(done.missed, 'Shu mavzuni takrorlang') : '')
-        : '<button class="next" id="go">Boshlash</button>') +
+          (done.missed && done.missed.length ? reviewList(done.missed, 'Mavzuni to‘liq takrorlash') : '')
+        : '<button class="next" id="go">' +
+          (prog ? 'Davom etish (' + (prog.qi + 1) + ' / ' + N_Q + ')' : 'Boshlash') + '</button>') +
     '</div>';
   var lv = $('lv');
   LEVELS.forEach(function (l) {
     var b = document.createElement('button');
     b.textContent = l[1];
     b.setAttribute('aria-pressed', String(l[0] === level));
-    b.onclick = function () { level = l[0]; setLevel(l[0]); screenStart(); };
+    /* Once the day is played, or a round is under way, the level is fixed —
+       otherwise switching it would look like a second attempt. */
+    if (done || prog) { b.disabled = true; b.style.opacity = '.55'; }
+    else b.onclick = function () { level = l[0]; setLevel(l[0]); screenStart(); };
     lv.appendChild(b);
   });
   if ($('go')) $('go').onclick = start;
@@ -262,10 +287,16 @@ function screenStart() {
 }
 
 function start() {
+  var prog = savedProgress(day);
+  if (prog && prog.level) { level = prog.level; setLevel(level); }
   $('stage').innerHTML = '<div class="card">Yuklanmoqda…</div>';
   buildQuiz(level, day).then(function (list) {
     if (!list.length) throw new Error('empty');
-    quiz = list; qi = 0; right = 0; missed = [];
+    quiz = list;
+    qi = prog ? Math.min(prog.qi || 0, list.length - 1) : 0;
+    right = prog ? (prog.right || 0) : 0;
+    missed = prog ? (prog.missed || []) : [];
+    saveProgress(day, { level: level, qi: qi, right: right, missed: missed });
     showQ();
   }).catch(function () {
     $('stage').innerHTML = '<div class="card"><p class="err">Savollarni yuklab bo‘lmadi.</p>' +
@@ -276,11 +307,12 @@ function start() {
 }
 
 function showQ() {
+  window.scrollTo(0, 0);          /* otherwise Q2 opens half-scrolled */
   var item = quiz[qi], q = item.q;
-  var pct = Math.round(qi / quiz.length * 100);
+  var pct = Math.round((qi + 1) / quiz.length * 100);
   $('stage').innerHTML =
     '<div class="card">' +
-      '<div class="meta"><span>' + (item.kind === 'grammar' ? 'Grammar' : 'Vocabulary') + '</span>' +
+      '<div class="meta"><span>' + esc(item.topic) + '</span>' +
       '<span>' + (qi + 1) + ' / ' + quiz.length + '</span></div>' +
       '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
       '<div class="qtype">' + esc(q.type || '') + '</div>' +
@@ -296,7 +328,11 @@ function showQ() {
     b.onclick = function () { answer(o, b); };
     $('opts').appendChild(b);
   });
-  $('next').onclick = function () { qi++; if (qi < quiz.length) { showQ(); } else { finish(); } };
+  $('next').onclick = function () {
+    qi++;
+    saveProgress(day, { level: level, qi: qi, right: right, missed: missed });
+    if (qi < quiz.length) { showQ(); } else { finish(); }
+  };
 }
 
 function answer(choice, btn) {
@@ -313,11 +349,16 @@ function answer(choice, btn) {
   fb.innerHTML = '<div class="lead">' + (ok ? '✅ To‘g‘ri' : '❌ To‘g‘ri javob: ' + esc(q.correct)) + '</div>' +
     (q.def ? esc(q.def) : '');
   $('next').style.display = 'block';
+  /* At 390x660 the explanation and this button sit under the fold, with
+     nothing to say so — bring them into view. */
+  try { $('next').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  saveProgress(day, { level: level, qi: qi, right: right, missed: missed });
 }
 
 function finish() {
   var s = bumpStreak(day);
-  saveResult(day, level, { right: right, total: quiz.length, missed: missed });
+  saveResult(day, { level: level, right: right, total: quiz.length, missed: missed });
+  clearProgress(day);
   paintStreak();
   var verdict = right === quiz.length ? 'Mukammal!'
               : right >= quiz.length * 0.7 ? 'Yaxshi natija.'
@@ -326,10 +367,11 @@ function finish() {
     '<div class="card" style="text-align:center">' +
       '<div class="score">' + right + '/' + quiz.length + '</div>' +
       '<p class="sub">' + verdict + '</p>' +
-      '<p class="note">🔥 Ketma-ket ' + s.n + ' kun. Yangi savollar ertaga.</p>' +
+      '<p class="note">' + (s.n === 1 ? '🔥 Seriya boshlandi — 1 kun.' : '🔥 Ketma-ket ' + s.n + ' kun.') +
+      ' Yangi savollar ertaga.</p>' +
     '</div>' +
     (missed.length
-      ? '<div class="card"><b>Takrorlash uchun</b>' + reviewList(missed, 'To‘liq testni yechish') + '</div>'
+      ? '<div class="card"><b>Takrorlash uchun</b>' + reviewList(missed, 'Mavzuni to‘liq takrorlash') + '</div>'
       : '');
 }
 
