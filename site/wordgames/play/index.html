@@ -238,8 +238,6 @@
   <div class="top">
     <a class="back" href="/wordgames/">← Word Games</a>
     <span class="sp"></span>
-    <div class="modes" role="group" aria-label="Rejim">
-    </div>
     <button class="tmr" id="tmr" aria-pressed="true" title="Yulduzli taymer">⏱ Taymer</button>
   </div>
   <h1 id="ttl">…<small></small></h1>
@@ -342,7 +340,8 @@ async function load() {
   }
   document.title = `Unit ${UNIT}: ${unit.title} — Word Games`;
   $("ttl").innerHTML = `Unit ${UNIT}: ${esc(unit.title)}<small>${esc(unit.title_uz)} · ${unit.words.length} ta so‘z</small>`;
-  if (Q.get("mode") === "sinf") { classInit(); return; }
+  /* Class mode (two teams, one projector) did not come across to Mock
+     Stream; an old ?mode=sinf link just plays solo. */
   const prog = EVU.progress.get(BOOK, UNIT);
   layer = 1;
   for (let L = 1; L <= 6; L++) if (EVU.unlocked(prog, L) && !(prog[L] >= EVU.PASS)) { layer = L; break; }
@@ -377,8 +376,11 @@ function show() {
   const pct = Math.round(qi / qs.length * 100);
   let prompt = "", body = "";
   if (layer === 1) {
-    prompt = w.img ? `${pic(w)}` : `<div class="big">${esc(w.en)}</div>`;
-    prompt += `<div class="hint">Bu nima? O‘zbekchasini tanlang.</div>`;
+    /* This is an exam platform: every layer asks for the ENGLISH word.
+       15% of the words carry a picture — those get it as the cue; the rest
+       fall back to the Uzbek meaning. */
+    prompt = w.img ? `${pic(w)}` : `<div class="uz">${esc(w.uz)}</div>`;
+    prompt += `<div class="hint">${w.img ? "Bu nima? Inglizchasini tanlang." : "Inglizchasini tanlang."}</div>`;
   } else if (layer === 2) {
     prompt = `<div class="uz">${esc(w.uz)}</div><div class="hint">Inglizchasini tanlang.</div>`;
   } else if (layer === 3) {
@@ -390,7 +392,7 @@ function show() {
     prompt = `<div class="sent">${gapSentence(w)}</div><div class="hint">Bo‘sh joyga mos so‘zni tanlang.</div>`;
   }
   if (q.options) {
-    const label = o => layer === 1 ? o.uz : layer === 5 ? (o.gap || o.en) : o.en;
+    const label = o => layer === 5 ? (o.gap || o.en) : o.en;
     body = `<div class="opts">${q.options.map((o, i) =>
       `<button data-id="${esc(o.id)}"><span class="k">${"▲◆●■"[i]}</span>${esc(label(o))}</button>`).join("")}</div>`;
   } else if (layer === 4) {
