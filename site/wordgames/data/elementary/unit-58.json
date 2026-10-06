@@ -1,0 +1,235 @@
+{
+ "book": "elementary",
+ "unit": 58,
+ "title": "Prefixes",
+ "title_uz": "Old qo‘shimchalar (prefikslar)",
+ "words": [
+  {
+   "id": "ex_president",
+   "en": "ex-president",
+   "uz": "sobiq rais (sobiq rahbar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our book club has a new president now, but the ex-president still comes to every meeting.",
+   "gap": "ex-president",
+   "alt": [
+    "ex president",
+    "ex-presidents"
+   ]
+  },
+  {
+   "id": "half_price",
+   "en": "half-price",
+   "uz": "yarim narxdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I bought this winter coat half-price in the sale, so I still have money for a hat.",
+   "gap": "half-price",
+   "alt": [
+    "half price"
+   ]
+  },
+  {
+   "id": "half_hour",
+   "en": "half-hour",
+   "uz": "yarim soatlik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There's a half-hour break between the two exams, so we can have a snack and some tea.",
+   "gap": "half-hour",
+   "alt": [
+    "half hour"
+   ]
+  },
+  {
+   "id": "formal",
+   "en": "formal",
+   "uz": "rasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dad wrote a formal letter to the bank and started it with 'Dear Sir or Madam'.",
+   "gap": "formal",
+   "alt": []
+  },
+  {
+   "id": "informal",
+   "en": "informal",
+   "uz": "norasmiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My cousin's messages are always very informal: lots of smileys and no capital letters.",
+   "gap": "informal",
+   "alt": []
+  },
+  {
+   "id": "impossible",
+   "en": "impossible",
+   "uz": "imkonsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This puzzle has two thousand pieces, so it's impossible to finish it in one evening.",
+   "gap": "impossible",
+   "alt": []
+  },
+  {
+   "id": "non_smoking",
+   "en": "non-smoking",
+   "uz": "chekilmaydigan (joy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum always asks for a non-smoking room when we stay in a hotel.",
+   "gap": "non-smoking",
+   "alt": [
+    "non smoking",
+    "nonsmoking"
+   ]
+  },
+  {
+   "id": "pre_school",
+   "en": "pre-school",
+   "uz": "maktabgacha (yoshdagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother loves his pre-school teacher: she teaches the children songs and games.",
+   "gap": "pre-school",
+   "alt": [
+    "preschool",
+    "pre school"
+   ]
+  },
+  {
+   "id": "pre_heat",
+   "en": "pre-heat",
+   "uz": "oldindan qizdirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum asked me to pre-heat the oven while she mixed the cake.",
+   "gap": "pre-heat",
+   "alt": [
+    "preheat",
+    "pre-heats",
+    "pre-heated",
+    "pre-heating",
+    "preheats",
+    "preheated",
+    "preheating"
+   ]
+  },
+  {
+   "id": "redo",
+   "en": "redo",
+   "uz": "qaytadan qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My science poster got wet in the rain, so I had to redo it at the weekend.",
+   "gap": "redo",
+   "alt": [
+    "redoes",
+    "redid",
+    "redone",
+    "redoing"
+   ]
+  },
+  {
+   "id": "rewrite",
+   "en": "rewrite",
+   "uz": "qayta yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Your story is good, but please rewrite it in pen, not in pencil.",
+   "gap": "rewrite",
+   "alt": [
+    "rewrites",
+    "rewrote",
+    "rewritten",
+    "rewriting"
+   ]
+  },
+  {
+   "id": "unhappy",
+   "en": "unhappy",
+   "uz": "xafa (baxtsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Timur looked unhappy all day because his team lost the final.",
+   "gap": "unhappy",
+   "alt": []
+  },
+  {
+   "id": "unsafe",
+   "en": "unsafe",
+   "uz": "xavfli (xavfsiz emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ice on the lake is still thin and unsafe: please don't walk on it.",
+   "gap": "unsafe",
+   "alt": []
+  },
+  {
+   "id": "ex_wife",
+   "en": "ex-wife",
+   "uz": "sobiq xotin (sobiq rafiqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Nazarov and his ex-wife divorced five years ago, but they both come to their son's school concerts.",
+   "gap": "ex-wife",
+   "alt": [
+    "ex wife",
+    "ex-wives"
+   ]
+  },
+  {
+   "id": "ex_boyfriend",
+   "en": "ex-boyfriend",
+   "uz": "sobiq yigiti (sobiq sevgilisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora and her ex-boyfriend broke up last year, but they still say hello when they meet.",
+   "gap": "ex-boyfriend",
+   "alt": [
+    "ex boyfriend",
+    "ex-boyfriends"
+   ]
+  },
+  {
+   "id": "safe",
+   "en": "safe",
+   "uz": "xavfsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new bike path is safe for children because there are no cars on it.",
+   "gap": "safe",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "redo",
+   "rewrite"
+  ],
+  [
+   "non_smoking",
+   "half_price"
+  ],
+  [
+   "ex_wife",
+   "ex_boyfriend"
+  ],
+  [
+   "ex_wife",
+   "ex_president"
+  ],
+  [
+   "ex_boyfriend",
+   "ex_president"
+  ],
+  [
+   "safe",
+   "useful"
+  ],
+  [
+   "safe",
+   "unsafe"
+  ]
+ ]
+}

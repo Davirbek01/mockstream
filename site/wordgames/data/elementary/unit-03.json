@@ -1,0 +1,380 @@
+{
+ "book": "elementary",
+ "unit": 3,
+ "title": "Parts of the body",
+ "title_uz": "Tana a’zolari",
+ "words": [
+  {
+   "id": "head",
+   "en": "head",
+   "uz": "bosh",
+   "pos": "noun",
+   "img": true,
+   "ex": "It's cold, so put a hat on your head.",
+   "gap": "head",
+   "alt": []
+  },
+  {
+   "id": "face",
+   "en": "face",
+   "uz": "yuz",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your eyes, nose and mouth are on your face.",
+   "gap": "face",
+   "alt": []
+  },
+  {
+   "id": "hair",
+   "en": "hair",
+   "uz": "soch",
+   "pos": "noun",
+   "img": true,
+   "ex": "She brushes her long hair every evening.",
+   "gap": "hair",
+   "alt": []
+  },
+  {
+   "id": "eye",
+   "en": "eye",
+   "uz": "ko‘z",
+   "pos": "noun",
+   "img": true,
+   "ex": "Close one eye and look through the camera.",
+   "gap": "eye",
+   "alt": [
+    "eyes"
+   ]
+  },
+  {
+   "id": "nose",
+   "en": "nose",
+   "uz": "burun",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't smell anything because my nose is blocked.",
+   "gap": "nose",
+   "alt": []
+  },
+  {
+   "id": "tooth",
+   "en": "tooth",
+   "uz": "tish",
+   "pos": "noun",
+   "img": true,
+   "ex": "The dentist pulled out my bad tooth.",
+   "gap": "tooth",
+   "alt": [
+    "teeth"
+   ]
+  },
+  {
+   "id": "ear",
+   "en": "ear",
+   "uz": "quloq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put the phone to your ear so you can hear.",
+   "gap": "ear",
+   "alt": [
+    "ears"
+   ]
+  },
+  {
+   "id": "lip",
+   "en": "lip",
+   "uz": "lab",
+   "pos": "noun",
+   "img": true,
+   "ex": "I bit my bottom lip by mistake while I was eating.",
+   "gap": "lip",
+   "alt": [
+    "lips"
+   ]
+  },
+  {
+   "id": "mouth",
+   "en": "mouth",
+   "uz": "og‘iz",
+   "pos": "noun",
+   "img": true,
+   "ex": "The baby put the toy in her mouth and bit it.",
+   "gap": "mouth",
+   "alt": []
+  },
+  {
+   "id": "neck",
+   "en": "neck",
+   "uz": "bo‘yin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Your neck is between your head and your shoulders.",
+   "gap": "neck",
+   "alt": []
+  },
+  {
+   "id": "shoulder",
+   "en": "shoulder",
+   "uz": "yelka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your arm joins your body at the shoulder.",
+   "gap": "shoulder",
+   "alt": [
+    "shoulders"
+   ]
+  },
+  {
+   "id": "nail",
+   "en": "nail",
+   "uz": "tirnoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cut your nails short and don't bite them!",
+   "gap": "nails",
+   "alt": [
+    "nails"
+   ]
+  },
+  {
+   "id": "thumb",
+   "en": "thumb",
+   "uz": "bosh barmoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your thumb is the short, thick finger on your hand.",
+   "gap": "thumb",
+   "alt": []
+  },
+  {
+   "id": "finger",
+   "en": "finger",
+   "uz": "qo‘l barmog‘i",
+   "pos": "noun",
+   "img": true,
+   "ex": "Don't point your finger at people; it's rude.",
+   "gap": "finger",
+   "alt": [
+    "fingers"
+   ]
+  },
+  {
+   "id": "hand",
+   "en": "hand",
+   "uz": "kaft, qo‘l panjasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "I write with my right hand, but my brother writes with his left.",
+   "gap": "hand",
+   "alt": [
+    "hands"
+   ]
+  },
+  {
+   "id": "arm",
+   "en": "arm",
+   "uz": "qo‘l (yelkadan kaftgacha)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your elbow is in the middle of your arm.",
+   "gap": "arm",
+   "alt": [
+    "arms"
+   ]
+  },
+  {
+   "id": "chest",
+   "en": "chest",
+   "uz": "ko‘krak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put your hand on your chest and feel your heart.",
+   "gap": "chest",
+   "alt": []
+  },
+  {
+   "id": "back",
+   "en": "back",
+   "uz": "orqa (tananing orqasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lie on your back and look up at the stars.",
+   "gap": "back",
+   "alt": []
+  },
+  {
+   "id": "stomach",
+   "en": "stomach",
+   "uz": "qorin",
+   "pos": "noun",
+   "img": false,
+   "ex": "I ate too much plov and now my stomach hurts.",
+   "gap": "stomach",
+   "alt": []
+  },
+  {
+   "id": "waist",
+   "en": "waist",
+   "uz": "bel",
+   "pos": "noun",
+   "img": false,
+   "ex": "These jeans are too big at the waist.",
+   "gap": "waist",
+   "alt": []
+  },
+  {
+   "id": "hip",
+   "en": "hip",
+   "uz": "son-chanoq (belning pastidagi yon qism)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She stood with her hands on her hips.",
+   "gap": "hips",
+   "alt": [
+    "hips"
+   ]
+  },
+  {
+   "id": "leg",
+   "en": "leg",
+   "uz": "oyoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our kitchen table has four legs, but one of them is broken.",
+   "gap": "legs",
+   "alt": [
+    "legs"
+   ]
+  },
+  {
+   "id": "knee",
+   "en": "knee",
+   "uz": "tizza",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your leg bends in the middle, at the knee.",
+   "gap": "knee",
+   "alt": [
+    "knees"
+   ]
+  },
+  {
+   "id": "foot",
+   "en": "foot",
+   "uz": "oyoq panjasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "These shoes are too small for my feet.",
+   "gap": "feet",
+   "alt": [
+    "feet"
+   ]
+  },
+  {
+   "id": "toe",
+   "en": "toe",
+   "uz": "oyoq barmog‘i",
+   "pos": "noun",
+   "img": true,
+   "ex": "I dropped a heavy book on my big toe.",
+   "gap": "toe",
+   "alt": [
+    "toes"
+   ]
+  },
+  {
+   "id": "skin",
+   "en": "skin",
+   "uz": "teri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Use sun cream to protect your skin in summer.",
+   "gap": "skin",
+   "alt": []
+  },
+  {
+   "id": "heart",
+   "en": "heart",
+   "uz": "yurak",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your heart beats faster when you run.",
+   "gap": "heart",
+   "alt": []
+  },
+  {
+   "id": "brain",
+   "en": "brain",
+   "uz": "miya",
+   "pos": "noun",
+   "img": true,
+   "ex": "Your brain controls everything you think and do.",
+   "gap": "brain",
+   "alt": []
+  },
+  {
+   "id": "blood",
+   "en": "blood",
+   "uz": "qon",
+   "pos": "noun",
+   "img": true,
+   "ex": "The nurse took some blood from my arm for a test.",
+   "gap": "blood",
+   "alt": []
+  },
+  {
+   "id": "side_body",
+   "en": "side",
+   "uz": "biqin (tananing yon tomoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you stand straight, your arms hang down at your sides.",
+   "gap": "sides",
+   "alt": [
+    "sides"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "hand",
+   "arm"
+  ],
+  [
+   "leg",
+   "foot"
+  ],
+  [
+   "finger",
+   "thumb"
+  ],
+  [
+   "finger",
+   "toe"
+  ],
+  [
+   "lip",
+   "mouth"
+  ],
+  [
+   "head",
+   "face"
+  ],
+  [
+   "waist",
+   "hip"
+  ],
+  [
+   "side_body",
+   "hip"
+  ],
+  [
+   "side_body",
+   "waist"
+  ],
+  [
+   "side_body",
+   "back"
+  ]
+ ]
+}

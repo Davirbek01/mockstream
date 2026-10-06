@@ -1,0 +1,358 @@
+{
+ "book": "elementary",
+ "unit": 14,
+ "title": "Jobs",
+ "title_uz": "Kasblar",
+ "words": [
+  {
+   "id": "job",
+   "en": "job",
+   "uz": "ish (kasb)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum loves her job: she looks after sick animals at the zoo.",
+   "gap": "job",
+   "alt": []
+  },
+  {
+   "id": "doctor_job",
+   "en": "doctor",
+   "uz": "shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin studied medicine for six years, and now she is a children's doctor.",
+   "gap": "doctor",
+   "alt": []
+  },
+  {
+   "id": "teacher",
+   "en": "teacher",
+   "uz": "o‘qituvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My aunt works at a primary school in Fergana as a teacher; she helps young children learn to read.",
+   "gap": "teacher",
+   "alt": []
+  },
+  {
+   "id": "nurse",
+   "en": "nurse",
+   "uz": "hamshira",
+   "pos": "noun",
+   "img": false,
+   "ex": "At night, when the doctors go home, a nurse stays with the sick children in the hospital.",
+   "gap": "nurse",
+   "alt": []
+  },
+  {
+   "id": "mechanic",
+   "en": "mechanic",
+   "uz": "avtomexanik (usta)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our car makes a strange noise, so Dad took it to the mechanic.",
+   "gap": "mechanic",
+   "alt": []
+  },
+  {
+   "id": "farmer",
+   "en": "farmer",
+   "uz": "fermer (dehqon)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My uncle is a farmer near Jizzakh; he grows wheat and keeps cows.",
+   "gap": "farmer",
+   "alt": []
+  },
+  {
+   "id": "secretary",
+   "en": "secretary",
+   "uz": "kotib(a)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ask the secretary in the school office for a new student card.",
+   "gap": "secretary",
+   "alt": []
+  },
+  {
+   "id": "shop_assistant",
+   "en": "shop assistant",
+   "uz": "do‘kon sotuvchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I asked the shop assistant if they had these trainers in size 40.",
+   "gap": "shop assistant",
+   "alt": []
+  },
+  {
+   "id": "hairdresser",
+   "en": "hairdresser",
+   "uz": "sartarosh",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour is a hairdresser, and she cuts my hair in her kitchen for free.",
+   "gap": "hairdresser",
+   "alt": []
+  },
+  {
+   "id": "engineer",
+   "en": "engineer",
+   "uz": "muhandis",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother is a bridge engineer: he plans new bridges over rivers and roads.",
+   "gap": "engineer",
+   "alt": []
+  },
+  {
+   "id": "police_officer",
+   "en": "police officer",
+   "uz": "politsiya xodimi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A police officer helped the lost little boy find his mum at the bazaar.",
+   "gap": "police officer",
+   "alt": []
+  },
+  {
+   "id": "traffic_warden",
+   "en": "traffic warden",
+   "uz": "avtoturargoh nazoratchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A traffic warden can't catch thieves, but he can give you a ticket for bad parking.",
+   "gap": "traffic warden",
+   "alt": []
+  },
+  {
+   "id": "librarian",
+   "en": "librarian",
+   "uz": "kutubxonachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The librarian stamped my books and said I must bring them back in two weeks.",
+   "gap": "librarian",
+   "alt": []
+  },
+  {
+   "id": "bank_clerk",
+   "en": "bank clerk",
+   "uz": "bank xodimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank clerk counted the money and gave me my new bank card.",
+   "gap": "bank clerk",
+   "alt": []
+  },
+  {
+   "id": "waiter",
+   "en": "waiter",
+   "uz": "ofitsiant",
+   "pos": "noun",
+   "img": true,
+   "ex": "We sat at our table for twenty minutes before the waiter brought the menu.",
+   "gap": "waiter",
+   "alt": [
+    "waitress"
+   ]
+  },
+  {
+   "id": "taxi_driver",
+   "en": "taxi driver",
+   "uz": "taksi haydovchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver took us from the airport to our hotel and helped with our bags.",
+   "gap": "taxi driver",
+   "alt": []
+  },
+  {
+   "id": "writer",
+   "en": "writer",
+   "uz": "yozuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister wants to be a writer: she already has three notebooks full of stories.",
+   "gap": "writer",
+   "alt": []
+  },
+  {
+   "id": "office",
+   "en": "office",
+   "uz": "ofis (idora)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad's office is on the tenth floor, and from his desk he can see the whole city.",
+   "gap": "office",
+   "alt": []
+  },
+  {
+   "id": "factory",
+   "en": "factory",
+   "uz": "zavod (fabrika)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My aunt works at a factory in Namangan that makes school uniforms.",
+   "gap": "factory",
+   "alt": []
+  },
+  {
+   "id": "beauty_salon",
+   "en": "beauty salon",
+   "uz": "go‘zallik saloni",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum goes to the beauty salon on our street to have her nails painted.",
+   "gap": "beauty salon",
+   "alt": []
+  },
+  {
+   "id": "what_do_you_do",
+   "en": "What do you do?",
+   "uz": "Kasbingiz nima?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nice to meet you! So, what do you do? Are you a student?",
+   "gap": "what do you do",
+   "alt": [
+    "what do you do"
+   ]
+  },
+  {
+   "id": "work_from_home",
+   "en": "work from home",
+   "uz": "uydan turib ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My mum is a translator, so she can work from home with her laptop.",
+   "gap": "work from home",
+   "alt": [
+    "work at home",
+    "works from home"
+   ]
+  },
+  {
+   "id": "whats_your_job",
+   "en": "What's your job?",
+   "uz": "Ishingiz nima?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the party a tall man asked me, 'What's your job?' and I told him I was a nurse.",
+   "gap": "What's your job?",
+   "alt": [
+    "what's your job",
+    "What is your job?"
+   ]
+  },
+  {
+   "id": "interesting",
+   "en": "interesting",
+   "uz": "qiziqarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our history teacher tells really interesting stories, so nobody in the class gets bored.",
+   "gap": "interesting",
+   "alt": []
+  },
+  {
+   "id": "student",
+   "en": "student",
+   "uz": "talaba (o‘quvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam is a first-year student: he studies law and has lectures every morning.",
+   "gap": "student",
+   "alt": [
+    "students"
+   ]
+  },
+  {
+   "id": "work_v",
+   "en": "work",
+   "uz": "ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister works in a big hotel near the airport, at the reception desk.",
+   "gap": "works",
+   "alt": [
+    "works",
+    "worked",
+    "working"
+   ]
+  },
+  {
+   "id": "shop",
+   "en": "shop",
+   "uz": "do‘kon",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a little shop on the corner that sells bread, milk and sweets.",
+   "gap": "shop",
+   "alt": [
+    "shops"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "doctor_job",
+   "nurse"
+  ],
+  [
+   "mechanic",
+   "engineer"
+  ],
+  [
+   "police_officer",
+   "traffic_warden"
+  ],
+  [
+   "librarian",
+   "teacher"
+  ],
+  [
+   "bank_clerk",
+   "shop_assistant"
+  ],
+  [
+   "hairdresser",
+   "beauty_salon"
+  ],
+  [
+   "office",
+   "factory"
+  ],
+  [
+   "secretary",
+   "bank_clerk"
+  ],
+  [
+   "secretary",
+   "teacher"
+  ],
+  [
+   "whats_your_job",
+   "what_do_you_do"
+  ],
+  [
+   "student",
+   "teacher"
+  ],
+  [
+   "work_v",
+   "work_from_home"
+  ],
+  [
+   "shop",
+   "factory"
+  ],
+  [
+   "shop",
+   "office"
+  ],
+  [
+   "shop",
+   "shop_assistant"
+  ]
+ ]
+}

@@ -1,0 +1,477 @@
+{
+ "book": "elementary",
+ "unit": 6,
+ "title": "Health and illness",
+ "title_uz": "Sog‘liq va kasallik",
+ "words": [
+  {
+   "id": "fine",
+   "en": "fine",
+   "uz": "yaxshi, durust (ahvol)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My knee hurt after the match on Saturday, but now it's fine and I can play again.",
+   "gap": "fine",
+   "alt": []
+  },
+  {
+   "id": "well",
+   "en": "well",
+   "uz": "sog‘-salomat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I stayed in bed all last week, but now I'm well again and back at school.",
+   "gap": "well",
+   "alt": []
+  },
+  {
+   "id": "feel_ill",
+   "en": "feel ill",
+   "uz": "o‘zini betob his qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Jasur felt ill after lunch, so the teacher sent him home.",
+   "gap": "felt ill",
+   "alt": [
+    "felt ill",
+    "feels ill",
+    "feeling ill"
+   ]
+  },
+  {
+   "id": "be_sick",
+   "en": "be sick",
+   "uz": "qusmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The mountain road had so many bends that I thought I was going to be sick.",
+   "gap": "be sick",
+   "alt": [
+    "was sick",
+    "were sick"
+   ]
+  },
+  {
+   "id": "rest",
+   "en": "rest",
+   "uz": "dam olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After four hours of walking around Khiva, we sat in the shade to rest.",
+   "gap": "rest",
+   "alt": []
+  },
+  {
+   "id": "doctor",
+   "en": "doctor",
+   "uz": "shifokor",
+   "pos": "noun",
+   "img": false,
+   "ex": "My throat hurts and I've got a temperature, so I'm going to see the doctor at the polyclinic.",
+   "gap": "doctor",
+   "alt": []
+  },
+  {
+   "id": "aspirin",
+   "en": "aspirin",
+   "uz": "aspirin (dori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the long flight, Mum put some aspirin and plasters in her handbag.",
+   "gap": "aspirin",
+   "alt": []
+  },
+  {
+   "id": "headache",
+   "en": "headache",
+   "uz": "bosh og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "The music at the party was so loud that I went home with a terrible headache.",
+   "gap": "headache",
+   "alt": []
+  },
+  {
+   "id": "toothache",
+   "en": "toothache",
+   "uz": "tish og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "I ate too many sweets, and now I've got toothache in my back tooth.",
+   "gap": "toothache",
+   "alt": []
+  },
+  {
+   "id": "dentist",
+   "en": "dentist",
+   "uz": "tish shifokori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twice a year I visit the dentist, who checks and cleans my teeth.",
+   "gap": "dentist",
+   "alt": []
+  },
+  {
+   "id": "a_cold",
+   "en": "a cold",
+   "uz": "shamollash",
+   "pos": "noun",
+   "img": false,
+   "ex": "I walked home in the snow without a hat, and the next day I had a cold: a runny nose and a sore throat.",
+   "gap": "a cold",
+   "alt": []
+  },
+  {
+   "id": "hay_fever",
+   "en": "hay fever",
+   "uz": "gul changi allergiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every May, when the trees are in flower, Kamola gets hay fever and her eyes are red all day.",
+   "gap": "hay fever",
+   "alt": []
+  },
+  {
+   "id": "sneeze",
+   "en": "sneeze",
+   "uz": "aksirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dust always makes me sneeze, so I hate cleaning the cupboards.",
+   "gap": "sneeze",
+   "alt": [
+    "sneezes",
+    "sneezing"
+   ]
+  },
+  {
+   "id": "asthma",
+   "en": "asthma",
+   "uz": "astma (nafas qisishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My classmate has asthma, so he always carries an inhaler in his bag.",
+   "gap": "asthma",
+   "alt": []
+  },
+  {
+   "id": "breathe",
+   "en": "breathe",
+   "uz": "nafas olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My nose is blocked, so I can only breathe through my mouth.",
+   "gap": "breathe",
+   "alt": []
+  },
+  {
+   "id": "mosquito",
+   "en": "mosquito",
+   "uz": "chivin",
+   "pos": "noun",
+   "img": true,
+   "ex": "A mosquito bit me in the night, and now there's an itchy red spot on my arm.",
+   "gap": "mosquito",
+   "alt": [
+    "mosquitoes",
+    "mosquitos"
+   ]
+  },
+  {
+   "id": "malaria",
+   "en": "malaria",
+   "uz": "bezgak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before his trip to Nigeria, my uncle bought a mosquito net and tablets against malaria.",
+   "gap": "malaria",
+   "alt": []
+  },
+  {
+   "id": "cholera",
+   "en": "cholera",
+   "uz": "vabo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors tell travellers to boil their drinking water, because dirty water can carry cholera.",
+   "gap": "cholera",
+   "alt": []
+  },
+  {
+   "id": "cancer",
+   "en": "cancer",
+   "uz": "saraton (rak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a long fight with cancer, my aunt is healthy again and back at work.",
+   "gap": "cancer",
+   "alt": []
+  },
+  {
+   "id": "hospital",
+   "en": "hospital",
+   "uz": "kasalxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the car accident, an ambulance took the driver to hospital.",
+   "gap": "hospital",
+   "alt": []
+  },
+  {
+   "id": "smoke",
+   "en": "smoke",
+   "uz": "chekmoq (sigaret)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't smoke in the car; there's a baby in the back seat.",
+   "gap": "smoke",
+   "alt": []
+  },
+  {
+   "id": "stressed",
+   "en": "stressed",
+   "uz": "asabiy, stress holatida",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I've got three exams next week and no time to sleep; I feel really stressed.",
+   "gap": "stressed",
+   "alt": []
+  },
+  {
+   "id": "healthy_diet",
+   "en": "healthy diet",
+   "uz": "sog‘lom ovqatlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since he started a healthy diet with lots of salad and fish, Otabek has lost five kilos.",
+   "gap": "healthy diet",
+   "alt": []
+  },
+  {
+   "id": "exercise",
+   "en": "exercise",
+   "uz": "jismoniy mashq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To stay fit, I exercise in the park every morning: I run and do push-ups.",
+   "gap": "exercise",
+   "alt": []
+  },
+  {
+   "id": "jogging",
+   "en": "jogging",
+   "uz": "yengil yugurish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning Dad goes jogging along the Ankhor canal; he runs five kilometres.",
+   "gap": "jogging",
+   "alt": []
+  },
+  {
+   "id": "swimming",
+   "en": "swimming",
+   "uz": "suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In summer we often go swimming in the cool water of Charvak Lake.",
+   "gap": "swimming",
+   "alt": []
+  },
+  {
+   "id": "cycling",
+   "en": "cycling",
+   "uz": "velosiped haydash",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother loves cycling, so he rides his bike to school every day.",
+   "gap": "cycling",
+   "alt": []
+  },
+  {
+   "id": "relax",
+   "en": "relax",
+   "uz": "bo‘shashmoq, hordiq chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't worry about the test; close your eyes, take a deep breath and relax.",
+   "gap": "relax",
+   "alt": []
+  },
+  {
+   "id": "panic",
+   "en": "panic",
+   "uz": "vahimaga tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the lift stops between floors, don't panic; just press the alarm button.",
+   "gap": "panic",
+   "alt": []
+  },
+  {
+   "id": "good_for_you",
+   "en": "good for you",
+   "uz": "foydali (sog‘liq uchun)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Climbing the stairs instead of taking the lift is good for you.",
+   "gap": "good for you",
+   "alt": []
+  },
+  {
+   "id": "ok",
+   "en": "OK",
+   "uz": "joyida, tuzuk",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I fell off my bike, but don't worry: I'm OK, it's just a small cut.",
+   "gap": "OK",
+   "alt": [
+    "okay"
+   ]
+  },
+  {
+   "id": "bad_food",
+   "en": "bad",
+   "uz": "aynigan (ovqat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't eat that chicken; it's three days old and it's gone bad.",
+   "gap": "bad",
+   "alt": []
+  },
+  {
+   "id": "vomit",
+   "en": "vomit",
+   "uz": "qayt qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The nurse gave Rustam a bowl, because he felt sick and was going to vomit.",
+   "gap": "vomit",
+   "alt": [
+    "vomited",
+    "vomits"
+   ]
+  },
+  {
+   "id": "serious",
+   "en": "serious",
+   "uz": "jiddiy, xavfli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cut on his leg was serious, so he needed ten stitches.",
+   "gap": "serious",
+   "alt": []
+  },
+  {
+   "id": "illness",
+   "en": "illness",
+   "uz": "kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Measles is a childhood illness that spreads very quickly in schools.",
+   "gap": "illness",
+   "alt": [
+    "illnesses"
+   ]
+  },
+  {
+   "id": "health",
+   "en": "health",
+   "uz": "sog‘liq, salomatlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Walking every day is great for your health.",
+   "gap": "health",
+   "alt": []
+  },
+  {
+   "id": "tropical",
+   "en": "tropical",
+   "uz": "tropik (issiq mintaqadagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bananas and pineapples grow in tropical countries near the equator.",
+   "gap": "tropical",
+   "alt": []
+  },
+  {
+   "id": "kill",
+   "en": "kill",
+   "uz": "o‘ldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the 1300s, a terrible disease killed millions of people in Europe and Asia.",
+   "gap": "killed",
+   "alt": [
+    "kills",
+    "killed"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fine",
+   "well"
+  ],
+  [
+   "rest",
+   "relax"
+  ],
+  [
+   "feel_ill",
+   "be_sick"
+  ],
+  [
+   "headache",
+   "toothache"
+  ],
+  [
+   "doctor",
+   "dentist"
+  ],
+  [
+   "malaria",
+   "cholera"
+  ],
+  [
+   "a_cold",
+   "hay_fever"
+  ],
+  [
+   "jogging",
+   "exercise"
+  ],
+  [
+   "ok",
+   "fine"
+  ],
+  [
+   "ok",
+   "well"
+  ],
+  [
+   "vomit",
+   "be_sick"
+  ],
+  [
+   "illness",
+   "cancer"
+  ],
+  [
+   "illness",
+   "cholera"
+  ],
+  [
+   "illness",
+   "malaria"
+  ],
+  [
+   "health",
+   "healthy_diet"
+  ],
+  [
+   "serious",
+   "bad_food"
+  ]
+ ]
+}

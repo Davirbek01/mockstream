@@ -1,0 +1,246 @@
+{
+ "book": "elementary",
+ "unit": 55,
+ "title": "Common uncountable nouns",
+ "title_uz": "Ko‘p ishlatiladigan sanalmaydigan otlar",
+ "words": [
+  {
+   "id": "money",
+   "en": "money",
+   "uz": "pul",
+   "pos": "noun",
+   "img": true,
+   "ex": "I'm saving my pocket money to buy a new bike in the summer.",
+   "gap": "money",
+   "alt": []
+  },
+  {
+   "id": "traffic",
+   "en": "traffic",
+   "uz": "yo‘ldagi mashinalar (tirbandlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's always heavy traffic on this road at eight, when everyone drives to work.",
+   "gap": "traffic",
+   "alt": []
+  },
+  {
+   "id": "information",
+   "en": "information",
+   "uz": "ma’lumot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus station has a big screen with information about all the buses to Namangan.",
+   "gap": "information",
+   "alt": []
+  },
+  {
+   "id": "advice",
+   "en": "advice",
+   "uz": "maslahat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My English teacher gave me some good advice: read a little in English every day.",
+   "gap": "advice",
+   "alt": []
+  },
+  {
+   "id": "weather",
+   "en": "weather",
+   "uz": "ob-havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather in the mountains changes quickly: it can be sunny in the morning and snowy in the afternoon.",
+   "gap": "weather",
+   "alt": []
+  },
+  {
+   "id": "accommodation",
+   "en": "accommodation",
+   "uz": "turar joy (yashash joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We're looking for cheap accommodation near the sea for our summer trip: a small guesthouse or a flat.",
+   "gap": "accommodation",
+   "alt": []
+  },
+  {
+   "id": "fresh_air",
+   "en": "fresh air",
+   "uz": "toza havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Open the window and let some fresh air into the classroom.",
+   "gap": "fresh air",
+   "alt": []
+  },
+  {
+   "id": "air_travel",
+   "en": "air travel",
+   "uz": "samolyotda sayohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "For long journeys many people choose air travel, because a plane is much faster.",
+   "gap": "air travel",
+   "alt": []
+  },
+  {
+   "id": "rail_travel",
+   "en": "rail travel",
+   "uz": "poyezdda sayohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My father doesn't like flying, so he prefers rail travel and enjoys the view from the window.",
+   "gap": "rail travel",
+   "alt": []
+  },
+  {
+   "id": "hard_work",
+   "en": "hard work",
+   "uz": "og‘ir mehnat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Learning a language is hard work, but it's worth it.",
+   "gap": "hard work",
+   "alt": []
+  },
+  {
+   "id": "bad_news",
+   "en": "bad news",
+   "uz": "yomon xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've got some bad news: the school trip is cancelled because of the snow.",
+   "gap": "bad news",
+   "alt": []
+  },
+  {
+   "id": "spaghetti",
+   "en": "spaghetti",
+   "uz": "spagetti",
+   "pos": "noun",
+   "img": true,
+   "ex": "My sister makes spaghetti with tomato sauce and cheese for our dinner.",
+   "gap": "spaghetti",
+   "alt": []
+  },
+  {
+   "id": "butter",
+   "en": "butter",
+   "uz": "sariyog‘",
+   "pos": "noun",
+   "img": true,
+   "ex": "I put some butter on my warm bread and added a little honey.",
+   "gap": "butter",
+   "alt": []
+  },
+  {
+   "id": "water",
+   "en": "water",
+   "uz": "suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's very hot today, so drink plenty of water during PE.",
+   "gap": "water",
+   "alt": []
+  },
+  {
+   "id": "a_loaf_of_bread",
+   "en": "a loaf of bread",
+   "uz": "bitta buxanka non",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can you go to the bakery and buy a loaf of bread for breakfast?",
+   "gap": "a loaf of bread",
+   "alt": []
+  },
+  {
+   "id": "a_litre_of_milk",
+   "en": "a litre of milk",
+   "uz": "bir litr sut",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please buy a litre of milk at the shop; I want to make some homemade yoghurt.",
+   "gap": "a litre of milk",
+   "alt": []
+  },
+  {
+   "id": "a_kilo_of_rice",
+   "en": "a kilo of rice",
+   "uz": "bir kilo guruch",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rice is cheaper in big bags, but I only need a kilo of rice for tonight's dinner.",
+   "gap": "a kilo of rice",
+   "alt": []
+  },
+  {
+   "id": "countable",
+   "en": "countable",
+   "uz": "sanaladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Chair' is a countable noun: you can say one chair, two chairs, three chairs.",
+   "gap": "countable",
+   "alt": []
+  },
+  {
+   "id": "uncountable",
+   "en": "uncountable",
+   "uz": "sanalmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Homework' is an uncountable noun, so we never say 'two homeworks'.",
+   "gap": "uncountable",
+   "alt": []
+  },
+  {
+   "id": "news",
+   "en": "news",
+   "uz": "yangilik(lar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Have you heard the news? Our class won the drawing competition!",
+   "gap": "news",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "information",
+   "advice"
+  ],
+  [
+   "air_travel",
+   "rail_travel"
+  ],
+  [
+   "fresh_air",
+   "air_travel"
+  ],
+  [
+   "bad_news",
+   "information"
+  ],
+  [
+   "a_litre_of_milk",
+   "water"
+  ],
+  [
+   "news",
+   "information"
+  ],
+  [
+   "news",
+   "bad_news"
+  ],
+  [
+   "news",
+   "advice"
+  ],
+  [
+   "countable",
+   "uncountable"
+  ]
+ ]
+}

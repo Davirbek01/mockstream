@@ -1,0 +1,498 @@
+{
+ "book": "elementary",
+ "unit": 10,
+ "title": "Food and drink",
+ "title_uz": "Ovqat va ichimliklar",
+ "words": [
+  {
+   "id": "bread",
+   "en": "bread",
+   "uz": "non",
+   "pos": "noun",
+   "img": true,
+   "ex": "In Uzbek homes, people break bread by hand and never put a loaf upside down.",
+   "gap": "bread",
+   "alt": []
+  },
+  {
+   "id": "rice",
+   "en": "rice",
+   "uz": "guruch",
+   "pos": "noun",
+   "img": true,
+   "ex": "Farmers in Khorezm grow a lot of rice in wet fields near the Amu Darya.",
+   "gap": "rice",
+   "alt": []
+  },
+  {
+   "id": "pasta",
+   "en": "pasta",
+   "uz": "makaron",
+   "pos": "noun",
+   "img": true,
+   "ex": "Spaghetti and macaroni are both kinds of pasta; my sister cooks them with tomato sauce.",
+   "gap": "pasta",
+   "alt": []
+  },
+  {
+   "id": "salt",
+   "en": "salt",
+   "uz": "tuz",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter Dad puts salt on the icy steps so nobody falls.",
+   "gap": "salt",
+   "alt": []
+  },
+  {
+   "id": "pepper",
+   "en": "pepper",
+   "uz": "murch (qora murch)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I opened the jar of black pepper, I started to sneeze.",
+   "gap": "pepper",
+   "alt": []
+  },
+  {
+   "id": "meat",
+   "en": "meat",
+   "uz": "go‘sht",
+   "pos": "noun",
+   "img": true,
+   "ex": "The butchers at Chorsu Bazaar sell beef, lamb and other meat.",
+   "gap": "meat",
+   "alt": []
+  },
+  {
+   "id": "fish",
+   "en": "fish",
+   "uz": "baliq",
+   "pos": "noun",
+   "img": true,
+   "ex": "My uncle takes his rod to the lake every Sunday and catches fish for dinner.",
+   "gap": "fish",
+   "alt": []
+  },
+  {
+   "id": "vegetarian",
+   "en": "vegetarian",
+   "uz": "vegetarian (go‘sht yemaydigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola only orders the vegetable dishes; she's been a vegetarian since she was twelve.",
+   "gap": "vegetarian",
+   "alt": []
+  },
+  {
+   "id": "sugar",
+   "en": "sugar",
+   "uz": "shakar",
+   "pos": "noun",
+   "img": false,
+   "ex": "This cake has too much sugar in it; it's far too sweet for me.",
+   "gap": "sugar",
+   "alt": []
+  },
+  {
+   "id": "hamburger",
+   "en": "hamburger",
+   "uz": "gamburger",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the café my brother always orders a hamburger and puts extra ketchup on the meat inside the bun.",
+   "gap": "hamburger",
+   "alt": [
+    "hamburgers"
+   ]
+  },
+  {
+   "id": "hot_dog",
+   "en": "hot dog",
+   "uz": "hot-dog (sosiskali bulka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the stadium I bought a hot dog with mustard and ate the long sausage in three bites.",
+   "gap": "hot dog",
+   "alt": [
+    "hot dogs"
+   ]
+  },
+  {
+   "id": "pizza",
+   "en": "pizza",
+   "uz": "pitsa",
+   "pos": "noun",
+   "img": true,
+   "ex": "We ordered a big cheese pizza and cut it into eight slices.",
+   "gap": "pizza",
+   "alt": [
+    "pizzas"
+   ]
+  },
+  {
+   "id": "chips",
+   "en": "chips",
+   "uz": "kartoshka fri",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum cut the potatoes into long thin pieces and fried them to make chips.",
+   "gap": "chips",
+   "alt": []
+  },
+  {
+   "id": "fruit",
+   "en": "fruit",
+   "uz": "meva",
+   "pos": "noun",
+   "img": false,
+   "ex": "Melons and watermelons are the most popular summer fruit at the bazaar.",
+   "gap": "fruit",
+   "alt": []
+  },
+  {
+   "id": "vegetables",
+   "en": "vegetables",
+   "uz": "sabzavotlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour grows cucumbers, aubergines and other vegetables in her garden.",
+   "gap": "vegetables",
+   "alt": [
+    "vegetable"
+   ]
+  },
+  {
+   "id": "carrot",
+   "en": "carrot",
+   "uz": "sabzi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our rabbit eats a fresh carrot every day, and he eats the green top too.",
+   "gap": "carrot",
+   "alt": [
+    "carrots"
+   ]
+  },
+  {
+   "id": "beans",
+   "en": "beans",
+   "uz": "loviya",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum leaves dry red beans in water all night, and the next day she makes a thick soup with them.",
+   "gap": "beans",
+   "alt": [
+    "bean"
+   ]
+  },
+  {
+   "id": "potato",
+   "en": "potato",
+   "uz": "kartoshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "For dinner Mum boiled some potatoes and mashed them with butter and milk.",
+   "gap": "potatoes",
+   "alt": [
+    "potatoes"
+   ]
+  },
+  {
+   "id": "tomato",
+   "en": "tomato",
+   "uz": "pomidor",
+   "pos": "noun",
+   "img": true,
+   "ex": "In July our tomatoes turn red, and we eat them in a salad with cucumbers.",
+   "gap": "tomatoes",
+   "alt": [
+    "tomatoes"
+   ]
+  },
+  {
+   "id": "peas",
+   "en": "peas",
+   "uz": "ko‘k no‘xat",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother hates peas and pushes every small green ball to the side of his plate.",
+   "gap": "peas",
+   "alt": [
+    "pea"
+   ]
+  },
+  {
+   "id": "onion",
+   "en": "onion",
+   "uz": "piyoz",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cut the big onion into rings and put them on top of the shashlik.",
+   "gap": "onion",
+   "alt": [
+    "onions"
+   ]
+  },
+  {
+   "id": "garlic",
+   "en": "garlic",
+   "uz": "sarimsoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "I crushed two cloves of garlic for the salad dressing.",
+   "gap": "garlic",
+   "alt": []
+  },
+  {
+   "id": "mushroom",
+   "en": "mushroom",
+   "uz": "qo‘ziqorin",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the rain we found a big mushroom growing under a tree in the forest.",
+   "gap": "mushroom",
+   "alt": [
+    "mushrooms"
+   ]
+  },
+  {
+   "id": "apple",
+   "en": "apple",
+   "uz": "olma",
+   "pos": "noun",
+   "img": true,
+   "ex": "In autumn the trees in our garden are full of red apples.",
+   "gap": "apples",
+   "alt": [
+    "apples"
+   ]
+  },
+  {
+   "id": "pineapple",
+   "en": "pineapple",
+   "uz": "ananas",
+   "pos": "noun",
+   "img": true,
+   "ex": "We cut the top off the pineapple, and the sweet yellow fruit inside was very juicy.",
+   "gap": "pineapple",
+   "alt": []
+  },
+  {
+   "id": "orange",
+   "en": "orange",
+   "uz": "apelsin",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mandarins look like small oranges, but they are easier to peel.",
+   "gap": "oranges",
+   "alt": [
+    "oranges"
+   ]
+  },
+  {
+   "id": "banana",
+   "en": "banana",
+   "uz": "banan",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before football training I always eat a banana; I can peel it in two seconds.",
+   "gap": "banana",
+   "alt": [
+    "bananas"
+   ]
+  },
+  {
+   "id": "pear",
+   "en": "pear",
+   "uz": "nok",
+   "pos": "noun",
+   "img": true,
+   "ex": "This pear has a round bottom and a thin top, and it's so ripe that the juice runs down my chin.",
+   "gap": "pear",
+   "alt": [
+    "pears"
+   ]
+  },
+  {
+   "id": "strawberry",
+   "en": "strawberry",
+   "uz": "qulupnay",
+   "pos": "noun",
+   "img": true,
+   "ex": "In May we picked strawberries in the garden and ate them with cream.",
+   "gap": "strawberries",
+   "alt": [
+    "strawberries"
+   ]
+  },
+  {
+   "id": "grapes",
+   "en": "grapes",
+   "uz": "uzum",
+   "pos": "noun",
+   "img": true,
+   "ex": "In September the vines in our yard are heavy with green and black grapes.",
+   "gap": "grapes",
+   "alt": [
+    "grape"
+   ]
+  },
+  {
+   "id": "mineral_water",
+   "en": "mineral water",
+   "uz": "mineral suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Chortoq in Namangan is famous for its mineral water.",
+   "gap": "mineral water",
+   "alt": []
+  },
+  {
+   "id": "tea",
+   "en": "tea",
+   "uz": "choy",
+   "pos": "noun",
+   "img": true,
+   "ex": "When guests come, my mum always pours green tea into small bowls called piyola.",
+   "gap": "tea",
+   "alt": []
+  },
+  {
+   "id": "coffee",
+   "en": "coffee",
+   "uz": "qahva",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad can't wake up without a cup of strong black coffee in the morning.",
+   "gap": "coffee",
+   "alt": []
+  },
+  {
+   "id": "milk",
+   "en": "milk",
+   "uz": "sut",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's no milk in the fridge, so I'm eating my cornflakes dry.",
+   "gap": "milk",
+   "alt": []
+  },
+  {
+   "id": "fruit_juice",
+   "en": "fruit juice",
+   "uz": "meva sharbati",
+   "pos": "noun",
+   "img": true,
+   "ex": "This fruit juice is just pressed pomegranates, with nothing added.",
+   "gap": "fruit juice",
+   "alt": []
+  },
+  {
+   "id": "fast_food",
+   "en": "fast food",
+   "uz": "tez tayyorlanadigan ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Burgers, fries and nuggets are all fast food: cheap, quick and not very healthy.",
+   "gap": "fast food",
+   "alt": []
+  },
+  {
+   "id": "sushi",
+   "en": "sushi",
+   "uz": "yaponcha guruch-baliq taomi",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the Japanese restaurant we ate sushi: small rolls of rice with raw fish inside.",
+   "gap": "sushi",
+   "alt": []
+  },
+  {
+   "id": "beer",
+   "en": "beer",
+   "uz": "pivo",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the Oktoberfest in Munich, people drink beer from big glass mugs.",
+   "gap": "beer",
+   "alt": []
+  },
+  {
+   "id": "wine",
+   "en": "wine",
+   "uz": "sharob, vino",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the restaurant, a glass of red wine stood next to each plate.",
+   "gap": "wine",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "fruit",
+   "vegetables"
+  ],
+  [
+   "salt",
+   "pepper"
+  ],
+  [
+   "salt",
+   "sugar"
+  ],
+  [
+   "hamburger",
+   "pizza"
+  ],
+  [
+   "hamburger",
+   "hot_dog"
+  ],
+  [
+   "apple",
+   "pear"
+  ],
+  [
+   "onion",
+   "garlic"
+  ],
+  [
+   "beans",
+   "peas"
+  ],
+  [
+   "meat",
+   "fish"
+  ],
+  [
+   "tea",
+   "coffee"
+  ],
+  [
+   "beer",
+   "wine"
+  ],
+  [
+   "wine",
+   "fruit_juice"
+  ],
+  [
+   "beer",
+   "coffee"
+  ],
+  [
+   "beer",
+   "milk"
+  ],
+  [
+   "beer",
+   "fruit_juice"
+  ],
+  [
+   "sushi",
+   "rice"
+  ]
+ ]
+}

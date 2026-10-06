@@ -1,0 +1,447 @@
+{
+ "book": "elementary",
+ "unit": 23,
+ "title": "Sports",
+ "title_uz": "Sport turlari",
+ "words": [
+  {
+   "id": "football",
+   "en": "football",
+   "uz": "futbol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every break, the boys play football in the schoolyard with a small ball and two bags as a goal.",
+   "gap": "football",
+   "alt": []
+  },
+  {
+   "id": "rugby",
+   "en": "rugby",
+   "uz": "regbi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In rugby the ball is not round, and you must never throw it forward to a teammate.",
+   "gap": "rugby",
+   "alt": []
+  },
+  {
+   "id": "american_football",
+   "en": "American football",
+   "uz": "amerika futboli",
+   "pos": "noun",
+   "img": false,
+   "ex": "In American football the players wear big hard helmets and run with an egg-shaped ball.",
+   "gap": "American football",
+   "alt": [
+    "american football"
+   ]
+  },
+  {
+   "id": "basketball",
+   "en": "basketball",
+   "uz": "basketbol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur is very tall, so he's great at basketball: he can almost touch the ring.",
+   "gap": "basketball",
+   "alt": []
+  },
+  {
+   "id": "volleyball",
+   "en": "volleyball",
+   "uz": "voleybol",
+   "pos": "noun",
+   "img": false,
+   "ex": "At summer camp we played volleyball on the sand every evening, six against six over the net.",
+   "gap": "volleyball",
+   "alt": []
+  },
+  {
+   "id": "badminton",
+   "en": "badminton",
+   "uz": "badminton",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister and I play badminton in the yard, but when it's windy the shuttlecock flies everywhere.",
+   "gap": "badminton",
+   "alt": []
+  },
+  {
+   "id": "tennis",
+   "en": "tennis",
+   "uz": "tennis",
+   "pos": "noun",
+   "img": false,
+   "ex": "In my tennis lesson I hit the yellow ball with my racket so hard that it flew over the fence into the street.",
+   "gap": "tennis",
+   "alt": []
+  },
+  {
+   "id": "table_tennis",
+   "en": "table tennis",
+   "uz": "stol tennisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We play table tennis on a green table in the school hall; the ball is small, white and very light.",
+   "gap": "table tennis",
+   "alt": []
+  },
+  {
+   "id": "baseball",
+   "en": "baseball",
+   "uz": "beysbol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher lived in the USA, and she taught us baseball with a real wooden bat.",
+   "gap": "baseball",
+   "alt": []
+  },
+  {
+   "id": "running",
+   "en": "running",
+   "uz": "yugurish",
+   "pos": "noun",
+   "img": false,
+   "ex": "I go running in the park every morning before school; I do five kilometres.",
+   "gap": "running",
+   "alt": []
+  },
+  {
+   "id": "sailing",
+   "en": "sailing",
+   "uz": "yelkanli qayiqda suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "On windy days my uncle goes sailing on Aydarkul Lake, and the wind pushes his small boat across the water.",
+   "gap": "sailing",
+   "alt": []
+  },
+  {
+   "id": "kayaking",
+   "en": "kayaking",
+   "uz": "baydarkada suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "We went kayaking down the river: two people in a long, narrow boat with a paddle each.",
+   "gap": "kayaking",
+   "alt": []
+  },
+  {
+   "id": "motor_racing",
+   "en": "motor racing",
+   "uz": "avtopoyga",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother loves motor racing and shouts at the TV when the fast cars go round the track.",
+   "gap": "motor racing",
+   "alt": []
+  },
+  {
+   "id": "horse_racing",
+   "en": "horse racing",
+   "uz": "ot poygasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Navruz festival in our village there is horse racing, and the fastest rider wins a carpet.",
+   "gap": "horse racing",
+   "alt": []
+  },
+  {
+   "id": "skiing",
+   "en": "skiing",
+   "uz": "chang‘ida uchish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter we go skiing at Amirsoy, with two long thin boards, one on each foot.",
+   "gap": "skiing",
+   "alt": []
+  },
+  {
+   "id": "snowboarding",
+   "en": "snowboarding",
+   "uz": "snoubordda uchish",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother prefers snowboarding: he stands sideways on one wide board and flies down the mountain.",
+   "gap": "snowboarding",
+   "alt": []
+  },
+  {
+   "id": "judo",
+   "en": "judo",
+   "uz": "dzyudo",
+   "pos": "noun",
+   "img": false,
+   "ex": "In judo you hold your opponent's jacket and try to throw them onto the mat.",
+   "gap": "judo",
+   "alt": []
+  },
+  {
+   "id": "karate",
+   "en": "karate",
+   "uz": "karate",
+   "pos": "noun",
+   "img": false,
+   "ex": "In karate you kick and punch, and you break wooden boards with your hand to show your power.",
+   "gap": "karate",
+   "alt": []
+  },
+  {
+   "id": "court",
+   "en": "court",
+   "uz": "kort (tennis, basketbol maydonchasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has a new basketball court next to the gym.",
+   "gap": "court",
+   "alt": [
+    "courts"
+   ]
+  },
+  {
+   "id": "pitch",
+   "en": "pitch",
+   "uz": "o‘yin maydoni (futbol, regbi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twenty-two players ran onto the green football pitch before the match.",
+   "gap": "pitch",
+   "alt": [
+    "pitches"
+   ]
+  },
+  {
+   "id": "swimming_pool",
+   "en": "swimming pool",
+   "uz": "suzish havzasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our swimming pool is twenty-five metres long, and the water is always warm.",
+   "gap": "swimming pool",
+   "alt": [
+    "swimming pools"
+   ]
+  },
+  {
+   "id": "sports_centre",
+   "en": "sports centre",
+   "uz": "sport majmuasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new sports centre near our mahalla has a gym, a pool and courts for tennis and volleyball.",
+   "gap": "sports centre",
+   "alt": [
+    "sports center"
+   ]
+  },
+  {
+   "id": "ball_game",
+   "en": "ball game",
+   "uz": "to‘p bilan o‘ynaladigan sport",
+   "pos": "noun",
+   "img": false,
+   "ex": "Basketball and volleyball are both ball games for two teams.",
+   "gap": "ball games",
+   "alt": [
+    "ball games"
+   ]
+  },
+  {
+   "id": "play_sport",
+   "en": "play",
+   "uz": "o‘ynamoq (sport o‘yinini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturdays Liam plays football with his classmates in the park.",
+   "gap": "plays",
+   "alt": [
+    "plays",
+    "played",
+    "playing"
+   ]
+  },
+  {
+   "id": "go_running",
+   "en": "go running",
+   "uz": "yugurishga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning Nodira puts on her trainers and goes running in the park for half an hour.",
+   "gap": "goes running",
+   "alt": [
+    "goes running",
+    "went running",
+    "going running"
+   ]
+  },
+  {
+   "id": "go_sailing",
+   "en": "go sailing",
+   "uz": "yelkanli qayiqda suzishga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the wind is strong, Oliver and his father go sailing on the lake in their small boat.",
+   "gap": "go sailing",
+   "alt": [
+    "goes sailing",
+    "went sailing",
+    "going sailing"
+   ]
+  },
+  {
+   "id": "go_kayaking",
+   "en": "go kayaking",
+   "uz": "baydarkada suzishga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On holiday in Norway, Emma went kayaking between tall green mountains.",
+   "gap": "went kayaking",
+   "alt": [
+    "goes kayaking",
+    "went kayaking",
+    "going kayaking"
+   ]
+  },
+  {
+   "id": "do_judo",
+   "en": "do judo",
+   "uz": "dzyudo bilan shug‘ullanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Farrux does judo three times a week and already has a yellow belt.",
+   "gap": "does judo",
+   "alt": [
+    "does judo",
+    "did judo",
+    "doing judo"
+   ]
+  },
+  {
+   "id": "favourite",
+   "en": "favourite",
+   "uz": "eng sevimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My favourite game is chess, but I also enjoy watching rugby on TV.",
+   "gap": "favourite",
+   "alt": [
+    "favorite"
+   ]
+  },
+  {
+   "id": "like_best",
+   "en": "like best",
+   "uz": "eng ko‘p yoqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Which sport do you like best: swimming or skiing?",
+   "gap": "like best",
+   "alt": [
+    "likes best",
+    "liked best"
+   ]
+  },
+  {
+   "id": "sport",
+   "en": "sport",
+   "uz": "sport turi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kayaking is a water sport that you can try on the lake in summer.",
+   "gap": "sport",
+   "alt": [
+    "sports"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "rugby",
+   "american_football"
+  ],
+  [
+   "football",
+   "american_football"
+  ],
+  [
+   "tennis",
+   "table_tennis"
+  ],
+  [
+   "tennis",
+   "badminton"
+  ],
+  [
+   "basketball",
+   "volleyball"
+  ],
+  [
+   "sailing",
+   "kayaking"
+  ],
+  [
+   "skiing",
+   "snowboarding"
+  ],
+  [
+   "judo",
+   "karate"
+  ],
+  [
+   "court",
+   "pitch"
+  ],
+  [
+   "motor_racing",
+   "horse_racing"
+  ],
+  [
+   "swimming_pool",
+   "sports_centre"
+  ],
+  [
+   "play_sport",
+   "play_role"
+  ],
+  [
+   "go_running",
+   "running"
+  ],
+  [
+   "go_sailing",
+   "sailing"
+  ],
+  [
+   "go_kayaking",
+   "kayaking"
+  ],
+  [
+   "go_sailing",
+   "go_kayaking"
+  ],
+  [
+   "do_judo",
+   "judo"
+  ],
+  [
+   "do_judo",
+   "karate"
+  ],
+  [
+   "sport",
+   "ball_game"
+  ],
+  [
+   "sport",
+   "football"
+  ],
+  [
+   "sport",
+   "tennis"
+  ],
+  [
+   "ball_game",
+   "football"
+  ]
+ ]
+}

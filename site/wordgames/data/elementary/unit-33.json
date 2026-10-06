@@ -1,0 +1,617 @@
+{
+ "book": "elementary",
+ "unit": 33,
+ "title": "UK culture",
+ "title_uz": "Buyuk Britaniya madaniyati",
+ "words": [
+  {
+   "id": "festival",
+   "en": "festival",
+   "uz": "bayram, sayil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Diwali, the Hindu festival of lights, is celebrated by many families in Leicester every autumn.",
+   "gap": "festival",
+   "alt": [
+    "festivals"
+   ]
+  },
+  {
+   "id": "christmas",
+   "en": "Christmas",
+   "uz": "Rojdestvo (25-dekabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most British families stay at home for Christmas and open their presents on the morning of 25 December.",
+   "gap": "Christmas",
+   "alt": []
+  },
+  {
+   "id": "christmas_tree",
+   "en": "Christmas tree",
+   "uz": "Rojdestvo archasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The children hung lights and shiny glass balls on the Christmas tree in the living room.",
+   "gap": "Christmas tree",
+   "alt": [
+    "Christmas trees"
+   ]
+  },
+  {
+   "id": "present",
+   "en": "present",
+   "uz": "sovg‘a",
+   "pos": "noun",
+   "img": true,
+   "ex": "Under the tree there was a big present wrapped in red paper, with my name on it.",
+   "gap": "present",
+   "alt": [
+    "presents"
+   ]
+  },
+  {
+   "id": "decorate",
+   "en": "decorate",
+   "uz": "bezatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every December we decorate our classroom with paper snowflakes and coloured lights.",
+   "gap": "decorate",
+   "alt": [
+    "decorates",
+    "decorated",
+    "decorating"
+   ]
+  },
+  {
+   "id": "new_years_eve",
+   "en": "New Year's Eve",
+   "uz": "Yangi yil kechasi (31-dekabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On New Year's Eve, our whole street stayed up late, waiting for the clock to show 00:00.",
+   "gap": "New Year's Eve",
+   "alt": []
+  },
+  {
+   "id": "hogmanay",
+   "en": "Hogmanay",
+   "uz": "Xogmaney (Shotlandiyada 31-dekabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Edinburgh, Hogmanay is a giant street party on the last night of the year.",
+   "gap": "Hogmanay",
+   "alt": []
+  },
+  {
+   "id": "new_years_day",
+   "en": "New Year's Day",
+   "uz": "Yangi yilning birinchi kuni (1-yanvar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We stayed up until 2 a.m. to welcome the new year, so on New Year's Day we didn't get up until lunchtime.",
+   "gap": "New Year's Day",
+   "alt": []
+  },
+  {
+   "id": "bank_holiday",
+   "en": "bank holiday",
+   "uz": "rasmiy dam olish kuni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Monday is a bank holiday, so Dad doesn't have to go to the office and we're driving to the seaside.",
+   "gap": "bank holiday",
+   "alt": [
+    "bank holidays"
+   ]
+  },
+  {
+   "id": "easter",
+   "en": "Easter",
+   "uz": "Pasxa (bahorgi xristian bayrami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Easter, British children often search the garden for small chocolate eggs hidden by their parents.",
+   "gap": "Easter",
+   "alt": []
+  },
+  {
+   "id": "easter_egg",
+   "en": "Easter egg",
+   "uz": "Pasxa tuxumi (bo‘yalgan yoki shokoladli)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My pen friend from Leeds sent me a chocolate Easter egg wrapped in shiny gold paper.",
+   "gap": "Easter egg",
+   "alt": [
+    "Easter eggs"
+   ]
+  },
+  {
+   "id": "halloween",
+   "en": "Halloween",
+   "uz": "Xellouin (31-oktabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We cut a scary face into a big orange pumpkin and put a candle inside it for Halloween.",
+   "gap": "Halloween",
+   "alt": []
+  },
+  {
+   "id": "dress_up",
+   "en": "dress up",
+   "uz": "kostyum kiyib qiyofaga kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For the school party, Kamola dressed up as a black cat, with pointed ears and a long tail.",
+   "gap": "dressed up",
+   "alt": [
+    "dresses up",
+    "dressed up",
+    "dressing up"
+   ]
+  },
+  {
+   "id": "bonfire_night",
+   "en": "Bonfire Night",
+   "uz": "Gulxan kechasi (5-noyabr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On 5 November we stood in a cold London park for Bonfire Night, holding cups of hot chocolate and watching the huge fire.",
+   "gap": "Bonfire Night",
+   "alt": []
+  },
+  {
+   "id": "bonfire",
+   "en": "bonfire",
+   "uz": "gulxan",
+   "pos": "noun",
+   "img": true,
+   "ex": "We collected dry branches and made a bonfire at the end of the garden to keep warm.",
+   "gap": "bonfire",
+   "alt": [
+    "bonfires"
+   ]
+  },
+  {
+   "id": "fireworks",
+   "en": "fireworks",
+   "uz": "mushakbozlik (salyut)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The loud bangs of the fireworks frightened our dog, so it hid under the bed all evening.",
+   "gap": "fireworks",
+   "alt": [
+    "firework"
+   ]
+  },
+  {
+   "id": "fish_and_chips",
+   "en": "fish and chips",
+   "uz": "baliq va qovurilgan kartoshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "After a cold walk by the sea in Brighton, we ate hot fish and chips out of paper boxes.",
+   "gap": "fish and chips",
+   "alt": []
+  },
+  {
+   "id": "roast_beef",
+   "en": "roast beef",
+   "uz": "duxovkada pishirilgan mol go‘shti",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our host family's Sunday lunch was roast beef with potatoes, carrots and thick gravy.",
+   "gap": "roast beef",
+   "alt": []
+  },
+  {
+   "id": "yorkshire_pudding",
+   "en": "Yorkshire pudding",
+   "uz": "Yorkshir pudingi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Next to the meat on my plate there was a crispy, golden Yorkshire pudding full of gravy.",
+   "gap": "Yorkshire pudding",
+   "alt": [
+    "Yorkshire puddings"
+   ]
+  },
+  {
+   "id": "chicken_tikka_masala",
+   "en": "chicken tikka masala",
+   "uz": "tovuq tikka masala (hind taomi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Indian restaurant in Glasgow, I ordered chicken tikka masala, a spicy curry with rice.",
+   "gap": "chicken tikka masala",
+   "alt": []
+  },
+  {
+   "id": "nursery_school",
+   "en": "nursery school",
+   "uz": "bolalar bog‘chasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother is three, so every morning Mum takes him to nursery school before work.",
+   "gap": "nursery school",
+   "alt": [
+    "nursery schools"
+   ]
+  },
+  {
+   "id": "primary_school",
+   "en": "primary school",
+   "uz": "boshlang‘ich maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our sister is seven and in her second year at primary school, learning to read and write.",
+   "gap": "primary school",
+   "alt": [
+    "primary schools"
+   ]
+  },
+  {
+   "id": "secondary_school",
+   "en": "secondary school",
+   "uz": "o‘rta maktab (yuqori sinflar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After six years at primary school, children in England move up to secondary school at the age of eleven.",
+   "gap": "secondary school",
+   "alt": [
+    "secondary schools"
+   ]
+  },
+  {
+   "id": "state_school",
+   "en": "state school",
+   "uz": "davlat maktabi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika is fourteen and goes to a state school, so her parents don't pay anything for her lessons.",
+   "gap": "state school",
+   "alt": [
+    "state schools"
+   ]
+  },
+  {
+   "id": "private_school",
+   "en": "private school",
+   "uz": "xususiy maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "The twins are fifteen, and their parents pay a lot of money every year to send them to a private school.",
+   "gap": "private school",
+   "alt": [
+    "private schools"
+   ]
+  },
+  {
+   "id": "royal_family",
+   "en": "royal family",
+   "uz": "qirollik oilasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of people waited outside Buckingham Palace, hoping to see the royal family on the balcony.",
+   "gap": "royal family",
+   "alt": []
+  },
+  {
+   "id": "king",
+   "en": "king",
+   "uz": "qirol",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new British banknotes show the face of the king, Charles III, instead of his mother's.",
+   "gap": "king",
+   "alt": []
+  },
+  {
+   "id": "queen",
+   "en": "queen",
+   "uz": "qirolicha",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle collects old British stamps, and on every one there's the face of Elizabeth II, who was queen for seventy years.",
+   "gap": "queen",
+   "alt": []
+  },
+  {
+   "id": "houses_of_parliament",
+   "en": "Houses of Parliament",
+   "uz": "Parlament binosi (Londonda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our tour boat on the Thames passed Big Ben and the Houses of Parliament, where British politicians work.",
+   "gap": "Houses of Parliament",
+   "alt": []
+  },
+  {
+   "id": "prime_minister",
+   "en": "Prime Minister",
+   "uz": "Bosh vazir",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Wednesday the Prime Minister answers questions from other politicians in Parliament, and it's often on TV.",
+   "gap": "Prime Minister",
+   "alt": []
+  },
+  {
+   "id": "valentines_day",
+   "en": "Valentine's Day",
+   "uz": "Sevishganlar kuni (14-fevral)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On 14 February, Valentine's Day, flower shops in London sell thousands of red roses.",
+   "gap": "Valentine's Day",
+   "alt": []
+  },
+  {
+   "id": "boyfriend",
+   "en": "boyfriend",
+   "uz": "sevgilisi (yigit)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Anna and her boyfriend go hiking together every weekend.",
+   "gap": "boyfriend",
+   "alt": [
+    "boyfriends"
+   ]
+  },
+  {
+   "id": "girlfriend",
+   "en": "girlfriend",
+   "uz": "sevgilisi (qiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tom bought his girlfriend a silver necklace for her birthday.",
+   "gap": "girlfriend",
+   "alt": [
+    "girlfriends"
+   ]
+  },
+  {
+   "id": "christmas_card",
+   "en": "Christmas card",
+   "uz": "Rojdestvo tabrik otkritkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Emma writes a Christmas card to each of her classmates and signs her name at the bottom.",
+   "gap": "Christmas card",
+   "alt": [
+    "Christmas cards"
+   ]
+  },
+  {
+   "id": "spend_time_with",
+   "en": "spend time with",
+   "uz": "… bilan vaqt o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the holidays Harry likes to spend time with his friends, playing board games.",
+   "gap": "spend time with",
+   "alt": [
+    "spends time with",
+    "spent time with",
+    "spending time with"
+   ]
+  },
+  {
+   "id": "sing",
+   "en": "sing",
+   "uz": "qo‘shiq aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class is going to sing two songs at the school Christmas concert.",
+   "gap": "sing",
+   "alt": [
+    "sings",
+    "sang",
+    "sung",
+    "singing"
+   ]
+  },
+  {
+   "id": "toast",
+   "en": "toast",
+   "uz": "sharafiga qadah ko‘tarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At midnight the guests raised their glasses of juice to toast the New Year.",
+   "gap": "toast",
+   "alt": [
+    "toasts",
+    "toasted",
+    "toasting"
+   ]
+  },
+  {
+   "id": "knock_at_the_door",
+   "en": "knock at the door",
+   "uz": "eshikni taqillatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Somebody knocked at the door at nine o'clock; it was our neighbour with a parcel.",
+   "gap": "knocked at the door",
+   "alt": [
+    "knocks at the door",
+    "knocked at the door",
+    "knocking at the door"
+   ]
+  },
+  {
+   "id": "sweets",
+   "en": "sweets",
+   "uz": "konfetlar (shirinliklar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The dentist told the children to eat fewer sweets and to brush their teeth twice a day.",
+   "gap": "sweets",
+   "alt": [
+    "sweet"
+   ]
+  },
+  {
+   "id": "roast_potatoes",
+   "en": "roast potatoes",
+   "uz": "duxovkada qizartirilgan kartoshka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Oliver cooked the roast potatoes in the oven for an hour until they were golden and crispy.",
+   "gap": "roast potatoes",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "new_years_eve",
+   "hogmanay"
+  ],
+  [
+   "new_years_eve",
+   "new_years_day"
+  ],
+  [
+   "new_years_day",
+   "bank_holiday"
+  ],
+  [
+   "christmas",
+   "christmas_tree"
+  ],
+  [
+   "easter",
+   "easter_egg"
+  ],
+  [
+   "christmas",
+   "easter"
+  ],
+  [
+   "bonfire_night",
+   "fireworks"
+  ],
+  [
+   "bonfire",
+   "fireworks"
+  ],
+  [
+   "bonfire",
+   "bonfire_night"
+  ],
+  [
+   "royal_family",
+   "king"
+  ],
+  [
+   "royal_family",
+   "queen"
+  ],
+  [
+   "roast_beef",
+   "yorkshire_pudding"
+  ],
+  [
+   "roast_beef",
+   "fish_and_chips"
+  ],
+  [
+   "festival",
+   "christmas"
+  ],
+  [
+   "festival",
+   "easter"
+  ],
+  [
+   "festival",
+   "halloween"
+  ],
+  [
+   "present",
+   "easter_egg"
+  ],
+  [
+   "present",
+   "christmas_tree"
+  ],
+  [
+   "bank_holiday",
+   "christmas"
+  ],
+  [
+   "decorate",
+   "dress_up"
+  ],
+  [
+   "chicken_tikka_masala",
+   "roast_beef"
+  ],
+  [
+   "chicken_tikka_masala",
+   "fish_and_chips"
+  ],
+  [
+   "primary_school",
+   "state_school"
+  ],
+  [
+   "primary_school",
+   "private_school"
+  ],
+  [
+   "secondary_school",
+   "state_school"
+  ],
+  [
+   "secondary_school",
+   "private_school"
+  ],
+  [
+   "valentines_day",
+   "festival"
+  ],
+  [
+   "boyfriend",
+   "girlfriend"
+  ],
+  [
+   "christmas_card",
+   "present"
+  ],
+  [
+   "christmas_card",
+   "christmas"
+  ],
+  [
+   "toast",
+   "decorate"
+  ],
+  [
+   "sing",
+   "toast"
+  ],
+  [
+   "sweets",
+   "easter_egg"
+  ],
+  [
+   "sweets",
+   "present"
+  ],
+  [
+   "roast_potatoes",
+   "roast_beef"
+  ],
+  [
+   "roast_potatoes",
+   "yorkshire_pudding"
+  ],
+  [
+   "roast_potatoes",
+   "fish_and_chips"
+  ]
+ ]
+}

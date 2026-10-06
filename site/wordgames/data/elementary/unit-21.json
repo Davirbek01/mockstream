@@ -1,0 +1,357 @@
+{
+ "book": "elementary",
+ "unit": 21,
+ "title": "In a hotel",
+ "title_uz": "Mehmonxonada",
+ "words": [
+  {
+   "id": "reception",
+   "en": "reception",
+   "uz": "qabulxona (resepshn)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When we arrived at our hotel in Khiva, we went straight to reception to get our key.",
+   "gap": "reception",
+   "alt": []
+  },
+  {
+   "id": "receptionist",
+   "en": "receptionist",
+   "uz": "qabulxona xodimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The receptionist at the front desk smiled and said, 'Welcome to Bukhara!'",
+   "gap": "receptionist",
+   "alt": [
+    "receptionists"
+   ]
+  },
+  {
+   "id": "lift",
+   "en": "lift",
+   "uz": "lift",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our room is on the ninth floor, so we took the lift instead of walking up the stairs.",
+   "gap": "lift",
+   "alt": [
+    "lifts"
+   ]
+  },
+  {
+   "id": "key",
+   "en": "key",
+   "uz": "kalit",
+   "pos": "noun",
+   "img": true,
+   "ex": "The receptionist gave us the key to room 305; it had a big wooden tag with the number on it.",
+   "gap": "key",
+   "alt": [
+    "keys"
+   ]
+  },
+  {
+   "id": "bathroom",
+   "en": "bathroom",
+   "uz": "vannaxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every room has its own bathroom with a shower, a basin and a toilet.",
+   "gap": "bathroom",
+   "alt": [
+    "bathrooms"
+   ]
+  },
+  {
+   "id": "form",
+   "en": "form",
+   "uz": "anketa (blanka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please write your name, address and passport number on this form.",
+   "gap": "form",
+   "alt": [
+    "forms"
+   ]
+  },
+  {
+   "id": "fill_in",
+   "en": "fill in",
+   "uz": "to‘ldirmoq (blankani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before we got our key, Dad had to fill in a long form with all our names.",
+   "gap": "fill in",
+   "alt": [
+    "filled in",
+    "fills in",
+    "filling in"
+   ]
+  },
+  {
+   "id": "sign",
+   "en": "sign",
+   "uz": "imzo qo‘ymoq (chekmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Write your full name in capital letters, then sign at the bottom, please.",
+   "gap": "sign",
+   "alt": [
+    "signed"
+   ]
+  },
+  {
+   "id": "bill",
+   "en": "bill",
+   "uz": "hisob (to‘lov varag‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before we left, Mum checked the bill and found two cups of coffee we never ordered.",
+   "gap": "bill",
+   "alt": [
+    "bills"
+   ]
+  },
+  {
+   "id": "mini_bar",
+   "en": "mini-bar",
+   "uz": "mini-bar (xonadagi kichik muzlatkich)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mini-bar in our room was full of cold water, juice and chocolate, but everything in it was expensive.",
+   "gap": "mini-bar",
+   "alt": [
+    "minibar",
+    "mini bar"
+   ]
+  },
+  {
+   "id": "hairdryer",
+   "en": "hairdryer",
+   "uz": "fen (soch quritgich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "After swimming, I dried my wet hair with the hairdryer in the bathroom.",
+   "gap": "hairdryer",
+   "alt": [
+    "hair dryer",
+    "hair-dryer"
+   ]
+  },
+  {
+   "id": "single_room",
+   "en": "single room",
+   "uz": "bir kishilik xona",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm travelling alone, so I only need a single room for two nights.",
+   "gap": "single room",
+   "alt": []
+  },
+  {
+   "id": "double_room",
+   "en": "double room",
+   "uz": "ikki kishilik xona",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents booked a double room with one big bed for the two of them.",
+   "gap": "double room",
+   "alt": []
+  },
+  {
+   "id": "reservation",
+   "en": "reservation",
+   "uz": "bron (oldindan band qilingan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our reservation was for Friday, but we arrived on Thursday, so the hotel had no room for us.",
+   "gap": "reservation",
+   "alt": []
+  },
+  {
+   "id": "book_room",
+   "en": "book",
+   "uz": "bron qilmoq (oldindan band qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We booked a room in Termez online two weeks before the trip.",
+   "gap": "booked",
+   "alt": [
+    "booked",
+    "books",
+    "booking"
+   ]
+  },
+  {
+   "id": "view",
+   "en": "view",
+   "uz": "manzara (derazadan ko‘rinish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From our window there was a beautiful view of the snowy mountains.",
+   "gap": "view",
+   "alt": []
+  },
+  {
+   "id": "room_service",
+   "en": "room service",
+   "uz": "xonaga ovqat yetkazish xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "We were too tired to go out, so we ordered soup and salad from room service.",
+   "gap": "room service",
+   "alt": []
+  },
+  {
+   "id": "wake_up_call",
+   "en": "wake-up call",
+   "uz": "uyg‘otish qo‘ng‘irog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our train leaves at seven, so I asked reception for a wake-up call at half past five.",
+   "gap": "wake-up call",
+   "alt": [
+    "wake up call"
+   ]
+  },
+  {
+   "id": "check_out",
+   "en": "check out",
+   "uz": "mehmonxonadan chiqib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Guests must leave their rooms and check out before twelve o'clock on the last day.",
+   "gap": "check out",
+   "alt": [
+    "checked out",
+    "checks out",
+    "checking out"
+   ]
+  },
+  {
+   "id": "outside_line",
+   "en": "outside line",
+   "uz": "tashqi liniya (shahar raqami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To get an outside line from your room, dial 9 first and then the number.",
+   "gap": "outside line",
+   "alt": []
+  },
+  {
+   "id": "change_money",
+   "en": "change money",
+   "uz": "pul almashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At reception you can change money from dollars into som.",
+   "gap": "change money",
+   "alt": [
+    "exchange money",
+    "changed money"
+   ]
+  },
+  {
+   "id": "take_the_lift",
+   "en": "take the lift",
+   "uz": "liftda chiqmoq (tushmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our bags were heavy, so we took the lift up to the sixth floor.",
+   "gap": "took the lift",
+   "alt": [
+    "takes the lift",
+    "took the lift",
+    "taking the lift"
+   ]
+  },
+  {
+   "id": "over_there",
+   "en": "over there",
+   "uz": "ana u yerda (narida)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The lift isn't next to the stairs; it's over there, behind the big green plant.",
+   "gap": "over there",
+   "alt": []
+  },
+  {
+   "id": "help_noun",
+   "en": "help",
+   "uz": "yordam",
+   "pos": "noun",
+   "img": false,
+   "ex": "A young man from the hotel offered Ms Usmonova some help with her heavy suitcases.",
+   "gap": "help",
+   "alt": []
+  },
+  {
+   "id": "how_much",
+   "en": "how much",
+   "uz": "qancha turadi? (narx)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, how much is a double room for one night?",
+   "gap": "how much",
+   "alt": []
+  },
+  {
+   "id": "dialling_code",
+   "en": "code",
+   "uz": "mamlakat raqami (xalqaro qo‘ng‘iroqda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To phone Kazakhstan from abroad, first dial the code for the country, +7.",
+   "gap": "code",
+   "alt": [
+    "codes"
+   ]
+  },
+  {
+   "id": "here_is",
+   "en": "here is",
+   "uz": "mana (marhamat, olavering)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The receptionist smiled and said, 'Room 214 — here is your key.'",
+   "gap": "here is",
+   "alt": [
+    "here's"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fill_in",
+   "sign"
+  ],
+  [
+   "single_room",
+   "double_room"
+  ],
+  [
+   "reservation",
+   "book_room"
+  ],
+  [
+   "reception",
+   "receptionist"
+  ],
+  [
+   "form",
+   "bill"
+  ],
+  [
+   "room_service",
+   "reception"
+  ],
+  [
+   "take_the_lift",
+   "lift"
+  ],
+  [
+   "dialling_code",
+   "outside_line"
+  ]
+ ]
+}

@@ -1,0 +1,455 @@
+{
+ "book": "elementary",
+ "unit": 26,
+ "title": "Music and musical instruments",
+ "title_uz": "Musiqa va musiqa asboblari",
+ "words": [
+  {
+   "id": "music_general",
+   "en": "music",
+   "uz": "musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jazz, rock, pop, folk: Sevara listens to all kinds of music while she does her homework.",
+   "gap": "music",
+   "alt": []
+  },
+  {
+   "id": "musical_adj",
+   "en": "musical",
+   "uz": "musiqiy (sifat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilshod comes from a very musical family: his mother sings and his father plays the doira.",
+   "gap": "musical",
+   "alt": []
+  },
+  {
+   "id": "musician",
+   "en": "musician",
+   "uz": "musiqachi (sozanda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur is a busy musician: he plays guitar, keyboards and drums in three different bands.",
+   "gap": "musician",
+   "alt": [
+    "musicians"
+   ]
+  },
+  {
+   "id": "musical_instrument",
+   "en": "musical instrument",
+   "uz": "musiqa asbobi (cholg‘u)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother can't play any musical instrument, but he sings really well.",
+   "gap": "musical instrument",
+   "alt": [
+    "musical instruments"
+   ]
+  },
+  {
+   "id": "flute",
+   "en": "flute",
+   "uz": "fleyta (nay)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nilufar holds her silver flute out to the side and blows across a small hole at one end.",
+   "gap": "flute",
+   "alt": [
+    "flutes"
+   ]
+  },
+  {
+   "id": "piano",
+   "en": "piano",
+   "uz": "pianino (fortepiano)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It took four strong men to carry our old piano up to the fifth floor.",
+   "gap": "piano",
+   "alt": [
+    "pianos"
+   ]
+  },
+  {
+   "id": "cello",
+   "en": "cello",
+   "uz": "violonchel",
+   "pos": "noun",
+   "img": true,
+   "ex": "Kamila sits on a chair and holds her cello between her knees, because it's much too big to go under her chin.",
+   "gap": "cello",
+   "alt": [
+    "cellos"
+   ]
+  },
+  {
+   "id": "guitar",
+   "en": "guitar",
+   "uz": "gitara",
+   "pos": "noun",
+   "img": true,
+   "ex": "Bekzod broke a string on his guitar last night, so now it has only five instead of six.",
+   "gap": "guitar",
+   "alt": [
+    "guitars"
+   ]
+  },
+  {
+   "id": "drums",
+   "en": "drums",
+   "uz": "baraban (zarbli cholg‘u)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Javlon hits the drums so hard that he breaks a pair of sticks every month.",
+   "gap": "drums",
+   "alt": [
+    "drum"
+   ]
+  },
+  {
+   "id": "violin",
+   "en": "violin",
+   "uz": "skripka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Madina rests the violin under her chin and moves the bow slowly across the strings.",
+   "gap": "violin",
+   "alt": [
+    "violins"
+   ]
+  },
+  {
+   "id": "trumpet",
+   "en": "trumpet",
+   "uz": "truba (mis puflama cholg‘u)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Rustam has a shiny gold trumpet with three buttons on top; he presses them while he blows.",
+   "gap": "trumpet",
+   "alt": [
+    "trumpets"
+   ]
+  },
+  {
+   "id": "clarinet",
+   "en": "clarinet",
+   "uz": "klarnet",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the lesson, Ulugbek took his long black clarinet apart and put the five pieces carefully in its case.",
+   "gap": "clarinet",
+   "alt": [
+    "clarinets"
+   ]
+  },
+  {
+   "id": "orchestra",
+   "en": "orchestra",
+   "uz": "orkestr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school orchestra has twelve violins, four cellos and two flutes, and Mr Rakhimov conducts it.",
+   "gap": "orchestra",
+   "alt": [
+    "orchestras"
+   ]
+  },
+  {
+   "id": "violinist",
+   "en": "violinist",
+   "uz": "skripkachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodira is the best violinist in our youth orchestra; nobody else moves a bow as beautifully as she does.",
+   "gap": "violinist",
+   "alt": [
+    "violinists"
+   ]
+  },
+  {
+   "id": "pianist",
+   "en": "pianist",
+   "uz": "pianist (pianino chaluvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pianist sat down, lifted her hands over the black and white keys and began to play.",
+   "gap": "pianist",
+   "alt": [
+    "pianists"
+   ]
+  },
+  {
+   "id": "classical_music",
+   "en": "classical music",
+   "uz": "mumtoz (klassik) musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Akmal studies with classical music on, usually Bach or Chopin.",
+   "gap": "classical music",
+   "alt": []
+  },
+  {
+   "id": "opera",
+   "en": "opera",
+   "uz": "opera",
+   "pos": "noun",
+   "img": false,
+   "ex": "We saw our first opera last night: for three hours the singers didn't speak at all; they sang the whole story.",
+   "gap": "opera",
+   "alt": [
+    "operas"
+   ]
+  },
+  {
+   "id": "pop_music",
+   "en": "pop music",
+   "uz": "pop musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister only likes pop music: short, catchy songs that are on the radio all day.",
+   "gap": "pop music",
+   "alt": []
+  },
+  {
+   "id": "folk_music",
+   "en": "folk music",
+   "uz": "xalq musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Boysun Bahori festival in Surkhandarya, village groups play traditional folk music and perform old dances.",
+   "gap": "folk music",
+   "alt": []
+  },
+  {
+   "id": "jazz",
+   "en": "jazz",
+   "uz": "jaz",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad loves jazz, especially old American records with a saxophone and a double bass.",
+   "gap": "jazz",
+   "alt": []
+  },
+  {
+   "id": "rock",
+   "en": "rock",
+   "uz": "rok musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother's band plays loud rock with electric guitars and very heavy drums.",
+   "gap": "rock",
+   "alt": [
+    "rock music"
+   ]
+  },
+  {
+   "id": "band",
+   "en": "band",
+   "uz": "musiqa guruhi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shohrux and three friends started a band in his garage; he sings and the others play guitar, bass and drums.",
+   "gap": "band",
+   "alt": [
+    "bands"
+   ]
+  },
+  {
+   "id": "concert",
+   "en": "concert",
+   "uz": "konsert",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our favourite pop singer is giving a concert at Humo Arena on Saturday, and every ticket is already sold.",
+   "gap": "concert",
+   "alt": [
+    "concerts"
+   ]
+  },
+  {
+   "id": "song",
+   "en": "song",
+   "uz": "qo‘shiq",
+   "pos": "noun",
+   "img": false,
+   "ex": "This song is only three minutes long, but I've listened to it twenty times today.",
+   "gap": "song",
+   "alt": [
+    "songs"
+   ]
+  },
+  {
+   "id": "cant_stand",
+   "en": "can't stand",
+   "uz": "toqat qilolmaslik (juda yomon ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My dad can't stand loud music in the car; he always asks us to turn it down.",
+   "gap": "can't stand",
+   "alt": [
+    "cannot stand",
+    "couldn't stand"
+   ]
+  },
+  {
+   "id": "flute_player",
+   "en": "flute-player",
+   "uz": "fleyta chaluvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school orchestra has a great flute-player; she sits in the front row next to the violins.",
+   "gap": "flute-player",
+   "alt": [
+    "flute player",
+    "flute-players"
+   ]
+  },
+  {
+   "id": "trumpet_player",
+   "en": "trumpet-player",
+   "uz": "truba chaluvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the jazz concert, the trumpet-player stood up and played a loud, bright solo.",
+   "gap": "trumpet-player",
+   "alt": [
+    "trumpet player",
+    "trumpet-players"
+   ]
+  },
+  {
+   "id": "play_instrument",
+   "en": "play",
+   "uz": "chalmoq (cholg‘u)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ruslan has played the violin since he was six.",
+   "gap": "played",
+   "alt": [
+    "plays",
+    "played",
+    "playing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "music_general",
+   "classical_music"
+  ],
+  [
+   "music_general",
+   "pop_music"
+  ],
+  [
+   "music_general",
+   "folk_music"
+  ],
+  [
+   "musician",
+   "pianist"
+  ],
+  [
+   "musician",
+   "violinist"
+  ],
+  [
+   "violinist",
+   "pianist"
+  ],
+  [
+   "violin",
+   "cello"
+  ],
+  [
+   "flute",
+   "clarinet"
+  ],
+  [
+   "band",
+   "orchestra"
+  ],
+  [
+   "jazz",
+   "rock"
+  ],
+  [
+   "classical_music",
+   "opera"
+  ],
+  [
+   "musical_instrument",
+   "flute"
+  ],
+  [
+   "musical_instrument",
+   "piano"
+  ],
+  [
+   "musical_instrument",
+   "cello"
+  ],
+  [
+   "musical_instrument",
+   "guitar"
+  ],
+  [
+   "musical_instrument",
+   "drums"
+  ],
+  [
+   "musical_instrument",
+   "violin"
+  ],
+  [
+   "musical_instrument",
+   "trumpet"
+  ],
+  [
+   "musical_instrument",
+   "clarinet"
+  ],
+  [
+   "rock",
+   "pop_music"
+  ],
+  [
+   "flute_player",
+   "trumpet_player"
+  ],
+  [
+   "flute_player",
+   "flute"
+  ],
+  [
+   "trumpet_player",
+   "trumpet"
+  ],
+  [
+   "flute_player",
+   "violinist"
+  ],
+  [
+   "flute_player",
+   "pianist"
+  ],
+  [
+   "flute_player",
+   "musician"
+  ],
+  [
+   "trumpet_player",
+   "violinist"
+  ],
+  [
+   "trumpet_player",
+   "pianist"
+  ],
+  [
+   "trumpet_player",
+   "musician"
+  ]
+ ]
+}

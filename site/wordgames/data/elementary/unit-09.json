@@ -1,0 +1,268 @@
+{
+ "book": "elementary",
+ "unit": 9,
+ "title": "Conversations 2: Useful words and expressions",
+ "title_uz": "Suhbat 2: Foydali so‘z va iboralar",
+ "words": [
+  {
+   "id": "actually",
+   "en": "actually",
+   "uz": "aslida, haqiqatda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Is your brother older than you?' 'No, actually he's two years younger, but he's taller.'",
+   "gap": "actually",
+   "alt": []
+  },
+  {
+   "id": "really",
+   "en": "really",
+   "uz": "juda, rosa",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Wait a minute before you eat this samsa; it's really hot inside.",
+   "gap": "really",
+   "alt": []
+  },
+  {
+   "id": "else",
+   "en": "else",
+   "uz": "yana, boshqa (qo‘shimcha)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Aziz isn't here today; can someone else read the next sentence?",
+   "gap": "else",
+   "alt": []
+  },
+  {
+   "id": "around",
+   "en": "around",
+   "uz": "taxminan, chamasi",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The drive from Tashkent to Samarkand takes around four hours.",
+   "gap": "around",
+   "alt": []
+  },
+  {
+   "id": "anyway",
+   "en": "anyway",
+   "uz": "baribir, har holda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "You can keep my dictionary until Friday; we don't have English lessons this week anyway.",
+   "gap": "anyway",
+   "alt": []
+  },
+  {
+   "id": "why_dont_we",
+   "en": "Why don't we",
+   "uz": "Nega ... qilmaylik? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'It's a sunny day, so why don't we have a picnic by the river?' 'Great!'",
+   "gap": "why don't we",
+   "alt": []
+  },
+  {
+   "id": "good_idea",
+   "en": "Good idea",
+   "uz": "Yaxshi fikr!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Shall we take the metro? It's faster.' 'Yes, good idea! The roads are full of traffic.'",
+   "gap": "good idea",
+   "alt": []
+  },
+  {
+   "id": "lets",
+   "en": "Let's",
+   "uz": "Keling, ... qilaylik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's getting dark and cold, so let's go home now.",
+   "gap": "let's",
+   "alt": [
+    "let us"
+   ]
+  },
+  {
+   "id": "i_dont_mind",
+   "en": "I don't mind",
+   "uz": "Menga farqi yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Shall we watch a comedy or a cartoon?' 'I don't mind; I like both.'",
+   "gap": "I don't mind",
+   "alt": []
+  },
+  {
+   "id": "its_up_to_you",
+   "en": "It's up to you",
+   "uz": "O‘zingiz hal qiling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Where shall we eat tonight?' 'Hmm, it's up to you. You choose, and I'll pay.'",
+   "gap": "it's up to you",
+   "alt": []
+  },
+  {
+   "id": "how_about",
+   "en": "How about",
+   "uz": "... qilsak qalay? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'What shall we do on Saturday?' 'Well, how about going to Magic City? The rides are fun.'",
+   "gap": "how about",
+   "alt": []
+  },
+  {
+   "id": "what_about",
+   "en": "What about",
+   "uz": "... ga nima deysiz? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I need a present for Mum, but I've got no ideas.' 'Hmm, what about some flowers?'",
+   "gap": "what about",
+   "alt": []
+  },
+  {
+   "id": "oh_dear",
+   "en": "Oh dear",
+   "uz": "Voy, attang! (hayrat/xafalik)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I left my phone on the bus this morning.' 'Oh dear! Did you call the bus company?'",
+   "gap": "Oh dear",
+   "alt": []
+  },
+  {
+   "id": "it_doesnt_matter",
+   "en": "It doesn't matter",
+   "uz": "Hechqisi yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Sorry, I broke your pencil.' 'Oh, it doesn't matter. I've got another one.'",
+   "gap": "it doesn't matter",
+   "alt": []
+  },
+  {
+   "id": "what_a_pity",
+   "en": "What a pity",
+   "uz": "Afsus! Qanday achinarli!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'The concert is cancelled because of the storm.' 'Oh, what a pity! I wanted to see it so much.'",
+   "gap": "what a pity",
+   "alt": []
+  },
+  {
+   "id": "hurry_up",
+   "en": "Hurry up",
+   "uz": "Tezroq bo‘l!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mum shouted from the door: 'Come on, hurry up! The school bus is here!'",
+   "gap": "hurry up",
+   "alt": []
+  },
+  {
+   "id": "look_out",
+   "en": "Look out",
+   "uz": "Ehtiyot bo‘l! (xavf bor)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Suddenly my friend shouted: 'Aziz, look out! There's a bike right behind you!'",
+   "gap": "look out",
+   "alt": []
+  },
+  {
+   "id": "be_careful",
+   "en": "Be careful",
+   "uz": "Ehtiyotkor bo‘l",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The plate is very hot, so be careful when you pick it up.",
+   "gap": "be careful",
+   "alt": []
+  },
+  {
+   "id": "absolutely",
+   "en": "Absolutely",
+   "uz": "Albatta! Mutlaqo!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Messi is a great player, isn't he?' 'Oh, absolutely! One of the best ever.'",
+   "gap": "absolutely",
+   "alt": []
+  },
+  {
+   "id": "i_agree",
+   "en": "I agree",
+   "uz": "Qo‘shilaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Our town needs more parks and trees.' 'Yes, I agree with you completely.'",
+   "gap": "I agree",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "actually",
+   "really"
+  ],
+  [
+   "actually",
+   "anyway"
+  ],
+  [
+   "why_dont_we",
+   "lets"
+  ],
+  [
+   "how_about",
+   "what_about"
+  ],
+  [
+   "i_dont_mind",
+   "its_up_to_you"
+  ],
+  [
+   "i_dont_mind",
+   "it_doesnt_matter"
+  ],
+  [
+   "oh_dear",
+   "what_a_pity"
+  ],
+  [
+   "look_out",
+   "be_careful"
+  ],
+  [
+   "look_out",
+   "hurry_up"
+  ],
+  [
+   "absolutely",
+   "i_agree"
+  ],
+  [
+   "absolutely",
+   "really"
+  ],
+  [
+   "absolutely",
+   "good_idea"
+  ],
+  [
+   "good_idea",
+   "i_agree"
+  ],
+  [
+   "good_idea",
+   "lets"
+  ]
+ ]
+}

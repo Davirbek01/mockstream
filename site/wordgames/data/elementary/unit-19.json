@@ -1,0 +1,611 @@
+{
+ "book": "elementary",
+ "unit": 19,
+ "title": "Shops and shopping",
+ "title_uz": "Do‘konlar va xarid",
+ "words": [
+  {
+   "id": "butcher",
+   "en": "butcher's",
+   "uz": "qassob do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "We bought a kilo of lamb at the butcher's for the weekend shashlik.",
+   "gap": "butcher's",
+   "alt": [
+    "butcher",
+    "butchers"
+   ]
+  },
+  {
+   "id": "baker",
+   "en": "baker's",
+   "uz": "novvoyxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning we buy hot non from the baker's on our street.",
+   "gap": "baker's",
+   "alt": [
+    "baker",
+    "bakers"
+   ]
+  },
+  {
+   "id": "chemist",
+   "en": "chemist's",
+   "uz": "dorixona",
+   "pos": "noun",
+   "img": false,
+   "ex": "My throat hurts, so I'm going to the chemist's for some medicine.",
+   "gap": "chemist's",
+   "alt": [
+    "chemist",
+    "chemists"
+   ]
+  },
+  {
+   "id": "newsagent",
+   "en": "newsagent's",
+   "uz": "gazeta-jurnal do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad buys a newspaper and a puzzle magazine at the newsagent's near the metro.",
+   "gap": "newsagent's",
+   "alt": [
+    "newsagent",
+    "newsagents"
+   ]
+  },
+  {
+   "id": "post_office",
+   "en": "post office",
+   "uz": "pochta bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I sent a parcel to my brother in Moscow from the post office.",
+   "gap": "post office",
+   "alt": []
+  },
+  {
+   "id": "supermarket",
+   "en": "supermarket",
+   "uz": "supermarket",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the supermarket you take a trolley and choose your own food from the shelves.",
+   "gap": "supermarket",
+   "alt": []
+  },
+  {
+   "id": "bookshop",
+   "en": "bookshop",
+   "uz": "kitob do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a small bookshop in the old city where I found an English novel.",
+   "gap": "bookshop",
+   "alt": [
+    "bookstore"
+   ]
+  },
+  {
+   "id": "department_store",
+   "en": "department store",
+   "uz": "univermag",
+   "pos": "noun",
+   "img": false,
+   "ex": "TSUM in Tashkent is a big department store with clothes, toys and perfume on different floors.",
+   "gap": "department store",
+   "alt": []
+  },
+  {
+   "id": "gift_shop",
+   "en": "gift shop",
+   "uz": "sovg‘alar do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the museum's gift shop I bought a small ceramic plate as a souvenir.",
+   "gap": "gift shop",
+   "alt": []
+  },
+  {
+   "id": "floor",
+   "en": "floor",
+   "uz": "qavat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cinema in the new shopping centre is on the top floor.",
+   "gap": "floor",
+   "alt": [
+    "floors"
+   ]
+  },
+  {
+   "id": "ground_floor",
+   "en": "ground floor",
+   "uz": "birinchi qavat (yer sathidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "You don't need the lift; the café is on the ground floor, by the main door.",
+   "gap": "ground floor",
+   "alt": []
+  },
+  {
+   "id": "basement",
+   "en": "basement",
+   "uz": "yerto‘la qavat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our building has a basement where we keep old bikes and boxes.",
+   "gap": "basement",
+   "alt": []
+  },
+  {
+   "id": "toys",
+   "en": "toys",
+   "uz": "o‘yinchoqlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little cousin got lots of toys for her birthday: a doll, a ball and a puzzle.",
+   "gap": "toys",
+   "alt": [
+    "toy"
+   ]
+  },
+  {
+   "id": "open",
+   "en": "open",
+   "uz": "ochiq (ishlayapti)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The supermarket near our flat is open 24 hours a day, so I can buy milk at midnight.",
+   "gap": "open",
+   "alt": []
+  },
+  {
+   "id": "closed",
+   "en": "closed",
+   "uz": "yopiq (ishlamayapti)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We got to the bank at six, but it was already closed, so we came back the next morning.",
+   "gap": "closed",
+   "alt": []
+  },
+  {
+   "id": "push",
+   "en": "push",
+   "uz": "itaring (eshikdagi yozuv)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the chemist's, the glass door has a sign that says 'Push', so put your hand on it and move it away from you.",
+   "gap": "Push",
+   "alt": []
+  },
+  {
+   "id": "pull",
+   "en": "pull",
+   "uz": "torting (eshikdagi yozuv)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the café door there's a sign saying 'Pull', so hold the handle and bring the door towards you.",
+   "gap": "Pull",
+   "alt": []
+  },
+  {
+   "id": "cash_desk",
+   "en": "cash desk",
+   "uz": "kassa (do‘konda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a long queue at the cash desk, so I waited ten minutes to pay for my new jacket.",
+   "gap": "cash desk",
+   "alt": []
+  },
+  {
+   "id": "can_i_help_you",
+   "en": "Can I help you?",
+   "uz": "Sizga yordam bera olamanmi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As I walked in, the shop assistant smiled and asked, 'Can I help you?'",
+   "gap": "Can I help you?",
+   "alt": [
+    "can i help you"
+   ]
+  },
+  {
+   "id": "try_on",
+   "en": "try on",
+   "uz": "kiyib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, where can I try on this dress?",
+   "gap": "try on",
+   "alt": []
+  },
+  {
+   "id": "size",
+   "en": "size",
+   "uz": "o‘lcham",
+   "pos": "noun",
+   "img": false,
+   "ex": "My feet are big, so I need size 44 in these trainers.",
+   "gap": "size",
+   "alt": []
+  },
+  {
+   "id": "ill_take_it",
+   "en": "I'll take it.",
+   "uz": "Shuni olaman.",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This leather bag is beautiful and not too expensive, so I'll take it.",
+   "gap": "I'll take it.",
+   "alt": [
+    "I'll take it",
+    "I will take it",
+    "I will take it."
+   ]
+  },
+  {
+   "id": "cost",
+   "en": "cost",
+   "uz": "turmoq (narxi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "This notebook costs 12,000 som, and the pen is 3,000.",
+   "gap": "costs",
+   "alt": [
+    "costs"
+   ]
+  },
+  {
+   "id": "pay",
+   "en": "pay",
+   "uz": "to‘lamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I pay with my phone, or do you only take cash?",
+   "gap": "pay",
+   "alt": [
+    "paid"
+   ]
+  },
+  {
+   "id": "cheque",
+   "en": "cheque",
+   "uz": "bank cheki",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hardly anyone writes a cheque today; people pay by card or phone.",
+   "gap": "cheque",
+   "alt": [
+    "check"
+   ]
+  },
+  {
+   "id": "credit_card",
+   "en": "credit card",
+   "uz": "kredit karta",
+   "pos": "noun",
+   "img": false,
+   "ex": "I paid for the TV with my credit card and will pay the bank back next month.",
+   "gap": "credit card",
+   "alt": []
+  },
+  {
+   "id": "debit_card",
+   "en": "debit card",
+   "uz": "debet karta (bank kartasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I pay with my debit card, the money leaves my bank account at once.",
+   "gap": "debit card",
+   "alt": []
+  },
+  {
+   "id": "cash",
+   "en": "cash",
+   "uz": "naqd pul",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the bazaar most sellers want cash, so I always take some money with me.",
+   "gap": "cash",
+   "alt": []
+  },
+  {
+   "id": "note",
+   "en": "note",
+   "uz": "qog‘oz pul (kupyura)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ice cream was 8,000 som, so I gave the man a 10,000 som note.",
+   "gap": "note",
+   "alt": [
+    "notes",
+    "banknote"
+   ]
+  },
+  {
+   "id": "change",
+   "en": "change",
+   "uz": "mayda pul (qaytim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver had no change for my big note, so I paid by card.",
+   "gap": "change",
+   "alt": []
+  },
+  {
+   "id": "receipt",
+   "en": "receipt",
+   "uz": "xarid cheki",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep the receipt in case you want to bring the shoes back.",
+   "gap": "receipt",
+   "alt": []
+  },
+  {
+   "id": "carrier_bag",
+   "en": "carrier bag",
+   "uz": "paket (xarid xaltasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My carrier bag broke, and the apples rolled all over the street.",
+   "gap": "carrier bag",
+   "alt": [
+    "carrier bags"
+   ]
+  },
+  {
+   "id": "menswear",
+   "en": "men's wear",
+   "uz": "erkaklar kiyimi bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad went up to the men's wear department to look for a new suit.",
+   "gap": "men's wear",
+   "alt": [
+    "menswear",
+    "mens wear"
+   ]
+  },
+  {
+   "id": "womenswear",
+   "en": "women's wear",
+   "uz": "ayollar kiyimi bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora found a lovely long dress in the women's wear section on the top floor.",
+   "gap": "women's wear",
+   "alt": [
+    "womenswear",
+    "womens wear"
+   ]
+  },
+  {
+   "id": "childrens_department",
+   "en": "children's department",
+   "uz": "bolalar bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "You can buy school uniforms and tiny shoes in the children's department.",
+   "gap": "children's department",
+   "alt": [
+    "childrens department"
+   ]
+  },
+  {
+   "id": "beauty_products",
+   "en": "beauty products",
+   "uz": "go‘zallik vositalari (kosmetika)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Near the entrance they sell beauty products like perfume, lipstick and face cream.",
+   "gap": "beauty products",
+   "alt": []
+  },
+  {
+   "id": "electricals",
+   "en": "electricals",
+   "uz": "elektr jihozlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "We bought a new kettle and a hairdryer in the electricals department downstairs.",
+   "gap": "electricals",
+   "alt": []
+  },
+  {
+   "id": "food",
+   "en": "food",
+   "uz": "oziq-ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the long trip, we bought some food for the journey: bread, cheese and apples.",
+   "gap": "food",
+   "alt": []
+  },
+  {
+   "id": "clothes",
+   "en": "clothes",
+   "uz": "kiyim-kechak",
+   "pos": "noun",
+   "img": false,
+   "ex": "My suitcase is full of summer clothes: T-shirts, shorts and a swimsuit.",
+   "gap": "clothes",
+   "alt": []
+  },
+  {
+   "id": "first_floor",
+   "en": "first floor",
+   "uz": "ikkinchi qavat (Britaniyada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is on the first floor, right above the baker's shop, so we take the stairs.",
+   "gap": "first floor",
+   "alt": []
+  },
+  {
+   "id": "colour",
+   "en": "colour",
+   "uz": "rang",
+   "pos": "noun",
+   "img": false,
+   "ex": "Green is my favourite colour, so my bedroom walls are green.",
+   "gap": "colour",
+   "alt": [
+    "colours",
+    "color"
+   ]
+  },
+  {
+   "id": "coin",
+   "en": "coin",
+   "uz": "tanga",
+   "pos": "noun",
+   "img": true,
+   "ex": "The parking machine only takes coins, so I looked for some in my pocket.",
+   "gap": "coins",
+   "alt": [
+    "coins"
+   ]
+  },
+  {
+   "id": "please_pay_here",
+   "en": "Please pay here",
+   "uz": "Shu yerda to‘lang (yozuv)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I put my books down under the sign 'Please pay here', and the cashier took my money.",
+   "gap": "Please pay here",
+   "alt": [
+    "please pay here",
+    "Please pay here."
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "please_pay_here",
+   "cash_desk"
+  ],
+  [
+   "please_pay_here",
+   "pay"
+  ],
+  [
+   "please_pay_here",
+   "push"
+  ],
+  [
+   "please_pay_here",
+   "pull"
+  ],
+  [
+   "supermarket",
+   "department_store"
+  ],
+  [
+   "credit_card",
+   "debit_card"
+  ],
+  [
+   "cheque",
+   "receipt"
+  ],
+  [
+   "floor",
+   "ground_floor"
+  ],
+  [
+   "floor",
+   "basement"
+  ],
+  [
+   "cash",
+   "change"
+  ],
+  [
+   "note",
+   "change"
+  ],
+  [
+   "butcher",
+   "supermarket"
+  ],
+  [
+   "baker",
+   "supermarket"
+  ],
+  [
+   "newsagent",
+   "supermarket"
+  ],
+  [
+   "bookshop",
+   "gift_shop"
+  ],
+  [
+   "receipt",
+   "carrier_bag"
+  ],
+  [
+   "menswear",
+   "womenswear"
+  ],
+  [
+   "menswear",
+   "childrens_department"
+  ],
+  [
+   "womenswear",
+   "childrens_department"
+  ],
+  [
+   "beauty_products",
+   "electricals"
+  ],
+  [
+   "food",
+   "clothes"
+  ],
+  [
+   "food",
+   "toys"
+  ],
+  [
+   "clothes",
+   "toys"
+  ],
+  [
+   "first_floor",
+   "ground_floor"
+  ],
+  [
+   "first_floor",
+   "floor"
+  ],
+  [
+   "first_floor",
+   "basement"
+  ],
+  [
+   "colour",
+   "size"
+  ],
+  [
+   "coin",
+   "cash"
+  ],
+  [
+   "coin",
+   "change"
+  ],
+  [
+   "coin",
+   "note"
+  ]
+ ]
+}

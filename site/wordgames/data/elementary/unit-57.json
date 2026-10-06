@@ -1,0 +1,264 @@
+{
+ "book": "elementary",
+ "unit": 57,
+ "title": "Words and prepositions",
+ "title_uz": "So‘zlar va predloglar",
+ "words": [
+  {
+   "id": "listen_to",
+   "en": "listen to",
+   "uz": "(biror narsani) tinglamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Turn up the volume, please: I want to listen to this song again.",
+   "gap": "listen to",
+   "alt": [
+    "listens to",
+    "listened to",
+    "listening to"
+   ]
+  },
+  {
+   "id": "wait_for",
+   "en": "wait for",
+   "uz": "(kimnidir, nimanidir) kutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you wait for me at the school gate? I'll be there in five minutes.",
+   "gap": "wait for",
+   "alt": [
+    "waits for",
+    "waited for",
+    "waiting for"
+   ]
+  },
+  {
+   "id": "pay_for",
+   "en": "pay for",
+   "uz": "(nima uchun) pul to‘lamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad paid for our tickets to the water park, so I bought the ice creams.",
+   "gap": "paid for",
+   "alt": [
+    "pays for",
+    "paid for",
+    "paying for"
+   ]
+  },
+  {
+   "id": "belong_to",
+   "en": "belong to",
+   "uz": "(kimgadir) tegishli bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whose blue pencil case is this, Sevara? Does it belong to you?",
+   "gap": "belong to",
+   "alt": [
+    "belongs to",
+    "belonged to",
+    "belonging to"
+   ]
+  },
+  {
+   "id": "think_about",
+   "en": "think about",
+   "uz": "(nima haqida) o‘ylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I often think about my old friends from Fergana and wonder what they're doing now.",
+   "gap": "think about",
+   "alt": [
+    "thinks about",
+    "thought about",
+    "thinking about"
+   ]
+  },
+  {
+   "id": "thank_for",
+   "en": "thank for",
+   "uz": "(nima uchun) rahmat aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone wrote such kind words in my birthday card, but there's no name. Who should I thank for them?",
+   "gap": "thank for",
+   "alt": [
+    "thanks for",
+    "thanked for",
+    "thanking for"
+   ]
+  },
+  {
+   "id": "apologise_for",
+   "en": "apologise for",
+   "uz": "(nima uchun) uzr so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother apologised for drawing cats all over my maths book and promised never to do it again.",
+   "gap": "apologised for",
+   "alt": [
+    "apologize for",
+    "apologises for",
+    "apologised for",
+    "apologizes for",
+    "apologized for",
+    "apologising for",
+    "apologizing for"
+   ]
+  },
+  {
+   "id": "look_at",
+   "en": "look at",
+   "uz": "(nimagadir) qaramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Come outside and look at the moon: it's huge and orange tonight!",
+   "gap": "look at",
+   "alt": [
+    "looks at",
+    "looked at",
+    "looking at"
+   ]
+  },
+  {
+   "id": "look_forward_to",
+   "en": "look forward to",
+   "uz": "intiqlik bilan kutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm really looking forward to our class trip to Bukhara: we're going by night train!",
+   "gap": "looking forward to",
+   "alt": [
+    "looks forward to",
+    "looked forward to",
+    "looking forward to"
+   ]
+  },
+  {
+   "id": "good_at",
+   "en": "good at",
+   "uz": "(nimanidir) yaxshi uddalaydigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Laylo is so good at drawing that the school asked her to paint a picture in the canteen.",
+   "gap": "good at",
+   "alt": []
+  },
+  {
+   "id": "bad_at",
+   "en": "bad at",
+   "uz": "(nimagadir) no‘noq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm really bad at remembering names: I forget them after five minutes.",
+   "gap": "bad at",
+   "alt": []
+  },
+  {
+   "id": "interested_in",
+   "en": "interested in",
+   "uz": "(nimagadir) qiziqadigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother is interested in space: he reads everything about planets and stars.",
+   "gap": "interested in",
+   "alt": []
+  },
+  {
+   "id": "afraid_of",
+   "en": "afraid of",
+   "uz": "(nimadan) qo‘rqadigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little sister is afraid of dogs, so she always holds my hand in the street.",
+   "gap": "afraid of",
+   "alt": []
+  },
+  {
+   "id": "proud_of",
+   "en": "proud of",
+   "uz": "(kimdan) faxrlanadigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our whole class is proud of Aziza: she won a gold medal at the national maths olympiad.",
+   "gap": "proud of",
+   "alt": []
+  },
+  {
+   "id": "happy_about",
+   "en": "happy about",
+   "uz": "(nimadan) xursand",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We were all so happy about the news that we jumped and shouted: our volleyball team is in the final!",
+   "gap": "happy about",
+   "alt": []
+  },
+  {
+   "id": "be_used_to",
+   "en": "be used to",
+   "uz": "(nimagadir) odatlangan bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We live next to the railway, but we are used to the noise of the trains now: we don't even hear them.",
+   "gap": "used to",
+   "alt": [
+    "used to"
+   ]
+  },
+  {
+   "id": "get_used_to",
+   "en": "get used to",
+   "uz": "(yangi narsaga) ko‘nikmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At first the new school felt strange, but I soon got used to it.",
+   "gap": "got used to",
+   "alt": [
+    "gets used to",
+    "got used to",
+    "getting used to"
+   ]
+  },
+  {
+   "id": "come_to",
+   "en": "come to",
+   "uz": "(joyga, tadbirga) kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you come to our school concert on Friday evening? My sister is singing.",
+   "gap": "come to",
+   "alt": [
+    "comes to",
+    "came to",
+    "coming to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "look_forward_to",
+   "happy_about"
+  ],
+  [
+   "look_forward_to",
+   "interested_in"
+  ],
+  [
+   "come_to",
+   "listen_to"
+  ],
+  [
+   "come_to",
+   "pay_for"
+  ],
+  [
+   "come_to",
+   "wait_for"
+  ],
+  [
+   "come_to",
+   "look_forward_to"
+  ]
+ ]
+}

@@ -1,0 +1,141 @@
+{
+ "book": "elementary",
+ "unit": 60,
+ "title": "Words you may confuse",
+ "title_uz": "Adashtirib yuboriladigan so‘zlar",
+ "words": [
+  {
+   "id": "quite",
+   "en": "quite",
+   "uz": "ancha, birmuncha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The test was quite easy: I finished it in twenty minutes.",
+   "gap": "quite",
+   "alt": []
+  },
+  {
+   "id": "loose",
+   "en": "loose",
+   "uz": "keng, bo‘sh (kiyim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dad's old shirt is so loose on me that it looks like a dress.",
+   "gap": "loose",
+   "alt": []
+  },
+  {
+   "id": "fell",
+   "en": "fell",
+   "uz": "yiqildi (fall ning o‘tgan zamoni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My phone fell into the water when I was taking a photo from the boat.",
+   "gap": "fell",
+   "alt": []
+  },
+  {
+   "id": "felt",
+   "en": "felt",
+   "uz": "his qildi (feel ning o‘tgan zamoni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I felt nervous before my first piano exam, but it went well.",
+   "gap": "felt",
+   "alt": []
+  },
+  {
+   "id": "cook",
+   "en": "cook",
+   "uz": "oshpaz",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother wants to be a cook, so after school he helps in a café kitchen.",
+   "gap": "cook",
+   "alt": [
+    "cooks"
+   ]
+  },
+  {
+   "id": "lend",
+   "en": "lend",
+   "uz": "qarzga bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you lend me twenty thousand som till Friday? I left my money at home.",
+   "gap": "lend",
+   "alt": [
+    "lends",
+    "lent",
+    "lending"
+   ]
+  },
+  {
+   "id": "borrow",
+   "en": "borrow",
+   "uz": "qarzga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister borrowed my favourite scarf without asking!",
+   "gap": "borrowed",
+   "alt": [
+    "borrows",
+    "borrowed",
+    "borrowing"
+   ]
+  },
+  {
+   "id": "check",
+   "en": "check",
+   "uz": "tekshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Always check your answers before you give your test to the teacher.",
+   "gap": "check",
+   "alt": [
+    "checks",
+    "checked",
+    "checking"
+   ]
+  },
+  {
+   "id": "control",
+   "en": "control",
+   "uz": "boshqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In this computer game you control the racing car with the arrow keys.",
+   "gap": "control",
+   "alt": [
+    "controls",
+    "controlled",
+    "controlling"
+   ]
+  },
+  {
+   "id": "expect",
+   "en": "expect",
+   "uz": "kutmoq (shunday bo‘lsa kerak deb)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's very cloudy and dark, so I expect it will rain this afternoon.",
+   "gap": "expect",
+   "alt": [
+    "expects",
+    "expected",
+    "expecting"
+   ]
+  },
+  {
+   "id": "night",
+   "en": "night",
+   "uz": "tun",
+   "pos": "noun",
+   "img": false,
+   "ex": "A strange noise woke me up at three o'clock, in the middle of the night.",
+   "gap": "night",
+   "alt": []
+  }
+ ],
+ "clash": []
+}

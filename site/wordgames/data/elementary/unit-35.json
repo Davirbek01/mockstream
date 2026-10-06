@@ -1,0 +1,422 @@
+{
+ "book": "elementary",
+ "unit": 35,
+ "title": "The media",
+ "title_uz": "Ommaviy axborot vositalari",
+ "words": [
+  {
+   "id": "the_media",
+   "en": "the media",
+   "uz": "ommaviy axborot vositalari (OAV)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new bridge was big news, and the media talked about it for weeks.",
+   "gap": "the media",
+   "alt": []
+  },
+  {
+   "id": "the_news",
+   "en": "the news",
+   "uz": "yangiliklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a big fire in the city centre last night; I saw it on the news at breakfast.",
+   "gap": "the news",
+   "alt": [
+    "news"
+   ]
+  },
+  {
+   "id": "soap_opera",
+   "en": "soap opera",
+   "uz": "teleserial",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum has watched the same Turkish soap opera every evening for three years, and it now has hundreds of episodes.",
+   "gap": "soap opera",
+   "alt": [
+    "soap operas",
+    "soap",
+    "soaps"
+   ]
+  },
+  {
+   "id": "nature_programme",
+   "en": "nature programme",
+   "uz": "tabiat haqidagi ko‘rsatuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a nature programme last night, I saw how penguin fathers keep their eggs warm on their feet.",
+   "gap": "nature programme",
+   "alt": [
+    "nature programmes"
+   ]
+  },
+  {
+   "id": "documentary",
+   "en": "documentary",
+   "uz": "hujjatli film",
+   "pos": "noun",
+   "img": false,
+   "ex": "We watched a documentary about plastic in the ocean, and now I always carry my own shopping bag.",
+   "gap": "documentary",
+   "alt": [
+    "documentaries"
+   ]
+  },
+  {
+   "id": "talk_show",
+   "en": "talk show",
+   "uz": "tok-shou",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the late-night talk show, the host chatted with a famous footballer about his childhood in Termez.",
+   "gap": "talk show",
+   "alt": [
+    "talk shows"
+   ]
+  },
+  {
+   "id": "reality_tv",
+   "en": "reality TV",
+   "uz": "realiti-shou",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this reality TV show, cameras follow ten ordinary families as they build their own houses.",
+   "gap": "reality TV",
+   "alt": []
+  },
+  {
+   "id": "sports_programme",
+   "en": "sports programme",
+   "uz": "sport ko‘rsatuvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad never misses the sports programme on Sunday night, which shows all the best goals of the week.",
+   "gap": "sports programme",
+   "alt": [
+    "sports programmes"
+   ]
+  },
+  {
+   "id": "morning_paper",
+   "en": "morning paper",
+   "uz": "ertalabki gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Saidov reads the morning paper with his breakfast before he leaves for work.",
+   "gap": "morning paper",
+   "alt": [
+    "morning papers",
+    "morning newspaper"
+   ]
+  },
+  {
+   "id": "evening_paper",
+   "en": "evening paper",
+   "uz": "kechki gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "The evening paper came out at five, so it already had the results of that afternoon's match.",
+   "gap": "evening paper",
+   "alt": [
+    "evening papers",
+    "evening newspaper"
+   ]
+  },
+  {
+   "id": "news_magazine",
+   "en": "news magazine",
+   "uz": "yangiliklar jurnali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every week my uncle buys a news magazine with long reports about politics and the world economy.",
+   "gap": "news magazine",
+   "alt": [
+    "news magazines"
+   ]
+  },
+  {
+   "id": "advert",
+   "en": "advert",
+   "uz": "reklama",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the video starts, you have to watch a short advert for a new phone.",
+   "gap": "advert",
+   "alt": [
+    "adverts",
+    "advertisement",
+    "advertisements"
+   ]
+  },
+  {
+   "id": "article",
+   "en": "article",
+   "uz": "maqola",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school newspaper printed my article about the new computer room, with my name at the top.",
+   "gap": "article",
+   "alt": [
+    "articles"
+   ]
+  },
+  {
+   "id": "interview",
+   "en": "interview",
+   "uz": "intervyu (suhbat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In an interview on TV last night, the young chess champion said she practises six hours a day.",
+   "gap": "interview",
+   "alt": [
+    "interviews"
+   ]
+  },
+  {
+   "id": "interviewer",
+   "en": "interviewer",
+   "uz": "intervyu oluvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The interviewer asked difficult questions, but the minister answered every one calmly.",
+   "gap": "interviewer",
+   "alt": [
+    "interviewers"
+   ]
+  },
+  {
+   "id": "reporter",
+   "en": "reporter",
+   "uz": "muxbir",
+   "pos": "noun",
+   "img": false,
+   "ex": "A reporter stood in the rain beside the flooded road and told viewers what was happening there.",
+   "gap": "reporter",
+   "alt": [
+    "reporters"
+   ]
+  },
+  {
+   "id": "journalist",
+   "en": "journalist",
+   "uz": "jurnalist",
+   "pos": "noun",
+   "img": false,
+   "ex": "After university, Nilufar became a journalist, and now her articles about science appear on a big news website.",
+   "gap": "journalist",
+   "alt": [
+    "journalists"
+   ]
+  },
+  {
+   "id": "channel",
+   "en": "channel",
+   "uz": "telekanal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sport TV is my brother's favourite channel because it shows football from morning till night.",
+   "gap": "channel",
+   "alt": [
+    "channels"
+   ]
+  },
+  {
+   "id": "change_the_channel",
+   "en": "change the channel",
+   "uz": "kanalni almashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every time a scary scene starts, my little sister covers her eyes and asks me to change the channel.",
+   "gap": "change the channel",
+   "alt": [
+    "changes the channel",
+    "changed the channel",
+    "changing the channel"
+   ]
+  },
+  {
+   "id": "womens_magazine",
+   "en": "women's magazine",
+   "uz": "ayollar jurnali",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the hairdresser's, Laylo read a women's magazine with recipes and fashion photos.",
+   "gap": "women's magazine",
+   "alt": [
+    "women's magazines"
+   ]
+  },
+  {
+   "id": "sports_magazine",
+   "en": "sports magazine",
+   "uz": "sport jurnali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doniyor buys a sports magazine every week to read about boxing and football.",
+   "gap": "sports magazine",
+   "alt": [
+    "sports magazines"
+   ]
+  },
+  {
+   "id": "computer_magazine",
+   "en": "computer magazine",
+   "uz": "kompyuter jurnali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ms Ergasheva reads a computer magazine every month to learn about new laptops.",
+   "gap": "computer magazine",
+   "alt": [
+    "computer magazines"
+   ]
+  },
+  {
+   "id": "teenage_magazine",
+   "en": "teenage magazine",
+   "uz": "o‘smirlar jurnali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shirin is fifteen and loves her teenage magazine with its quizzes and pop music news.",
+   "gap": "teenage magazine",
+   "alt": [
+    "teenage magazines"
+   ]
+  },
+  {
+   "id": "on_tv",
+   "en": "on TV",
+   "uz": "televizorda (ko‘rsatilmoqda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's a good film on TV tonight after the football.",
+   "gap": "on TV",
+   "alt": [
+    "on television"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "the_media",
+   "the_news"
+  ],
+  [
+   "nature_programme",
+   "documentary"
+  ],
+  [
+   "soap_opera",
+   "reality_tv"
+  ],
+  [
+   "talk_show",
+   "reality_tv"
+  ],
+  [
+   "talk_show",
+   "interview"
+  ],
+  [
+   "soap_opera",
+   "talk_show"
+  ],
+  [
+   "talk_show",
+   "sports_programme"
+  ],
+  [
+   "morning_paper",
+   "news_magazine"
+  ],
+  [
+   "evening_paper",
+   "news_magazine"
+  ],
+  [
+   "reporter",
+   "journalist"
+  ],
+  [
+   "interviewer",
+   "reporter"
+  ],
+  [
+   "interviewer",
+   "journalist"
+  ],
+  [
+   "the_news",
+   "sports_programme"
+  ],
+  [
+   "the_news",
+   "documentary"
+  ],
+  [
+   "channel",
+   "change_the_channel"
+  ],
+  [
+   "article",
+   "interview"
+  ],
+  [
+   "womens_magazine",
+   "sports_magazine"
+  ],
+  [
+   "womens_magazine",
+   "computer_magazine"
+  ],
+  [
+   "womens_magazine",
+   "teenage_magazine"
+  ],
+  [
+   "womens_magazine",
+   "news_magazine"
+  ],
+  [
+   "sports_magazine",
+   "computer_magazine"
+  ],
+  [
+   "sports_magazine",
+   "teenage_magazine"
+  ],
+  [
+   "sports_magazine",
+   "news_magazine"
+  ],
+  [
+   "sports_magazine",
+   "sports_programme"
+  ],
+  [
+   "computer_magazine",
+   "teenage_magazine"
+  ],
+  [
+   "computer_magazine",
+   "news_magazine"
+  ],
+  [
+   "teenage_magazine",
+   "news_magazine"
+  ],
+  [
+   "on_tv",
+   "channel"
+  ],
+  [
+   "on_tv",
+   "the_news"
+  ],
+  [
+   "advert",
+   "interview"
+  ]
+ ]
+}

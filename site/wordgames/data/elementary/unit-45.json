@@ -1,0 +1,308 @@
+{
+ "book": "elementary",
+ "unit": 45,
+ "title": "Get / got / got",
+ "title_uz": "Get fe’li bilan birikmalar",
+ "words": [
+  {
+   "id": "get_dark",
+   "en": "get dark",
+   "uz": "qorong‘i tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In December it gets dark before six o'clock, so we walk home from training with a torch.",
+   "gap": "gets dark",
+   "alt": [
+    "gets dark",
+    "got dark",
+    "getting dark"
+   ]
+  },
+  {
+   "id": "get_better",
+   "en": "get better",
+   "uz": "tuzalmoq / yaxshilanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ozoda had a high temperature last week, but she's getting better now and will be back at school on Monday.",
+   "gap": "getting better",
+   "alt": [
+    "gets better",
+    "got better",
+    "getting better"
+   ]
+  },
+  {
+   "id": "get_tired",
+   "en": "get tired",
+   "uz": "charchab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After two hours of walking round the zoo, my little sister got tired and wanted to sit down.",
+   "gap": "got tired",
+   "alt": [
+    "gets tired",
+    "got tired",
+    "getting tired"
+   ]
+  },
+  {
+   "id": "get_wet",
+   "en": "get wet",
+   "uz": "ho‘l bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A big wave hit our little boat on the lake, and we all got wet from head to toe.",
+   "gap": "got wet",
+   "alt": [
+    "gets wet",
+    "got wet",
+    "getting wet"
+   ]
+  },
+  {
+   "id": "get_cold",
+   "en": "get cold",
+   "uz": "sovib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Come to the table and eat your soup now, before it gets cold!",
+   "gap": "gets cold",
+   "alt": [
+    "gets cold",
+    "got cold",
+    "getting cold"
+   ]
+  },
+  {
+   "id": "get_a_stamp",
+   "en": "get a stamp",
+   "uz": "marka sotib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My envelope for the drawing competition is ready; I just need to get a stamp at the post office.",
+   "gap": "get a stamp",
+   "alt": [
+    "gets a stamp",
+    "got a stamp",
+    "getting a stamp",
+    "get some stamps",
+    "got some stamps"
+   ]
+  },
+  {
+   "id": "get_a_newspaper",
+   "en": "get a newspaper",
+   "uz": "gazeta olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning our old neighbour walks to the kiosk on the corner to get a newspaper and reads it on the bench outside.",
+   "gap": "get a newspaper",
+   "alt": [
+    "gets a newspaper",
+    "got a newspaper",
+    "getting a newspaper"
+   ]
+  },
+  {
+   "id": "get_a_drink",
+   "en": "get a drink",
+   "uz": "ichimlik (suv, sharbat) olib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You look thirsty after the race. Shall I get you a drink of cold water?",
+   "gap": "get you a drink",
+   "alt": [
+    "gets a drink",
+    "got a drink",
+    "getting a drink",
+    "get you a drink",
+    "get me a drink"
+   ]
+  },
+  {
+   "id": "get_a_taxi",
+   "en": "get a taxi",
+   "uz": "taksi topmoq / tutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was late and there were no more buses, so we tried to get a taxi outside the theatre.",
+   "gap": "get a taxi",
+   "alt": [
+    "gets a taxi",
+    "got a taxi",
+    "getting a taxi"
+   ]
+  },
+  {
+   "id": "get_a_job",
+   "en": "get a job",
+   "uz": "ishga joylashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After she finishes her nursing course, Sevara wants to get a job in a children's hospital.",
+   "gap": "get a job",
+   "alt": [
+    "gets a job",
+    "got a job",
+    "getting a job"
+   ]
+  },
+  {
+   "id": "get_a_doctor",
+   "en": "get a doctor",
+   "uz": "shifokor chaqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The baby has a very high temperature and can't stop crying. Please get a doctor quickly!",
+   "gap": "get a doctor",
+   "alt": [
+    "gets a doctor",
+    "got a doctor",
+    "getting a doctor"
+   ]
+  },
+  {
+   "id": "get_to",
+   "en": "get to",
+   "uz": "… ga yetib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When you get to the bus station in Gulistan, send me a message and I'll meet you there.",
+   "gap": "get to",
+   "alt": [
+    "gets to",
+    "got to",
+    "getting to"
+   ]
+  },
+  {
+   "id": "get_back",
+   "en": "get back",
+   "uz": "(safardan) qaytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad is in Navoi for work this week; when he gets back on Friday, we're going to the cinema together.",
+   "gap": "gets back",
+   "alt": [
+    "gets back",
+    "got back",
+    "getting back",
+    "get back from",
+    "got back from"
+   ]
+  },
+  {
+   "id": "get_home",
+   "en": "get home",
+   "uz": "uyga yetib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The concert finished very late, and we didn't get home until midnight.",
+   "gap": "get home",
+   "alt": [
+    "gets home",
+    "got home",
+    "getting home"
+   ]
+  },
+  {
+   "id": "get_there",
+   "en": "get there",
+   "uz": "u yerga yetib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The museum opens at nine, and if we leave now, we'll get there at about half past.",
+   "gap": "get there",
+   "alt": [
+    "gets there",
+    "got there",
+    "getting there"
+   ]
+  },
+  {
+   "id": "light_adj",
+   "en": "light",
+   "uz": "yorug‘ (kunduzgidek)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In June it's still light at eight in the evening, so the children play outside until late.",
+   "gap": "light",
+   "alt": []
+  },
+  {
+   "id": "dark_adj",
+   "en": "dark",
+   "uz": "qorong‘i",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Can you switch on the lamp? It's too dark in here to read.",
+   "gap": "dark",
+   "alt": []
+  },
+  {
+   "id": "better_adj",
+   "en": "better",
+   "uz": "tuzalgan (sog‘aygan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilfuza had a bad cough last week, but now she's better and is back at swimming practice.",
+   "gap": "better",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "get_dark",
+   "get_cold"
+  ],
+  [
+   "get_tired",
+   "get_cold"
+  ],
+  [
+   "get_wet",
+   "get_cold"
+  ],
+  [
+   "get_a_stamp",
+   "get_a_newspaper"
+  ],
+  [
+   "get_a_doctor",
+   "get_a_taxi"
+  ],
+  [
+   "get_back",
+   "get_home"
+  ],
+  [
+   "get_home",
+   "get_there"
+  ],
+  [
+   "get_back",
+   "get_there"
+  ],
+  [
+   "get_back",
+   "bring_back"
+  ],
+  [
+   "light_adj",
+   "dark_adj"
+  ],
+  [
+   "dark_adj",
+   "get_dark"
+  ],
+  [
+   "light_adj",
+   "get_dark"
+  ],
+  [
+   "better_adj",
+   "get_better"
+  ]
+ ]
+}

@@ -1,0 +1,788 @@
+{
+ "book": "elementary",
+ "unit": 27,
+ "title": "Countries and nationalities",
+ "title_uz": "Mamlakatlar va millatlar",
+ "words": [
+  {
+   "id": "continent",
+   "en": "continent",
+   "uz": "qit’a",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Istanbul we took a ferry from Asia to Europe; we crossed from one continent to another in twenty minutes!",
+   "gap": "continent",
+   "alt": [
+    "continents"
+   ]
+  },
+  {
+   "id": "nationality",
+   "en": "nationality",
+   "uz": "millat (fuqarolik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has pupils of six different nationalities: Uzbek, Kazakh, Russian, Korean, Tajik and Turkish.",
+   "gap": "nationalities",
+   "alt": [
+    "nationalities"
+   ]
+  },
+  {
+   "id": "asia",
+   "en": "Asia",
+   "uz": "Osiyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad drove from Tashkent to Almaty and then on to Bishkek; it was a long trip, but we never left Central Asia.",
+   "gap": "Asia",
+   "alt": [
+    "asia"
+   ]
+  },
+  {
+   "id": "europe",
+   "en": "Europe",
+   "uz": "Yevropa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last summer we flew from Tashkent to Paris and then to Vienna; it was my first trip to Europe.",
+   "gap": "Europe",
+   "alt": [
+    "europe"
+   ]
+  },
+  {
+   "id": "africa",
+   "en": "Africa",
+   "uz": "Afrika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour works in Kenya and Nigeria; he says Africa is huge, with more than fifty countries.",
+   "gap": "Africa",
+   "alt": [
+    "africa"
+   ]
+  },
+  {
+   "id": "south_america",
+   "en": "South America",
+   "uz": "Janubiy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "My pen friend lives in Lima, and next year she wants to travel all over South America, from Peru to Argentina.",
+   "gap": "South America",
+   "alt": [
+    "south america"
+   ]
+  },
+  {
+   "id": "australia",
+   "en": "Australia",
+   "uz": "Avstraliya",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a film about kangaroos and koalas, my brother decided to visit Australia one day.",
+   "gap": "Australia",
+   "alt": [
+    "australia"
+   ]
+  },
+  {
+   "id": "japan",
+   "en": "Japan",
+   "uz": "Yaponiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shirin's brother studies in Tokyo, and every April he sends us photos of cherry blossom from Japan.",
+   "gap": "Japan",
+   "alt": [
+    "japan"
+   ]
+  },
+  {
+   "id": "china",
+   "en": "China",
+   "uz": "Xitoy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Saidov buys phone cases from factories in Guangzhou, so he flies to China twice a year.",
+   "gap": "China",
+   "alt": [
+    "china"
+   ]
+  },
+  {
+   "id": "india",
+   "en": "India",
+   "uz": "Hindiston",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziza's family visited Delhi and Agra, so they saw the Taj Mahal on their trip to India.",
+   "gap": "India",
+   "alt": [
+    "india"
+   ]
+  },
+  {
+   "id": "germany",
+   "en": "Germany",
+   "uz": "Germaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher spent a year in Berlin, and she still misses the bread in Germany.",
+   "gap": "Germany",
+   "alt": [
+    "germany"
+   ]
+  },
+  {
+   "id": "italy",
+   "en": "Italy",
+   "uz": "Italiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "We ate real pizza in Naples and saw the old Colosseum in Rome on our holiday in Italy.",
+   "gap": "Italy",
+   "alt": [
+    "italy"
+   ]
+  },
+  {
+   "id": "spain",
+   "en": "Spain",
+   "uz": "Ispaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football fans in our class dream of a trip to Spain to see a match in Madrid or Barcelona.",
+   "gap": "Spain",
+   "alt": [
+    "spain"
+   ]
+  },
+  {
+   "id": "egypt",
+   "en": "Egypt",
+   "uz": "Misr",
+   "pos": "noun",
+   "img": false,
+   "ex": "We rode camels near the pyramids at Giza; the sun in Egypt was strong even in March.",
+   "gap": "Egypt",
+   "alt": [
+    "egypt"
+   ]
+  },
+  {
+   "id": "brazil",
+   "en": "Brazil",
+   "uz": "Braziliya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My football coach went to Rio de Janeiro last year, and he loved the beaches in Brazil.",
+   "gap": "Brazil",
+   "alt": [
+    "brazil"
+   ]
+  },
+  {
+   "id": "canada",
+   "en": "Canada",
+   "uz": "Kanada",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was minus twenty when my sister landed in Montreal; winters in Canada are long and very cold.",
+   "gap": "Canada",
+   "alt": [
+    "canada"
+   ]
+  },
+  {
+   "id": "the_usa",
+   "en": "the USA",
+   "uz": "AQSH (Amerika Qo‘shma Shtatlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our science teacher flew to New York and then drove to Chicago; she spent a month in the USA.",
+   "gap": "the USA",
+   "alt": [
+    "the US",
+    "USA",
+    "US"
+   ]
+  },
+  {
+   "id": "the_uk",
+   "en": "the UK",
+   "uz": "Buyuk Britaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every July, a few students from our school do English courses in London and Edinburgh, in the UK.",
+   "gap": "the UK",
+   "alt": [
+    "UK"
+   ]
+  },
+  {
+   "id": "japanese",
+   "en": "Japanese",
+   "uz": "yapon (yaponiyalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Akira's mum is from Osaka, and at home they often eat Japanese food like sushi and miso soup.",
+   "gap": "Japanese",
+   "alt": [
+    "japanese"
+   ]
+  },
+  {
+   "id": "chinese",
+   "en": "Chinese",
+   "uz": "xitoy (xitoylik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Lin grew up in Beijing, so she speaks Chinese with her parents at home.",
+   "gap": "Chinese",
+   "alt": [
+    "chinese"
+   ]
+  },
+  {
+   "id": "german",
+   "en": "German",
+   "uz": "nemis (nemischa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilshod's older brother works for a car company in Munich, so now he speaks very good German.",
+   "gap": "German",
+   "alt": [
+    "german"
+   ]
+  },
+  {
+   "id": "italian",
+   "en": "Italian",
+   "uz": "italyan (italiyalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new Italian restaurant on our street makes pasta the way they do in Rome.",
+   "gap": "Italian",
+   "alt": [
+    "italian"
+   ]
+  },
+  {
+   "id": "spanish",
+   "en": "Spanish",
+   "uz": "ispan (ispancha)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "People in Mexico and Argentina speak Spanish, so Dilnoza wants to learn it before her trip.",
+   "gap": "Spanish",
+   "alt": [
+    "spanish"
+   ]
+  },
+  {
+   "id": "portuguese",
+   "en": "Portuguese",
+   "uz": "portugal (portugalcha)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In São Paulo nobody understood Bekzod's Spanish, because people there speak Portuguese.",
+   "gap": "Portuguese",
+   "alt": [
+    "portuguese"
+   ]
+  },
+  {
+   "id": "brazilian",
+   "en": "Brazilian",
+   "uz": "braziliyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our football club has a new Brazilian player; he learnt the game on the beaches of Rio.",
+   "gap": "Brazilian",
+   "alt": [
+    "brazilian"
+   ]
+  },
+  {
+   "id": "french",
+   "en": "French",
+   "uz": "fransuz (fransuzcha)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Lola's mother is from Paris, so Lola speaks French with her and Uzbek with her dad.",
+   "gap": "French",
+   "alt": [
+    "french"
+   ]
+  },
+  {
+   "id": "british",
+   "en": "British",
+   "uz": "britaniyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Emma is from Manchester; she's British, and she's in Samarkand for a year to learn Uzbek.",
+   "gap": "British",
+   "alt": [
+    "british"
+   ]
+  },
+  {
+   "id": "thai",
+   "en": "Thai",
+   "uz": "tay (tailandlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We had dinner at a Thai restaurant; the cook was from Bangkok, and the soup was very spicy.",
+   "gap": "Thai",
+   "alt": [
+    "thai"
+   ]
+  },
+  {
+   "id": "polish",
+   "en": "Polish",
+   "uz": "polyak (polshalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our guide in Warsaw was Polish, and he showed us the beautiful old town.",
+   "gap": "Polish",
+   "alt": [
+    "polish"
+   ]
+  },
+  {
+   "id": "american",
+   "en": "American",
+   "uz": "amerikalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kevin grew up in Texas, so he's American, but now he works as a doctor in Fergana.",
+   "gap": "American",
+   "alt": [
+    "american"
+   ]
+  },
+  {
+   "id": "canadian",
+   "en": "Canadian",
+   "uz": "kanadalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ice hockey is the favourite sport of my Canadian cousins in Vancouver.",
+   "gap": "Canadian",
+   "alt": [
+    "canadian"
+   ]
+  },
+  {
+   "id": "australian",
+   "en": "Australian",
+   "uz": "avstraliyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our swimming coach is Australian; he grew up in Sydney and swam in the ocean every morning.",
+   "gap": "Australian",
+   "alt": [
+    "australian"
+   ]
+  },
+  {
+   "id": "indian",
+   "en": "Indian",
+   "uz": "hind (hindistonlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dr Sharma at our local clinic is Indian; he studied medicine in Delhi before he came to Tashkent.",
+   "gap": "Indian",
+   "alt": [
+    "indian"
+   ]
+  },
+  {
+   "id": "egyptian",
+   "en": "Egyptian",
+   "uz": "misrlik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new classmate Omar is Egyptian; he grew up in Cairo, by the river Nile.",
+   "gap": "Egyptian",
+   "alt": [
+    "egyptian"
+   ]
+  },
+  {
+   "id": "arabic",
+   "en": "Arabic",
+   "uz": "arab tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Cairo the street signs are in Arabic and English, so we could find our way.",
+   "gap": "Arabic",
+   "alt": [
+    "arabic"
+   ]
+  },
+  {
+   "id": "north_america",
+   "en": "North America",
+   "uz": "Shimoliy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mexico City is the biggest city in North America.",
+   "gap": "North America",
+   "alt": [
+    "north america"
+   ]
+  },
+  {
+   "id": "antarctica",
+   "en": "Antarctica",
+   "uz": "Antarktida",
+   "pos": "noun",
+   "img": false,
+   "ex": "Penguins live on the ice in Antarctica, the coldest place on Earth.",
+   "gap": "Antarctica",
+   "alt": [
+    "antarctica"
+   ]
+  },
+  {
+   "id": "new_zealand",
+   "en": "New Zealand",
+   "uz": "Yangi Zelandiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ella lives in Auckland, the biggest city in New Zealand.",
+   "gap": "New Zealand",
+   "alt": [
+    "new zealand"
+   ]
+  },
+  {
+   "id": "argentina",
+   "en": "Argentina",
+   "uz": "Argentina (Janubiy Amerikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lionel Messi was born in Rosario, a city in Argentina.",
+   "gap": "Argentina",
+   "alt": [
+    "argentina"
+   ]
+  },
+  {
+   "id": "chile",
+   "en": "Chile",
+   "uz": "Chili",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the map, Chile is a very long and thin country.",
+   "gap": "Chile",
+   "alt": [
+    "chile"
+   ]
+  },
+  {
+   "id": "colombia",
+   "en": "Colombia",
+   "uz": "Kolumbiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer Shakira comes from Colombia.",
+   "gap": "Colombia",
+   "alt": [
+    "colombia"
+   ]
+  },
+  {
+   "id": "peru",
+   "en": "Peru",
+   "uz": "Peru (And tog‘larida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Machu Picchu is an old city high in the mountains of Peru.",
+   "gap": "Peru",
+   "alt": [
+    "peru"
+   ]
+  },
+  {
+   "id": "pakistan",
+   "en": "Pakistan",
+   "uz": "Pokiston",
+   "pos": "noun",
+   "img": false,
+   "ex": "Islamabad is the capital of Pakistan.",
+   "gap": "Pakistan",
+   "alt": [
+    "pakistan"
+   ]
+  },
+  {
+   "id": "thailand",
+   "en": "Thailand",
+   "uz": "Tailand",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had a beach holiday in Phuket, in the south of Thailand.",
+   "gap": "Thailand",
+   "alt": [
+    "thailand"
+   ]
+  },
+  {
+   "id": "poland",
+   "en": "Poland",
+   "uz": "Polsha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Krakow is a beautiful old city in the south of Poland.",
+   "gap": "Poland",
+   "alt": [
+    "poland"
+   ]
+  },
+  {
+   "id": "morocco",
+   "en": "Morocco",
+   "uz": "Marokash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Marrakech and Casablanca are big cities in Morocco.",
+   "gap": "Morocco",
+   "alt": [
+    "morocco"
+   ]
+  },
+  {
+   "id": "south_africa",
+   "en": "South Africa",
+   "uz": "Janubiy Afrika (davlat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cape Town is a big city by the sea in South Africa.",
+   "gap": "South Africa",
+   "alt": [
+    "south africa"
+   ]
+  },
+  {
+   "id": "tunisia",
+   "en": "Tunisia",
+   "uz": "Tunis (davlat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tunisia is a small sunny country between Algeria and Libya.",
+   "gap": "Tunisia",
+   "alt": [
+    "tunisia"
+   ]
+  },
+  {
+   "id": "argentinian",
+   "en": "Argentinian",
+   "uz": "argentinalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The tango is a famous Argentinian dance from Buenos Aires.",
+   "gap": "Argentinian",
+   "alt": [
+    "argentinian"
+   ]
+  },
+  {
+   "id": "colombian",
+   "en": "Colombian",
+   "uz": "kolumbiyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Colombian coffee is famous all over the world.",
+   "gap": "Colombian",
+   "alt": [
+    "colombian"
+   ]
+  },
+  {
+   "id": "moroccan",
+   "en": "Moroccan",
+   "uz": "marokashlik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our guide in Marrakech was Moroccan, and he spoke three languages.",
+   "gap": "Moroccan",
+   "alt": [
+    "moroccan"
+   ]
+  },
+  {
+   "id": "peruvian",
+   "en": "Peruvian",
+   "uz": "perulik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mateo is Peruvian; he was born in Lima and loves football.",
+   "gap": "Peruvian",
+   "alt": [
+    "peruvian"
+   ]
+  },
+  {
+   "id": "south_african",
+   "en": "South African",
+   "uz": "janubiy afrikalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nelson Mandela was a famous South African president.",
+   "gap": "South African",
+   "alt": [
+    "south african"
+   ]
+  },
+  {
+   "id": "tunisian",
+   "en": "Tunisian",
+   "uz": "tunislik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Tunisian capital is Tunis, a city by the sea.",
+   "gap": "Tunisian",
+   "alt": [
+    "tunisian"
+   ]
+  },
+  {
+   "id": "english_nat",
+   "en": "English",
+   "uz": "ingliz (Angliyadan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "William Shakespeare was a famous English writer.",
+   "gap": "English",
+   "alt": [
+    "english"
+   ]
+  },
+  {
+   "id": "finnish",
+   "en": "Finnish",
+   "uz": "fin (finlyandiyalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Saunas are a big part of Finnish life.",
+   "gap": "Finnish",
+   "alt": [
+    "finnish"
+   ]
+  },
+  {
+   "id": "irish",
+   "en": "Irish",
+   "uz": "irland (irlandiyalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On St Patrick's Day, Irish people all over the world wear green.",
+   "gap": "Irish",
+   "alt": [
+    "irish"
+   ]
+  },
+  {
+   "id": "scottish",
+   "en": "Scottish",
+   "uz": "shotland (shotlandiyalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bagpipes are a famous Scottish instrument.",
+   "gap": "Scottish",
+   "alt": [
+    "scottish"
+   ]
+  },
+  {
+   "id": "pakistani",
+   "en": "Pakistani",
+   "uz": "pokistonlik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Malala Yousafzai is Pakistani; she won the Nobel Peace Prize in 2014.",
+   "gap": "Pakistani",
+   "alt": [
+    "pakistani"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "brazil",
+   "brazilian"
+  ],
+  [
+   "north_america",
+   "south_america"
+  ],
+  [
+   "argentina",
+   "argentinian"
+  ],
+  [
+   "colombia",
+   "colombian"
+  ],
+  [
+   "morocco",
+   "moroccan"
+  ],
+  [
+   "peru",
+   "peruvian"
+  ],
+  [
+   "south_africa",
+   "south_african"
+  ],
+  [
+   "tunisia",
+   "tunisian"
+  ],
+  [
+   "pakistan",
+   "pakistani"
+  ],
+  [
+   "thailand",
+   "thai"
+  ],
+  [
+   "poland",
+   "polish"
+  ],
+  [
+   "morocco",
+   "africa"
+  ],
+  [
+   "south_africa",
+   "africa"
+  ],
+  [
+   "english_nat",
+   "british"
+  ],
+  [
+   "scottish",
+   "british"
+  ],
+  [
+   "scottish",
+   "english_nat"
+  ],
+  [
+   "irish",
+   "british"
+  ]
+ ]
+}

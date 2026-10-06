@@ -1,0 +1,457 @@
+{
+ "book": "elementary",
+ "unit": 20,
+ "title": "Online shopping",
+ "title_uz": "Internet orqali xarid",
+ "words": [
+  {
+   "id": "shop_online",
+   "en": "shop online",
+   "uz": "internet orqali xarid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I shop online because the nearest mall is an hour away from our village.",
+   "gap": "shop online",
+   "alt": [
+    "shops online",
+    "shopped online"
+   ]
+  },
+  {
+   "id": "basket",
+   "en": "basket",
+   "uz": "savat (onlayn do‘konda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are three things in your basket, but you haven't paid for them yet.",
+   "gap": "basket",
+   "alt": []
+  },
+  {
+   "id": "add_to_basket",
+   "en": "add to basket",
+   "uz": "savatga qo‘shmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Choose your size and colour, then click 'Add to basket'.",
+   "gap": "Add to basket",
+   "alt": []
+  },
+  {
+   "id": "search",
+   "en": "search",
+   "uz": "qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Type 'red trainers' in the box at the top to search the whole shop.",
+   "gap": "search",
+   "alt": []
+  },
+  {
+   "id": "product",
+   "en": "product",
+   "uz": "mahsulot",
+   "pos": "noun",
+   "img": false,
+   "ex": "This website sells over 5,000 products, from phones to furniture.",
+   "gap": "products",
+   "alt": [
+    "products"
+   ]
+  },
+  {
+   "id": "item",
+   "en": "item",
+   "uz": "buyum (bitta dona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This shop gives free delivery on orders of three items or more.",
+   "gap": "items",
+   "alt": [
+    "items"
+   ]
+  },
+  {
+   "id": "sale",
+   "en": "sale",
+   "uz": "chegirmali savdo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everything in the sale is 50% cheaper until Sunday.",
+   "gap": "sale",
+   "alt": []
+  },
+  {
+   "id": "price",
+   "en": "price",
+   "uz": "narx",
+   "pos": "noun",
+   "img": false,
+   "ex": "I compared the price on three websites and bought the cheapest one.",
+   "gap": "price",
+   "alt": []
+  },
+  {
+   "id": "free_delivery",
+   "en": "free delivery",
+   "uz": "bepul yetkazib berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "I chose free delivery, so the parcel took five days, but I paid nothing extra.",
+   "gap": "free delivery",
+   "alt": []
+  },
+  {
+   "id": "next_day_delivery",
+   "en": "next day delivery",
+   "uz": "ertasi kuni yetkazib berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "I chose next day delivery, so the parcel came on Tuesday, the day after I ordered it.",
+   "gap": "next day delivery",
+   "alt": [
+    "next-day delivery"
+   ]
+  },
+  {
+   "id": "delivery",
+   "en": "delivery",
+   "uz": "yetkazib berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "On this website, delivery is free if your order is over 500,000 som.",
+   "gap": "delivery",
+   "alt": []
+  },
+  {
+   "id": "review",
+   "en": "review",
+   "uz": "sharh (xaridor fikri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My new headphones have 2,000 five-star reviews, so I'm sure they're good.",
+   "gap": "reviews",
+   "alt": [
+    "reviews"
+   ]
+  },
+  {
+   "id": "checkout",
+   "en": "checkout",
+   "uz": "to‘lov bo‘limi (kassa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you've finished choosing, go to the checkout and pay.",
+   "gap": "checkout",
+   "alt": []
+  },
+  {
+   "id": "order",
+   "en": "order",
+   "uz": "buyurtma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thank you! We will send your order within three working days.",
+   "gap": "order",
+   "alt": []
+  },
+  {
+   "id": "order_number",
+   "en": "order number",
+   "uz": "buyurtma raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you phone us about your parcel, please have your order number ready.",
+   "gap": "order number",
+   "alt": []
+  },
+  {
+   "id": "delivery_address",
+   "en": "delivery address",
+   "uz": "yetkazib berish manzili",
+   "pos": "noun",
+   "img": false,
+   "ex": "I typed my old flat as the delivery address, so the parcel went to the wrong place!",
+   "gap": "delivery address",
+   "alt": []
+  },
+  {
+   "id": "house_number",
+   "en": "house number",
+   "uz": "uy raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our house number is 17; look for the green gate.",
+   "gap": "house number",
+   "alt": []
+  },
+  {
+   "id": "street",
+   "en": "street",
+   "uz": "ko‘cha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is on a quiet street behind the bazaar.",
+   "gap": "street",
+   "alt": []
+  },
+  {
+   "id": "city",
+   "en": "city",
+   "uz": "shahar",
+   "pos": "noun",
+   "img": false,
+   "ex": "After school, my cousin moved to the city to study at university.",
+   "gap": "city",
+   "alt": []
+  },
+  {
+   "id": "post_code",
+   "en": "post code",
+   "uz": "pochta indeksi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbek post codes have six numbers, and in Tashkent they start with 100.",
+   "gap": "post codes",
+   "alt": [
+    "post codes",
+    "postcode"
+   ]
+  },
+  {
+   "id": "country",
+   "en": "country",
+   "uz": "mamlakat",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the form, choose your country from the list: Uzbekistan.",
+   "gap": "country",
+   "alt": []
+  },
+  {
+   "id": "total",
+   "en": "total",
+   "uz": "jami summa",
+   "pos": "noun",
+   "img": false,
+   "ex": "A book for 60,000 som and a pen for 15,000 som: the total is 75,000 som.",
+   "gap": "total",
+   "alt": []
+  },
+  {
+   "id": "receive",
+   "en": "receive",
+   "uz": "qabul qilib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I ordered a book on Monday and received it on Thursday.",
+   "gap": "received",
+   "alt": [
+    "received"
+   ]
+  },
+  {
+   "id": "zip_code",
+   "en": "zip code",
+   "uz": "pochta indeksi (AQShda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My friend lives in New York, and her zip code is 10001.",
+   "gap": "zip code",
+   "alt": [
+    "zip codes",
+    "zipcode"
+   ]
+  },
+  {
+   "id": "cotton",
+   "en": "cotton",
+   "uz": "paxta (mato)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This shirt is 100% cotton, so it feels cool on hot summer days.",
+   "gap": "cotton",
+   "alt": []
+  },
+  {
+   "id": "top_clothing",
+   "en": "top",
+   "uz": "kofta (ustki kiyim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She wore a white top with blue jeans to the party.",
+   "gap": "top",
+   "alt": [
+    "tops"
+   ]
+  },
+  {
+   "id": "small_size",
+   "en": "small",
+   "uz": "kichik o‘lcham (S)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little sister is very thin, so she always buys T-shirts in small.",
+   "gap": "small",
+   "alt": []
+  },
+  {
+   "id": "medium_size",
+   "en": "medium",
+   "uz": "o‘rta o‘lcham (M)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm not very big or very thin, so medium is usually the right size for me.",
+   "gap": "medium",
+   "alt": []
+  },
+  {
+   "id": "large_size",
+   "en": "large",
+   "uz": "katta o‘lcham (L)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our basketball coach is very tall, so he orders shirts in large.",
+   "gap": "large",
+   "alt": []
+  },
+  {
+   "id": "men",
+   "en": "men",
+   "uz": "erkaklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "On this website, click on the tab for men to see shirts and ties.",
+   "gap": "men",
+   "alt": [
+    "man"
+   ]
+  },
+  {
+   "id": "women",
+   "en": "women",
+   "uz": "ayollar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The page for women shows dresses, skirts and handbags.",
+   "gap": "women",
+   "alt": [
+    "woman"
+   ]
+  },
+  {
+   "id": "children",
+   "en": "children",
+   "uz": "bolalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the section for children, you can find tiny trainers and school bags.",
+   "gap": "children",
+   "alt": [
+    "child"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "basket",
+   "checkout"
+  ],
+  [
+   "basket",
+   "order"
+  ],
+  [
+   "product",
+   "item"
+  ],
+  [
+   "order",
+   "item"
+  ],
+  [
+   "price",
+   "total"
+  ],
+  [
+   "free_delivery",
+   "next_day_delivery"
+  ],
+  [
+   "free_delivery",
+   "delivery"
+  ],
+  [
+   "next_day_delivery",
+   "delivery"
+  ],
+  [
+   "order_number",
+   "post_code"
+  ],
+  [
+   "order_number",
+   "house_number"
+  ],
+  [
+   "city",
+   "country"
+  ],
+  [
+   "order",
+   "product"
+  ],
+  [
+   "order",
+   "delivery"
+  ],
+  [
+   "add_to_basket",
+   "checkout"
+  ],
+  [
+   "zip_code",
+   "post_code"
+  ],
+  [
+   "small_size",
+   "medium_size"
+  ],
+  [
+   "small_size",
+   "large_size"
+  ],
+  [
+   "medium_size",
+   "large_size"
+  ],
+  [
+   "men",
+   "women"
+  ],
+  [
+   "men",
+   "children"
+  ],
+  [
+   "women",
+   "children"
+  ],
+  [
+   "men",
+   "menswear"
+  ],
+  [
+   "women",
+   "womenswear"
+  ],
+  [
+   "children",
+   "childrens_department"
+  ],
+  [
+   "top_clothing",
+   "clothes"
+  ]
+ ]
+}

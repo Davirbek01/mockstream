@@ -1,0 +1,393 @@
+{
+ "book": "elementary",
+ "unit": 13,
+ "title": "In the living room",
+ "title_uz": "Mehmonxonada",
+ "words": [
+  {
+   "id": "bookshelf",
+   "en": "bookshelf",
+   "uz": "kitob javoni",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our bookshelf has five long rows of books, from Navoi's poems to Harry Potter.",
+   "gap": "bookshelf",
+   "alt": [
+    "bookshelves"
+   ]
+  },
+  {
+   "id": "lamp",
+   "en": "lamp",
+   "uz": "lampa (stol yoki pol chirog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum put a tall lamp with a yellow shade in the corner of the living room.",
+   "gap": "lamp",
+   "alt": []
+  },
+  {
+   "id": "picture",
+   "en": "picture",
+   "uz": "rasm (devordagi surat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Above the sofa there's a picture that my sister painted in her art class.",
+   "gap": "picture",
+   "alt": []
+  },
+  {
+   "id": "light_switch",
+   "en": "light switch",
+   "uz": "chiroq tugmasi (vyklyuchatel)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The light switch is next to the door, so you can turn on the light when you come in.",
+   "gap": "light switch",
+   "alt": []
+  },
+  {
+   "id": "tv",
+   "en": "TV",
+   "uz": "televizor",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our new TV has a huge screen, so cartoons look like a real cinema.",
+   "gap": "TV",
+   "alt": [
+    "television"
+   ]
+  },
+  {
+   "id": "hi_fi",
+   "en": "hi-fi",
+   "uz": "musiqa markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad plays his old cassettes and CDs on the hi-fi in the corner.",
+   "gap": "hi-fi",
+   "alt": [
+    "hifi",
+    "hi fi"
+   ]
+  },
+  {
+   "id": "sofa",
+   "en": "sofa",
+   "uz": "divan",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our sofa is long enough for three people to sit on.",
+   "gap": "sofa",
+   "alt": []
+  },
+  {
+   "id": "socket",
+   "en": "socket",
+   "uz": "rozetka",
+   "pos": "noun",
+   "img": true,
+   "ex": "My phone battery is almost dead; is there a socket near the sofa where I can charge it?",
+   "gap": "socket",
+   "alt": []
+  },
+  {
+   "id": "remote_control",
+   "en": "remote control",
+   "uz": "pult (masofaviy boshqaruv)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't change the channel because I can't find the remote control.",
+   "gap": "remote control",
+   "alt": [
+    "remote"
+   ]
+  },
+  {
+   "id": "phone",
+   "en": "phone",
+   "uz": "telefon",
+   "pos": "noun",
+   "img": true,
+   "ex": "The phone is ringing in the living room; can you answer it?",
+   "gap": "phone",
+   "alt": []
+  },
+  {
+   "id": "rug",
+   "en": "rug",
+   "uz": "kichik gilam (palos)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a small round rug under the coffee table.",
+   "gap": "rug",
+   "alt": []
+  },
+  {
+   "id": "armchair",
+   "en": "armchair",
+   "uz": "kreslo",
+   "pos": "noun",
+   "img": true,
+   "ex": "My aunt sits in her big soft armchair by the window and knits.",
+   "gap": "armchair",
+   "alt": []
+  },
+  {
+   "id": "coffee_table",
+   "en": "coffee table",
+   "uz": "jurnal stolchasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put the cups of tea on the low coffee table in front of the sofa.",
+   "gap": "coffee table",
+   "alt": []
+  },
+  {
+   "id": "table",
+   "en": "table",
+   "uz": "stol",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the evening the whole family sits round the big table and has dinner together.",
+   "gap": "table",
+   "alt": []
+  },
+  {
+   "id": "carpet",
+   "en": "carpet",
+   "uz": "gilam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our living room floor is covered with a big red Bukhara carpet.",
+   "gap": "carpet",
+   "alt": []
+  },
+  {
+   "id": "chair",
+   "en": "chair",
+   "uz": "stul",
+   "pos": "noun",
+   "img": true,
+   "ex": "There are six chairs around our dining table.",
+   "gap": "chairs",
+   "alt": [
+    "chairs"
+   ]
+  },
+  {
+   "id": "light",
+   "en": "light",
+   "uz": "chiroq (yorug‘lik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The light in the hall went out, so my brother climbed on a chair to change the bulb.",
+   "gap": "light",
+   "alt": []
+  },
+  {
+   "id": "window",
+   "en": "window",
+   "uz": "deraza",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's very hot in the living room, so Dad opened the window to let in some fresh air.",
+   "gap": "window",
+   "alt": []
+  },
+  {
+   "id": "curtains",
+   "en": "curtains",
+   "uz": "parda",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum closes the thick green curtains at night so the street lights don't wake the baby.",
+   "gap": "curtains",
+   "alt": [
+    "curtain"
+   ]
+  },
+  {
+   "id": "radio",
+   "en": "radio",
+   "uz": "radio",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the car Mum always has the radio on, so she can hear the news.",
+   "gap": "radio",
+   "alt": []
+  },
+  {
+   "id": "watch_television",
+   "en": "watch television",
+   "uz": "televizor ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My brother doesn't read much; he'd rather watch television all evening.",
+   "gap": "watch television",
+   "alt": [
+    "watch TV"
+   ]
+  },
+  {
+   "id": "listen_to_music",
+   "en": "listen to music",
+   "uz": "musiqa tinglamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the metro I always listen to music on my headphones.",
+   "gap": "listen to music",
+   "alt": []
+  },
+  {
+   "id": "switch_on",
+   "en": "switch on",
+   "uz": "yoqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you switch on the kettle? I'd like some tea.",
+   "gap": "switch on",
+   "alt": []
+  },
+  {
+   "id": "turn_off",
+   "en": "turn off",
+   "uz": "o‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's late; please turn off the TV and go to bed.",
+   "gap": "turn off",
+   "alt": []
+  },
+  {
+   "id": "programme",
+   "en": "programme",
+   "uz": "ko‘rsatuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "My favourite programme on Saturday mornings is a cooking show for kids.",
+   "gap": "programme",
+   "alt": [
+    "program"
+   ]
+  },
+  {
+   "id": "furniture",
+   "en": "furniture",
+   "uz": "mebel",
+   "pos": "noun",
+   "img": false,
+   "ex": "We bought new furniture for the living room: a sofa, two armchairs and a table.",
+   "gap": "furniture",
+   "alt": []
+  },
+  {
+   "id": "book",
+   "en": "book",
+   "uz": "kitob",
+   "pos": "noun",
+   "img": true,
+   "ex": "I borrowed a thick book about space from the school library.",
+   "gap": "book",
+   "alt": [
+    "books"
+   ]
+  },
+  {
+   "id": "close_v",
+   "en": "close",
+   "uz": "yopmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please close the door quietly; the baby is asleep in the next room.",
+   "gap": "close",
+   "alt": [
+    "closes",
+    "closed",
+    "closing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "lamp",
+   "light"
+  ],
+  [
+   "rug",
+   "carpet"
+  ],
+  [
+   "sofa",
+   "armchair"
+  ],
+  [
+   "armchair",
+   "chair"
+  ],
+  [
+   "sofa",
+   "chair"
+  ],
+  [
+   "light_switch",
+   "socket"
+  ],
+  [
+   "light_switch",
+   "light"
+  ],
+  [
+   "hi_fi",
+   "radio"
+  ],
+  [
+   "tv",
+   "radio"
+  ],
+  [
+   "window",
+   "curtains"
+  ],
+  [
+   "watch_television",
+   "listen_to_music"
+  ],
+  [
+   "switch_on",
+   "turn_off"
+  ],
+  [
+   "furniture",
+   "sofa"
+  ],
+  [
+   "furniture",
+   "armchair"
+  ],
+  [
+   "furniture",
+   "chair"
+  ],
+  [
+   "table",
+   "coffee_table"
+  ],
+  [
+   "furniture",
+   "table"
+  ],
+  [
+   "book",
+   "bookshelf"
+  ],
+  [
+   "close_v",
+   "turn_off"
+  ],
+  [
+   "close_v",
+   "curtains"
+  ]
+ ]
+}

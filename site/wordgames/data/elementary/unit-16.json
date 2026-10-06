@@ -1,0 +1,447 @@
+{
+ "book": "elementary",
+ "unit": 16,
+ "title": "Communications",
+ "title_uz": "Aloqa vositalari",
+ "words": [
+  {
+   "id": "address",
+   "en": "address",
+   "uz": "manzil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please send the parcel to my new address: 12 Navoi Street, Tashkent.",
+   "gap": "address",
+   "alt": []
+  },
+  {
+   "id": "stamp",
+   "en": "stamp",
+   "uz": "pochta markasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The stamp on the envelope from Bukhara had a tiny picture of a stork on it.",
+   "gap": "stamp",
+   "alt": [
+    "stamps"
+   ]
+  },
+  {
+   "id": "envelope",
+   "en": "envelope",
+   "uz": "konvert",
+   "pos": "noun",
+   "img": true,
+   "ex": "Malika put the birthday card in an envelope and wrote her friend's name on it.",
+   "gap": "envelope",
+   "alt": []
+  },
+  {
+   "id": "date",
+   "en": "date",
+   "uz": "sana",
+   "pos": "noun",
+   "img": false,
+   "ex": "Always write the date at the top of a letter, for example 6 October 2026.",
+   "gap": "date",
+   "alt": []
+  },
+  {
+   "id": "letter",
+   "en": "letter",
+   "uz": "xat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My pen friend in Khiva writes me a long letter by hand every month.",
+   "gap": "letter",
+   "alt": [
+    "letters"
+   ]
+  },
+  {
+   "id": "letter_box",
+   "en": "letter box",
+   "uz": "pochta qutisi (ko‘chadagi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a letter box at the end of our street, so I can post my cards there on my way to school.",
+   "gap": "letter box",
+   "alt": [
+    "letterbox",
+    "letter boxes"
+   ]
+  },
+  {
+   "id": "post_letter",
+   "en": "post",
+   "uz": "pochta orqali jo‘natmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you post these two letters for me on your way to school?",
+   "gap": "post",
+   "alt": [
+    "posted"
+   ]
+  },
+  {
+   "id": "screen",
+   "en": "screen",
+   "uz": "ekran",
+   "pos": "noun",
+   "img": false,
+   "ex": "The screen on my old laptop is too small, so I watch films on the TV.",
+   "gap": "screen",
+   "alt": []
+  },
+  {
+   "id": "keyboard",
+   "en": "keyboard",
+   "uz": "klaviatura",
+   "pos": "noun",
+   "img": false,
+   "ex": "The A key on my laptop's keyboard doesn't work, so I can't type my name, Aziz.",
+   "gap": "keyboard",
+   "alt": []
+  },
+  {
+   "id": "mouse",
+   "en": "mouse",
+   "uz": "sichqoncha (kompyuterda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To open the file, move the mouse to it and click twice.",
+   "gap": "mouse",
+   "alt": []
+  },
+  {
+   "id": "laptop",
+   "en": "laptop",
+   "uz": "noutbuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dilnoza put her laptop on her knees, opened it and started typing.",
+   "gap": "laptop",
+   "alt": []
+  },
+  {
+   "id": "memory_stick",
+   "en": "memory stick",
+   "uz": "fleshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "I saved my presentation on a tiny memory stick and plugged it into the classroom computer.",
+   "gap": "memory stick",
+   "alt": []
+  },
+  {
+   "id": "email",
+   "en": "email",
+   "uz": "elektron xat",
+   "pos": "noun",
+   "img": false,
+   "ex": "I got an email from IT Park with a link to my online job interview.",
+   "gap": "email",
+   "alt": [
+    "emails",
+    "e-mail"
+   ]
+  },
+  {
+   "id": "email_address",
+   "en": "email address",
+   "uz": "elektron pochta manzili",
+   "pos": "noun",
+   "img": false,
+   "ex": "My email address is nodira.saidova@mail.uz: 'nodira dot saidova at mail dot uz'.",
+   "gap": "email address",
+   "alt": []
+  },
+  {
+   "id": "online",
+   "en": "online",
+   "uz": "internetda (onlayn)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My brother plays chess online with a boy from Brazil every evening.",
+   "gap": "online",
+   "alt": []
+  },
+  {
+   "id": "mobile_device",
+   "en": "mobile device",
+   "uz": "mobil qurilma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the concert starts, please switch off all mobile devices: phones, tablets and laptops.",
+   "gap": "mobile devices",
+   "alt": [
+    "mobile devices"
+   ]
+  },
+  {
+   "id": "mobile",
+   "en": "mobile",
+   "uz": "mobil telefon",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm not at home today, so call me on my mobile, not on the home phone.",
+   "gap": "mobile",
+   "alt": [
+    "mobile phone"
+   ]
+  },
+  {
+   "id": "smartphone",
+   "en": "smartphone",
+   "uz": "smartfon",
+   "pos": "noun",
+   "img": true,
+   "ex": "I keep my smartphone in my pocket; it takes photos and shows me the way on a map.",
+   "gap": "smartphone",
+   "alt": []
+  },
+  {
+   "id": "telephone",
+   "en": "telephone",
+   "uz": "telefon (simli, statsionar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the hotel room there was an old telephone with a long wire on the desk.",
+   "gap": "telephone",
+   "alt": []
+  },
+  {
+   "id": "phone_box",
+   "en": "phone box",
+   "uz": "telefon budkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before mobiles, people often made calls from a phone box in the street.",
+   "gap": "phone box",
+   "alt": []
+  },
+  {
+   "id": "phone_v",
+   "en": "phone",
+   "uz": "telefon qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister in Andijan phones me every Friday to tell me her news.",
+   "gap": "phones",
+   "alt": [
+    "phones",
+    "phoned"
+   ]
+  },
+  {
+   "id": "phone_call",
+   "en": "phone call",
+   "uz": "telefon qo‘ng‘irog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our family, phone calls to my aunt in Russia are short because they are expensive.",
+   "gap": "phone calls",
+   "alt": [
+    "phone calls"
+   ]
+  },
+  {
+   "id": "turn_off_device",
+   "en": "turn off",
+   "uz": "o‘chirib qo‘ymoq (qurilmani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I go to bed, I turn off my phone so the messages don't wake me up.",
+   "gap": "turn off",
+   "alt": [
+    "turned off",
+    "turns off"
+   ]
+  },
+  {
+   "id": "phone_number",
+   "en": "phone number",
+   "uz": "telefon raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "What's your phone number? It's 90 123 45 67.",
+   "gap": "phone number",
+   "alt": []
+  },
+  {
+   "id": "voicemail",
+   "en": "voicemail",
+   "uz": "ovozli xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz didn't answer, so I left a voicemail for him to listen to later.",
+   "gap": "voicemail",
+   "alt": []
+  },
+  {
+   "id": "text_message",
+   "en": "text message",
+   "uz": "SMS xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't talk now, I'm in class. Send me a text message.",
+   "gap": "text message",
+   "alt": [
+    "text messages",
+    "text"
+   ]
+  },
+  {
+   "id": "speak_to",
+   "en": "speak to",
+   "uz": "(kim bilandir) gaplashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hello, it's Bobur here. Can I speak to Madina, please?",
+   "gap": "speak to",
+   "alt": []
+  },
+  {
+   "id": "take_a_message",
+   "en": "take a message",
+   "uz": "xabarni yozib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sorry, the manager isn't in the office. Can I take a message?",
+   "gap": "take a message",
+   "alt": []
+  },
+  {
+   "id": "call_back",
+   "en": "call back",
+   "uz": "qayta qo‘ng‘iroq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm on the bus now. I'll call back in ten minutes.",
+   "gap": "call back",
+   "alt": []
+  },
+  {
+   "id": "at_the_moment",
+   "en": "at the moment",
+   "uz": "ayni paytda (hozir)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Sorry, Mr Rakhimov isn't here at the moment; he's out for lunch.",
+   "gap": "at the moment",
+   "alt": []
+  },
+  {
+   "id": "mobile_number",
+   "en": "mobile number",
+   "uz": "mobil telefon raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write your mobile number on the form, so the clinic can send you a reminder.",
+   "gap": "mobile number",
+   "alt": []
+  },
+  {
+   "id": "at_sign",
+   "en": "at",
+   "uz": "@ belgisining o‘qilishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur told me his email on the phone: 'timur at gmail dot com'.",
+   "gap": "at",
+   "alt": []
+  },
+  {
+   "id": "dot",
+   "en": "dot",
+   "uz": "nuqta (manzilda o‘qilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school website is school21.uz, and we say it 'school twenty-one dot uz'.",
+   "gap": "dot",
+   "alt": []
+  },
+  {
+   "id": "oh_zero",
+   "en": "oh",
+   "uz": "nol (raqamni aytganda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The code for our office door is 307, which I say as 'three oh seven'.",
+   "gap": "oh",
+   "alt": []
+  },
+  {
+   "id": "double_digit",
+   "en": "double",
+   "uz": "qo‘sh (ikki bir xil raqam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My flat is number 55, so I say 'double five'.",
+   "gap": "double",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "address",
+   "email_address"
+  ],
+  [
+   "letter",
+   "email"
+  ],
+  [
+   "email",
+   "text_message"
+  ],
+  [
+   "voicemail",
+   "text_message"
+  ],
+  [
+   "mobile",
+   "smartphone"
+  ],
+  [
+   "mobile",
+   "telephone"
+  ],
+  [
+   "smartphone",
+   "telephone"
+  ],
+  [
+   "mobile_device",
+   "smartphone"
+  ],
+  [
+   "mobile_device",
+   "mobile"
+  ],
+  [
+   "mobile_device",
+   "laptop"
+  ],
+  [
+   "stamp",
+   "envelope"
+  ],
+  [
+   "mobile_number",
+   "phone_number"
+  ],
+  [
+   "mobile_number",
+   "mobile"
+  ],
+  [
+   "at_sign",
+   "dot"
+  ],
+  [
+   "oh_zero",
+   "double_digit"
+  ]
+ ]
+}

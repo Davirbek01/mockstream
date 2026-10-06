@@ -1,0 +1,446 @@
+{
+ "book": "elementary",
+ "unit": 4,
+ "title": "Clothes",
+ "title_uz": "Kiyim-kechak",
+ "words": [
+  {
+   "id": "hat",
+   "en": "hat",
+   "uz": "shlyapa (bosh kiyim)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The farmer wears a big straw hat to keep the sun off his face.",
+   "gap": "hat",
+   "alt": []
+  },
+  {
+   "id": "coat",
+   "en": "coat",
+   "uz": "palto",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter I wear a long, warm coat over my sweater and jeans.",
+   "gap": "coat",
+   "alt": []
+  },
+  {
+   "id": "jacket",
+   "en": "jacket",
+   "uz": "kurtka, pidjak",
+   "pos": "noun",
+   "img": true,
+   "ex": "He wears a short leather jacket on his motorbike.",
+   "gap": "jacket",
+   "alt": []
+  },
+  {
+   "id": "socks",
+   "en": "socks",
+   "uz": "paypoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put on your socks first, and then your shoes.",
+   "gap": "socks",
+   "alt": [
+    "sock"
+   ]
+  },
+  {
+   "id": "scarf",
+   "en": "scarf",
+   "uz": "sharf",
+   "pos": "noun",
+   "img": true,
+   "ex": "Wrap a scarf around your neck; it's windy.",
+   "gap": "scarf",
+   "alt": []
+  },
+  {
+   "id": "gloves",
+   "en": "gloves",
+   "uz": "qo‘lqop",
+   "pos": "noun",
+   "img": true,
+   "ex": "My fingers are cold. Where are my gloves?",
+   "gap": "gloves",
+   "alt": [
+    "glove"
+   ]
+  },
+  {
+   "id": "shoes",
+   "en": "shoes",
+   "uz": "tufli",
+   "pos": "noun",
+   "img": true,
+   "ex": "She bought a pair of high-heeled shoes for the wedding.",
+   "gap": "shoes",
+   "alt": [
+    "shoe"
+   ]
+  },
+  {
+   "id": "trainers",
+   "en": "trainers",
+   "uz": "krossovka",
+   "pos": "noun",
+   "img": true,
+   "ex": "For PE, put on your trainers, not your school shoes.",
+   "gap": "trainers",
+   "alt": []
+  },
+  {
+   "id": "boots",
+   "en": "boots",
+   "uz": "etik",
+   "pos": "noun",
+   "img": true,
+   "ex": "When it snows, I walk to school in warm boots.",
+   "gap": "boots",
+   "alt": []
+  },
+  {
+   "id": "suit",
+   "en": "suit",
+   "uz": "kostyum",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad wears a suit: a jacket and trousers of the same colour.",
+   "gap": "suit",
+   "alt": []
+  },
+  {
+   "id": "t_shirt",
+   "en": "T-shirt",
+   "uz": "futbolka",
+   "pos": "noun",
+   "img": true,
+   "ex": "My T-shirt has short sleeves, no collar and no buttons.",
+   "gap": "T-shirt",
+   "alt": [
+    "T shirt",
+    "tee shirt"
+   ]
+  },
+  {
+   "id": "watch",
+   "en": "watch",
+   "uz": "qo‘l soati",
+   "pos": "noun",
+   "img": true,
+   "ex": "My new watch shows the time and counts my steps.",
+   "gap": "watch",
+   "alt": []
+  },
+  {
+   "id": "dress",
+   "en": "dress",
+   "uz": "ayollar ko‘ylagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "My sister wore a long white dress for her wedding.",
+   "gap": "dress",
+   "alt": []
+  },
+  {
+   "id": "ring",
+   "en": "ring",
+   "uz": "uzuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "She has a silver ring on every finger!",
+   "gap": "ring",
+   "alt": []
+  },
+  {
+   "id": "skirt",
+   "en": "skirt",
+   "uz": "yubka",
+   "pos": "noun",
+   "img": true,
+   "ex": "At our school, girls wear a skirt and boys wear trousers.",
+   "gap": "skirt",
+   "alt": []
+  },
+  {
+   "id": "shirt",
+   "en": "shirt",
+   "uz": "yoqali ko‘ylak",
+   "pos": "noun",
+   "img": true,
+   "ex": "Under his jacket, Dad wears a white shirt with a collar and buttons.",
+   "gap": "shirt",
+   "alt": []
+  },
+  {
+   "id": "trousers",
+   "en": "trousers",
+   "uz": "shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "For work, he wears a shirt, a tie and dark trousers with a belt.",
+   "gap": "trousers",
+   "alt": []
+  },
+  {
+   "id": "jeans",
+   "en": "jeans",
+   "uz": "jinsi shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "Most jeans are made of strong blue cotton called denim.",
+   "gap": "jeans",
+   "alt": []
+  },
+  {
+   "id": "shorts",
+   "en": "shorts",
+   "uz": "kalta shim (shorti)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It's 40 degrees in Tashkent today, so I'm wearing shorts instead of long trousers.",
+   "gap": "shorts",
+   "alt": []
+  },
+  {
+   "id": "tights",
+   "en": "tights",
+   "uz": "kolgotka",
+   "pos": "noun",
+   "img": true,
+   "ex": "In winter she wears warm tights under her skirt.",
+   "gap": "tights",
+   "alt": []
+  },
+  {
+   "id": "glasses",
+   "en": "glasses",
+   "uz": "ko‘zoynak",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't read the board without my glasses.",
+   "gap": "glasses",
+   "alt": []
+  },
+  {
+   "id": "sunglasses",
+   "en": "sunglasses",
+   "uz": "quyosh ko‘zoynagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Take your sunglasses; the sun is very bright at the beach.",
+   "gap": "sunglasses",
+   "alt": []
+  },
+  {
+   "id": "sweater",
+   "en": "sweater",
+   "uz": "sviter",
+   "pos": "noun",
+   "img": true,
+   "ex": "My aunt knitted me a warm sweater with long sleeves.",
+   "gap": "sweater",
+   "alt": [
+    "jumper"
+   ]
+  },
+  {
+   "id": "pyjamas",
+   "en": "pyjamas",
+   "uz": "pijama",
+   "pos": "noun",
+   "img": true,
+   "ex": "I put on my pyjamas and went to bed.",
+   "gap": "pyjamas",
+   "alt": [
+    "pajamas"
+   ]
+  },
+  {
+   "id": "belt",
+   "en": "belt",
+   "uz": "kamar",
+   "pos": "noun",
+   "img": true,
+   "ex": "These trousers are too big, so I need a belt.",
+   "gap": "belt",
+   "alt": []
+  },
+  {
+   "id": "tie",
+   "en": "tie",
+   "uz": "galstuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "For the school concert, Bobur wore a white shirt with a red tie under the collar.",
+   "gap": "tie",
+   "alt": []
+  },
+  {
+   "id": "umbrella",
+   "en": "umbrella",
+   "uz": "soyabon (zontik)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It started to rain, so we all stood under Dad's big umbrella.",
+   "gap": "umbrella",
+   "alt": []
+  },
+  {
+   "id": "handbag",
+   "en": "handbag",
+   "uz": "ayollar sumkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum keeps her keys and her phone in her handbag.",
+   "gap": "handbag",
+   "alt": []
+  },
+  {
+   "id": "suitcase",
+   "en": "suitcase",
+   "uz": "chamadon",
+   "pos": "noun",
+   "img": true,
+   "ex": "We packed our clothes in a big suitcase for the holiday.",
+   "gap": "suitcase",
+   "alt": []
+  },
+  {
+   "id": "wear",
+   "en": "wear",
+   "uz": "kiyib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nurses wear white clothes at work.",
+   "gap": "wear",
+   "alt": []
+  },
+  {
+   "id": "carry",
+   "en": "carry",
+   "uz": "ko‘tarib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you help me carry these heavy bags?",
+   "gap": "carry",
+   "alt": []
+  },
+  {
+   "id": "put_on",
+   "en": "put on",
+   "uz": "kiymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's snowing, so put on your boots before you go out.",
+   "gap": "put on",
+   "alt": []
+  },
+  {
+   "id": "take_off",
+   "en": "take off",
+   "uz": "yechmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please take off your shoes before you come into the house.",
+   "gap": "take off",
+   "alt": []
+  },
+  {
+   "id": "get_dressed",
+   "en": "get dressed",
+   "uz": "kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hurry up and get dressed, or you'll be late for school!",
+   "gap": "get dressed",
+   "alt": []
+  },
+  {
+   "id": "get_undressed",
+   "en": "get undressed",
+   "uz": "yechinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bobur was so tired that he didn't get undressed; he slept in his clothes.",
+   "gap": "get undressed",
+   "alt": []
+  },
+  {
+   "id": "a_pair_of",
+   "en": "a pair of",
+   "uz": "bir juft",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Zarina bought a pair of black gloves in the winter sale.",
+   "gap": "a pair of",
+   "alt": [
+    "pair",
+    "pairs of"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "dress",
+   "shirt"
+  ],
+  [
+   "dress",
+   "skirt"
+  ],
+  [
+   "glasses",
+   "sunglasses"
+  ],
+  [
+   "trousers",
+   "jeans"
+  ],
+  [
+   "trousers",
+   "shorts"
+  ],
+  [
+   "jeans",
+   "shorts"
+  ],
+  [
+   "shoes",
+   "trainers"
+  ],
+  [
+   "shoes",
+   "boots"
+  ],
+  [
+   "boots",
+   "trainers"
+  ],
+  [
+   "coat",
+   "jacket"
+  ],
+  [
+   "socks",
+   "tights"
+  ],
+  [
+   "wear",
+   "put_on"
+  ],
+  [
+   "put_on",
+   "get_dressed"
+  ],
+  [
+   "take_off",
+   "get_undressed"
+  ],
+  [
+   "handbag",
+   "suitcase"
+  ]
+ ]
+}

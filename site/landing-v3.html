@@ -4499,6 +4499,19 @@
           </div>
           <div class="tool-arrow">→</div>
         </a>
+        <a class="tool-card" href="/wordgames/" data-learn="wordgames">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+              <path d="M7 8h4M7 12h7M7 16h3"></path>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Word Games</div>
+            <div class="tool-sub"><span class="tool-sub-text">Vocabulary in Use, unit by unit</span> <span class="tool-count" id="ltCountWordgames"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
         <a class="tool-card" href="javascript:void(0)" data-learn="tests">
           <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18843,6 +18856,7 @@
         else if (key === 'tests') showTestsSubmenu();
         else if (key === 'articles') openLearningCategory('articles');
         else if (key === 'idioms') openLearningCategory('idioms');
+        else if (key === 'wordgames') location.href = '/wordgames/';
       });
     });
 
@@ -18950,6 +18964,10 @@
         if (e1 && fc) e1.textContent = fc + ' decks';
         if (e2 && ar) e2.textContent = ar + ' articles';
         if (e3 && ts) e3.textContent = ts + ' topics';
+        // Word Games ships its units as static pages, so the count is not
+        // read from a catalog — bump it when another EVU book goes live.
+        var e4 = document.getElementById('ltCountWordgames');
+        if (e4) e4.textContent = '60 units';
         // Sidebar clone badges mirror the originals (ids stripped on clone).
         document.querySelectorAll('[data-ltc-copy]').forEach(function (c) {
           var src = document.getElementById(c.getAttribute('data-ltc-copy'));
@@ -21119,6 +21137,7 @@
             else if (key === 'tests') showTestsSubmenu();
             else if (key === 'articles') openLearningCategory('articles');
             else if (key === 'idioms') openLearningCategory('idioms');
+            else if (key === 'wordgames') location.href = '/wordgames/';
           });
         });
         wrap.appendChild(grid);
@@ -23873,7 +23892,6 @@
           // greyed 'Idioms & Phrasals — Soon' card right under the working
           // one, which read as if the feature had not shipped.
           var TOOLS = [
-            ['wordgames', '🎮', 'linear-gradient(135deg, #a78bfa, #7c3aed)', 'Word Games', 'Play & learn vocabulary'],
             ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
             ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
             ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear'],

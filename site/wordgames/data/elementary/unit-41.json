@@ -1,0 +1,378 @@
+{
+ "book": "elementary",
+ "unit": 41,
+ "title": "Make / made / made",
+ "title_uz": "Make fe’li bilan birikmalar",
+ "words": [
+  {
+   "id": "make_coffee",
+   "en": "make coffee",
+   "uz": "qahva damlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning at seven my father makes coffee in a small Turkish pot and drinks it without sugar.",
+   "gap": "makes coffee",
+   "alt": [
+    "makes coffee",
+    "made coffee",
+    "making coffee",
+    "make some coffee",
+    "made some coffee"
+   ]
+  },
+  {
+   "id": "make_tea",
+   "en": "make tea",
+   "uz": "choy damlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When guests arrive, my sister makes tea, pours it into small bowls and puts a plate of sweets on the table.",
+   "gap": "makes tea",
+   "alt": [
+    "makes tea",
+    "made tea",
+    "making tea",
+    "make some tea",
+    "made some tea"
+   ]
+  },
+  {
+   "id": "make_hot_chocolate",
+   "en": "make hot chocolate",
+   "uz": "issiq shokolad tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We came home from the snowy park with red noses and cold fingers, so Mum made hot chocolate with milk for everyone.",
+   "gap": "made hot chocolate",
+   "alt": [
+    "makes hot chocolate",
+    "made hot chocolate",
+    "making hot chocolate",
+    "make some hot chocolate"
+   ]
+  },
+  {
+   "id": "make_breakfast",
+   "en": "make breakfast",
+   "uz": "nonushta tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sundays I get up early and make breakfast for the family: fried eggs, bread and cheese.",
+   "gap": "make breakfast",
+   "alt": [
+    "makes breakfast",
+    "made breakfast",
+    "making breakfast"
+   ]
+  },
+  {
+   "id": "make_lunch",
+   "en": "make lunch",
+   "uz": "tushlik tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At noon on Saturday my brother made lunch for us: chicken soup and a big salad.",
+   "gap": "made lunch",
+   "alt": [
+    "makes lunch",
+    "made lunch",
+    "making lunch"
+   ]
+  },
+  {
+   "id": "make_dinner",
+   "en": "make dinner",
+   "uz": "kechki ovqat tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad gets home from work at six and starts to make dinner, so by seven the whole family is eating together.",
+   "gap": "make dinner",
+   "alt": [
+    "makes dinner",
+    "made dinner",
+    "making dinner"
+   ]
+  },
+  {
+   "id": "make_a_photocopy",
+   "en": "make a photocopy",
+   "uz": "nusxa olmoq / kserokopiya qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There is only one copy of the song, so the teacher is making a photocopy for each of us.",
+   "gap": "making a photocopy",
+   "alt": [
+    "makes a photocopy",
+    "made a photocopy",
+    "making a photocopy",
+    "make photocopies",
+    "made photocopies"
+   ]
+  },
+  {
+   "id": "make_a_film",
+   "en": "make a film",
+   "uz": "film suratga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This summer a TV team is making a film about the silk workshops of Margilan.",
+   "gap": "making a film",
+   "alt": [
+    "makes a film",
+    "made a film",
+    "making a film",
+    "make films"
+   ]
+  },
+  {
+   "id": "make_a_video",
+   "en": "make a video",
+   "uz": "video tayyorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For our science project, Madina made a video on her phone about how to plant a young tree.",
+   "gap": "made a video",
+   "alt": [
+    "makes a video",
+    "made a video",
+    "making a video",
+    "make videos"
+   ]
+  },
+  {
+   "id": "make_feel",
+   "en": "make me feel",
+   "uz": "menda … hissini uyg‘otmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The warm sun and the sound of the waves always make me feel calm and happy.",
+   "gap": "make me feel",
+   "alt": [
+    "make somebody feel",
+    "make someone feel",
+    "make me feel",
+    "makes me feel",
+    "made me feel",
+    "made him feel",
+    "made her feel",
+    "make you feel",
+    "makes you feel",
+    "made us feel"
+   ]
+  },
+  {
+   "id": "make_angry",
+   "en": "make me angry",
+   "uz": "jahlimni chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother took my headphones without asking. That made me angry, and I shouted at him.",
+   "gap": "made me angry",
+   "alt": [
+    "make somebody angry",
+    "make someone angry",
+    "make me angry",
+    "makes me angry",
+    "made me angry",
+    "made him angry",
+    "made her angry",
+    "makes him angry",
+    "makes her angry"
+   ]
+  },
+  {
+   "id": "make_sad",
+   "en": "make me sad",
+   "uz": "meni xafa / ma’yus qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The end of the story made me sad because the old dog died, and I cried a little.",
+   "gap": "made me sad",
+   "alt": [
+    "make somebody sad",
+    "make someone sad",
+    "make me sad",
+    "makes me sad",
+    "made me sad",
+    "made him sad",
+    "made her sad",
+    "makes him sad",
+    "makes her sad"
+   ]
+  },
+  {
+   "id": "make_tired",
+   "en": "make me tired",
+   "uz": "meni charchatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturday we moved into a new flat, and carrying boxes up the stairs all day made me tired, so I fell asleep at eight.",
+   "gap": "made me tired",
+   "alt": [
+    "make somebody tired",
+    "make someone tired",
+    "make me tired",
+    "makes me tired",
+    "made me tired",
+    "made him tired",
+    "made her tired",
+    "makes him tired",
+    "makes her tired"
+   ]
+  },
+  {
+   "id": "make_a_mistake",
+   "en": "make a mistake",
+   "uz": "xato qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the dictation I made a mistake: I wrote 'wich' instead of 'which'.",
+   "gap": "made a mistake",
+   "alt": [
+    "makes a mistake",
+    "made a mistake",
+    "making a mistake",
+    "make mistakes",
+    "made mistakes"
+   ]
+  },
+  {
+   "id": "make_an_appointment",
+   "en": "make an appointment",
+   "uz": "qabulga yozilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I can't read the board well these days, so Mum phoned the clinic to make an appointment with the eye doctor for Monday.",
+   "gap": "make an appointment",
+   "alt": [
+    "makes an appointment",
+    "made an appointment",
+    "making an appointment"
+   ]
+  },
+  {
+   "id": "make_your_bed",
+   "en": "make your bed",
+   "uz": "o‘rnini yig‘ishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother is only five, but every morning he makes his bed and puts his pillow neatly on top.",
+   "gap": "makes his bed",
+   "alt": [
+    "make my bed",
+    "make his bed",
+    "make her bed",
+    "makes his bed",
+    "makes her bed",
+    "made my bed",
+    "made his bed",
+    "made her bed",
+    "making my bed"
+   ]
+  },
+  {
+   "id": "make_a_noise",
+   "en": "make a noise",
+   "uz": "shovqin qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every time the postman opens our gate, the neighbour's dog starts to make a noise.",
+   "gap": "make a noise",
+   "alt": [
+    "makes a noise",
+    "made a noise",
+    "making a noise",
+    "make noise",
+    "making noise"
+   ]
+  },
+  {
+   "id": "make_a_mess",
+   "en": "make a mess",
+   "uz": "hamma yoqni sochib-to‘kib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The kitten pulled all the paper out of the bin and made a mess on the kitchen floor.",
+   "gap": "made a mess",
+   "alt": [
+    "makes a mess",
+    "made a mess",
+    "making a mess"
+   ]
+  },
+  {
+   "id": "make_a_choice",
+   "en": "make a choice",
+   "uz": "tanlov qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The shop had backpacks in twelve different colours, and it took my brother ages to make a choice.",
+   "gap": "make a choice",
+   "alt": [
+    "makes a choice",
+    "made a choice",
+    "making a choice",
+    "make a good choice",
+    "made a good choice"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "make_coffee",
+   "make_tea"
+  ],
+  [
+   "make_coffee",
+   "make_hot_chocolate"
+  ],
+  [
+   "make_tea",
+   "make_hot_chocolate"
+  ],
+  [
+   "make_breakfast",
+   "make_lunch"
+  ],
+  [
+   "make_breakfast",
+   "make_dinner"
+  ],
+  [
+   "make_lunch",
+   "make_dinner"
+  ],
+  [
+   "make_breakfast",
+   "do_the_cooking"
+  ],
+  [
+   "make_lunch",
+   "do_the_cooking"
+  ],
+  [
+   "make_dinner",
+   "do_the_cooking"
+  ],
+  [
+   "make_a_film",
+   "make_a_video"
+  ],
+  [
+   "make_angry",
+   "make_sad"
+  ],
+  [
+   "make_sad",
+   "make_tired"
+  ],
+  [
+   "make_a_noise",
+   "make_a_mess"
+  ],
+  [
+   "make_your_bed",
+   "do_the_housework"
+  ]
+ ]
+}

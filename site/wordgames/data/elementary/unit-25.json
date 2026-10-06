@@ -1,0 +1,307 @@
+{
+ "book": "elementary",
+ "unit": 25,
+ "title": "Free time at home",
+ "title_uz": "Uyda bo‘sh vaqt",
+ "words": [
+  {
+   "id": "headphones",
+   "en": "headphones",
+   "uz": "quloqchinlar",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother was asleep, so I watched the film with my headphones on.",
+   "gap": "headphones",
+   "alt": []
+  },
+  {
+   "id": "dvd",
+   "en": "DVD",
+   "uz": "DVD disk",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad still keeps an old box of DVDs with Uzbek films from the 1990s.",
+   "gap": "DVDs",
+   "alt": [
+    "DVDs",
+    "dvd",
+    "dvds"
+   ]
+  },
+  {
+   "id": "video_games",
+   "en": "video games",
+   "uz": "videoo‘yinlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother plays video games on his computer for hours; he wants to reach the next level before bedtime.",
+   "gap": "video games",
+   "alt": [
+    "video game"
+   ]
+  },
+  {
+   "id": "chat_online",
+   "en": "chat online",
+   "uz": "internetda yozishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every evening I chat online with my friend from summer camp; we send each other messages until bedtime.",
+   "gap": "chat online",
+   "alt": [
+    "chats online",
+    "chatted online",
+    "chatting online"
+   ]
+  },
+  {
+   "id": "cooking",
+   "en": "cooking",
+   "uz": "ovqat pishirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother's new hobby is cooking: he watches recipes online and makes pancakes on Sundays.",
+   "gap": "cooking",
+   "alt": []
+  },
+  {
+   "id": "gardening",
+   "en": "gardening",
+   "uz": "bog‘dorchilik (bog‘da ishlash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum loves gardening: every Saturday she plants flowers and waters the apricot trees.",
+   "gap": "gardening",
+   "alt": []
+  },
+  {
+   "id": "grow",
+   "en": "grow",
+   "uz": "yetishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle grows big sweet watermelons in his field in Khorezm.",
+   "gap": "grows",
+   "alt": [
+    "grows",
+    "grew",
+    "growing"
+   ]
+  },
+  {
+   "id": "hobby",
+   "en": "hobby",
+   "uz": "qiziqish (xobbi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Drawing is my favourite hobby; I do it every weekend.",
+   "gap": "hobby",
+   "alt": [
+    "hobbies"
+   ]
+  },
+  {
+   "id": "novel",
+   "en": "novel",
+   "uz": "roman",
+   "pos": "noun",
+   "img": false,
+   "ex": "This novel has 600 pages, so it took me a month to read the whole story.",
+   "gap": "novel",
+   "alt": [
+    "novels"
+   ]
+  },
+  {
+   "id": "comic",
+   "en": "comic",
+   "uz": "komiks",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister likes comics because the stories are told in pictures with speech bubbles.",
+   "gap": "comics",
+   "alt": [
+    "comics"
+   ]
+  },
+  {
+   "id": "magazine",
+   "en": "magazine",
+   "uz": "jurnal",
+   "pos": "noun",
+   "img": false,
+   "ex": "I buy a football magazine every month; it has great photos of the players.",
+   "gap": "magazine",
+   "alt": [
+    "magazines"
+   ]
+  },
+  {
+   "id": "newspaper",
+   "en": "newspaper",
+   "uz": "gazeta",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour still buys a newspaper at the kiosk every morning and reads it on the bench outside.",
+   "gap": "newspaper",
+   "alt": [
+    "newspapers"
+   ]
+  },
+  {
+   "id": "have_friends_round",
+   "en": "have friends round",
+   "uz": "do‘stlarni uyga chaqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturday we had friends round to watch the football match on our big TV.",
+   "gap": "had friends round",
+   "alt": [
+    "had friends round",
+    "has friends round",
+    "having friends round"
+   ]
+  },
+  {
+   "id": "have_friends_to_dinner",
+   "en": "have friends to dinner",
+   "uz": "do‘stlarni kechki ovqatga chaqirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum cooked a big meal because we had friends to dinner last night.",
+   "gap": "had friends to dinner",
+   "alt": [
+    "had friends to dinner",
+    "has friends to dinner",
+    "having friends to dinner"
+   ]
+  },
+  {
+   "id": "come_to_stay",
+   "en": "come to stay",
+   "uz": "mehmon bo‘lib (tunab) qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every summer my aunt from Namangan comes to stay for a week and sleeps in my room.",
+   "gap": "comes to stay",
+   "alt": [
+    "comes to stay",
+    "came to stay",
+    "coming to stay"
+   ]
+  },
+  {
+   "id": "talk_on_the_phone",
+   "en": "talk on the phone",
+   "uz": "telefonda gaplashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I talk on the phone to my best friend every evening; one of us calls at nine.",
+   "gap": "talk on the phone",
+   "alt": [
+    "talks on the phone",
+    "talked on the phone",
+    "talking on the phone"
+   ]
+  },
+  {
+   "id": "do_nothing",
+   "en": "do nothing",
+   "uz": "hech narsa qilmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sunday afternoons I don't read, play games or talk to anyone; I just lie on the sofa and do nothing.",
+   "gap": "do nothing",
+   "alt": [
+    "does nothing",
+    "did nothing",
+    "doing nothing"
+   ]
+  },
+  {
+   "id": "have_a_sleep",
+   "en": "have a sleep",
+   "uz": "bir oz uxlab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum was very tired after the long drive from Andijan, so she went to bed and had a sleep for an hour.",
+   "gap": "had a sleep",
+   "alt": [
+    "had a sleep",
+    "has a sleep",
+    "having a sleep"
+   ]
+  },
+  {
+   "id": "internet",
+   "en": "Internet",
+   "uz": "butunjahon tarmog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "I found the recipe for this soup on the Internet in two minutes.",
+   "gap": "Internet",
+   "alt": [
+    "internet",
+    "the Internet"
+   ]
+  },
+  {
+   "id": "garden",
+   "en": "garden",
+   "uz": "bog‘ (hovlidagi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Behind our house there is a small garden with apple trees and roses.",
+   "gap": "garden",
+   "alt": [
+    "gardens"
+   ]
+  },
+  {
+   "id": "flower",
+   "en": "flower",
+   "uz": "gul",
+   "pos": "noun",
+   "img": true,
+   "ex": "In spring Gulnora planted red and yellow flowers next to her front door.",
+   "gap": "flowers",
+   "alt": [
+    "flowers"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "magazine",
+   "newspaper"
+  ],
+  [
+   "novel",
+   "comic"
+  ],
+  [
+   "have_friends_round",
+   "have_friends_to_dinner"
+  ],
+  [
+   "chat_online",
+   "talk_on_the_phone"
+  ],
+  [
+   "have_friends_round",
+   "come_to_stay"
+  ],
+  [
+   "cooking",
+   "gardening"
+  ],
+  [
+   "do_nothing",
+   "have_a_sleep"
+  ],
+  [
+   "garden",
+   "gardening"
+  ]
+ ]
+}

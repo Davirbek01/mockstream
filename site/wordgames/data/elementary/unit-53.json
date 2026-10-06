@@ -1,0 +1,308 @@
+{
+ "book": "elementary",
+ "unit": 53,
+ "title": "Places",
+ "title_uz": "Joylar",
+ "words": [
+  {
+   "id": "here",
+   "en": "here",
+   "uz": "bu yerda / bu yerga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Sit here, next to me, so we can share the book.",
+   "gap": "here",
+   "alt": []
+  },
+  {
+   "id": "there",
+   "en": "there",
+   "uz": "u yerda / u yerga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Have you ever been to Denov? We're going there in the spring holidays.",
+   "gap": "there",
+   "alt": []
+  },
+  {
+   "id": "everywhere",
+   "en": "everywhere",
+   "uz": "hamma yerda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My baby sister's toys are everywhere: on the floor, on the sofa, even in the bath.",
+   "gap": "everywhere",
+   "alt": []
+  },
+  {
+   "id": "top",
+   "en": "top",
+   "uz": "tepasi (eng yuqori qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the top of our sixteen-floor block of flats you can see the whole city.",
+   "gap": "top",
+   "alt": []
+  },
+  {
+   "id": "middle",
+   "en": "middle",
+   "uz": "o‘rtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a big fountain in the middle of the park, with paths going to it from every side.",
+   "gap": "middle",
+   "alt": []
+  },
+  {
+   "id": "bottom",
+   "en": "bottom",
+   "uz": "tagi (eng pastki qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The heavy books go on the bottom shelf, and the light ones go at the top.",
+   "gap": "bottom",
+   "alt": []
+  },
+  {
+   "id": "front",
+   "en": "front",
+   "uz": "old tomoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the cinema I like to sit near the front, close to the big screen.",
+   "gap": "front",
+   "alt": []
+  },
+  {
+   "id": "back_of",
+   "en": "back",
+   "uz": "orqa tomoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a small garden at the back of our house, behind the kitchen.",
+   "gap": "back",
+   "alt": []
+  },
+  {
+   "id": "side",
+   "en": "side",
+   "uz": "yon tomoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write your name on the left side of the page, next to the date.",
+   "gap": "side",
+   "alt": []
+  },
+  {
+   "id": "beginning",
+   "en": "beginning",
+   "uz": "boshi (boshlanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We missed the beginning of the film because we arrived twenty minutes late.",
+   "gap": "beginning",
+   "alt": []
+  },
+  {
+   "id": "end",
+   "en": "end",
+   "uz": "oxiri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't tell me what happens at the end of the book; I'm only on page 20!",
+   "gap": "end",
+   "alt": []
+  },
+  {
+   "id": "left_side",
+   "en": "left",
+   "uz": "chap",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nodira writes with her left hand, not her right one.",
+   "gap": "left",
+   "alt": []
+  },
+  {
+   "id": "right_side",
+   "en": "right",
+   "uz": "o‘ng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bobur broke his right arm, so now he has to write with his left hand.",
+   "gap": "right",
+   "alt": []
+  },
+  {
+   "id": "on_the_right",
+   "en": "on the right",
+   "uz": "o‘ng tomonda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bookshop isn't on the left; it's on the right, next to the bus stop.",
+   "gap": "on the right",
+   "alt": []
+  },
+  {
+   "id": "at_home",
+   "en": "at home",
+   "uz": "uyda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I stayed at home all day yesterday because I had a cold, and I watched films on the sofa.",
+   "gap": "at home",
+   "alt": []
+  },
+  {
+   "id": "out",
+   "en": "out",
+   "uz": "tashqarida (uyda yo‘q)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Sevara is out at the moment; she went to the shop and she'll return in ten minutes.",
+   "gap": "out",
+   "alt": []
+  },
+  {
+   "id": "away",
+   "en": "away",
+   "uz": "uzoqda (safarda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our English teacher is away at a conference for two weeks, so we have a different teacher.",
+   "gap": "away",
+   "alt": []
+  },
+  {
+   "id": "abroad",
+   "en": "abroad",
+   "uz": "chet elda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My sister has never lived in another country, but next year she's going to study abroad.",
+   "gap": "abroad",
+   "alt": []
+  },
+  {
+   "id": "in_prep",
+   "en": "in",
+   "uz": "ichida (xonada, qishloqda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "There's some cold water in the fridge if you're thirsty.",
+   "gap": "in",
+   "alt": []
+  },
+  {
+   "id": "at_prep",
+   "en": "at",
+   "uz": "-da (aniq nuqtada: bekatda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "My brother works at the airport: he checks passengers' bags.",
+   "gap": "at",
+   "alt": []
+  },
+  {
+   "id": "on_prep",
+   "en": "on",
+   "uz": "ustida (devorda, stulda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Hang your picture on the wall above the bed.",
+   "gap": "on",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "out",
+   "away"
+  ],
+  [
+   "away",
+   "abroad"
+  ],
+  [
+   "there",
+   "abroad"
+  ],
+  [
+   "there",
+   "away"
+  ],
+  [
+   "here",
+   "there"
+  ],
+  [
+   "left_side",
+   "right_side"
+  ],
+  [
+   "right_side",
+   "right"
+  ],
+  [
+   "beginning",
+   "end"
+  ],
+  [
+   "top",
+   "bottom"
+  ],
+  [
+   "front",
+   "back_of"
+  ],
+  [
+   "on_the_right",
+   "there"
+  ],
+  [
+   "on_the_right",
+   "here"
+  ],
+  [
+   "in_prep",
+   "at_prep"
+  ],
+  [
+   "in_prep",
+   "on_prep"
+  ],
+  [
+   "at_prep",
+   "on_prep"
+  ],
+  [
+   "in_prep",
+   "out"
+  ],
+  [
+   "on_prep",
+   "there"
+  ],
+  [
+   "in_prep",
+   "here"
+  ],
+  [
+   "at_prep",
+   "here"
+  ],
+  [
+   "in_prep",
+   "at_home"
+  ],
+  [
+   "back_of",
+   "side"
+  ],
+  [
+   "middle",
+   "bottom"
+  ]
+ ]
+}

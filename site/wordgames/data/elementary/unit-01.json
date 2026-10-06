@@ -1,0 +1,244 @@
+{
+ "book": "elementary",
+ "unit": 1,
+ "title": "The family",
+ "title_uz": "Oila",
+ "words": [
+  {
+   "id": "relatives",
+   "en": "relatives",
+   "uz": "qarindoshlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "At a big wedding you meet all your relatives: cousins, aunts and uncles.",
+   "gap": "relatives",
+   "alt": [
+    "relations"
+   ]
+  },
+  {
+   "id": "husband",
+   "en": "husband",
+   "uz": "er (turmush o‘rtog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika's husband is the man she married last summer.",
+   "gap": "husband",
+   "alt": []
+  },
+  {
+   "id": "wife",
+   "en": "wife",
+   "uz": "xotin (rafiqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Karimov and his wife have been married for thirty years.",
+   "gap": "wife",
+   "alt": [
+    "wives"
+   ]
+  },
+  {
+   "id": "father",
+   "en": "father",
+   "uz": "ota",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum met my father at university in Samarkand, and they got married a year later.",
+   "gap": "father",
+   "alt": []
+  },
+  {
+   "id": "mother",
+   "en": "mother",
+   "uz": "ona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad says my mother makes the best plov in the world; that's why he married her!",
+   "gap": "mother",
+   "alt": []
+  },
+  {
+   "id": "parents",
+   "en": "parents",
+   "uz": "ota-ona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both of my parents are teachers: Mum teaches maths and Dad teaches history.",
+   "gap": "parents",
+   "alt": []
+  },
+  {
+   "id": "daughter",
+   "en": "daughter",
+   "uz": "qiz (farzand)",
+   "pos": "noun",
+   "img": false,
+   "ex": "They have three children: two sons and one daughter, Madina.",
+   "gap": "daughter",
+   "alt": []
+  },
+  {
+   "id": "son",
+   "en": "son",
+   "uz": "o‘g‘il",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr and Mrs Aliyev have three children: two daughters and one son, Bobur.",
+   "gap": "son",
+   "alt": []
+  },
+  {
+   "id": "sister",
+   "en": "sister",
+   "uz": "opa / singil",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents have two daughters: me and my sister.",
+   "gap": "sister",
+   "alt": []
+  },
+  {
+   "id": "brother",
+   "en": "brother",
+   "uz": "aka / uka",
+   "pos": "noun",
+   "img": false,
+   "ex": "I have one brother; he is my parents' only son.",
+   "gap": "brother",
+   "alt": []
+  },
+  {
+   "id": "grandfather",
+   "en": "grandfather",
+   "uz": "bobo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum's father, my grandfather, is eighty, but he still works in his garden every day.",
+   "gap": "grandfather",
+   "alt": []
+  },
+  {
+   "id": "grandmother",
+   "en": "grandmother",
+   "uz": "buvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My dad's mother is my grandmother, and she makes great samsa.",
+   "gap": "grandmother",
+   "alt": []
+  },
+  {
+   "id": "grandparents",
+   "en": "grandparents",
+   "uz": "bobo va buvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Sunday we visit our grandparents, Grandma and Grandpa.",
+   "gap": "grandparents",
+   "alt": []
+  },
+  {
+   "id": "granddaughter",
+   "en": "granddaughter",
+   "uz": "nevara qiz",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Navruz, Grandma teaches her granddaughter, my cousin Aziza, to make sumalak.",
+   "gap": "granddaughter",
+   "alt": []
+  },
+  {
+   "id": "grandson",
+   "en": "grandson",
+   "uz": "nevara o‘g‘il",
+   "pos": "noun",
+   "img": false,
+   "ex": "Grandma has five granddaughters and only one grandson: my little brother.",
+   "gap": "grandson",
+   "alt": []
+  },
+  {
+   "id": "uncle",
+   "en": "uncle",
+   "uz": "amaki / tog‘a",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle, Dad's younger brother, is a taxi driver in Tashkent.",
+   "gap": "uncle",
+   "alt": []
+  },
+  {
+   "id": "aunt",
+   "en": "aunt",
+   "uz": "amma / xola",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum's sister, my aunt Dilnoza, teaches English at our school.",
+   "gap": "aunt",
+   "alt": []
+  },
+  {
+   "id": "niece",
+   "en": "niece",
+   "uz": "jiyan (qiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My big sister has a little girl, Laylo, so Laylo is my niece.",
+   "gap": "niece",
+   "alt": []
+  },
+  {
+   "id": "nephew",
+   "en": "nephew",
+   "uz": "jiyan (o‘g‘il)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm only twelve, but I already have a nephew: my big brother's baby son.",
+   "gap": "nephew",
+   "alt": []
+  },
+  {
+   "id": "cousin",
+   "en": "cousin",
+   "uz": "amakivachcha / xolavachcha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aunt Zuhra has two sons, and they are my only cousins.",
+   "gap": "cousins",
+   "alt": [
+    "cousins"
+   ]
+  },
+  {
+   "id": "only_child",
+   "en": "only child",
+   "uz": "yagona farzand",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola has nobody to play with at home, because she is an only child.",
+   "gap": "only child",
+   "alt": []
+  },
+  {
+   "id": "big_family",
+   "en": "big family",
+   "uz": "katta oila",
+   "pos": "noun",
+   "img": false,
+   "ex": "Farrukh comes from a big family: he has four brothers and three sisters.",
+   "gap": "big family",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "parents",
+   "grandparents"
+  ],
+  [
+   "relatives",
+   "grandparents"
+  ]
+ ]
+}

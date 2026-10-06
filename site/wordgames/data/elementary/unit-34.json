@@ -1,0 +1,762 @@
+{
+ "book": "elementary",
+ "unit": 34,
+ "title": "Crime",
+ "title_uz": "Jinoyat",
+ "words": [
+  {
+   "id": "crime",
+   "en": "crime",
+   "uz": "jinoyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our neighbourhood, crime went down after the city put cameras on every corner.",
+   "gap": "crime",
+   "alt": [
+    "crimes"
+   ]
+  },
+  {
+   "id": "criminal",
+   "en": "criminal",
+   "uz": "jinoyatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two years of searching, the police finally caught the criminal and took him to the station.",
+   "gap": "criminal",
+   "alt": [
+    "criminals"
+   ]
+  },
+  {
+   "id": "robbery",
+   "en": "robbery",
+   "uz": "talonchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the robbery at the bank, the police closed the whole street and looked for the men with the money.",
+   "gap": "robbery",
+   "alt": [
+    "robberies"
+   ]
+  },
+  {
+   "id": "robber",
+   "en": "robber",
+   "uz": "talonchi (bosqinchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank robber wore a mask, so the cameras couldn't see his face.",
+   "gap": "robber",
+   "alt": [
+    "robbers"
+   ]
+  },
+  {
+   "id": "rob",
+   "en": "rob",
+   "uz": "talamoq (bank yoki odamni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Late last night, two men in masks robbed a taxi driver and took all his money.",
+   "gap": "robbed",
+   "alt": [
+    "robs",
+    "robbed",
+    "robbing"
+   ]
+  },
+  {
+   "id": "burglary",
+   "en": "burglary",
+   "uz": "uyga o‘g‘ri tushishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "While the Nazarovs were away on holiday, there was a burglary at their empty flat.",
+   "gap": "burglary",
+   "alt": [
+    "burglaries"
+   ]
+  },
+  {
+   "id": "burglar",
+   "en": "burglar",
+   "uz": "uyga tushadigan o‘g‘ri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The burglar climbed in through an open kitchen window at night and took a laptop.",
+   "gap": "burglar",
+   "alt": [
+    "burglars"
+   ]
+  },
+  {
+   "id": "break_into",
+   "en": "break into",
+   "uz": "(uyga) buzib kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone broke into our neighbour's garage and took two new bikes.",
+   "gap": "broke into",
+   "alt": [
+    "breaks into",
+    "broke into",
+    "broken into",
+    "breaking into"
+   ]
+  },
+  {
+   "id": "mugging",
+   "en": "mugging",
+   "uz": "ko‘chada talash",
+   "pos": "noun",
+   "img": false,
+   "ex": "There were several muggings in the dark streets near the station, so now police officers walk there every night.",
+   "gap": "muggings",
+   "alt": [
+    "muggings"
+   ]
+  },
+  {
+   "id": "mugger",
+   "en": "mugger",
+   "uz": "ko‘cha talonchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A mugger grabbed the tourist's bag in the street and ran off into the crowd.",
+   "gap": "mugger",
+   "alt": [
+    "muggers"
+   ]
+  },
+  {
+   "id": "thief",
+   "en": "thief",
+   "uz": "o‘g‘ri",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the crowded bus a thief took my phone out of my pocket, and I didn't feel a thing.",
+   "gap": "thief",
+   "alt": [
+    "thieves"
+   ]
+  },
+  {
+   "id": "steal",
+   "en": "steal",
+   "uz": "o‘g‘irlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "While we were swimming, someone stole our towels and shoes from the beach.",
+   "gap": "stole",
+   "alt": [
+    "steals",
+    "stole",
+    "stolen",
+    "stealing"
+   ]
+  },
+  {
+   "id": "car_theft",
+   "en": "car theft",
+   "uz": "avtomobil o‘g‘irlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "These days car theft is rarer than before, because new cars have clever alarms and trackers.",
+   "gap": "car theft",
+   "alt": []
+  },
+  {
+   "id": "shoplifting",
+   "en": "shoplifting",
+   "uz": "do‘kondan o‘g‘irlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of shoplifting, the bookshop now has a security gate at the door that beeps loudly.",
+   "gap": "shoplifting",
+   "alt": []
+  },
+  {
+   "id": "shoplifter",
+   "en": "shoplifter",
+   "uz": "do‘kon o‘g‘risi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the exit, the security guard stopped a shoplifter with three bars of chocolate under his coat.",
+   "gap": "shoplifter",
+   "alt": [
+    "shoplifters"
+   ]
+  },
+  {
+   "id": "the_law",
+   "en": "the law",
+   "uz": "qonun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Driving without a licence is against the law, even for a short trip.",
+   "gap": "the law",
+   "alt": []
+  },
+  {
+   "id": "arrest",
+   "en": "arrest",
+   "uz": "hibsga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The police arrested the man at the airport before he could get on the plane.",
+   "gap": "arrested",
+   "alt": [
+    "arrests",
+    "arrested",
+    "arresting"
+   ]
+  },
+  {
+   "id": "law_court",
+   "en": "court",
+   "uz": "sud",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two men must go to court in March, where a judge will decide what happens to them.",
+   "gap": "court",
+   "alt": [
+    "courts"
+   ]
+  },
+  {
+   "id": "guilty",
+   "en": "guilty",
+   "uz": "aybdor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The judge decided that he was guilty, so he had to pay for the broken shop window.",
+   "gap": "guilty",
+   "alt": []
+  },
+  {
+   "id": "innocent",
+   "en": "innocent",
+   "uz": "aybsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The video showed that she was at home all evening, so she was innocent.",
+   "gap": "innocent",
+   "alt": []
+  },
+  {
+   "id": "pay_a_fine",
+   "en": "pay a fine",
+   "uz": "jarima to‘lamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbour drove too fast past the school, so a camera caught him and he had to pay a fine.",
+   "gap": "pay a fine",
+   "alt": [
+    "pays a fine",
+    "paid a fine",
+    "paying a fine"
+   ]
+  },
+  {
+   "id": "prison",
+   "en": "prison",
+   "uz": "qamoqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "He spent three years in prison, and now he works with teenagers to keep them out of trouble.",
+   "gap": "prison",
+   "alt": [
+    "prisons"
+   ]
+  },
+  {
+   "id": "vandal",
+   "en": "vandal",
+   "uz": "vandal (mulkni buzuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night vandals broke all the lights in the school car park.",
+   "gap": "vandals",
+   "alt": [
+    "vandals"
+   ]
+  },
+  {
+   "id": "vandalism",
+   "en": "vandalism",
+   "uz": "vandalizm (mulkni buzish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a lot of vandalism at our bus stop: the glass is always broken and the walls are covered in paint.",
+   "gap": "vandalism",
+   "alt": []
+  },
+  {
+   "id": "football_hooligan",
+   "en": "football hooligan",
+   "uz": "futbol bezorisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two football hooligans threw bottles onto the pitch and were taken out of the stadium.",
+   "gap": "football hooligans",
+   "alt": [
+    "football hooligans"
+   ]
+  },
+  {
+   "id": "murder",
+   "en": "murder",
+   "uz": "qotillik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The detective story on TV was about the murder of a rich old man.",
+   "gap": "murder",
+   "alt": [
+    "murders",
+    "murdered"
+   ]
+  },
+  {
+   "id": "murderer",
+   "en": "murderer",
+   "uz": "qotil",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the last chapter, the detective finds out who killed Lady Grey: the murderer was her gardener.",
+   "gap": "murderer",
+   "alt": [
+    "murderers"
+   ]
+  },
+  {
+   "id": "mug_verb",
+   "en": "mug",
+   "uz": "ko‘chada talamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Police say two young men tried to mug a tourist near the station last night.",
+   "gap": "mug",
+   "alt": [
+    "mugs",
+    "mugged"
+   ]
+  },
+  {
+   "id": "car_thief",
+   "en": "car thief",
+   "uz": "avtomobil o‘g‘risi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car thief opened the door in ten seconds, but a camera filmed everything.",
+   "gap": "car thief",
+   "alt": [
+    "car thieves"
+   ]
+  },
+  {
+   "id": "drug_dealing",
+   "en": "drug dealing",
+   "uz": "giyohvand moddalar savdosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police closed the nightclub because of drug dealing: people were selling pills there.",
+   "gap": "drug dealing",
+   "alt": []
+  },
+  {
+   "id": "drug_dealer",
+   "en": "drug dealer",
+   "uz": "giyohvand moddalar sotuvchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the border, officers stopped a drug dealer and found bags of pills in his van.",
+   "gap": "drug dealer",
+   "alt": [
+    "drug dealers"
+   ]
+  },
+  {
+   "id": "sell_drugs",
+   "en": "sell drugs",
+   "uz": "giyohvand modda sotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The man went to prison because he sold drugs to teenagers.",
+   "gap": "sold drugs",
+   "alt": [
+    "sells drugs",
+    "sold drugs",
+    "selling drugs"
+   ]
+  },
+  {
+   "id": "terrorism",
+   "en": "terrorism",
+   "uz": "terrorizm",
+   "pos": "noun",
+   "img": false,
+   "ex": "Airports check every bag carefully to protect passengers from terrorism.",
+   "gap": "terrorism",
+   "alt": []
+  },
+  {
+   "id": "terrorist",
+   "en": "terrorist",
+   "uz": "terrorchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police caught the terrorist at the station before he could leave a bomb on the train.",
+   "gap": "terrorist",
+   "alt": [
+    "terrorists"
+   ]
+  },
+  {
+   "id": "attack",
+   "en": "attack",
+   "uz": "hujum qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the film, pirates attacked a ship full of gold at night.",
+   "gap": "attacked",
+   "alt": [
+    "attacks",
+    "attacked",
+    "attacking"
+   ]
+  },
+  {
+   "id": "the_police",
+   "en": "the police",
+   "uz": "politsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Nigora saw that her front door was open, she called the police at once.",
+   "gap": "the police",
+   "alt": []
+  },
+  {
+   "id": "take_drugs",
+   "en": "take drugs",
+   "uz": "giyohvand modda iste’mol qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Athletes who take drugs to run faster can lose their medals.",
+   "gap": "take drugs",
+   "alt": [
+    "takes drugs",
+    "took drugs",
+    "taking drugs"
+   ]
+  },
+  {
+   "id": "hooliganism",
+   "en": "hooliganism",
+   "uz": "bezorilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are cameras in the stadium now, so there is less football hooliganism.",
+   "gap": "hooliganism",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "crime",
+   "robbery"
+  ],
+  [
+   "crime",
+   "burglary"
+  ],
+  [
+   "crime",
+   "mugging"
+  ],
+  [
+   "crime",
+   "car_theft"
+  ],
+  [
+   "crime",
+   "shoplifting"
+  ],
+  [
+   "crime",
+   "vandalism"
+  ],
+  [
+   "robbery",
+   "burglary"
+  ],
+  [
+   "robbery",
+   "mugging"
+  ],
+  [
+   "burglary",
+   "mugging"
+  ],
+  [
+   "shoplifting",
+   "vandalism"
+  ],
+  [
+   "car_theft",
+   "shoplifting"
+  ],
+  [
+   "criminal",
+   "robber"
+  ],
+  [
+   "criminal",
+   "burglar"
+  ],
+  [
+   "criminal",
+   "thief"
+  ],
+  [
+   "criminal",
+   "mugger"
+  ],
+  [
+   "criminal",
+   "shoplifter"
+  ],
+  [
+   "criminal",
+   "vandal"
+  ],
+  [
+   "criminal",
+   "football_hooligan"
+  ],
+  [
+   "thief",
+   "robber"
+  ],
+  [
+   "thief",
+   "burglar"
+  ],
+  [
+   "thief",
+   "mugger"
+  ],
+  [
+   "thief",
+   "shoplifter"
+  ],
+  [
+   "robber",
+   "burglar"
+  ],
+  [
+   "robber",
+   "mugger"
+  ],
+  [
+   "burglar",
+   "mugger"
+  ],
+  [
+   "vandal",
+   "football_hooligan"
+  ],
+  [
+   "mugging",
+   "vandal"
+  ],
+  [
+   "mugging",
+   "football_hooligan"
+  ],
+  [
+   "rob",
+   "break_into"
+  ],
+  [
+   "law_court",
+   "prison"
+  ],
+  [
+   "murder",
+   "crime"
+  ],
+  [
+   "murder",
+   "robbery"
+  ],
+  [
+   "murder",
+   "burglary"
+  ],
+  [
+   "murder",
+   "mugging"
+  ],
+  [
+   "murder",
+   "car_theft"
+  ],
+  [
+   "murderer",
+   "criminal"
+  ],
+  [
+   "murderer",
+   "thief"
+  ],
+  [
+   "murderer",
+   "robber"
+  ],
+  [
+   "murderer",
+   "burglar"
+  ],
+  [
+   "murderer",
+   "mugger"
+  ],
+  [
+   "mug_verb",
+   "rob"
+  ],
+  [
+   "mug_verb",
+   "steal"
+  ],
+  [
+   "car_thief",
+   "thief"
+  ],
+  [
+   "car_thief",
+   "criminal"
+  ],
+  [
+   "car_thief",
+   "robber"
+  ],
+  [
+   "car_thief",
+   "burglar"
+  ],
+  [
+   "car_thief",
+   "mugger"
+  ],
+  [
+   "car_thief",
+   "car_theft"
+  ],
+  [
+   "drug_dealing",
+   "crime"
+  ],
+  [
+   "drug_dealing",
+   "shoplifting"
+  ],
+  [
+   "drug_dealing",
+   "vandalism"
+  ],
+  [
+   "drug_dealing",
+   "terrorism"
+  ],
+  [
+   "drug_dealing",
+   "sell_drugs"
+  ],
+  [
+   "drug_dealing",
+   "drug_dealer"
+  ],
+  [
+   "drug_dealing",
+   "mugging"
+  ],
+  [
+   "drug_dealing",
+   "hooliganism"
+  ],
+  [
+   "drug_dealer",
+   "criminal"
+  ],
+  [
+   "drug_dealer",
+   "thief"
+  ],
+  [
+   "drug_dealer",
+   "robber"
+  ],
+  [
+   "drug_dealer",
+   "terrorist"
+  ],
+  [
+   "sell_drugs",
+   "take_drugs"
+  ],
+  [
+   "terrorism",
+   "crime"
+  ],
+  [
+   "terrorism",
+   "murder"
+  ],
+  [
+   "terrorist",
+   "criminal"
+  ],
+  [
+   "terrorist",
+   "robber"
+  ],
+  [
+   "terrorist",
+   "thief"
+  ],
+  [
+   "attack",
+   "rob"
+  ],
+  [
+   "attack",
+   "steal"
+  ],
+  [
+   "attack",
+   "break_into"
+  ],
+  [
+   "attack",
+   "mug_verb"
+  ],
+  [
+   "hooliganism",
+   "vandalism"
+  ],
+  [
+   "hooliganism",
+   "crime"
+  ],
+  [
+   "hooliganism",
+   "football_hooligan"
+  ],
+  [
+   "the_police",
+   "the_law"
+  ]
+ ]
+}

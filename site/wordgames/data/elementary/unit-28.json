@@ -1,0 +1,488 @@
+{
+ "book": "elementary",
+ "unit": 28,
+ "title": "Weather",
+ "title_uz": "Ob-havo",
+ "words": [
+  {
+   "id": "snow",
+   "en": "snow",
+   "uz": "qor",
+   "pos": "noun",
+   "img": true,
+   "ex": "There was thick white snow on the mountain road, so Dad put chains on the car tyres.",
+   "gap": "snow",
+   "alt": []
+  },
+  {
+   "id": "sun",
+   "en": "sun",
+   "uz": "quyosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "In July the sun is so strong in Qarshi that your skin burns after ten minutes without a hat.",
+   "gap": "sun",
+   "alt": []
+  },
+  {
+   "id": "rain",
+   "en": "rain",
+   "uz": "yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "Take your umbrella: the rain hasn't stopped all morning, and the streets are full of puddles.",
+   "gap": "rain",
+   "alt": []
+  },
+  {
+   "id": "cloud",
+   "en": "cloud",
+   "uz": "bulut",
+   "pos": "noun",
+   "img": false,
+   "ex": "Look at that big grey cloud in the sky; it looks just like an elephant!",
+   "gap": "cloud",
+   "alt": [
+    "clouds"
+   ]
+  },
+  {
+   "id": "fog",
+   "en": "fog",
+   "uz": "tuman",
+   "pos": "noun",
+   "img": false,
+   "ex": "This morning the thick grey fog hid the whole street, and I could only see the lights of the cars.",
+   "gap": "fog",
+   "alt": []
+  },
+  {
+   "id": "wind",
+   "en": "wind",
+   "uz": "shamol",
+   "pos": "noun",
+   "img": false,
+   "ex": "A strong wind blew almost all the leaves off the trees in our yard last night.",
+   "gap": "wind",
+   "alt": []
+  },
+  {
+   "id": "thunder",
+   "en": "thunder",
+   "uz": "momaqaldiroq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The thunder was so loud last night that our cat hid under my bed.",
+   "gap": "thunder",
+   "alt": []
+  },
+  {
+   "id": "lightning",
+   "en": "lightning",
+   "uz": "chaqmoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Suddenly a flash of lightning lit up the dark garden, and a second later we heard a loud bang.",
+   "gap": "lightning",
+   "alt": []
+  },
+  {
+   "id": "sunny",
+   "en": "sunny",
+   "uz": "quyoshli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our living room has big windows, so on sunny days it's full of bright light.",
+   "gap": "sunny",
+   "alt": []
+  },
+  {
+   "id": "rainy",
+   "en": "rainy",
+   "uz": "yomg‘irli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On rainy days Mum drives me to school, so my shoes stay dry.",
+   "gap": "rainy",
+   "alt": []
+  },
+  {
+   "id": "windy",
+   "en": "windy",
+   "uz": "shamolli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was so windy on the bridge that my umbrella turned inside out.",
+   "gap": "windy",
+   "alt": []
+  },
+  {
+   "id": "cloudy",
+   "en": "cloudy",
+   "uz": "bulutli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It isn't raining or snowing, and we can see the mountains clearly, but it's cloudy: there's no blue sky at all.",
+   "gap": "cloudy",
+   "alt": []
+  },
+  {
+   "id": "snowy",
+   "en": "snowy",
+   "uz": "qorli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On snowy days in January, the children in our street go sledging down the hill.",
+   "gap": "snowy",
+   "alt": []
+  },
+  {
+   "id": "foggy",
+   "en": "foggy",
+   "uz": "tumanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was too foggy for the pilot to see the runway, so our plane couldn't land in Urgench.",
+   "gap": "foggy",
+   "alt": []
+  },
+  {
+   "id": "hot_weather",
+   "en": "hot",
+   "uz": "issiq (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Phew! It's 42 degrees in the shade in Nukus today; it's far too hot to play football.",
+   "gap": "hot",
+   "alt": []
+  },
+  {
+   "id": "cold_weather",
+   "en": "cold",
+   "uz": "sovuq (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Put on your hat and gloves: it's very cold outside, and the puddles are covered with ice.",
+   "gap": "cold",
+   "alt": []
+  },
+  {
+   "id": "warm",
+   "en": "warm",
+   "uz": "iliq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's warm today, about 22 degrees, so you only need a light jacket.",
+   "gap": "warm",
+   "alt": []
+  },
+  {
+   "id": "wet",
+   "en": "wet",
+   "uz": "nam (yog‘ingarchilik ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bring your boots: it's been very wet here this week, and there's water everywhere.",
+   "gap": "wet",
+   "alt": []
+  },
+  {
+   "id": "dry",
+   "en": "dry",
+   "uz": "quruq (yomg‘irsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It hasn't rained for four months, so the fields are very dry and brown.",
+   "gap": "dry",
+   "alt": []
+  },
+  {
+   "id": "degrees",
+   "en": "degrees",
+   "uz": "daraja (harorat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The thermometer outside our kitchen window shows twenty-five degrees.",
+   "gap": "degrees",
+   "alt": [
+    "degree"
+   ]
+  },
+  {
+   "id": "minus",
+   "en": "minus",
+   "uz": "minus (noldan past)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At night in Chimgan it can be minus fifteen in January.",
+   "gap": "minus",
+   "alt": []
+  },
+  {
+   "id": "hurricane",
+   "en": "hurricane",
+   "uz": "dovul (juda kuchli shamol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hurricane hit the coast of Florida with winds of 200 kilometres an hour.",
+   "gap": "hurricane",
+   "alt": [
+    "hurricanes"
+   ]
+  },
+  {
+   "id": "storm",
+   "en": "storm",
+   "uz": "bo‘ron (kuchli shamol va yomg‘ir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night's storm broke two old trees in our street, and the heavy rain flooded the road.",
+   "gap": "storm",
+   "alt": [
+    "storms"
+   ]
+  },
+  {
+   "id": "thunderstorm",
+   "en": "thunderstorm",
+   "uz": "momaqaldiroqli jala",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the thunderstorm we heard loud bangs and saw flashes in the sky, so we turned off the TV.",
+   "gap": "thunderstorm",
+   "alt": [
+    "thunderstorms"
+   ]
+  },
+  {
+   "id": "shine",
+   "en": "shine",
+   "uz": "charaqlamoq (quyosh)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It rained all morning, but now the sun is shining again.",
+   "gap": "shining",
+   "alt": [
+    "shines",
+    "shining",
+    "shone"
+   ]
+  },
+  {
+   "id": "weather_forecast",
+   "en": "weather forecast",
+   "uz": "ob-havo ma’lumoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the weather forecast on TV, it will snow in Andijan tomorrow.",
+   "gap": "weather forecast",
+   "alt": []
+  },
+  {
+   "id": "lovely_day",
+   "en": "lovely day",
+   "uz": "havosi ajoyib kun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Blue sky, sunshine and no wind: it's a lovely day for a bike ride!",
+   "gap": "lovely day",
+   "alt": []
+  },
+  {
+   "id": "horrible_day",
+   "en": "horrible day",
+   "uz": "havosi juda yomon kun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cold rain, strong wind and no sun at all: what a horrible day!",
+   "gap": "horrible day",
+   "alt": []
+  },
+  {
+   "id": "thundery",
+   "en": "thundery",
+   "uz": "momaqaldiroqli (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sky went dark and thundery, so we ran inside before the storm started.",
+   "gap": "thundery",
+   "alt": []
+  },
+  {
+   "id": "rain_verb",
+   "en": "rain",
+   "uz": "yomg‘ir yog‘moq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Close the window, please: it's raining and the floor is getting wet.",
+   "gap": "raining",
+   "alt": [
+    "raining",
+    "rains",
+    "rained"
+   ]
+  },
+  {
+   "id": "snow_verb",
+   "en": "snow",
+   "uz": "qor yog‘moq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It snowed all night, and in the morning the whole mahalla was white.",
+   "gap": "snowed",
+   "alt": [
+    "snowing",
+    "snows",
+    "snowed"
+   ]
+  },
+  {
+   "id": "whats_the_weather_like",
+   "en": "What's the weather like?",
+   "uz": "Ob-havo qanday?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I phoned my friend in Moscow and asked, 'What's the weather like there today?'",
+   "gap": "What's the weather like",
+   "alt": [
+    "what's the weather like",
+    "What's the weather like",
+    "what is the weather like"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "wind",
+   "storm"
+  ],
+  [
+   "wind",
+   "hurricane"
+  ],
+  [
+   "thunder",
+   "storm"
+  ],
+  [
+   "thunder",
+   "thunderstorm"
+  ],
+  [
+   "hurricane",
+   "storm"
+  ],
+  [
+   "storm",
+   "thunderstorm"
+  ],
+  [
+   "rainy",
+   "wet"
+  ],
+  [
+   "rainy",
+   "snowy"
+  ],
+  [
+   "foggy",
+   "snowy"
+  ],
+  [
+   "foggy",
+   "rainy"
+  ],
+  [
+   "hot_weather",
+   "warm"
+  ],
+  [
+   "snow",
+   "fog"
+  ],
+  [
+   "sun",
+   "sunny"
+  ],
+  [
+   "rain",
+   "rainy"
+  ],
+  [
+   "cold_weather",
+   "snowy"
+  ],
+  [
+   "snow",
+   "snowy"
+  ],
+  [
+   "snow",
+   "cold_weather"
+  ],
+  [
+   "lightning",
+   "thunder"
+  ],
+  [
+   "lightning",
+   "thunderstorm"
+  ],
+  [
+   "lightning",
+   "storm"
+  ],
+  [
+   "lightning",
+   "cloud"
+  ],
+  [
+   "lightning",
+   "cloudy"
+  ],
+  [
+   "foggy",
+   "cloudy"
+  ],
+  [
+   "warm",
+   "sunny"
+  ],
+  [
+   "thundery",
+   "cloudy"
+  ],
+  [
+   "thundery",
+   "foggy"
+  ],
+  [
+   "thundery",
+   "thunder"
+  ],
+  [
+   "thundery",
+   "thunderstorm"
+  ],
+  [
+   "rain_verb",
+   "snow_verb"
+  ],
+  [
+   "rain_verb",
+   "rain"
+  ],
+  [
+   "snow_verb",
+   "snow"
+  ],
+  [
+   "rain_verb",
+   "rainy"
+  ],
+  [
+   "snow_verb",
+   "snowy"
+  ]
+ ]
+}

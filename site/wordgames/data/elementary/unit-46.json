@@ -1,0 +1,197 @@
+{
+ "book": "elementary",
+ "unit": 46,
+ "title": "Phrasal verbs",
+ "title_uz": "Frazali fe’llar",
+ "words": [
+  {
+   "id": "turn_on",
+   "en": "turn on",
+   "uz": "yoqmoq (chiroq, televizor)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's getting dark in the classroom. Could you turn on the lights, please?",
+   "gap": "turn on",
+   "alt": [
+    "turns on",
+    "turned on",
+    "turning on"
+   ]
+  },
+  {
+   "id": "turn_up",
+   "en": "turn up",
+   "uz": "(ovozini) balandlatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This is my favourite song! Can you turn up the radio a little so we can all sing along?",
+   "gap": "turn up",
+   "alt": [
+    "turns up",
+    "turned up",
+    "turning up"
+   ]
+  },
+  {
+   "id": "turn_down",
+   "en": "turn down",
+   "uz": "(ovozini) pasaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Little Kamola is asleep in the next room, so please turn down the TV.",
+   "gap": "turn down",
+   "alt": [
+    "turns down",
+    "turned down",
+    "turning down"
+   ]
+  },
+  {
+   "id": "turn_down_invite",
+   "en": "turn down",
+   "uz": "rad etmoq (taklifni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dilshod turned down the invitation to the birthday party because he had an important exam the next morning.",
+   "gap": "turned down",
+   "alt": [
+    "turns down",
+    "turned down",
+    "turning down"
+   ]
+  },
+  {
+   "id": "go_on",
+   "en": "go on",
+   "uz": "davom etmoq / davom ettirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister stopped her story at the most exciting part, so we all shouted, 'Please go on! What happened next?'",
+   "gap": "go on",
+   "alt": [
+    "goes on",
+    "went on",
+    "going on"
+   ]
+  },
+  {
+   "id": "go_off",
+   "en": "go off",
+   "uz": "chiqib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sanjar grabbed his football boots and went off to the stadium without his breakfast.",
+   "gap": "went off",
+   "alt": [
+    "goes off",
+    "went off",
+    "going off"
+   ]
+  },
+  {
+   "id": "come_on",
+   "en": "come on",
+   "uz": "Qani, tezroq!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Timur was walking very slowly behind us, so I called back, 'Oh, come on, Timur! The film starts in five minutes!'",
+   "gap": "come on",
+   "alt": []
+  },
+  {
+   "id": "write_down",
+   "en": "write down",
+   "uz": "yozib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The coach gave us the dates of all our matches, and I wrote them down in my phone.",
+   "gap": "wrote them down",
+   "alt": [
+    "writes down",
+    "wrote down",
+    "writing down",
+    "wrote them down",
+    "write it down"
+   ]
+  },
+  {
+   "id": "sit_down",
+   "en": "sit down",
+   "uz": "o‘tirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The concert hall was so full that we couldn't sit down and had to watch from the back.",
+   "gap": "sit down",
+   "alt": [
+    "sits down",
+    "sat down",
+    "sitting down"
+   ]
+  },
+  {
+   "id": "stand_up",
+   "en": "stand up",
+   "uz": "o‘rnidan turmoq (oyoqqa)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the national anthem starts at the stadium, everyone in the crowd stands up.",
+   "gap": "stands up",
+   "alt": [
+    "stands up",
+    "stood up",
+    "standing up"
+   ]
+  },
+  {
+   "id": "pick_up",
+   "en": "pick up",
+   "uz": "(yerdan) olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone has dropped a glove by the door. Can you pick it up?",
+   "gap": "pick it up",
+   "alt": [
+    "picks up",
+    "picked up",
+    "picking up",
+    "pick it up"
+   ]
+  },
+  {
+   "id": "look_after",
+   "en": "look after",
+   "uz": "qarab turmoq (g‘amxo‘rlik qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you look after our cat for a week while we're in Bukhara?",
+   "gap": "look after",
+   "alt": [
+    "looks after",
+    "looked after",
+    "looking after"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "turn_down",
+   "turn_down_invite"
+  ],
+  [
+   "turn_up",
+   "turn_down"
+  ],
+  [
+   "turn_on",
+   "turn_up"
+  ],
+  [
+   "sit_down",
+   "stand_up"
+  ],
+  [
+   "go_on",
+   "come_on"
+  ]
+ ]
+}

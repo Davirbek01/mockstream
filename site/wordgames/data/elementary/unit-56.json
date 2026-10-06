@@ -1,0 +1,414 @@
+{
+ "book": "elementary",
+ "unit": 56,
+ "title": "Good and bad things",
+ "title_uz": "Yaxshi va yomon narsalar",
+ "words": [
+  {
+   "id": "nice",
+   "en": "nice",
+   "uz": "yoqimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new neighbour seems very nice: she brought us a plate of hot samsa on our first day.",
+   "gap": "nice",
+   "alt": []
+  },
+  {
+   "id": "lovely",
+   "en": "lovely",
+   "uz": "juda yoqimli, go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "These roses smell lovely: can I take one home for Mum?",
+   "gap": "lovely",
+   "alt": []
+  },
+  {
+   "id": "great",
+   "en": "great",
+   "uz": "zo‘r",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We had a great time at the ice rink: we skated and laughed for three hours.",
+   "gap": "great",
+   "alt": []
+  },
+  {
+   "id": "wonderful",
+   "en": "wonderful",
+   "uz": "ajoyib",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When I opened the door, all my friends shouted 'Happy birthday!' What a wonderful surprise!",
+   "gap": "wonderful",
+   "alt": []
+  },
+  {
+   "id": "excellent",
+   "en": "excellent",
+   "uz": "a’lo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You got 100 out of 100? That's an excellent result!",
+   "gap": "excellent",
+   "alt": []
+  },
+  {
+   "id": "very_good",
+   "en": "very good",
+   "uz": "juda yaxshi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sardor is a very good goalkeeper, but he isn't the best player in our team.",
+   "gap": "very good",
+   "alt": []
+  },
+  {
+   "id": "perfect",
+   "en": "perfect",
+   "uz": "mukammal, ayni muddao",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't worry about one small mistake in your essay: nobody is perfect!",
+   "gap": "perfect",
+   "alt": []
+  },
+  {
+   "id": "not_bad",
+   "en": "not bad",
+   "uz": "yomon emas (durust)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"How was the new pizza café?\" \"Hmm, not bad: it wasn't the best pizza I've had, but it was OK.\"",
+   "gap": "not bad",
+   "alt": []
+  },
+  {
+   "id": "how_nice",
+   "en": "how nice",
+   "uz": "Qanday yaxshi! (javobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"I've brought you some flowers from our garden.\" \"Oh, how nice of you! Thank you!\"",
+   "gap": "how nice",
+   "alt": [
+    "how nice!"
+   ]
+  },
+  {
+   "id": "how_awful",
+   "en": "how awful",
+   "uz": "Voy, qanday yomon! (javobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"My brother broke his leg the day before his holiday.\" \"Oh, how awful for him!\"",
+   "gap": "how awful",
+   "alt": [
+    "how awful!"
+   ]
+  },
+  {
+   "id": "dreadful",
+   "en": "dreadful",
+   "uz": "dahshatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The concert was dreadful: the sound was so bad that we went home after twenty minutes.",
+   "gap": "dreadful",
+   "alt": []
+  },
+  {
+   "id": "horrible",
+   "en": "horrible",
+   "uz": "jirkanch, juda yoqimsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This cough medicine tastes horrible, but it really helps.",
+   "gap": "horrible",
+   "alt": []
+  },
+  {
+   "id": "terrible",
+   "en": "terrible",
+   "uz": "juda yomon",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I had a terrible cold last week and missed three days of school.",
+   "gap": "terrible",
+   "alt": []
+  },
+  {
+   "id": "awful",
+   "en": "awful",
+   "uz": "rasvo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "What an awful morning! It rained all the way to school, and then I spilled ink on my new shirt.",
+   "gap": "awful",
+   "alt": []
+  },
+  {
+   "id": "wonderful_view",
+   "en": "wonderful view",
+   "uz": "ajoyib manzara",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the hill above our village there's a wonderful view of the whole valley.",
+   "gap": "wonderful view",
+   "alt": []
+  },
+  {
+   "id": "excellent_idea",
+   "en": "excellent idea",
+   "uz": "a’lo fikr (taklif)",
+   "pos": "noun",
+   "img": false,
+   "ex": "\"Let's do our homework together in the library.\" \"That's an excellent idea: it's quieter there.\"",
+   "gap": "excellent idea",
+   "alt": []
+  },
+  {
+   "id": "bad_weather",
+   "en": "bad weather",
+   "uz": "yomon ob-havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our football match was cancelled because of bad weather: heavy rain and strong wind.",
+   "gap": "bad weather",
+   "alt": []
+  },
+  {
+   "id": "terrible_traffic",
+   "en": "terrible traffic",
+   "uz": "dahshatli tirbandlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our taxi was stuck in terrible traffic near Chorsu Bazaar, so we nearly missed the train.",
+   "gap": "terrible traffic",
+   "alt": []
+  },
+  {
+   "id": "how_wonderful",
+   "en": "how wonderful",
+   "uz": "Qanday ajoyib! (javobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We're flying to Paris for my birthday!' 'Oh, how wonderful! You'll love it.'",
+   "gap": "how wonderful",
+   "alt": [
+    "how wonderful!"
+   ]
+  },
+  {
+   "id": "how_lovely",
+   "en": "how lovely",
+   "uz": "Qanday yoqimli! (javobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'My neighbour knitted this warm hat for my baby.' 'Oh, how lovely! It's so soft.'",
+   "gap": "how lovely",
+   "alt": [
+    "how lovely!"
+   ]
+  },
+  {
+   "id": "how_horrible",
+   "en": "how horrible",
+   "uz": "Voy, qanday dahshat! (javobda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Someone stole my bike from outside the library.' 'Oh, how horrible! Did you call the police?'",
+   "gap": "how horrible",
+   "alt": [
+    "how horrible!"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "nice",
+   "lovely"
+  ],
+  [
+   "nice",
+   "great"
+  ],
+  [
+   "nice",
+   "wonderful"
+  ],
+  [
+   "nice",
+   "very_good"
+  ],
+  [
+   "lovely",
+   "great"
+  ],
+  [
+   "lovely",
+   "wonderful"
+  ],
+  [
+   "lovely",
+   "very_good"
+  ],
+  [
+   "great",
+   "wonderful"
+  ],
+  [
+   "great",
+   "very_good"
+  ],
+  [
+   "wonderful",
+   "very_good"
+  ],
+  [
+   "how_nice",
+   "nice"
+  ],
+  [
+   "how_nice",
+   "very_good"
+  ],
+  [
+   "perfect",
+   "excellent"
+  ],
+  [
+   "perfect",
+   "wonderful"
+  ],
+  [
+   "bad_weather",
+   "weather"
+  ],
+  [
+   "terrible_traffic",
+   "traffic"
+  ],
+  [
+   "dreadful",
+   "horrible"
+  ],
+  [
+   "dreadful",
+   "terrible"
+  ],
+  [
+   "dreadful",
+   "awful"
+  ],
+  [
+   "horrible",
+   "terrible"
+  ],
+  [
+   "horrible",
+   "awful"
+  ],
+  [
+   "terrible",
+   "awful"
+  ],
+  [
+   "how_wonderful",
+   "nice"
+  ],
+  [
+   "how_wonderful",
+   "lovely"
+  ],
+  [
+   "how_wonderful",
+   "great"
+  ],
+  [
+   "how_wonderful",
+   "wonderful"
+  ],
+  [
+   "how_wonderful",
+   "excellent"
+  ],
+  [
+   "how_wonderful",
+   "very_good"
+  ],
+  [
+   "how_wonderful",
+   "perfect"
+  ],
+  [
+   "how_wonderful",
+   "not_bad"
+  ],
+  [
+   "how_wonderful",
+   "how_nice"
+  ],
+  [
+   "how_lovely",
+   "nice"
+  ],
+  [
+   "how_lovely",
+   "lovely"
+  ],
+  [
+   "how_lovely",
+   "great"
+  ],
+  [
+   "how_lovely",
+   "wonderful"
+  ],
+  [
+   "how_lovely",
+   "excellent"
+  ],
+  [
+   "how_lovely",
+   "very_good"
+  ],
+  [
+   "how_lovely",
+   "perfect"
+  ],
+  [
+   "how_lovely",
+   "not_bad"
+  ],
+  [
+   "how_lovely",
+   "how_nice"
+  ],
+  [
+   "how_wonderful",
+   "how_lovely"
+  ],
+  [
+   "how_horrible",
+   "dreadful"
+  ],
+  [
+   "how_horrible",
+   "horrible"
+  ],
+  [
+   "how_horrible",
+   "terrible"
+  ],
+  [
+   "how_horrible",
+   "awful"
+  ],
+  [
+   "how_horrible",
+   "how_awful"
+  ]
+ ]
+}

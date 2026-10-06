@@ -1,0 +1,464 @@
+{
+ "book": "elementary",
+ "unit": 12,
+ "title": "In the bedroom and bathroom",
+ "title_uz": "Yotoqxona va hammomda",
+ "words": [
+  {
+   "id": "bed",
+   "en": "bed",
+   "uz": "karavot",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our cat sleeps on my bed, right next to my pillow.",
+   "gap": "bed",
+   "alt": []
+  },
+  {
+   "id": "bedside_lamp",
+   "en": "bedside lamp",
+   "uz": "karavot yonidagi chiroq",
+   "pos": "noun",
+   "img": true,
+   "ex": "I read in bed by the light of my small bedside lamp.",
+   "gap": "bedside lamp",
+   "alt": []
+  },
+  {
+   "id": "alarm_clock",
+   "en": "alarm clock",
+   "uz": "budilnik",
+   "pos": "noun",
+   "img": true,
+   "ex": "My alarm clock rings at half past six, but I always press 'snooze'.",
+   "gap": "alarm clock",
+   "alt": []
+  },
+  {
+   "id": "dressing_table",
+   "en": "dressing table",
+   "uz": "ko‘zguli stol (tualet stoli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning my sister sits at her dressing table and does her make-up in front of the mirror.",
+   "gap": "dressing table",
+   "alt": []
+  },
+  {
+   "id": "comb",
+   "en": "comb",
+   "uz": "taroq",
+   "pos": "noun",
+   "img": true,
+   "ex": "My comb lost two of its teeth, so I bought a new one.",
+   "gap": "comb",
+   "alt": []
+  },
+  {
+   "id": "chest_of_drawers",
+   "en": "chest of drawers",
+   "uz": "tortmali javon (komod)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My chest of drawers has five drawers: socks go in the top one and sweaters in the bottom one.",
+   "gap": "chest of drawers",
+   "alt": []
+  },
+  {
+   "id": "mirror",
+   "en": "mirror",
+   "uz": "ko‘zgu",
+   "pos": "noun",
+   "img": false,
+   "ex": "Look in the mirror: you've got toothpaste on your chin!",
+   "gap": "mirror",
+   "alt": []
+  },
+  {
+   "id": "wardrobe",
+   "en": "wardrobe",
+   "uz": "kiyim shkafi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My wardrobe is so full of clothes that the door won't close.",
+   "gap": "wardrobe",
+   "alt": []
+  },
+  {
+   "id": "bedside_table",
+   "en": "bedside table",
+   "uz": "karavot yonidagi tumbochka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every night I put my glasses on the bedside table before I turn off the lamp.",
+   "gap": "bedside table",
+   "alt": []
+  },
+  {
+   "id": "hairbrush",
+   "en": "hairbrush",
+   "uz": "soch cho‘tkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister cries when Mum pulls the hairbrush through her long, curly hair.",
+   "gap": "hairbrush",
+   "alt": []
+  },
+  {
+   "id": "toothpaste",
+   "en": "toothpaste",
+   "uz": "tish pastasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Who left the lid off the toothpaste? Now it's all hard and dry!",
+   "gap": "toothpaste",
+   "alt": []
+  },
+  {
+   "id": "toothbrush",
+   "en": "toothbrush",
+   "uz": "tish cho‘tkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "My new electric toothbrush stops after two minutes, so I know my teeth are clean.",
+   "gap": "toothbrush",
+   "alt": []
+  },
+  {
+   "id": "soap",
+   "en": "soap",
+   "uz": "sovun",
+   "pos": "noun",
+   "img": true,
+   "ex": "The bar of soap slipped out of my wet hands and fell on the floor.",
+   "gap": "soap",
+   "alt": []
+  },
+  {
+   "id": "basin",
+   "en": "basin",
+   "uz": "yuvinish rakovinasi (umivalnik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I filled the basin with warm water and washed my face.",
+   "gap": "basin",
+   "alt": []
+  },
+  {
+   "id": "razor",
+   "en": "razor",
+   "uz": "soqol olish asbobi (britva)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My brother is sixteen, and he has just bought his first razor.",
+   "gap": "razor",
+   "alt": []
+  },
+  {
+   "id": "toilet",
+   "en": "toilet",
+   "uz": "unitaz (hojatxona)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The toilet is blocked again, so don't flush it until the plumber comes.",
+   "gap": "toilet",
+   "alt": []
+  },
+  {
+   "id": "towel",
+   "en": "towel",
+   "uz": "sochiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "After my shower, I dry myself with a big soft towel.",
+   "gap": "towel",
+   "alt": []
+  },
+  {
+   "id": "shower",
+   "en": "shower",
+   "uz": "dush",
+   "pos": "noun",
+   "img": false,
+   "ex": "I stood under the hot shower for ten minutes.",
+   "gap": "shower",
+   "alt": []
+  },
+  {
+   "id": "shampoo",
+   "en": "shampoo",
+   "uz": "shampun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bobur has very long hair, so he uses half a bottle of shampoo every week.",
+   "gap": "shampoo",
+   "alt": []
+  },
+  {
+   "id": "shower_gel",
+   "en": "shower gel",
+   "uz": "dush geli",
+   "pos": "noun",
+   "img": false,
+   "ex": "I like this shower gel because my skin smells of lemons all day.",
+   "gap": "shower gel",
+   "alt": []
+  },
+  {
+   "id": "go_to_bed",
+   "en": "go to bed",
+   "uz": "uxlashga yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On school nights I go to bed at ten o'clock.",
+   "gap": "go to bed",
+   "alt": [
+    "goes to bed",
+    "went to bed"
+   ]
+  },
+  {
+   "id": "go_upstairs",
+   "en": "go upstairs",
+   "uz": "yuqori qavatga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our bedrooms are on the second floor, so after dinner we go upstairs.",
+   "gap": "go upstairs",
+   "alt": [
+    "goes upstairs",
+    "went upstairs"
+   ]
+  },
+  {
+   "id": "get_into_bed",
+   "en": "get into bed",
+   "uz": "o‘ringa kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I put on my pyjamas, got into bed and read my book until eleven.",
+   "gap": "got into bed",
+   "alt": [
+    "got into bed",
+    "gets into bed"
+   ]
+  },
+  {
+   "id": "turn_off_the_light",
+   "en": "turn off the light",
+   "uz": "chiroqni o‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you turn off the light? It's shining in my eyes and I can't sleep.",
+   "gap": "turn off the light",
+   "alt": [
+    "turn the light off",
+    "turns off the light",
+    "turned off the light"
+   ]
+  },
+  {
+   "id": "fall_asleep",
+   "en": "fall asleep",
+   "uz": "uxlab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I was so tired after the trip that I fell asleep on the bus home.",
+   "gap": "fell asleep",
+   "alt": [
+    "fell asleep",
+    "falls asleep"
+   ]
+  },
+  {
+   "id": "get_up",
+   "en": "get up",
+   "uz": "o‘rnidan turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturdays I don't get up until ten; I stay in bed all morning.",
+   "gap": "get up",
+   "alt": [
+    "gets up",
+    "got up"
+   ]
+  },
+  {
+   "id": "wake_up",
+   "en": "wake up",
+   "uz": "uyg‘onmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I woke up at three in the morning because the baby was crying.",
+   "gap": "woke up",
+   "alt": [
+    "woke up",
+    "wakes up"
+   ]
+  },
+  {
+   "id": "have_a_shower",
+   "en": "have a shower",
+   "uz": "dushga tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm very hot after football; I need to have a shower.",
+   "gap": "have a shower",
+   "alt": [
+    "had a shower",
+    "has a shower"
+   ]
+  },
+  {
+   "id": "clean_your_teeth",
+   "en": "clean your teeth",
+   "uz": "tish yuvmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Use only a little toothpaste when you clean your teeth.",
+   "gap": "clean your teeth",
+   "alt": [
+    "clean my teeth",
+    "cleans her teeth"
+   ]
+  },
+  {
+   "id": "go_downstairs",
+   "en": "go downstairs",
+   "uz": "pastki qavatga tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our flat is on the fifth floor, so to get to the street we go downstairs.",
+   "gap": "go downstairs",
+   "alt": [
+    "goes downstairs",
+    "went downstairs"
+   ]
+  },
+  {
+   "id": "read",
+   "en": "read",
+   "uz": "o‘qimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every night Feruza reads a few pages of an adventure story in bed.",
+   "gap": "reads",
+   "alt": [
+    "reads",
+    "reading"
+   ]
+  },
+  {
+   "id": "ring_v",
+   "en": "ring",
+   "uz": "jiringlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zarina's phone rang in the middle of the film, and everyone in the cinema turned round.",
+   "gap": "rang",
+   "alt": [
+    "rings",
+    "rang",
+    "ringing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "comb",
+   "hairbrush"
+  ],
+  [
+   "chest_of_drawers",
+   "wardrobe"
+  ],
+  [
+   "chest_of_drawers",
+   "bedside_table"
+  ],
+  [
+   "dressing_table",
+   "bedside_table"
+  ],
+  [
+   "mirror",
+   "dressing_table"
+  ],
+  [
+   "soap",
+   "shower_gel"
+  ],
+  [
+   "shampoo",
+   "shower_gel"
+  ],
+  [
+   "shower",
+   "have_a_shower"
+  ],
+  [
+   "go_to_bed",
+   "get_into_bed"
+  ],
+  [
+   "go_to_bed",
+   "fall_asleep"
+  ],
+  [
+   "get_into_bed",
+   "fall_asleep"
+  ],
+  [
+   "bed",
+   "bedside_table"
+  ],
+  [
+   "go_to_bed",
+   "go_upstairs"
+  ],
+  [
+   "get_up",
+   "wake_up"
+  ],
+  [
+   "go_upstairs",
+   "go_downstairs"
+  ],
+  [
+   "toothpaste",
+   "toothbrush"
+  ],
+  [
+   "basin",
+   "sink"
+  ],
+  [
+   "towel",
+   "tea_towel"
+  ],
+  [
+   "soap",
+   "washing_up_liquid"
+  ],
+  [
+   "shower_gel",
+   "washing_up_liquid"
+  ],
+  [
+   "bedside_table",
+   "shelf"
+  ],
+  [
+   "bedside_table",
+   "table"
+  ],
+  [
+   "ring_v",
+   "wake_up"
+  ],
+  [
+   "ring_v",
+   "alarm_clock"
+  ]
+ ]
+}

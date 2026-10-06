@@ -1,0 +1,281 @@
+{
+ "book": "elementary",
+ "unit": 7,
+ "title": "Feelings",
+ "title_uz": "His-tuyg‘ular",
+ "words": [
+  {
+   "id": "love",
+   "en": "love",
+   "uz": "sevmoq, juda yaxshi ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I absolutely love football; I never miss a Pakhtakor match on TV.",
+   "gap": "love",
+   "alt": []
+  },
+  {
+   "id": "like",
+   "en": "like",
+   "uz": "yoqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I like my new school, but I don't love it yet.",
+   "gap": "like",
+   "alt": []
+  },
+  {
+   "id": "dont_like",
+   "en": "don't like",
+   "uz": "yoqtirmamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My brother eats almost everything, but he doesn't like onions; he always takes them out.",
+   "gap": "doesn't like",
+   "alt": [
+    "doesn't like",
+    "didn't like",
+    "do not like",
+    "does not like"
+   ]
+  },
+  {
+   "id": "hate",
+   "en": "hate",
+   "uz": "juda yomon ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our cat hates water and runs away every time we try to wash her.",
+   "gap": "hates",
+   "alt": [
+    "hates",
+    "hated"
+   ]
+  },
+  {
+   "id": "happy",
+   "en": "happy",
+   "uz": "xursand, baxtli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Madina passed all her exams, and she's so happy that she can't stop smiling.",
+   "gap": "happy",
+   "alt": []
+  },
+  {
+   "id": "sad",
+   "en": "sad",
+   "uz": "g‘amgin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film had such a sad ending that half the cinema was crying.",
+   "gap": "sad",
+   "alt": []
+  },
+  {
+   "id": "angry",
+   "en": "angry",
+   "uz": "jahli chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dad was so angry about the scratch on his new car that he shouted at the neighbour's boy.",
+   "gap": "angry",
+   "alt": []
+  },
+  {
+   "id": "upset",
+   "en": "upset",
+   "uz": "xafa, ranjigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nilufar was upset and quiet all day because her best friend forgot her birthday.",
+   "gap": "upset",
+   "alt": []
+  },
+  {
+   "id": "cold",
+   "en": "cold",
+   "uz": "sovqotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's minus ten outside and I forgot my gloves, so I'm really cold.",
+   "gap": "cold",
+   "alt": []
+  },
+  {
+   "id": "hot",
+   "en": "hot",
+   "uz": "isib ketgan (odam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's forty degrees in Termez today, and I'm so hot that I want to jump into a cold pool.",
+   "gap": "hot",
+   "alt": []
+  },
+  {
+   "id": "thirsty",
+   "en": "thirsty",
+   "uz": "chanqagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the football match I was so thirsty that I drank a whole litre of water.",
+   "gap": "thirsty",
+   "alt": []
+  },
+  {
+   "id": "hungry",
+   "en": "hungry",
+   "uz": "och (qorni och)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I didn't have breakfast, so I'm very hungry; let's stop at a café.",
+   "gap": "hungry",
+   "alt": []
+  },
+  {
+   "id": "tired",
+   "en": "tired",
+   "uz": "charchagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I worked on my project until two in the morning, so today I'm very tired.",
+   "gap": "tired",
+   "alt": []
+  },
+  {
+   "id": "surprised",
+   "en": "surprised",
+   "uz": "hayron qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I was surprised to get a postcard from Aziz; I didn't know he had my address.",
+   "gap": "surprised",
+   "alt": []
+  },
+  {
+   "id": "prefer",
+   "en": "prefer",
+   "uz": "afzal ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus is cheaper, but I prefer the train: it's faster and I can walk around.",
+   "gap": "prefer",
+   "alt": [
+    "prefers"
+   ]
+  },
+  {
+   "id": "hope",
+   "en": "hope",
+   "uz": "umid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I hope it doesn't rain tomorrow, because we're going to Chimgan.",
+   "gap": "hope",
+   "alt": [
+    "hopes"
+   ]
+  },
+  {
+   "id": "want",
+   "en": "want",
+   "uz": "xohlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother wants a puppy for his birthday, but Mum says no.",
+   "gap": "wants",
+   "alt": [
+    "wants",
+    "wanted"
+   ]
+  },
+  {
+   "id": "would_like",
+   "en": "would like",
+   "uz": "xohlardim, istardim (muloyim)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the ticket office: 'Good morning. I would like two tickets to Fergana, please.'",
+   "gap": "would like",
+   "alt": [
+    "I'd like"
+   ]
+  },
+  {
+   "id": "a_bit",
+   "en": "a bit",
+   "uz": "sal, biroz",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The test was a bit difficult, but I think I passed.",
+   "gap": "a bit",
+   "alt": []
+  },
+  {
+   "id": "a_little",
+   "en": "a little",
+   "uz": "ozgina, sal-pal",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I speak a little Korean, enough to order food in a café.",
+   "gap": "a little",
+   "alt": []
+  },
+  {
+   "id": "very_much",
+   "en": "very much",
+   "uz": "juda ham, ko‘p",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Ozoda doesn't like spicy food very much, so she orders the mild soup.",
+   "gap": "very much",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "love",
+   "like"
+  ],
+  [
+   "like",
+   "dont_like"
+  ],
+  [
+   "dont_like",
+   "hate"
+  ],
+  [
+   "angry",
+   "upset"
+  ],
+  [
+   "sad",
+   "upset"
+  ],
+  [
+   "happy",
+   "surprised"
+  ],
+  [
+   "want",
+   "would_like"
+  ],
+  [
+   "want",
+   "hope"
+  ],
+  [
+   "hot",
+   "thirsty"
+  ],
+  [
+   "a_bit",
+   "a_little"
+  ],
+  [
+   "a_bit",
+   "very_much"
+  ]
+ ]
+}
