@@ -1,0 +1,279 @@
+{
+ "book": "elementary",
+ "unit": 24,
+ "title": "Cinema",
+ "title_uz": "Kino",
+ "words": [
+  {
+   "id": "western",
+   "en": "western",
+   "uz": "vestern (kovboylar haqidagi film)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad's favourite western is very old: a cowboy rides into a small dusty town on a white horse.",
+   "gap": "western",
+   "alt": [
+    "westerns"
+   ]
+  },
+  {
+   "id": "cartoon",
+   "en": "cartoon",
+   "uz": "multfilm",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister watches the same cartoon every morning, about a bear and a girl called Masha.",
+   "gap": "cartoon",
+   "alt": [
+    "cartoons"
+   ]
+  },
+  {
+   "id": "horror_film",
+   "en": "horror film",
+   "uz": "qo‘rqinchli film",
+   "pos": "noun",
+   "img": false,
+   "ex": "I never watch a horror film before bed; the monsters and ghosts give me bad dreams.",
+   "gap": "horror film",
+   "alt": [
+    "horror films"
+   ]
+  },
+  {
+   "id": "comedy",
+   "en": "comedy",
+   "uz": "komediya",
+   "pos": "noun",
+   "img": false,
+   "ex": "This comedy was so funny that the whole cinema laughed for two hours.",
+   "gap": "comedy",
+   "alt": [
+    "comedies"
+   ]
+  },
+  {
+   "id": "thriller",
+   "en": "thriller",
+   "uz": "triller (hayajonli film)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this thriller, a detective has only one night to find a stolen painting, and you're nervous until the very end.",
+   "gap": "thriller",
+   "alt": [
+    "thrillers"
+   ]
+  },
+  {
+   "id": "action_film",
+   "en": "action film",
+   "uz": "jangari film",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this action film there are car chases, fights and lots of explosions.",
+   "gap": "action film",
+   "alt": [
+    "action films"
+   ]
+  },
+  {
+   "id": "science_fiction_film",
+   "en": "science fiction film",
+   "uz": "ilmiy-fantastik film",
+   "pos": "noun",
+   "img": false,
+   "ex": "This science fiction film takes place in the year 3000, on a spaceship near Mars.",
+   "gap": "science fiction film",
+   "alt": [
+    "science fiction films",
+    "sci-fi film"
+   ]
+  },
+  {
+   "id": "musical",
+   "en": "musical",
+   "uz": "myuzikl",
+   "pos": "noun",
+   "img": false,
+   "ex": "We saw a musical at the Navoi Theatre; the actors sang almost every line and danced a lot.",
+   "gap": "musical",
+   "alt": [
+    "musicals"
+   ]
+  },
+  {
+   "id": "film_star",
+   "en": "film star",
+   "uz": "kino yulduzi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone wanted a photo with the famous film star when she walked onto the red carpet.",
+   "gap": "film star",
+   "alt": [
+    "film stars"
+   ]
+  },
+  {
+   "id": "director",
+   "en": "director",
+   "uz": "rejissyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The director shouted 'Stop!' and asked the actors to do the scene again.",
+   "gap": "director",
+   "alt": [
+    "directors"
+   ]
+  },
+  {
+   "id": "play_role",
+   "en": "play",
+   "uz": "rol o‘ynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the school show, my brother played a doctor and wore a long white coat.",
+   "gap": "played",
+   "alt": [
+    "played",
+    "plays",
+    "playing"
+   ]
+  },
+  {
+   "id": "latest",
+   "en": "latest",
+   "uz": "eng so‘nggi (yangi chiqqan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The latest Uzbek cartoon came out on Friday, and the tickets sold out in one hour.",
+   "gap": "latest",
+   "alt": []
+  },
+  {
+   "id": "whats_on",
+   "en": "what's on",
+   "uz": "nima ko‘rsatilyapti (kinoda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I looked at the cinema's website to see what's on tonight.",
+   "gap": "what's on",
+   "alt": [
+    "what is on"
+   ]
+  },
+  {
+   "id": "go_to_the_cinema",
+   "en": "go to the cinema",
+   "uz": "kinoga bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Friday evening we went to the cinema and watched a cartoon on the big screen.",
+   "gap": "went to the cinema",
+   "alt": [
+    "went to the cinema",
+    "goes to the cinema",
+    "going to the cinema"
+   ]
+  },
+  {
+   "id": "cinema",
+   "en": "cinema",
+   "uz": "kinoteatr",
+   "pos": "noun",
+   "img": true,
+   "ex": "The new cinema in the shopping centre has eight screens and very comfortable seats.",
+   "gap": "cinema",
+   "alt": [
+    "cinemas"
+   ]
+  },
+  {
+   "id": "boring",
+   "en": "boring",
+   "uz": "zerikarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film was three hours long and nothing happened; it was really boring.",
+   "gap": "boring",
+   "alt": []
+  },
+  {
+   "id": "enjoy",
+   "en": "enjoy",
+   "uz": "zavq olmoq (maza qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We really enjoyed the film; it was funny and exciting.",
+   "gap": "enjoyed",
+   "alt": [
+    "enjoyed",
+    "enjoys",
+    "enjoying"
+   ]
+  },
+  {
+   "id": "romantic_comedy",
+   "en": "romantic comedy",
+   "uz": "sevgi haqidagi kulgili film",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister laughed and cried during that romantic comedy about two strangers who fall in love.",
+   "gap": "romantic comedy",
+   "alt": [
+    "romantic comedies"
+   ]
+  },
+  {
+   "id": "be_in_a_film",
+   "en": "be in a film",
+   "uz": "filmda suratga tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The famous actor was in a film about the Silk Road last year.",
+   "gap": "was in a film",
+   "alt": [
+    "was in a film",
+    "is in a film",
+    "were in a film"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cartoon",
+   "comedy"
+  ],
+  [
+   "horror_film",
+   "thriller"
+  ],
+  [
+   "thriller",
+   "action_film"
+  ],
+  [
+   "film_star",
+   "director"
+  ],
+  [
+   "cinema",
+   "go_to_the_cinema"
+  ],
+  [
+   "latest",
+   "boring"
+  ],
+  [
+   "romantic_comedy",
+   "comedy"
+  ],
+  [
+   "romantic_comedy",
+   "musical"
+  ],
+  [
+   "be_in_a_film",
+   "play_role"
+  ]
+ ]
+}

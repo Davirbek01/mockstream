@@ -1,0 +1,419 @@
+{
+ "book": "preint",
+ "unit": 69,
+ "title": "Greetings, farewells and special expressions",
+ "title_uz": "Salomlashish, xayrlashish va maxsus iboralar",
+ "words": [
+  {
+   "id": "greeting",
+   "en": "greeting",
+   "uz": "salomlashish (salom so‘zi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning the school bus driver's greeting is the same: a wave and a loud 'Assalomu alaykum!'",
+   "gap": "greeting",
+   "alt": [
+    "greetings"
+   ]
+  },
+  {
+   "id": "farewell",
+   "en": "farewell",
+   "uz": "xayrlashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before we moved to Tashkent, our neighbours had a small farewell party for us in the mahalla.",
+   "gap": "farewell",
+   "alt": [
+    "farewells"
+   ]
+  },
+  {
+   "id": "greet",
+   "en": "greet",
+   "uz": "salomlashib kutib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the first day of school, the head teacher stood at the gate to greet every student.",
+   "gap": "greet",
+   "alt": [
+    "greets",
+    "greeted",
+    "greeting"
+   ]
+  },
+  {
+   "id": "introduce",
+   "en": "introduce",
+   "uz": "tanishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On my first day at the volleyball club, the coach introduced me to the rest of the team.",
+   "gap": "introduced",
+   "alt": [
+    "introduces",
+    "introduced",
+    "introducing",
+    "be introduced to"
+   ]
+  },
+  {
+   "id": "stranger",
+   "en": "stranger",
+   "uz": "notanish odam (begona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum always tells my little brother never to get into a car with a stranger.",
+   "gap": "stranger",
+   "alt": [
+    "strangers"
+   ]
+  },
+  {
+   "id": "nice_to_meet_you",
+   "en": "nice to meet you",
+   "uz": "Tanishganimdan xursandman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Bobur, this is my piano teacher, Mrs Karimova.' 'Hello. It's nice to meet you.'",
+   "gap": "nice to meet you",
+   "alt": []
+  },
+  {
+   "id": "hows_it_going",
+   "en": "How's it going",
+   "uz": "Ishlar qanday ketyapti? (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Akmal saw his old classmate at the Chorsu bazaar, he shouted, 'Hey, how's it going?'",
+   "gap": "how's it going",
+   "alt": []
+  },
+  {
+   "id": "how_are_things",
+   "en": "How are things",
+   "uz": "Ahvollar qalay? (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Hi, Nodira, long time no see! So, how are things at your new school?'",
+   "gap": "how are things",
+   "alt": []
+  },
+  {
+   "id": "not_so_bad",
+   "en": "not so bad",
+   "uz": "Yomon emas",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Hi, Jasur, how are you?' 'Oh, not so bad, thanks. And you?'",
+   "gap": "not so bad",
+   "alt": [
+    "not bad"
+   ]
+  },
+  {
+   "id": "take_care",
+   "en": "take care",
+   "uz": "O‘zingizni ehtiyot qiling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As the bus to the mountains was leaving, Mum waved and called, 'Bye, and take care on those roads!'",
+   "gap": "take care",
+   "alt": []
+  },
+  {
+   "id": "see_you",
+   "en": "see you",
+   "uz": "Ko‘rishguncha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'OK, I've got to run, so see you at the bus stop at eight tomorrow!'",
+   "gap": "see you",
+   "alt": [
+    "see you soon",
+    "see you later",
+    "see you tomorrow"
+   ]
+  },
+  {
+   "id": "have_a_nice_weekend",
+   "en": "have a nice weekend",
+   "uz": "Dam olish kunlari yaxshi o‘tsin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After Friday's swimming lesson, the coach shouted to the children, 'Well done today, and have a nice weekend!'",
+   "gap": "have a nice weekend",
+   "alt": []
+  },
+  {
+   "id": "same_to_you",
+   "en": "same to you",
+   "uz": "Sizga ham shunday (bo‘lsin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Have a great time at the summer camp!' 'Thanks, and the same to you!'",
+   "gap": "same to you",
+   "alt": []
+  },
+  {
+   "id": "get_past",
+   "en": "get past",
+   "uz": "o‘tib olmoq (yo‘l so‘rab)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The metro carriage was full, so I said, 'Excuse me, could I just get past? This is my stop.'",
+   "gap": "get past",
+   "alt": []
+  },
+  {
+   "id": "good_luck",
+   "en": "good luck",
+   "uz": "Omad yor bo‘lsin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Our team plays in the volleyball final this afternoon.' 'Really? Well, good luck!'",
+   "gap": "good luck",
+   "alt": []
+  },
+  {
+   "id": "thank_goodness",
+   "en": "thank goodness",
+   "uz": "Xayriyat (shukur)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'The doctor says your arm isn't broken.' 'Oh, thank goodness for that!'",
+   "gap": "thank goodness",
+   "alt": []
+  },
+  {
+   "id": "bless_you",
+   "en": "bless you",
+   "uz": "Sog‘ bo‘ling (aksirganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother sneezed three times, and each time Mum said 'bless you' without looking up from her phone.",
+   "gap": "bless you",
+   "alt": []
+  },
+  {
+   "id": "congratulations",
+   "en": "congratulations",
+   "uz": "Tabriklayman!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When our neighbour heard that I had got into the music school, she phoned to say 'congratulations'.",
+   "gap": "congratulations",
+   "alt": []
+  },
+  {
+   "id": "goodness",
+   "en": "goodness",
+   "uz": "Voy! (hayratlanish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Sardor opened the fridge and saw the huge birthday cake, he said, 'Oh goodness, who made this?'",
+   "gap": "goodness",
+   "alt": []
+  },
+  {
+   "id": "hello",
+   "en": "hello",
+   "uz": "salom (har qanday vaziyatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When a new student joined our class, everyone said hello and showed her where to sit.",
+   "gap": "hello",
+   "alt": []
+  },
+  {
+   "id": "hi",
+   "en": "hi",
+   "uz": "salom (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kevin saw Emma across the street, waved and called, 'Oh, hi, Emma! Long time no see!'",
+   "gap": "hi",
+   "alt": []
+  },
+  {
+   "id": "female",
+   "en": "female",
+   "uz": "ayol jinsidagi (ayol, qiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In our chess club there are twelve female players and only three boys.",
+   "gap": "female",
+   "alt": []
+  },
+  {
+   "id": "male",
+   "en": "male",
+   "uz": "erkak jinsidagi (erkak, o‘g‘il)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The school choir has twenty girls but only four male singers, so the boys sing very loudly.",
+   "gap": "male",
+   "alt": []
+  },
+  {
+   "id": "fine_thanks",
+   "en": "Fine, thanks",
+   "uz": "Yaxshi, rahmat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'How are you, Mr Usmonov?' 'Fine, thanks. And you?'",
+   "gap": "Fine, thanks",
+   "alt": []
+  },
+  {
+   "id": "how_about_you",
+   "en": "How about you",
+   "uz": "O‘zingiz-chi? (siz-chi?)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I've already had lunch. How about you, are you hungry?'",
+   "gap": "How about you",
+   "alt": []
+  },
+  {
+   "id": "goodbye",
+   "en": "goodbye",
+   "uz": "xayr (rasmiyroq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the end of the job interview, the manager stood up, shook my hand and said, 'Goodbye, Mr Aliyev. We'll phone you next week.'",
+   "gap": "Goodbye",
+   "alt": []
+  },
+  {
+   "id": "bye",
+   "en": "bye",
+   "uz": "xayr (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Diyor waved from the bus window and shouted, 'Bye! See you on Monday!'",
+   "gap": "Bye",
+   "alt": []
+  },
+  {
+   "id": "cheers_bye",
+   "en": "cheers",
+   "uz": "xo‘p, xayr (norasmiy, britancha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Right, I'm off home now. Cheers, everyone!' said Tom as he left the office.",
+   "gap": "Cheers",
+   "alt": []
+  },
+  {
+   "id": "thank_god",
+   "en": "Thank God",
+   "uz": "Xudoga shukur",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the lost little boy was found asleep in the shop, his mother cried, 'Oh, thank God!'",
+   "gap": "thank God",
+   "alt": []
+  },
+  {
+   "id": "achoo",
+   "en": "achoo",
+   "uz": "apchxi! (aksirish tovushi)",
+   "pos": "interjection",
+   "img": false,
+   "ex": "The dust from the old books made me sneeze loudly: 'Achoo!'",
+   "gap": "Achoo",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "hows_it_going",
+   "how_are_things"
+  ],
+  [
+   "take_care",
+   "good_luck"
+  ],
+  [
+   "have_a_nice_weekend",
+   "see_you"
+  ],
+  [
+   "have_a_nice_weekend",
+   "take_care"
+  ],
+  [
+   "have_a_nice_weekend",
+   "good_luck"
+  ],
+  [
+   "good_luck",
+   "congratulations"
+  ],
+  [
+   "hello",
+   "hi"
+  ],
+  [
+   "goodbye",
+   "bye"
+  ],
+  [
+   "bye",
+   "take_care"
+  ],
+  [
+   "cheers_bye",
+   "bye"
+  ],
+  [
+   "cheers_bye",
+   "goodbye"
+  ],
+  [
+   "cheers_bye",
+   "take_care"
+  ],
+  [
+   "cheers_bye",
+   "see_you"
+  ],
+  [
+   "fine_thanks",
+   "not_so_bad"
+  ],
+  [
+   "thank_god",
+   "thank_goodness"
+  ],
+  [
+   "goodbye",
+   "see_you"
+  ],
+  [
+   "goodbye",
+   "have_a_nice_weekend"
+  ],
+  [
+   "bye",
+   "have_a_nice_weekend"
+  ],
+  [
+   "cheers_bye",
+   "have_a_nice_weekend"
+  ],
+  [
+   "bye",
+   "good_luck"
+  ],
+  [
+   "cheers_bye",
+   "good_luck"
+  ],
+  [
+   "thank_god",
+   "goodness"
+  ]
+ ]
+}

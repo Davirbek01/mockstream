@@ -1,0 +1,532 @@
+{
+ "book": "elementary",
+ "unit": 52,
+ "title": "Time words",
+ "title_uz": "Vaqtga oid so‘zlar",
+ "words": [
+  {
+   "id": "now",
+   "en": "now",
+   "uz": "hozir",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The baby was asleep an hour ago, but she's crying now, so can you hold her for a minute?",
+   "gap": "now",
+   "alt": []
+  },
+  {
+   "id": "then",
+   "en": "then",
+   "uz": "o‘shanda / u paytda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Back in 2015 my school had no computer room; we didn't even have fast internet then.",
+   "gap": "then",
+   "alt": []
+  },
+  {
+   "id": "ago",
+   "en": "ago",
+   "uz": "(… vaqt) oldin",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Diyor started learning English three years ago, and now he watches films without subtitles.",
+   "gap": "ago",
+   "alt": []
+  },
+  {
+   "id": "last_year",
+   "en": "last year",
+   "uz": "o‘tgan yili",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My little brother started school last year, and this year he's already in the second grade.",
+   "gap": "last year",
+   "alt": []
+  },
+  {
+   "id": "next_week",
+   "en": "next week",
+   "uz": "kelasi hafta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new sports hall in our mahalla isn't ready yet, but it opens next week, on Tuesday.",
+   "gap": "next week",
+   "alt": []
+  },
+  {
+   "id": "the_past",
+   "en": "the past",
+   "uz": "o‘tmish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the past, people in our village carried water from the river; now every house has taps.",
+   "gap": "the past",
+   "alt": []
+  },
+  {
+   "id": "the_future",
+   "en": "the future",
+   "uz": "kelajak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamron wants to be a doctor in the future, so he's studying biology very hard.",
+   "gap": "the future",
+   "alt": []
+  },
+  {
+   "id": "always",
+   "en": "always",
+   "uz": "doim / har doim",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Every single day, sunny or snowy, Gulnora always walks to school.",
+   "gap": "always",
+   "alt": []
+  },
+  {
+   "id": "often",
+   "en": "often",
+   "uz": "tez-tez",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Timur often forgets his pencil case, maybe three or four times a week.",
+   "gap": "often",
+   "alt": []
+  },
+  {
+   "id": "sometimes",
+   "en": "sometimes",
+   "uz": "ba’zan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Kamola usually walks to school, but sometimes, when it rains, her father drives her.",
+   "gap": "sometimes",
+   "alt": []
+  },
+  {
+   "id": "now_and_then",
+   "en": "now and then",
+   "uz": "goh-goh / ora-sira",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We don't eat in cafés much, but now and then we buy hot somsa from the stall near the bus stop.",
+   "gap": "now and then",
+   "alt": []
+  },
+  {
+   "id": "occasionally",
+   "en": "occasionally",
+   "uz": "ahyon-ahyonda / vaqti-vaqti bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I mostly drink water, but I occasionally have a glass of juice, maybe twice a month.",
+   "gap": "occasionally",
+   "alt": []
+  },
+  {
+   "id": "rarely",
+   "en": "rarely",
+   "uz": "kamdan-kam",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Zarina's father works on an oil field in Kazakhstan, so she rarely sees him: only once a year, in the summer.",
+   "gap": "rarely",
+   "alt": []
+  },
+  {
+   "id": "not_often",
+   "en": "not often",
+   "uz": "unchalik tez-tez emas",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'Do you eat fast food?' 'No, not often: maybe once a month.'",
+   "gap": "not often",
+   "alt": []
+  },
+  {
+   "id": "never",
+   "en": "never",
+   "uz": "hech qachon",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Shahzoda has never been on a plane, so next summer's flight will be her first.",
+   "gap": "never",
+   "alt": []
+  },
+  {
+   "id": "once_a_week",
+   "en": "once a week",
+   "uz": "haftada bir marta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We only have art once a week, on Thursday afternoons.",
+   "gap": "once a week",
+   "alt": []
+  },
+  {
+   "id": "twice_a_day",
+   "en": "twice a day",
+   "uz": "kuniga ikki marta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our cat gets food twice a day: in the morning and in the evening.",
+   "gap": "twice a day",
+   "alt": []
+  },
+  {
+   "id": "three_times_a_year",
+   "en": "three times a year",
+   "uz": "yiliga uch marta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our school has a big concert three times a year: in autumn, at New Year and at Navruz.",
+   "gap": "three times a year",
+   "alt": []
+  },
+  {
+   "id": "in_a_moment",
+   "en": "in a moment",
+   "uz": "bir zumda / birpasda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Wait for me! I'm just putting my shoes on, and I'll be with you in a moment.",
+   "gap": "in a moment",
+   "alt": []
+  },
+  {
+   "id": "soon",
+   "en": "soon",
+   "uz": "tez orada",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The holidays start in two weeks, so we'll be at the seaside soon!",
+   "gap": "soon",
+   "alt": []
+  },
+  {
+   "id": "recently",
+   "en": "recently",
+   "uz": "yaqinda (yaqin o‘tmishda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I've recently started a new hobby: making things out of clay.",
+   "gap": "recently",
+   "alt": []
+  },
+  {
+   "id": "last_week",
+   "en": "last week",
+   "uz": "o‘tgan hafta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our new chemistry teacher arrived last week, exactly seven days ago.",
+   "gap": "last week",
+   "alt": []
+  },
+  {
+   "id": "last_saturday",
+   "en": "last Saturday",
+   "uz": "o‘tgan shanba",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Today is Wednesday, and I bought these trainers four days ago, last Saturday.",
+   "gap": "last Saturday",
+   "alt": []
+  },
+  {
+   "id": "last_month",
+   "en": "last month",
+   "uz": "o‘tgan oy",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Today is 15 May, and our class trip was last month, on 20 April.",
+   "gap": "last month",
+   "alt": []
+  },
+  {
+   "id": "next_year",
+   "en": "next year",
+   "uz": "kelasi yil",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Bekzod is in the tenth grade now, and next year he'll be in the eleventh.",
+   "gap": "next year",
+   "alt": []
+  },
+  {
+   "id": "next_month",
+   "en": "next month",
+   "uz": "kelasi oy",
+   "pos": "adverb",
+   "img": false,
+   "ex": "It's only 3 November, but next month it'll be December and we'll have the New Year party.",
+   "gap": "next month",
+   "alt": []
+  },
+  {
+   "id": "next_summer",
+   "en": "next summer",
+   "uz": "kelasi yoz",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We stayed in the city this year, but next summer we're going to camp by Lake Issyk-Kul.",
+   "gap": "next summer",
+   "alt": []
+  },
+  {
+   "id": "the_present",
+   "en": "the present",
+   "uz": "hozirgi zamon (hozirgi vaqt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "History lessons look at the past, but our news club looks at the present: what is happening in the world now.",
+   "gap": "the present",
+   "alt": []
+  },
+  {
+   "id": "for_two_years",
+   "en": "for two years",
+   "uz": "ikki yil davomida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rustam lived in Seoul for two years, from 2021 to 2023, and learnt to speak Korean well.",
+   "gap": "for two years",
+   "alt": []
+  },
+  {
+   "id": "from_monday_to_friday",
+   "en": "from Monday to Friday",
+   "uz": "dushanbadan jumagacha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My exams last a whole week, from Monday to Friday.",
+   "gap": "from Monday to Friday",
+   "alt": []
+  },
+  {
+   "id": "four_times_a_month",
+   "en": "four times a month",
+   "uz": "oyiga to‘rt marta",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our chess club meets on the first, second, third and fourth Friday, so four times a month.",
+   "gap": "four times a month",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "always",
+   "often"
+  ],
+  [
+   "often",
+   "sometimes"
+  ],
+  [
+   "often",
+   "occasionally"
+  ],
+  [
+   "often",
+   "now_and_then"
+  ],
+  [
+   "sometimes",
+   "now_and_then"
+  ],
+  [
+   "sometimes",
+   "occasionally"
+  ],
+  [
+   "now_and_then",
+   "occasionally"
+  ],
+  [
+   "occasionally",
+   "rarely"
+  ],
+  [
+   "occasionally",
+   "not_often"
+  ],
+  [
+   "rarely",
+   "not_often"
+  ],
+  [
+   "rarely",
+   "never"
+  ],
+  [
+   "soon",
+   "in_a_moment"
+  ],
+  [
+   "now",
+   "in_a_moment"
+  ],
+  [
+   "next_week",
+   "soon"
+  ],
+  [
+   "then",
+   "recently"
+  ],
+  [
+   "soon",
+   "recently"
+  ],
+  [
+   "last_year",
+   "recently"
+  ],
+  [
+   "sometimes",
+   "rarely"
+  ],
+  [
+   "last_week",
+   "recently"
+  ],
+  [
+   "last_week",
+   "last_month"
+  ],
+  [
+   "last_week",
+   "last_saturday"
+  ],
+  [
+   "last_saturday",
+   "recently"
+  ],
+  [
+   "last_saturday",
+   "saturday"
+  ],
+  [
+   "last_month",
+   "recently"
+  ],
+  [
+   "last_month",
+   "then"
+  ],
+  [
+   "last_month",
+   "last_year"
+  ],
+  [
+   "last_week",
+   "last_year"
+  ],
+  [
+   "next_year",
+   "soon"
+  ],
+  [
+   "next_year",
+   "next_month"
+  ],
+  [
+   "next_year",
+   "next_summer"
+  ],
+  [
+   "next_month",
+   "soon"
+  ],
+  [
+   "next_month",
+   "next_week"
+  ],
+  [
+   "next_summer",
+   "soon"
+  ],
+  [
+   "next_summer",
+   "next_week"
+  ],
+  [
+   "next_summer",
+   "next_month"
+  ],
+  [
+   "next_summer",
+   "the_future"
+  ],
+  [
+   "next_summer",
+   "tomorrow"
+  ],
+  [
+   "next_year",
+   "the_future"
+  ],
+  [
+   "the_present",
+   "the_past"
+  ],
+  [
+   "the_present",
+   "the_future"
+  ],
+  [
+   "the_present",
+   "today"
+  ],
+  [
+   "the_present",
+   "now"
+  ],
+  [
+   "for_two_years",
+   "last_year"
+  ],
+  [
+   "for_two_years",
+   "recently"
+  ],
+  [
+   "for_two_years",
+   "last_month"
+  ],
+  [
+   "for_two_years",
+   "last_week"
+  ],
+  [
+   "from_monday_to_friday",
+   "next_week"
+  ],
+  [
+   "from_monday_to_friday",
+   "last_week"
+  ],
+  [
+   "four_times_a_month",
+   "once_a_week"
+  ],
+  [
+   "four_times_a_month",
+   "twice_a_day"
+  ],
+  [
+   "four_times_a_month",
+   "three_times_a_year"
+  ],
+  [
+   "next_week",
+   "tomorrow"
+  ],
+  [
+   "next_week",
+   "the_day_after_tomorrow"
+  ]
+ ]
+}

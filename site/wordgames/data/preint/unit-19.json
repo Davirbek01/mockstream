@@ -1,0 +1,465 @@
+{
+ "book": "preint",
+ "unit": 19,
+ "title": "Money",
+ "title_uz": "Pul",
+ "words": [
+  {
+   "id": "currency",
+   "en": "currency",
+   "uz": "valyuta (pul birligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The currency of Uzbekistan is the som, and in Kazakhstan it's the tenge.",
+   "gap": "currency",
+   "alt": [
+    "currencies"
+   ]
+  },
+  {
+   "id": "sterling",
+   "en": "sterling",
+   "uz": "funt sterling (Britaniya puli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before her trip to Manchester, Gulnora changed her dollars into sterling at the bank.",
+   "gap": "sterling",
+   "alt": []
+  },
+  {
+   "id": "note",
+   "en": "note",
+   "uz": "qog‘oz pul (kupyura)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver had no change for a hundred-thousand-som note, so I paid by card.",
+   "gap": "note",
+   "alt": [
+    "notes"
+   ]
+  },
+  {
+   "id": "coin",
+   "en": "coin",
+   "uz": "tanga",
+   "pos": "noun",
+   "img": true,
+   "ex": "The vending machine doesn't take notes, so I need a coin for a bottle of water.",
+   "gap": "coin",
+   "alt": [
+    "coins"
+   ]
+  },
+  {
+   "id": "pence",
+   "en": "pence",
+   "uz": "pens (funtning yuzdan biri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A bar of chocolate costs eighty pence in that shop, less than a pound.",
+   "gap": "pence",
+   "alt": [
+    "penny",
+    "p"
+   ]
+  },
+  {
+   "id": "bank_account",
+   "en": "bank account",
+   "uz": "bank hisobi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Sardor got his first job, he opened a bank account so his salary could be paid into it.",
+   "gap": "bank account",
+   "alt": [
+    "bank accounts"
+   ]
+  },
+  {
+   "id": "in_credit",
+   "en": "in credit",
+   "uz": "hisobda pul bor (minusda emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I always keep my account in credit, so I never have to pay the bank for borrowing money.",
+   "gap": "in credit",
+   "alt": []
+  },
+  {
+   "id": "cashpoint",
+   "en": "cashpoint",
+   "uz": "bankomat",
+   "pos": "noun",
+   "img": true,
+   "ex": "The cashpoint at the station was out of money, so I had to walk to another one.",
+   "gap": "cashpoint",
+   "alt": [
+    "cashpoints",
+    "cash machine"
+   ]
+  },
+  {
+   "id": "cash",
+   "en": "cash",
+   "uz": "naqd pul",
+   "pos": "noun",
+   "img": false,
+   "ex": "The small café near the bus station doesn't take cards, so bring some cash.",
+   "gap": "cash",
+   "alt": []
+  },
+  {
+   "id": "student_loan",
+   "en": "student loan",
+   "uz": "talaba krediti (o‘qish uchun qarz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kevin is studying medicine in Leeds; he took out a student loan and will pay it back when he becomes a doctor.",
+   "gap": "student loan",
+   "alt": [
+    "student loans"
+   ]
+  },
+  {
+   "id": "fees",
+   "en": "fees",
+   "uz": "to‘lov (o‘qish yoki xizmat haqi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The music school's fees went up this year, so Kamila now pays more for her piano lessons.",
+   "gap": "fees",
+   "alt": [
+    "fee"
+   ]
+  },
+  {
+   "id": "waste_money",
+   "en": "waste money",
+   "uz": "pulni behuda sovurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't waste money on cheap shoes that break after a month.",
+   "gap": "waste money",
+   "alt": [
+    "wastes money",
+    "wasted money",
+    "wasting money"
+   ]
+  },
+  {
+   "id": "owe",
+   "en": "owe",
+   "uz": "qarzdor bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Jasur lent me fifty thousand som last week, so I still owe him that money.",
+   "gap": "owe",
+   "alt": [
+    "owes",
+    "owed",
+    "owing"
+   ]
+  },
+  {
+   "id": "pay_back",
+   "en": "pay back",
+   "uz": "qarzni qaytarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bank lent them the money for the car, and they must pay back the loan in three years.",
+   "gap": "pay back",
+   "alt": [
+    "pays back",
+    "paid back",
+    "paying back"
+   ]
+  },
+  {
+   "id": "earn",
+   "en": "earn",
+   "uz": "ishlab pul topmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Akbar works at a café at weekends and earns enough to pay for his English lessons.",
+   "gap": "earns",
+   "alt": [
+    "earns",
+    "earned",
+    "earning"
+   ]
+  },
+  {
+   "id": "money_amount",
+   "en": "amount",
+   "uz": "miqdor (pul miqdori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twenty million som is a large amount of money for a young teacher.",
+   "gap": "amount",
+   "alt": [
+    "amounts"
+   ]
+  },
+  {
+   "id": "save_up",
+   "en": "save up",
+   "uz": "pul yig‘moq (biror narsaga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Malika is saving up for a new bicycle; she puts ten thousand som in a box every week.",
+   "gap": "saving up",
+   "alt": [
+    "saves up",
+    "saved up",
+    "saving up"
+   ]
+  },
+  {
+   "id": "afford",
+   "en": "afford",
+   "uz": "sotib olishga qurbi yetmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That laptop costs twice my monthly salary, so I can't afford it.",
+   "gap": "afford",
+   "alt": [
+    "affords",
+    "afforded"
+   ]
+  },
+  {
+   "id": "accommodation",
+   "en": "accommodation",
+   "uz": "turar joy (yashash uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the festival all the hotels were full, so it was hard to find accommodation.",
+   "gap": "accommodation",
+   "alt": []
+  },
+  {
+   "id": "rent_payment",
+   "en": "rent",
+   "uz": "ijara haqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The rent for our flat is three million som a month, and we pay it to the owner on the first day.",
+   "gap": "rent",
+   "alt": []
+  },
+  {
+   "id": "deposit",
+   "en": "deposit",
+   "uz": "garov puli (zalog)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We paid the landlord a deposit of one month's rent, and he'll give it back when we leave if the flat is clean.",
+   "gap": "deposit",
+   "alt": [
+    "deposits"
+   ]
+  },
+  {
+   "id": "value_for_money",
+   "en": "good value for money",
+   "uz": "narxiga arziydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The meals at this little café are cheap but delicious; they're really good value for money.",
+   "gap": "good value for money",
+   "alt": [
+    "value for money"
+   ]
+  },
+  {
+   "id": "landlord",
+   "en": "landlord",
+   "uz": "uy egasi (ijaraga beruvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the heating broke, we called our landlord, because the flat belongs to him and he has to fix it.",
+   "gap": "landlord",
+   "alt": [
+    "landlords"
+   ]
+  },
+  {
+   "id": "charge",
+   "en": "charge",
+   "uz": "haq olmoq (pul so‘ramoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hotel doesn't charge guests for parking, so we left the car there for free.",
+   "gap": "charge",
+   "alt": [
+    "charges",
+    "charged",
+    "charging"
+   ]
+  },
+  {
+   "id": "hire",
+   "en": "hire",
+   "uz": "qisqa muddatga ijaraga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At Charvak Lake we hired a boat for an hour and rowed out to the middle.",
+   "gap": "hired",
+   "alt": [
+    "hires",
+    "hired",
+    "hiring"
+   ]
+  },
+  {
+   "id": "pound",
+   "en": "pound",
+   "uz": "funt (100 pens)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A cup of coffee at the station in London costs three pounds.",
+   "gap": "pounds",
+   "alt": [
+    "pounds"
+   ]
+  },
+  {
+   "id": "dollar",
+   "en": "dollar",
+   "uz": "AQSh pul birligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In New York, a slice of pizza costs about four dollars.",
+   "gap": "dollars",
+   "alt": [
+    "dollars"
+   ]
+  },
+  {
+   "id": "euro",
+   "en": "euro",
+   "uz": "Yevropa Ittifoqi pul birligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Rome we paid five euros for two ice creams near the Colosseum.",
+   "gap": "euros",
+   "alt": [
+    "euros"
+   ]
+  },
+  {
+   "id": "coin_piece",
+   "en": "piece",
+   "uz": "tanga (qiymati bilan aytilganda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The parking machine only takes fifty-pence pieces, and all I had was a one-pound coin.",
+   "gap": "pieces",
+   "alt": [
+    "pieces"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "note",
+   "coin"
+  ],
+  [
+   "cash",
+   "coin"
+  ],
+  [
+   "cash",
+   "note"
+  ],
+  [
+   "cashpoint",
+   "bank_account"
+  ],
+  [
+   "owe",
+   "pay_back"
+  ],
+  [
+   "student_loan",
+   "fees"
+  ],
+  [
+   "rent_payment",
+   "deposit"
+  ],
+  [
+   "rent_payment",
+   "fees"
+  ],
+  [
+   "rent_payment",
+   "hire"
+  ],
+  [
+   "currency",
+   "sterling"
+  ],
+  [
+   "cash",
+   "sterling"
+  ],
+  [
+   "pound",
+   "dollar"
+  ],
+  [
+   "pound",
+   "euro"
+  ],
+  [
+   "dollar",
+   "euro"
+  ],
+  [
+   "pound",
+   "pence"
+  ],
+  [
+   "dollar",
+   "pence"
+  ],
+  [
+   "euro",
+   "pence"
+  ],
+  [
+   "pound",
+   "sterling"
+  ],
+  [
+   "dollar",
+   "sterling"
+  ],
+  [
+   "euro",
+   "sterling"
+  ],
+  [
+   "pound",
+   "currency"
+  ],
+  [
+   "dollar",
+   "currency"
+  ],
+  [
+   "euro",
+   "currency"
+  ],
+  [
+   "coin_piece",
+   "coin"
+  ],
+  [
+   "coin_piece",
+   "note"
+  ]
+ ]
+}

@@ -1,0 +1,760 @@
+{
+ "book": "preint",
+ "unit": 21,
+ "title": "Clothes",
+ "title_uz": "Kiyim-kechak",
+ "words": [
+  {
+   "id": "stylish",
+   "en": "stylish",
+   "uz": "didli (chiroyli kiyingan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With her simple white shirt and thin silver earrings, Nilufar always looks so stylish.",
+   "gap": "stylish",
+   "alt": []
+  },
+  {
+   "id": "smartly_dressed",
+   "en": "smartly dressed",
+   "uz": "ozoda va rasmiy kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Jasur came to his graduation ceremony smartly dressed, in an ironed white shirt and polished black shoes.",
+   "gap": "smartly dressed",
+   "alt": []
+  },
+  {
+   "id": "casual",
+   "en": "casual",
+   "uz": "erkin uslubdagi (kundalik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On Saturdays I wear casual clothes, like old jeans and a comfortable T-shirt.",
+   "gap": "casual",
+   "alt": []
+  },
+  {
+   "id": "necklace",
+   "en": "necklace",
+   "uz": "bo‘yinga taqiladigan marjon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her mother gave her a gold necklace with a small blue stone, and she wears it round her neck every day.",
+   "gap": "necklace",
+   "alt": [
+    "necklaces"
+   ]
+  },
+  {
+   "id": "button",
+   "en": "button",
+   "uz": "tugma",
+   "pos": "noun",
+   "img": true,
+   "ex": "My school shirt has six white buttons down the front, and one of them is missing.",
+   "gap": "buttons",
+   "alt": [
+    "buttons"
+   ]
+  },
+  {
+   "id": "suit",
+   "en": "suit",
+   "uz": "kostyum (pidjak va shim)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad wears a dark grey suit to work at the bank, but he takes it off as soon as he gets home.",
+   "gap": "suit",
+   "alt": [
+    "suits"
+   ]
+  },
+  {
+   "id": "earrings",
+   "en": "earrings",
+   "uz": "sirg‘a (zirak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika had her ears pierced when she was six, and now she wears small gold earrings every day.",
+   "gap": "earrings",
+   "alt": [
+    "earring"
+   ]
+  },
+  {
+   "id": "bracelet",
+   "en": "bracelet",
+   "uz": "bilaguzuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "She wears a thin bracelet on her left wrist, right next to her watch.",
+   "gap": "bracelet",
+   "alt": [
+    "bracelets"
+   ]
+  },
+  {
+   "id": "ring",
+   "en": "ring",
+   "uz": "uzuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "He wears his father's old silver ring on his little finger.",
+   "gap": "ring",
+   "alt": [
+    "rings"
+   ]
+  },
+  {
+   "id": "skirt",
+   "en": "skirt",
+   "uz": "yubka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Girls at our school can wear a skirt or trousers, but it must be dark blue.",
+   "gap": "skirt",
+   "alt": [
+    "skirts"
+   ]
+  },
+  {
+   "id": "boots",
+   "en": "boots",
+   "uz": "etik",
+   "pos": "noun",
+   "img": true,
+   "ex": "These leather boots come up to my knees, so they keep my legs warm in the snow.",
+   "gap": "boots",
+   "alt": [
+    "boot"
+   ]
+  },
+  {
+   "id": "tights",
+   "en": "tights",
+   "uz": "kolgotka",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's freezing today, so I'm wearing thick woolly tights under my skirt.",
+   "gap": "tights",
+   "alt": []
+  },
+  {
+   "id": "sleeve",
+   "en": "sleeve",
+   "uz": "yeng",
+   "pos": "noun",
+   "img": false,
+   "ex": "This shirt is too big for me: the sleeves cover my hands.",
+   "gap": "sleeves",
+   "alt": [
+    "sleeves"
+   ]
+  },
+  {
+   "id": "tie",
+   "en": "tie",
+   "uz": "galstuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "Boys at the lyceum must wear a white shirt and a dark blue tie knotted under the collar.",
+   "gap": "tie",
+   "alt": [
+    "ties"
+   ]
+  },
+  {
+   "id": "collar",
+   "en": "collar",
+   "uz": "yoqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The collar of this shirt is too tight; I can't do up the top button.",
+   "gap": "collar",
+   "alt": [
+    "collars"
+   ]
+  },
+  {
+   "id": "scarf",
+   "en": "scarf",
+   "uz": "sharf",
+   "pos": "noun",
+   "img": true,
+   "ex": "Wrap a warm scarf round your neck; you don't want to lose your voice before the school concert!",
+   "gap": "scarf",
+   "alt": [
+    "scarves",
+    "scarfs"
+   ]
+  },
+  {
+   "id": "pocket",
+   "en": "pocket",
+   "uz": "cho‘ntak",
+   "pos": "noun",
+   "img": false,
+   "ex": "I always keep my metro card in my coat pocket so I can find it quickly.",
+   "gap": "pocket",
+   "alt": [
+    "pockets"
+   ]
+  },
+  {
+   "id": "cap",
+   "en": "cap",
+   "uz": "kepka (beysbolka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the football match in the hot sun, Timur wore a cap to keep the light out of his eyes.",
+   "gap": "cap",
+   "alt": [
+    "caps"
+   ]
+  },
+  {
+   "id": "rucksack",
+   "en": "rucksack",
+   "uz": "ryukzak (orqaga osiladigan sumka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I carry my laptop and books to university in a rucksack on my back.",
+   "gap": "rucksack",
+   "alt": [
+    "rucksacks"
+   ]
+  },
+  {
+   "id": "top",
+   "en": "top",
+   "uz": "yengil kofta (ayollar ustki kiyimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilnoza is wearing a long blue skirt and a light silk top with no sleeves.",
+   "gap": "top",
+   "alt": [
+    "tops"
+   ]
+  },
+  {
+   "id": "jumper",
+   "en": "jumper",
+   "uz": "jemper (junli kofta)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My aunt knitted me a woolly jumper with long sleeves for my birthday.",
+   "gap": "jumper",
+   "alt": [
+    "jumpers"
+   ]
+  },
+  {
+   "id": "jacket",
+   "en": "jacket",
+   "uz": "kurtka (pidjak)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It was chilly, so I wore my leather jacket over my jumper and did up the zip.",
+   "gap": "jacket",
+   "alt": [
+    "jackets"
+   ]
+  },
+  {
+   "id": "t_shirt",
+   "en": "T-shirt",
+   "uz": "futbolka",
+   "pos": "noun",
+   "img": true,
+   "ex": "In summer I usually wear shorts and a cotton T-shirt with short sleeves.",
+   "gap": "T-shirt",
+   "alt": [
+    "T-shirts",
+    "T shirt"
+   ]
+  },
+  {
+   "id": "trainers",
+   "en": "trainers",
+   "uz": "krossovka",
+   "pos": "noun",
+   "img": true,
+   "ex": "I always wear trainers for running in the park; they're light and comfortable.",
+   "gap": "trainers",
+   "alt": [
+    "trainer"
+   ]
+  },
+  {
+   "id": "jeans",
+   "en": "jeans",
+   "uz": "jinsi shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "My new blue jeans are a bit too long, so I roll them up at the bottom.",
+   "gap": "jeans",
+   "alt": []
+  },
+  {
+   "id": "zip",
+   "en": "zip",
+   "uz": "molniya-zamok",
+   "pos": "noun",
+   "img": true,
+   "ex": "Pull the zip on your jacket right up to your chin; the wind is really cold.",
+   "gap": "zip",
+   "alt": [
+    "zips"
+   ]
+  },
+  {
+   "id": "get_dressed",
+   "en": "get dressed",
+   "uz": "kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother is four and can get dressed by himself now, but he often puts his shoes on the wrong feet.",
+   "gap": "get dressed",
+   "alt": [
+    "gets dressed",
+    "got dressed",
+    "getting dressed"
+   ]
+  },
+  {
+   "id": "take_off",
+   "en": "take off",
+   "uz": "yechib olmoq (kiyimni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In Uzbek homes, guests usually take off their shoes at the door.",
+   "gap": "take off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taken off",
+    "taking off"
+   ]
+  },
+  {
+   "id": "put_on",
+   "en": "put on",
+   "uz": "kiymoq (ustiga kiymoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's raining outside, so put on your raincoat before you leave.",
+   "gap": "put on",
+   "alt": [
+    "puts on",
+    "putting on"
+   ]
+  },
+  {
+   "id": "undo",
+   "en": "undo",
+   "uz": "yechmoq (tugma, zamokni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My fingers were so cold that I couldn't undo the buttons on my coat.",
+   "gap": "undo",
+   "alt": [
+    "undoes",
+    "undid",
+    "undone",
+    "undoing"
+   ]
+  },
+  {
+   "id": "do_up",
+   "en": "do up",
+   "uz": "qadamoq (tugma, zamokni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's freezing outside, so do up your coat to the top.",
+   "gap": "do up",
+   "alt": [
+    "does up",
+    "did up",
+    "done up",
+    "doing up"
+   ]
+  },
+  {
+   "id": "suit_someone",
+   "en": "suit",
+   "uz": "yarashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That shade of green really suits you; it makes your eyes look even brighter.",
+   "gap": "suits",
+   "alt": [
+    "suits",
+    "suited"
+   ]
+  },
+  {
+   "id": "change_into",
+   "en": "change into",
+   "uz": "boshqa kiyimga almashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After football practice, I always change into dry clothes before I get on the bus home.",
+   "gap": "change into",
+   "alt": [
+    "changes into",
+    "changed into",
+    "changing into"
+   ]
+  },
+  {
+   "id": "well_dressed",
+   "en": "well-dressed",
+   "uz": "yaxshi (did bilan) kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new history teacher is always well-dressed, but she never looks too formal.",
+   "gap": "well-dressed",
+   "alt": [
+    "well dressed"
+   ]
+  },
+  {
+   "id": "wear",
+   "en": "wear",
+   "uz": "kiyib yurmoq (egnida bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nurses at the city hospital wear light blue uniforms and white shoes.",
+   "gap": "wear",
+   "alt": [
+    "wears",
+    "wore",
+    "worn",
+    "wearing"
+   ]
+  },
+  {
+   "id": "in_black",
+   "en": "in black",
+   "uz": "qora kiyimda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everyone at the jazz concert was dressed in black, so my yellow shirt looked very strange.",
+   "gap": "in black",
+   "alt": []
+  },
+  {
+   "id": "bright",
+   "en": "bright",
+   "uz": "yorqin (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Children's raincoats are often bright yellow so drivers can see them on dark mornings.",
+   "gap": "bright",
+   "alt": []
+  },
+  {
+   "id": "clothes",
+   "en": "clothes",
+   "uz": "kiyim-kechak (kiyimlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I packed enough clothes for a week: shirts, trousers, socks and a warm jumper.",
+   "gap": "clothes",
+   "alt": []
+  },
+  {
+   "id": "trousers",
+   "en": "trousers",
+   "uz": "shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "Rustam spilt tea on his grey school trousers, so there's a brown mark on one leg.",
+   "gap": "trousers",
+   "alt": []
+  },
+  {
+   "id": "sweater",
+   "en": "sweater",
+   "uz": "sviter (issiq kofta)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My Norwegian friend sent me a thick wool sweater with long sleeves and white snowflakes on the front.",
+   "gap": "sweater",
+   "alt": [
+    "sweaters"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "stylish",
+   "smartly_dressed"
+  ],
+  [
+   "stylish",
+   "casual"
+  ],
+  [
+   "smartly_dressed",
+   "casual"
+  ],
+  [
+   "necklace",
+   "scarf"
+  ],
+  [
+   "earrings",
+   "ring"
+  ],
+  [
+   "earrings",
+   "necklace"
+  ],
+  [
+   "bracelet",
+   "ring"
+  ],
+  [
+   "skirt",
+   "jeans"
+  ],
+  [
+   "boots",
+   "trainers"
+  ],
+  [
+   "tights",
+   "jeans"
+  ],
+  [
+   "tie",
+   "scarf"
+  ],
+  [
+   "cap",
+   "scarf"
+  ],
+  [
+   "jumper",
+   "scarf"
+  ],
+  [
+   "jumper",
+   "jacket"
+  ],
+  [
+   "jumper",
+   "t_shirt"
+  ],
+  [
+   "jacket",
+   "suit"
+  ],
+  [
+   "zip",
+   "button"
+  ],
+  [
+   "suit",
+   "suit_someone"
+  ],
+  [
+   "take_off",
+   "put_on"
+  ],
+  [
+   "take_off",
+   "undo"
+  ],
+  [
+   "put_on",
+   "do_up"
+  ],
+  [
+   "undo",
+   "do_up"
+  ],
+  [
+   "change_into",
+   "put_on"
+  ],
+  [
+   "change_into",
+   "take_off"
+  ],
+  [
+   "get_dressed",
+   "change_into"
+  ],
+  [
+   "pocket",
+   "sleeve"
+  ],
+  [
+   "jacket",
+   "skirt"
+  ],
+  [
+   "tights",
+   "skirt"
+  ],
+  [
+   "jumper",
+   "tie"
+  ],
+  [
+   "jacket",
+   "tie"
+  ],
+  [
+   "suit",
+   "tie"
+  ],
+  [
+   "tights",
+   "boots"
+  ],
+  [
+   "jacket",
+   "rucksack"
+  ],
+  [
+   "top",
+   "jumper"
+  ],
+  [
+   "top",
+   "t_shirt"
+  ],
+  [
+   "top",
+   "jacket"
+  ],
+  [
+   "suit",
+   "jumper"
+  ],
+  [
+   "get_dressed",
+   "take_off"
+  ],
+  [
+   "t_shirt",
+   "jeans"
+  ],
+  [
+   "t_shirt",
+   "casual"
+  ],
+  [
+   "jeans",
+   "casual"
+  ],
+  [
+   "trainers",
+   "casual"
+  ],
+  [
+   "suit",
+   "smartly_dressed"
+  ],
+  [
+   "suit",
+   "stylish"
+  ],
+  [
+   "tie",
+   "smartly_dressed"
+  ],
+  [
+   "tie",
+   "collar"
+  ],
+  [
+   "tie",
+   "pocket"
+  ],
+  [
+   "jumper",
+   "collar"
+  ],
+  [
+   "jumper",
+   "sleeve"
+  ],
+  [
+   "jacket",
+   "pocket"
+  ],
+  [
+   "jacket",
+   "collar"
+  ],
+  [
+   "jeans",
+   "pocket"
+  ],
+  [
+   "rucksack",
+   "pocket"
+  ],
+  [
+   "skirt",
+   "top"
+  ],
+  [
+   "zip",
+   "collar"
+  ],
+  [
+   "well_dressed",
+   "stylish"
+  ],
+  [
+   "well_dressed",
+   "smartly_dressed"
+  ],
+  [
+   "well_dressed",
+   "casual"
+  ],
+  [
+   "wear",
+   "put_on"
+  ],
+  [
+   "wear",
+   "change_into"
+  ],
+  [
+   "bright",
+   "casual"
+  ],
+  [
+   "trousers",
+   "jeans"
+  ],
+  [
+   "trousers",
+   "tights"
+  ],
+  [
+   "sweater",
+   "jumper"
+  ],
+  [
+   "sweater",
+   "jacket"
+  ],
+  [
+   "sweater",
+   "t_shirt"
+  ],
+  [
+   "trousers",
+   "suit"
+  ]
+ ]
+}

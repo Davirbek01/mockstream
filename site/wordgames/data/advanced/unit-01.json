@@ -1,0 +1,622 @@
+{
+ "book": "advanced",
+ "unit": 1,
+ "title": "Cramming for success: study and academic work",
+ "title_uz": "Imtihonga jadal tayyorgarlik: o‘qish va ilmiy ish",
+ "words": [
+  {
+   "id": "composition",
+   "en": "composition",
+   "uz": "insho (qisqa yozma ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher asked the eighth-graders for a short composition of about eighty words on their favourite season.",
+   "gap": "composition",
+   "alt": [
+    "compositions"
+   ]
+  },
+  {
+   "id": "essay",
+   "en": "essay",
+   "uz": "esse (jiddiy yozma ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For her philosophy module, Nodira wrote a 3,000-word essay arguing that free will is an illusion.",
+   "gap": "essay",
+   "alt": [
+    "essays"
+   ]
+  },
+  {
+   "id": "assignment",
+   "en": "assignment",
+   "uz": "kurs topshirig‘i (yirik yozma ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The course has no final exam; instead, each student completes a long written assignment at the end of every term.",
+   "gap": "assignment",
+   "alt": [
+    "assignments"
+   ]
+  },
+  {
+   "id": "project",
+   "en": "project",
+   "uz": "loyiha ishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For her geography project, Shahlo chose her own topic, water use in the Fergana Valley, and collected all the data herself.",
+   "gap": "project",
+   "alt": [
+    "projects"
+   ]
+  },
+  {
+   "id": "portfolio",
+   "en": "portfolio",
+   "uz": "ishlar to‘plami (namunalar jildi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The art college asked applicants to bring a portfolio of their best drawings and paintings to the interview.",
+   "gap": "portfolio",
+   "alt": []
+  },
+  {
+   "id": "dissertation",
+   "en": "dissertation",
+   "uz": "bitiruv malakaviy ishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Final-year students must hand in a 12,000-word dissertation based on their own research to get their bachelor's degree.",
+   "gap": "dissertation",
+   "alt": []
+  },
+  {
+   "id": "thesis",
+   "en": "thesis",
+   "uz": "dissertatsiya (ilmiy daraja uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After five years of research, Dr Rahimova finally defended her doctoral thesis on Timurid architecture.",
+   "gap": "thesis",
+   "alt": [
+    "theses"
+   ]
+  },
+  {
+   "id": "mind_map",
+   "en": "mind map",
+   "uz": "aqliy xarita (g‘oyalar chizmasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before writing a single sentence, I draw a mind map with the main topic in the centre and ideas branching out from it.",
+   "gap": "mind map",
+   "alt": [
+    "mind-map"
+   ]
+  },
+  {
+   "id": "first_draft",
+   "en": "first draft",
+   "uz": "dastlabki qoralama",
+   "pos": "noun",
+   "img": false,
+   "ex": "His first draft was only for his own eyes, so Nodir didn't worry about spelling until he typed up the final version.",
+   "gap": "first draft",
+   "alt": []
+  },
+  {
+   "id": "plagiarism",
+   "en": "plagiarism",
+   "uz": "ko‘chirmachilik (o‘zganing ishini o‘ziniki qilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The software showed that half the essay had been copied from a website, so the student was accused of plagiarism.",
+   "gap": "plagiarism",
+   "alt": []
+  },
+  {
+   "id": "acknowledge",
+   "en": "acknowledge",
+   "uz": "manbani ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lola forgot to acknowledge the online article she had borrowed two statistics from, and lost marks for it.",
+   "gap": "acknowledge",
+   "alt": [
+    "acknowledged"
+   ]
+  },
+  {
+   "id": "deadline",
+   "en": "deadline",
+   "uz": "topshirish muddati",
+   "pos": "noun",
+   "img": false,
+   "ex": "The deadline for the history essay is Friday at noon, and late work will not be accepted.",
+   "gap": "deadline",
+   "alt": [
+    "deadlines"
+   ]
+  },
+  {
+   "id": "submit",
+   "en": "submit",
+   "uz": "topshirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Applications must be submitted online by 5 p.m.; paper copies sent by post will not be accepted.",
+   "gap": "submitted",
+   "alt": [
+    "submitted"
+   ]
+  },
+  {
+   "id": "assess",
+   "en": "assess",
+   "uz": "baholamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In this module, students are assessed on a group presentation as well as a written exam.",
+   "gap": "assessed",
+   "alt": [
+    "assessed"
+   ]
+  },
+  {
+   "id": "feedback",
+   "en": "feedback",
+   "uz": "fikr-mulohaza (o‘qituvchi izohi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My tutor's feedback was really useful: she pointed out exactly where my argument was weak.",
+   "gap": "feedback",
+   "alt": []
+  },
+  {
+   "id": "cram",
+   "en": "cram",
+   "uz": "imtihon oldidan shoshilib yod olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bekzod spent the whole night before his physics exam cramming, and fell asleep at his desk at 5 a.m.",
+   "gap": "cramming",
+   "alt": [
+    "cramming"
+   ]
+  },
+  {
+   "id": "genius",
+   "en": "genius",
+   "uz": "daho",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ali is something of a genius: he taught himself calculus at twelve and now writes his own chess software.",
+   "gap": "genius",
+   "alt": []
+  },
+  {
+   "id": "revision",
+   "en": "revision",
+   "uz": "takrorlash (imtihonga tayyorgarlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In May the library is full of students doing revision for their summer exams.",
+   "gap": "revision",
+   "alt": []
+  },
+  {
+   "id": "past_papers",
+   "en": "past papers",
+   "uz": "o‘tgan yillar imtihon variantlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The best way to prepare is to work through past papers, because the same types of question come up every year.",
+   "gap": "past papers",
+   "alt": [
+    "past paper"
+   ]
+  },
+  {
+   "id": "learn_by_heart",
+   "en": "learn by heart",
+   "uz": "yod olmoq (yoddan o‘rganmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At primary school we had to learn by heart twenty lines of Alisher Navoi's poetry.",
+   "gap": "learn by heart",
+   "alt": [
+    "learn off by heart",
+    "learnt by heart",
+    "learned by heart"
+   ]
+  },
+  {
+   "id": "rote_learning",
+   "en": "rote learning",
+   "uz": "mexanik yodlash (tushunmasdan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Repeating the times tables aloud a hundred times is pure rote learning, with no real understanding behind it.",
+   "gap": "rote learning",
+   "alt": [
+    "rote-learning"
+   ]
+  },
+  {
+   "id": "mnemonic",
+   "en": "mnemonic",
+   "uz": "eslab qolish usuli (yodlash hiylasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To recall the order of the planets, Madina made up a silly mnemonic, and ten years later she still uses it.",
+   "gap": "mnemonic",
+   "alt": [
+    "mnemonics"
+   ]
+  },
+  {
+   "id": "bury_in_books",
+   "en": "bury yourself in your books",
+   "uz": "butunlay o‘qishga sho‘ng‘imoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With exams a month away, Dilnoza turned off her phone and buried herself in her books.",
+   "gap": "buried herself in her books",
+   "alt": [
+    "bury oneself in one's books",
+    "bury yourself in books",
+    "buried herself in her books"
+   ]
+  },
+  {
+   "id": "intensively",
+   "en": "intensively",
+   "uz": "jadal, zo‘r berib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The summer course is short, so students study intensively for six hours a day.",
+   "gap": "intensively",
+   "alt": []
+  },
+  {
+   "id": "know_inside_out",
+   "en": "know inside out",
+   "uz": "besh qo‘lday bilmoq (to‘liq bilmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our guide has worked in Bukhara for thirty years and knows the old city inside out.",
+   "gap": "inside out",
+   "alt": [
+    "inside out",
+    "knows inside out"
+   ]
+  },
+  {
+   "id": "carry_out_research",
+   "en": "carry out research",
+   "uz": "tadqiqot olib bormoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Scientists at the institute are carrying out research into drought-resistant cotton.",
+   "gap": "carrying out research",
+   "alt": [
+    "carrying out research",
+    "carried out research"
+   ]
+  },
+  {
+   "id": "academic_journal",
+   "en": "academic journal",
+   "uz": "ilmiy jurnal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her article on Uzbek dialects was published in a respected academic journal last spring.",
+   "gap": "academic journal",
+   "alt": [
+    "academic journals"
+   ]
+  },
+  {
+   "id": "inter_library_loan",
+   "en": "inter-library loan",
+   "uz": "kutubxonalararo abonement",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our library didn't have the book, so the librarian ordered it for me through an inter-library loan from another city.",
+   "gap": "inter-library loan",
+   "alt": [
+    "interlibrary loan",
+    "inter library loan"
+   ]
+  },
+  {
+   "id": "drop_out",
+   "en": "drop out",
+   "uz": "o‘qishni tashlab ketmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Sardor dropped out of medical school after a year, when he realised he fainted at the sight of blood.",
+   "gap": "dropped out",
+   "alt": [
+    "dropped out"
+   ]
+  },
+  {
+   "id": "finals",
+   "en": "finals",
+   "uz": "bitiruv imtihonlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fourth-year students are too busy preparing for their finals in June to come to the party.",
+   "gap": "finals",
+   "alt": []
+  },
+  {
+   "id": "memorise",
+   "en": "memorise",
+   "uz": "yodlamoq (xotirada saqlab qolmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before her trip to Tokyo, Feruza tried to memorise a hundred kanji characters using flashcards on the metro.",
+   "gap": "memorise",
+   "alt": [
+    "memorize",
+    "memorised",
+    "memorized"
+   ]
+  },
+  {
+   "id": "well_qualified",
+   "en": "well-qualified",
+   "uz": "yetarli malakaga ega (rasmiy diplomli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new regional hospitals will need thousands of well-qualified nurses, so colleges are expanding their training programmes.",
+   "gap": "well-qualified",
+   "alt": [
+    "well qualified"
+   ]
+  },
+  {
+   "id": "access_online",
+   "en": "access online",
+   "uz": "internet orqali ochib foydalanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The lecture slides are kept on the college server, so you can access them online from home.",
+   "gap": "access them online",
+   "alt": [
+    "access them online",
+    "accessed online",
+    "access it online"
+   ]
+  },
+  {
+   "id": "open_educational_resources",
+   "en": "open educational resources",
+   "uz": "ochiq ta’lim resurslari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teachers in remote mountain schools rely on open educational resources, since free online lessons cost them nothing.",
+   "gap": "open educational resources",
+   "alt": [
+    "open educational resource",
+    "OER"
+   ]
+  },
+  {
+   "id": "do_research",
+   "en": "do research",
+   "uz": "tadqiqot qilmoq (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For her blog post on desert lizards, Zarina did research at the natural history museum for two weeks.",
+   "gap": "did research",
+   "alt": [
+    "doing research",
+    "did research",
+    "does research"
+   ]
+  },
+  {
+   "id": "hand_in",
+   "en": "hand in",
+   "uz": "(ishni) topshirib qo‘ymoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Please hand in your lab reports at the end of today's lesson so that I can mark them over the weekend.",
+   "gap": "hand in",
+   "alt": [
+    "handing in",
+    "handed in",
+    "hands in"
+   ]
+  },
+  {
+   "id": "plagiarism_form",
+   "en": "plagiarism form",
+   "uz": "ko‘chirmachilik yo‘qligi haqida tilxat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every student must sign a plagiarism form confirming that the essay is entirely their own work.",
+   "gap": "plagiarism form",
+   "alt": [
+    "plagiarism forms"
+   ]
+  },
+  {
+   "id": "revise",
+   "en": "revise",
+   "uz": "imtihonga takrorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nigora is revising for her chemistry exam by testing herself on every formula in the textbook.",
+   "gap": "revising",
+   "alt": [
+    "revising",
+    "revised",
+    "revises"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "composition",
+   "essay"
+  ],
+  [
+   "essay",
+   "assignment"
+  ],
+  [
+   "essay",
+   "thesis"
+  ],
+  [
+   "assignment",
+   "project"
+  ],
+  [
+   "dissertation",
+   "thesis"
+  ],
+  [
+   "revision",
+   "rote_learning"
+  ],
+  [
+   "revision",
+   "cram"
+  ],
+  [
+   "learn_by_heart",
+   "know_inside_out"
+  ],
+  [
+   "learn_by_heart",
+   "rote_learning"
+  ],
+  [
+   "cram",
+   "bury_in_books"
+  ],
+  [
+   "intensively",
+   "bury_in_books"
+  ],
+  [
+   "submit",
+   "assess"
+  ],
+  [
+   "dissertation",
+   "assignment"
+  ],
+  [
+   "dissertation",
+   "essay"
+  ],
+  [
+   "dissertation",
+   "project"
+  ],
+  [
+   "composition",
+   "assignment"
+  ],
+  [
+   "essay",
+   "project"
+  ],
+  [
+   "project",
+   "thesis"
+  ],
+  [
+   "revision",
+   "past_papers"
+  ],
+  [
+   "rote_learning",
+   "cram"
+  ],
+  [
+   "learn_by_heart",
+   "memorise"
+  ],
+  [
+   "memorise",
+   "cram"
+  ],
+  [
+   "memorise",
+   "rote_learning"
+  ],
+  [
+   "intensively",
+   "know_inside_out"
+  ],
+  [
+   "composition",
+   "project"
+  ],
+  [
+   "essay",
+   "thesis"
+  ],
+  [
+   "essay",
+   "first_draft"
+  ],
+  [
+   "assignment",
+   "thesis"
+  ],
+  [
+   "project",
+   "portfolio"
+  ],
+  [
+   "bury_in_books",
+   "drop_out"
+  ],
+  [
+   "do_research",
+   "carry_out_research"
+  ],
+  [
+   "hand_in",
+   "submit"
+  ],
+  [
+   "plagiarism_form",
+   "plagiarism"
+  ],
+  [
+   "revise",
+   "revision"
+  ],
+  [
+   "revise",
+   "cram"
+  ],
+  [
+   "revise",
+   "memorise"
+  ],
+  [
+   "revise",
+   "learn_by_heart"
+  ],
+  [
+   "access_online",
+   "inter_library_loan"
+  ],
+  [
+   "open_educational_resources",
+   "academic_journal"
+  ]
+ ]
+}

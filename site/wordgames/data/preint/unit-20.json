@@ -1,0 +1,654 @@
+{
+ "book": "preint",
+ "unit": 20,
+ "title": "Health",
+ "title_uz": "Salomatlik",
+ "words": [
+  {
+   "id": "sore_throat",
+   "en": "sore throat",
+   "uz": "tomoq og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ziyoda has a sore throat, so it hurts every time she swallows.",
+   "gap": "sore throat",
+   "alt": []
+  },
+  {
+   "id": "a_temperature",
+   "en": "a temperature",
+   "uz": "isitma (tana harorati baland)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz has a temperature of 39 degrees, so his mother won't let him go to school.",
+   "gap": "a temperature",
+   "alt": [
+    "temperature"
+   ]
+  },
+  {
+   "id": "flu",
+   "en": "flu",
+   "uz": "gripp",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every winter lots of people catch flu and spend a week in bed with a high fever.",
+   "gap": "flu",
+   "alt": []
+  },
+  {
+   "id": "cut",
+   "en": "cut",
+   "uz": "kesib olmoq (yaralamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I cut my finger with a sharp knife while I was slicing tomatoes for the salad.",
+   "gap": "cut",
+   "alt": [
+    "cuts",
+    "cutting"
+   ]
+  },
+  {
+   "id": "bleed",
+   "en": "bleed",
+   "uz": "qon oqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The ball hit him in the face, and his nose was bleeding all over his white football shirt.",
+   "gap": "bleeding",
+   "alt": [
+    "bleeds",
+    "bled",
+    "bleeding"
+   ]
+  },
+  {
+   "id": "bandage",
+   "en": "bandage",
+   "uz": "bint (bog‘lam)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Jasur twisted his ankle in the match, so the coach wrapped a tight bandage around it.",
+   "gap": "bandage",
+   "alt": [
+    "bandages"
+   ]
+  },
+  {
+   "id": "cough",
+   "en": "cough",
+   "uz": "yo‘tal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam has had a bad cough for a week, and he keeps everyone awake at night.",
+   "gap": "cough",
+   "alt": []
+  },
+  {
+   "id": "chemist",
+   "en": "chemist",
+   "uz": "dorixona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chemist on the corner is open all night, so you can buy medicine there at 3 am.",
+   "gap": "chemist",
+   "alt": [
+    "chemist's",
+    "pharmacy"
+   ]
+  },
+  {
+   "id": "medicine",
+   "en": "medicine",
+   "uz": "dori",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor gave me some medicine for my cough: two spoons, three times a day.",
+   "gap": "medicine",
+   "alt": [
+    "medicines"
+   ]
+  },
+  {
+   "id": "headache",
+   "en": "headache",
+   "uz": "bosh og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "The music at the party was so loud that I went home with a terrible headache.",
+   "gap": "headache",
+   "alt": [
+    "headaches"
+   ]
+  },
+  {
+   "id": "tablets",
+   "en": "tablets",
+   "uz": "tabletkalar",
+   "pos": "noun",
+   "img": true,
+   "ex": "Take two tablets with a glass of water after every meal.",
+   "gap": "tablets",
+   "alt": [
+    "tablet",
+    "pills"
+   ]
+  },
+  {
+   "id": "feel_sick",
+   "en": "feel sick",
+   "uz": "ko‘ngli aynimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus ride on the mountain road made me feel sick, so we stopped to get some fresh air.",
+   "gap": "feel sick",
+   "alt": [
+    "feels sick",
+    "felt sick",
+    "feeling sick"
+   ]
+  },
+  {
+   "id": "pain",
+   "en": "pain",
+   "uz": "og‘riq",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've had a sharp pain in my left knee since I fell off my bike.",
+   "gap": "pain",
+   "alt": [
+    "pains"
+   ]
+  },
+  {
+   "id": "ache",
+   "en": "ache",
+   "uz": "zirqiramoq (uzoq og‘rimoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After climbing the three hundred steps up to the old fortress, my legs were aching.",
+   "gap": "aching",
+   "alt": [
+    "aches",
+    "ached",
+    "aching"
+   ]
+  },
+  {
+   "id": "stomach_ache",
+   "en": "stomach ache",
+   "uz": "qorin og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "I ate too much unripe fruit at the bazaar and got terrible stomach ache.",
+   "gap": "stomach ache",
+   "alt": [
+    "stomachache"
+   ]
+  },
+  {
+   "id": "suffer_from",
+   "en": "suffer from",
+   "uz": "…dan aziyat chekmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many people suffer from hay fever in spring, when the trees are full of flowers.",
+   "gap": "suffer from",
+   "alt": [
+    "suffers from",
+    "suffered from",
+    "suffering from"
+   ]
+  },
+  {
+   "id": "backache",
+   "en": "backache",
+   "uz": "bel og‘rig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sitting at a computer for ten hours a day gave my aunt terrible backache.",
+   "gap": "backache",
+   "alt": [
+    "back ache"
+   ]
+  },
+  {
+   "id": "hurt",
+   "en": "hurt",
+   "uz": "og‘rimoq (keskin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't touch my shoulder, please; I fell off a horse yesterday and it still hurts.",
+   "gap": "hurts",
+   "alt": [
+    "hurts",
+    "hurting"
+   ]
+  },
+  {
+   "id": "painful",
+   "en": "painful",
+   "uz": "og‘riqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The injection wasn't painful at all; I didn't feel a thing.",
+   "gap": "painful",
+   "alt": []
+  },
+  {
+   "id": "hospital",
+   "en": "hospital",
+   "uz": "kasalxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the car accident, the driver was taken to hospital in an ambulance.",
+   "gap": "hospital",
+   "alt": []
+  },
+  {
+   "id": "hospital_patient",
+   "en": "patient",
+   "uz": "bemor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning the doctor visits each patient on the ward and asks how they slept.",
+   "gap": "patient",
+   "alt": [
+    "patients"
+   ]
+  },
+  {
+   "id": "operation",
+   "en": "operation",
+   "uz": "operatsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctors say she needs an operation on her knee, and she'll be in hospital for three days.",
+   "gap": "operation",
+   "alt": [
+    "operations"
+   ]
+  },
+  {
+   "id": "surgeon",
+   "en": "surgeon",
+   "uz": "jarroh",
+   "pos": "noun",
+   "img": false,
+   "ex": "The surgeon spent four hours working on the boy's heart, and the operation was a success.",
+   "gap": "surgeon",
+   "alt": [
+    "surgeons"
+   ]
+  },
+  {
+   "id": "cancer",
+   "en": "cancer",
+   "uz": "saraton (rak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Wearing sun cream protects you from skin cancer as well as from sunburn.",
+   "gap": "cancer",
+   "alt": []
+  },
+  {
+   "id": "heart_attack",
+   "en": "heart attack",
+   "uz": "yurak xuruji (infarkt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The footballer had a heart attack during the match, but the doctors at the stadium saved his life.",
+   "gap": "heart attack",
+   "alt": [
+    "heart attacks"
+   ]
+  },
+  {
+   "id": "disease",
+   "en": "disease",
+   "uz": "kasallik (jiddiy, a’zoga oid)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malaria is a dangerous disease that is spread by mosquitoes.",
+   "gap": "disease",
+   "alt": [
+    "diseases"
+   ]
+  },
+  {
+   "id": "illness",
+   "en": "illness",
+   "uz": "xastalik (betoblik davri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laylo missed a month of school because of illness, but she soon caught up with her classmates.",
+   "gap": "illness",
+   "alt": [
+    "illnesses"
+   ]
+  },
+  {
+   "id": "liver",
+   "en": "liver",
+   "uz": "jigar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor said that the yellow colour of his skin was a sign of a problem with his liver.",
+   "gap": "liver",
+   "alt": []
+  },
+  {
+   "id": "lungs",
+   "en": "lungs",
+   "uz": "o‘pka",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lift was broken, so I ran up nine floors, and by the top my lungs were burning.",
+   "gap": "lungs",
+   "alt": [
+    "lung"
+   ]
+  },
+  {
+   "id": "heart",
+   "en": "heart",
+   "uz": "yurak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the exam Nilufar was so nervous that she could feel her heart beating fast.",
+   "gap": "heart",
+   "alt": [
+    "hearts"
+   ]
+  },
+  {
+   "id": "whats_the_matter",
+   "en": "What's the matter?",
+   "uz": "Nima bo‘ldi? (nima bezovta qilyapti)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the teacher saw Nodir holding his stomach, she asked him, 'What's the matter?'",
+   "gap": "What's the matter",
+   "alt": [
+    "What is the matter?",
+    "What's the matter"
+   ]
+  },
+  {
+   "id": "see_a_doctor",
+   "en": "see a doctor",
+   "uz": "shifokorga ko‘rinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If your eye is still red and sore tomorrow, you should see a doctor.",
+   "gap": "see a doctor",
+   "alt": [
+    "sees a doctor",
+    "saw a doctor",
+    "seeing a doctor"
+   ]
+  },
+  {
+   "id": "cough_medicine",
+   "en": "cough medicine",
+   "uz": "yo‘tal dorisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse gave me a spoon of sweet cough medicine before bed, and I slept all night without waking.",
+   "gap": "cough medicine",
+   "alt": []
+  },
+  {
+   "id": "go_into_hospital",
+   "en": "go into hospital",
+   "uz": "kasalxonaga yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After falling from a ladder, our neighbour had to go into hospital for two weeks.",
+   "gap": "go into hospital",
+   "alt": [
+    "goes into hospital",
+    "went into hospital",
+    "going into hospital",
+    "gone into hospital"
+   ]
+  },
+  {
+   "id": "surgery_operation",
+   "en": "surgery",
+   "uz": "jarrohlik amaliyoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the skiing accident, Nargiza needed surgery on her broken leg, and now she walks with a stick.",
+   "gap": "surgery",
+   "alt": []
+  },
+  {
+   "id": "hepatitis",
+   "en": "hepatitis",
+   "uz": "jigar yallig‘lanishi (sariq kasali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor tested his blood for hepatitis because his liver was not working properly.",
+   "gap": "hepatitis",
+   "alt": []
+  },
+  {
+   "id": "heart_disease",
+   "en": "heart disease",
+   "uz": "yurak kasalligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eating too much salt and fat can lead to heart disease.",
+   "gap": "heart disease",
+   "alt": []
+  },
+  {
+   "id": "mental_illness",
+   "en": "mental illness",
+   "uz": "ruhiy kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Depression is a mental illness, and people who have it need support, not jokes.",
+   "gap": "mental illness",
+   "alt": [
+    "mental illnesses"
+   ]
+  },
+  {
+   "id": "serious_illness",
+   "en": "serious",
+   "uz": "og‘ir, xavfli (kasallik haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Luckily, her illness wasn't serious, and she was back at work in two days.",
+   "gap": "serious",
+   "alt": []
+  },
+  {
+   "id": "minor",
+   "en": "minor",
+   "uz": "yengil, arzimas (jiddiy emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was only a minor cut, so the nurse just cleaned it and put a plaster on it.",
+   "gap": "minor",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "sore_throat",
+   "cough"
+  ],
+  [
+   "a_temperature",
+   "flu"
+  ],
+  [
+   "cut",
+   "hurt"
+  ],
+  [
+   "pain",
+   "ache"
+  ],
+  [
+   "ache",
+   "hurt"
+  ],
+  [
+   "pain",
+   "painful"
+  ],
+  [
+   "headache",
+   "stomach_ache"
+  ],
+  [
+   "headache",
+   "backache"
+  ],
+  [
+   "stomach_ache",
+   "backache"
+  ],
+  [
+   "medicine",
+   "tablets"
+  ],
+  [
+   "chemist",
+   "hospital"
+  ],
+  [
+   "operation",
+   "surgeon"
+  ],
+  [
+   "cancer",
+   "disease"
+  ],
+  [
+   "disease",
+   "illness"
+  ],
+  [
+   "heart_attack",
+   "disease"
+  ],
+  [
+   "liver",
+   "lungs"
+  ],
+  [
+   "heart",
+   "liver"
+  ],
+  [
+   "pain",
+   "headache"
+  ],
+  [
+   "pain",
+   "stomach_ache"
+  ],
+  [
+   "pain",
+   "backache"
+  ],
+  [
+   "illness",
+   "flu"
+  ],
+  [
+   "illness",
+   "cancer"
+  ],
+  [
+   "bandage",
+   "cut"
+  ],
+  [
+   "see_a_doctor",
+   "go_into_hospital"
+  ],
+  [
+   "cough_medicine",
+   "medicine"
+  ],
+  [
+   "cough_medicine",
+   "tablets"
+  ],
+  [
+   "surgery_operation",
+   "operation"
+  ],
+  [
+   "surgery_operation",
+   "surgeon"
+  ],
+  [
+   "hepatitis",
+   "cancer"
+  ],
+  [
+   "hepatitis",
+   "disease"
+  ],
+  [
+   "hepatitis",
+   "flu"
+  ],
+  [
+   "hepatitis",
+   "illness"
+  ],
+  [
+   "heart_disease",
+   "heart_attack"
+  ],
+  [
+   "heart_disease",
+   "cancer"
+  ],
+  [
+   "heart_disease",
+   "disease"
+  ],
+  [
+   "heart_disease",
+   "hepatitis"
+  ],
+  [
+   "heart_disease",
+   "illness"
+  ],
+  [
+   "mental_illness",
+   "illness"
+  ],
+  [
+   "mental_illness",
+   "disease"
+  ],
+  [
+   "mental_illness",
+   "heart_disease"
+  ],
+  [
+   "serious_illness",
+   "painful"
+  ],
+  [
+   "serious_illness",
+   "minor"
+  ],
+  [
+   "minor",
+   "painful"
+  ]
+ ]
+}

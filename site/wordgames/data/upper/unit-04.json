@@ -1,0 +1,393 @@
+{
+ "book": "upper",
+ "unit": 4,
+ "title": "Guessing and explaining meaning",
+ "title_uz": "Ma’noni taxmin qilish va tushuntirish",
+ "words": [
+  {
+   "id": "guess",
+   "en": "guess",
+   "uz": "taxmin qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't stop at every new word; try to guess what it means from the rest of the sentence.",
+   "gap": "guess",
+   "alt": []
+  },
+  {
+   "id": "context",
+   "en": "context",
+   "uz": "kontekst (atrofdagi matn)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Look at the context: the sentences around a new word often tell you what it means.",
+   "gap": "context",
+   "alt": []
+  },
+  {
+   "id": "clue",
+   "en": "clue",
+   "uz": "ishora (yo‘l ko‘rsatuvchi belgi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The picture on the menu gave me a clue: 'lamb' had to be some kind of meat.",
+   "gap": "clue",
+   "alt": [
+    "clues"
+   ]
+  },
+  {
+   "id": "unfamiliar",
+   "en": "unfamiliar",
+   "uz": "notanish",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When you meet an unfamiliar word, don't reach for your dictionary immediately.",
+   "gap": "unfamiliar",
+   "alt": []
+  },
+  {
+   "id": "work_out",
+   "en": "work out",
+   "uz": "(o‘ylab) aniqlab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the photo, I worked out that 'saffron' is some kind of spice.",
+   "gap": "worked out",
+   "alt": [
+    "worked out"
+   ]
+  },
+  {
+   "id": "make_sense_of",
+   "en": "make sense of",
+   "uz": "mazmunini tushunib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I couldn't make sense of the instructions for my new phone, so I asked my brother for help.",
+   "gap": "make sense of",
+   "alt": []
+  },
+  {
+   "id": "background_knowledge",
+   "en": "background knowledge",
+   "uz": "oldindan bor bilim",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you already know the rules of football, your background knowledge will help you understand the sports report.",
+   "gap": "background knowledge",
+   "alt": []
+  },
+  {
+   "id": "superstitious",
+   "en": "superstitious",
+   "uz": "irimchi (irim-sirimga ishonadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My aunt is so superstitious that she never sweeps the floor after dark.",
+   "gap": "superstitious",
+   "alt": []
+  },
+  {
+   "id": "gingerly",
+   "en": "gingerly",
+   "uz": "juda ehtiyotkorlik bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Holding a tray of hot tea, the waiter stepped gingerly between the guests.",
+   "gap": "gingerly",
+   "alt": []
+  },
+  {
+   "id": "earthquake",
+   "en": "earthquake",
+   "uz": "zilzila",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 1966 a terrible earthquake destroyed much of old Tashkent.",
+   "gap": "earthquake",
+   "alt": []
+  },
+  {
+   "id": "broadcast",
+   "en": "broadcast",
+   "uz": "efir (teleko‘rsatuv, eshittirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our whole mahalla gathered in the teahouse to watch the live broadcast of the football match.",
+   "gap": "broadcast",
+   "alt": []
+  },
+  {
+   "id": "footage",
+   "en": "footage",
+   "uz": "video kadrlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The news showed footage of the floods, filmed from a helicopter.",
+   "gap": "footage",
+   "alt": []
+  },
+  {
+   "id": "headscarf",
+   "en": "headscarf",
+   "uz": "ro‘mol",
+   "pos": "noun",
+   "img": true,
+   "ex": "On cold windy days in Nukus, my mother wears a warm woollen headscarf.",
+   "gap": "headscarf",
+   "alt": []
+  },
+  {
+   "id": "prefix",
+   "en": "prefix",
+   "uz": "old qo‘shimcha (prefiks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The prefix 'over-' in 'overcook' and 'oversleep' tells you there was too much of something.",
+   "gap": "prefix",
+   "alt": []
+  },
+  {
+   "id": "suffix",
+   "en": "suffix",
+   "uz": "so‘z yasovchi qo‘shimcha (suffiks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Add the suffix '-less' to 'home' and you get 'homeless'.",
+   "gap": "suffix",
+   "alt": []
+  },
+  {
+   "id": "origin",
+   "en": "origin",
+   "uz": "kelib chiqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The English word 'algorithm' has its origin in the name of al-Khwarizmi, a scholar from Khorezm.",
+   "gap": "origin",
+   "alt": []
+  },
+  {
+   "id": "resemble",
+   "en": "resemble",
+   "uz": "o‘xshamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many English words resemble Uzbek ones, for example 'computer' and 'kompyuter'.",
+   "gap": "resemble",
+   "alt": []
+  },
+  {
+   "id": "come_across",
+   "en": "come across",
+   "uz": "duch kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you come across a new word while reading, underline it and carry on.",
+   "gap": "come across",
+   "alt": []
+  },
+  {
+   "id": "false_friend",
+   "en": "false friend",
+   "uz": "aldamchi o‘xshash so‘z",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Magazine' is a false friend for Uzbek learners: it means a journal, not a shop.",
+   "gap": "false friend",
+   "alt": [
+    "false friends"
+   ]
+  },
+  {
+   "id": "explain",
+   "en": "explain",
+   "uz": "tushuntirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If a classmate doesn't understand a word, try to explain it in simple English with an example.",
+   "gap": "explain",
+   "alt": []
+  },
+  {
+   "id": "a_kind_of",
+   "en": "a kind of",
+   "uz": "…ning bir turi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A chapan is a kind of long quilted coat that men wear at weddings and celebrations.",
+   "gap": "a kind of",
+   "alt": []
+  },
+  {
+   "id": "must_mean",
+   "en": "must mean",
+   "uz": "…ni anglatsa kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I've never seen this word before, but from the sentence it must mean 'very tired'.",
+   "gap": "must mean",
+   "alt": []
+  },
+  {
+   "id": "gladiolus",
+   "en": "gladiolus",
+   "uz": "qilichgul",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the first day of school, Nodir brought his new teacher a single red gladiolus.",
+   "gap": "gladiolus",
+   "alt": [
+    "gladioli",
+    "gladioluses"
+   ]
+  },
+  {
+   "id": "vase",
+   "en": "vase",
+   "uz": "guldon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put the flowers in a vase with some cold water, or they'll die by tomorrow.",
+   "gap": "vase",
+   "alt": [
+    "vases"
+   ]
+  },
+  {
+   "id": "ladder",
+   "en": "ladder",
+   "uz": "narvon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dilnoza climbed a ladder to pick the apricots at the top of the tree.",
+   "gap": "ladder",
+   "alt": [
+    "ladders"
+   ]
+  },
+  {
+   "id": "gift",
+   "en": "gift",
+   "uz": "sovg‘a",
+   "pos": "noun",
+   "img": false,
+   "ex": "This hand-painted plate from Rishtan would make a perfect gift for a friend abroad.",
+   "gap": "gift",
+   "alt": [
+    "gifts"
+   ]
+  },
+  {
+   "id": "poison",
+   "en": "poison",
+   "uz": "zahar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rat poison must be kept on a high shelf, far away from children and pets.",
+   "gap": "poison",
+   "alt": []
+  },
+  {
+   "id": "word_formation",
+   "en": "word formation",
+   "uz": "so‘z yasalishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Knowing the rules of word formation helps you see that 'unhappiness' comes from 'happy'.",
+   "gap": "word formation",
+   "alt": []
+  },
+  {
+   "id": "visual",
+   "en": "visual",
+   "uz": "ko‘rishga oid (tasviriy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Photos, maps and other visual clues can help you guess what a word means.",
+   "gap": "visual",
+   "alt": []
+  },
+  {
+   "id": "concept",
+   "en": "concept",
+   "uz": "tushuncha",
+   "pos": "noun",
+   "img": false,
+   "ex": "The concept of zero reached Europe through the works of scholars from the East.",
+   "gap": "concept",
+   "alt": [
+    "concepts"
+   ]
+  },
+  {
+   "id": "something_like",
+   "en": "something like",
+   "uz": "…ga o‘xshash narsa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I don't know the English word, but it's probably something like a big spoon for soup.",
+   "gap": "something like",
+   "alt": []
+  },
+  {
+   "id": "got_to_be",
+   "en": "it's got to be",
+   "uz": "bu albatta … bo‘lsa kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's a metal tool with a long handle, so it's got to be something you use for digging.",
+   "gap": "it's got to be",
+   "alt": [
+    "it has got to be"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "context",
+   "clue"
+  ],
+  [
+   "guess",
+   "work_out"
+  ],
+  [
+   "guess",
+   "make_sense_of"
+  ],
+  [
+   "work_out",
+   "make_sense_of"
+  ],
+  [
+   "broadcast",
+   "footage"
+  ],
+  [
+   "prefix",
+   "suffix"
+  ],
+  [
+   "vase",
+   "gladiolus"
+  ],
+  [
+   "clue",
+   "gift"
+  ],
+  [
+   "something_like",
+   "a_kind_of"
+  ],
+  [
+   "got_to_be",
+   "must_mean"
+  ],
+  [
+   "visual",
+   "unfamiliar"
+  ]
+ ]
+}

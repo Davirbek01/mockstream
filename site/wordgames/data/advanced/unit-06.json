@@ -1,0 +1,515 @@
+{
+ "book": "advanced",
+ "unit": 6,
+ "title": "At work: job satisfaction",
+ "title_uz": "Ishda: ishdan qoniqish",
+ "words": [
+  {
+   "id": "job_satisfaction",
+   "en": "job satisfaction",
+   "uz": "ishdan qoniqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many teachers say their greatest job satisfaction comes from seeing a struggling pupil finally understand.",
+   "gap": "job satisfaction",
+   "alt": []
+  },
+  {
+   "id": "workplace",
+   "en": "workplace",
+   "uz": "ish joyi (ishxona muhiti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank has made its workplace more pleasant, with plants, natural light and a quiet room for prayer.",
+   "gap": "workplace",
+   "alt": [
+    "workplaces"
+   ]
+  },
+  {
+   "id": "run_of_the_mill",
+   "en": "run-of-the-mill",
+   "uz": "oddiy, hech bir alohidaligi yo‘q",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It looked like a run-of-the-mill office job, but it came with the chance to travel to Seoul twice a year.",
+   "gap": "run-of-the-mill",
+   "alt": [
+    "run of the mill"
+   ]
+  },
+  {
+   "id": "put_up_with",
+   "en": "put up with",
+   "uz": "chidab yurmoq (ko‘nikmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Living next to the railway, the family puts up with trains rattling the windows at night because the rent is so low.",
+   "gap": "puts up with",
+   "alt": [
+    "puts up with",
+    "putting up with"
+   ]
+  },
+  {
+   "id": "short_term",
+   "en": "short-term",
+   "uz": "qisqa muddatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Selling the family's farmland would bring a short-term profit, but there would be nothing left for their children.",
+   "gap": "short-term",
+   "alt": [
+    "short term"
+   ]
+  },
+  {
+   "id": "long_term",
+   "en": "long-term",
+   "uz": "uzoq muddatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Planting walnut trees is a long-term investment, because a young tree can take ten years to give a good harvest.",
+   "gap": "long-term",
+   "alt": [
+    "long term"
+   ]
+  },
+  {
+   "id": "financial_reward",
+   "en": "financial reward",
+   "uz": "moddiy manfaat (pul daromadi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Few people become nurses for the financial rewards; most do it because they want to help others.",
+   "gap": "financial rewards",
+   "alt": [
+    "financial rewards"
+   ]
+  },
+  {
+   "id": "morale",
+   "en": "morale",
+   "uz": "ruhiy holat (jamoa kayfiyati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After three defeats, morale in the dressing room was low, so the coach took the whole squad on a weekend in the mountains.",
+   "gap": "morale",
+   "alt": []
+  },
+  {
+   "id": "teamwork",
+   "en": "teamwork",
+   "uz": "jamoaviy ish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nine-hour operation succeeded only through perfect teamwork between the surgeons, nurses and anaesthetists.",
+   "gap": "teamwork",
+   "alt": []
+  },
+  {
+   "id": "job_stability",
+   "en": "job stability",
+   "uz": "ish barqarorligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Government posts pay less than private banks, but they offer job stability: almost nobody is ever dismissed.",
+   "gap": "job stability",
+   "alt": []
+  },
+  {
+   "id": "fast_moving",
+   "en": "fast-moving",
+   "uz": "tez o‘zgaruvchan (shiddatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the fast-moving world of mobile apps, a game that was popular last spring can be forgotten by the autumn.",
+   "gap": "fast-moving",
+   "alt": [
+    "fast moving"
+   ]
+  },
+  {
+   "id": "work_life_balance",
+   "en": "work-life balance",
+   "uz": "ish va shaxsiy hayot muvozanati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since switching to a four-day week, Zafar has a much better work-life balance and spends more time with his kids.",
+   "gap": "work-life balance",
+   "alt": [
+    "work life balance"
+   ]
+  },
+  {
+   "id": "dynamic",
+   "en": "dynamic",
+   "uz": "doimo rivojlanib boradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Fergana's young IT community is small but dynamic, with new projects launching almost every month.",
+   "gap": "dynamic",
+   "alt": []
+  },
+  {
+   "id": "demotivated",
+   "en": "demotivated",
+   "uz": "ishga ishtiyoqi so‘ngan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When his ideas were ignored for the third time, Jasur became completely demotivated and stopped speaking in meetings.",
+   "gap": "demotivated",
+   "alt": []
+  },
+  {
+   "id": "seek_a_career_in",
+   "en": "seek a career in",
+   "uz": "…sohasida martaba izlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Having volunteered at a children's hospital all summer, Aziza is now seeking a career in paediatric nursing.",
+   "gap": "seeking a career in",
+   "alt": [
+    "seeking a career in",
+    "seeks a career in"
+   ]
+  },
+  {
+   "id": "maternity_leave",
+   "en": "maternity leave",
+   "uz": "homiladorlik va tug‘ish ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilnoza will be on maternity leave until her baby daughter is a year old.",
+   "gap": "maternity leave",
+   "alt": []
+  },
+  {
+   "id": "paternity_leave",
+   "en": "paternity leave",
+   "uz": "otalik ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "When his son was born, Sherzod took two weeks' paternity leave to help his wife at home.",
+   "gap": "paternity leave",
+   "alt": []
+  },
+  {
+   "id": "adoption_leave",
+   "en": "adoption leave",
+   "uz": "farzandlikka olish ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "The couple adopted a baby boy last spring, and both of them were given adoption leave to settle him in.",
+   "gap": "adoption leave",
+   "alt": []
+  },
+  {
+   "id": "perks",
+   "en": "perks",
+   "uz": "qo‘shimcha imtiyozlar (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A company phone and a free taxi home after late shifts are among the perks of working at the call centre.",
+   "gap": "perks",
+   "alt": [
+    "perk"
+   ]
+  },
+  {
+   "id": "holiday_entitlement",
+   "en": "holiday entitlement",
+   "uz": "ta’tilga haqli kunlar soni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodir saved up his holiday entitlement for two years so that he could spend a whole month travelling around Japan.",
+   "gap": "holiday entitlement",
+   "alt": []
+  },
+  {
+   "id": "salary_increment",
+   "en": "salary increment",
+   "uz": "maoshning muntazam oshishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Civil servants receive a small salary increment every January, whatever their performance.",
+   "gap": "salary increment",
+   "alt": [
+    "salary increments",
+    "increment",
+    "increments"
+   ]
+  },
+  {
+   "id": "performance_related_pay",
+   "en": "performance-related pay",
+   "uz": "ish natijasiga bog‘liq maosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the new system of performance-related pay, the couriers who make the most deliveries earn the most.",
+   "gap": "performance-related pay",
+   "alt": [
+    "performance related pay"
+   ]
+  },
+  {
+   "id": "annual_bonus",
+   "en": "annual bonus",
+   "uz": "yillik mukofot puli",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the shop beats its sales target, every employee gets an annual bonus in December.",
+   "gap": "annual bonus",
+   "alt": []
+  },
+  {
+   "id": "overworked_and_underpaid",
+   "en": "overworked and underpaid",
+   "uz": "ishi ko‘p, maoshi kam",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Anvar works sixty-hour weeks for a modest salary, so he often jokes that he is overworked and underpaid.",
+   "gap": "overworked and underpaid",
+   "alt": []
+  },
+  {
+   "id": "voluntary_redundancy",
+   "en": "voluntary redundancy",
+   "uz": "ixtiyoriy ishdan bo‘shash",
+   "pos": "noun",
+   "img": false,
+   "ex": "The factory offered voluntary redundancy to older workers, and forty of them gladly accepted it.",
+   "gap": "voluntary redundancy",
+   "alt": [
+    "voluntary redundancies"
+   ]
+  },
+  {
+   "id": "compulsory_redundancy",
+   "en": "compulsory redundancy",
+   "uz": "majburiy ishdan bo‘shatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody offered to leave, so the company had to make compulsory redundancies.",
+   "gap": "compulsory redundancies",
+   "alt": [
+    "compulsory redundancies"
+   ]
+  },
+  {
+   "id": "skeleton_staff",
+   "en": "skeleton staff",
+   "uz": "eng kam zarur xodimlar tarkibi",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the Navruz holidays, the hospital runs with a skeleton staff of doctors and nurses.",
+   "gap": "skeleton staff",
+   "alt": []
+  },
+  {
+   "id": "pay_freeze",
+   "en": "pay freeze",
+   "uz": "maoshlarni muzlatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The council announced a two-year pay freeze, so its bus drivers will earn exactly the same until 2028.",
+   "gap": "pay freeze",
+   "alt": [
+    "pay freezes",
+    "freeze on pay rises"
+   ]
+  },
+  {
+   "id": "pay_rise",
+   "en": "pay rise",
+   "uz": "maosh oshishi (bir martalik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a year of record sales, Gulshan asked her manager for a pay rise.",
+   "gap": "pay rise",
+   "alt": [
+    "pay rises"
+   ]
+  },
+  {
+   "id": "look_to_work_in",
+   "en": "look to work in",
+   "uz": "…sohasida ishlashni rejalamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After her internship at a tea company, Rayhona is looking to work in export marketing.",
+   "gap": "looking to work in",
+   "alt": [
+    "looking to work in",
+    "looks to work in"
+   ]
+  },
+  {
+   "id": "benefits_extra",
+   "en": "benefits",
+   "uz": "qo‘shimcha imtiyozlar (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Health insurance and a company car are listed among the benefits in the employment contract.",
+   "gap": "benefits",
+   "alt": [
+    "benefit",
+    "extra benefits"
+   ]
+  },
+  {
+   "id": "high_risk",
+   "en": "high-risk",
+   "uz": "xavfi yuqori",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Stunt riding is a high-risk career, but the pay for a single film can be excellent.",
+   "gap": "high-risk",
+   "alt": [
+    "high risk"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "job_satisfaction",
+   "job_stability"
+  ],
+  [
+   "job_satisfaction",
+   "work_life_balance"
+  ],
+  [
+   "run_of_the_mill",
+   "dynamic"
+  ],
+  [
+   "run_of_the_mill",
+   "fast_moving"
+  ],
+  [
+   "fast_moving",
+   "dynamic"
+  ],
+  [
+   "financial_reward",
+   "perks"
+  ],
+  [
+   "financial_reward",
+   "annual_bonus"
+  ],
+  [
+   "perks",
+   "annual_bonus"
+  ],
+  [
+   "salary_increment",
+   "annual_bonus"
+  ],
+  [
+   "salary_increment",
+   "performance_related_pay"
+  ],
+  [
+   "maternity_leave",
+   "paternity_leave"
+  ],
+  [
+   "maternity_leave",
+   "adoption_leave"
+  ],
+  [
+   "paternity_leave",
+   "adoption_leave"
+  ],
+  [
+   "voluntary_redundancy",
+   "compulsory_redundancy"
+  ],
+  [
+   "morale",
+   "teamwork"
+  ],
+  [
+   "morale",
+   "job_satisfaction"
+  ],
+  [
+   "financial_reward",
+   "salary_increment"
+  ],
+  [
+   "financial_reward",
+   "performance_related_pay"
+  ],
+  [
+   "overworked_and_underpaid",
+   "demotivated"
+  ],
+  [
+   "holiday_entitlement",
+   "annual_bonus"
+  ],
+  [
+   "look_to_work_in",
+   "seek_a_career_in"
+  ],
+  [
+   "benefits_extra",
+   "perks"
+  ],
+  [
+   "pay_rise",
+   "salary_increment"
+  ],
+  [
+   "pay_rise",
+   "annual_bonus"
+  ],
+  [
+   "pay_rise",
+   "performance_related_pay"
+  ],
+  [
+   "pay_rise",
+   "financial_reward"
+  ],
+  [
+   "pay_freeze",
+   "compulsory_redundancy"
+  ],
+  [
+   "high_risk",
+   "dynamic"
+  ],
+  [
+   "high_risk",
+   "fast_moving"
+  ],
+  [
+   "high_risk",
+   "run_of_the_mill"
+  ],
+  [
+   "high_risk",
+   "short_term"
+  ],
+  [
+   "high_risk",
+   "long_term"
+  ],
+  [
+   "financial_reward",
+   "benefits_extra"
+  ],
+  [
+   "run_of_the_mill",
+   "mundane"
+  ],
+  [
+   "teamwork",
+   "collaboration"
+  ]
+ ]
+}

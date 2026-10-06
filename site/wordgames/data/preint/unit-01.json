@@ -1,0 +1,276 @@
+{
+ "book": "preint",
+ "unit": 1,
+ "title": "Learning vocabulary",
+ "title_uz": "Lug‘at o‘rganish",
+ "words": [
+  {
+   "id": "routine",
+   "en": "routine",
+   "uz": "kundalik tartib (odat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My study routine is simple: every evening after dinner, I learn ten new words.",
+   "gap": "routine",
+   "alt": []
+  },
+  {
+   "id": "at_least",
+   "en": "at least",
+   "uz": "kamida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our teacher says we should read in English for at least fifteen minutes every day.",
+   "gap": "at least",
+   "alt": []
+  },
+  {
+   "id": "revise",
+   "en": "revise",
+   "uz": "o‘tilganni takrorlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our vocabulary test is on Monday, so on Sunday I'll revise all the words from Units 1 to 5 to make sure I still remember them.",
+   "gap": "revise",
+   "alt": [
+    "revised",
+    "revising"
+   ]
+  },
+  {
+   "id": "aloud",
+   "en": "aloud",
+   "uz": "ovoz chiqarib",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My little brother can hear me from the next room when I practise English words aloud.",
+   "gap": "aloud",
+   "alt": []
+  },
+  {
+   "id": "silently",
+   "en": "silently",
+   "uz": "ovoz chiqarmay, ichida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Everyone else was asleep on the night train to Bukhara, so I read my word list silently.",
+   "gap": "silently",
+   "alt": []
+  },
+  {
+   "id": "repeat",
+   "en": "repeat",
+   "uz": "qaytarmoq, qayta aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The teacher said 'vegetable' slowly, and the whole class had to repeat it three times.",
+   "gap": "repeat",
+   "alt": []
+  },
+  {
+   "id": "pronunciation",
+   "en": "pronunciation",
+   "uz": "talaffuz",
+   "pos": "noun",
+   "img": false,
+   "ex": "I know what 'colleague' means, but I'm not sure about its pronunciation, so I listen to it in an online dictionary.",
+   "gap": "pronunciation",
+   "alt": []
+  },
+  {
+   "id": "highlighter",
+   "en": "highlighter",
+   "uz": "marker (ajratib ko‘rsatuvchi qalam)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dilnoza's history book is full of bright green lines, because she always reads with a highlighter in her hand.",
+   "gap": "highlighter",
+   "alt": [
+    "highlighter pen"
+   ]
+  },
+  {
+   "id": "mark",
+   "en": "mark",
+   "uz": "belgilamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I read English news on my phone, I mark the new words with a star and look at them later.",
+   "gap": "mark",
+   "alt": []
+  },
+  {
+   "id": "write_down",
+   "en": "write down",
+   "uz": "yozib olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Malika hears a new word on the bus, takes out her pen and writes it down in her notebook.",
+   "gap": "writes it down",
+   "alt": [
+    "write it down",
+    "writes it down",
+    "wrote down",
+    "wrote it down"
+   ]
+  },
+  {
+   "id": "example_sentence",
+   "en": "example sentence",
+   "uz": "misol gap",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the new word 'nervous' I wrote an example sentence: 'I'm always nervous before exams.'",
+   "gap": "example sentence",
+   "alt": []
+  },
+  {
+   "id": "pencil",
+   "en": "pencil",
+   "uz": "qalam (qora qalam)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our maths teacher says we must draw graphs in pencil, not in pen.",
+   "gap": "pencil",
+   "alt": []
+  },
+  {
+   "id": "rub_out",
+   "en": "rub out",
+   "uz": "o‘chirmoq (o‘chirg‘ich bilan)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My answer in the crossword was wrong, so I rubbed it out and tried again.",
+   "gap": "rubbed it out",
+   "alt": [
+    "rub it out",
+    "rubbed out",
+    "rubbed it out"
+   ]
+  },
+  {
+   "id": "rubber",
+   "en": "rubber",
+   "uz": "o‘chirg‘ich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can I borrow your rubber? I wrote the wrong answer and I want to remove it.",
+   "gap": "rubber",
+   "alt": []
+  },
+  {
+   "id": "active",
+   "en": "active",
+   "uz": "faol",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In our English club nobody just sits and listens: everyone is active and speaks a lot.",
+   "gap": "active",
+   "alt": []
+  },
+  {
+   "id": "test_yourself",
+   "en": "test yourself",
+   "uz": "o‘zini sinab ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Close your notebook and test yourself: how many of today's twenty words can you still remember?",
+   "gap": "test yourself",
+   "alt": []
+  },
+  {
+   "id": "cover",
+   "en": "cover",
+   "uz": "yopib qo‘ymoq, berkitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before you start the exercise, cover the answers at the bottom of the page with a piece of paper.",
+   "gap": "cover",
+   "alt": []
+  },
+  {
+   "id": "meaning",
+   "en": "meaning",
+   "uz": "ma’no",
+   "pos": "noun",
+   "img": false,
+   "ex": "I know how to say this word, but what is its meaning?",
+   "gap": "meaning",
+   "alt": []
+  },
+  {
+   "id": "check",
+   "en": "check",
+   "uz": "tekshirib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I think 'village' means 'qishloq', but let me check in the dictionary.",
+   "gap": "check",
+   "alt": []
+  },
+  {
+   "id": "diagram",
+   "en": "diagram",
+   "uz": "chizma (sxema)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I drew a diagram with the word 'school' in the middle and words like 'teacher' and 'desk' around it.",
+   "gap": "diagram",
+   "alt": []
+  },
+  {
+   "id": "organise",
+   "en": "organise",
+   "uz": "tartibga solmoq, guruhlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mind maps help me organise new words into groups.",
+   "gap": "organise",
+   "alt": [
+    "organize"
+   ]
+  },
+  {
+   "id": "word_partner",
+   "en": "word partner",
+   "uz": "birga keladigan so‘z (hamroh so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In my notebook I write 'heavy' as a common word partner of 'traffic'.",
+   "gap": "word partner",
+   "alt": [
+    "word partners"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "revise",
+   "repeat"
+  ],
+  [
+   "revise",
+   "check"
+  ],
+  [
+   "highlighter",
+   "pencil"
+  ],
+  [
+   "write_down",
+   "check"
+  ],
+  [
+   "revise",
+   "organise"
+  ],
+  [
+   "test_yourself",
+   "check"
+  ],
+  [
+   "word_partner",
+   "collocation"
+  ]
+ ]
+}

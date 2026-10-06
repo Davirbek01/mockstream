@@ -1,0 +1,206 @@
+{
+ "book": "elementary",
+ "unit": 59,
+ "title": "Suffixes",
+ "title_uz": "Qo‘shimchalar (suffikslar)",
+ "words": [
+  {
+   "id": "worker",
+   "en": "worker",
+   "uz": "ishchi, xodim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new factory has two hundred workers, and most of them are young people from our district.",
+   "gap": "workers",
+   "alt": [
+    "workers"
+   ]
+  },
+  {
+   "id": "swimmer",
+   "en": "swimmer",
+   "uz": "suzuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister is a fast swimmer: she can do fifty metres in the pool in thirty-five seconds.",
+   "gap": "swimmer",
+   "alt": [
+    "swimmers"
+   ]
+  },
+  {
+   "id": "instructor",
+   "en": "instructor",
+   "uz": "o‘rgatuvchi (amaliy mashg‘ulotda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My swimming instructor shows me how to breathe under the water.",
+   "gap": "instructor",
+   "alt": [
+    "instructors"
+   ]
+  },
+  {
+   "id": "singer",
+   "en": "singer",
+   "uz": "qo‘shiqchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madina sings beautifully and wants to be a famous singer one day.",
+   "gap": "singer",
+   "alt": [
+    "singers"
+   ]
+  },
+  {
+   "id": "player",
+   "en": "player",
+   "uz": "o‘yinchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our volleyball team needs one more player today: Kamola is ill, so we only have five.",
+   "gap": "player",
+   "alt": [
+    "players"
+   ]
+  },
+  {
+   "id": "calculator",
+   "en": "calculator",
+   "uz": "hisoblagich (hisoblash asbobi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "You can't use a calculator in this test: do all the sums in your head.",
+   "gap": "calculator",
+   "alt": [
+    "calculators"
+   ]
+  },
+  {
+   "id": "useful",
+   "en": "useful",
+   "uz": "foydali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This dictionary app is really useful: I check new English words in it every day.",
+   "gap": "useful",
+   "alt": []
+  },
+  {
+   "id": "useless",
+   "en": "useless",
+   "uz": "foydasiz, yaroqsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My phone charger is broken, so it's useless now.",
+   "gap": "useless",
+   "alt": []
+  },
+  {
+   "id": "endless",
+   "en": "endless",
+   "uz": "cheksiz, tugamaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The history lesson seemed endless: it was only forty-five minutes, but I looked at the clock every two minutes.",
+   "gap": "endless",
+   "alt": []
+  },
+  {
+   "id": "careful",
+   "en": "careful",
+   "uz": "ehtiyotkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dad is a careful driver: he never drives too fast and always wears his seat belt.",
+   "gap": "careful",
+   "alt": []
+  },
+  {
+   "id": "careless",
+   "en": "careless",
+   "uz": "beparvo (e’tiborsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I lost two points for careless mistakes: twice I wrote 6 instead of 9.",
+   "gap": "careless",
+   "alt": []
+  },
+  {
+   "id": "painful",
+   "en": "painful",
+   "uz": "og‘riqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I hit my elbow on the door this morning, and it's still painful.",
+   "gap": "painful",
+   "alt": []
+  },
+  {
+   "id": "sandy",
+   "en": "sandy",
+   "uz": "qumli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We built a big castle on the sandy beach and took photos of it.",
+   "gap": "sandy",
+   "alt": []
+  },
+  {
+   "id": "quickly",
+   "en": "quickly",
+   "uz": "tezda, tez (ravish)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Eat your breakfast quickly, or we'll miss the school bus.",
+   "gap": "quickly",
+   "alt": []
+  },
+  {
+   "id": "happily",
+   "en": "happily",
+   "uz": "xursand bo‘lib (ravish)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The children played happily in the snow all afternoon.",
+   "gap": "happily",
+   "alt": []
+  },
+  {
+   "id": "happiness",
+   "en": "happiness",
+   "uz": "baxt, quvonch",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her face was full of happiness when she opened the box and saw her new bike.",
+   "gap": "happiness",
+   "alt": []
+  },
+  {
+   "id": "sadness",
+   "en": "sadness",
+   "uz": "qayg‘u, g‘am",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a lot of sadness in our class when our favourite teacher moved to another school.",
+   "gap": "sadness",
+   "alt": []
+  },
+  {
+   "id": "kindness",
+   "en": "kindness",
+   "uz": "mehribonlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thank you for your kindness: you helped me so much in my first week here.",
+   "gap": "kindness",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "endless",
+   "painful"
+  ]
+ ]
+}

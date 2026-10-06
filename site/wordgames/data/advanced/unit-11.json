@@ -1,0 +1,493 @@
+{
+ "book": "advanced",
+ "unit": 11,
+ "title": "Relationships: friends forever",
+ "title_uz": "Munosabatlar: abadiy do‘stlar",
+ "words": [
+  {
+   "id": "love_at_first_sight",
+   "en": "love at first sight",
+   "uz": "bir ko‘rishda sevib qolish",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rustam noticed Nilufar at a friend's birthday party in Margilan, and it was love at first sight.",
+   "gap": "love at first sight",
+   "alt": []
+  },
+  {
+   "id": "head_over_heels",
+   "en": "head over heels",
+   "uz": "boshi aylanib (telbalarcha) sevib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Within a week of meeting Sardor, Kamola had fallen head over heels in love with him.",
+   "gap": "head over heels",
+   "alt": []
+  },
+  {
+   "id": "only_have_eyes_for",
+   "en": "only have eyes for",
+   "uz": "faqat …ni ko‘radi (boshqasiga qaramaydi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Plenty of girls at the college like Javohir, but he only has eyes for Dildora.",
+   "gap": "only has eyes for",
+   "alt": [
+    "only has eyes for",
+    "only had eyes for"
+   ]
+  },
+  {
+   "id": "infatuated",
+   "en": "infatuated",
+   "uz": "o‘tkinchi ishqqa berilgan (mahliyo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At fifteen, Shahzoda was infatuated with a pop singer and covered her bedroom walls with his posters.",
+   "gap": "infatuated",
+   "alt": []
+  },
+  {
+   "id": "besotted",
+   "en": "besotted",
+   "uz": "ko‘r-ko‘rona oshiq bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He's so besotted with his new girlfriend that he forgot his own mother's birthday.",
+   "gap": "besotted",
+   "alt": []
+  },
+  {
+   "id": "platonic",
+   "en": "platonic",
+   "uz": "sof do‘stona (ishqsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Aziz and Madina go hiking together every weekend, but theirs is a purely platonic friendship.",
+   "gap": "platonic",
+   "alt": []
+  },
+  {
+   "id": "hit_it_off",
+   "en": "hit it off",
+   "uz": "darrov til topishib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our new neighbours came round for tea, and we hit it off straight away.",
+   "gap": "hit it off",
+   "alt": [
+    "hits it off",
+    "hitting it off"
+   ]
+  },
+  {
+   "id": "soulmate",
+   "en": "soulmate",
+   "uz": "qalbdosh (jon-u dil yaqin odam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After thirty years of marriage, my parents still call each other soulmates.",
+   "gap": "soulmates",
+   "alt": [
+    "soulmates",
+    "soul mate"
+   ]
+  },
+  {
+   "id": "man_after_my_own_heart",
+   "en": "man after my own heart",
+   "uz": "xuddi ko‘nglimdagidek odam",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You bought tickets for the Pakhtakor match before I even asked? You're a man after my own heart!",
+   "gap": "man after my own heart",
+   "alt": [
+    "woman after my own heart"
+   ]
+  },
+  {
+   "id": "get_on_like_a_house_on_fire",
+   "en": "get on like a house on fire",
+   "uz": "juda ham inoq bo‘lib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother and our cousin from Andijan get on like a house on fire; they laugh all day when they're together.",
+   "gap": "get on like a house on fire",
+   "alt": [
+    "got on like a house on fire",
+    "gets on like a house on fire"
+   ]
+  },
+  {
+   "id": "bosom_friends",
+   "en": "bosom friends",
+   "uz": "jonajon do‘stlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ulugbek and Temur have been bosom friends since they shared a desk in first grade.",
+   "gap": "bosom friends",
+   "alt": [
+    "bosom friend",
+    "bosom buddies",
+    "bosom pals"
+   ]
+  },
+  {
+   "id": "inseparable",
+   "en": "inseparable",
+   "uz": "ajralmas (doim birga yuradigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The twins are inseparable: if you invite one to a party, you have to invite the other.",
+   "gap": "inseparable",
+   "alt": []
+  },
+  {
+   "id": "close_bond",
+   "en": "close bond",
+   "uz": "mustahkam yaqinlik (rishta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Having spent every summer on her uncle's farm near Urgut, Zarina has a close bond with him.",
+   "gap": "close bond",
+   "alt": [
+    "close bonds"
+   ]
+  },
+  {
+   "id": "kindred_spirits",
+   "en": "kindred spirits",
+   "uz": "ruhan yaqin odamlar (fikrdoshlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laziz and his new colleague both collect old Soviet cameras and hate shopping, so they are real kindred spirits.",
+   "gap": "kindred spirits",
+   "alt": [
+    "kindred spirit"
+   ]
+  },
+  {
+   "id": "well_matched",
+   "en": "well-matched",
+   "uz": "bir-biriga juda mos (juftlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Both architects, both night owls and both crazy about jazz, Bekzod and Shirin are a well-matched couple.",
+   "gap": "well-matched",
+   "alt": [
+    "well matched"
+   ]
+  },
+  {
+   "id": "family_ties",
+   "en": "family ties",
+   "uz": "oilaviy rishtalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even after moving to Canada, Dilshod keeps up strong family ties by video-calling his relatives in Gulistan every Friday evening.",
+   "gap": "family ties",
+   "alt": []
+  },
+  {
+   "id": "mutual_acquaintances",
+   "en": "mutual acquaintances",
+   "uz": "umumiy tanishlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'd never met Feruza before, but it turned out we had several mutual acquaintances from university.",
+   "gap": "mutual acquaintances",
+   "alt": [
+    "mutual acquaintance"
+   ]
+  },
+  {
+   "id": "hold_in_high_regard",
+   "en": "hold in high regard",
+   "uz": "katta hurmatda tutmoq (qadrlamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The young surgeon is held in high regard by everyone at the Tashkent clinic.",
+   "gap": "held in high regard",
+   "alt": [
+    "held in high regard",
+    "holds in high regard"
+   ]
+  },
+  {
+   "id": "as_thick_as_thieves",
+   "en": "as thick as thieves",
+   "uz": "sirdosh (bir-biridan sir yashirmaydi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Those two are as thick as thieves; they whisper in the corner and go quiet as soon as anyone comes near.",
+   "gap": "as thick as thieves",
+   "alt": [
+    "thick as thieves"
+   ]
+  },
+  {
+   "id": "adoration",
+   "en": "adoration",
+   "uz": "cheksiz mehr (sig‘inish darajasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little girl looked up at her older sister with pure adoration, copying every move she made on the dance floor.",
+   "gap": "adoration",
+   "alt": []
+  },
+  {
+   "id": "affection",
+   "en": "affection",
+   "uz": "mehr-muhabbat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cat shows her affection by purring and rubbing against my legs whenever I come home.",
+   "gap": "affection",
+   "alt": []
+  },
+  {
+   "id": "fondness",
+   "en": "fondness",
+   "uz": "iliq his (moyillik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite the cold winters, Elena has developed a real fondness for Tashkent and never wants to leave.",
+   "gap": "fondness",
+   "alt": []
+  },
+  {
+   "id": "amiability",
+   "en": "amiability",
+   "uz": "xushmuomalalik (xushfe’llik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel receptionist greeted every tired guest with the same easy amiability, even at 3 a.m.",
+   "gap": "amiability",
+   "alt": []
+  },
+  {
+   "id": "consideration",
+   "en": "consideration",
+   "uz": "o‘zgalarni o‘ylash (e’tibor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please show some consideration for your neighbours and turn the music down after ten.",
+   "gap": "consideration",
+   "alt": []
+  },
+  {
+   "id": "faithfulness",
+   "en": "faithfulness",
+   "uz": "vafodorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many old folk songs, a wife's faithfulness to her absent husband is praised as the greatest virtue.",
+   "gap": "faithfulness",
+   "alt": []
+  },
+  {
+   "id": "loyalty",
+   "en": "loyalty",
+   "uz": "sodiqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the club ran out of money, not one player left: their loyalty to the captain was stronger than any offer.",
+   "gap": "loyalty",
+   "alt": []
+  },
+  {
+   "id": "fond",
+   "en": "fond",
+   "uz": "…ni yaxshi ko‘radigan (mehri bor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Having lived in Termez for two years, the Italian archaeologist has grown very fond of the city's hot, dusty summers.",
+   "gap": "fond",
+   "alt": [
+    "fond of"
+   ]
+  },
+  {
+   "id": "loyal",
+   "en": "loyal",
+   "uz": "sodiq (sotmaydigan, tark etmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nodir has been a loyal customer of the same barber in Kokand for twenty years and refuses to go anywhere else.",
+   "gap": "loyal",
+   "alt": []
+  },
+  {
+   "id": "faithful",
+   "en": "faithful",
+   "uz": "vafodor (xiyonat qilmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her translation of Navoi's poems is faithful to the original, yet it reads like modern English.",
+   "gap": "faithful",
+   "alt": []
+  },
+  {
+   "id": "affectionate",
+   "en": "affectionate",
+   "uz": "mehribon (erkalashni yaxshi ko‘radigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little niece is very affectionate; she hugs everyone who walks through the door, even the plumber.",
+   "gap": "affectionate",
+   "alt": []
+  },
+  {
+   "id": "considerate",
+   "en": "considerate",
+   "uz": "o‘zgalarni o‘ylaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was very considerate of you to text me that the metro station was closed.",
+   "gap": "considerate",
+   "alt": []
+  },
+  {
+   "id": "amiable",
+   "en": "amiable",
+   "uz": "xushfe’l (yoqimtoy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new head teacher is an amiable man who chats and jokes with pupils in the corridor.",
+   "gap": "amiable",
+   "alt": []
+  },
+  {
+   "id": "adoring",
+   "en": "adoring",
+   "uz": "jon-dilidan sevadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new father couldn't stop gazing at his baby daughter with an adoring smile.",
+   "gap": "adoring",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "infatuated",
+   "besotted"
+  ],
+  [
+   "infatuated",
+   "head_over_heels"
+  ],
+  [
+   "besotted",
+   "head_over_heels"
+  ],
+  [
+   "hit_it_off",
+   "get_on_like_a_house_on_fire"
+  ],
+  [
+   "bosom_friends",
+   "inseparable"
+  ],
+  [
+   "bosom_friends",
+   "as_thick_as_thieves"
+  ],
+  [
+   "bosom_friends",
+   "soulmate"
+  ],
+  [
+   "bosom_friends",
+   "kindred_spirits"
+  ],
+  [
+   "inseparable",
+   "as_thick_as_thieves"
+  ],
+  [
+   "inseparable",
+   "soulmate"
+  ],
+  [
+   "inseparable",
+   "kindred_spirits"
+  ],
+  [
+   "as_thick_as_thieves",
+   "soulmate"
+  ],
+  [
+   "as_thick_as_thieves",
+   "kindred_spirits"
+  ],
+  [
+   "soulmate",
+   "kindred_spirits"
+  ],
+  [
+   "inseparable",
+   "well_matched"
+  ],
+  [
+   "close_bond",
+   "family_ties"
+  ],
+  [
+   "adoration",
+   "affection"
+  ],
+  [
+   "adoration",
+   "fondness"
+  ],
+  [
+   "affection",
+   "fondness"
+  ],
+  [
+   "affection",
+   "amiability"
+  ],
+  [
+   "faithfulness",
+   "loyalty"
+  ],
+  [
+   "affectionate",
+   "amiable"
+  ],
+  [
+   "affectionate",
+   "considerate"
+  ],
+  [
+   "affectionate",
+   "adoring"
+  ],
+  [
+   "amiable",
+   "considerate"
+  ],
+  [
+   "amiable",
+   "adoring"
+  ],
+  [
+   "considerate",
+   "adoring"
+  ],
+  [
+   "loyal",
+   "faithful"
+  ],
+  [
+   "fond",
+   "affectionate"
+  ],
+  [
+   "fond",
+   "adoring"
+  ]
+ ]
+}

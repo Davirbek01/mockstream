@@ -1,0 +1,473 @@
+{
+ "book": "elementary",
+ "unit": 38,
+ "title": "Have / had / had",
+ "title_uz": "Have fe’li bilan birikmalar",
+ "words": [
+  {
+   "id": "have_breakfast",
+   "en": "have breakfast",
+   "uz": "nonushta qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On school days I have breakfast at seven in the morning: tea, bread and a boiled egg.",
+   "gap": "have breakfast",
+   "alt": [
+    "has breakfast",
+    "had breakfast",
+    "having breakfast"
+   ]
+  },
+  {
+   "id": "have_lunch",
+   "en": "have lunch",
+   "uz": "tushlik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At our school we have lunch at half past twelve in the canteen: soup, salad and bread.",
+   "gap": "have lunch",
+   "alt": [
+    "has lunch",
+    "had lunch",
+    "having lunch"
+   ]
+  },
+  {
+   "id": "have_dinner",
+   "en": "have dinner",
+   "uz": "kechki ovqat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We usually have dinner at eight in the evening, when Dad comes home from work, and tonight Mum is cooking plov.",
+   "gap": "have dinner",
+   "alt": [
+    "has dinner",
+    "had dinner",
+    "having dinner"
+   ]
+  },
+  {
+   "id": "have_a_meal",
+   "en": "have a meal",
+   "uz": "ovqatlanmoq (birga o‘tirib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We were very hungry after the long drive from the mountains, so we stopped at a roadside café to have a meal.",
+   "gap": "have a meal",
+   "alt": [
+    "has a meal",
+    "had a meal",
+    "having a meal"
+   ]
+  },
+  {
+   "id": "have_a_party",
+   "en": "have a party",
+   "uz": "bazm uyushtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For my sister's sixteenth birthday we're going to have a party in the garden, with music, balloons and dancing.",
+   "gap": "have a party",
+   "alt": [
+    "has a party",
+    "had a party",
+    "having a party"
+   ]
+  },
+  {
+   "id": "have_a_meeting",
+   "en": "have a meeting",
+   "uz": "yig‘ilish o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The teachers have a meeting every Monday after lessons to talk about the plan for the week.",
+   "gap": "have a meeting",
+   "alt": [
+    "has a meeting",
+    "had a meeting",
+    "having a meeting"
+   ]
+  },
+  {
+   "id": "have_a_game",
+   "en": "have a game",
+   "uz": "bir o‘yin o‘ynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Let's have a game of badminton in the yard before dinner; you can serve first.",
+   "gap": "have a game",
+   "alt": [
+    "has a game",
+    "had a game",
+    "having a game"
+   ]
+  },
+  {
+   "id": "have_a_lesson",
+   "en": "have a lesson",
+   "uz": "dars olmoq (darsi bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I have a lesson with my violin teacher every Thursday at five.",
+   "gap": "have a lesson",
+   "alt": [
+    "has a lesson",
+    "had a lesson",
+    "having a lesson"
+   ]
+  },
+  {
+   "id": "have_an_exam",
+   "en": "have an exam",
+   "uz": "imtihoni bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm nervous: tomorrow we have an exam in chemistry, and we can't use our books or phones for two hours.",
+   "gap": "have an exam",
+   "alt": [
+    "has an exam",
+    "had an exam",
+    "having an exam"
+   ]
+  },
+  {
+   "id": "have_homework",
+   "en": "have homework",
+   "uz": "uy vazifasi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Tonight I have homework in three subjects, so I can't watch the match.",
+   "gap": "have homework",
+   "alt": [
+    "has homework",
+    "had homework",
+    "having homework"
+   ]
+  },
+  {
+   "id": "have_a_cup_of_tea",
+   "en": "have a cup of tea",
+   "uz": "bir piyola choy ichmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the long walk in the cold, we went into a café to have a cup of tea with lemon and get warm.",
+   "gap": "have a cup of tea",
+   "alt": [
+    "has a cup of tea",
+    "had a cup of tea",
+    "having a cup of tea"
+   ]
+  },
+  {
+   "id": "have_a_drink",
+   "en": "have a drink",
+   "uz": "biror narsa ichmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's so hot! Let's stop at that kiosk and have a drink of cold water.",
+   "gap": "have a drink",
+   "alt": [
+    "has a drink",
+    "had a drink",
+    "having a drink"
+   ]
+  },
+  {
+   "id": "have_an_ice_cream",
+   "en": "have an ice cream",
+   "uz": "muzqaymoq yemoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the swimming lesson, Mum bought us cones, and we had an ice cream on the bench outside.",
+   "gap": "had an ice cream",
+   "alt": [
+    "has an ice cream",
+    "had an ice cream",
+    "having an ice cream"
+   ]
+  },
+  {
+   "id": "have_a_bath",
+   "en": "have a bath",
+   "uz": "vannada cho‘milmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister loves to have a bath with lots of bubbles before bed.",
+   "gap": "have a bath",
+   "alt": [
+    "has a bath",
+    "had a bath",
+    "having a bath"
+   ]
+  },
+  {
+   "id": "have_a_swim",
+   "en": "have a swim",
+   "uz": "suzib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The water in the lake was warm, so we decided to have a swim before we drove home.",
+   "gap": "have a swim",
+   "alt": [
+    "has a swim",
+    "had a swim",
+    "having a swim"
+   ]
+  },
+  {
+   "id": "have_a_look",
+   "en": "have a look",
+   "uz": "qarab ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Is that the new history book? Can I have a look at the pictures?",
+   "gap": "have a look",
+   "alt": [
+    "has a look",
+    "had a look",
+    "having a look"
+   ]
+  },
+  {
+   "id": "have_a_go",
+   "en": "have a go",
+   "uz": "o‘zi ham sinab ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Your skateboard looks great! Can I have a go on it? I promise I'll be careful.",
+   "gap": "have a go",
+   "alt": [
+    "has a go",
+    "had a go",
+    "having a go"
+   ]
+  },
+  {
+   "id": "have_a_good_journey",
+   "en": "have a good journey",
+   "uz": "yo‘li bexatar bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We hope you have a good journey and get to Jizzakh before dark.",
+   "gap": "have a good journey",
+   "alt": [
+    "has a good journey",
+    "had a good journey"
+   ]
+  },
+  {
+   "id": "have_a_word",
+   "en": "have a word",
+   "uz": "ikki og‘iz gaplashib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I have a word with you after the lesson? It's about your project.",
+   "gap": "have a word",
+   "alt": [
+    "has a word",
+    "had a word",
+    "having a word"
+   ]
+  },
+  {
+   "id": "have_a_moment",
+   "en": "have a moment",
+   "uz": "bir daqiqa bo‘sh vaqti bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, do you have a moment? I need help with this maths problem.",
+   "gap": "have a moment",
+   "alt": [
+    "has a moment"
+   ]
+  },
+  {
+   "id": "have_your_hair_cut",
+   "en": "have your hair cut",
+   "uz": "soch oldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I had my hair cut yesterday, and now it's very short at the back.",
+   "gap": "had my hair cut",
+   "alt": [
+    "have my hair cut",
+    "had my hair cut",
+    "had his hair cut",
+    "had her hair cut",
+    "has his hair cut",
+    "has her hair cut",
+    "having my hair cut"
+   ]
+  },
+  {
+   "id": "have_got",
+   "en": "have got",
+   "uz": "bor bo‘lmoq (egalik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My best friend has got two cats and a very noisy parrot.",
+   "gap": "has got",
+   "alt": [
+    "has got",
+    "'ve got",
+    "'s got",
+    "haven't got",
+    "hasn't got"
+   ]
+  },
+  {
+   "id": "have_to",
+   "en": "have to",
+   "uz": "majbur bo‘lmoq (shart)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At my old school we had to wear a uniform, but now we can wear what we like.",
+   "gap": "had to",
+   "alt": [
+    "has to",
+    "had to",
+    "have got to",
+    "has got to",
+    "'ve got to"
+   ]
+  },
+  {
+   "id": "have_a_good_time",
+   "en": "have a good time",
+   "uz": "maroqli vaqt o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school trip to the botanical garden wasn't boring at all; we had a good time from the first minute to the last.",
+   "gap": "had a good time",
+   "alt": [
+    "has a good time",
+    "had a good time",
+    "having a good time"
+   ]
+  },
+  {
+   "id": "have_some_cheese",
+   "en": "have some cheese",
+   "uz": "biroz pishloq yemoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm still hungry. Can I have some cheese on my bread?",
+   "gap": "have some cheese",
+   "alt": [
+    "has some cheese",
+    "had some cheese",
+    "having some cheese"
+   ]
+  },
+  {
+   "id": "have_time",
+   "en": "have time",
+   "uz": "vaqti bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We didn't have time to visit the museum, because our train left at noon.",
+   "gap": "have time",
+   "alt": [
+    "have the time",
+    "has time",
+    "had time",
+    "has the time",
+    "had the time"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "have_breakfast",
+   "have_a_meal"
+  ],
+  [
+   "have_lunch",
+   "have_a_meal"
+  ],
+  [
+   "have_dinner",
+   "have_a_meal"
+  ],
+  [
+   "have_a_party",
+   "have_a_meeting"
+  ],
+  [
+   "have_a_lesson",
+   "have_an_exam"
+  ],
+  [
+   "have_a_lesson",
+   "have_homework"
+  ],
+  [
+   "have_an_exam",
+   "have_homework"
+  ],
+  [
+   "have_a_cup_of_tea",
+   "have_a_drink"
+  ],
+  [
+   "have_a_drink",
+   "have_an_ice_cream"
+  ],
+  [
+   "have_a_bath",
+   "have_a_swim"
+  ],
+  [
+   "have_a_look",
+   "have_a_go"
+  ],
+  [
+   "have_a_word",
+   "have_a_moment"
+  ],
+  [
+   "have_got",
+   "have_to"
+  ],
+  [
+   "have_a_swim",
+   "go_swimming"
+  ],
+  [
+   "have_lunch",
+   "have_dinner"
+  ],
+  [
+   "have_a_good_time",
+   "go_sightseeing"
+  ],
+  [
+   "have_a_word",
+   "have_a_meeting"
+  ],
+  [
+   "have_some_cheese",
+   "have_a_drink"
+  ],
+  [
+   "have_some_cheese",
+   "have_a_meal"
+  ],
+  [
+   "have_some_cheese",
+   "have_an_ice_cream"
+  ],
+  [
+   "have_some_cheese",
+   "have_a_go"
+  ],
+  [
+   "have_some_cheese",
+   "have_a_cup_of_tea"
+  ],
+  [
+   "have_time",
+   "have_a_moment"
+  ]
+ ]
+}

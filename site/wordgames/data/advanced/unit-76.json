@@ -1,0 +1,566 @@
+{
+ "book": "advanced",
+ "unit": 76,
+ "title": "Promises and bets",
+ "title_uz": "Va’dalar va garovlar",
+ "words": [
+  {
+   "id": "promise_the_earth",
+   "en": "promise the earth",
+   "uz": "amalga oshmas katta va’dalar bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the vote, every candidate for the district council promised the earth, but the potholes on our street are still there.",
+   "gap": "promised the earth",
+   "alt": [
+    "promise the moon",
+    "promised the earth",
+    "promised the moon",
+    "promises the earth",
+    "promising the earth"
+   ]
+  },
+  {
+   "id": "promises_to_be",
+   "en": "promise to be",
+   "uz": "…bo‘lishi kutilmoqda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With three strong teams in the final, Saturday's football tournament promises to be exciting.",
+   "gap": "promises to be",
+   "alt": [
+    "promises to be",
+    "promised to be"
+   ]
+  },
+  {
+   "id": "anticipate",
+   "en": "anticipate",
+   "uz": "oldindan kutmoq (taxmin qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The organisers had not anticipated such a large crowd, so many visitors had to stand at the back.",
+   "gap": "anticipated",
+   "alt": [
+    "anticipated",
+    "anticipates",
+    "anticipating"
+   ]
+  },
+  {
+   "id": "show_promise",
+   "en": "show promise",
+   "uz": "iste’dodi ko‘zga tashlanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Even at nine, Ozoda showed great promise as a chess player, beating adults at the club in Namangan.",
+   "gap": "showed great promise",
+   "alt": [
+    "shows promise",
+    "showed promise",
+    "showing promise",
+    "shows great promise",
+    "showed great promise"
+   ]
+  },
+  {
+   "id": "promising",
+   "en": "promising",
+   "uz": "istiqbolli (umid beruvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The coach believes Rustam is the most promising young swimmer in the region.",
+   "gap": "promising",
+   "alt": []
+  },
+  {
+   "id": "under_oath",
+   "en": "under oath",
+   "uz": "qasamyod ostida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In court, the witness repeated under oath what she had told the inspector.",
+   "gap": "under oath",
+   "alt": [
+    "on oath"
+   ]
+  },
+  {
+   "id": "could_have_sworn",
+   "en": "I could have sworn",
+   "uz": "qasam ichib aytardim (amin edim)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I could have sworn I'd charged my phone overnight, but it died before the first lesson had even started.",
+   "gap": "could have sworn",
+   "alt": [
+    "could have sworn"
+   ]
+  },
+  {
+   "id": "couldnt_swear_to_it",
+   "en": "I couldn't swear to it",
+   "uz": "aniq ayta olmayman (amin emasman)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I believe Hilola's birthday is some time in March, but I couldn't swear to it.",
+   "gap": "couldn't swear to it",
+   "alt": [
+    "couldn't swear to it",
+    "could not swear to it"
+   ]
+  },
+  {
+   "id": "swear_by",
+   "en": "swear by",
+   "uz": "…ning foydasiga qattiq ishonmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My neighbour swears by green tea with lemon whenever she catches a cold.",
+   "gap": "swears by",
+   "alt": [
+    "swears by",
+    "swore by",
+    "swearing by"
+   ]
+  },
+  {
+   "id": "pledge",
+   "en": "pledge",
+   "uz": "rasman va’da bermoq (pul, yordam)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A local businessman has pledged five hundred million soum towards the new children's hospital in Karshi.",
+   "gap": "pledged",
+   "alt": [
+    "pledged",
+    "pledges",
+    "pledging"
+   ]
+  },
+  {
+   "id": "vow",
+   "en": "vow",
+   "uz": "qat’iy ahd qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After missing the bus twice in one week, Otabek vowed never to be late again.",
+   "gap": "vowed",
+   "alt": [
+    "vowed",
+    "vows",
+    "vowing"
+   ]
+  },
+  {
+   "id": "new_years_resolution",
+   "en": "New Year's resolution",
+   "uz": "Yangi yilda o‘ziga bergan ahd",
+   "pos": "noun",
+   "img": false,
+   "ex": "My New Year's resolution was to read one book a month, and so far I've kept it.",
+   "gap": "New Year's resolution",
+   "alt": [
+    "New Year's resolutions"
+   ]
+  },
+  {
+   "id": "turn_over_a_new_leaf",
+   "en": "turn over a new leaf",
+   "uz": "xulqini tuzatib, yangi sahifa ochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After a term of poor marks, Shahzod turned over a new leaf and started doing his homework every evening.",
+   "gap": "turned over a new leaf",
+   "alt": [
+    "turned over a new leaf",
+    "turning over a new leaf",
+    "turns over a new leaf"
+   ]
+  },
+  {
+   "id": "go_back_on_your_word",
+   "en": "go back on your word",
+   "uz": "so‘zidan qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Umida promised to help us paint the classroom, and she never goes back on her word.",
+   "gap": "goes back on her word",
+   "alt": [
+    "goes back on her word",
+    "goes back on his word",
+    "went back on his word",
+    "went back on her word",
+    "go back on his word",
+    "go back on her word"
+   ]
+  },
+  {
+   "id": "best_bet",
+   "en": "your best bet",
+   "uz": "eng to‘g‘ri tanlov (eng yaxshi yo‘l)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you want fresh bread early on a Sunday, your best bet is the small bakery next to the metro station.",
+   "gap": "best bet",
+   "alt": [
+    "best bet"
+   ]
+  },
+  {
+   "id": "dont_bet_on_it",
+   "en": "Don't bet on it!",
+   "uz": "Bunga unchalik ishonma!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Xurshid says he'll tidy his room before dinner? Don't bet on it!",
+   "gap": "Don't bet on it",
+   "alt": [
+    "don't bet on it"
+   ]
+  },
+  {
+   "id": "you_bet",
+   "en": "You bet!",
+   "uz": "Bo‘lmasam-chi! (albatta)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Do you want to come to the climbing wall with us on Saturday? You bet!",
+   "gap": "You bet",
+   "alt": [
+    "you bet"
+   ]
+  },
+  {
+   "id": "bet_my_life_on",
+   "en": "I'd bet my life on",
+   "uz": "…ga jonimni tikaman (mutlaqo aminman)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Yulduz has practised every day for months; I'd bet my life on her passing the piano exam.",
+   "gap": "bet my life on",
+   "alt": [
+    "bet my life on",
+    "put good money on",
+    "I'd put good money on",
+    "put money on"
+   ]
+  },
+  {
+   "id": "wager",
+   "en": "wager",
+   "uz": "qat’iy ishonch bilan taxmin qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'd wager that the new café will be full every evening once the students discover it.",
+   "gap": "wager",
+   "alt": [
+    "wagered"
+   ]
+  },
+  {
+   "id": "hedge_your_bets",
+   "en": "hedge your bets",
+   "uz": "ehtiyotan bir nechta variantni tanlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Not sure which university would accept her, Diyora hedged her bets and applied to five.",
+   "gap": "hedged her bets",
+   "alt": [
+    "hedged her bets",
+    "hedged his bets",
+    "hedge my bets",
+    "hedging my bets",
+    "hedge their bets"
+   ]
+  },
+  {
+   "id": "at_stake",
+   "en": "at stake",
+   "uz": "xavf ostida (qo‘ldan ketishi mumkin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With a place in the national final at stake, both teams played very carefully.",
+   "gap": "at stake",
+   "alt": []
+  },
+  {
+   "id": "oath",
+   "en": "oath",
+   "uz": "qasamyod (rasmiy va’da)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many countries, new doctors take an oath to put their patients' wellbeing first.",
+   "gap": "oath",
+   "alt": [
+    "oaths"
+   ]
+  },
+  {
+   "id": "swear_promise",
+   "en": "swear",
+   "uz": "qasam ichmoq (tantanali va’da)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before taking office, the new president must swear to protect the country's constitution.",
+   "gap": "swear",
+   "alt": [
+    "swore",
+    "sworn",
+    "swears",
+    "swearing"
+   ]
+  },
+  {
+   "id": "swear_curse",
+   "en": "swear",
+   "uz": "so‘kinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The taxi driver swore under his breath when the car in front stopped without warning.",
+   "gap": "swore",
+   "alt": [
+    "swore",
+    "swears",
+    "swearing"
+   ]
+  },
+  {
+   "id": "swear_words",
+   "en": "swear words",
+   "uz": "so‘kinish so‘zlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film was given an adult rating because of the swear words in almost every scene.",
+   "gap": "swear words",
+   "alt": [
+    "swear word"
+   ]
+  },
+  {
+   "id": "bad_language",
+   "en": "bad language",
+   "uz": "qo‘pol, odobsiz gaplar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The referee sent the striker off for using bad language towards the linesman.",
+   "gap": "bad language",
+   "alt": []
+  },
+  {
+   "id": "exchange_vows",
+   "en": "exchange vows",
+   "uz": "nikohda bir-biriga ahd bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The couple exchanged vows in a small garden ceremony surrounded by their closest friends.",
+   "gap": "exchanged vows",
+   "alt": [
+    "exchanged vows",
+    "exchanging vows",
+    "exchanges vows"
+   ]
+  },
+  {
+   "id": "keep_a_promise",
+   "en": "keep a promise",
+   "uz": "va’dasiga vafo qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dilnoza kept her promise and phoned her old piano teacher on his birthday.",
+   "gap": "kept her promise",
+   "alt": [
+    "kept her promise",
+    "kept his promise",
+    "keep her promise",
+    "keeps her promise",
+    "kept a promise"
+   ]
+  },
+  {
+   "id": "break_a_promise",
+   "en": "break a promise",
+   "uz": "va’dani buzmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Timur broke his promise to fix the bike before the weekend, so his brother had to walk to school.",
+   "gap": "broke his promise",
+   "alt": [
+    "broke his promise",
+    "broken his promise",
+    "breaks his promise",
+    "broke a promise",
+    "break his promise"
+   ]
+  },
+  {
+   "id": "bet_verb",
+   "en": "bet",
+   "uz": "pul tikmoq (garov o‘ynamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Millions of fans bet on the World Cup final, but most of them lose their money.",
+   "gap": "bet on",
+   "alt": [
+    "bet on",
+    "bets on",
+    "betting on",
+    "bets",
+    "betting"
+   ]
+  },
+  {
+   "id": "gambling",
+   "en": "gambling",
+   "uz": "qimor (pul tikish o‘yinlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Online gambling is banned in many countries because people can lose their savings in minutes.",
+   "gap": "gambling",
+   "alt": []
+  },
+  {
+   "id": "stake_noun",
+   "en": "stake",
+   "uz": "tikilgan pul miqdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each player put down a stake of ten dollars, and the winner took the lot.",
+   "gap": "stake",
+   "alt": [
+    "stakes"
+   ]
+  },
+  {
+   "id": "stake_verb",
+   "en": "stake",
+   "uz": "(pulni biror natijaga) tikmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He staked his whole month's salary on a single horse race and lost it all.",
+   "gap": "staked",
+   "alt": [
+    "staked",
+    "stakes",
+    "staking"
+   ]
+  },
+  {
+   "id": "wager_noun",
+   "en": "wager",
+   "uz": "garov (tikilgan pul, rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She placed a small wager on the outsider, and to everyone's surprise it won.",
+   "gap": "wager",
+   "alt": [
+    "wagers"
+   ]
+  },
+  {
+   "id": "flutter",
+   "en": "have a flutter",
+   "uz": "ozgina pul tikib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ulugbek rarely risks money, but once a year he likes to have a flutter on the cup final.",
+   "gap": "have a flutter",
+   "alt": [
+    "having a flutter",
+    "had a flutter",
+    "has a flutter",
+    "a flutter"
+   ]
+  },
+  {
+   "id": "odds",
+   "en": "the odds",
+   "uz": "ehtimollik (yutish imkoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a class of 30 students, the odds are roughly seven in ten that two of them share a birthday.",
+   "gap": "odds",
+   "alt": [
+    "odds"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "show_promise",
+   "promising"
+  ],
+  [
+   "pledge",
+   "vow"
+  ],
+  [
+   "you_bet",
+   "dont_bet_on_it"
+  ],
+  [
+   "wager",
+   "bet_my_life_on"
+  ],
+  [
+   "new_years_resolution",
+   "turn_over_a_new_leaf"
+  ],
+  [
+   "could_have_sworn",
+   "couldnt_swear_to_it"
+  ],
+  [
+   "swear_promise",
+   "swear_curse"
+  ],
+  [
+   "swear_promise",
+   "vow"
+  ],
+  [
+   "swear_words",
+   "bad_language"
+  ],
+  [
+   "break_a_promise",
+   "go_back_on_your_word"
+  ],
+  [
+   "bet_verb",
+   "wager"
+  ],
+  [
+   "bet_verb",
+   "stake_verb"
+  ],
+  [
+   "bet_verb",
+   "flutter"
+  ],
+  [
+   "stake_noun",
+   "stake_verb"
+  ],
+  [
+   "stake_noun",
+   "wager_noun"
+  ],
+  [
+   "wager_noun",
+   "wager"
+  ],
+  [
+   "swear_curse",
+   "vow"
+  ],
+  [
+   "swear_promise",
+   "wager"
+  ],
+  [
+   "bet_verb",
+   "bet_my_life_on"
+  ]
+ ]
+}

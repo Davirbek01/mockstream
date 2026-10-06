@@ -1,0 +1,463 @@
+{
+ "book": "upper",
+ "unit": 20,
+ "title": "Theatre and cinema",
+ "title_uz": "Teatr va kino",
+ "words": [
+  {
+   "id": "production",
+   "en": "production",
+   "uz": "sahnalashtirilgan spektakl",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Ilkhom Theatre's new production of an old comedy has been sold out for weeks.",
+   "gap": "production",
+   "alt": [
+    "productions"
+   ]
+  },
+  {
+   "id": "sets",
+   "en": "sets",
+   "uz": "dekoratsiyalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sets were so realistic that the stage really looked like an old courtyard in Kokand.",
+   "gap": "sets",
+   "alt": [
+    "set"
+   ]
+  },
+  {
+   "id": "costumes",
+   "en": "costumes",
+   "uz": "sahna liboslari",
+   "pos": "noun",
+   "img": false,
+   "ex": "All the actors' costumes, from silk robes to embroidered caps, were sewn by hand.",
+   "gap": "costumes",
+   "alt": [
+    "costume"
+   ]
+  },
+  {
+   "id": "cast",
+   "en": "cast",
+   "uz": "aktyorlar tarkibi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film has an amazing cast: almost every actor in it has won a major award.",
+   "gap": "cast",
+   "alt": [
+    "casts"
+   ]
+  },
+  {
+   "id": "direction",
+   "en": "direction",
+   "uz": "rejissyorlik ishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the direction of Ravshan Ergashev, the actors move around the stage at great speed and the old play feels fresh again.",
+   "gap": "direction",
+   "alt": []
+  },
+  {
+   "id": "performance",
+   "en": "performance",
+   "uz": "rol ijrosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the old king, Shuhrat gave a moving performance that made half the audience cry.",
+   "gap": "performance",
+   "alt": [
+    "performances"
+   ]
+  },
+  {
+   "id": "rave_reviews",
+   "en": "rave reviews",
+   "uz": "maqtovga to‘la taqrizlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new musical got rave reviews; one newspaper called it the best show of the year.",
+   "gap": "rave reviews",
+   "alt": [
+    "rave review"
+   ]
+  },
+  {
+   "id": "ballet",
+   "en": "ballet",
+   "uz": "balet",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister has taken ballet lessons since she was six and dreams of dancing in Swan Lake one day.",
+   "gap": "ballet",
+   "alt": [
+    "ballets"
+   ]
+  },
+  {
+   "id": "comedian",
+   "en": "comedian",
+   "uz": "kulgu ustasi (hazil aytuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The comedian told jokes about Tashkent traffic, and everyone in the hall was laughing.",
+   "gap": "comedian",
+   "alt": [
+    "comedians"
+   ]
+  },
+  {
+   "id": "entertainer",
+   "en": "entertainer",
+   "uz": "estrada artisti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The New Year party had singers, dancers, a magician and other entertainers performing all night.",
+   "gap": "entertainers",
+   "alt": [
+    "entertainers"
+   ]
+  },
+  {
+   "id": "audience",
+   "en": "audience",
+   "uz": "tomoshabinlar (zaldagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the play, the audience stood up and clapped for ten minutes.",
+   "gap": "audience",
+   "alt": [
+    "audiences"
+   ]
+  },
+  {
+   "id": "viewer",
+   "en": "viewer",
+   "uz": "teletomoshabin",
+   "pos": "noun",
+   "img": false,
+   "ex": "The final episode of the TV series was watched by millions of viewers.",
+   "gap": "viewers",
+   "alt": [
+    "viewers"
+   ]
+  },
+  {
+   "id": "scene",
+   "en": "scene",
+   "uz": "epizod (sahna ko‘rinishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the opening scene, a car races through the busy streets of Istanbul at night.",
+   "gap": "scene",
+   "alt": [
+    "scenes"
+   ]
+  },
+  {
+   "id": "be_set_in",
+   "en": "be set in",
+   "uz": "(voqealar) … da bo‘lib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The film is set in Samarkand in the fifteenth century, when Ulugbek built his observatory.",
+   "gap": "set in",
+   "alt": [
+    "set in",
+    "is set in",
+    "was set in"
+   ]
+  },
+  {
+   "id": "capture",
+   "en": "capture",
+   "uz": "aniq aks ettirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The documentary really captures the noise and colour of Siyob Bazaar in Samarkand early in the morning.",
+   "gap": "captures",
+   "alt": [
+    "captures",
+    "captured",
+    "capturing"
+   ]
+  },
+  {
+   "id": "script",
+   "en": "script",
+   "uz": "matn (pyesa yoki film so‘zlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actors had only one week to learn the script before rehearsals began.",
+   "gap": "script",
+   "alt": [
+    "scripts"
+   ]
+  },
+  {
+   "id": "dialogue",
+   "en": "dialogue",
+   "uz": "dialog (qahramonlar suhbati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dialogue between the two sisters is so natural that it sounds like a real conversation.",
+   "gap": "dialogue",
+   "alt": [
+    "dialog"
+   ]
+  },
+  {
+   "id": "film_director",
+   "en": "director",
+   "uz": "rejissyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Steven Spielberg was the director of both Jaws and E.T.",
+   "gap": "director",
+   "alt": [
+    "directors"
+   ]
+  },
+  {
+   "id": "screenplay",
+   "en": "screenplay",
+   "uz": "kinossenariy",
+   "pos": "noun",
+   "img": false,
+   "ex": "She wrote the screenplay but was unhappy when the director changed the ending during filming.",
+   "gap": "screenplay",
+   "alt": [
+    "screenplays"
+   ]
+  },
+  {
+   "id": "score",
+   "en": "score",
+   "uz": "film musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hans Zimmer's score for Interstellar is famous for its powerful church organ.",
+   "gap": "score",
+   "alt": [
+    "scores"
+   ]
+  },
+  {
+   "id": "stage",
+   "en": "stage",
+   "uz": "sahna (ijro maydoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the singer walked onto the stage, the crowd went wild.",
+   "gap": "stage",
+   "alt": [
+    "stages"
+   ]
+  },
+  {
+   "id": "whats_on",
+   "en": "what's on",
+   "uz": "nima qo‘yilyapti (afishada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Let's check what's on at the cinema this weekend before we decide.",
+   "gap": "what's on",
+   "alt": [
+    "what is on",
+    "whats on"
+   ]
+  },
+  {
+   "id": "venue",
+   "en": "venue",
+   "uz": "tadbir o‘tkaziladigan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old cotton mill has been turned into a venue for concerts and exhibitions.",
+   "gap": "venue",
+   "alt": [
+    "venues"
+   ]
+  },
+  {
+   "id": "promote",
+   "en": "promote",
+   "uz": "reklama qilmoq (targ‘ib qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The actors travelled to five cities to promote their new film before it opened.",
+   "gap": "promote",
+   "alt": [
+    "promotes",
+    "promoted",
+    "promoting"
+   ]
+  },
+  {
+   "id": "appear_in",
+   "en": "appear in",
+   "uz": "(spektakl, filmda) rol o‘ynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamron is appearing in a new comedy at the Youth Theatre every evening this month.",
+   "gap": "appearing in",
+   "alt": [
+    "appears in",
+    "appeared in",
+    "appearing in"
+   ]
+  },
+  {
+   "id": "location",
+   "en": "location",
+   "uz": "suratga olish joyi (manzil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film crew chose an abandoned fortress in the desert as the main location for the film.",
+   "gap": "location",
+   "alt": [
+    "locations"
+   ]
+  },
+  {
+   "id": "versatile",
+   "en": "versatile",
+   "uz": "ko‘p maqsadli (turli ishga yaraydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new arts centre has a versatile hall that can become a cinema, a concert space or a dance studio in an hour.",
+   "gap": "versatile",
+   "alt": []
+  },
+  {
+   "id": "promotion_publicity",
+   "en": "promotion",
+   "uz": "reklama, targ‘ibot (yangi asar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer's tour of radio stations was part of the promotion for her new album.",
+   "gap": "promotion",
+   "alt": [
+    "promotions"
+   ]
+  },
+  {
+   "id": "appearance",
+   "en": "appearance",
+   "uz": "chiqish (sahnada, efirda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actor made a surprise appearance at the end of the show, and the fans screamed with delight.",
+   "gap": "appearance",
+   "alt": [
+    "appearances"
+   ]
+  },
+  {
+   "id": "show",
+   "en": "show",
+   "uz": "tomosha (sahna dasturi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tickets for the magic show at the circus sold out within a day.",
+   "gap": "show",
+   "alt": [
+    "shows"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "production",
+   "performance"
+  ],
+  [
+   "sets",
+   "costumes"
+  ],
+  [
+   "script",
+   "screenplay"
+  ],
+  [
+   "script",
+   "dialogue"
+  ],
+  [
+   "screenplay",
+   "dialogue"
+  ],
+  [
+   "audience",
+   "viewer"
+  ],
+  [
+   "scene",
+   "stage"
+  ],
+  [
+   "direction",
+   "film_director"
+  ],
+  [
+   "comedian",
+   "entertainer"
+  ],
+  [
+   "production",
+   "venue"
+  ],
+  [
+   "ballet",
+   "production"
+  ],
+  [
+   "venue",
+   "stage"
+  ],
+  [
+   "location",
+   "sets"
+  ],
+  [
+   "location",
+   "setting"
+  ],
+  [
+   "location",
+   "venue"
+  ],
+  [
+   "promotion_publicity",
+   "promote"
+  ],
+  [
+   "appearance",
+   "performance"
+  ],
+  [
+   "appearance",
+   "appear_in"
+  ],
+  [
+   "show",
+   "performance"
+  ],
+  [
+   "show",
+   "production"
+  ],
+  [
+   "location",
+   "scene"
+  ],
+  [
+   "location",
+   "stage"
+  ]
+ ]
+}

@@ -1,0 +1,432 @@
+{
+ "book": "advanced",
+ "unit": 85,
+ "title": "Abbreviations and acronyms",
+ "title_uz": "Qisqartmalar va akronimlar",
+ "words": [
+  {
+   "id": "eg",
+   "en": "e.g.",
+   "uz": "masalan (yozuvda)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Bring something warm to wear, e.g. a jacket or a thick sweater, because the evenings get cold.",
+   "gap": "e.g.",
+   "alt": [
+    "eg",
+    "e.g"
+   ]
+  },
+  {
+   "id": "ie",
+   "en": "i.e.",
+   "uz": "ya’ni (yozuvda)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The course is for complete beginners, i.e. people who have never studied Korean before.",
+   "gap": "i.e.",
+   "alt": [
+    "ie",
+    "i.e"
+   ]
+  },
+  {
+   "id": "nb",
+   "en": "NB",
+   "uz": "diqqat, muhim eslatma",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "At the bottom of the exam paper was a warning: 'NB: calculators are not allowed.'",
+   "gap": "NB",
+   "alt": [
+    "N.B."
+   ]
+  },
+  {
+   "id": "iq",
+   "en": "IQ",
+   "uz": "aql darajasi ko‘rsatkichi",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Doing well at school depends on hard work at least as much as on a high IQ.",
+   "gap": "IQ",
+   "alt": []
+  },
+  {
+   "id": "pto",
+   "en": "PTO",
+   "uz": "orqa betga qarang",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "In the bottom corner of the first page was the note 'PTO', so I turned the sheet over.",
+   "gap": "PTO",
+   "alt": [
+    "P.T.O."
+   ]
+  },
+  {
+   "id": "asap",
+   "en": "ASAP",
+   "uz": "imkon qadar tezroq",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Please send me the signed form ASAP; the deadline is this afternoon.",
+   "gap": "ASAP",
+   "alt": [
+    "asap"
+   ]
+  },
+  {
+   "id": "vip",
+   "en": "VIP",
+   "uz": "o‘ta muhim mehmon",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Only VIP guests were allowed into the private lounge behind the stage.",
+   "gap": "VIP",
+   "alt": [
+    "VIPs"
+   ]
+  },
+  {
+   "id": "rsvp",
+   "en": "RSVP",
+   "uz": "javob berishingizni so‘raymiz",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The birthday invitation said 'RSVP by 10 May', so I texted my reply that same evening.",
+   "gap": "RSVP",
+   "alt": []
+  },
+  {
+   "id": "ad",
+   "en": "AD",
+   "uz": "milodiy (yil sanog‘ida)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The town's old fortress walls were built in about AD 900, and parts of them still stand today.",
+   "gap": "AD",
+   "alt": [
+    "A.D."
+   ]
+  },
+  {
+   "id": "bc",
+   "en": "BC",
+   "uz": "miloddan avvalgi",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The oldest coins found at the site date from the fourth century BC, long before the town had a name.",
+   "gap": "BC",
+   "alt": [
+    "B.C."
+   ]
+  },
+  {
+   "id": "ufo",
+   "en": "UFO",
+   "uz": "noma’lum uchar jism",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Several villagers claimed they had seen a UFO, but it turned out to be a weather balloon.",
+   "gap": "UFO",
+   "alt": [
+    "UFOs"
+   ]
+  },
+  {
+   "id": "id_document",
+   "en": "ID",
+   "uz": "shaxsni tasdiqlovchi hujjat",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "You'll need to show your ID at the front desk before you can enter the building.",
+   "gap": "ID",
+   "alt": [
+    "ID card"
+   ]
+  },
+  {
+   "id": "usb",
+   "en": "USB",
+   "uz": "kompyuterga qurilma ulash standarti",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "I saved the presentation on a USB stick in case the laptop in the hall didn't work.",
+   "gap": "USB",
+   "alt": [
+    "USB stick"
+   ]
+  },
+  {
+   "id": "bedsit",
+   "en": "bedsit",
+   "uz": "bir xonali ijara uy (yotoq ham, zal ham)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a student he rented a tiny bedsit, where his bed also served as his sofa.",
+   "gap": "bedsit",
+   "alt": [
+    "bedsits"
+   ]
+  },
+  {
+   "id": "sitcom",
+   "en": "sitcom",
+   "uz": "kulgili teleserial (vaziyatlar asosida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new sitcom is set in a busy hairdresser's, and every episode turns one small misunderstanding into chaos.",
+   "gap": "sitcom",
+   "alt": [
+    "sitcoms"
+   ]
+  },
+  {
+   "id": "sci_fi",
+   "en": "sci-fi",
+   "uz": "ilmiy fantastika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mirjalol loves sci-fi films about space travel and intelligent robots.",
+   "gap": "sci-fi",
+   "alt": [
+    "sci fi",
+    "scifi"
+   ]
+  },
+  {
+   "id": "info",
+   "en": "info",
+   "uz": "ma’lumot (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For more info about opening times, check the museum's website.",
+   "gap": "info",
+   "alt": []
+  },
+  {
+   "id": "biodata",
+   "en": "biodata",
+   "uz": "tarjimayi hol ma’lumotlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Applicants should send their biodata, including details of their education and work history.",
+   "gap": "biodata",
+   "alt": []
+  },
+  {
+   "id": "biopic",
+   "en": "biopic",
+   "uz": "real shaxs hayoti haqidagi film",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film festival opened with a biopic of a real-life mountain climber, played by a young unknown actor.",
+   "gap": "biopic",
+   "alt": [
+    "biopics"
+   ]
+  },
+  {
+   "id": "vat",
+   "en": "VAT",
+   "uz": "qo‘shilgan qiymat solig‘i",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The price on the label doesn't include VAT, so you'll pay a little more at the till.",
+   "gap": "VAT",
+   "alt": []
+  },
+  {
+   "id": "fig",
+   "en": "fig.",
+   "uz": "rasm, chizma (raqam bilan)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The results of the survey are shown in the bar chart in fig. 3.",
+   "gap": "fig.",
+   "alt": [
+    "fig"
+   ]
+  },
+  {
+   "id": "pp",
+   "en": "pp.",
+   "uz": "sahifalar (oraliq)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Please read pp. 40–55 of the coursebook before Monday's seminar.",
+   "gap": "pp.",
+   "alt": [
+    "pp"
+   ]
+  },
+  {
+   "id": "cf",
+   "en": "cf.",
+   "uz": "solishtiring (manbaga ishora)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "His results were quite different from those of earlier studies (cf. Karimova 2019).",
+   "gap": "cf.",
+   "alt": [
+    "cf"
+   ]
+  },
+  {
+   "id": "et_al",
+   "en": "et al.",
+   "uz": "va boshqa hammualliflar",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The study by Rahimov et al. involved researchers from three different universities.",
+   "gap": "et al.",
+   "alt": [
+    "et al"
+   ]
+  },
+  {
+   "id": "ed",
+   "en": "ed.",
+   "uz": "muharrir (manbalar ro‘yxatida)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "In your reference list, write '(ed.)' after the name of the person who edited the collection.",
+   "gap": "ed.",
+   "alt": [
+    "eds.",
+    "ed"
+   ]
+  },
+  {
+   "id": "ce",
+   "en": "CE",
+   "uz": "milodiy (umumiy era hisobida)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The mosque's oldest wall dates from about 1100 CE, roughly nine hundred years ago.",
+   "gap": "CE",
+   "alt": [
+    "C.E."
+   ]
+  },
+  {
+   "id": "bce",
+   "en": "BCE",
+   "uz": "umumiy eradan avvalgi",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The bronze mirror was made around 500 BCE, about two and a half thousand years ago.",
+   "gap": "BCE",
+   "alt": [
+    "B.C.E."
+   ]
+  },
+  {
+   "id": "eu",
+   "en": "EU",
+   "uz": "Yevropa Ittifoqi",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Croatia joined the EU in 2013 and adopted the single currency ten years later.",
+   "gap": "EU",
+   "alt": [
+    "the EU"
+   ]
+  },
+  {
+   "id": "aids",
+   "en": "AIDS",
+   "uz": "OITS (immunitet tanqisligi kasalligi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The clinic offers free, confidential tests for HIV, the virus that can lead to AIDS.",
+   "gap": "AIDS",
+   "alt": []
+  },
+  {
+   "id": "nato",
+   "en": "NATO",
+   "uz": "Shimoliy Atlantika harbiy ittifoqi",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Finland joined NATO in 2023, ending many decades of military neutrality.",
+   "gap": "NATO",
+   "alt": []
+  },
+  {
+   "id": "acronym",
+   "en": "acronym",
+   "uz": "so‘zdek o‘qiladigan qisqartma",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Laser' began life as an acronym, but because people say it as one word, few remember what the letters stand for.",
+   "gap": "acronym",
+   "alt": [
+    "acronyms"
+   ]
+  },
+  {
+   "id": "abbreviation",
+   "en": "abbreviation",
+   "uz": "qisqartma (so‘zning qisqa shakli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On maps and envelopes, 'St' is a common abbreviation for 'Street'.",
+   "gap": "abbreviation",
+   "alt": [
+    "abbreviations"
+   ]
+  },
+  {
+   "id": "p_page",
+   "en": "p.",
+   "uz": "sahifa (bitta, havolada)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The map of the old city is on p. 112, the very last page of the guidebook.",
+   "gap": "p.",
+   "alt": [
+    "p"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "eg",
+   "ie"
+  ],
+  [
+   "ad",
+   "bc"
+  ],
+  [
+   "info",
+   "biodata"
+  ],
+  [
+   "cf",
+   "eg"
+  ],
+  [
+   "cf",
+   "ie"
+  ],
+  [
+   "ce",
+   "ad"
+  ],
+  [
+   "bce",
+   "bc"
+  ],
+  [
+   "acronym",
+   "abbreviation"
+  ],
+  [
+   "p_page",
+   "fig"
+  ]
+ ]
+}

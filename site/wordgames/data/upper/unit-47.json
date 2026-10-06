@@ -1,0 +1,377 @@
+{
+ "book": "upper",
+ "unit": 47,
+ "title": "What your body does",
+ "title_uz": "Tanangiz nima qiladi",
+ "words": [
+  {
+   "id": "yawn",
+   "en": "yawn",
+   "uz": "esnamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After staying up late to finish his project, Ilhom kept yawning behind his hand all through the first lesson.",
+   "gap": "yawning",
+   "alt": [
+    "yawns",
+    "yawned",
+    "yawning"
+   ]
+  },
+  {
+   "id": "sneeze",
+   "en": "sneeze",
+   "uz": "aksirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Black pepper always makes me sneeze, so I keep it far away from my nose when I cook.",
+   "gap": "sneeze",
+   "alt": [
+    "sneezes",
+    "sneezed",
+    "sneezing"
+   ]
+  },
+  {
+   "id": "snore",
+   "en": "snore",
+   "uz": "xurrak otmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the overnight train to Urgench, the man in the bunk above me snored so loudly that I hardly slept at all.",
+   "gap": "snored",
+   "alt": [
+    "snores",
+    "snored",
+    "snoring"
+   ]
+  },
+  {
+   "id": "cough",
+   "en": "cough",
+   "uz": "yo‘talmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A crumb went down the wrong way, and Akmal started to cough so hard that his face turned red.",
+   "gap": "cough",
+   "alt": [
+    "coughs",
+    "coughed",
+    "coughing"
+   ]
+  },
+  {
+   "id": "sigh",
+   "en": "sigh",
+   "uz": "chuqur xo‘rsinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the coach read out the team list and his name wasn't on it, Sherzod sighed heavily and walked slowly back to the bench.",
+   "gap": "sighed",
+   "alt": [
+    "sighs",
+    "sighed",
+    "sighing"
+   ]
+  },
+  {
+   "id": "out_of_breath",
+   "en": "out of breath",
+   "uz": "hansirab qolgan, nafasi tiqilgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The lift wasn't working, so I ran up all nine floors, and by the time I reached our flat I was completely out of breath.",
+   "gap": "out of breath",
+   "alt": []
+  },
+  {
+   "id": "take_a_deep_breath",
+   "en": "take a deep breath",
+   "uz": "chuqur nafas olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before stepping onto the stage to give her speech, Madina took a deep breath to calm her nerves.",
+   "gap": "took a deep breath",
+   "alt": [
+    "takes a deep breath",
+    "took a deep breath",
+    "taking a deep breath"
+   ]
+  },
+  {
+   "id": "hold_your_breath",
+   "en": "hold your breath",
+   "uz": "nafasni ushlab turmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the clinic, I had to stand still and hold my breath for a few seconds while the X-ray was taken.",
+   "gap": "hold my breath",
+   "alt": [
+    "hold my breath",
+    "held my breath",
+    "holds his breath",
+    "held his breath",
+    "holding your breath"
+   ]
+  },
+  {
+   "id": "breathe",
+   "en": "breathe",
+   "uz": "nafas olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The air high up in the Zomin mountains is so fresh and clean that it's a pleasure just to breathe.",
+   "gap": "breathe",
+   "alt": [
+    "breathes",
+    "breathed",
+    "breathing"
+   ]
+  },
+  {
+   "id": "chew",
+   "en": "chew",
+   "uz": "chaynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister eats so fast that she hardly chews her food at all.",
+   "gap": "chews",
+   "alt": [
+    "chews",
+    "chewed",
+    "chewing"
+   ]
+  },
+  {
+   "id": "rumble",
+   "en": "rumble",
+   "uz": "(qorin) quldiramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I had missed breakfast, and in the middle of the silent exam hall my stomach started to rumble loudly.",
+   "gap": "rumble",
+   "alt": [
+    "rumbles",
+    "rumbled",
+    "rumbling"
+   ]
+  },
+  {
+   "id": "swallow",
+   "en": "swallow",
+   "uz": "yutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother can't swallow big tablets whole, so the doctor gave him the medicine as a syrup instead.",
+   "gap": "swallow",
+   "alt": [
+    "swallows",
+    "swallowed",
+    "swallowing"
+   ]
+  },
+  {
+   "id": "suck",
+   "en": "suck",
+   "uz": "so‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Laylo was too ill to eat anything, so she slowly sucked small pieces of ice, letting them melt on her tongue.",
+   "gap": "sucked",
+   "alt": [
+    "sucks",
+    "sucked",
+    "sucking"
+   ]
+  },
+  {
+   "id": "lick",
+   "en": "lick",
+   "uz": "yalamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was so hot in Bukhara that our ice creams were melting, and we had to lick them quickly before they dripped onto our hands.",
+   "gap": "lick",
+   "alt": [
+    "licks",
+    "licked",
+    "licking"
+   ]
+  },
+  {
+   "id": "bite",
+   "en": "bite",
+   "uz": "tishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Be careful when you bite into a hot samsa straight from the oven; the filling can burn your mouth.",
+   "gap": "bite",
+   "alt": [
+    "bites",
+    "bit",
+    "bitten",
+    "biting"
+   ]
+  },
+  {
+   "id": "wink",
+   "en": "wink",
+   "uz": "ko‘z qismoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our coach winked at me as he spoke, so I knew he was only joking about making us run ten extra laps.",
+   "gap": "winked",
+   "alt": [
+    "winks",
+    "winked",
+    "winking"
+   ]
+  },
+  {
+   "id": "frown",
+   "en": "frown",
+   "uz": "qovoq solmoq, qosh chimirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our teacher frowned so deeply at my messy homework that two lines appeared between her eyebrows.",
+   "gap": "frowned",
+   "alt": [
+    "frowns",
+    "frowned",
+    "frowning"
+   ]
+  },
+  {
+   "id": "grin",
+   "en": "grin",
+   "uz": "tirjaymoq, og‘zi qulog‘ida kulmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When he saw the new bike in the yard, my little brother grinned so widely that we could see the gap where his front tooth was missing.",
+   "gap": "grinned",
+   "alt": [
+    "grins",
+    "grinned",
+    "grinning"
+   ]
+  },
+  {
+   "id": "blink",
+   "en": "blink",
+   "uz": "ko‘zni pirpiratmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Coming out of the dark cinema into the bright afternoon sun, we all blinked until our eyes got used to the light.",
+   "gap": "blinked",
+   "alt": [
+    "blinks",
+    "blinked",
+    "blinking"
+   ]
+  },
+  {
+   "id": "blush",
+   "en": "blush",
+   "uz": "(uyalib) qizarib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ziyoda is so shy that she blushes bright red whenever a teacher praises her in front of the class.",
+   "gap": "blushes",
+   "alt": [
+    "blushes",
+    "blushed",
+    "blushing"
+   ]
+  },
+  {
+   "id": "sweat",
+   "en": "sweat",
+   "uz": "terlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After an hour of football in the July heat, we were all sweating and desperate for a cold drink.",
+   "gap": "sweating",
+   "alt": [
+    "sweats",
+    "sweated",
+    "sweating"
+   ]
+  },
+  {
+   "id": "perspire",
+   "en": "perspire",
+   "uz": "terlamoq (rasmiy uslub)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Patients who perspire heavily at night, waking up with damp sheets, are advised to inform their doctor.",
+   "gap": "perspire",
+   "alt": [
+    "perspires",
+    "perspired",
+    "perspiring"
+   ]
+  },
+  {
+   "id": "perspiration",
+   "en": "perspiration",
+   "uz": "ter (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On hot days, perspiration helps to keep the body cool.",
+   "gap": "perspiration",
+   "alt": []
+  },
+  {
+   "id": "breath",
+   "en": "breath",
+   "uz": "nafas (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was so cold at the bus stop that we could see our breath in the air.",
+   "gap": "breath",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "sneeze",
+   "cough"
+  ],
+  [
+   "breathe",
+   "take_a_deep_breath"
+  ],
+  [
+   "suck",
+   "lick"
+  ],
+  [
+   "wink",
+   "grin"
+  ],
+  [
+   "sweat",
+   "perspire"
+  ],
+  [
+   "lick",
+   "bite"
+  ],
+  [
+   "sweat",
+   "out_of_breath"
+  ],
+  [
+   "perspiration",
+   "sweat"
+  ],
+  [
+   "perspiration",
+   "perspire"
+  ],
+  [
+   "breath",
+   "breathe"
+  ]
+ ]
+}

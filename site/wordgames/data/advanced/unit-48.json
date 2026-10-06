@@ -1,0 +1,478 @@
+{
+ "book": "advanced",
+ "unit": 48,
+ "title": "The media: internet and email",
+ "title_uz": "OAV: internet va elektron pochta",
+ "words": [
+  {
+   "id": "pros_and_cons",
+   "en": "pros and cons",
+   "uz": "afzallik va kamchiliklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before buying the tablet, we sat down and discussed the pros and cons of every model.",
+   "gap": "pros and cons",
+   "alt": []
+  },
+  {
+   "id": "instant_messaging",
+   "en": "instant messaging",
+   "uz": "tezkor xabar almashish",
+   "pos": "noun",
+   "img": false,
+   "ex": "With instant messaging, my classmate in Namangan and I can chat in real time while we do our homework.",
+   "gap": "instant messaging",
+   "alt": []
+  },
+  {
+   "id": "chat_room",
+   "en": "chat room",
+   "uz": "onlayn suhbat xonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the online chat room for young chess players, people come and go all evening.",
+   "gap": "chat room",
+   "alt": [
+    "chat rooms",
+    "chatroom"
+   ]
+  },
+  {
+   "id": "newsgroup",
+   "en": "newsgroup",
+   "uz": "qiziqishlar bo‘yicha axborot guruhi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad joined a newsgroup for amateur astronomers, where members share news about comets and eclipses.",
+   "gap": "newsgroup",
+   "alt": [
+    "newsgroups"
+   ]
+  },
+  {
+   "id": "social_networking_site",
+   "en": "social networking site",
+   "uz": "ijtimoiy tarmoq sayti",
+   "pos": "noun",
+   "img": false,
+   "ex": "She keeps in touch with her old school friends through a social networking site.",
+   "gap": "social networking site",
+   "alt": [
+    "social networking sites"
+   ]
+  },
+  {
+   "id": "webinar",
+   "en": "webinar",
+   "uz": "internet orqali o‘tkaziladigan seminar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher signed us up for a free webinar on how to prepare for the IELTS speaking test.",
+   "gap": "webinar",
+   "alt": [
+    "webinars"
+   ]
+  },
+  {
+   "id": "e_commerce",
+   "en": "e-commerce",
+   "uz": "elektron tijorat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to e-commerce, a small embroidery workshop in Bekabad now sells its cushion covers to buyers in Canada and Japan.",
+   "gap": "e-commerce",
+   "alt": [
+    "ecommerce"
+   ]
+  },
+  {
+   "id": "e_book",
+   "en": "e-book",
+   "uz": "elektron kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since she started commuting by metro, Shahlo reads a novel a week as an e-book on her phone.",
+   "gap": "e-book",
+   "alt": [
+    "e-books",
+    "ebook"
+   ]
+  },
+  {
+   "id": "e_learning",
+   "en": "e-learning",
+   "uz": "onlayn (masofaviy) ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "When heavy snow closed the mountain roads, the village school switched to e-learning for a fortnight.",
+   "gap": "e-learning",
+   "alt": [
+    "elearning"
+   ]
+  },
+  {
+   "id": "internet_banking",
+   "en": "internet banking",
+   "uz": "onlayn bank xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "With internet banking, my parents pay the gas bill from the sofa instead of queuing at the bank.",
+   "gap": "internet banking",
+   "alt": []
+  },
+  {
+   "id": "surf_the_web",
+   "en": "surf the web",
+   "uz": "internetda kezmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother could spend hours surfing the web if nobody stopped him.",
+   "gap": "surfing the web",
+   "alt": [
+    "surfing the web",
+    "surfed the web",
+    "surfs the web"
+   ]
+  },
+  {
+   "id": "attachment",
+   "en": "attachment",
+   "uz": "xatga biriktirilgan fayl",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm sending you the photos as an attachment because they're too big to paste into the message.",
+   "gap": "attachment",
+   "alt": [
+    "attachments"
+   ]
+  },
+  {
+   "id": "file_sharing",
+   "en": "file-sharing",
+   "uz": "fayl almashish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The university blocked file-sharing on its network after students were caught swapping pirated films.",
+   "gap": "file-sharing",
+   "alt": [
+    "file sharing"
+   ]
+  },
+  {
+   "id": "gaming",
+   "en": "gaming",
+   "uz": "video o‘yinlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "His love of gaming led him to study computer programming, and now he designs puzzle games himself.",
+   "gap": "gaming",
+   "alt": []
+  },
+  {
+   "id": "isp",
+   "en": "ISP",
+   "uz": "internet provayderi",
+   "pos": "noun",
+   "img": false,
+   "ex": "If your internet keeps cutting out, call your ISP and ask them to check the line.",
+   "gap": "ISP",
+   "alt": [
+    "ISPs"
+   ]
+  },
+  {
+   "id": "hack",
+   "en": "hack",
+   "uz": "(akkauntni) buzib kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone hacked my sister's account and sent strange messages to all her friends.",
+   "gap": "hacked",
+   "alt": [
+    "hacked",
+    "hacks",
+    "hacking"
+   ]
+  },
+  {
+   "id": "download",
+   "en": "download",
+   "uz": "(internetdan) yuklab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took nearly an hour to download the whole film on the hotel's slow Wi-Fi.",
+   "gap": "download",
+   "alt": [
+    "downloaded",
+    "downloads",
+    "downloading"
+   ]
+  },
+  {
+   "id": "upload",
+   "en": "upload",
+   "uz": "(internetga fayl) yuklamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Students must upload their essays to the school website before midnight on Sunday.",
+   "gap": "upload",
+   "alt": [
+    "uploaded",
+    "uploads",
+    "uploading"
+   ]
+  },
+  {
+   "id": "spam",
+   "en": "spam",
+   "uz": "keraksiz reklama xatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "My inbox fills up with spam every day: adverts for fake prizes, cheap watches and miracle diets.",
+   "gap": "spam",
+   "alt": []
+  },
+  {
+   "id": "junk_mail",
+   "en": "junk mail",
+   "uz": "keraksiz pochta",
+   "pos": "noun",
+   "img": false,
+   "ex": "I set up a rule that sends junk mail straight to the bin without me seeing it.",
+   "gap": "junk mail",
+   "alt": []
+  },
+  {
+   "id": "addictive",
+   "en": "addictive",
+   "uz": "o‘ziga qaram qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some puzzle games are so addictive that you look up and suddenly it's two in the morning.",
+   "gap": "addictive",
+   "alt": []
+  },
+  {
+   "id": "cookies",
+   "en": "cookies",
+   "uz": "brauzerdagi kuzatuvchi fayllar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ever since I searched for hiking boots, the cookies stored on my laptop have made boot adverts follow me to every website I visit.",
+   "gap": "cookies",
+   "alt": [
+    "cookie"
+   ]
+  },
+  {
+   "id": "offensive_material",
+   "en": "offensive material",
+   "uz": "haqoratli (zararli) kontent",
+   "pos": "noun",
+   "img": false,
+   "ex": "The forum's moderators delete offensive material, such as cruel jokes about people's religion or race, within minutes.",
+   "gap": "offensive material",
+   "alt": []
+  },
+  {
+   "id": "parental_control",
+   "en": "parental control",
+   "uz": "ota-ona nazorati",
+   "pos": "noun",
+   "img": false,
+   "ex": "My aunt set up parental control on the family tablet, so my six-year-old cousin can only open apps she has approved.",
+   "gap": "parental control",
+   "alt": [
+    "parental controls"
+   ]
+  },
+  {
+   "id": "bookmark",
+   "en": "bookmark",
+   "uz": "(saytni) xatcho‘pga qo‘shmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our teacher told us to bookmark the page with the exam timetable so that we could open it with one click.",
+   "gap": "bookmark",
+   "alt": [
+    "bookmarked",
+    "bookmarks",
+    "bookmarking"
+   ]
+  },
+  {
+   "id": "subscribe_to",
+   "en": "subscribe to",
+   "uz": "obuna bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you subscribe to the museum's mailing list, you get an email about every new exhibition.",
+   "gap": "subscribe to",
+   "alt": [
+    "subscribed to",
+    "subscribes to",
+    "subscribing to"
+   ]
+  },
+  {
+   "id": "filter_out",
+   "en": "filter out",
+   "uz": "saralab chiqarib tashlamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The school network filters out gaming sites during lessons, so nobody can play in class.",
+   "gap": "filters out",
+   "alt": [
+    "filtered out",
+    "filters out",
+    "filtering out"
+   ]
+  },
+  {
+   "id": "server",
+   "en": "server",
+   "uz": "markaziy kompyuter (tarmoqda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school's server crashed on the morning of the online test, so nobody could log in.",
+   "gap": "server",
+   "alt": [
+    "servers"
+   ]
+  },
+  {
+   "id": "server_down",
+   "en": "down",
+   "uz": "(server, sayt) ishlamay turgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bank's website was down all morning, so I couldn't pay my phone bill until the afternoon.",
+   "gap": "down",
+   "alt": []
+  },
+  {
+   "id": "anti_virus_software",
+   "en": "anti-virus software",
+   "uz": "virusga qarshi dastur",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our laptop slowed to a crawl until the anti-virus software found and removed a nasty program.",
+   "gap": "anti-virus software",
+   "alt": [
+    "antivirus software"
+   ]
+  },
+  {
+   "id": "email_bounce",
+   "en": "bounce",
+   "uz": "(xat) jo‘natuvchiga qaytib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My email bounced because I had typed one letter of the address wrong.",
+   "gap": "bounced",
+   "alt": [
+    "bounced",
+    "bounces",
+    "bouncing"
+   ]
+  },
+  {
+   "id": "post_online",
+   "en": "post",
+   "uz": "(ijtimoiy tarmoqqa) joylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin posts a short video of her own baking experiments for her followers every Friday evening.",
+   "gap": "posts",
+   "alt": [
+    "posts",
+    "posted",
+    "posting"
+   ]
+  },
+  {
+   "id": "graphic_images",
+   "en": "graphic images",
+   "uz": "raqamli rasm va tasvirlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The gallery's website loads slowly because it is full of large graphic images of every painting.",
+   "gap": "graphic images",
+   "alt": [
+    "graphic image"
+   ]
+  },
+  {
+   "id": "screen_out",
+   "en": "screen out",
+   "uz": "to‘sib qolmoq (o‘tkazmaslik)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Our new email provider screens out most unwanted adverts before they ever reach my inbox.",
+   "gap": "screens out",
+   "alt": [
+    "screens out",
+    "screened out",
+    "screening out"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "spam",
+   "junk_mail"
+  ],
+  [
+   "upload",
+   "post_online"
+  ],
+  [
+   "download",
+   "upload"
+  ],
+  [
+   "instant_messaging",
+   "chat_room"
+  ],
+  [
+   "chat_room",
+   "newsgroup"
+  ],
+  [
+   "newsgroup",
+   "social_networking_site"
+  ],
+  [
+   "chat_room",
+   "social_networking_site"
+  ],
+  [
+   "filter_out",
+   "bookmark"
+  ],
+  [
+   "cookies",
+   "spam"
+  ],
+  [
+   "e_commerce",
+   "internet_banking"
+  ],
+  [
+   "e_learning",
+   "webinar"
+  ],
+  [
+   "bookmark",
+   "download"
+  ],
+  [
+   "screen_out",
+   "filter_out"
+  ],
+  [
+   "screen_out",
+   "parental_control"
+  ]
+ ]
+}

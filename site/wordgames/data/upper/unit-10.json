@@ -1,0 +1,945 @@
+{
+ "book": "upper",
+ "unit": 10,
+ "title": "Relationships",
+ "title_uz": "Munosabatlar",
+ "words": [
+  {
+   "id": "acquaintance",
+   "en": "acquaintance",
+   "uz": "tanish (yaqin emas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I don't know him well; he's just a casual acquaintance I've met a couple of times at the gym.",
+   "gap": "acquaintance",
+   "alt": [
+    "acquaintances"
+   ]
+  },
+  {
+   "id": "housemate",
+   "en": "housemate",
+   "uz": "bir uyda yashaydigan sherik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Four of us share a house near the university, and my housemates and I take turns cooking.",
+   "gap": "housemates",
+   "alt": [
+    "housemates"
+   ]
+  },
+  {
+   "id": "flatmate",
+   "en": "flatmate",
+   "uz": "kvartiradagi sherik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My flatmate and I rent a two-room flat on the ninth floor in Chilonzor.",
+   "gap": "flatmate",
+   "alt": [
+    "flatmates"
+   ]
+  },
+  {
+   "id": "workmate",
+   "en": "workmate",
+   "uz": "ishdagi o‘rtoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Fridays I have lunch in the factory canteen with my workmates; we've worked on the same line for years.",
+   "gap": "workmates",
+   "alt": [
+    "workmates"
+   ]
+  },
+  {
+   "id": "colleague",
+   "en": "colleague",
+   "uz": "hamkasb",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dr Rahimova discussed the difficult case with a colleague from the heart department.",
+   "gap": "colleague",
+   "alt": [
+    "colleagues"
+   ]
+  },
+  {
+   "id": "ex",
+   "en": "ex",
+   "uz": "sobiq sevgilisi (yoki turmush o‘rtog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She's still on good terms with her ex, even though they broke up two years ago.",
+   "gap": "ex",
+   "alt": []
+  },
+  {
+   "id": "steady",
+   "en": "steady",
+   "uz": "barqaror, doimiy (munosabat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a few short romances, he's now in a steady relationship and plans to get married next year.",
+   "gap": "steady",
+   "alt": []
+  },
+  {
+   "id": "partner",
+   "en": "partner",
+   "uz": "sherik (biznesda yoki hayotda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum and her business partner opened a small bakery together near Alay Bazaar.",
+   "gap": "partner",
+   "alt": [
+    "partners"
+   ]
+  },
+  {
+   "id": "mother_in_law",
+   "en": "mother-in-law",
+   "uz": "qaynona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora lives with her husband's family and gets on very well with her mother-in-law, who helps her look after the baby.",
+   "gap": "mother-in-law",
+   "alt": [
+    "mothers-in-law"
+   ]
+  },
+  {
+   "id": "parents_in_law",
+   "en": "parents-in-law",
+   "uz": "qaynota va qaynona",
+   "pos": "noun",
+   "img": false,
+   "ex": "His wife's parents live nearby, so Farrux visits his parents-in-law every Friday.",
+   "gap": "parents-in-law",
+   "alt": []
+  },
+  {
+   "id": "contacts",
+   "en": "contacts",
+   "uz": "kontaktlar (aloqadagi tanishlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone has over 500 contacts, but I only message about ten of them.",
+   "gap": "contacts",
+   "alt": [
+    "contact"
+   ]
+  },
+  {
+   "id": "tag",
+   "en": "tag",
+   "uz": "(rasmda) belgilab qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't tag me in that photo; I look terrible in it!",
+   "gap": "tag",
+   "alt": [
+    "tagged",
+    "tags",
+    "tagging"
+   ]
+  },
+  {
+   "id": "adore",
+   "en": "adore",
+   "uz": "jonidan ortiq yaxshi ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister absolutely adores her kitten and carries it everywhere.",
+   "gap": "adores",
+   "alt": [
+    "adores",
+    "adored"
+   ]
+  },
+  {
+   "id": "idolise",
+   "en": "idolise",
+   "uz": "sig‘inmoq, but qilib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As a teenager, he idolised Cristiano Ronaldo and had posters of him all over his bedroom walls.",
+   "gap": "idolised",
+   "alt": [
+    "idolize",
+    "idolised",
+    "idolized",
+    "idolises"
+   ]
+  },
+  {
+   "id": "loathe",
+   "en": "loathe",
+   "uz": "jinidan yomon ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I loathe getting up before sunrise in winter; it's the worst part of my day.",
+   "gap": "loathe",
+   "alt": [
+    "loathes",
+    "loathed"
+   ]
+  },
+  {
+   "id": "cant_stand",
+   "en": "can't stand",
+   "uz": "toqat qilolmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "My dad can't stand loud music in the car, so we always listen to the news.",
+   "gap": "can't stand",
+   "alt": [
+    "cannot stand",
+    "couldn't stand"
+   ]
+  },
+  {
+   "id": "look_up_to",
+   "en": "look up to",
+   "uz": "o‘rnak deb bilmoq, hurmat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The younger players really look up to our captain because he trains harder than anyone.",
+   "gap": "look up to",
+   "alt": [
+    "looks up to",
+    "looked up to"
+   ]
+  },
+  {
+   "id": "admire",
+   "en": "admire",
+   "uz": "qoyil qolmoq, havas qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I admire people who can speak in front of a big audience without any notes.",
+   "gap": "admire",
+   "alt": [
+    "admires",
+    "admired"
+   ]
+  },
+  {
+   "id": "look_down_on",
+   "en": "look down on",
+   "uz": "past nazar bilan qaramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Some people look down on taxi drivers, which is unfair: many of them have university degrees.",
+   "gap": "look down on",
+   "alt": [
+    "looks down on",
+    "looked down on"
+   ]
+  },
+  {
+   "id": "despise",
+   "en": "despise",
+   "uz": "nafratlanmoq, jirkanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old referee despises cheating and once sent off a star player for faking an injury.",
+   "gap": "despises",
+   "alt": [
+    "despises",
+    "despised"
+   ]
+  },
+  {
+   "id": "fancy",
+   "en": "fancy",
+   "uz": "yoqtirib qolmoq (ko‘ngil qo‘ymoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Everyone could see that Timur fancied the new girl in our English class; he went red every time she spoke.",
+   "gap": "fancied",
+   "alt": [
+    "fancies",
+    "fancied"
+   ]
+  },
+  {
+   "id": "leave_cold",
+   "en": "leave someone cold",
+   "uz": "befarq qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Football matches leave me cold; I'd much rather read a good book.",
+   "gap": "leave me cold",
+   "alt": [
+    "leave me cold",
+    "leaves me cold",
+    "left me cold"
+   ]
+  },
+  {
+   "id": "get_on_well",
+   "en": "get on well",
+   "uz": "yaxshi chiqishmoq (inoq bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My brother and I get on well now, although as kids we fought over the computer every day.",
+   "gap": "get on well",
+   "alt": [
+    "gets on well",
+    "got on well"
+   ]
+  },
+  {
+   "id": "see_eye_to_eye",
+   "en": "see eye to eye",
+   "uz": "fikri bir joydan chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad and I don't see eye to eye about my future: he wants me to be a doctor, but I want to study design.",
+   "gap": "see eye to eye",
+   "alt": []
+  },
+  {
+   "id": "fall_out_with",
+   "en": "fall out with",
+   "uz": "urishib qolmoq, arazlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've fallen out with my best friend over a silly joke, and we haven't spoken for a week.",
+   "gap": "fallen out with",
+   "alt": [
+    "fallen out with",
+    "fell out with",
+    "falls out with"
+   ]
+  },
+  {
+   "id": "make_it_up",
+   "en": "make it up",
+   "uz": "yarashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a week of silence, the two friends finally hugged and made it up.",
+   "gap": "made it up",
+   "alt": [
+    "made it up",
+    "makes it up"
+   ]
+  },
+  {
+   "id": "see_each_other",
+   "en": "see each other",
+   "uz": "uchrashib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamron and Madina have been seeing each other for six months, and their families have already met.",
+   "gap": "seeing each other",
+   "alt": [
+    "seeing each other",
+    "saw each other"
+   ]
+  },
+  {
+   "id": "get_together",
+   "en": "get together",
+   "uz": "juft bo‘lmoq (munosabat boshlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Aziza and Rustam were just friends for years, but they finally got together after a summer of volunteering in Zaamin.",
+   "gap": "got together",
+   "alt": [
+    "got together",
+    "gets together"
+   ]
+  },
+  {
+   "id": "make_friends",
+   "en": "make friends",
+   "uz": "do‘st orttirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Sardor moved to Khiva, he joined the school football team to make friends quickly.",
+   "gap": "make friends",
+   "alt": [
+    "made friends",
+    "makes friends"
+   ]
+  },
+  {
+   "id": "best_friend",
+   "en": "best friend",
+   "uz": "eng yaqin do‘st",
+   "pos": "noun",
+   "img": false,
+   "ex": "Otabek and Islom have been best friends since their first day at kindergarten.",
+   "gap": "best friends",
+   "alt": [
+    "best friends"
+   ]
+  },
+  {
+   "id": "good_friend",
+   "en": "good friend",
+   "uz": "yaxshi do‘st (qadrdon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dildora is not my closest friend, but she's a good friend and I trust her.",
+   "gap": "good friend",
+   "alt": [
+    "good friends"
+   ]
+  },
+  {
+   "id": "classmate",
+   "en": "classmate",
+   "uz": "sinfdosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twenty years after leaving school, Nodir organised a reunion for all his old classmates.",
+   "gap": "classmates",
+   "alt": [
+    "classmates"
+   ]
+  },
+  {
+   "id": "roommate",
+   "en": "roommate",
+   "uz": "xonadosh (bir xonada yashovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the student hostel, my roommate snores so loudly that I sleep with earplugs.",
+   "gap": "roommate",
+   "alt": [
+    "roommates"
+   ]
+  },
+  {
+   "id": "married",
+   "en": "married",
+   "uz": "oilali (uylangan / turmushga chiqqan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sevara and Bekzod have been married for ten years and have three children.",
+   "gap": "married",
+   "alt": []
+  },
+  {
+   "id": "father_in_law",
+   "en": "father-in-law",
+   "uz": "qaynota",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Friday, Kamron's father-in-law teaches him how to fix things around the house.",
+   "gap": "father-in-law",
+   "alt": [
+    "fathers-in-law"
+   ]
+  },
+  {
+   "id": "acquire",
+   "en": "acquire",
+   "uz": "orttirmoq (qo‘lga kiritmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Within a month of joining the club's page, Mohira had acquired over two hundred new online friends.",
+   "gap": "acquired",
+   "alt": [
+    "acquired",
+    "acquires"
+   ]
+  },
+  {
+   "id": "invite",
+   "en": "invite",
+   "uz": "taklif etmoq (chaqirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Javohir invited everyone from his class to his birthday party at the bowling alley.",
+   "gap": "invited",
+   "alt": [
+    "invited",
+    "invites"
+   ]
+  },
+  {
+   "id": "accept_request",
+   "en": "accept",
+   "uz": "(do‘stlik so‘rovini) qabul qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I didn't recognise the name, so I didn't accept his friend request.",
+   "gap": "accept",
+   "alt": [
+    "accepted",
+    "accepts"
+   ]
+  },
+  {
+   "id": "like",
+   "en": "like",
+   "uz": "yoqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Do you like your new maths teacher, or is she too strict?",
+   "gap": "like",
+   "alt": [
+    "likes",
+    "liked"
+   ]
+  },
+  {
+   "id": "love",
+   "en": "love",
+   "uz": "sevmoq (qattiq yaxshi ko‘rmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda loves her little brother more than anyone in the world.",
+   "gap": "loves",
+   "alt": [
+    "loves",
+    "loved"
+   ]
+  },
+  {
+   "id": "attracted_to",
+   "en": "be attracted to",
+   "uz": "(kimgadir) ko‘ngli moyil bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the first day of the course, Laziz was attracted to the quiet girl who always sat by the window.",
+   "gap": "attracted to",
+   "alt": [
+    "attracted to",
+    "was attracted to"
+   ]
+  },
+  {
+   "id": "not_do_anything_for",
+   "en": "doesn't do anything for me",
+   "uz": "menga hech qanday ta’sir qilmaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everyone says the new pop star is gorgeous, but he doesn't do anything for me.",
+   "gap": "doesn't do anything for me",
+   "alt": [
+    "don't do anything for me"
+   ]
+  },
+  {
+   "id": "have_an_affair",
+   "en": "have an affair",
+   "uz": "nikohdan tashqari yashirin aloqa qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the TV drama, the politician loses his job when the newspapers discover he is having an affair.",
+   "gap": "having an affair",
+   "alt": [
+    "having an affair",
+    "had an affair"
+   ]
+  },
+  {
+   "id": "date_v",
+   "en": "date",
+   "uz": "sevishib yurmoq (ishqiy uchrashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Feruza is dating a medical student from Andijan; they met at a friend's birthday party.",
+   "gap": "dating",
+   "alt": [
+    "dating",
+    "dated",
+    "dates"
+   ]
+  },
+  {
+   "id": "quarrel",
+   "en": "quarrel",
+   "uz": "janjal (tortishuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After their quarrel about the washing-up, the two flatmates didn't speak for two days.",
+   "gap": "quarrel",
+   "alt": [
+    "quarrels"
+   ]
+  },
+  {
+   "id": "row_quarrel",
+   "en": "row",
+   "uz": "urishib qolish (so‘zlashuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My neighbours had a terrible row last night; I could hear them shouting through the wall.",
+   "gap": "row",
+   "alt": [
+    "rows"
+   ]
+  },
+  {
+   "id": "inbox",
+   "en": "inbox",
+   "uz": "kiruvchi xatlar qutisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I came back from holiday, there were 300 unread messages in my inbox.",
+   "gap": "inbox",
+   "alt": []
+  },
+  {
+   "id": "mate",
+   "en": "mate",
+   "uz": "o‘rtoq (so‘zlashuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturdays Temur plays football in the park with his mates.",
+   "gap": "mates",
+   "alt": [
+    "mates"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "housemate",
+   "flatmate"
+  ],
+  [
+   "workmate",
+   "colleague"
+  ],
+  [
+   "partner",
+   "colleague"
+  ],
+  [
+   "mother_in_law",
+   "parents_in_law"
+  ],
+  [
+   "adore",
+   "idolise"
+  ],
+  [
+   "adore",
+   "fancy"
+  ],
+  [
+   "idolise",
+   "look_up_to"
+  ],
+  [
+   "loathe",
+   "cant_stand"
+  ],
+  [
+   "loathe",
+   "despise"
+  ],
+  [
+   "despise",
+   "look_down_on"
+  ],
+  [
+   "look_up_to",
+   "admire"
+  ],
+  [
+   "get_on_well",
+   "see_eye_to_eye"
+  ],
+  [
+   "see_each_other",
+   "get_together"
+  ],
+  [
+   "fall_out_with",
+   "make_it_up"
+  ],
+  [
+   "workmate",
+   "partner"
+  ],
+  [
+   "idolise",
+   "admire"
+  ],
+  [
+   "cant_stand",
+   "despise"
+  ],
+  [
+   "flatmate",
+   "partner"
+  ],
+  [
+   "best_friend",
+   "good_friend"
+  ],
+  [
+   "classmate",
+   "roommate"
+  ],
+  [
+   "classmate",
+   "housemate"
+  ],
+  [
+   "classmate",
+   "flatmate"
+  ],
+  [
+   "classmate",
+   "workmate"
+  ],
+  [
+   "classmate",
+   "colleague"
+  ],
+  [
+   "classmate",
+   "mate"
+  ],
+  [
+   "classmate",
+   "partner"
+  ],
+  [
+   "roommate",
+   "housemate"
+  ],
+  [
+   "roommate",
+   "flatmate"
+  ],
+  [
+   "roommate",
+   "workmate"
+  ],
+  [
+   "roommate",
+   "colleague"
+  ],
+  [
+   "roommate",
+   "mate"
+  ],
+  [
+   "roommate",
+   "partner"
+  ],
+  [
+   "housemate",
+   "workmate"
+  ],
+  [
+   "housemate",
+   "colleague"
+  ],
+  [
+   "housemate",
+   "mate"
+  ],
+  [
+   "housemate",
+   "partner"
+  ],
+  [
+   "flatmate",
+   "workmate"
+  ],
+  [
+   "flatmate",
+   "colleague"
+  ],
+  [
+   "flatmate",
+   "mate"
+  ],
+  [
+   "workmate",
+   "mate"
+  ],
+  [
+   "colleague",
+   "mate"
+  ],
+  [
+   "mate",
+   "partner"
+  ],
+  [
+   "father_in_law",
+   "mother_in_law"
+  ],
+  [
+   "father_in_law",
+   "parents_in_law"
+  ],
+  [
+   "like",
+   "love"
+  ],
+  [
+   "like",
+   "adore"
+  ],
+  [
+   "like",
+   "idolise"
+  ],
+  [
+   "like",
+   "fancy"
+  ],
+  [
+   "like",
+   "admire"
+  ],
+  [
+   "like",
+   "look_up_to"
+  ],
+  [
+   "like",
+   "loathe"
+  ],
+  [
+   "like",
+   "despise"
+  ],
+  [
+   "love",
+   "adore"
+  ],
+  [
+   "love",
+   "idolise"
+  ],
+  [
+   "love",
+   "fancy"
+  ],
+  [
+   "love",
+   "admire"
+  ],
+  [
+   "love",
+   "look_up_to"
+  ],
+  [
+   "love",
+   "loathe"
+  ],
+  [
+   "love",
+   "despise"
+  ],
+  [
+   "adore",
+   "admire"
+  ],
+  [
+   "adore",
+   "look_up_to"
+  ],
+  [
+   "adore",
+   "loathe"
+  ],
+  [
+   "adore",
+   "despise"
+  ],
+  [
+   "idolise",
+   "fancy"
+  ],
+  [
+   "idolise",
+   "loathe"
+  ],
+  [
+   "idolise",
+   "despise"
+  ],
+  [
+   "fancy",
+   "admire"
+  ],
+  [
+   "fancy",
+   "look_up_to"
+  ],
+  [
+   "fancy",
+   "loathe"
+  ],
+  [
+   "fancy",
+   "despise"
+  ],
+  [
+   "admire",
+   "loathe"
+  ],
+  [
+   "admire",
+   "despise"
+  ],
+  [
+   "look_up_to",
+   "loathe"
+  ],
+  [
+   "look_up_to",
+   "despise"
+  ],
+  [
+   "attracted_to",
+   "fancy"
+  ],
+  [
+   "attracted_to",
+   "adore"
+  ],
+  [
+   "attracted_to",
+   "love"
+  ],
+  [
+   "not_do_anything_for",
+   "leave_cold"
+  ],
+  [
+   "quarrel",
+   "row_quarrel"
+  ],
+  [
+   "date_v",
+   "see_each_other"
+  ],
+  [
+   "date_v",
+   "get_together"
+  ],
+  [
+   "have_an_affair",
+   "date_v"
+  ],
+  [
+   "have_an_affair",
+   "see_each_other"
+  ],
+  [
+   "acquire",
+   "make_friends"
+  ],
+  [
+   "married",
+   "steady"
+  ]
+ ]
+}

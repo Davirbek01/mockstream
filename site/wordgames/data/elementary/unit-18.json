@@ -1,0 +1,335 @@
+{
+ "book": "elementary",
+ "unit": 18,
+ "title": "Holidays",
+ "title_uz": "Ta’til",
+ "words": [
+  {
+   "id": "holiday",
+   "en": "holiday",
+   "uz": "ta’til",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our holiday in Zaamin was short, but the mountain air was wonderful.",
+   "gap": "holiday",
+   "alt": [
+    "holidays"
+   ]
+  },
+  {
+   "id": "on_holiday",
+   "en": "on holiday",
+   "uz": "ta’tilda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The office is closed this week because everyone is on holiday.",
+   "gap": "on holiday",
+   "alt": []
+  },
+  {
+   "id": "go_on_holiday",
+   "en": "go on holiday",
+   "uz": "ta’tilga chiqmoq (ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We can't go on holiday this year because Dad is too busy at work.",
+   "gap": "go on holiday",
+   "alt": [
+    "going on holiday",
+    "went on holiday"
+   ]
+  },
+  {
+   "id": "package_holiday",
+   "en": "package holiday",
+   "uz": "tur paketi (aviachipta + mehmonxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum found a cheap package holiday online, so she didn't need to book the flights and the hotel herself.",
+   "gap": "package holiday",
+   "alt": []
+  },
+  {
+   "id": "winter_holiday",
+   "en": "winter holiday",
+   "uz": "qishki ta’til",
+   "pos": "noun",
+   "img": false,
+   "ex": "In January we have a winter holiday and go skiing in Beldersay.",
+   "gap": "winter holiday",
+   "alt": []
+  },
+  {
+   "id": "go_camping",
+   "en": "go camping",
+   "uz": "chodirda dam olishga bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last summer we went camping by Charvak Lake and slept in a tent.",
+   "gap": "went camping",
+   "alt": [
+    "went camping",
+    "going camping"
+   ]
+  },
+  {
+   "id": "tent",
+   "en": "tent",
+   "uz": "chodir",
+   "pos": "noun",
+   "img": true,
+   "ex": "It rained all night, but we stayed dry inside our tent.",
+   "gap": "tent",
+   "alt": []
+  },
+  {
+   "id": "walking_holiday",
+   "en": "walking holiday",
+   "uz": "piyoda sayohat ta’tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our walking holiday in the Nuratau mountains, we covered fifteen kilometres a day on foot.",
+   "gap": "walking holiday",
+   "alt": []
+  },
+  {
+   "id": "coach_tour",
+   "en": "coach tour",
+   "uz": "avtobusda sayohat (tur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the coach tour, our guide told us stories on the bus between Samarkand, Bukhara and Khiva.",
+   "gap": "coach tour",
+   "alt": []
+  },
+  {
+   "id": "by_plane",
+   "en": "by plane",
+   "uz": "samolyotda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We travelled from Tashkent to Nukus by plane; the flight took less than two hours.",
+   "gap": "by plane",
+   "alt": []
+  },
+  {
+   "id": "by_train",
+   "en": "by train",
+   "uz": "poyezdda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We went to Samarkand by train and bought our tickets at the railway station.",
+   "gap": "by train",
+   "alt": []
+  },
+  {
+   "id": "by_car",
+   "en": "by car",
+   "uz": "mashinada",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We went to Fergana by car, and Dad drove the whole way.",
+   "gap": "by car",
+   "alt": []
+  },
+  {
+   "id": "by_ferry",
+   "en": "by ferry",
+   "uz": "paromda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We crossed the Caspian Sea from Kazakhstan to Azerbaijan by ferry and slept in a small cabin on board.",
+   "gap": "by ferry",
+   "alt": []
+  },
+  {
+   "id": "by_coach",
+   "en": "by coach",
+   "uz": "avtobusda (shaharlararo)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We went to Bukhara by coach; the bus was comfortable and had free Wi-Fi.",
+   "gap": "by coach",
+   "alt": []
+  },
+  {
+   "id": "fly",
+   "en": "fly",
+   "uz": "uchmoq (samolyotda bormoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle is flying to Kazan tomorrow; his plane leaves at 6 a.m.",
+   "gap": "flying",
+   "alt": [
+    "flying",
+    "flew"
+   ]
+  },
+  {
+   "id": "passport",
+   "en": "passport",
+   "uz": "pasport",
+   "pos": "noun",
+   "img": true,
+   "ex": "The officer at the airport looked at the photo in my passport.",
+   "gap": "passport",
+   "alt": []
+  },
+  {
+   "id": "visa",
+   "en": "visa",
+   "uz": "viza",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilshod can't go to London next week because his visa isn't ready yet.",
+   "gap": "visa",
+   "alt": []
+  },
+  {
+   "id": "ticket",
+   "en": "ticket",
+   "uz": "chipta",
+   "pos": "noun",
+   "img": true,
+   "ex": "I bought two tickets for the Afrosiyob on my phone.",
+   "gap": "tickets",
+   "alt": [
+    "tickets"
+   ]
+  },
+  {
+   "id": "currency",
+   "en": "currency",
+   "uz": "valyuta",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Georgia I changed my dollars into the local currency, the lari.",
+   "gap": "currency",
+   "alt": []
+  },
+  {
+   "id": "luggage",
+   "en": "luggage",
+   "uz": "yuk (bagaj)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each passenger can take 20 kilos of luggage on the plane.",
+   "gap": "luggage",
+   "alt": []
+  },
+  {
+   "id": "suitcase_trip",
+   "en": "suitcase",
+   "uz": "chamadon",
+   "pos": "noun",
+   "img": true,
+   "ex": "I packed my clothes in a big suitcase with two wheels and pulled it behind me through the airport.",
+   "gap": "suitcase",
+   "alt": [
+    "suitcases"
+   ]
+  },
+  {
+   "id": "rucksack",
+   "en": "rucksack",
+   "uz": "ryukzak",
+   "pos": "noun",
+   "img": true,
+   "ex": "For the mountain walk, I put water and sandwiches in my rucksack and carried it on my back.",
+   "gap": "rucksack",
+   "alt": [
+    "rucksacks"
+   ]
+  },
+  {
+   "id": "local_food",
+   "en": "local food",
+   "uz": "mahalliy taomlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Khiva we tried the local food, like green shivit oshi noodles.",
+   "gap": "local food",
+   "alt": []
+  },
+  {
+   "id": "nightlife",
+   "en": "nightlife",
+   "uz": "tungi hayot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Istanbul has great nightlife, with clubs and concerts until morning.",
+   "gap": "nightlife",
+   "alt": []
+  },
+  {
+   "id": "have_a_great_time",
+   "en": "have a great time",
+   "uz": "maza qilib dam oling!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Good luck at the summer camp, and have a great time with your new friends!",
+   "gap": "have a great time",
+   "alt": []
+  },
+  {
+   "id": "postcard",
+   "en": "postcard",
+   "uz": "otkritka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every time Dilnoza travels, she buys a postcard with a picture of the city and sticks it on her fridge.",
+   "gap": "postcard",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "holiday",
+   "package_holiday"
+  ],
+  [
+   "holiday",
+   "winter_holiday"
+  ],
+  [
+   "holiday",
+   "walking_holiday"
+  ],
+  [
+   "package_holiday",
+   "coach_tour"
+  ],
+  [
+   "go_on_holiday",
+   "go_camping"
+  ],
+  [
+   "passport",
+   "visa"
+  ],
+  [
+   "luggage",
+   "rucksack"
+  ],
+  [
+   "luggage",
+   "suitcase_trip"
+  ],
+  [
+   "by_coach",
+   "coach_tour"
+  ],
+  [
+   "holiday",
+   "coach_tour"
+  ],
+  [
+   "winter_holiday",
+   "walking_holiday"
+  ],
+  [
+   "winter_holiday",
+   "package_holiday"
+  ]
+ ]
+}

@@ -1,0 +1,649 @@
+{
+ "book": "preint",
+ "unit": 34,
+ "title": "University education",
+ "title_uz": "Oliy ta’lim (universitet)",
+ "words": [
+  {
+   "id": "medicine_subject",
+   "en": "medicine",
+   "uz": "tibbiyot (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ozoda wants to become a children's doctor, so after school she's going to study medicine.",
+   "gap": "medicine",
+   "alt": []
+  },
+  {
+   "id": "engineering",
+   "en": "engineering",
+   "uz": "muhandislik (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Alisher loves building robots and fixing engines, so engineering is the perfect course for him.",
+   "gap": "engineering",
+   "alt": []
+  },
+  {
+   "id": "economics",
+   "en": "economics",
+   "uz": "iqtisodiyot (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam studies economics because he wants to understand why prices go up and down.",
+   "gap": "economics",
+   "alt": []
+  },
+  {
+   "id": "business_studies",
+   "en": "business studies",
+   "uz": "biznes asoslari (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika is doing business studies, as she plans to open her own clothes shop one day.",
+   "gap": "business studies",
+   "alt": []
+  },
+  {
+   "id": "law",
+   "en": "law",
+   "uz": "huquqshunoslik (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Behruz is studying law, because he wants to defend people in court.",
+   "gap": "law",
+   "alt": []
+  },
+  {
+   "id": "architecture",
+   "en": "architecture",
+   "uz": "arxitektura (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora loves drawing and old buildings, so she chose to study architecture.",
+   "gap": "architecture",
+   "alt": []
+  },
+  {
+   "id": "psychology",
+   "en": "psychology",
+   "uz": "psixologiya (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Why do we forget names but remember songs? That's the kind of question you study in psychology.",
+   "gap": "psychology",
+   "alt": []
+  },
+  {
+   "id": "go_into_business",
+   "en": "go into business",
+   "uz": "biznes boshlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After university, Shoxrux went into business with two friends and opened a small bakery.",
+   "gap": "went into business",
+   "alt": [
+    "goes into business",
+    "went into business",
+    "going into business"
+   ]
+  },
+  {
+   "id": "qualification",
+   "en": "qualification",
+   "uz": "malaka (rasmiy hujjat bilan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To work as a translator for the government, you usually need a qualification in languages.",
+   "gap": "qualification",
+   "alt": [
+    "qualifications"
+   ]
+  },
+  {
+   "id": "get_a_place",
+   "en": "get a place",
+   "uz": "(universitetga) o‘qishga kirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After two attempts at the entrance exams, Nodira finally got a place at a university in Namangan.",
+   "gap": "got a place",
+   "alt": [
+    "got a place",
+    "gets a place",
+    "getting a place"
+   ]
+  },
+  {
+   "id": "university_degree",
+   "en": "degree",
+   "uz": "oliy ma’lumot darajasi (diplom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz has a degree in chemistry, but now he works as a sports journalist.",
+   "gap": "degree",
+   "alt": [
+    "degrees"
+   ]
+  },
+  {
+   "id": "certificate",
+   "en": "certificate",
+   "uz": "sertifikat (guvohnoma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the summer course, every student received a certificate with their name on it.",
+   "gap": "certificate",
+   "alt": [
+    "certificates"
+   ]
+  },
+  {
+   "id": "last",
+   "en": "last",
+   "uz": "davom etmoq (vaqt bo‘yicha)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our university's winter holiday lasts just two weeks, so I can't go home to Nukus.",
+   "gap": "lasts",
+   "alt": [
+    "lasts",
+    "lasted",
+    "lasting"
+   ]
+  },
+  {
+   "id": "lecturer",
+   "en": "lecturer",
+   "uz": "o‘qituvchi (oliygohda) / domla",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our chemistry lecturer speaks so fast that it's hard to take notes in his classes.",
+   "gap": "lecturer",
+   "alt": [
+    "lecturers"
+   ]
+  },
+  {
+   "id": "lecture",
+   "en": "lecture",
+   "uz": "ma’ruza",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lecture started at nine, and three hundred students were sitting quietly in the big hall.",
+   "gap": "lecture",
+   "alt": [
+    "lectures"
+   ]
+  },
+  {
+   "id": "professor",
+   "en": "professor",
+   "uz": "professor",
+   "pos": "noun",
+   "img": false,
+   "ex": "After thirty years of teaching and research, Dr Karimova was given the title of Professor.",
+   "gap": "Professor",
+   "alt": [
+    "professors"
+   ]
+  },
+  {
+   "id": "library",
+   "en": "library",
+   "uz": "kutubxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The university library stays open until midnight in exam time, and every desk is taken.",
+   "gap": "library",
+   "alt": [
+    "libraries"
+   ]
+  },
+  {
+   "id": "laboratory",
+   "en": "laboratory",
+   "uz": "laboratoriya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chemistry students spent the whole afternoon in the laboratory testing water from the river.",
+   "gap": "laboratory",
+   "alt": [
+    "lab",
+    "laboratories",
+    "labs"
+   ]
+  },
+  {
+   "id": "undergraduate",
+   "en": "undergraduate",
+   "uz": "bakalavr talabasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "As an undergraduate, Shirin lived in a student hostel and shared a room with three other girls.",
+   "gap": "undergraduate",
+   "alt": [
+    "undergraduates"
+   ]
+  },
+  {
+   "id": "graduate",
+   "en": "graduate",
+   "uz": "bitiruvchi (oliygoh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many graduates of our university now work for big tech companies abroad.",
+   "gap": "graduates",
+   "alt": [
+    "graduates"
+   ]
+  },
+  {
+   "id": "postgraduate",
+   "en": "postgraduate",
+   "uz": "bakalavrdan keyingi (magistratura, PhD)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After her first degree in Fergana, Madina went to Germany to do a postgraduate course in physics.",
+   "gap": "postgraduate",
+   "alt": []
+  },
+  {
+   "id": "masters",
+   "en": "Master's",
+   "uz": "magistr darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamron has a Master's in computer science from a university in Seoul.",
+   "gap": "Master's",
+   "alt": [
+    "Masters",
+    "Master's degree"
+   ]
+  },
+  {
+   "id": "phd",
+   "en": "PhD",
+   "uz": "falsafa doktori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilfuza spent five years working on her PhD about desert plants in Karakalpakstan.",
+   "gap": "PhD",
+   "alt": [
+    "PhDs"
+   ]
+  },
+  {
+   "id": "research",
+   "en": "research",
+   "uz": "ilmiy tadqiqot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists at the institute are doing research on new types of cotton that need less water.",
+   "gap": "research",
+   "alt": []
+  },
+  {
+   "id": "qualify",
+   "en": "qualify",
+   "uz": "malaka olmoq (…bo‘lib yetishmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After six years of study and training, Bekzod finally qualified as a dentist.",
+   "gap": "qualified",
+   "alt": [
+    "qualifies",
+    "qualified",
+    "qualifying"
+   ]
+  },
+  {
+   "id": "succeed",
+   "en": "succeed",
+   "uz": "muvaffaqiyatga erishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mehribon tried to climb the rope in PE three times before she finally succeeded.",
+   "gap": "succeeded",
+   "alt": [
+    "succeeds",
+    "succeeded",
+    "succeeding"
+   ]
+  },
+  {
+   "id": "successful",
+   "en": "successful",
+   "uz": "muvaffaqiyatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new language centre has been very successful: it already has five hundred students.",
+   "gap": "successful",
+   "alt": []
+  },
+  {
+   "id": "doctor",
+   "en": "doctor",
+   "uz": "shifokor (vrach)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sarvar's mother is a doctor at the children's hospital, where she often works at night.",
+   "gap": "doctor",
+   "alt": [
+    "doctors"
+   ]
+  },
+  {
+   "id": "businessman",
+   "en": "businessman",
+   "uz": "ishbilarmon erkak (tadbirkor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Tursunov is a businessman who owns three hotels by the lake.",
+   "gap": "businessman",
+   "alt": [
+    "businessmen"
+   ]
+  },
+  {
+   "id": "businesswoman",
+   "en": "businesswoman",
+   "uz": "ishbilarmon ayol (tadbirkor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a young businesswoman, Mrs Abdullaeva started a company that makes eco-friendly shopping bags.",
+   "gap": "businesswoman",
+   "alt": [
+    "businesswomen"
+   ]
+  },
+  {
+   "id": "psychologist",
+   "en": "psychologist",
+   "uz": "ruhshunos (mutaxassis)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the final exams, the school psychologist talks to nervous pupils and teaches them breathing exercises.",
+   "gap": "psychologist",
+   "alt": [
+    "psychologists"
+   ]
+  },
+  {
+   "id": "do_a_degree",
+   "en": "do a degree",
+   "uz": "oliy ta’lim olmoq (diplom uchun o‘qimoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My neighbour works in a café in the evenings while she's doing a degree in biology.",
+   "gap": "doing a degree",
+   "alt": [
+    "doing a degree",
+    "did a degree",
+    "does a degree",
+    "done a degree",
+    "study for a degree",
+    "studying for a degree"
+   ]
+  },
+  {
+   "id": "arts",
+   "en": "arts",
+   "uz": "gumanitar fanlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students of arts subjects, such as literature or languages, spend more time reading than doing experiments.",
+   "gap": "arts",
+   "alt": [
+    "the arts"
+   ]
+  },
+  {
+   "id": "physics",
+   "en": "physics",
+   "uz": "fizika",
+   "pos": "noun",
+   "img": false,
+   "ex": "In physics we learnt why a heavy ball and a light ball fall at the same speed.",
+   "gap": "physics",
+   "alt": []
+  },
+  {
+   "id": "chemistry",
+   "en": "chemistry",
+   "uz": "kimyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "In chemistry we mixed vinegar and baking soda, and the bubbles went everywhere.",
+   "gap": "chemistry",
+   "alt": []
+  },
+  {
+   "id": "success",
+   "en": "success",
+   "uz": "muvaffaqiyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school concert was a great success, and the parents asked for another one in spring.",
+   "gap": "success",
+   "alt": [
+    "successes"
+   ]
+  },
+  {
+   "id": "qualified_adj",
+   "en": "qualified",
+   "uz": "malakali (diplomli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Only a fully qualified electrician should change the wiring in an old house.",
+   "gap": "qualified",
+   "alt": []
+  },
+  {
+   "id": "ma",
+   "en": "MA",
+   "uz": "gumanitar fanlar magistri",
+   "pos": "noun",
+   "img": false,
+   "ex": "After her first degree, Gulnora did an MA in English literature in Edinburgh.",
+   "gap": "MA",
+   "alt": [
+    "MAs"
+   ]
+  },
+  {
+   "id": "msc",
+   "en": "MSc",
+   "uz": "tabiiy fanlar magistri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Daler has an MSc in environmental science and now studies air pollution in big cities.",
+   "gap": "MSc",
+   "alt": [
+    "MScs"
+   ]
+  },
+  {
+   "id": "go_on_to",
+   "en": "go on to",
+   "uz": "keyinchalik …ga o‘tmoq (davom etmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many of the students in this physics class will go on to work as engineers.",
+   "gap": "go on to",
+   "alt": [
+    "goes on to",
+    "went on to",
+    "going on to",
+    "gone on to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "lecturer",
+   "professor"
+  ],
+  [
+   "undergraduate",
+   "graduate"
+  ],
+  [
+   "postgraduate",
+   "masters"
+  ],
+  [
+   "postgraduate",
+   "undergraduate"
+  ],
+  [
+   "phd",
+   "research"
+  ],
+  [
+   "phd",
+   "university_degree"
+  ],
+  [
+   "masters",
+   "university_degree"
+  ],
+  [
+   "qualify",
+   "succeed"
+  ],
+  [
+   "qualification",
+   "certificate"
+  ],
+  [
+   "university_degree",
+   "certificate"
+  ],
+  [
+   "economics",
+   "business_studies"
+  ],
+  [
+   "qualification",
+   "university_degree"
+  ],
+  [
+   "phd",
+   "masters"
+  ],
+  [
+   "library",
+   "laboratory"
+  ],
+  [
+   "get_a_place",
+   "qualify"
+  ],
+  [
+   "lecture",
+   "lecturer"
+  ],
+  [
+   "postgraduate",
+   "phd"
+  ],
+  [
+   "masters",
+   "qualification"
+  ],
+  [
+   "masters",
+   "certificate"
+  ],
+  [
+   "doctor",
+   "gp"
+  ],
+  [
+   "doctor",
+   "nurse"
+  ],
+  [
+   "doctor",
+   "dentist"
+  ],
+  [
+   "businessman",
+   "businesswoman"
+  ],
+  [
+   "do_a_degree",
+   "university_degree"
+  ],
+  [
+   "physics",
+   "chemistry"
+  ],
+  [
+   "physics",
+   "engineering"
+  ],
+  [
+   "qualified_adj",
+   "qualify"
+  ],
+  [
+   "qualified_adj",
+   "successful"
+  ],
+  [
+   "success",
+   "successful"
+  ],
+  [
+   "ma",
+   "masters"
+  ],
+  [
+   "msc",
+   "masters"
+  ],
+  [
+   "ma",
+   "msc"
+  ],
+  [
+   "ma",
+   "phd"
+  ],
+  [
+   "msc",
+   "phd"
+  ],
+  [
+   "psychologist",
+   "psychology"
+  ],
+  [
+   "doctor",
+   "psychologist"
+  ],
+  [
+   "businesswoman",
+   "undergraduate"
+  ],
+  [
+   "ma",
+   "university_degree"
+  ],
+  [
+   "msc",
+   "university_degree"
+  ],
+  [
+   "ma",
+   "qualification"
+  ],
+  [
+   "doctor",
+   "professor"
+  ]
+ ]
+}

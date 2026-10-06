@@ -1,0 +1,528 @@
+{
+ "book": "advanced",
+ "unit": 32,
+ "title": "The animal kingdom",
+ "title_uz": "Hayvonot olami",
+ "words": [
+  {
+   "id": "mammal",
+   "en": "mammal",
+   "uz": "sutemizuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz spent so long in the bird house at the zoo that he never reached the large mammals: the bears, the bison and the camels.",
+   "gap": "mammals",
+   "alt": [
+    "mammals"
+   ]
+  },
+  {
+   "id": "marsupial",
+   "en": "marsupial",
+   "uz": "xaltali hayvon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamila's favourite moment in the Australian nature film was a baby wallaby peeping out of its mother's pouch; she had never seen marsupials before.",
+   "gap": "marsupials",
+   "alt": [
+    "marsupials"
+   ]
+  },
+  {
+   "id": "rodent",
+   "en": "rodent",
+   "uz": "kemiruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The farmer keeps two cats in the barn to protect the grain from mice and other rodents.",
+   "gap": "rodents",
+   "alt": [
+    "rodents"
+   ]
+  },
+  {
+   "id": "reptile",
+   "en": "reptile",
+   "uz": "sudralib yuruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our school trip to the desert, the guide showed us where snakes, lizards and other reptiles hide from the midday heat.",
+   "gap": "reptiles",
+   "alt": [
+    "reptiles"
+   ]
+  },
+  {
+   "id": "carnivore",
+   "en": "carnivore",
+   "uz": "go‘shtxo‘r hayvon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat is a carnivore, so the vet told us not to put it on a vegetarian diet.",
+   "gap": "carnivore",
+   "alt": [
+    "carnivores"
+   ]
+  },
+  {
+   "id": "herbivore",
+   "en": "herbivore",
+   "uz": "o‘txo‘r hayvon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The keeper explained that the goats in the petting zoo are herbivores, so visitors may only feed them carrots and hay.",
+   "gap": "herbivores",
+   "alt": [
+    "herbivores"
+   ]
+  },
+  {
+   "id": "predator",
+   "en": "predator",
+   "uz": "yirtqich (ov qiluvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Small birds stay close to the bushes so that they can hide quickly from predators such as hawks.",
+   "gap": "predators",
+   "alt": [
+    "predators"
+   ]
+  },
+  {
+   "id": "scavenger",
+   "en": "scavenger",
+   "uz": "o‘laksaxo‘r",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the wolves had finished eating, the scavengers arrived: a flock of crows and a pair of vultures picked the bones clean.",
+   "gap": "scavengers",
+   "alt": [
+    "scavengers"
+   ]
+  },
+  {
+   "id": "warm_blooded",
+   "en": "warm-blooded",
+   "uz": "issiqqonli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Watching the sparrows hop about in the snow, Malika wondered how such tiny warm-blooded creatures keep going on freezing mornings.",
+   "gap": "warm-blooded",
+   "alt": [
+    "warm blooded"
+   ]
+  },
+  {
+   "id": "cold_blooded",
+   "en": "cold-blooded",
+   "uz": "sovuqqonli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our class tortoise barely moves until the radiator warms the room; being cold-blooded, it can't produce enough heat of its own.",
+   "gap": "cold-blooded",
+   "alt": [
+    "cold blooded"
+   ]
+  },
+  {
+   "id": "docile",
+   "en": "docile",
+   "uz": "yuvosh, itoatkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pony at the riding school is so docile that even five-year-olds can ride it safely.",
+   "gap": "docile",
+   "alt": []
+  },
+  {
+   "id": "tame",
+   "en": "tame",
+   "uz": "qo‘lga o‘rgangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pigeons in the square have become so tame that they take seeds straight from visitors' hands.",
+   "gap": "tame",
+   "alt": []
+  },
+  {
+   "id": "domesticated",
+   "en": "domesticated",
+   "uz": "xonakilashtirilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our biology teacher asked us to name animals that people have domesticated, and Jasur surprised everyone by adding silkworms to the list.",
+   "gap": "domesticated",
+   "alt": [
+    "domesticate"
+   ]
+  },
+  {
+   "id": "savage",
+   "en": "savage",
+   "uz": "vahshiy, shafqatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The documentary showed a savage fight between two male bears that left both of them badly injured.",
+   "gap": "savage",
+   "alt": []
+  },
+  {
+   "id": "fierce",
+   "en": "fierce",
+   "uz": "qahrli (tajovuzkor ko‘rinadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The neighbours' dog looks fierce when it barks at passers-by, but it is actually very friendly once you know it.",
+   "gap": "fierce",
+   "alt": []
+  },
+  {
+   "id": "habitat",
+   "en": "habitat",
+   "uz": "tabiiy yashash muhiti",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the old woodland by the river was cut down for a car park, the owls and hedgehogs lost their natural habitat.",
+   "gap": "habitat",
+   "alt": [
+    "habitats"
+   ]
+  },
+  {
+   "id": "migrate",
+   "en": "migrate",
+   "uz": "(mavsumiy) ko‘chib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every autumn, thousands of cranes migrate south over the mountains to spend the winter in warmer lands.",
+   "gap": "migrate",
+   "alt": [
+    "migrates",
+    "migrated",
+    "migrating"
+   ]
+  },
+  {
+   "id": "migration",
+   "en": "migration",
+   "uz": "mavsumiy ko‘chish (qushlar, hayvonlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists fitted tiny GPS trackers to the storks to follow their migration from Europe to Africa.",
+   "gap": "migration",
+   "alt": []
+  },
+  {
+   "id": "flightless",
+   "en": "flightless",
+   "uz": "ucha olmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ostriches may be flightless, but on the farm we visited one easily outran the owner's motorbike.",
+   "gap": "flightless",
+   "alt": []
+  },
+  {
+   "id": "extinct",
+   "en": "extinct",
+   "uz": "qirilib ketgan (yo‘q bo‘lgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the museum we saw a model of a mammoth, an animal that became extinct thousands of years ago.",
+   "gap": "extinct",
+   "alt": []
+  },
+  {
+   "id": "game_reserve",
+   "en": "game reserve",
+   "uz": "yovvoyi hayvonlar qo‘riqxonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On their trip to Kenya, they spent three days in a game reserve, watching lions and elephants from a jeep.",
+   "gap": "game reserve",
+   "alt": [
+    "game park",
+    "game reserves"
+   ]
+  },
+  {
+   "id": "bird_sanctuary",
+   "en": "bird sanctuary",
+   "uz": "qushlar qo‘riqxonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old fish ponds have been turned into a bird sanctuary, where pelicans and herons can nest safely.",
+   "gap": "bird sanctuary",
+   "alt": []
+  },
+  {
+   "id": "animal_shelter",
+   "en": "animal shelter",
+   "uz": "uysiz hayvonlar boshpanasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of buying a puppy, we adopted a dog from the local animal shelter.",
+   "gap": "animal shelter",
+   "alt": [
+    "rescue shelter",
+    "animal rescue shelter"
+   ]
+  },
+  {
+   "id": "dodo",
+   "en": "dodo",
+   "uz": "zamondan orqada qolgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Rakhimov in the flat below still types letters on a typewriter and refuses to own a mobile; he's a real dodo when it comes to technology.",
+   "gap": "dodo",
+   "alt": []
+  },
+  {
+   "id": "blood_sports",
+   "en": "blood sports",
+   "uz": "hayvonlarni o‘ldiradigan sport (ov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the class debate, most of us argued that bullfighting, foxhunting and other blood sports should be banned.",
+   "gap": "blood sports",
+   "alt": [
+    "blood sport"
+   ]
+  },
+  {
+   "id": "fur_trade",
+   "en": "fur trade",
+   "uz": "mo‘yna savdosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The designer has stopped using real fur, saying she no longer wants to support the fur trade.",
+   "gap": "fur trade",
+   "alt": []
+  },
+  {
+   "id": "poacher",
+   "en": "poacher",
+   "uz": "brakoner (noqonuniy ovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rangers in the national park now use drones with night cameras to spot poachers in the dark.",
+   "gap": "poachers",
+   "alt": [
+    "poachers"
+   ]
+  },
+  {
+   "id": "ivory_trade",
+   "en": "ivory trade",
+   "uz": "fil suyagi savdosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The documentary showed how elephant tusks are secretly sent across the world to supply the illegal ivory trade.",
+   "gap": "ivory trade",
+   "alt": []
+  },
+  {
+   "id": "animal_rights_activist",
+   "en": "animal rights activist",
+   "uz": "hayvonlar huquqi faoli",
+   "pos": "noun",
+   "img": false,
+   "ex": "A group of animal rights activists collected signatures against keeping dolphins in small pools.",
+   "gap": "animal rights activists",
+   "alt": [
+    "animal rights activists"
+   ]
+  },
+  {
+   "id": "horn",
+   "en": "horn",
+   "uz": "shox",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old ram at the edge of the flock had one horn that curled almost into a full circle.",
+   "gap": "horn",
+   "alt": [
+    "horns"
+   ]
+  },
+  {
+   "id": "game",
+   "en": "game",
+   "uz": "ov hayvonlari va qushlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the nineteenth century, wealthy landowners kept large forests where deer, pheasants and other game were raised for hunting.",
+   "gap": "game",
+   "alt": []
+  },
+  {
+   "id": "wild",
+   "en": "wild",
+   "uz": "yovvoyi (xonakilashtirilmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The horses on the steppe look like farm animals, but they are completely wild and run off whenever a car comes near.",
+   "gap": "wild",
+   "alt": []
+  },
+  {
+   "id": "stray",
+   "en": "stray",
+   "uz": "egasiz, daydi (uy hayvoni)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Every evening the woman at the corner bakery leaves a bowl of milk by the door for the stray cats that nobody owns.",
+   "gap": "stray",
+   "alt": []
+  },
+  {
+   "id": "dodo_bird",
+   "en": "dodo",
+   "uz": "qirilib ketgan uchmas qush (Mavrikiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the island of Mauritius, sailors hunted the dodo, a large bird that could not fly, while the rats and pigs they brought ate its eggs.",
+   "gap": "dodo",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "carnivore",
+   "predator"
+  ],
+  [
+   "carnivore",
+   "scavenger"
+  ],
+  [
+   "predator",
+   "scavenger"
+  ],
+  [
+   "carnivore",
+   "herbivore"
+  ],
+  [
+   "warm_blooded",
+   "cold_blooded"
+  ],
+  [
+   "docile",
+   "tame"
+  ],
+  [
+   "tame",
+   "domesticated"
+  ],
+  [
+   "docile",
+   "domesticated"
+  ],
+  [
+   "savage",
+   "fierce"
+  ],
+  [
+   "migrate",
+   "migration"
+  ],
+  [
+   "game_reserve",
+   "bird_sanctuary"
+  ],
+  [
+   "game_reserve",
+   "animal_shelter"
+  ],
+  [
+   "bird_sanctuary",
+   "animal_shelter"
+  ],
+  [
+   "mammal",
+   "reptile"
+  ],
+  [
+   "mammal",
+   "marsupial"
+  ],
+  [
+   "mammal",
+   "rodent"
+  ],
+  [
+   "rodent",
+   "reptile"
+  ],
+  [
+   "fur_trade",
+   "ivory_trade"
+  ],
+  [
+   "poacher",
+   "animal_rights_activist"
+  ],
+  [
+   "extinct",
+   "flightless"
+  ],
+  [
+   "mammal",
+   "predator"
+  ],
+  [
+   "mammal",
+   "carnivore"
+  ],
+  [
+   "mammal",
+   "endangered_species"
+  ],
+  [
+   "reptile",
+   "predator"
+  ],
+  [
+   "bird_sanctuary",
+   "habitat"
+  ],
+  [
+   "horn",
+   "mammal"
+  ],
+  [
+   "horn",
+   "herbivore"
+  ],
+  [
+   "wild",
+   "domesticated"
+  ],
+  [
+   "wild",
+   "savage"
+  ],
+  [
+   "wild",
+   "fierce"
+  ],
+  [
+   "wild",
+   "stray"
+  ],
+  [
+   "dodo_bird",
+   "dodo"
+  ],
+  [
+   "dodo_bird",
+   "flightless"
+  ],
+  [
+   "dodo_bird",
+   "extinct"
+  ]
+ ]
+}

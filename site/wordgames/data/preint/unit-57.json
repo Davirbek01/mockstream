@@ -1,0 +1,602 @@
+{
+ "book": "preint",
+ "unit": 57,
+ "title": "Politics",
+ "title_uz": "Siyosat",
+ "words": [
+  {
+   "id": "vote",
+   "en": "vote",
+   "uz": "ovoz bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister turned eighteen this year, so in spring she could vote for the first time.",
+   "gap": "vote",
+   "alt": [
+    "votes",
+    "voted",
+    "voting"
+   ]
+  },
+  {
+   "id": "election",
+   "en": "election",
+   "uz": "saylov",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodira won the class election with twelve votes and became our class leader.",
+   "gap": "election",
+   "alt": [
+    "elections"
+   ]
+  },
+  {
+   "id": "general_election",
+   "en": "general election",
+   "uz": "umumiy saylov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The general election is on a Sunday, so my parents will go and vote together after breakfast.",
+   "gap": "general election",
+   "alt": [
+    "general elections"
+   ]
+  },
+  {
+   "id": "secret_ballot",
+   "en": "secret ballot",
+   "uz": "yashirin ovoz berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "We chose the team captain by secret ballot, so nobody knew who the others had chosen.",
+   "gap": "secret ballot",
+   "alt": []
+  },
+  {
+   "id": "elect",
+   "en": "elect",
+   "uz": "saylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last year the people of the town elected a new mayor, a former school teacher.",
+   "gap": "elected",
+   "alt": [
+    "elects",
+    "elected",
+    "electing"
+   ]
+  },
+  {
+   "id": "government",
+   "en": "government",
+   "uz": "hukumat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The government has promised to build forty new schools in the regions next year.",
+   "gap": "government",
+   "alt": [
+    "governments"
+   ]
+  },
+  {
+   "id": "hold_election",
+   "en": "hold an election",
+   "uz": "saylov o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our English club held an election to choose who would organise the end-of-year concert.",
+   "gap": "held an election",
+   "alt": [
+    "holds an election",
+    "held an election",
+    "holding an election"
+   ]
+  },
+  {
+   "id": "constituency",
+   "en": "constituency",
+   "uz": "saylov okrugi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our constituency includes three villages and a small town by the river.",
+   "gap": "constituency",
+   "alt": [
+    "constituencies"
+   ]
+  },
+  {
+   "id": "political_party",
+   "en": "political party",
+   "uz": "siyosiy partiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each political party put its posters on the board outside the town hall before the vote.",
+   "gap": "political party",
+   "alt": [
+    "political parties"
+   ]
+  },
+  {
+   "id": "mp",
+   "en": "MP",
+   "uz": "parlament a’zosi (deputat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class wrote a letter to the local MP asking for a new bus stop near the school.",
+   "gap": "MP",
+   "alt": [
+    "MPs"
+   ]
+  },
+  {
+   "id": "prime_minister",
+   "en": "Prime Minister",
+   "uz": "bosh vazir",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the school debate, Anvar pretended to be the Prime Minister of a small island country.",
+   "gap": "Prime Minister",
+   "alt": []
+  },
+  {
+   "id": "leader",
+   "en": "leader",
+   "uz": "rahbar (yetakchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika is a natural leader; when there's a problem in the group, everyone listens to her.",
+   "gap": "leader",
+   "alt": [
+    "leaders"
+   ]
+  },
+  {
+   "id": "in_power",
+   "en": "in power",
+   "uz": "hokimiyat tepasida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "That party has been in power for ten years, so many young people don't remember any other government.",
+   "gap": "in power",
+   "alt": []
+  },
+  {
+   "id": "politics",
+   "en": "politics",
+   "uz": "siyosat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Saidov next door loves politics; he watches every debate on TV and knows the name of every MP.",
+   "gap": "politics",
+   "alt": []
+  },
+  {
+   "id": "political",
+   "en": "political",
+   "uz": "siyosiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My uncle always reads the political news first and leaves the sports pages until last.",
+   "gap": "political",
+   "alt": []
+  },
+  {
+   "id": "politician",
+   "en": "politician",
+   "uz": "siyosatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamola wants to become a politician one day so that she can make life better for families in villages.",
+   "gap": "politician",
+   "alt": [
+    "politicians"
+   ]
+  },
+  {
+   "id": "powerful",
+   "en": "powerful",
+   "uz": "qudratli (kuchli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The king in the old story had a huge army and ruled ten countries, so he was very powerful.",
+   "gap": "powerful",
+   "alt": []
+  },
+  {
+   "id": "believe_in",
+   "en": "believe in",
+   "uz": "… ga ishonmoq (to‘g‘ri deb bilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our head teacher believes in sport for everyone, not only for the best players.",
+   "gap": "believes in",
+   "alt": [
+    "believes in",
+    "believed in",
+    "believing in"
+   ]
+  },
+  {
+   "id": "policy",
+   "en": "policy",
+   "uz": "siyosiy yo‘nalish (dastur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The party's new policy is to give every school in the country free Wi-Fi.",
+   "gap": "policy",
+   "alt": [
+    "policies"
+   ]
+  },
+  {
+   "id": "provide",
+   "en": "provide",
+   "uz": "ta’minlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new law will provide free school lunches for all children under ten.",
+   "gap": "provide",
+   "alt": [
+    "provides",
+    "provided",
+    "providing"
+   ]
+  },
+  {
+   "id": "care_n",
+   "en": "care",
+   "uz": "g‘amxo‘rlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Old people who live alone often need care and a friendly visit every day.",
+   "gap": "care",
+   "alt": []
+  },
+  {
+   "id": "support_n",
+   "en": "support",
+   "uz": "yordam (ko‘mak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town gives financial support to families with more than three children.",
+   "gap": "support",
+   "alt": []
+  },
+  {
+   "id": "reduce",
+   "en": "reduce",
+   "uz": "kamaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new bus lanes have reduced the traffic in the city centre.",
+   "gap": "reduced",
+   "alt": [
+    "reduces",
+    "reduced",
+    "reducing"
+   ]
+  },
+  {
+   "id": "unemployment",
+   "en": "unemployment",
+   "uz": "ishsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new factories in the region will lower unemployment, because hundreds of people will get jobs.",
+   "gap": "unemployment",
+   "alt": []
+  },
+  {
+   "id": "fair_just",
+   "en": "fair",
+   "uz": "adolatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Everyone in our team plays for the same number of minutes, which is fair.",
+   "gap": "fair",
+   "alt": []
+  },
+  {
+   "id": "unfair",
+   "en": "unfair",
+   "uz": "adolatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's unfair that the older kids always get the computer first.",
+   "gap": "unfair",
+   "alt": []
+  },
+  {
+   "id": "tax",
+   "en": "tax",
+   "uz": "soliq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shops add tax to the price, so the jacket cost a bit more than the label said.",
+   "gap": "tax",
+   "alt": [
+    "taxes"
+   ]
+  },
+  {
+   "id": "above_all",
+   "en": "above all",
+   "uz": "eng muhimi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We want a teacher who is kind, patient and, above all, fair.",
+   "gap": "above all",
+   "alt": []
+  },
+  {
+   "id": "treat_people",
+   "en": "treat",
+   "uz": "munosabatda bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our coach treats every player the same, whether they are good or not.",
+   "gap": "treats",
+   "alt": [
+    "treats",
+    "treated",
+    "treating"
+   ]
+  },
+  {
+   "id": "equal",
+   "en": "equal",
+   "uz": "teng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Boys and girls should have an equal chance to play in the school team.",
+   "gap": "equal",
+   "alt": []
+  },
+  {
+   "id": "equally",
+   "en": "equally",
+   "uz": "teng ravishda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our teacher cut the birthday cake into twenty pieces and shared it equally among the class.",
+   "gap": "equally",
+   "alt": []
+  },
+  {
+   "id": "cross_mark",
+   "en": "cross",
+   "uz": "X belgisi (ovoz berishda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the voting paper, put a cross next to the name of the person you choose.",
+   "gap": "cross",
+   "alt": [
+    "crosses"
+   ]
+  },
+  {
+   "id": "put_up_your_hand",
+   "en": "put up your hand",
+   "uz": "qo‘l ko‘tarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you agree with the plan, please put up your hand.",
+   "gap": "put up your hand",
+   "alt": [
+    "put up their hands",
+    "put up his hand",
+    "put up her hand",
+    "puts up his hand",
+    "putting up your hand"
+   ]
+  },
+  {
+   "id": "parliament",
+   "en": "parliament",
+   "uz": "qonun chiqaruvchi oliy majlis",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new law about school buses was discussed in parliament for two months.",
+   "gap": "parliament",
+   "alt": [
+    "Parliament",
+    "Member of Parliament"
+   ]
+  },
+  {
+   "id": "power_n",
+   "en": "power",
+   "uz": "hokimiyat, kuch-qudrat",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many old stories, the king loses his power because he stops listening to ordinary people.",
+   "gap": "power",
+   "alt": []
+  },
+  {
+   "id": "form_government",
+   "en": "form",
+   "uz": "tuzmoq (hukumat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the election, the two biggest parties agreed to form a government together.",
+   "gap": "form",
+   "alt": [
+    "forms",
+    "formed",
+    "forming"
+   ]
+  },
+  {
+   "id": "belief",
+   "en": "belief",
+   "uz": "e’tiqod, ishonch",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her strong belief that every child needs books made her open a free library in her village.",
+   "gap": "belief",
+   "alt": [
+    "beliefs"
+   ]
+  },
+  {
+   "id": "reduction",
+   "en": "reduction",
+   "uz": "qisqarish, kamayish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new lights led to a big reduction in the number of accidents on the bridge.",
+   "gap": "reduction",
+   "alt": [
+    "reductions"
+   ]
+  },
+  {
+   "id": "cut_reduce",
+   "en": "cut",
+   "uz": "qisqartirmoq (narx, xarajat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The company had to cut its prices because nobody was buying the new phones.",
+   "gap": "cut",
+   "alt": [
+    "cuts",
+    "cutting"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "election",
+   "general_election"
+  ],
+  [
+   "government",
+   "political_party"
+  ],
+  [
+   "mp",
+   "politician"
+  ],
+  [
+   "mp",
+   "leader"
+  ],
+  [
+   "in_power",
+   "powerful"
+  ],
+  [
+   "care_n",
+   "support_n"
+  ],
+  [
+   "provide",
+   "support_n"
+  ],
+  [
+   "fair_just",
+   "unfair"
+  ],
+  [
+   "fair_just",
+   "equal"
+  ],
+  [
+   "politics",
+   "policy"
+  ],
+  [
+   "prime_minister",
+   "leader"
+  ],
+  [
+   "politician",
+   "leader"
+  ],
+  [
+   "politician",
+   "prime_minister"
+  ],
+  [
+   "government",
+   "prime_minister"
+  ],
+  [
+   "government",
+   "leader"
+  ],
+  [
+   "government",
+   "mp"
+  ],
+  [
+   "government",
+   "politician"
+  ],
+  [
+   "election",
+   "vote"
+  ],
+  [
+   "general_election",
+   "secret_ballot"
+  ],
+  [
+   "put_up_your_hand",
+   "vote"
+  ],
+  [
+   "parliament",
+   "government"
+  ],
+  [
+   "parliament",
+   "mp"
+  ],
+  [
+   "power_n",
+   "support_n"
+  ],
+  [
+   "power_n",
+   "in_power"
+  ],
+  [
+   "power_n",
+   "powerful"
+  ],
+  [
+   "belief",
+   "policy"
+  ],
+  [
+   "belief",
+   "believe_in"
+  ],
+  [
+   "cut_reduce",
+   "reduce"
+  ],
+  [
+   "reduction",
+   "reduce"
+  ],
+  [
+   "cut_reduce",
+   "provide"
+  ],
+  [
+   "power_n",
+   "politics"
+  ],
+  [
+   "form_government",
+   "support_n"
+  ],
+  [
+   "reduction",
+   "cut_reduce"
+  ]
+ ]
+}

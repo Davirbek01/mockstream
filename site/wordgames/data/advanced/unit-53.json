@@ -1,0 +1,419 @@
+{
+ "book": "advanced",
+ "unit": 53,
+ "title": "Medical language",
+ "title_uz": "Tibbiyot tili",
+ "words": [
+  {
+   "id": "low_dose",
+   "en": "low-dose",
+   "uz": "kam miqdorli (dozasi past)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the dark winter months, the doctor suggested a low-dose vitamin D tablet for my sister.",
+   "gap": "low-dose",
+   "alt": [
+    "low dose"
+   ]
+  },
+  {
+   "id": "dose",
+   "en": "dose",
+   "uz": "doza (bir martalik miqdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dose for a seven-year-old is smaller than for an adult, so always read the box first.",
+   "gap": "dose",
+   "alt": [
+    "doses"
+   ]
+  },
+  {
+   "id": "exceed_dose",
+   "en": "exceed",
+   "uz": "(me’yordan) oshirib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The label on Sardor's cough syrup warns you never to exceed three spoonfuls a day.",
+   "gap": "exceed",
+   "alt": [
+    "exceeded",
+    "exceeds",
+    "exceeding"
+   ]
+  },
+  {
+   "id": "duration",
+   "en": "duration",
+   "uz": "davomiylik (qancha davom etishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pharmacist said that the duration of the treatment was exactly five days, and that I shouldn't stop early even if I felt better.",
+   "gap": "duration",
+   "alt": []
+  },
+  {
+   "id": "asthma",
+   "en": "asthma",
+   "uz": "astma (nafas qisishi kasalligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of his asthma, Ravshan always keeps an inhaler in the front pocket of his school bag.",
+   "gap": "asthma",
+   "alt": []
+  },
+  {
+   "id": "past_history",
+   "en": "past history",
+   "uz": "avval bo‘lgan kasalliklar tarixi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the school medical check, we filled in a form about any past history of broken bones.",
+   "gap": "past history",
+   "alt": []
+  },
+  {
+   "id": "disorder",
+   "en": "disorder",
+   "uz": "buzilish (tana yoki ruhiy kasallik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of a sleep disorder, Mrs Rahimova often wakes up at three in the morning and can't get back to sleep.",
+   "gap": "disorder",
+   "alt": [
+    "disorders"
+   ]
+  },
+  {
+   "id": "gastrointestinal",
+   "en": "gastrointestinal",
+   "uz": "oshqozon-ichakka oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Food left out in the summer heat can easily cause gastrointestinal problems, so keep leftovers in the fridge.",
+   "gap": "gastrointestinal",
+   "alt": []
+  },
+  {
+   "id": "stroke",
+   "en": "stroke",
+   "uz": "insult (miyaga qon quyilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since his stroke last year, Mr Tursunov has done gentle exercises every day to make his left hand stronger again.",
+   "gap": "stroke",
+   "alt": [
+    "strokes"
+   ]
+  },
+  {
+   "id": "side_effect",
+   "en": "side effect",
+   "uz": "nojo‘ya ta’sir",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feeling sleepy is a common side effect of some hay fever tablets, so read the label before driving.",
+   "gap": "side effect",
+   "alt": [
+    "side effects"
+   ]
+  },
+  {
+   "id": "adverse_reaction",
+   "en": "adverse reaction",
+   "uz": "salbiy reaksiya (dori yoqmasligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two hours after starting the new antibiotic, Kamron came out in a rash, so the doctor noted the adverse reaction and gave him a different medicine.",
+   "gap": "adverse reaction",
+   "alt": [
+    "adverse reactions"
+   ]
+  },
+  {
+   "id": "allergic_reaction",
+   "en": "allergic reaction",
+   "uz": "allergik reaksiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some of the scouts have an allergic reaction to bee stings, so their leader carries special medicine on every camping trip.",
+   "gap": "allergic reaction",
+   "alt": [
+    "allergic reactions"
+   ]
+  },
+  {
+   "id": "particles",
+   "en": "particles",
+   "uz": "mayda zarrachalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse washed the graze on my knee to remove any tiny particles of dirt and sand.",
+   "gap": "particles",
+   "alt": [
+    "particle"
+   ]
+  },
+  {
+   "id": "nausea",
+   "en": "nausea",
+   "uz": "ko‘ngil aynishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Long car journeys on winding roads bring on nausea for my friend Dilbar, so she always sits in the front.",
+   "gap": "nausea",
+   "alt": []
+  },
+  {
+   "id": "disorientation",
+   "en": "disorientation",
+   "uz": "qayerdaligini anglay olmaslik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After hours in the hot sun without water, one hiker suffered such disorientation that he couldn't find the path back to the camp.",
+   "gap": "disorientation",
+   "alt": []
+  },
+  {
+   "id": "symptom",
+   "en": "symptom",
+   "uz": "alomat (belgi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The long queues at the bus stops are just a symptom of a bigger problem: the city needs more buses.",
+   "gap": "symptom",
+   "alt": [
+    "symptoms"
+   ]
+  },
+  {
+   "id": "symptomatic",
+   "en": "symptomatic",
+   "uz": "…ning belgisi bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sanjar's constant joking in class is symptomatic of how nervous he feels about the exams.",
+   "gap": "symptomatic",
+   "alt": []
+  },
+  {
+   "id": "diagnose",
+   "en": "diagnose",
+   "uz": "(muammoning sababini) aniqlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before they can fix the delivery delays, the managers need to diagnose what is really causing them.",
+   "gap": "diagnose",
+   "alt": [
+    "diagnosed",
+    "diagnoses",
+    "diagnosing"
+   ]
+  },
+  {
+   "id": "prognosis",
+   "en": "prognosis",
+   "uz": "kelajak haqidagi taxmin (prognoz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Now that the new road to the market has opened, the prognosis for the town's small shops is much better.",
+   "gap": "prognosis",
+   "alt": []
+  },
+  {
+   "id": "rash_of",
+   "en": "a rash of",
+   "uz": "birdaniga ko‘plab (bir xil voqealar)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There has been a rash of phone thefts on the metro this month, so keep your bag closed.",
+   "gap": "a rash of",
+   "alt": []
+  },
+  {
+   "id": "fever",
+   "en": "fever",
+   "uz": "ommaviy hayajon (ishqibozlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Olympic fever has gripped our mahalla: everyone gathers round the big screen in the teahouse to cheer on our boxers.",
+   "gap": "fever",
+   "alt": []
+  },
+  {
+   "id": "fever_pitch",
+   "en": "fever pitch",
+   "uz": "hayajonning eng yuqori nuqtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "By the final minutes of the derby between Navbahor and Nasaf, the noise in the stadium had reached fever pitch.",
+   "gap": "fever pitch",
+   "alt": []
+  },
+  {
+   "id": "jaundiced",
+   "en": "jaundiced",
+   "uz": "shubha bilan qaraydigan (ishonmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After three broken promises from the builders, the residents are rather jaundiced about the new deadline.",
+   "gap": "jaundiced",
+   "alt": []
+  },
+  {
+   "id": "scarred_by",
+   "en": "be scarred by",
+   "uz": "…dan ruhan jarohat olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shoira was so scarred by getting stuck in a lift as a child that she still takes the stairs.",
+   "gap": "scarred by",
+   "alt": [
+    "scarred by",
+    "was scarred by"
+   ]
+  },
+  {
+   "id": "infect",
+   "en": "infect",
+   "uz": "(kayfiyat, g‘ayrat) yuqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Muslima's laughter infected the whole class, and soon even our strict maths teacher was smiling.",
+   "gap": "infected",
+   "alt": [
+    "infected",
+    "infects",
+    "infecting"
+   ]
+  },
+  {
+   "id": "finger_on_pulse",
+   "en": "finger on the pulse",
+   "uz": "voqealardan doim xabardorlik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A good head teacher keeps a finger on the pulse of what pupils are really worried about.",
+   "gap": "finger on the pulse",
+   "alt": []
+  },
+  {
+   "id": "bowel",
+   "en": "bowel",
+   "uz": "ichak (yo‘g‘on ichak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eating plenty of vegetables and drinking enough water helps keep your bowels healthy.",
+   "gap": "bowels",
+   "alt": [
+    "bowels"
+   ]
+  },
+  {
+   "id": "stools",
+   "en": "stools",
+   "uz": "najas (tibbiy atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor asked Mr Ganiyev whether he had noticed any change in the colour of his stools since starting the iron tablets.",
+   "gap": "stools",
+   "alt": [
+    "stool"
+   ]
+  },
+  {
+   "id": "vomiting",
+   "en": "vomiting",
+   "uz": "qusish (ko‘ngil aynib qaytarish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After eating undercooked chicken at a roadside café, two of the tourists suffered from vomiting all night.",
+   "gap": "vomiting",
+   "alt": [
+    "vomit",
+    "vomited",
+    "vomits"
+   ]
+  },
+  {
+   "id": "condition_illness",
+   "en": "condition",
+   "uz": "xastalik (sog‘liqdagi muammo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Hasanov has a heart condition, so he climbs the stairs to his flat slowly and rests on every landing.",
+   "gap": "condition",
+   "alt": [
+    "conditions"
+   ]
+  },
+  {
+   "id": "carry_the_scars",
+   "en": "carry the scars of",
+   "uz": "…ning asoratlarini saqlab kelmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Decades later, the old fishing town still carries the scars of the great flood that destroyed half its harbour.",
+   "gap": "carries the scars of",
+   "alt": [
+    "carries the scars of",
+    "carried the scars of",
+    "carrying the scars of"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "side_effect",
+   "adverse_reaction"
+  ],
+  [
+   "adverse_reaction",
+   "allergic_reaction"
+  ],
+  [
+   "adverse_reaction",
+   "symptom"
+  ],
+  [
+   "symptom",
+   "symptomatic"
+  ],
+  [
+   "stroke",
+   "heart_attack"
+  ],
+  [
+   "nausea",
+   "nauseous"
+  ],
+  [
+   "bowel",
+   "gastrointestinal"
+  ],
+  [
+   "condition_illness",
+   "disorder"
+  ],
+  [
+   "vomiting",
+   "nausea"
+  ],
+  [
+   "carry_the_scars",
+   "scarred_by"
+  ],
+  [
+   "stools",
+   "particles"
+  ],
+  [
+   "condition_illness",
+   "stroke"
+  ],
+  [
+   "condition_illness",
+   "asthma"
+  ]
+ ]
+}

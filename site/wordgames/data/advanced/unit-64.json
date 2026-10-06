@@ -1,0 +1,392 @@
+{
+ "book": "advanced",
+ "unit": 64,
+ "title": "Weight and density",
+ "title_uz": "Og‘irlik va zichlik",
+ "words": [
+  {
+   "id": "weighty",
+   "en": "weighty",
+   "uz": "salmoqli (jiddiy va og‘ir)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The book club chose a weighty novel of almost nine hundred pages, so we have three months to finish it.",
+   "gap": "weighty",
+   "alt": []
+  },
+  {
+   "id": "unwieldy",
+   "en": "unwieldy",
+   "uz": "beso‘naqay (ko‘tarish noqulay)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new wardrobe came in an unwieldy box that was too big to fit into the lift.",
+   "gap": "unwieldy",
+   "alt": []
+  },
+  {
+   "id": "cumbersome",
+   "en": "cumbersome",
+   "uz": "qo‘pol / mashaqqatli (uskuna / tartib)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Getting a library card used to be a cumbersome process with three forms and two visits.",
+   "gap": "cumbersome",
+   "alt": []
+  },
+  {
+   "id": "burdensome",
+   "en": "burdensome",
+   "uz": "zahmatli (og‘ir yuk bo‘ladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Watering the school garden every weekend soon became a burdensome duty for the volunteers.",
+   "gap": "burdensome",
+   "alt": []
+  },
+  {
+   "id": "ponderous",
+   "en": "ponderous",
+   "uz": "zerikarli darajada og‘ir (uslub)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lecturer's ponderous style, full of long sentences and no jokes, sent half the audience to sleep.",
+   "gap": "ponderous",
+   "alt": []
+  },
+  {
+   "id": "lumbering",
+   "en": "lumbering",
+   "uz": "og‘ir-og‘ir lapanglab yuradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A lumbering elephant crossed the dusty road in front of our jeep, swinging its trunk and taking its time.",
+   "gap": "lumbering",
+   "alt": []
+  },
+  {
+   "id": "weigh_down",
+   "en": "weigh down",
+   "uz": "og‘ir yukdan bukilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The climbers moved slowly, weighed down with heavy rucksacks and tents.",
+   "gap": "weighed down",
+   "alt": [
+    "weighed down",
+    "weighs down",
+    "weighing down"
+   ]
+  },
+  {
+   "id": "weigh_up",
+   "en": "weigh up",
+   "uz": "chamalab (solishtirib) ko‘rmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Before choosing a university, Sevara weighed up the pros and cons of studying in Tashkent or abroad.",
+   "gap": "weighed up",
+   "alt": [
+    "weighed up",
+    "weighs up",
+    "weighing up"
+   ]
+  },
+  {
+   "id": "weigh_out",
+   "en": "weigh out",
+   "uz": "tarozida tortib bermoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "At the market stall, the seller weighed out half a kilo of dried apricots and tipped them into a paper bag.",
+   "gap": "weighed out",
+   "alt": [
+    "weighed out",
+    "weighs out",
+    "weighing out"
+   ]
+  },
+  {
+   "id": "weigh_on",
+   "en": "weigh on",
+   "uz": "ko‘ngilga tinchlik bermaslik",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Forgetting her best friend's birthday had been weighing on Kamola's mind all week.",
+   "gap": "weighing on",
+   "alt": [
+    "weighing on",
+    "weighed on",
+    "weighs on"
+   ]
+  },
+  {
+   "id": "weigh_in",
+   "en": "weigh in",
+   "uz": "bahsga (fikr bilan) qo‘shilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The meeting was calm until the head of the parents' committee weighed in with a long list of complaints.",
+   "gap": "weighed in",
+   "alt": [
+    "weighed in",
+    "weighs in",
+    "weighing in"
+   ]
+  },
+  {
+   "id": "thicken",
+   "en": "thicken",
+   "uz": "quyuqlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the sauce is still too runny, simmer it without a lid for ten more minutes to thicken it.",
+   "gap": "thicken",
+   "alt": [
+    "thickened",
+    "thickens",
+    "thickening"
+   ]
+  },
+  {
+   "id": "sift",
+   "en": "sift",
+   "uz": "elakdan o‘tkazmoq (elamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We sifted the sand through our fingers, looking for the earring that Mohira had dropped on the beach.",
+   "gap": "sifted",
+   "alt": [
+    "sifted",
+    "sifts",
+    "sifting"
+   ]
+  },
+  {
+   "id": "lumpy",
+   "en": "lumpy",
+   "uz": "dona-dona bo‘lib qolgan (quyuqda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The porridge went lumpy because Jasur forgot to stir it while it was cooking.",
+   "gap": "lumpy",
+   "alt": []
+  },
+  {
+   "id": "congeal",
+   "en": "congeal",
+   "uz": "quyulib qotmoq (yog‘ / qon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Eat your shashlik while it's hot; once the fat has congealed, it doesn't taste nearly as good.",
+   "gap": "congealed",
+   "alt": [
+    "congealed",
+    "congeals",
+    "congealing"
+   ]
+  },
+  {
+   "id": "solidify",
+   "en": "solidify",
+   "uz": "qattiq holatga o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Put the melted chocolate in the fridge for an hour, and once it solidifies you can break it into pieces.",
+   "gap": "solidifies",
+   "alt": [
+    "solidified",
+    "solidifies",
+    "solidifying"
+   ]
+  },
+  {
+   "id": "thin_paint",
+   "en": "thin",
+   "uz": "suyultirmoq (bo‘yoq / sous)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The glue had gone too thick to spread, so Aziz added a few drops of water to thin it.",
+   "gap": "thin",
+   "alt": [
+    "thinned",
+    "thins",
+    "thinning"
+   ]
+  },
+  {
+   "id": "thin_out",
+   "en": "thin out",
+   "uz": "siyraklashmoq (kamayib bormoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "As we climbed higher up the mountain, the forest started to thin out and we could finally see the peaks.",
+   "gap": "thin out",
+   "alt": [
+    "thinned out",
+    "thins out",
+    "thinning out"
+   ]
+  },
+  {
+   "id": "dilute",
+   "en": "dilute",
+   "uz": "suv qo‘shib kuchsizlantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This cleaning liquid can damage the floor, so always dilute it in a bucket of water before you mop.",
+   "gap": "dilute",
+   "alt": [
+    "diluted",
+    "dilutes",
+    "diluting"
+   ]
+  },
+  {
+   "id": "water_down",
+   "en": "water down",
+   "uz": "suv qo‘shib aynitmoq (sifatsizlantirmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "That café waters down its orange juice, so it hardly tastes of oranges at all.",
+   "gap": "waters down",
+   "alt": [
+    "waters down",
+    "watered down",
+    "watering down"
+   ]
+  },
+  {
+   "id": "impervious",
+   "en": "impervious",
+   "uz": "ta’sir o‘tmaydigan (o‘tkazmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour seems completely impervious to complaints; he still parks across our gate every morning.",
+   "gap": "impervious",
+   "alt": [
+    "impervious to"
+   ]
+  },
+  {
+   "id": "tome",
+   "en": "tome",
+   "uz": "qalin kitob (katta jild)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The oldest tome in the library, a leather-bound history of the Silk Road, needs two hands to lift.",
+   "gap": "tome",
+   "alt": [
+    "tomes"
+   ]
+  },
+  {
+   "id": "sieve",
+   "en": "sieve",
+   "uz": "elak (g‘alvir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shake the flour through a sieve to get rid of any lumps before you add the eggs.",
+   "gap": "sieve",
+   "alt": [
+    "sieves"
+   ]
+  },
+  {
+   "id": "thin_out_hair",
+   "en": "thin out",
+   "uz": "(sochni) siyraklashtirib olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My hair was so thick and heavy that the barber thinned it out with special scissors.",
+   "gap": "thinned it out",
+   "alt": [
+    "thinned out",
+    "thinned it out",
+    "thin it out",
+    "thins out",
+    "thinning out"
+   ]
+  },
+  {
+   "id": "impenetrable_lit",
+   "en": "impenetrable",
+   "uz": "o‘tib bo‘lmas (qalin o‘rmon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Without a path, the bamboo forest was impenetrable, so the hikers had to turn back to the river.",
+   "gap": "impenetrable",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "weighty",
+   "ponderous"
+  ],
+  [
+   "weighty",
+   "burdensome"
+  ],
+  [
+   "unwieldy",
+   "cumbersome"
+  ],
+  [
+   "congeal",
+   "solidify"
+  ],
+  [
+   "thin_paint",
+   "dilute"
+  ],
+  [
+   "thin_paint",
+   "water_down"
+  ],
+  [
+   "dilute",
+   "water_down"
+  ],
+  [
+   "thin_paint",
+   "thin_out"
+  ],
+  [
+   "weigh_down",
+   "weigh_on"
+  ],
+  [
+   "weighty",
+   "cumbersome"
+  ],
+  [
+   "cumbersome",
+   "burdensome"
+  ],
+  [
+   "weighty",
+   "unwieldy"
+  ],
+  [
+   "lumbering",
+   "ponderous"
+  ],
+  [
+   "cumbersome",
+   "ponderous"
+  ],
+  [
+   "thin_out_hair",
+   "thin_out"
+  ],
+  [
+   "thin_out_hair",
+   "thin_paint"
+  ],
+  [
+   "impenetrable_lit",
+   "impervious"
+  ]
+ ]
+}

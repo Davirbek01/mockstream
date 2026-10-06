@@ -1,0 +1,643 @@
+{
+ "book": "advanced",
+ "unit": 66,
+ "title": "Speed: fast and slow",
+ "title_uz": "Tezlik: tez va sekin",
+ "words": [
+  {
+   "id": "dash",
+   "en": "dash",
+   "uz": "shoshib jo‘nab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was lovely to see you, Nodira, but I must dash; my bus leaves in five minutes.",
+   "gap": "dash",
+   "alt": [
+    "dashed",
+    "dashing",
+    "dashes"
+   ]
+  },
+  {
+   "id": "fly_v",
+   "en": "fly",
+   "uz": "uchib chiqmoq (juda tez yugurib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I knocked on the door, my little cousin came flying down the stairs to let me in.",
+   "gap": "flying",
+   "alt": [
+    "flew",
+    "flown",
+    "flying",
+    "flies"
+   ]
+  },
+  {
+   "id": "race",
+   "en": "race",
+   "uz": "musobaqalashib chopmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the last day of term, the two brothers raced each other home, and the younger one won by a metre.",
+   "gap": "raced",
+   "alt": [
+    "raced",
+    "racing",
+    "races"
+   ]
+  },
+  {
+   "id": "tear",
+   "en": "tear",
+   "uz": "yeldek uchib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With its lights flashing, the police car tore along the empty avenue and was out of sight in seconds.",
+   "gap": "tore",
+   "alt": [
+    "tore",
+    "tearing",
+    "tears"
+   ]
+  },
+  {
+   "id": "nip",
+   "en": "nip",
+   "uz": "bir zumga borib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you watch my bag for a minute? I'm just going to nip out to the kiosk to top up my phone.",
+   "gap": "nip",
+   "alt": [
+    "nipped",
+    "nipping",
+    "nips"
+   ]
+  },
+  {
+   "id": "pop",
+   "en": "pop",
+   "uz": "bir pasga kirib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbour often pops round for a cup of tea on his way home from work.",
+   "gap": "pops",
+   "alt": [
+    "popped",
+    "popping",
+    "pops"
+   ]
+  },
+  {
+   "id": "dart",
+   "en": "dart",
+   "uz": "lip etib o‘tmoq (keskin harakat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A swallow darted in and out of the open barn door all afternoon, feeding its hungry chicks.",
+   "gap": "darted",
+   "alt": [
+    "darted",
+    "darting",
+    "darts"
+   ]
+  },
+  {
+   "id": "zip",
+   "en": "zip",
+   "uz": "shuvillab o‘tib ketmoq (transport)",
+   "pos": "verb",
+   "img": false,
+   "ex": "These days, delivery riders on electric scooters zip past the long queues of cars in the city centre.",
+   "gap": "zip",
+   "alt": [
+    "zipped",
+    "zipping",
+    "zips"
+   ]
+  },
+  {
+   "id": "whizz",
+   "en": "whizz",
+   "uz": "vizillab uchib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A tennis ball whizzed past my ear and bounced off the fence behind me.",
+   "gap": "whizzed",
+   "alt": [
+    "whiz",
+    "whizzed",
+    "whizzing",
+    "whizzes"
+   ]
+  },
+  {
+   "id": "bolt",
+   "en": "bolt",
+   "uz": "birdan otilib qochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The young horse bolted at the first clap of thunder, and it took the farmer an hour to find it in the orchard.",
+   "gap": "bolted",
+   "alt": [
+    "bolted",
+    "bolting",
+    "bolts"
+   ]
+  },
+  {
+   "id": "career_v",
+   "en": "career",
+   "uz": "boshqaruvsiz yelib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When its brakes failed, the empty lorry careered off the road into a cotton field, but luckily nobody was hurt.",
+   "gap": "careered",
+   "alt": [
+    "careered",
+    "careering",
+    "careers"
+   ]
+  },
+  {
+   "id": "scamper",
+   "en": "scamper",
+   "uz": "o‘ynoqlab chopqillamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The puppies scampered across the yard, tails wagging, to greet the children home from school.",
+   "gap": "scampered",
+   "alt": [
+    "scampered",
+    "scampering",
+    "scampers"
+   ]
+  },
+  {
+   "id": "scurry",
+   "en": "scurry",
+   "uz": "shoshib zir yugurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the rain suddenly started, shoppers at the bazaar scurried for cover under the stall roofs.",
+   "gap": "scurried",
+   "alt": [
+    "scurried",
+    "scurrying",
+    "scurries"
+   ]
+  },
+  {
+   "id": "scuttle",
+   "en": "scuttle",
+   "uz": "yonboshlab qochib kirmoq (qisqichbaqa)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As our shadows fell across the sand, a small crab scuttled sideways into its hole.",
+   "gap": "scuttled",
+   "alt": [
+    "scuttled",
+    "scuttling",
+    "scuttles"
+   ]
+  },
+  {
+   "id": "speed_up",
+   "en": "speed up",
+   "uz": "tezlashmoq (qadamni tezlatmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Come on, Sardor, you're walking like a tortoise! If we don't speed up a bit, we'll miss the start of the concert.",
+   "gap": "speed up",
+   "alt": [
+    "sped up",
+    "speeded up",
+    "speeding up",
+    "speeds up"
+   ]
+  },
+  {
+   "id": "accelerate",
+   "en": "accelerate",
+   "uz": "tezlikni oshirmoq (transport)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After leaving the station, the high-speed train accelerated smoothly to over 200 kilometres an hour.",
+   "gap": "accelerated",
+   "alt": [
+    "accelerated",
+    "accelerating",
+    "accelerates"
+   ]
+  },
+  {
+   "id": "plunge",
+   "en": "plunge",
+   "uz": "sho‘ng‘ib tushmoq (keskin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The power cut plunged the whole street into darkness just as the match was about to start.",
+   "gap": "plunged",
+   "alt": [
+    "plunged",
+    "plunging",
+    "plunges"
+   ]
+  },
+  {
+   "id": "plummet",
+   "en": "plummet",
+   "uz": "keskin qulab tushmoq (harorat, narx)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The temperature plummeted overnight, and by morning every puddle in the street had turned to ice.",
+   "gap": "plummeted",
+   "alt": [
+    "plummeted",
+    "plummeting",
+    "plummets"
+   ]
+  },
+  {
+   "id": "rocket",
+   "en": "rocket",
+   "uz": "osmonga sapchimoq (narx)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ticket prices for the final rocketed as soon as the national team qualified.",
+   "gap": "rocketed",
+   "alt": [
+    "rocketed",
+    "rocketing",
+    "rockets"
+   ]
+  },
+  {
+   "id": "soar",
+   "en": "soar",
+   "uz": "baland parvoz qilmoq (qush, ruh)",
+   "pos": "verb",
+   "img": false,
+   "ex": "An eagle soared high above the valley, hardly moving its huge wings.",
+   "gap": "soared",
+   "alt": [
+    "soared",
+    "soaring",
+    "soars"
+   ]
+  },
+  {
+   "id": "slump_v",
+   "en": "slump",
+   "uz": "keskin pasaymoq (savdo)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ice-cream sales usually slump in winter, when nobody wants a cold dessert.",
+   "gap": "slump",
+   "alt": [
+    "slumped",
+    "slumping",
+    "slumps"
+   ]
+  },
+  {
+   "id": "tumble",
+   "en": "tumble",
+   "uz": "qulab tushmoq (aksiya narxi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shares in the phone company tumbled after reports that its new model could overheat.",
+   "gap": "tumbled",
+   "alt": [
+    "tumbled",
+    "tumbling",
+    "tumbles"
+   ]
+  },
+  {
+   "id": "crawl",
+   "en": "crawl",
+   "uz": "sudralib yurmoq (juda sekin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every autumn the road to the village fills with cotton trucks, and the traffic crawls along at walking pace.",
+   "gap": "crawls",
+   "alt": [
+    "crawled",
+    "crawling",
+    "crawls"
+   ]
+  },
+  {
+   "id": "creep",
+   "en": "creep",
+   "uz": "sekin-asta ko‘tarilmoq (son, narx)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The number of students cycling to school has been creeping up slowly but steadily all year.",
+   "gap": "creeping",
+   "alt": [
+    "crept",
+    "creeping",
+    "creeps"
+   ]
+  },
+  {
+   "id": "totter",
+   "en": "totter",
+   "uz": "gandiraklab yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Wearing her mum's high heels, my little sister tottered slowly across the room, wobbling with every step.",
+   "gap": "tottered",
+   "alt": [
+    "tottered",
+    "tottering",
+    "totters"
+   ]
+  },
+  {
+   "id": "sidle",
+   "en": "sidle",
+   "uz": "xijolat bilan sekin yaqinlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Too shy to join in, the new boy sidled up to the group of older students and waited for someone to notice him.",
+   "gap": "sidled",
+   "alt": [
+    "sidled",
+    "sidling",
+    "sidles"
+   ]
+  },
+  {
+   "id": "dawdle",
+   "en": "dawdle",
+   "uz": "ivirsimoq (vaqtni cho‘zmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you dawdle over your breakfast like this every morning, you'll miss the school bus again.",
+   "gap": "dawdle",
+   "alt": [
+    "dawdled",
+    "dawdling",
+    "dawdles"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fly_v",
+   "dash"
+  ],
+  [
+   "fly_v",
+   "tear"
+  ],
+  [
+   "fly_v",
+   "whizz"
+  ],
+  [
+   "dash",
+   "tear"
+  ],
+  [
+   "dash",
+   "bolt"
+  ],
+  [
+   "dash",
+   "zip"
+  ],
+  [
+   "race",
+   "tear"
+  ],
+  [
+   "race",
+   "dart"
+  ],
+  [
+   "race",
+   "scamper"
+  ],
+  [
+   "race",
+   "scurry"
+  ],
+  [
+   "race",
+   "scuttle"
+  ],
+  [
+   "race",
+   "career_v"
+  ],
+  [
+   "tear",
+   "dart"
+  ],
+  [
+   "tear",
+   "scamper"
+  ],
+  [
+   "tear",
+   "scurry"
+  ],
+  [
+   "tear",
+   "scuttle"
+  ],
+  [
+   "tear",
+   "zip"
+  ],
+  [
+   "tear",
+   "whizz"
+  ],
+  [
+   "tear",
+   "career_v"
+  ],
+  [
+   "tear",
+   "accelerate"
+  ],
+  [
+   "bolt",
+   "dart"
+  ],
+  [
+   "bolt",
+   "scurry"
+  ],
+  [
+   "bolt",
+   "scuttle"
+  ],
+  [
+   "bolt",
+   "career_v"
+  ],
+  [
+   "dart",
+   "scamper"
+  ],
+  [
+   "dart",
+   "scurry"
+  ],
+  [
+   "dart",
+   "scuttle"
+  ],
+  [
+   "dart",
+   "zip"
+  ],
+  [
+   "dart",
+   "whizz"
+  ],
+  [
+   "scamper",
+   "scurry"
+  ],
+  [
+   "scamper",
+   "scuttle"
+  ],
+  [
+   "scurry",
+   "scuttle"
+  ],
+  [
+   "zip",
+   "whizz"
+  ],
+  [
+   "zip",
+   "career_v"
+  ],
+  [
+   "career_v",
+   "plunge"
+  ],
+  [
+   "career_v",
+   "tumble"
+  ],
+  [
+   "nip",
+   "pop"
+  ],
+  [
+   "nip",
+   "dash"
+  ],
+  [
+   "nip",
+   "dart"
+  ],
+  [
+   "nip",
+   "zip"
+  ],
+  [
+   "speed_up",
+   "accelerate"
+  ],
+  [
+   "plunge",
+   "plummet"
+  ],
+  [
+   "plunge",
+   "slump_v"
+  ],
+  [
+   "plunge",
+   "tumble"
+  ],
+  [
+   "plummet",
+   "slump_v"
+  ],
+  [
+   "plummet",
+   "tumble"
+  ],
+  [
+   "slump_v",
+   "tumble"
+  ],
+  [
+   "rocket",
+   "soar"
+  ],
+  [
+   "crawl",
+   "creep"
+  ],
+  [
+   "crawl",
+   "dawdle"
+  ],
+  [
+   "creep",
+   "sidle"
+  ],
+  [
+   "scuttle",
+   "crawl"
+  ],
+  [
+   "scuttle",
+   "creep"
+  ],
+  [
+   "totter",
+   "sidle"
+  ],
+  [
+   "fly_v",
+   "race"
+  ],
+  [
+   "fly_v",
+   "creep"
+  ],
+  [
+   "race",
+   "whizz"
+  ],
+  [
+   "tear",
+   "rocket"
+  ],
+  [
+   "whizz",
+   "rocket"
+  ],
+  [
+   "scamper",
+   "dash"
+  ],
+  [
+   "scamper",
+   "zip"
+  ],
+  [
+   "scamper",
+   "bolt"
+  ],
+  [
+   "scuttle",
+   "sidle"
+  ]
+ ]
+}

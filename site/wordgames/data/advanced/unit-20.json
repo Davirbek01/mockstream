@@ -1,0 +1,529 @@
+{
+ "book": "advanced",
+ "unit": 20,
+ "title": "The performance arts: reviews and critiques",
+ "title_uz": "Sahna san’ati: taqrizlar va tanqid",
+ "words": [
+  {
+   "id": "overrated",
+   "en": "overrated",
+   "uz": "keragidan ortiq maqtalgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Critics called it the best series of the year, but honestly I think it's overrated; it's good, but not that good.",
+   "gap": "overrated",
+   "alt": []
+  },
+  {
+   "id": "hackneyed",
+   "en": "hackneyed",
+   "uz": "siyqasi chiqqan (ko‘p takrorlangan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The plot was hackneyed: an old detective solves one last case on the day before he retires.",
+   "gap": "hackneyed",
+   "alt": []
+  },
+  {
+   "id": "disjointed",
+   "en": "disjointed",
+   "uz": "uzuq-yuluq (izchil bo‘lmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film jumps between five different stories and three decades, so it feels disjointed and hard to follow.",
+   "gap": "disjointed",
+   "alt": []
+  },
+  {
+   "id": "far_fetched",
+   "en": "far-fetched",
+   "uz": "aqlga sig‘maydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A schoolboy who builds a time machine out of an old fridge and saves the city? The plot is rather far-fetched.",
+   "gap": "far-fetched",
+   "alt": [
+    "far fetched"
+   ]
+  },
+  {
+   "id": "risque",
+   "en": "risqué",
+   "uz": "odob chegarasidan chiqayozgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some of the comedian's jokes were a bit risqué, so the school chose a different video for the end-of-term show.",
+   "gap": "risqué",
+   "alt": [
+    "risque"
+   ]
+  },
+  {
+   "id": "gripping",
+   "en": "gripping",
+   "uz": "maroqli (o‘ziga mahkam tortadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The detective series was so gripping that we couldn't stop watching until we found out who the killer was.",
+   "gap": "gripping",
+   "alt": []
+  },
+  {
+   "id": "harrowing",
+   "en": "harrowing",
+   "uz": "dahshatli, qalbni larzaga soladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The documentary gives a harrowing account of the 1966 Tashkent earthquake; some scenes of families searching the ruins are almost too painful to watch.",
+   "gap": "harrowing",
+   "alt": []
+  },
+  {
+   "id": "moving",
+   "en": "moving",
+   "uz": "ta’sirli (achinish uyg‘otadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's such a moving film about a girl who gives up her studies to look after her sick little brother that half the audience was in tears.",
+   "gap": "moving",
+   "alt": []
+  },
+  {
+   "id": "memorable",
+   "en": "memorable",
+   "uz": "esda qolarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her performance as Nodira in last night's play was truly memorable; I'm sure I'll still remember it years from now.",
+   "gap": "memorable",
+   "alt": []
+  },
+  {
+   "id": "understated",
+   "en": "understated",
+   "uz": "sodda, ammo nafis (bo‘rttirilmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The actress gave an understated performance, showing her character's grief with nothing more than a look.",
+   "gap": "understated",
+   "alt": []
+  },
+  {
+   "id": "tedious",
+   "en": "tedious",
+   "uz": "zerikarli, cho‘zilib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lecture was long and tedious, and half the audience was asleep before the end.",
+   "gap": "tedious",
+   "alt": []
+  },
+  {
+   "id": "hilarious",
+   "en": "hilarious",
+   "uz": "o‘ta kulgili",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pupils' comedy sketch about lazy students was hilarious; even our strict headteacher couldn't stop laughing.",
+   "gap": "hilarious",
+   "alt": []
+  },
+  {
+   "id": "applause",
+   "en": "applause",
+   "uz": "qarsaklar (olqish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the orchestra finished the last piece, the applause went on for five full minutes.",
+   "gap": "applause",
+   "alt": []
+  },
+  {
+   "id": "glowing_reviews",
+   "en": "glowing reviews",
+   "uz": "maqtovga to‘la taqrizlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new musical has received glowing reviews from almost every newspaper in the country.",
+   "gap": "glowing reviews",
+   "alt": [
+    "glowing review"
+   ]
+  },
+  {
+   "id": "encore",
+   "en": "encore",
+   "uz": "qo‘shimcha ijro (bis)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The crowd kept shouting for an encore, so the band came back on stage and played two more songs.",
+   "gap": "encore",
+   "alt": [
+    "encores"
+   ]
+  },
+  {
+   "id": "standing_ovation",
+   "en": "standing ovation",
+   "uz": "o‘rnidan turib olqishlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the concert, the whole hall rose to give the young pianist a standing ovation.",
+   "gap": "standing ovation",
+   "alt": [
+    "standing ovations"
+   ]
+  },
+  {
+   "id": "up_and_coming",
+   "en": "up-and-coming",
+   "uz": "istiqbolli, endi tanilayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The festival gives up-and-coming directors a chance to show their first short films.",
+   "gap": "up-and-coming",
+   "alt": [
+    "up and coming"
+   ]
+  },
+  {
+   "id": "masterpiece",
+   "en": "masterpiece",
+   "uz": "durdona asar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Navoi's 'Khamsa' is widely regarded as a masterpiece of Turkic literature, still read and studied five centuries later.",
+   "gap": "masterpiece",
+   "alt": [
+    "masterpieces"
+   ]
+  },
+  {
+   "id": "typecast",
+   "en": "typecast",
+   "uz": "bir xil rolga bog‘lanib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After playing the villain in three popular series, the actor worries that he has been typecast and will never get a comic role.",
+   "gap": "typecast",
+   "alt": []
+  },
+  {
+   "id": "pan",
+   "en": "pan",
+   "uz": "qattiq tanqid qilmoq (yerga urmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Critics panned the remake, calling it a lazy copy of the original.",
+   "gap": "panned",
+   "alt": [
+    "panned",
+    "pans"
+   ]
+  },
+  {
+   "id": "slate",
+   "en": "slate",
+   "uz": "(matbuotda) tanqid ostiga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Newspapers slated the minister's speech as dull and full of empty promises.",
+   "gap": "slated",
+   "alt": [
+    "slated",
+    "slates"
+   ]
+  },
+  {
+   "id": "laud",
+   "en": "laud",
+   "uz": "yuksak maqtamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her first novel was widely lauded and won three national prizes.",
+   "gap": "lauded",
+   "alt": [
+    "lauded",
+    "lauds"
+   ]
+  },
+  {
+   "id": "bomb",
+   "en": "bomb",
+   "uz": "muvaffaqiyatsizlikka uchramoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The comedy bombed at the box office and disappeared from cinemas after a week.",
+   "gap": "bombed",
+   "alt": [
+    "bombed",
+    "bombs"
+   ]
+  },
+  {
+   "id": "boo",
+   "en": "boo",
+   "uz": "hayqirib norozilik bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The audience booed the singer when she forgot the words for the second time.",
+   "gap": "booed",
+   "alt": [
+    "booed",
+    "boos"
+   ]
+  },
+  {
+   "id": "flop",
+   "en": "flop",
+   "uz": "omadsiz asar (barbod bo‘lgan loyiha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite its huge budget, the musical was a total flop and closed after two weeks.",
+   "gap": "flop",
+   "alt": [
+    "flops"
+   ]
+  },
+  {
+   "id": "miscast",
+   "en": "miscast",
+   "uz": "rolga noto‘g‘ri tanlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At twenty-five, she was clearly miscast as the mother of a teenage son.",
+   "gap": "miscast",
+   "alt": []
+  },
+  {
+   "id": "unconvincing",
+   "en": "unconvincing",
+   "uz": "ishonarsiz (haqqoniy ko‘rinmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The actor playing the surgeon was so unconvincing that nobody believed he had ever been near a hospital.",
+   "gap": "unconvincing",
+   "alt": []
+  },
+  {
+   "id": "audition",
+   "en": "audition",
+   "uz": "saralash chiqishi (kasting)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over two hundred young singers came to the audition, but only five were chosen for the choir.",
+   "gap": "audition",
+   "alt": [
+    "auditions"
+   ]
+  },
+  {
+   "id": "rehearsal",
+   "en": "rehearsal",
+   "uz": "repetitsiya (sahna mashqi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dancers have a rehearsal every evening until the premiere at the Navoi Theatre.",
+   "gap": "rehearsal",
+   "alt": [
+    "rehearsals"
+   ]
+  },
+  {
+   "id": "interpretation",
+   "en": "interpretation",
+   "uz": "talqin (ijrochining tushunishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pianist's interpretation of the sonata was slower and darker than any I had heard before.",
+   "gap": "interpretation",
+   "alt": [
+    "interpretations"
+   ]
+  },
+  {
+   "id": "cover",
+   "en": "cover",
+   "uz": "qo‘shiqning boshqa ijrochi qilgan ijrosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band's cover of an old Uzbek pop song has had millions of views online.",
+   "gap": "cover",
+   "alt": [
+    "covers"
+   ]
+  },
+  {
+   "id": "version",
+   "en": "version",
+   "uz": "variant (asarning bir ijrosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've heard many covers of this song, but I still prefer the original version by the singer who wrote it.",
+   "gap": "version",
+   "alt": [
+    "versions"
+   ]
+  },
+  {
+   "id": "portrayal",
+   "en": "portrayal",
+   "uz": "obraz yaratish (aktyor tasviri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "His portrayal of the young Babur in the new film is both proud and tender.",
+   "gap": "portrayal",
+   "alt": [
+    "portrayals"
+   ]
+  },
+  {
+   "id": "unforgettable",
+   "en": "unforgettable",
+   "uz": "unutilmas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Watching the opera on an open-air stage under the stars was an unforgettable experience for the whole class.",
+   "gap": "unforgettable",
+   "alt": []
+  },
+  {
+   "id": "award",
+   "en": "award",
+   "uz": "mukofot (sovrin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her documentary about the Aral Sea won an award at an international film festival last spring.",
+   "gap": "award",
+   "alt": [
+    "awards"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "overrated",
+   "tedious"
+  ],
+  [
+   "hackneyed",
+   "tedious"
+  ],
+  [
+   "hackneyed",
+   "far_fetched"
+  ],
+  [
+   "disjointed",
+   "tedious"
+  ],
+  [
+   "harrowing",
+   "moving"
+  ],
+  [
+   "moving",
+   "memorable"
+  ],
+  [
+   "memorable",
+   "understated"
+  ],
+  [
+   "gripping",
+   "memorable"
+  ],
+  [
+   "applause",
+   "standing_ovation"
+  ],
+  [
+   "encore",
+   "standing_ovation"
+  ],
+  [
+   "typecast",
+   "miscast"
+  ],
+  [
+   "pan",
+   "boo"
+  ],
+  [
+   "pan",
+   "laud"
+  ],
+  [
+   "slate",
+   "pan"
+  ],
+  [
+   "slate",
+   "laud"
+  ],
+  [
+   "slate",
+   "boo"
+  ],
+  [
+   "unconvincing",
+   "miscast"
+  ],
+  [
+   "version",
+   "cover"
+  ],
+  [
+   "version",
+   "interpretation"
+  ],
+  [
+   "version",
+   "portrayal"
+  ],
+  [
+   "bomb",
+   "flop"
+  ],
+  [
+   "interpretation",
+   "portrayal"
+  ],
+  [
+   "interpretation",
+   "cover"
+  ],
+  [
+   "cover",
+   "portrayal"
+  ],
+  [
+   "audition",
+   "rehearsal"
+  ],
+  [
+   "unforgettable",
+   "memorable"
+  ],
+  [
+   "unforgettable",
+   "moving"
+  ],
+  [
+   "unforgettable",
+   "gripping"
+  ],
+  [
+   "award",
+   "standing_ovation"
+  ],
+  [
+   "award",
+   "glowing_reviews"
+  ],
+  [
+   "award",
+   "masterpiece"
+  ]
+ ]
+}

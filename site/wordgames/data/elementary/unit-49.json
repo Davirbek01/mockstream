@@ -1,0 +1,342 @@
+{
+ "book": "elementary",
+ "unit": 49,
+ "title": "Moving",
+ "title_uz": "Harakat va transport",
+ "words": [
+  {
+   "id": "swim",
+   "en": "swim",
+   "uz": "suzmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother can't swim yet, so he always stays in the shallow end of the pool.",
+   "gap": "swim",
+   "alt": [
+    "swims",
+    "swam",
+    "swimming"
+   ]
+  },
+  {
+   "id": "walk",
+   "en": "walk",
+   "uz": "piyoda yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The escalator at the shopping centre isn't working today, so we have to walk up to the third floor.",
+   "gap": "walk",
+   "alt": [
+    "walks",
+    "walked",
+    "walking"
+   ]
+  },
+  {
+   "id": "run",
+   "en": "run",
+   "uz": "yugurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I was late for school, so I had to run all the way from the bus stop.",
+   "gap": "run",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "jump",
+   "en": "jump",
+   "uz": "sakramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In PE, we had to jump as high as we could and touch a line on the wall.",
+   "gap": "jump",
+   "alt": [
+    "jumps",
+    "jumped",
+    "jumping"
+   ]
+  },
+  {
+   "id": "dance",
+   "en": "dance",
+   "uz": "raqsga tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At my cousin's birthday party, everyone danced to Uzbek pop music until late.",
+   "gap": "danced",
+   "alt": [
+    "dances",
+    "danced",
+    "dancing"
+   ]
+  },
+  {
+   "id": "climb",
+   "en": "climb",
+   "uz": "tirmashib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our ball got stuck in the old walnut tree, so my brother climbed up and threw it down.",
+   "gap": "climbed",
+   "alt": [
+    "climbs",
+    "climbed",
+    "climbing"
+   ]
+  },
+  {
+   "id": "fall",
+   "en": "fall",
+   "uz": "yiqilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cleaner has just washed the corridor floor, so be careful or you'll fall.",
+   "gap": "fall",
+   "alt": [
+    "falls",
+    "fell",
+    "fallen",
+    "falling"
+   ]
+  },
+  {
+   "id": "by_bike",
+   "en": "by bike",
+   "uz": "velosipedda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In summer I go to my friend's house by bike and lock it outside his gate.",
+   "gap": "by bike",
+   "alt": []
+  },
+  {
+   "id": "by_taxi",
+   "en": "by taxi",
+   "uz": "taksida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It was raining hard and we had a lot of shopping, so we went home by taxi, and the driver helped us with the bags.",
+   "gap": "by taxi",
+   "alt": []
+  },
+  {
+   "id": "by_underground",
+   "en": "by underground",
+   "uz": "metroda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mum goes to work by underground and changes trains at Mustaqillik Maydoni station.",
+   "gap": "by underground",
+   "alt": []
+  },
+  {
+   "id": "ride_a_bike",
+   "en": "ride a bike",
+   "uz": "velosiped haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister is learning to ride a bike, so Dad holds the back of the seat for her.",
+   "gap": "ride a bike",
+   "alt": [
+    "rides a bike",
+    "rode a bike",
+    "riding a bike"
+   ]
+  },
+  {
+   "id": "ride_a_horse",
+   "en": "ride a horse",
+   "uz": "ot minmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On our trip to the mountains near Zaamin, we rode horses, and mine kept stopping to eat grass.",
+   "gap": "rode horses",
+   "alt": [
+    "rides a horse",
+    "rode a horse",
+    "riding a horse",
+    "rode horses"
+   ]
+  },
+  {
+   "id": "drive",
+   "en": "drive",
+   "uz": "(mashina) haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My brother is eighteen now, and he drives Dad's car to college every day.",
+   "gap": "drives",
+   "alt": [
+    "drives",
+    "drove",
+    "driving",
+    "driven"
+   ]
+  },
+  {
+   "id": "arrive",
+   "en": "arrive",
+   "uz": "yetib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our plane from Moscow arrived in Fergana two hours late because of the snow.",
+   "gap": "arrived",
+   "alt": [
+    "arrives",
+    "arrived",
+    "arriving"
+   ]
+  },
+  {
+   "id": "leave",
+   "en": "leave",
+   "uz": "jo‘nab ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We need to leave the house at seven, or we'll be late for the concert.",
+   "gap": "leave",
+   "alt": [
+    "leaves",
+    "left",
+    "leaving"
+   ]
+  },
+  {
+   "id": "catch_the_train",
+   "en": "catch the train",
+   "uz": "poyezdga ulgurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Malika looked at her watch: 'It's ten to eight. If we take a taxi, we can still catch the train to Bukhara!'",
+   "gap": "catch the train",
+   "alt": [
+    "catches the train",
+    "caught the train",
+    "catch a train"
+   ]
+  },
+  {
+   "id": "miss_the_train",
+   "en": "miss the train",
+   "uz": "poyezddan qolib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We got to Samarkand station two minutes late and missed the train to Tashkent.",
+   "gap": "missed the train",
+   "alt": [
+    "misses the train",
+    "missed the train"
+   ]
+  },
+  {
+   "id": "pass_hand",
+   "en": "pass",
+   "uz": "uzatib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you pass me the scissors, please? I can't reach them.",
+   "gap": "pass",
+   "alt": [
+    "passes",
+    "passed",
+    "passing"
+   ]
+  },
+  {
+   "id": "by_motorbike",
+   "en": "by motorbike",
+   "uz": "mototsiklda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The village is high in the hills and the road is narrow, so the postman travels by motorbike.",
+   "gap": "by motorbike",
+   "alt": []
+  },
+  {
+   "id": "by_ship",
+   "en": "by ship",
+   "uz": "kemada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There is no bridge across the Caspian Sea, so lorries go from Azerbaijan to Kazakhstan by ship.",
+   "gap": "by ship",
+   "alt": []
+  },
+  {
+   "id": "take_a_plane",
+   "en": "take a plane",
+   "uz": "samolyotda bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The train to Nukus is very slow, so this time we're going to take a plane instead.",
+   "gap": "take a plane",
+   "alt": [
+    "takes a plane",
+    "took a plane",
+    "taking a plane",
+    "take the plane",
+    "took the plane"
+   ]
+  },
+  {
+   "id": "ride_a_motorbike",
+   "en": "ride a motorbike",
+   "uz": "mototsikl haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since he passed his test, Farrux rides a motorbike to work, and you can hear its loud engine from far away.",
+   "gap": "rides a motorbike",
+   "alt": [
+    "rides a motorbike",
+    "rode a motorbike",
+    "riding a motorbike"
+   ]
+  },
+  {
+   "id": "pilot",
+   "en": "pilot",
+   "uz": "uchuvchi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before take-off, the pilot spoke to the passengers and said that the flight would last two hours.",
+   "gap": "pilot",
+   "alt": [
+    "pilots"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "walk",
+   "run"
+  ],
+  [
+   "jump",
+   "climb"
+  ],
+  [
+   "by_motorbike",
+   "by_bike"
+  ],
+  [
+   "by_motorbike",
+   "by_taxi"
+  ],
+  [
+   "ride_a_motorbike",
+   "ride_a_bike"
+  ],
+  [
+   "ride_a_motorbike",
+   "drive"
+  ],
+  [
+   "ride_a_motorbike",
+   "ride_a_horse"
+  ]
+ ]
+}

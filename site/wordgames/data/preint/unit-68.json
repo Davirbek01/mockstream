@@ -1,0 +1,349 @@
+{
+ "book": "preint",
+ "unit": 68,
+ "title": "Likes, dislikes, attitudes and preferences",
+ "title_uz": "Yoqtirish, yoqtirmaslik, munosabat va afzal ko‘rish",
+ "words": [
+  {
+   "id": "be_into",
+   "en": "be into",
+   "uz": "… ga ishqiboz bo‘lmoq (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother is really into robots and spends every Saturday at a robotics club.",
+   "gap": "into",
+   "alt": [
+    "into",
+    "really into"
+   ]
+  },
+  {
+   "id": "quite_like",
+   "en": "quite like",
+   "uz": "anchagina yoqtirmoq (juda emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm not a big fan of spicy food, but I quite like the lagman at the café near our school.",
+   "gap": "quite like",
+   "alt": [
+    "quite likes"
+   ]
+  },
+  {
+   "id": "keen_on",
+   "en": "keen on",
+   "uz": "… ni xush ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kamila isn't very keen on swimming, so she sat by the pool with a book while we swam.",
+   "gap": "keen on",
+   "alt": [
+    "not keen on",
+    "not very keen on"
+   ]
+  },
+  {
+   "id": "cant_stand",
+   "en": "can't stand",
+   "uz": "toqat qilolmaslik (juda yomon ko‘rmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My older sister can't stand waiting in queues, so she pays for everything online.",
+   "gap": "can't stand",
+   "alt": []
+  },
+  {
+   "id": "dislike",
+   "en": "dislike",
+   "uz": "yoqtirmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I was little, I really disliked carrots, but now I eat them in salads every day.",
+   "gap": "disliked",
+   "alt": [
+    "dislikes",
+    "disliked"
+   ]
+  },
+  {
+   "id": "so_do_i",
+   "en": "So do I",
+   "uz": "Men ham («I like…» kabi gapga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I love watching football on TV.' 'Oh, so do I! Let's watch the final together.'",
+   "gap": "so do I",
+   "alt": []
+  },
+  {
+   "id": "so_am_i",
+   "en": "So am I",
+   "uz": "Men ham («I’m…» kabi gapga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I'm really hungry after that long walk.' 'Yes, so am I. Let's find a café.'",
+   "gap": "so am I",
+   "alt": []
+  },
+  {
+   "id": "neither_am_i",
+   "en": "Neither am I",
+   "uz": "Men ham emas («I’m not…» kabi gapga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I'm not very good at drawing.' 'Don't worry, neither am I.'",
+   "gap": "neither am I",
+   "alt": []
+  },
+  {
+   "id": "neither_can_i",
+   "en": "Neither can I",
+   "uz": "Men ham qila olmayman («I can’t…» ga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I can't swim very well.' 'No, neither can I, so let's stay in the shallow end.'",
+   "gap": "neither can I",
+   "alt": []
+  },
+  {
+   "id": "me_neither",
+   "en": "Me neither",
+   "uz": "Men ham (inkor gapga, norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I don't really like cold weather.' 'Really? Oh, me neither; I prefer summer.'",
+   "gap": "me neither",
+   "alt": []
+  },
+  {
+   "id": "attitude",
+   "en": "attitude",
+   "uz": "munosabat (qarash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since he joined the school chess club, my brother's attitude to maths has completely changed.",
+   "gap": "attitude",
+   "alt": [
+    "attitudes"
+   ]
+  },
+  {
+   "id": "used_to",
+   "en": "used to",
+   "uz": "ilgari … edi (endi emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour used to work in a bank, but now he runs a small café in Margilan.",
+   "gap": "used to",
+   "alt": []
+  },
+  {
+   "id": "interested_in",
+   "en": "interested in",
+   "uz": "… ga qiziqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My sister is very interested in old buildings, so she loved our trip to Khiva.",
+   "gap": "interested in",
+   "alt": []
+  },
+  {
+   "id": "interests",
+   "en": "interests",
+   "uz": "qiziqishlar (sevimli mashg‘ulotlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the class website, every student wrote a short paragraph about their family and interests.",
+   "gap": "interests",
+   "alt": [
+    "interest"
+   ]
+  },
+  {
+   "id": "at_all",
+   "en": "at all",
+   "uz": "umuman (inkorni kuchaytiradi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The baby cried the whole journey, so I didn't sleep at all on the night bus to Termez.",
+   "gap": "at all",
+   "alt": []
+  },
+  {
+   "id": "nothing_in_common",
+   "en": "nothing in common",
+   "uz": "hech qanday umumiylik yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The twins look exactly the same, but they have nothing in common: Hasan loves sport and Husan hates it.",
+   "gap": "nothing in common",
+   "alt": []
+  },
+  {
+   "id": "a_lot_in_common",
+   "en": "a lot in common",
+   "uz": "umumiy jihatlari ko‘p",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ziyoda and her new classmate have a lot in common: they both play the piano and love cats.",
+   "gap": "a lot in common",
+   "alt": []
+  },
+  {
+   "id": "get_used_to",
+   "en": "get used to",
+   "uz": "… ga ko‘nikmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The first week at the new school was hard, but I soon got used to the long days.",
+   "gap": "got used to",
+   "alt": [
+    "got used to",
+    "getting used to",
+    "gets used to"
+   ]
+  },
+  {
+   "id": "prefer",
+   "en": "prefer",
+   "uz": "afzal ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbour prefers the train to the plane because he likes looking out of the window.",
+   "gap": "prefers",
+   "alt": [
+    "prefers",
+    "preferred"
+   ]
+  },
+  {
+   "id": "would_prefer",
+   "en": "I'd prefer",
+   "uz": "… ni ma’qul ko‘rardim",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We can have pizza or soup for dinner.' 'Hmm, I'd prefer to have the soup; it's cold tonight.'",
+   "gap": "I'd prefer",
+   "alt": [
+    "I would prefer"
+   ]
+  },
+  {
+   "id": "me_too",
+   "en": "Me too",
+   "uz": "Men ham (tasdiq gapga, norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I've already finished my maths homework.' 'Really? Me too! Let's go and play outside.'",
+   "gap": "me too",
+   "alt": []
+  },
+  {
+   "id": "love_verb",
+   "en": "love",
+   "uz": "juda yaxshi ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister loves horses and draws them on every page of her notebooks.",
+   "gap": "loves",
+   "alt": [
+    "loves",
+    "loved",
+    "loving"
+   ]
+  },
+  {
+   "id": "like_verb",
+   "en": "like",
+   "uz": "yoqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "'Do you like my new haircut?' Laylo asked. 'Yes, it's really nice!'",
+   "gap": "like",
+   "alt": [
+    "likes",
+    "liked",
+    "liking"
+   ]
+  },
+  {
+   "id": "dont_mind_ok",
+   "en": "don't mind",
+   "uz": "…ga qarshi emasman (yomon emas)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Football isn't my favourite sport, but I don't mind watching it with my friends on Sundays.",
+   "gap": "don't mind",
+   "alt": [
+    "doesn't mind"
+   ]
+  },
+  {
+   "id": "interest_verb",
+   "en": "interest",
+   "uz": "qiziqtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "History lessons never used to interest me, but our new teacher makes them exciting.",
+   "gap": "interest",
+   "alt": [
+    "interests",
+    "interested"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "be_into",
+   "keen_on"
+  ],
+  [
+   "be_into",
+   "interested_in"
+  ],
+  [
+   "keen_on",
+   "interested_in"
+  ],
+  [
+   "neither_am_i",
+   "me_neither"
+  ],
+  [
+   "neither_can_i",
+   "me_neither"
+  ],
+  [
+   "me_too",
+   "so_do_i"
+  ],
+  [
+   "me_too",
+   "so_am_i"
+  ],
+  [
+   "love_verb",
+   "like_verb"
+  ],
+  [
+   "like_verb",
+   "quite_like"
+  ],
+  [
+   "love_verb",
+   "quite_like"
+  ],
+  [
+   "dont_mind_ok",
+   "quite_like"
+  ],
+  [
+   "dont_mind_ok",
+   "like_verb"
+  ],
+  [
+   "love_verb",
+   "prefer"
+  ]
+ ]
+}

@@ -1,0 +1,560 @@
+{
+ "book": "upper",
+ "unit": 56,
+ "title": "Sound and light",
+ "title_uz": "Tovush va yorug‘lik",
+ "words": [
+  {
+   "id": "sound",
+   "en": "sound",
+   "uz": "tovush, ovoz (umumiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum says the sound of the dutar always reminds her of her childhood in Namangan.",
+   "gap": "sound",
+   "alt": [
+    "sounds"
+   ]
+  },
+  {
+   "id": "noise",
+   "en": "noise",
+   "uz": "shovqin (yoqimsiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My video for the school blog was spoiled by background noise from a neighbour's drill.",
+   "gap": "noise",
+   "alt": [
+    "noises"
+   ]
+  },
+  {
+   "id": "racket_noise",
+   "en": "racket",
+   "uz": "to‘polon, qiy-chuv (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbours' teenage son and his friends were playing drums in the garage and making an awful racket.",
+   "gap": "racket",
+   "alt": []
+  },
+  {
+   "id": "patter",
+   "en": "patter",
+   "uz": "tip-tip qilmoq (yomg‘ir, mayda qadam)",
+   "pos": "verb",
+   "img": false,
+   "ex": "All night the rain kept pattering on the tin roof of the shed.",
+   "gap": "pattering",
+   "alt": [
+    "patters",
+    "pattered",
+    "pattering"
+   ]
+  },
+  {
+   "id": "bang",
+   "en": "bang",
+   "uz": "taraq etgan ovoz (shar, eshik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first firework went off with a sudden loud bang that made the little children cover their ears.",
+   "gap": "bang",
+   "alt": [
+    "bangs",
+    "banged",
+    "banging"
+   ]
+  },
+  {
+   "id": "chime",
+   "en": "chime",
+   "uz": "(minora soati) bong urmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every hour the clock on the tower in the main square chimes, and we can hear it from our classroom.",
+   "gap": "chimes",
+   "alt": [
+    "chimes",
+    "chimed",
+    "chiming"
+   ]
+  },
+  {
+   "id": "clang",
+   "en": "clang",
+   "uz": "jaranglamoq (og‘ir temir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As we left the old caravanserai, the heavy iron gate clanged shut behind us.",
+   "gap": "clanged",
+   "alt": [
+    "clangs",
+    "clanged",
+    "clanging"
+   ]
+  },
+  {
+   "id": "clatter",
+   "en": "clatter",
+   "uz": "taq-tuq qilmoq (qoshiq, idish)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The tray slipped out of the waiter's hands, and the spoons and forks clattered across the stone floor.",
+   "gap": "clattered",
+   "alt": [
+    "clatters",
+    "clattered",
+    "clattering"
+   ]
+  },
+  {
+   "id": "crash_sound",
+   "en": "crash",
+   "uz": "qulash zarbi ovozi (gursillash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a loud crash from the kitchen: the whole shelf of plates had fallen to the floor.",
+   "gap": "crash",
+   "alt": [
+    "crashes"
+   ]
+  },
+  {
+   "id": "hiss",
+   "en": "hiss",
+   "uz": "vishillamoq (bug‘, gaz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A few drops of water fell onto the hot frying pan and hissed loudly.",
+   "gap": "hissed",
+   "alt": [
+    "hisses",
+    "hissed",
+    "hissing"
+   ]
+  },
+  {
+   "id": "hum",
+   "en": "hum",
+   "uz": "g‘uvillamoq (asalari, muzlatkich)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every spring our garden hums with bees when the apricot trees flower.",
+   "gap": "hums",
+   "alt": [
+    "hums",
+    "hummed",
+    "humming"
+   ]
+  },
+  {
+   "id": "rattle",
+   "en": "rattle",
+   "uz": "shaqillamoq (deraza, quti)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every time a lorry drove past, the windows of our old flat rattled in their frames.",
+   "gap": "rattled",
+   "alt": [
+    "rattles",
+    "rattled",
+    "rattling"
+   ]
+  },
+  {
+   "id": "ring_sound",
+   "en": "ring",
+   "uz": "jiringlamoq (qo‘ng‘iroq, telefon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A cyclist rang her bell to warn us that she was coming up behind us on the path.",
+   "gap": "rang",
+   "alt": [
+    "rings",
+    "rang",
+    "rung",
+    "ringing"
+   ]
+  },
+  {
+   "id": "roar",
+   "en": "roar",
+   "uz": "gulduros, na’ra (olomon, sharshara)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Uzbekistan scored in the last minute, the roar of the crowd could be heard all over the city.",
+   "gap": "roar",
+   "alt": [
+    "roars",
+    "roared",
+    "roaring"
+   ]
+  },
+  {
+   "id": "rumble_thunder",
+   "en": "rumble",
+   "uz": "uzoqdan gumburlash (momaqaldiroq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sitting on the balcony after dinner, we heard a low rumble of thunder somewhere beyond the city.",
+   "gap": "rumble",
+   "alt": [
+    "rumbles"
+   ]
+  },
+  {
+   "id": "rustle",
+   "en": "rustle",
+   "uz": "shitirlamoq (qamish, quruq barg)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We sat by the lake, listening to the wind rustle through the tall reeds.",
+   "gap": "rustle",
+   "alt": [
+    "rustles",
+    "rustled",
+    "rustling"
+   ]
+  },
+  {
+   "id": "screech",
+   "en": "screech",
+   "uz": "chiyillamoq (bo‘r, tormoz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The chalk screeched on the blackboard, and the whole class covered their ears.",
+   "gap": "screeched",
+   "alt": [
+    "screeches",
+    "screeched",
+    "screeching"
+   ]
+  },
+  {
+   "id": "thud",
+   "en": "thud",
+   "uz": "gup etgan bo‘g‘iq ovoz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sack of potatoes hit the ground with a dull thud when the farmer threw it off the truck.",
+   "gap": "thud",
+   "alt": [
+    "thuds",
+    "thudded"
+   ]
+  },
+  {
+   "id": "gloomy",
+   "en": "gloomy",
+   "uz": "qorong‘i, kishini ezadigan (xona)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The classroom on the ground floor is rather gloomy because a huge plane tree blocks the only window.",
+   "gap": "gloomy",
+   "alt": []
+  },
+  {
+   "id": "dim",
+   "en": "dim",
+   "uz": "xira (yorug‘lik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The screen of my phone is too dim to read in this bright sunlight.",
+   "gap": "dim",
+   "alt": []
+  },
+  {
+   "id": "beam",
+   "en": "beam",
+   "uz": "nur dastasi (fara, fonar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the car turned into our street, the bright beam from its headlights swept slowly across my bedroom ceiling.",
+   "gap": "beam",
+   "alt": [
+    "beams"
+   ]
+  },
+  {
+   "id": "sparkle",
+   "en": "sparkle",
+   "uz": "chaqnamoq (olmos, ko‘z)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The fresh snow on the hills sparkled in the morning sun.",
+   "gap": "sparkled",
+   "alt": [
+    "sparkles",
+    "sparkled",
+    "sparkling"
+   ]
+  },
+  {
+   "id": "flash",
+   "en": "flash",
+   "uz": "yalt etgan nur (chiroq, chaqmoq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every few seconds a flash of blue light from the ambulance lit up the faces of the crowd.",
+   "gap": "flash",
+   "alt": [
+    "flashes"
+   ]
+  },
+  {
+   "id": "twinkle",
+   "en": "twinkle",
+   "uz": "miltillamoq (yulduz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On a clear night at Charvak, thousands of stars twinkle above the mountains.",
+   "gap": "twinkle",
+   "alt": [
+    "twinkles",
+    "twinkled",
+    "twinkling"
+   ]
+  },
+  {
+   "id": "flicker",
+   "en": "flicker",
+   "uz": "lipillamoq (sham alangasi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old light in the school corridor flickered on and off all day, giving everyone a headache.",
+   "gap": "flickered",
+   "alt": [
+    "flickers",
+    "flickered",
+    "flickering"
+   ]
+  },
+  {
+   "id": "glow",
+   "en": "glow",
+   "uz": "nur taratib turmoq (cho‘g‘, qorong‘ida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister has stickers of planets on her ceiling that glow green in the dark.",
+   "gap": "glow",
+   "alt": [
+    "glows",
+    "glowed",
+    "glowing"
+   ]
+  },
+  {
+   "id": "shine",
+   "en": "shine",
+   "uz": "charaqlamoq (quyosh)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a whole week of rain, the sun is finally shining over Tashkent.",
+   "gap": "shining",
+   "alt": [
+    "shines",
+    "shone",
+    "shining"
+   ]
+  },
+  {
+   "id": "ray",
+   "en": "ray",
+   "uz": "nur (quyosh nuri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single ray of sunshine came through a gap in the curtains and woke me up.",
+   "gap": "ray",
+   "alt": [
+    "rays"
+   ]
+  },
+  {
+   "id": "glitter",
+   "en": "glitter",
+   "uz": "yaltillamoq (oltin)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The gold embroidery on Lola's new cushion glittered under the lamp.",
+   "gap": "glittered",
+   "alt": [
+    "glitters",
+    "glittered",
+    "glittering"
+   ]
+  },
+  {
+   "id": "dark",
+   "en": "dark",
+   "uz": "qorong‘i",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Turn on the light, please; it's too dark in here to find my keys.",
+   "gap": "dark",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "sound",
+   "noise"
+  ],
+  [
+   "noise",
+   "racket_noise"
+  ],
+  [
+   "sound",
+   "racket_noise"
+  ],
+  [
+   "noise",
+   "roar"
+  ],
+  [
+   "roar",
+   "racket_noise"
+  ],
+  [
+   "patter",
+   "rattle"
+  ],
+  [
+   "chime",
+   "ring_sound"
+  ],
+  [
+   "clang",
+   "bang"
+  ],
+  [
+   "clatter",
+   "rattle"
+  ],
+  [
+   "crash_sound",
+   "bang"
+  ],
+  [
+   "crash_sound",
+   "thud"
+  ],
+  [
+   "gloomy",
+   "dim"
+  ],
+  [
+   "beam",
+   "ray"
+  ],
+  [
+   "sparkle",
+   "glitter"
+  ],
+  [
+   "sparkle",
+   "twinkle"
+  ],
+  [
+   "twinkle",
+   "glitter"
+  ],
+  [
+   "sparkle",
+   "shine"
+  ],
+  [
+   "twinkle",
+   "shine"
+  ],
+  [
+   "rumble_thunder",
+   "roar"
+  ],
+  [
+   "rumble_thunder",
+   "crash_sound"
+  ],
+  [
+   "glow",
+   "shine"
+  ],
+  [
+   "crash_sound",
+   "noise"
+  ],
+  [
+   "crash_sound",
+   "sound"
+  ],
+  [
+   "bang",
+   "noise"
+  ],
+  [
+   "bang",
+   "sound"
+  ],
+  [
+   "bang",
+   "roar"
+  ],
+  [
+   "thud",
+   "sound"
+  ],
+  [
+   "thud",
+   "noise"
+  ],
+  [
+   "roar",
+   "sound"
+  ],
+  [
+   "rumble_thunder",
+   "sound"
+  ],
+  [
+   "rumble_thunder",
+   "noise"
+  ],
+  [
+   "beam",
+   "flash"
+  ],
+  [
+   "clatter",
+   "clang"
+  ],
+  [
+   "clang",
+   "screech"
+  ],
+  [
+   "crash_sound",
+   "racket_noise"
+  ],
+  [
+   "beam",
+   "glow"
+  ],
+  [
+   "flash",
+   "ray"
+  ],
+  [
+   "twinkle",
+   "glow"
+  ],
+  [
+   "dark",
+   "dim"
+  ],
+  [
+   "dark",
+   "gloomy"
+  ]
+ ]
+}

@@ -1,0 +1,391 @@
+{
+ "book": "preint",
+ "unit": 49,
+ "title": "Cafés",
+ "title_uz": "Kafelar",
+ "words": [
+  {
+   "id": "cappuccino",
+   "en": "cappuccino",
+   "uz": "kapuchino (ko‘pikli sutli qahva)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The barista made my cappuccino with a shot of espresso and thick milk foam, then drew a little heart on top.",
+   "gap": "cappuccino",
+   "alt": [
+    "cappuccinos"
+   ]
+  },
+  {
+   "id": "latte",
+   "en": "latte",
+   "uz": "ko‘p sutli yengil qahva",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aunt Feruza orders a large latte every morning; it's mostly hot milk with just a little coffee in it.",
+   "gap": "latte",
+   "alt": [
+    "lattes"
+   ]
+  },
+  {
+   "id": "black_coffee",
+   "en": "black coffee",
+   "uz": "qora qahva (sutsiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our maths teacher likes her coffee strong, with no milk and no sugar, so she always orders a black coffee.",
+   "gap": "black coffee",
+   "alt": []
+  },
+  {
+   "id": "milkshake",
+   "en": "milkshake",
+   "uz": "milksheyk (sut-muzqaymoqli ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On hot days the kids order a strawberry milkshake made from cold milk and vanilla ice cream.",
+   "gap": "milkshake",
+   "alt": [
+    "milkshakes"
+   ]
+  },
+  {
+   "id": "smoothie",
+   "en": "smoothie",
+   "uz": "smuzi (mevali quyuq ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For breakfast I put a banana, an apple and some yoghurt in the blender and make a thick smoothie.",
+   "gap": "smoothie",
+   "alt": [
+    "smoothies"
+   ]
+  },
+  {
+   "id": "hot_chocolate",
+   "en": "hot chocolate",
+   "uz": "issiq kakao (shokoladli ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After skating outside in the snow, we warmed up with big mugs of hot chocolate, made from cocoa and milk, with marshmallows on top.",
+   "gap": "hot chocolate",
+   "alt": []
+  },
+  {
+   "id": "herbal_tea",
+   "en": "herbal tea",
+   "uz": "giyohli choy (o‘simlik choyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum drinks herbal tea with mint and camomile before bed because it helps her relax.",
+   "gap": "herbal tea",
+   "alt": [
+    "herbal teas"
+   ]
+  },
+  {
+   "id": "decaf",
+   "en": "decaf",
+   "uz": "kofeinsiz (choy/qahva)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Coffee in the evening keeps my uncle awake, but he loves its taste, so after six o'clock he orders decaf instead.",
+   "gap": "decaf",
+   "alt": []
+  },
+  {
+   "id": "waffle",
+   "en": "waffle",
+   "uz": "vafli",
+   "pos": "noun",
+   "img": true,
+   "ex": "The café serves a warm waffle with honey and berries, and the honey collects in the little squares.",
+   "gap": "waffle",
+   "alt": [
+    "waffles"
+   ]
+  },
+  {
+   "id": "crisps",
+   "en": "crisps",
+   "uz": "qarsildoq kartoshka (paketda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "A boy behind me opened a bag of crisps on the bus, and everyone could hear him crunching.",
+   "gap": "crisps",
+   "alt": []
+  },
+  {
+   "id": "french_fries",
+   "en": "French fries",
+   "uz": "fri kartoshkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The burger came with a plate of hot French fries and a little pot of ketchup.",
+   "gap": "French fries",
+   "alt": [
+    "fries",
+    "chips"
+   ]
+  },
+  {
+   "id": "toastie",
+   "en": "toastie",
+   "uz": "qizdirilgan pishloqli buterbrod (tosti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For a quick lunch I had a cheese toastie, so hot from the toaster that the cheese was melting out.",
+   "gap": "toastie",
+   "alt": [
+    "toasties"
+   ]
+  },
+  {
+   "id": "panini",
+   "en": "panini",
+   "uz": "italyancha issiq buterbrod",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the station café I bought a chicken and tomato panini, pressed flat and grilled in an Italian sandwich machine.",
+   "gap": "panini",
+   "alt": [
+    "paninis"
+   ]
+  },
+  {
+   "id": "bagel",
+   "en": "bagel",
+   "uz": "beygl (o‘rtasi teshik bulochka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the way to school, Kamola grabbed a sesame bagel with cream cheese and ate it round the hole in the middle.",
+   "gap": "bagel",
+   "alt": [
+    "bagels"
+   ]
+  },
+  {
+   "id": "wrap",
+   "en": "wrap",
+   "uz": "lavashli rulet (o‘rama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I ordered a chicken wrap: grilled meat and salad rolled up inside a thin flatbread.",
+   "gap": "wrap",
+   "alt": [
+    "wraps"
+   ]
+  },
+  {
+   "id": "baguette",
+   "en": "baguette",
+   "uz": "baget (uzun fransuz noni)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour came home from the bakery with a long French baguette under her arm, still warm.",
+   "gap": "baguette",
+   "alt": [
+    "baguettes"
+   ]
+  },
+  {
+   "id": "croissant",
+   "en": "croissant",
+   "uz": "kruassan",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the hotel café I had a buttery croissant, curved like a new moon, with my tea.",
+   "gap": "croissant",
+   "alt": [
+    "croissants"
+   ]
+  },
+  {
+   "id": "muffin",
+   "en": "muffin",
+   "uz": "maffin (kichik keks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My favourite snack is a blueberry muffin, soft inside with a golden top and no icing at all.",
+   "gap": "muffin",
+   "alt": [
+    "muffins"
+   ]
+  },
+  {
+   "id": "cupcake",
+   "en": "cupcake",
+   "uz": "kapkeyk (kremli kichik keks)",
+   "pos": "noun",
+   "img": true,
+   "ex": "For my birthday, Mum baked twelve cupcakes with pink icing and a candle on each one.",
+   "gap": "cupcakes",
+   "alt": [
+    "cupcakes"
+   ]
+  },
+  {
+   "id": "regular_size",
+   "en": "regular",
+   "uz": "o‘rtacha (o‘lchami)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The large cup was too much for me last time, so today I asked for a regular one.",
+   "gap": "regular",
+   "alt": []
+  },
+  {
+   "id": "large",
+   "en": "large",
+   "uz": "katta (o‘lchami)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I was really thirsty after football, so I ordered the biggest size: a large orange juice.",
+   "gap": "large",
+   "alt": []
+  },
+  {
+   "id": "to_have_in",
+   "en": "to have in",
+   "uz": "shu yerda yeyish/ichish uchun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It was raining, so I ordered my hot chocolate to have in and found a seat by the window.",
+   "gap": "to have in",
+   "alt": []
+  },
+  {
+   "id": "take_away",
+   "en": "take away",
+   "uz": "olib ketish uchun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I was late for the bus, so I bought my tea to take away and drank it on the way.",
+   "gap": "take away",
+   "alt": []
+  },
+  {
+   "id": "heat_up",
+   "en": "heat up",
+   "uz": "isitmoq (qizdirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My lunch had gone cold while I was chatting, so the waiter offered to heat up my soup in the microwave.",
+   "gap": "heat up",
+   "alt": [
+    "heats up",
+    "heated up",
+    "heating up"
+   ]
+  },
+  {
+   "id": "napkin",
+   "en": "napkin",
+   "uz": "salfetka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Ketchup dripped onto my fingers, so I wiped them with a paper napkin.",
+   "gap": "napkin",
+   "alt": [
+    "napkins"
+   ]
+  },
+  {
+   "id": "tray",
+   "en": "tray",
+   "uz": "patnis",
+   "pos": "noun",
+   "img": false,
+   "ex": "I carried our four cups to the table on a plastic tray without spilling a drop.",
+   "gap": "tray",
+   "alt": [
+    "trays"
+   ]
+  },
+  {
+   "id": "cheese",
+   "en": "cheese",
+   "uz": "pishloq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Sprinkle some grated cheese over the hot pasta and wait until it melts.",
+   "gap": "cheese",
+   "alt": []
+  },
+  {
+   "id": "ham",
+   "en": "ham",
+   "uz": "vetchina (cho‘chqa go‘shti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sandwich had thin slices of pink ham and a leaf of lettuce inside.",
+   "gap": "ham",
+   "alt": []
+  },
+  {
+   "id": "caffeine",
+   "en": "caffeine",
+   "uz": "qahvadagi uyqu qochiruvchi modda",
+   "pos": "noun",
+   "img": false,
+   "ex": "Coffee and strong tea both contain caffeine, which can keep you awake at night.",
+   "gap": "caffeine",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "cappuccino",
+   "latte"
+  ],
+  [
+   "milkshake",
+   "smoothie"
+  ],
+  [
+   "herbal_tea",
+   "decaf"
+  ],
+  [
+   "black_coffee",
+   "decaf"
+  ],
+  [
+   "crisps",
+   "french_fries"
+  ],
+  [
+   "toastie",
+   "panini"
+  ],
+  [
+   "muffin",
+   "cupcake"
+  ],
+  [
+   "regular_size",
+   "large"
+  ],
+  [
+   "to_have_in",
+   "take_away"
+  ],
+  [
+   "bagel",
+   "croissant"
+  ],
+  [
+   "wrap",
+   "panini"
+  ],
+  [
+   "decaf",
+   "caffeine"
+  ],
+  [
+   "ham",
+   "cheese"
+  ]
+ ]
+}

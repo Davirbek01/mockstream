@@ -1,0 +1,348 @@
+{
+ "book": "preint",
+ "unit": 91,
+ "title": "Adverbs",
+ "title_uz": "Ravishlar",
+ "words": [
+  {
+   "id": "always",
+   "en": "always",
+   "uz": "har doim",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our neighbour always waters his roses at exactly six in the morning; you could set your watch by him.",
+   "gap": "always",
+   "alt": []
+  },
+  {
+   "id": "often",
+   "en": "often",
+   "uz": "tez-tez",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I often go to the library after school, three or four times a week.",
+   "gap": "often",
+   "alt": []
+  },
+  {
+   "id": "frequently",
+   "en": "frequently",
+   "uz": "ko‘pincha (rasmiyroq)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The number 45 bus is frequently late: not every day, but on most days.",
+   "gap": "frequently",
+   "alt": []
+  },
+  {
+   "id": "sometimes",
+   "en": "sometimes",
+   "uz": "ba’zan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I sometimes walk to school, maybe twice a week, but on the other days I take the bus.",
+   "gap": "sometimes",
+   "alt": []
+  },
+  {
+   "id": "occasionally",
+   "en": "occasionally",
+   "uz": "vaqti-vaqti bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our class usually eats in the school canteen, but we do occasionally bring a packed lunch, maybe once a month.",
+   "gap": "occasionally",
+   "alt": []
+  },
+  {
+   "id": "hardly_ever",
+   "en": "hardly ever",
+   "uz": "deyarli hech qachon",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My little brother hardly ever eats any vegetables; maybe one carrot a month.",
+   "gap": "hardly ever",
+   "alt": []
+  },
+  {
+   "id": "rarely",
+   "en": "rarely",
+   "uz": "kamdan-kam",
+   "pos": "adverb",
+   "img": false,
+   "ex": "It rarely snows in our town; the last time was six years ago.",
+   "gap": "rarely",
+   "alt": []
+  },
+  {
+   "id": "seldom",
+   "en": "seldom",
+   "uz": "juda kam (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Visitors are seldom allowed into the old library; in fact, we were the first group this year.",
+   "gap": "seldom",
+   "alt": []
+  },
+  {
+   "id": "never",
+   "en": "never",
+   "uz": "hech qachon",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I've never been on a plane before, so today's flight is my first one ever.",
+   "gap": "never",
+   "alt": []
+  },
+  {
+   "id": "a_bit",
+   "en": "a bit",
+   "uz": "sal (so‘zlashuvda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "This jacket is a bit too big for me; have you got a smaller size?",
+   "gap": "a bit",
+   "alt": []
+  },
+  {
+   "id": "a_little",
+   "en": "a little",
+   "uz": "ozgina",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Could you turn the music down a little? I'm trying to finish my essay.",
+   "gap": "a little",
+   "alt": [
+    "a little bit"
+   ]
+  },
+  {
+   "id": "quite",
+   "en": "quite",
+   "uz": "ancha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "From our seats we had quite a good view of the stage.",
+   "gap": "quite",
+   "alt": []
+  },
+  {
+   "id": "fairly",
+   "en": "fairly",
+   "uz": "nisbatan (o‘rtacha)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "It was a fairly short walk from our flat to the stadium, so we never took a taxi.",
+   "gap": "fairly",
+   "alt": []
+  },
+  {
+   "id": "rather",
+   "en": "rather",
+   "uz": "birmuncha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Yesterday was rather a long day, so I went to bed early.",
+   "gap": "rather",
+   "alt": []
+  },
+  {
+   "id": "pretty_degree",
+   "en": "pretty",
+   "uz": "ancha (so‘zlashuvda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "'How was the match?' 'Oh, it was pretty good; not brilliant, but we enjoyed it.'",
+   "gap": "pretty",
+   "alt": []
+  },
+  {
+   "id": "completely",
+   "en": "completely",
+   "uz": "butunlay",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The storm completely destroyed the old wooden bridge, so we had to drive the long way round.",
+   "gap": "completely",
+   "alt": []
+  },
+  {
+   "id": "totally",
+   "en": "totally",
+   "uz": "mutlaqo",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I totally forgot about the maths test until Oydin reminded me at the school gate.",
+   "gap": "totally",
+   "alt": []
+  },
+  {
+   "id": "incredibly",
+   "en": "incredibly",
+   "uz": "aql bovar qilmas darajada",
+   "pos": "adverb",
+   "img": false,
+   "ex": "She has an incredibly beautiful voice; everyone stops talking when she sings.",
+   "gap": "incredibly",
+   "alt": []
+  },
+  {
+   "id": "secretly",
+   "en": "secretly",
+   "uz": "yashirincha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My brother had secretly borrowed my bike, and I only found out when I saw him riding it in the street.",
+   "gap": "secretly",
+   "alt": []
+  },
+  {
+   "id": "quietly",
+   "en": "quietly",
+   "uz": "ohista, shovqinsiz",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The baby had just fallen asleep, so we walked past her room as quietly as we could.",
+   "gap": "quietly",
+   "alt": []
+  },
+  {
+   "id": "suddenly",
+   "en": "suddenly",
+   "uz": "birdan, to‘satdan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We were walking home from school when suddenly it started to rain heavily.",
+   "gap": "suddenly",
+   "alt": []
+  },
+  {
+   "id": "urgently",
+   "en": "urgently",
+   "uz": "zudlik bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Water is pouring through the kitchen ceiling; we need a plumber urgently!",
+   "gap": "urgently",
+   "alt": []
+  },
+  {
+   "id": "briefly",
+   "en": "briefly",
+   "uz": "qisqagina (oz vaqt)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The meeting was very short: the director spoke only briefly and then answered two questions.",
+   "gap": "briefly",
+   "alt": []
+  },
+  {
+   "id": "politely",
+   "en": "politely",
+   "uz": "xushmuomalalik bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new boy in our class answers questions politely and never forgets to say 'please' and 'thank you'.",
+   "gap": "politely",
+   "alt": []
+  },
+  {
+   "id": "angrily",
+   "en": "angrily",
+   "uz": "jahl bilan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our coach was furious with the referee and shouted angrily at him.",
+   "gap": "angrily",
+   "alt": []
+  },
+  {
+   "id": "quite_often",
+   "en": "quite often",
+   "uz": "anchagina tez-tez",
+   "pos": "adverb phrase",
+   "img": false,
+   "ex": "Elyor goes to the climbing wall quite often: not every day, but at least twice a week.",
+   "gap": "quite often",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "often",
+   "frequently"
+  ],
+  [
+   "sometimes",
+   "occasionally"
+  ],
+  [
+   "hardly_ever",
+   "rarely"
+  ],
+  [
+   "hardly_ever",
+   "seldom"
+  ],
+  [
+   "rarely",
+   "seldom"
+  ],
+  [
+   "a_bit",
+   "a_little"
+  ],
+  [
+   "a_bit",
+   "rather"
+  ],
+  [
+   "a_little",
+   "rather"
+  ],
+  [
+   "quite",
+   "rather"
+  ],
+  [
+   "quite",
+   "fairly"
+  ],
+  [
+   "quite",
+   "pretty_degree"
+  ],
+  [
+   "fairly",
+   "rather"
+  ],
+  [
+   "fairly",
+   "pretty_degree"
+  ],
+  [
+   "rather",
+   "pretty_degree"
+  ],
+  [
+   "completely",
+   "totally"
+  ],
+  [
+   "secretly",
+   "quietly"
+  ],
+  [
+   "quite_often",
+   "often"
+  ],
+  [
+   "quite_often",
+   "frequently"
+  ],
+  [
+   "quite_often",
+   "sometimes"
+  ]
+ ]
+}

@@ -1,0 +1,159 @@
+{
+ "book": "elementary",
+ "unit": 44,
+ "title": "Bring / brought / brought",
+ "title_uz": "Bring fe’li bilan birikmalar",
+ "words": [
+  {
+   "id": "bring",
+   "en": "bring",
+   "uz": "olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whenever our neighbour comes back from her village, she brings fresh cherries for all the children in our building.",
+   "gap": "brings",
+   "alt": [
+    "brings",
+    "brought",
+    "bringing"
+   ]
+  },
+  {
+   "id": "take",
+   "en": "take",
+   "uz": "olib bormoq (u yerga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you take these empty bottles to the recycling bin outside, please?",
+   "gap": "take",
+   "alt": [
+    "takes",
+    "took",
+    "taking",
+    "taken"
+   ]
+  },
+  {
+   "id": "bring_me",
+   "en": "bring me",
+   "uz": "menga olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm in bed with a bad cold. Could you bring me a glass of warm water, please?",
+   "gap": "bring me",
+   "alt": [
+    "brings me",
+    "brought me",
+    "bringing me"
+   ]
+  },
+  {
+   "id": "bring_a_present",
+   "en": "bring a present",
+   "uz": "sovg‘a olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Diyor came to my birthday party, he brought a present: a big box of coloured pencils.",
+   "gap": "brought a present",
+   "alt": [
+    "brings a present",
+    "brought a present",
+    "bringing a present",
+    "bring presents",
+    "brought presents"
+   ]
+  },
+  {
+   "id": "bring_flowers",
+   "en": "bring flowers",
+   "uz": "gul olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Teachers' Day, the first of October, almost every student brought flowers for our class teacher.",
+   "gap": "brought flowers",
+   "alt": [
+    "brings flowers",
+    "brought flowers",
+    "bringing flowers",
+    "bring some flowers",
+    "brought some flowers"
+   ]
+  },
+  {
+   "id": "bring_a_friend",
+   "en": "bring a friend",
+   "uz": "do‘stini ham olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I bring a friend to your football training? He wants to join the team.",
+   "gap": "bring a friend",
+   "alt": [
+    "brings a friend",
+    "brought a friend",
+    "bringing a friend"
+   ]
+  },
+  {
+   "id": "bring_back",
+   "en": "bring back",
+   "uz": "qaytarib olib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can borrow my calculator for the test, but please bring it back after the lesson.",
+   "gap": "bring it back",
+   "alt": [
+    "brings back",
+    "brought back",
+    "bringing back",
+    "bring it back",
+    "brought it back",
+    "bring them back",
+    "brought them back"
+   ]
+  },
+  {
+   "id": "take_back",
+   "en": "take back",
+   "uz": "qaytarib olib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "These trainers are too small for me, so tomorrow I'm going to take them back to the shop.",
+   "gap": "take them back",
+   "alt": [
+    "takes back",
+    "took back",
+    "taking back",
+    "take it back",
+    "took it back",
+    "take them back",
+    "took them back"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "bring",
+   "bring_me"
+  ],
+  [
+   "bring_back",
+   "take_back"
+  ],
+  [
+   "bring_a_present",
+   "bring_flowers"
+  ],
+  [
+   "bring_back",
+   "get_back"
+  ],
+  [
+   "take_back",
+   "take_it_with_you"
+  ],
+  [
+   "take",
+   "take_it_with_you"
+  ]
+ ]
+}

@@ -1,0 +1,585 @@
+{
+ "book": "upper",
+ "unit": 3,
+ "title": "Using your dictionary",
+ "title_uz": "Lug‘atdan foydalanish",
+ "words": [
+  {
+   "id": "entry",
+   "en": "entry",
+   "uz": "lug‘at maqolasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each entry in my pocket dictionary gives the word, its pronunciation and a short example.",
+   "gap": "entry",
+   "alt": []
+  },
+  {
+   "id": "symbol",
+   "en": "symbol",
+   "uz": "fonetik belgi (simvol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a dictionary, each phonetic symbol stands for one sound, for example the 'sh' sound in 'she'.",
+   "gap": "symbol",
+   "alt": [
+    "symbols"
+   ]
+  },
+  {
+   "id": "syllable",
+   "en": "syllable",
+   "uz": "bo‘g‘in",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Tashkent' has two syllables, but 'Uzbekistan' has four.",
+   "gap": "syllables",
+   "alt": [
+    "syllables"
+   ]
+  },
+  {
+   "id": "pronounce",
+   "en": "pronounce",
+   "uz": "talaffuz qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Foreign tourists often find it hard to pronounce the name of our city, Shahrisabz.",
+   "gap": "pronounce",
+   "alt": []
+  },
+  {
+   "id": "usage",
+   "en": "usage",
+   "uz": "qo‘llanishi (so‘z ishlatilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good dictionary gives usage notes, for example which preposition comes after 'depend'.",
+   "gap": "usage",
+   "alt": []
+  },
+  {
+   "id": "mislay",
+   "en": "mislay",
+   "uz": "qayerga qo‘yganini unutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I mislaid my USB stick last week and only found it today, in the pocket of my winter coat.",
+   "gap": "mislaid",
+   "alt": [
+    "mislaid",
+    "mislays"
+   ]
+  },
+  {
+   "id": "foe",
+   "en": "foe",
+   "uz": "yov (dushman, kitobiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the epic 'Alpomish', the hero spends seven years in a dungeon before he can return and defeat his foe.",
+   "gap": "foe",
+   "alt": [
+    "foes"
+   ]
+  },
+  {
+   "id": "firm_commitment",
+   "en": "firm commitment",
+   "uz": "qat’iy va’da (majburiyat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school made a firm commitment to plant a tree for every new student.",
+   "gap": "firm commitment",
+   "alt": []
+  },
+  {
+   "id": "firm_grip",
+   "en": "firm grip",
+   "uz": "mahkam ushlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep a firm grip on the handle when the bus turns.",
+   "gap": "firm grip",
+   "alt": []
+  },
+  {
+   "id": "firm_believer",
+   "en": "firm believer",
+   "uz": "qat’iy tarafdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "My dad is a firm believer in early nights and early mornings.",
+   "gap": "firm believer",
+   "alt": []
+  },
+  {
+   "id": "transitive",
+   "en": "transitive",
+   "uz": "o‘timli (fe’l)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Enjoy' is a transitive verb, so you can't just say 'I enjoyed'; you need an object like 'it'.",
+   "gap": "transitive",
+   "alt": []
+  },
+  {
+   "id": "intransitive",
+   "en": "intransitive",
+   "uz": "o‘timsiz (fe’l)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Arrive' is intransitive: you arrive somewhere, but you can't arrive something.",
+   "gap": "intransitive",
+   "alt": []
+  },
+  {
+   "id": "object",
+   "en": "object",
+   "uz": "to‘ldiruvchi (grammatikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'Sardor kicked the ball', the words 'the ball' are the object of the verb.",
+   "gap": "object",
+   "alt": []
+  },
+  {
+   "id": "countable",
+   "en": "countable",
+   "uz": "sanaladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Suggestion' is countable, so you can make two suggestions, but you can't make two advices.",
+   "gap": "countable",
+   "alt": []
+  },
+  {
+   "id": "abbreviation",
+   "en": "abbreviation",
+   "uz": "qisqartma",
+   "pos": "noun",
+   "img": false,
+   "ex": "In most dictionaries, 'adj' is the abbreviation for 'adjective'.",
+   "gap": "abbreviation",
+   "alt": [
+    "abbreviations"
+   ]
+  },
+  {
+   "id": "hurtful",
+   "en": "hurtful",
+   "uz": "dilni og‘rituvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Calling him lazy in front of the whole class was a hurtful thing to say.",
+   "gap": "hurtful",
+   "alt": []
+  },
+  {
+   "id": "remark",
+   "en": "remark",
+   "uz": "luqma (qisqa fikr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the lesson, Aziz made a funny remark about the weather, and everyone laughed.",
+   "gap": "remark",
+   "alt": []
+  },
+  {
+   "id": "look_up",
+   "en": "look up",
+   "uz": "(lug‘atdan) qarab topmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nowadays you can look up any word on your phone in seconds.",
+   "gap": "look up",
+   "alt": []
+  },
+  {
+   "id": "thesaurus",
+   "en": "thesaurus",
+   "uz": "sinonimlar lug‘ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you use 'nice' too often, open a thesaurus and find a better word.",
+   "gap": "thesaurus",
+   "alt": []
+  },
+  {
+   "id": "vary",
+   "en": "vary",
+   "uz": "xilma-xil qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In your essay, try to vary your adjectives instead of repeating 'good' all the time.",
+   "gap": "vary",
+   "alt": []
+  },
+  {
+   "id": "fascinating",
+   "en": "fascinating",
+   "uz": "nihoyatda qiziqarli (maftunkor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old city of Khiva was fascinating; I could have stayed there for a week.",
+   "gap": "fascinating",
+   "alt": []
+  },
+  {
+   "id": "gripping",
+   "en": "gripping",
+   "uz": "o‘ziga tortib qo‘ymaydigan (hayajonli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The detective series was so gripping that we watched all ten episodes in one weekend.",
+   "gap": "gripping",
+   "alt": []
+  },
+  {
+   "id": "enemy",
+   "en": "enemy",
+   "uz": "dushman",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cats and dogs are often seen as natural enemies, but ours sleep on the same sofa.",
+   "gap": "enemies",
+   "alt": [
+    "enemies"
+   ]
+  },
+  {
+   "id": "misplace",
+   "en": "misplace",
+   "uz": "joyini adashtirib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Oh no, I've misplaced my glasses again; have you seen them anywhere?",
+   "gap": "misplaced",
+   "alt": [
+    "misplaced",
+    "misplaces"
+   ]
+  },
+  {
+   "id": "suggest",
+   "en": "suggest",
+   "uz": "taklif qilmoq (maslahat bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The librarian suggested that we look for the article in the online archive.",
+   "gap": "suggested",
+   "alt": [
+    "suggested",
+    "suggests"
+   ]
+  },
+  {
+   "id": "catch",
+   "en": "catch",
+   "uz": "ilib olmoq (tutib olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The goalkeeper jumped high and caught the ball with one hand.",
+   "gap": "caught",
+   "alt": [
+    "caught",
+    "catches"
+   ]
+  },
+  {
+   "id": "laugh",
+   "en": "laugh",
+   "uz": "kulmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The comedian's jokes were so funny that the whole audience laughed for minutes.",
+   "gap": "laughed",
+   "alt": [
+    "laughed",
+    "laughs"
+   ]
+  },
+  {
+   "id": "enchanting",
+   "en": "enchanting",
+   "uz": "sehrlovchi (juda yoqimli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The little mountain village was enchanting, with its old wooden houses and apple orchards.",
+   "gap": "enchanting",
+   "alt": []
+  },
+  {
+   "id": "enthralling",
+   "en": "enthralling",
+   "uz": "butun diqqatni tortadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her talk about life on a space station was enthralling; no one in the hall even looked at their phone.",
+   "gap": "enthralling",
+   "alt": []
+  },
+  {
+   "id": "captivating",
+   "en": "captivating",
+   "uz": "rom etuvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The young dancer gave a captivating performance, and the audience could not take their eyes off her.",
+   "gap": "captivating",
+   "alt": []
+  },
+  {
+   "id": "entrancing",
+   "en": "entrancing",
+   "uz": "o‘ziga mahliyo qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We sat by the fire, listening to the entrancing music of the dutar.",
+   "gap": "entrancing",
+   "alt": []
+  },
+  {
+   "id": "bewitching",
+   "en": "bewitching",
+   "uz": "afsunkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The actress had a bewitching smile that made every man in the film fall in love with her.",
+   "gap": "bewitching",
+   "alt": []
+  },
+  {
+   "id": "absorbing",
+   "en": "absorbing",
+   "uz": "o‘ziga butunlay band qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The puzzle was so absorbing that Zarina missed her bus stop.",
+   "gap": "absorbing",
+   "alt": []
+  },
+  {
+   "id": "riveting",
+   "en": "riveting",
+   "uz": "ko‘z uzib bo‘lmaydigan (o‘ta hayajonli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The final set of the tennis match was riveting; nobody sat down until the last point.",
+   "gap": "riveting",
+   "alt": []
+  },
+  {
+   "id": "engrossing",
+   "en": "engrossing",
+   "uz": "o‘ziga g‘arq qiladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Javohir was reading such an engrossing novel that he didn't hear the doorbell.",
+   "gap": "engrossing",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "transitive",
+   "intransitive"
+  ],
+  [
+   "symbol",
+   "abbreviation"
+  ],
+  [
+   "fascinating",
+   "gripping"
+  ],
+  [
+   "firm_commitment",
+   "firm_believer"
+  ],
+  [
+   "enemy",
+   "foe"
+  ],
+  [
+   "misplace",
+   "mislay"
+  ],
+  [
+   "fascinating",
+   "enchanting"
+  ],
+  [
+   "fascinating",
+   "enthralling"
+  ],
+  [
+   "fascinating",
+   "captivating"
+  ],
+  [
+   "fascinating",
+   "entrancing"
+  ],
+  [
+   "fascinating",
+   "bewitching"
+  ],
+  [
+   "fascinating",
+   "absorbing"
+  ],
+  [
+   "fascinating",
+   "riveting"
+  ],
+  [
+   "fascinating",
+   "engrossing"
+  ],
+  [
+   "gripping",
+   "enchanting"
+  ],
+  [
+   "gripping",
+   "enthralling"
+  ],
+  [
+   "gripping",
+   "captivating"
+  ],
+  [
+   "gripping",
+   "entrancing"
+  ],
+  [
+   "gripping",
+   "bewitching"
+  ],
+  [
+   "gripping",
+   "absorbing"
+  ],
+  [
+   "gripping",
+   "riveting"
+  ],
+  [
+   "gripping",
+   "engrossing"
+  ],
+  [
+   "enchanting",
+   "enthralling"
+  ],
+  [
+   "enchanting",
+   "captivating"
+  ],
+  [
+   "enchanting",
+   "entrancing"
+  ],
+  [
+   "enchanting",
+   "bewitching"
+  ],
+  [
+   "enchanting",
+   "absorbing"
+  ],
+  [
+   "enchanting",
+   "riveting"
+  ],
+  [
+   "enchanting",
+   "engrossing"
+  ],
+  [
+   "enthralling",
+   "captivating"
+  ],
+  [
+   "enthralling",
+   "entrancing"
+  ],
+  [
+   "enthralling",
+   "bewitching"
+  ],
+  [
+   "enthralling",
+   "absorbing"
+  ],
+  [
+   "enthralling",
+   "riveting"
+  ],
+  [
+   "enthralling",
+   "engrossing"
+  ],
+  [
+   "captivating",
+   "entrancing"
+  ],
+  [
+   "captivating",
+   "bewitching"
+  ],
+  [
+   "captivating",
+   "absorbing"
+  ],
+  [
+   "captivating",
+   "riveting"
+  ],
+  [
+   "captivating",
+   "engrossing"
+  ],
+  [
+   "entrancing",
+   "bewitching"
+  ],
+  [
+   "entrancing",
+   "absorbing"
+  ],
+  [
+   "entrancing",
+   "riveting"
+  ],
+  [
+   "entrancing",
+   "engrossing"
+  ],
+  [
+   "bewitching",
+   "absorbing"
+  ],
+  [
+   "bewitching",
+   "riveting"
+  ],
+  [
+   "bewitching",
+   "engrossing"
+  ],
+  [
+   "absorbing",
+   "riveting"
+  ],
+  [
+   "absorbing",
+   "engrossing"
+  ],
+  [
+   "riveting",
+   "engrossing"
+  ]
+ ]
+}

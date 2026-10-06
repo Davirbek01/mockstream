@@ -1,0 +1,689 @@
+{
+ "book": "upper",
+ "unit": 2,
+ "title": "Organising a vocabulary notebook",
+ "title_uz": "Lug‘at daftarini tartibga solish",
+ "words": [
+  {
+   "id": "classical",
+   "en": "classical",
+   "uz": "mumtoz (klassik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the Navoi Theatre in Tashkent you can hear classical music by Tchaikovsky almost every weekend.",
+   "gap": "classical",
+   "alt": []
+  },
+  {
+   "id": "folk",
+   "en": "folk",
+   "uz": "xalq (musiqasi, qo‘shig‘i)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the Navruz concert, singers in national costume performed traditional folk songs.",
+   "gap": "folk",
+   "alt": []
+  },
+  {
+   "id": "strum",
+   "en": "strum",
+   "uz": "(gitara torlarini) chertib chalmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sitting by the campfire, Timur strummed his guitar while the rest of us sang.",
+   "gap": "strummed",
+   "alt": [
+    "strummed",
+    "strums"
+   ]
+  },
+  {
+   "id": "cello",
+   "en": "cello",
+   "uz": "violonchel",
+   "pos": "noun",
+   "img": true,
+   "ex": "My sister takes a taxi to her music lessons because her cello is too big for the bus.",
+   "gap": "cello",
+   "alt": []
+  },
+  {
+   "id": "perform",
+   "en": "perform",
+   "uz": "sahnada ijro etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The band will perform live at the Tashkent concert hall on Saturday.",
+   "gap": "perform",
+   "alt": []
+  },
+  {
+   "id": "practise",
+   "en": "practise",
+   "uz": "mashq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you want to play the dutar well, you have to practise every day.",
+   "gap": "practise",
+   "alt": [
+    "practice"
+   ]
+  },
+  {
+   "id": "track",
+   "en": "track",
+   "uz": "trek (albomdagi qo‘shiq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The third track on the new album is my favourite song.",
+   "gap": "track",
+   "alt": []
+  },
+  {
+   "id": "release",
+   "en": "release",
+   "uz": "(albom, film) chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The singer is going to release her new album next month.",
+   "gap": "release",
+   "alt": []
+  },
+  {
+   "id": "upload",
+   "en": "upload",
+   "uz": "internetga yuklamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the graduation party, I'll upload all the photos to the cloud so everyone can see them.",
+   "gap": "upload",
+   "alt": []
+  },
+  {
+   "id": "download",
+   "en": "download",
+   "uz": "yuklab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can download the app for free and use it offline.",
+   "gap": "download",
+   "alt": []
+  },
+  {
+   "id": "post",
+   "en": "post",
+   "uz": "(ijtimoiy tarmoqqa) post joylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bobur posts a funny video on his blog every Friday.",
+   "gap": "posts",
+   "alt": [
+    "posts"
+   ]
+  },
+  {
+   "id": "unfriend",
+   "en": "unfriend",
+   "uz": "do‘stlar ro‘yxatidan o‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After their argument, Lola decided to unfriend him on Facebook.",
+   "gap": "unfriend",
+   "alt": []
+  },
+  {
+   "id": "sign_up",
+   "en": "sign up",
+   "uz": "ro‘yxatdan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To join the online course, you first have to sign up with your email address.",
+   "gap": "sign up",
+   "alt": []
+  },
+  {
+   "id": "spam",
+   "en": "spam",
+   "uz": "spam (keraksiz reklama xatlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Half of the emails I get are spam about cheap loans and miracle diets.",
+   "gap": "spam",
+   "alt": []
+  },
+  {
+   "id": "password",
+   "en": "password",
+   "uz": "parol",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother guessed my password because it was just my date of birth.",
+   "gap": "password",
+   "alt": []
+  },
+  {
+   "id": "virus",
+   "en": "virus",
+   "uz": "kompyuter virusi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My laptop caught a virus after I opened a strange attachment.",
+   "gap": "virus",
+   "alt": []
+  },
+  {
+   "id": "identity_theft",
+   "en": "identity theft",
+   "uz": "shaxsiy ma’lumotlarni o‘g‘irlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Someone used my aunt's bank details to shop online; it was a clear case of identity theft.",
+   "gap": "identity theft",
+   "alt": []
+  },
+  {
+   "id": "link",
+   "en": "link",
+   "uz": "havola",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher sent us a link to the video, so we could watch it at home.",
+   "gap": "link",
+   "alt": []
+  },
+  {
+   "id": "homepage",
+   "en": "homepage",
+   "uz": "bosh sahifa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school website's homepage shows the timetable and the latest news.",
+   "gap": "homepage",
+   "alt": [
+    "home page"
+   ]
+  },
+  {
+   "id": "pop_up",
+   "en": "pop-up",
+   "uz": "qalqib chiquvchi oyna",
+   "pos": "noun",
+   "img": false,
+   "ex": "An annoying pop-up kept appearing in the middle of the screen while I was reading.",
+   "gap": "pop-up",
+   "alt": [
+    "pop up",
+    "popup"
+   ]
+  },
+  {
+   "id": "forward",
+   "en": "forward",
+   "uz": "(xatni) boshqa odamga jo‘natmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you get the email from the teacher, please forward it to me.",
+   "gap": "forward",
+   "alt": []
+  },
+  {
+   "id": "earn",
+   "en": "earn",
+   "uz": "(pul) ishlab topmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin works at IT Park in Tashkent and earns a high salary.",
+   "gap": "earns",
+   "alt": [
+    "earns"
+   ]
+  },
+  {
+   "id": "win",
+   "en": "win",
+   "uz": "yutmoq (sovrin, medal)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school team hopes to win a medal at the chess olympiad.",
+   "gap": "win",
+   "alt": []
+  },
+  {
+   "id": "gain",
+   "en": "gain",
+   "uz": "qo‘lga kiritmoq (vaqt, ustunlik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If we leave before the rush hour, we'll gain almost an hour.",
+   "gap": "gain",
+   "alt": []
+  },
+  {
+   "id": "in_a_hurry",
+   "en": "in a hurry",
+   "uz": "shoshib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Akmal left home in a hurry and forgot his student ID card on the kitchen table.",
+   "gap": "in a hurry",
+   "alt": []
+  },
+  {
+   "id": "out_of_touch",
+   "en": "out of touch",
+   "uz": "zamondan orqada qolgan (xabarsiz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After a month in the mountains with no internet, I felt completely out of touch with the news.",
+   "gap": "out of touch",
+   "alt": []
+  },
+  {
+   "id": "to_and_fro",
+   "en": "to and fro",
+   "uz": "u yoqdan-bu yoqqa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The nervous father paced to and fro outside the exam hall, waiting for his daughter.",
+   "gap": "to and fro",
+   "alt": []
+  },
+  {
+   "id": "now_and_again",
+   "en": "now and again",
+   "uz": "vaqti-vaqti bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother lives in Andijan, so I only see him now and again.",
+   "gap": "now and again",
+   "alt": []
+  },
+  {
+   "id": "synonym",
+   "en": "synonym",
+   "uz": "sinonim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of repeating 'big' in your essay, use a synonym such as 'huge' or 'enormous'.",
+   "gap": "synonym",
+   "alt": []
+  },
+  {
+   "id": "antonym",
+   "en": "antonym",
+   "uz": "antonim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can you think of an antonym for 'generous'? 'Mean' is one possibility.",
+   "gap": "antonym",
+   "alt": []
+  },
+  {
+   "id": "cease",
+   "en": "cease",
+   "uz": "to‘xtatmoq (juda rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A notice at the bus stop said that the old route would cease to operate from 1 January.",
+   "gap": "cease",
+   "alt": []
+  },
+  {
+   "id": "rural",
+   "en": "rural",
+   "uz": "qishloqqa oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many young people leave rural areas of Surkhandarya to look for work in the capital.",
+   "gap": "rural",
+   "alt": []
+  },
+  {
+   "id": "urban",
+   "en": "urban",
+   "uz": "shaharga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Traffic jams and air pollution are typical urban problems in a fast-growing city like Tashkent.",
+   "gap": "urban",
+   "alt": []
+  },
+  {
+   "id": "word_class",
+   "en": "word class",
+   "uz": "so‘z turkumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Always note the word class of a new word: is it a noun, a verb or an adjective?",
+   "gap": "word class",
+   "alt": []
+  },
+  {
+   "id": "word_family",
+   "en": "word family",
+   "uz": "o‘zakdosh so‘zlar oilasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Create', 'creative' and 'creation' all belong to the same word family.",
+   "gap": "word family",
+   "alt": []
+  },
+  {
+   "id": "productive",
+   "en": "productive",
+   "uz": "samarali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I had a really productive day: I learned forty new words and finished all my homework.",
+   "gap": "productive",
+   "alt": []
+  },
+  {
+   "id": "stress",
+   "en": "stress",
+   "uz": "urg‘u",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 'hotel' the stress falls on the second syllable, not the first.",
+   "gap": "stress",
+   "alt": []
+  },
+  {
+   "id": "guitar",
+   "en": "guitar",
+   "uz": "gitara",
+   "pos": "noun",
+   "img": true,
+   "ex": "Shahzoda learned to play the guitar from online videos during the summer holidays.",
+   "gap": "guitar",
+   "alt": [
+    "guitars"
+   ]
+  },
+  {
+   "id": "piano",
+   "en": "piano",
+   "uz": "pianino (fortepiano)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The piano in the school hall is so old that some of its white keys don't make a sound.",
+   "gap": "piano",
+   "alt": [
+    "pianos"
+   ]
+  },
+  {
+   "id": "world_music",
+   "en": "world music",
+   "uz": "jahon xalqlari musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Sunday night the radio station plays world music from Mali, Brazil and India.",
+   "gap": "world music",
+   "alt": []
+  },
+  {
+   "id": "junk_mail",
+   "en": "junk mail",
+   "uz": "keraksiz xatlar (reklama pochtasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our postbox is always full of junk mail: pizza menus, adverts for new flats and leaflets from shops.",
+   "gap": "junk mail",
+   "alt": []
+  },
+  {
+   "id": "email_v",
+   "en": "email",
+   "uz": "elektron xat yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you email me the homework? I was ill and missed the lesson.",
+   "gap": "email",
+   "alt": [
+    "emailed",
+    "emails",
+    "e-mail"
+   ]
+  },
+  {
+   "id": "security",
+   "en": "security",
+   "uz": "xavfsizlik (himoya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For better security, change your passwords often and never share them with anyone.",
+   "gap": "security",
+   "alt": []
+  },
+  {
+   "id": "social_network",
+   "en": "social network",
+   "uz": "ijtimoiy tarmoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instagram is the social network most of my classmates use to share photos.",
+   "gap": "social network",
+   "alt": [
+    "social networks"
+   ]
+  },
+  {
+   "id": "prize",
+   "en": "prize",
+   "uz": "sovrin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar won first prize in the regional English essay competition.",
+   "gap": "prize",
+   "alt": [
+    "prizes"
+   ]
+  },
+  {
+   "id": "award",
+   "en": "award",
+   "uz": "mukofot (rasmiy taqdirlash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The director received an award for the best film at the festival.",
+   "gap": "award",
+   "alt": [
+    "awards"
+   ]
+  },
+  {
+   "id": "medal",
+   "en": "medal",
+   "uz": "nishon (oltin, kumush, bronza)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The swimmer stood on the podium with a gold medal round her neck.",
+   "gap": "medal",
+   "alt": [
+    "medals"
+   ]
+  },
+  {
+   "id": "salary",
+   "en": "salary",
+   "uz": "maosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teachers at the new private school get a higher salary than at most state schools.",
+   "gap": "salary",
+   "alt": [
+    "salaries"
+   ]
+  },
+  {
+   "id": "advantage",
+   "en": "advantage",
+   "uz": "ustunlik (afzallik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Being so tall gives Islom a big advantage on the basketball court.",
+   "gap": "advantage",
+   "alt": [
+    "advantages"
+   ]
+  },
+  {
+   "id": "produce_v",
+   "en": "produce",
+   "uz": "ishlab chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The factory in Asaka produces cars for the whole of Central Asia.",
+   "gap": "produces",
+   "alt": [
+    "produces",
+    "produced"
+   ]
+  },
+  {
+   "id": "produce_noun",
+   "en": "produce",
+   "uz": "qishloq xo‘jalik mahsulotlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Saturday market, farmers sell fresh produce straight from their fields.",
+   "gap": "produce",
+   "alt": []
+  },
+  {
+   "id": "product",
+   "en": "product",
+   "uz": "mahsulot (tayyor buyum)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's new product, a solar phone charger, goes on sale next month.",
+   "gap": "product",
+   "alt": [
+    "products"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "classical",
+   "folk"
+  ],
+  [
+   "perform",
+   "practise"
+  ],
+  [
+   "release",
+   "upload"
+  ],
+  [
+   "release",
+   "perform"
+  ],
+  [
+   "release",
+   "post"
+  ],
+  [
+   "upload",
+   "post"
+  ],
+  [
+   "upload",
+   "download"
+  ],
+  [
+   "virus",
+   "pop_up"
+  ],
+  [
+   "earn",
+   "win"
+  ],
+  [
+   "win",
+   "gain"
+  ],
+  [
+   "synonym",
+   "antonym"
+  ],
+  [
+   "rural",
+   "urban"
+  ],
+  [
+   "word_class",
+   "word_family"
+  ],
+  [
+   "guitar",
+   "piano"
+  ],
+  [
+   "guitar",
+   "cello"
+  ],
+  [
+   "piano",
+   "cello"
+  ],
+  [
+   "world_music",
+   "folk"
+  ],
+  [
+   "world_music",
+   "classical"
+  ],
+  [
+   "junk_mail",
+   "spam"
+  ],
+  [
+   "email_v",
+   "forward"
+  ],
+  [
+   "email_v",
+   "post"
+  ],
+  [
+   "email_v",
+   "upload"
+  ],
+  [
+   "prize",
+   "award"
+  ],
+  [
+   "prize",
+   "medal"
+  ],
+  [
+   "award",
+   "medal"
+  ],
+  [
+   "advantage",
+   "gain"
+  ],
+  [
+   "produce_v",
+   "produce_noun"
+  ],
+  [
+   "produce_v",
+   "product"
+  ],
+  [
+   "produce_noun",
+   "product"
+  ],
+  [
+   "produce_v",
+   "release"
+  ]
+ ]
+}

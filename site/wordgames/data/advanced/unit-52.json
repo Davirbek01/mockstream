@@ -1,0 +1,574 @@
+{
+ "book": "advanced",
+ "unit": 52,
+ "title": "Illness: feeling under the weather",
+ "title_uz": "Betoblik: o‘zini noxush his qilish",
+ "words": [
+  {
+   "id": "off_colour",
+   "en": "off-colour",
+   "uz": "rangi o‘chgan (betobroq ko‘rinadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our maths teacher's face looked a bit off-colour on Monday, pale and greyish, but she insisted that she felt fine.",
+   "gap": "off-colour",
+   "alt": [
+    "off colour",
+    "off-color"
+   ]
+  },
+  {
+   "id": "out_of_sorts",
+   "en": "out of sorts",
+   "uz": "kayfiyati yo‘q, o‘ziga kelmagan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Aziz isn't ill at all, but he's been out of sorts since the long flight back from Istanbul: tired, grumpy and not hungry.",
+   "gap": "out of sorts",
+   "alt": []
+  },
+  {
+   "id": "under_the_weather",
+   "en": "under the weather",
+   "uz": "sal betob (mazasi yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nothing specific is wrong with me; I'm just a bit under the weather, so I'll have an early night.",
+   "gap": "under the weather",
+   "alt": []
+  },
+  {
+   "id": "poorly",
+   "en": "poorly",
+   "uz": "betob (kasal)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour's little boy has been poorly with a cold for a few days, nothing serious, but he isn't well enough to go back to nursery yet.",
+   "gap": "poorly",
+   "alt": []
+  },
+  {
+   "id": "fight_off",
+   "en": "fight off",
+   "uz": "(kasallikka) berilmaslikka urinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since I felt that first tickle in my throat, I've been fighting off a cold with hot lemon tea and early nights, and so far it hasn't got any worse.",
+   "gap": "fighting off",
+   "alt": [
+    "fighting off",
+    "fought off",
+    "fights off"
+   ]
+  },
+  {
+   "id": "come_down_with",
+   "en": "come down with",
+   "uz": "(yengil kasallikka) chalinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm afraid I've come down with a horrible cold, so I won't be at choir rehearsal today.",
+   "gap": "come down with",
+   "alt": [
+    "came down with",
+    "coming down with",
+    "comes down with"
+   ]
+  },
+  {
+   "id": "go_down_with",
+   "en": "go down with",
+   "uz": "(boshqa odam) kasallikka chalinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Half of Bekzod's football team have gone down with flu, so Saturday's match has been cancelled.",
+   "gap": "gone down with",
+   "alt": [
+    "gone down with",
+    "went down with",
+    "going down with",
+    "goes down with"
+   ]
+  },
+  {
+   "id": "suffer_from",
+   "en": "suffer from",
+   "uz": "(uzoq vaqt) …dan aziyat chekmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My classmate Zarina suffers from hay fever, so spring in Namangan, with all its blossoming apricot trees, is hard for her.",
+   "gap": "suffers from",
+   "alt": [
+    "suffers from",
+    "suffered from",
+    "suffering from"
+   ]
+  },
+  {
+   "id": "hay_fever",
+   "en": "hay fever",
+   "uz": "gul changi allergiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every May, when the grass in the park is cut, Bobur's hay fever makes him sneeze all day long.",
+   "gap": "hay fever",
+   "alt": []
+  },
+  {
+   "id": "hurt",
+   "en": "hurt",
+   "uz": "og‘rimoq (urilgan, lat yegan joy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nilufar's thumb still hurts where she caught it in her desk drawer on Sunday.",
+   "gap": "hurts",
+   "alt": [
+    "hurts",
+    "hurting"
+   ]
+  },
+  {
+   "id": "ache",
+   "en": "ache",
+   "uz": "zirqiramoq (uzoq, sekin og‘rimoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a whole day of carrying boxes up to our new flat, my shoulders ached all evening.",
+   "gap": "ached",
+   "alt": [
+    "ached",
+    "aches",
+    "aching"
+   ]
+  },
+  {
+   "id": "aches_and_pains",
+   "en": "aches and pains",
+   "uz": "mayda-chuyda og‘riqlar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At seventy, our caretaker Mr Sobirov still cycles to school every day, with nothing worse than a few aches and pains in his knees on frosty mornings.",
+   "gap": "aches and pains",
+   "alt": []
+  },
+  {
+   "id": "cuts_and_bruises",
+   "en": "cuts and bruises",
+   "uz": "tirnalish va ko‘karishlar",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The pupils came back from their hike in the hills near Gazalkent covered in cuts and bruises from scrambling over the rocks, but nobody was seriously hurt.",
+   "gap": "cuts and bruises",
+   "alt": []
+  },
+  {
+   "id": "sting",
+   "en": "sting",
+   "uz": "achishmoq (kuydirgandek)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Some shampoo got into my eyes, and they kept stinging for ten minutes however much cold water I splashed on them.",
+   "gap": "stinging",
+   "alt": [
+    "stinging",
+    "stings",
+    "stung"
+   ]
+  },
+  {
+   "id": "throb",
+   "en": "throb",
+   "uz": "lo‘qillab og‘rimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Gulbahor's toothache was so bad that her whole jaw was throbbing by the time she reached the dentist.",
+   "gap": "throbbing",
+   "alt": [
+    "throbbing",
+    "throbs",
+    "throbbed"
+   ]
+  },
+  {
+   "id": "stiff_neck",
+   "en": "stiff neck",
+   "uz": "bo‘yin qotishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I fell asleep with my head at a strange angle on the train, and now I've got a stiff neck.",
+   "gap": "stiff neck",
+   "alt": []
+  },
+  {
+   "id": "twist_ankle",
+   "en": "twist your ankle",
+   "uz": "to‘pig‘ini burab olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Malika slipped on the wet steps and twisted her ankle, so she can't play basketball this week.",
+   "gap": "twisted her ankle",
+   "alt": [
+    "twisted her ankle",
+    "twisted his ankle",
+    "twisted my ankle",
+    "twisting your ankle"
+   ]
+  },
+  {
+   "id": "dizzy",
+   "en": "dizzy",
+   "uz": "boshi aylanayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After riding the spinning teacups at Tashkent Land three times in a row, my little sister felt so dizzy that the trees seemed to be turning around her.",
+   "gap": "dizzy",
+   "alt": []
+  },
+  {
+   "id": "feverish",
+   "en": "feverish",
+   "uz": "isitmasi chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her forehead was hot and she seemed feverish, so the school nurse took her temperature.",
+   "gap": "feverish",
+   "alt": []
+  },
+  {
+   "id": "shivery",
+   "en": "shivery",
+   "uz": "eti junjikayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I felt so shivery with the flu that my teeth were chattering, even under three blankets.",
+   "gap": "shivery",
+   "alt": []
+  },
+  {
+   "id": "sleepless_night",
+   "en": "sleepless night",
+   "uz": "uyqusiz tun",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new baby next door is teething, so his parents have had a lot of sleepless nights recently.",
+   "gap": "sleepless nights",
+   "alt": [
+    "sleepless nights"
+   ]
+  },
+  {
+   "id": "nauseous",
+   "en": "nauseous",
+   "uz": "ko‘ngli aynayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The smell of the fish stalls in the summer heat made Mohira feel so nauseous that she couldn't even look at her lunch.",
+   "gap": "nauseous",
+   "alt": []
+  },
+  {
+   "id": "tremble",
+   "en": "tremble",
+   "uz": "titramoq (qaltiramoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Javlon's hands were trembling so much before his first piano concert that he could hardly turn the pages.",
+   "gap": "trembling",
+   "alt": [
+    "trembling",
+    "trembled",
+    "trembles"
+   ]
+  },
+  {
+   "id": "bunged_up",
+   "en": "bunged up",
+   "uz": "(burni) bitib qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With his nose completely bunged up, Ilhom couldn't smell the fresh bread from the bakery downstairs.",
+   "gap": "bunged up",
+   "alt": [
+    "bunged-up"
+   ]
+  },
+  {
+   "id": "get_over",
+   "en": "get over",
+   "uz": "(kasallikdan) tuzalib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last winter it took me only three days to get over the flu.",
+   "gap": "get over",
+   "alt": [
+    "got over",
+    "getting over",
+    "gets over"
+   ]
+  },
+  {
+   "id": "recover_from",
+   "en": "recover from",
+   "uz": "(og‘ir kasallikdan) sog‘aymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our history teacher is still recovering from a back operation, but she can already walk without a stick.",
+   "gap": "recovering from",
+   "alt": [
+    "recovering from",
+    "recovered from",
+    "recovers from"
+   ]
+  },
+  {
+   "id": "on_the_mend",
+   "en": "on the mend",
+   "uz": "tuzalib borayotgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our coach broke his wrist last month, but he's on the mend now and can hold a racket again.",
+   "gap": "on the mend",
+   "alt": []
+  },
+  {
+   "id": "over_the_worst",
+   "en": "over the worst",
+   "uz": "eng og‘ir payti o‘tib ketgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sevara's temperature has come down at last, so the doctor says she's over the worst.",
+   "gap": "over the worst",
+   "alt": []
+  },
+  {
+   "id": "back_on_feet",
+   "en": "back on your feet",
+   "uz": "to‘liq sog‘ayib, oyoqqa turgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry: after a few days' rest you'll be completely back on your feet and fit enough to run in the school sports day.",
+   "gap": "back on your feet",
+   "alt": [
+    "back on her feet",
+    "back on his feet",
+    "back on my feet"
+   ]
+  },
+  {
+   "id": "dull_ache",
+   "en": "dull ache",
+   "uz": "simillagan (bo‘g‘iq) og‘riq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since moving the wardrobe, Feruza has had a dull ache in her lower back that never quite goes away.",
+   "gap": "dull ache",
+   "alt": [
+    "dull aches"
+   ]
+  },
+  {
+   "id": "nagging_ache",
+   "en": "nagging ache",
+   "uz": "tinmay bezovta qiluvchi og‘riq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doniyor ignored the nagging ache in his tooth for weeks until it finally kept him awake one night.",
+   "gap": "nagging ache",
+   "alt": [
+    "nagging aches"
+   ]
+  },
+  {
+   "id": "throbbing_ache",
+   "en": "throbbing ache",
+   "uz": "lo‘qillagan og‘riq",
+   "pos": "noun",
+   "img": false,
+   "ex": "After hours of loud music at the concert, Shirin went home with a throbbing ache in both temples.",
+   "gap": "throbbing ache",
+   "alt": [
+    "throbbing aches"
+   ]
+  },
+  {
+   "id": "hurt_emotional",
+   "en": "hurt",
+   "uz": "ko‘ngil og‘rig‘i (ruhiy iztirob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was real hurt in Nargiza's voice when she found out that her best friend had told her secret to the whole class.",
+   "gap": "hurt",
+   "alt": []
+  },
+  {
+   "id": "hot_and_cold",
+   "en": "hot and cold",
+   "uz": "goh issiqlab, goh sovqotib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With the flu, Nafisa kept going hot and cold: one minute she threw off the blanket, the next she pulled it up to her chin.",
+   "gap": "hot and cold",
+   "alt": []
+  },
+  {
+   "id": "have_a_temperature",
+   "en": "have a temperature",
+   "uz": "harorati ko‘tarilgan bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The school nurse rang Kamron's father because the boy has a temperature of 38.5 and needs to go home.",
+   "gap": "has a temperature",
+   "alt": [
+    "has a temperature",
+    "had a temperature",
+    "having a temperature"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "off_colour",
+   "under_the_weather"
+  ],
+  [
+   "off_colour",
+   "poorly"
+  ],
+  [
+   "under_the_weather",
+   "poorly"
+  ],
+  [
+   "out_of_sorts",
+   "under_the_weather"
+  ],
+  [
+   "poorly",
+   "feverish"
+  ],
+  [
+   "poorly",
+   "shivery"
+  ],
+  [
+   "feverish",
+   "shivery"
+  ],
+  [
+   "come_down_with",
+   "go_down_with"
+  ],
+  [
+   "come_down_with",
+   "suffer_from"
+  ],
+  [
+   "go_down_with",
+   "suffer_from"
+  ],
+  [
+   "hurt",
+   "ache"
+  ],
+  [
+   "dizzy",
+   "nauseous"
+  ],
+  [
+   "back_on_feet",
+   "on_the_mend"
+  ],
+  [
+   "back_on_feet",
+   "over_the_worst"
+  ],
+  [
+   "get_over",
+   "recover_from"
+  ],
+  [
+   "on_the_mend",
+   "over_the_worst"
+  ],
+  [
+   "out_of_sorts",
+   "poorly"
+  ],
+  [
+   "out_of_sorts",
+   "off_colour"
+  ],
+  [
+   "nauseous",
+   "poorly"
+  ],
+  [
+   "hay_fever",
+   "asthma"
+  ],
+  [
+   "dull_ache",
+   "nagging_ache"
+  ],
+  [
+   "dull_ache",
+   "throbbing_ache"
+  ],
+  [
+   "nagging_ache",
+   "throbbing_ache"
+  ],
+  [
+   "throb",
+   "throbbing_ache"
+  ],
+  [
+   "ache",
+   "dull_ache"
+  ],
+  [
+   "ache",
+   "nagging_ache"
+  ],
+  [
+   "ache",
+   "throbbing_ache"
+  ],
+  [
+   "hurt",
+   "hurt_emotional"
+  ],
+  [
+   "hot_and_cold",
+   "shivery"
+  ],
+  [
+   "hot_and_cold",
+   "feverish"
+  ],
+  [
+   "hot_and_cold",
+   "dizzy"
+  ],
+  [
+   "have_a_temperature",
+   "feverish"
+  ],
+  [
+   "have_a_temperature",
+   "hot_and_cold"
+  ],
+  [
+   "have_a_temperature",
+   "shivery"
+  ],
+  [
+   "aches_and_pains",
+   "dull_ache"
+  ],
+  [
+   "aches_and_pains",
+   "nagging_ache"
+  ]
+ ]
+}

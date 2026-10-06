@@ -1,0 +1,733 @@
+{
+ "book": "preint",
+ "unit": 7,
+ "title": "Weather",
+ "title_uz": "Ob-havo",
+ "words": [
+  {
+   "id": "sunny",
+   "en": "sunny",
+   "uz": "quyoshli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Take your sunglasses: it's very sunny today, and the light is too bright for my eyes.",
+   "gap": "sunny",
+   "alt": []
+  },
+  {
+   "id": "cloudy",
+   "en": "cloudy",
+   "uz": "bulutli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sky was cloudy all morning and we couldn't see the sun, but it didn't rain.",
+   "gap": "cloudy",
+   "alt": []
+  },
+  {
+   "id": "foggy",
+   "en": "foggy",
+   "uz": "tumanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was so foggy this morning that I couldn't see the bus stop across the road.",
+   "gap": "foggy",
+   "alt": []
+  },
+  {
+   "id": "windy",
+   "en": "windy",
+   "uz": "shamolli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's very windy today; my umbrella has just turned inside out!",
+   "gap": "windy",
+   "alt": []
+  },
+  {
+   "id": "snowy",
+   "en": "snowy",
+   "uz": "qorli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a snowy night, the whole school yard was white, and we built a snowman before lessons.",
+   "gap": "snowy",
+   "alt": []
+  },
+  {
+   "id": "icy",
+   "en": "icy",
+   "uz": "muz bosgan, yaxlab qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Walk carefully: the water on the pavement froze in the night, and now it's icy and very slippery.",
+   "gap": "icy",
+   "alt": []
+  },
+  {
+   "id": "wet",
+   "en": "wet",
+   "uz": "ho‘l, yomg‘irli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My shoes got wet when I walked home from the metro in the rain.",
+   "gap": "wet",
+   "alt": []
+  },
+  {
+   "id": "shine",
+   "en": "shine",
+   "uz": "charaqlamoq (quyosh haqida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The sun is shining, so let's have lunch outside in the garden.",
+   "gap": "shining",
+   "alt": [
+    "shining",
+    "shone",
+    "shines",
+    "shined"
+   ]
+  },
+  {
+   "id": "come_out",
+   "en": "come out",
+   "uz": "chiqmoq (quyosh haqida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The sun came out from behind a dark cloud, and suddenly the blue domes of the Registan looked bright.",
+   "gap": "came out",
+   "alt": [
+    "came out",
+    "comes out"
+   ]
+  },
+  {
+   "id": "thick_fog",
+   "en": "thick fog",
+   "uz": "quyuq tuman",
+   "pos": "noun",
+   "img": false,
+   "ex": "In thick fog on the Kamchik Pass, drivers can't see more than ten metres ahead.",
+   "gap": "thick fog",
+   "alt": []
+  },
+  {
+   "id": "heavy_rain",
+   "en": "heavy rain",
+   "uz": "kuchli yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the heavy rain last night, the old streets of Bukhara were full of water.",
+   "gap": "heavy rain",
+   "alt": []
+  },
+  {
+   "id": "strong_wind",
+   "en": "strong wind",
+   "uz": "kuchli shamol",
+   "pos": "noun",
+   "img": false,
+   "ex": "On a dry but cold March day, a strong wind blew the hats off people's heads at the bus stop.",
+   "gap": "strong wind",
+   "alt": [
+    "strong winds"
+   ]
+  },
+  {
+   "id": "blow",
+   "en": "blow",
+   "uz": "esmoq (shamol haqida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The wind is blowing from the mountains, so it feels cold.",
+   "gap": "blowing",
+   "alt": [
+    "blowing",
+    "blew",
+    "blown",
+    "blows"
+   ]
+  },
+  {
+   "id": "clear",
+   "en": "clear",
+   "uz": "ochiq (bulutsiz osmon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sky above Nurata was so clear that night that we could see the Milky Way.",
+   "gap": "clear",
+   "alt": []
+  },
+  {
+   "id": "extremely",
+   "en": "extremely",
+   "uz": "nihoyatda, haddan tashqari",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The exam was extremely difficult: nobody in our class finished all the questions.",
+   "gap": "extremely",
+   "alt": []
+  },
+  {
+   "id": "pour",
+   "en": "pour",
+   "uz": "sharillab quymoq (yomg‘ir)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was pouring with rain when the football match ended, so we ran to the metro with our jackets over our heads.",
+   "gap": "pouring",
+   "alt": [
+    "pouring",
+    "poured",
+    "pours"
+   ]
+  },
+  {
+   "id": "shower",
+   "en": "shower",
+   "uz": "qisqa yomg‘ir (jala)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We got caught in a light shower on the way to the bazaar, but ten minutes later the sun was out again.",
+   "gap": "shower",
+   "alt": [
+    "showers"
+   ]
+  },
+  {
+   "id": "storm",
+   "en": "storm",
+   "uz": "bo‘ron",
+   "pos": "noun",
+   "img": false,
+   "ex": "The storm lasted all night, and the wind broke trees and windows all over our mahalla.",
+   "gap": "storm",
+   "alt": [
+    "storms"
+   ]
+  },
+  {
+   "id": "thunderstorm",
+   "en": "thunderstorm",
+   "uz": "momaqaldiroqli jala",
+   "pos": "noun",
+   "img": false,
+   "ex": "During last night's thunderstorm, my little sister counted the seconds between each flash and each loud bang.",
+   "gap": "thunderstorm",
+   "alt": [
+    "thunderstorms"
+   ]
+  },
+  {
+   "id": "humid",
+   "en": "humid",
+   "uz": "dim va nam (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Summer in Tashkent is hot but dry, not humid like in Thailand.",
+   "gap": "humid",
+   "alt": []
+  },
+  {
+   "id": "thunder",
+   "en": "thunder",
+   "uz": "momaqaldiroq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our dog hides under the bed every time it hears thunder.",
+   "gap": "thunder",
+   "alt": []
+  },
+  {
+   "id": "lightning",
+   "en": "lightning",
+   "uz": "chaqmoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "The tall poplar in our yard split in two when lightning hit it during the night.",
+   "gap": "lightning",
+   "alt": []
+  },
+  {
+   "id": "temperature",
+   "en": "temperature",
+   "uz": "harorat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse checked my temperature: 38.5, so I stayed at home from school.",
+   "gap": "temperature",
+   "alt": []
+  },
+  {
+   "id": "degree",
+   "en": "degree",
+   "uz": "gradus",
+   "pos": "noun",
+   "img": false,
+   "ex": "At nine in the morning, the thermometer outside our window already showed thirty-five degrees.",
+   "gap": "degrees",
+   "alt": [
+    "degrees"
+   ]
+  },
+  {
+   "id": "below_zero",
+   "en": "below zero",
+   "uz": "noldan past",
+   "pos": "adverb",
+   "img": false,
+   "ex": "In January the temperature in Fergana can fall to five degrees below zero at night.",
+   "gap": "below zero",
+   "alt": []
+  },
+  {
+   "id": "boiling",
+   "en": "boiling",
+   "uz": "juda issiq, jazirama",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Open the window, it's boiling in here! The air conditioner is broken.",
+   "gap": "boiling",
+   "alt": []
+  },
+  {
+   "id": "freezing",
+   "en": "freezing",
+   "uz": "qattiq sovuq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Close the door, it's freezing outside: minus fifteen!",
+   "gap": "freezing",
+   "alt": []
+  },
+  {
+   "id": "chilly",
+   "en": "chilly",
+   "uz": "sovuq, junjiktiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even in July, nights at the camp in the Zaamin mountains are chilly, only about 8 °C, so bring a warm jacket.",
+   "gap": "chilly",
+   "alt": []
+  },
+  {
+   "id": "cool",
+   "en": "cool",
+   "uz": "salqin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the hot street, the shade under the old plane trees felt pleasantly cool.",
+   "gap": "cool",
+   "alt": []
+  },
+  {
+   "id": "mild",
+   "en": "mild",
+   "uz": "mo‘tadil, iliq (qish haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This January was so mild that we played football in T-shirts, and the apricot trees almost started to flower.",
+   "gap": "mild",
+   "alt": []
+  },
+  {
+   "id": "fog",
+   "en": "fog",
+   "uz": "tuman",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plane couldn't land because of the fog; the pilots couldn't see the runway.",
+   "gap": "fog",
+   "alt": []
+  },
+  {
+   "id": "sun",
+   "en": "sun",
+   "uz": "quyosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning the sun rises in the east, and every evening it sets in the west.",
+   "gap": "sun",
+   "alt": []
+  },
+  {
+   "id": "cloud",
+   "en": "cloud",
+   "uz": "bulut",
+   "pos": "noun",
+   "img": false,
+   "ex": "A huge dark cloud covered the sun, and a minute later big drops began to fall.",
+   "gap": "cloud",
+   "alt": [
+    "clouds"
+   ]
+  },
+  {
+   "id": "wind",
+   "en": "wind",
+   "uz": "shamol",
+   "pos": "noun",
+   "img": false,
+   "ex": "The wind was so strong that it pulled the washing off the line.",
+   "gap": "wind",
+   "alt": [
+    "winds"
+   ]
+  },
+  {
+   "id": "snow",
+   "en": "snow",
+   "uz": "qor; qor yog‘moq",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the mountains near Beldersay, there is enough snow for skiing from December to March.",
+   "gap": "snow",
+   "alt": [
+    "snowing",
+    "snows",
+    "snowed"
+   ]
+  },
+  {
+   "id": "ice",
+   "en": "ice",
+   "uz": "muz",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's so hot; could you put some ice in my lemonade, please?",
+   "gap": "ice",
+   "alt": []
+  },
+  {
+   "id": "rain",
+   "en": "rain",
+   "uz": "yomg‘ir; yomg‘ir yog‘moq",
+   "pos": "noun",
+   "img": false,
+   "ex": "After weeks of dry weather, the farmers were happy to see the rain at last.",
+   "gap": "rain",
+   "alt": [
+    "raining",
+    "rains",
+    "rained"
+   ]
+  },
+  {
+   "id": "light_rain",
+   "en": "light rain",
+   "uz": "mayda yomg‘ir (sekin yog‘adigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was only light rain, a few soft drops, so we kept walking without umbrellas.",
+   "gap": "light rain",
+   "alt": []
+  },
+  {
+   "id": "hot",
+   "en": "hot",
+   "uz": "issiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In July it's usually too hot to play football in the afternoon, so we play in the evening.",
+   "gap": "hot",
+   "alt": []
+  },
+  {
+   "id": "warm",
+   "en": "warm",
+   "uz": "iliq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In April the air is warm, about twenty degrees, so you don't need a coat.",
+   "gap": "warm",
+   "alt": []
+  },
+  {
+   "id": "cold",
+   "en": "cold",
+   "uz": "sovuq (havo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My fingers hurt from the cold because I forgot my gloves.",
+   "gap": "cold",
+   "alt": [
+    "the cold"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "sunny",
+   "clear"
+  ],
+  [
+   "cloudy",
+   "foggy"
+  ],
+  [
+   "cloudy",
+   "snowy"
+  ],
+  [
+   "foggy",
+   "snowy"
+  ],
+  [
+   "snowy",
+   "icy"
+  ],
+  [
+   "thick_fog",
+   "heavy_rain"
+  ],
+  [
+   "heavy_rain",
+   "storm"
+  ],
+  [
+   "heavy_rain",
+   "thunderstorm"
+  ],
+  [
+   "heavy_rain",
+   "shower"
+  ],
+  [
+   "storm",
+   "thunderstorm"
+  ],
+  [
+   "strong_wind",
+   "storm"
+  ],
+  [
+   "extremely",
+   "boiling"
+  ],
+  [
+   "freezing",
+   "chilly"
+  ],
+  [
+   "chilly",
+   "cool"
+  ],
+  [
+   "humid",
+   "wet"
+  ],
+  [
+   "snowy",
+   "freezing"
+  ],
+  [
+   "icy",
+   "wet"
+  ],
+  [
+   "icy",
+   "freezing"
+  ],
+  [
+   "strong_wind",
+   "thunderstorm"
+  ],
+  [
+   "thunder",
+   "storm"
+  ],
+  [
+   "thunder",
+   "thunderstorm"
+  ],
+  [
+   "boiling",
+   "humid"
+  ],
+  [
+   "shine",
+   "come_out"
+  ],
+  [
+   "lightning",
+   "thunderstorm"
+  ],
+  [
+   "lightning",
+   "storm"
+  ],
+  [
+   "lightning",
+   "thunder"
+  ],
+  [
+   "fog",
+   "thick_fog"
+  ],
+  [
+   "fog",
+   "cloud"
+  ],
+  [
+   "fog",
+   "snow"
+  ],
+  [
+   "fog",
+   "foggy"
+  ],
+  [
+   "cloud",
+   "storm"
+  ],
+  [
+   "cloud",
+   "cloudy"
+  ],
+  [
+   "wind",
+   "storm"
+  ],
+  [
+   "wind",
+   "strong_wind"
+  ],
+  [
+   "wind",
+   "windy"
+  ],
+  [
+   "wind",
+   "thunder"
+  ],
+  [
+   "snow",
+   "storm"
+  ],
+  [
+   "snow",
+   "thick_fog"
+  ],
+  [
+   "snow",
+   "snowy"
+  ],
+  [
+   "ice",
+   "icy"
+  ],
+  [
+   "rain",
+   "heavy_rain"
+  ],
+  [
+   "rain",
+   "shower"
+  ],
+  [
+   "rain",
+   "light_rain"
+  ],
+  [
+   "rain",
+   "storm"
+  ],
+  [
+   "rain",
+   "snow"
+  ],
+  [
+   "rain",
+   "thunder"
+  ],
+  [
+   "rain",
+   "thunderstorm"
+  ],
+  [
+   "rain",
+   "wet"
+  ],
+  [
+   "light_rain",
+   "heavy_rain"
+  ],
+  [
+   "light_rain",
+   "shower"
+  ],
+  [
+   "hot",
+   "boiling"
+  ],
+  [
+   "hot",
+   "warm"
+  ],
+  [
+   "hot",
+   "humid"
+  ],
+  [
+   "hot",
+   "sunny"
+  ],
+  [
+   "warm",
+   "mild"
+  ],
+  [
+   "warm",
+   "cool"
+  ],
+  [
+   "warm",
+   "sunny"
+  ],
+  [
+   "cold",
+   "chilly"
+  ],
+  [
+   "cold",
+   "freezing"
+  ],
+  [
+   "cold",
+   "snow"
+  ],
+  [
+   "cold",
+   "wet"
+  ],
+  [
+   "cold",
+   "icy"
+  ],
+  [
+   "cold",
+   "cool"
+  ],
+  [
+   "sun",
+   "sunny"
+  ],
+  [
+   "sun",
+   "shine"
+  ],
+  [
+   "snow",
+   "shower"
+  ],
+  [
+   "cloud",
+   "thick_fog"
+  ],
+  [
+   "hot",
+   "mild"
+  ]
+ ]
+}

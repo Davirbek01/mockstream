@@ -1,0 +1,475 @@
+{
+ "book": "preint",
+ "unit": 14,
+ "title": "Growing up",
+ "title_uz": "Ulg‘ayish",
+ "words": [
+  {
+   "id": "birth",
+   "en": "birth",
+   "uz": "tug‘ilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse wrote the baby's weight at birth on a small card: 3.4 kilos.",
+   "gap": "birth",
+   "alt": []
+  },
+  {
+   "id": "baby",
+   "en": "baby",
+   "uz": "chaqaloq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbours have a new baby who wakes the whole building up at three in the morning.",
+   "gap": "baby",
+   "alt": []
+  },
+  {
+   "id": "toddler",
+   "en": "toddler",
+   "uz": "tetapoya bola (1–3 yosh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My two-year-old nephew is a busy toddler: he walks everywhere and touches everything.",
+   "gap": "toddler",
+   "alt": []
+  },
+  {
+   "id": "childhood",
+   "en": "childhood",
+   "uz": "bolalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Akbar spent his childhood, until the age of twelve, in a village near Khiva, where he climbed trees and swam in the canal every day.",
+   "gap": "childhood",
+   "alt": []
+  },
+  {
+   "id": "teenager",
+   "en": "teenager",
+   "uz": "o‘smir",
+   "pos": "noun",
+   "img": false,
+   "ex": "When my brother became a teenager, he started spending hours in his room with his headphones on.",
+   "gap": "teenager",
+   "alt": [
+    "teenagers"
+   ]
+  },
+  {
+   "id": "teens",
+   "en": "teens",
+   "uz": "o‘smirlik yillari (13–19)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Uzbek chess player Nodirbek Abdusattorov became a grandmaster in his early teens.",
+   "gap": "teens",
+   "alt": []
+  },
+  {
+   "id": "adult",
+   "en": "adult",
+   "uz": "voyaga yetgan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "At this swimming pool, children under ten can only swim with an adult.",
+   "gap": "adult",
+   "alt": [
+    "adults"
+   ]
+  },
+  {
+   "id": "middle_aged",
+   "en": "middle-aged",
+   "uz": "o‘rta yoshli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My parents are both middle-aged: Dad is 48 and Mum is 45.",
+   "gap": "middle-aged",
+   "alt": [
+    "middle aged"
+   ]
+  },
+  {
+   "id": "retirement",
+   "en": "retirement",
+   "uz": "nafaqaga chiqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After forty years as a teacher, Mr Saidov is looking forward to his retirement and plans to grow tomatoes.",
+   "gap": "retirement",
+   "alt": []
+  },
+  {
+   "id": "retired",
+   "en": "retired",
+   "uz": "nafaqadagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My uncle stopped working last year; now he's retired and goes fishing every morning.",
+   "gap": "retired",
+   "alt": []
+  },
+  {
+   "id": "old_age",
+   "en": "old age",
+   "uz": "keksalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors say that walking every day helps people stay healthy into old age.",
+   "gap": "old age",
+   "alt": []
+  },
+  {
+   "id": "elderly",
+   "en": "elderly",
+   "uz": "keksa, yoshi ulug‘",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the metro, young people usually stand up and give their seats to elderly passengers.",
+   "gap": "elderly",
+   "alt": []
+  },
+  {
+   "id": "early_twenties",
+   "en": "early twenties",
+   "uz": "yigirma yoshlar boshi (21–23)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most students finish their first degree in their early twenties, at 21 or 22.",
+   "gap": "early twenties",
+   "alt": []
+  },
+  {
+   "id": "mid_fifties",
+   "en": "mid-fifties",
+   "uz": "ellik yoshlar o‘rtasi (54–56)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My aunt and uncle are in their mid-fifties: he is 55 and she is 54.",
+   "gap": "mid-fifties",
+   "alt": [
+    "mid fifties"
+   ]
+  },
+  {
+   "id": "late_seventies",
+   "en": "late seventies",
+   "uz": "yetmish yoshlar oxiri (77–79)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour is in her late seventies: she'll be eighty in two years, but she still walks to the bazaar every day.",
+   "gap": "late seventies",
+   "alt": []
+  },
+  {
+   "id": "nearly",
+   "en": "nearly",
+   "uz": "deyarli",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bus is nearly full: there are only two empty seats left at the back.",
+   "gap": "nearly",
+   "alt": []
+  },
+  {
+   "id": "approximately",
+   "en": "approximately",
+   "uz": "taxminan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our school has approximately 1,200 students: maybe a few more, maybe a few less.",
+   "gap": "approximately",
+   "alt": []
+  },
+  {
+   "id": "dead",
+   "en": "dead",
+   "uz": "o‘lgan, hayotdan o‘tgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The plant on my desk is dead because I forgot to water it for a month.",
+   "gap": "dead",
+   "alt": []
+  },
+  {
+   "id": "alive",
+   "en": "alive",
+   "uz": "tirik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctors worked all night, and in the morning the man from the accident was still alive.",
+   "gap": "alive",
+   "alt": []
+  },
+  {
+   "id": "die",
+   "en": "die",
+   "uz": "o‘lmoq, vafot etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Water your roses every evening in July, or they will die in the heat.",
+   "gap": "die",
+   "alt": [
+    "died",
+    "dies",
+    "dying"
+   ]
+  },
+  {
+   "id": "bring_up",
+   "en": "bring up",
+   "uz": "tarbiyalab o‘stirmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Laziz was brought up by his aunt in Fergana after his parents went abroad to work.",
+   "gap": "brought up",
+   "alt": [
+    "brought up",
+    "brings up",
+    "bringing up"
+   ]
+  },
+  {
+   "id": "allow",
+   "en": "allow",
+   "uz": "ruxsat bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Students aren't allowed to use their phones during the lesson.",
+   "gap": "allowed",
+   "alt": [
+    "allowed",
+    "allows"
+   ]
+  },
+  {
+   "id": "let",
+   "en": "let",
+   "uz": "qo‘yib bermoq, ijozat bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My parents let me stay at my friend's house until ten on Saturdays.",
+   "gap": "let",
+   "alt": [
+    "lets"
+   ]
+  },
+  {
+   "id": "in_the_end",
+   "en": "in the end",
+   "uz": "oxir-oqibat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We looked at fifteen flats, and in the end we chose the very first one.",
+   "gap": "in the end",
+   "alt": []
+  },
+  {
+   "id": "at_first",
+   "en": "at first",
+   "uz": "dastlab, avvaliga",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I didn't like the metro at first, but now I use it every day.",
+   "gap": "at first",
+   "alt": []
+  },
+  {
+   "id": "manage",
+   "en": "manage",
+   "uz": "uddalamoq (qiyin bo‘lsa ham)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The exam was very hard, but I managed to answer all the questions.",
+   "gap": "managed",
+   "alt": [
+    "managed",
+    "manages"
+   ]
+  },
+  {
+   "id": "stay_out_late",
+   "en": "stay out late",
+   "uz": "uyga kech qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On school nights Mum doesn't want me to stay out late; I have to be home by eight.",
+   "gap": "stay out late",
+   "alt": [
+    "stayed out late",
+    "stays out late"
+   ]
+  },
+  {
+   "id": "grow_up",
+   "en": "grow up",
+   "uz": "ulg‘aymoq, katta bo‘lmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Children grow up so fast: last year these jeans fitted Kamron, and now they're too short.",
+   "gap": "grow up",
+   "alt": [
+    "grew up",
+    "grows up",
+    "growing up",
+    "grown up"
+   ]
+  },
+  {
+   "id": "strict",
+   "en": "strict",
+   "uz": "qattiqqo‘l, talabchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our maths teacher is very strict: if you are one minute late, she doesn't let you into the lesson.",
+   "gap": "strict",
+   "alt": []
+  },
+  {
+   "id": "child",
+   "en": "child",
+   "uz": "bola (3–12 yosh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tickets for the zoo cost twenty thousand som for each adult and ten thousand for each child.",
+   "gap": "child",
+   "alt": [
+    "children"
+   ]
+  },
+  {
+   "id": "almost",
+   "en": "almost",
+   "uz": "sal kam, qariyb",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The film lasts almost three hours, so take some snacks and a bottle of water.",
+   "gap": "almost",
+   "alt": []
+  },
+  {
+   "id": "thirty_year_old",
+   "en": "thirty-year-old",
+   "uz": "o‘ttiz yoshli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Akrom, a thirty-year-old engineer, ran his first marathon in just over three hours.",
+   "gap": "thirty-year-old",
+   "alt": [
+    "30-year-old",
+    "thirty year old"
+   ]
+  },
+  {
+   "id": "more_or_less",
+   "en": "more or less",
+   "uz": "plus-minus, taxminan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The drive from the city to the lake takes two hours, more or less, depending on the traffic.",
+   "gap": "more or less",
+   "alt": []
+  },
+  {
+   "id": "leave_home",
+   "en": "leave home",
+   "uz": "ota-ona uyidan chiqib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shohrux left home at eighteen to study in Germany, and now he only visits his parents in summer.",
+   "gap": "left home",
+   "alt": [
+    "left home",
+    "leaves home",
+    "leaving home"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "allow",
+   "let"
+  ],
+  [
+   "retired",
+   "elderly"
+  ],
+  [
+   "retirement",
+   "old_age"
+  ],
+  [
+   "teens",
+   "childhood"
+  ],
+  [
+   "bring_up",
+   "grow_up"
+  ],
+  [
+   "baby",
+   "toddler"
+  ],
+  [
+   "teenager",
+   "adult"
+  ],
+  [
+   "in_the_end",
+   "at_first"
+  ],
+  [
+   "elderly",
+   "middle_aged"
+  ],
+  [
+   "dead",
+   "die"
+  ],
+  [
+   "child",
+   "teenager"
+  ],
+  [
+   "child",
+   "toddler"
+  ],
+  [
+   "child",
+   "baby"
+  ],
+  [
+   "almost",
+   "nearly"
+  ],
+  [
+   "almost",
+   "approximately"
+  ],
+  [
+   "almost",
+   "more_or_less"
+  ],
+  [
+   "thirty_year_old",
+   "middle_aged"
+  ],
+  [
+   "thirty_year_old",
+   "retired"
+  ],
+  [
+   "more_or_less",
+   "approximately"
+  ],
+  [
+   "more_or_less",
+   "nearly"
+  ],
+  [
+   "leave_home",
+   "grow_up"
+  ]
+ ]
+}

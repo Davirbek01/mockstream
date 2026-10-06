@@ -1,0 +1,471 @@
+{
+ "book": "advanced",
+ "unit": 41,
+ "title": "British politics",
+ "title_uz": "Britaniya siyosati",
+ "words": [
+  {
+   "id": "lobby",
+   "en": "lobby",
+   "uz": "foydasiga ta’sir o‘tkazishga urinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Parents in our district lobbied the city council for months to get a safe crossing outside the school.",
+   "gap": "lobbied",
+   "alt": [
+    "lobbied",
+    "lobbies",
+    "lobbying"
+   ]
+  },
+  {
+   "id": "petition",
+   "en": "petition",
+   "uz": "jamoaviy murojaat (imzolar bilan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over two thousand residents signed a petition asking the council to keep the town's only public library open.",
+   "gap": "petition",
+   "alt": [
+    "petitions"
+   ]
+  },
+  {
+   "id": "legislation",
+   "en": "legislation",
+   "uz": "qonunchilik (qonun hujjatlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Parliament passed new legislation last year, so every new public building must now have ramps and lifts for wheelchair users.",
+   "gap": "legislation",
+   "alt": []
+  },
+  {
+   "id": "bill",
+   "en": "bill",
+   "uz": "qonun loyihasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bill on plastic bags went back and forth between the two Houses four times before both finally agreed on the wording.",
+   "gap": "bill",
+   "alt": [
+    "bills"
+   ]
+  },
+  {
+   "id": "committee_stage",
+   "en": "committee stage",
+   "uz": "qo‘mita bosqichi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Several changes to the cycling law were added at committee stage, after experts pointed out problems with the original text.",
+   "gap": "committee stage",
+   "alt": []
+  },
+  {
+   "id": "select_committee",
+   "en": "select committee",
+   "uz": "parlament tekshiruv qo‘mitasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The head of the national rail company was called before a select committee to explain why so many trains were running late.",
+   "gap": "select committee",
+   "alt": [
+    "select committees"
+   ]
+  },
+  {
+   "id": "scrutinise",
+   "en": "scrutinise",
+   "uz": "sinchiklab tekshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Journalists scrutinised every page of the city budget, looking for hidden costs.",
+   "gap": "scrutinised",
+   "alt": [
+    "scrutinised",
+    "scrutinises",
+    "scrutinising",
+    "scrutinize",
+    "scrutinized"
+   ]
+  },
+  {
+   "id": "peer",
+   "en": "peer",
+   "uz": "Lordlar palatasi a’zosi (lord)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Several peers who had once worked as doctors spoke in the Lords debate on the new health law.",
+   "gap": "peers",
+   "alt": [
+    "peers"
+   ]
+  },
+  {
+   "id": "briefing",
+   "en": "briefing",
+   "uz": "qisqa axborot (yo‘l-yo‘riq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the TV interview, the minister's assistant gave her a short briefing on the questions journalists were likely to ask.",
+   "gap": "briefing",
+   "alt": [
+    "briefings"
+   ]
+  },
+  {
+   "id": "rally",
+   "en": "rally",
+   "uz": "miting (ommaviy yig‘in)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of young people gathered in the main square for a peaceful rally demanding cleaner air.",
+   "gap": "rally",
+   "alt": [
+    "rallies"
+   ]
+  },
+  {
+   "id": "ultimately",
+   "en": "ultimately",
+   "uz": "oxir-oqibat",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Many people sent in ideas for the club logo, but ultimately the members chose a simple green leaf.",
+   "gap": "ultimately",
+   "alt": []
+  },
+  {
+   "id": "be_down_to",
+   "en": "be down to",
+   "uz": "…ning zimmasida bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Whether the new sports ground gets built is down to the local council, not the residents.",
+   "gap": "is down to",
+   "alt": [
+    "is down to",
+    "was down to",
+    "are down to"
+   ]
+  },
+  {
+   "id": "set_out",
+   "en": "set out",
+   "uz": "belgilangan shaklda rasmiylashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please set out your answer in two columns: facts on the left and opinions on the right.",
+   "gap": "set out",
+   "alt": []
+  },
+  {
+   "id": "present",
+   "en": "present",
+   "uz": "rasman taqdim etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Tuesday our MP presented the villagers' request for a new bus route to the House of Commons in a short speech.",
+   "gap": "presented",
+   "alt": [
+    "presented",
+    "presents",
+    "presenting"
+   ]
+  },
+  {
+   "id": "constituent",
+   "en": "constituent",
+   "uz": "saylovchi (okrug aholisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Friday the MP meets her constituents in a small office above the post office to hear their problems.",
+   "gap": "constituents",
+   "alt": [
+    "constituents"
+   ]
+  },
+  {
+   "id": "constituency",
+   "en": "constituency",
+   "uz": "saylov okrugi",
+   "pos": "noun",
+   "img": false,
+   "ex": "She has represented the same rural constituency for twenty years and knows almost every farmer in it.",
+   "gap": "constituency",
+   "alt": [
+    "constituencies"
+   ]
+  },
+  {
+   "id": "speaker",
+   "en": "Speaker",
+   "uz": "palata raisi (parlamentda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "MPs who keep shouting during a debate can be ordered by the Speaker to leave the chamber for the rest of the day.",
+   "gap": "Speaker",
+   "alt": []
+  },
+  {
+   "id": "observations",
+   "en": "observations",
+   "uz": "mulohazalar (rasmiy izohlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ministry replied with a letter containing its observations on the students' proposals for safer cycle lanes.",
+   "gap": "observations",
+   "alt": [
+    "observation"
+   ]
+  },
+  {
+   "id": "substantive",
+   "en": "substantive",
+   "uz": "jiddiy (mazmunli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The council answers every substantive complaint within a week, but it ignores messages that are clearly jokes.",
+   "gap": "substantive",
+   "alt": []
+  },
+  {
+   "id": "policy",
+   "en": "policy",
+   "uz": "siyosat (rasmiy yo‘l-yo‘riq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cinema's policy is to let children under five in for free if they sit on a parent's lap.",
+   "gap": "policy",
+   "alt": [
+    "policies"
+   ]
+  },
+  {
+   "id": "audit",
+   "en": "audit",
+   "uz": "moliyaviy tekshiruv (hisob-kitob nazorati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "An independent audit of the hospital's accounts found that a lot of money had been spent on equipment nobody used.",
+   "gap": "audit",
+   "alt": [
+    "audits"
+   ]
+  },
+  {
+   "id": "allegation",
+   "en": "allegation",
+   "uz": "isbotlanmagan ayblov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The footballer strongly denied the allegations that he had accepted money to lose the match.",
+   "gap": "allegations",
+   "alt": [
+    "allegations"
+   ]
+  },
+  {
+   "id": "conduct",
+   "en": "conduct",
+   "uz": "xulq-atvor (o‘zini tutish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The referee's report criticised the conduct of both teams' fans during the final.",
+   "gap": "conduct",
+   "alt": []
+  },
+  {
+   "id": "shadow",
+   "en": "shadow",
+   "uz": "ishini yaqindan kuzatib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For her work experience, Nilufar shadowed a hospital doctor for a week to see what the job is really like.",
+   "gap": "shadowed",
+   "alt": [
+    "shadowed",
+    "shadows",
+    "shadowing"
+   ]
+  },
+  {
+   "id": "wide_ranging",
+   "en": "wide-ranging",
+   "uz": "keng qamrovli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The interview was wide-ranging, covering everything from space travel to school dinners.",
+   "gap": "wide-ranging",
+   "alt": [
+    "wide ranging"
+   ]
+  },
+  {
+   "id": "expertise",
+   "en": "expertise",
+   "uz": "chuqur bilim (malaka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nobody in our club had the technical expertise to repair the robot's motor, so we asked an engineer for help.",
+   "gap": "expertise",
+   "alt": []
+  },
+  {
+   "id": "constitution",
+   "en": "constitution",
+   "uz": "Asosiy qonun (davlat qonuni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new president placed her hand on the constitution and promised to protect the rights of all citizens.",
+   "gap": "constitution",
+   "alt": []
+  },
+  {
+   "id": "inquiry",
+   "en": "inquiry",
+   "uz": "rasmiy surishtiruv",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the bridge collapsed, the government ordered a public inquiry into what had gone wrong.",
+   "gap": "inquiry",
+   "alt": [
+    "inquiries",
+    "enquiry"
+   ]
+  },
+  {
+   "id": "have_your_say",
+   "en": "have your say",
+   "uz": "o‘z fikrini bildirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The council has opened a website so that residents can have their say on plans for the new park.",
+   "gap": "have their say",
+   "alt": [
+    "have their say",
+    "have our say",
+    "had their say"
+   ]
+  },
+  {
+   "id": "submit_evidence",
+   "en": "submit evidence",
+   "uz": "dalil-ma’lumot taqdim etmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "More than fifty teachers submitted evidence to the committee about the effects of the new exams.",
+   "gap": "submitted evidence",
+   "alt": [
+    "submitted evidence",
+    "submits evidence"
+   ]
+  },
+  {
+   "id": "hansard",
+   "en": "Hansard",
+   "uz": "parlament rasmiy stenogrammasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Anyone can read in Hansard exactly what each MP said during last night's debate on school meals.",
+   "gap": "Hansard",
+   "alt": []
+  },
+  {
+   "id": "cross_departmental_boundaries",
+   "en": "cross departmental boundaries",
+   "uz": "bir necha vazirlik ishini qamramoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Road safety is an issue that crosses departmental boundaries, involving the transport, health and education ministries at once.",
+   "gap": "crosses departmental boundaries",
+   "alt": [
+    "crosses departmental boundaries",
+    "crossed departmental boundaries",
+    "crossing departmental boundaries"
+   ]
+  },
+  {
+   "id": "e_petition",
+   "en": "e-petition",
+   "uz": "onlayn jamoaviy murojaat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Within a week, the e-petition to protect the city's oldest park from builders had collected forty thousand signatures from people all over the country.",
+   "gap": "e-petition",
+   "alt": [
+    "e-petitions",
+    "epetition"
+   ]
+  },
+  {
+   "id": "lobbyist",
+   "en": "lobbyist",
+   "uz": "manfaatlar vakili (ta’sir o‘tkazuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A lobbyist for the airline industry spent the whole week meeting MPs to argue against the new tax on flights.",
+   "gap": "lobbyist",
+   "alt": [
+    "lobbyists"
+   ]
+  },
+  {
+   "id": "debating_chamber",
+   "en": "debating chamber",
+   "uz": "parlament majlislar zali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Visitors watched from the public gallery as MPs filled the debating chamber for the vote on the new budget.",
+   "gap": "debating chamber",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "lobby",
+   "petition"
+  ],
+  [
+   "bill",
+   "legislation"
+  ],
+  [
+   "legislation",
+   "policy"
+  ],
+  [
+   "audit",
+   "inquiry"
+  ],
+  [
+   "present",
+   "submit_evidence"
+  ],
+  [
+   "constituent",
+   "constituency"
+  ],
+  [
+   "ultimately",
+   "be_down_to"
+  ],
+  [
+   "scrutinise",
+   "shadow"
+  ],
+  [
+   "present",
+   "set_out"
+  ],
+  [
+   "petition",
+   "e_petition"
+  ],
+  [
+   "lobby",
+   "lobbyist"
+  ]
+ ]
+}

@@ -1,0 +1,435 @@
+{
+ "book": "advanced",
+ "unit": 13,
+ "title": "Emotions and reactions",
+ "title_uz": "His-tuyg‘ular va ularga munosabat",
+ "words": [
+  {
+   "id": "crave",
+   "en": "crave",
+   "uz": "juda qattiq istamoq (ko‘ngli tortmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a month of hospital food, Bahodir started to crave his mother's lagman.",
+   "gap": "crave",
+   "alt": [
+    "craves",
+    "craved"
+   ]
+  },
+  {
+   "id": "craving",
+   "en": "craving",
+   "uz": "kuchli ishtiyoq (biror narsaga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Halfway through the long drive to Nukus, I had a sudden craving for something sweet.",
+   "gap": "craving",
+   "alt": [
+    "cravings"
+   ]
+  },
+  {
+   "id": "thirst_for",
+   "en": "thirst for",
+   "uz": "…ga tashnalik (kuchli intilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nothing could stop the young reporter: she had an unquenchable thirst for the truth and kept digging long after her editor told her to stop.",
+   "gap": "thirst for",
+   "alt": [
+    "thirsts for",
+    "thirsted for"
+   ]
+  },
+  {
+   "id": "yearn",
+   "en": "yearn",
+   "uz": "intiqib orzu qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Stuck in a noisy city flat, Rano yearns for a quiet house with an apricot tree in the yard.",
+   "gap": "yearns",
+   "alt": [
+    "yearns",
+    "yearned"
+   ]
+  },
+  {
+   "id": "yearning",
+   "en": "yearning",
+   "uz": "sog‘inchli orzu (qo‘msash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Studying in Warsaw, Sevara felt a deep yearning for the smell of fresh bread from a tandir.",
+   "gap": "yearning",
+   "alt": [
+    "yearnings"
+   ]
+  },
+  {
+   "id": "coveted",
+   "en": "coveted",
+   "uz": "hamma havas qiladigan (orzudagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Each year only twenty pupils win a coveted place at the summer robotics camp, so competition is fierce.",
+   "gap": "coveted",
+   "alt": [
+    "covet",
+    "covets"
+   ]
+  },
+  {
+   "id": "defuse",
+   "en": "defuse",
+   "uz": "vaziyatni yumshatmoq (taranglikni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the argument got loud, Gulnoza made a joke to defuse the tension.",
+   "gap": "defuse",
+   "alt": [
+    "defused",
+    "defuses",
+    "defusing"
+   ]
+  },
+  {
+   "id": "placate",
+   "en": "placate",
+   "uz": "jahlini bosmoq (ko‘nglini olmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad was furious about the broken window, and nothing I said could placate him.",
+   "gap": "placate",
+   "alt": [
+    "placated",
+    "placates"
+   ]
+  },
+  {
+   "id": "conciliate",
+   "en": "conciliate",
+   "uz": "murosaga keltirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A respected elder from the mahalla was asked to conciliate between the two families in the dispute.",
+   "gap": "conciliate",
+   "alt": [
+    "conciliated",
+    "conciliates"
+   ]
+  },
+  {
+   "id": "appease",
+   "en": "appease",
+   "uz": "talabiga yon berib tinchitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The company tried to appease its angry customers by offering everyone a free month of service.",
+   "gap": "appease",
+   "alt": [
+    "appeased",
+    "appeases",
+    "appeasing"
+   ]
+  },
+  {
+   "id": "implacable",
+   "en": "implacable",
+   "uz": "murosasiz (yumshamaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even after the apology, the old man remained an implacable opponent of the new road through his village.",
+   "gap": "implacable",
+   "alt": []
+  },
+  {
+   "id": "exultant",
+   "en": "exultant",
+   "uz": "zafardan shodlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The exultant climbers waved their flag from the summit after three days of battling a blizzard.",
+   "gap": "exultant",
+   "alt": []
+  },
+  {
+   "id": "ecstatic",
+   "en": "ecstatic",
+   "uz": "behad xursand (o‘zini unutgudek)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Shoira was ecstatic when she learned that her short film had been chosen for a festival in Berlin.",
+   "gap": "ecstatic",
+   "alt": []
+  },
+  {
+   "id": "rejoice",
+   "en": "rejoice",
+   "uz": "shodlanmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The whole village rejoiced when the new bridge finally opened after the spring floods.",
+   "gap": "rejoiced",
+   "alt": [
+    "rejoiced",
+    "rejoices"
+   ]
+  },
+  {
+   "id": "jubilant",
+   "en": "jubilant",
+   "uz": "tantanali shodlik bilan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Thousands of jubilant fans poured into the streets of Tashkent when Uzbekistan qualified for the 2026 World Cup.",
+   "gap": "jubilant",
+   "alt": []
+  },
+  {
+   "id": "bliss",
+   "en": "bliss",
+   "uz": "beqiyos baxt (rohat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lying in a hammock by Charvak Lake with a good book was sheer bliss.",
+   "gap": "bliss",
+   "alt": []
+  },
+  {
+   "id": "blissfully",
+   "en": "blissfully",
+   "uz": "beg‘am (mutlaqo, rohatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The cat slept on, blissfully unaware that the dog had just come into the room.",
+   "gap": "blissfully",
+   "alt": []
+  },
+  {
+   "id": "full_of_the_joys_of_spring",
+   "en": "full of the joys of spring",
+   "uz": "kayfiyati juda chog‘ (yayrab)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Despite the early start, Akbar strolled into the office whistling, full of the joys of spring.",
+   "gap": "full of the joys of spring",
+   "alt": []
+  },
+  {
+   "id": "thrilled_to_bits",
+   "en": "thrilled to bits",
+   "uz": "xursandligidan terisiga sig‘may",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My aunt was thrilled to bits with the scarf I knitted for her.",
+   "gap": "thrilled to bits",
+   "alt": []
+  },
+  {
+   "id": "on_top_of_the_world",
+   "en": "on top of the world",
+   "uz": "o‘zini dunyoning egasidek his qilib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After months of physiotherapy, Iroda finally walked without crutches and felt on top of the world.",
+   "gap": "on top of the world",
+   "alt": []
+  },
+  {
+   "id": "walking_on_air",
+   "en": "walking on air",
+   "uz": "osmonda uchib yurgandek",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ever since his first poem was published in a magazine, Komil has been walking on air.",
+   "gap": "walking on air",
+   "alt": [
+    "floating on air"
+   ]
+  },
+  {
+   "id": "over_the_moon",
+   "en": "over the moon",
+   "uz": "boshi osmonga yetgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the vet said our tortoise would make a full recovery, my little sister was over the moon.",
+   "gap": "over the moon",
+   "alt": []
+  },
+  {
+   "id": "blissful",
+   "en": "blissful",
+   "uz": "huzurbaxsh (baxtiyor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We spent a blissful afternoon reading in the shade by the lake, with no phones and no noise.",
+   "gap": "blissful",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "crave",
+   "yearn"
+  ],
+  [
+   "crave",
+   "thirst_for"
+  ],
+  [
+   "placate",
+   "conciliate"
+  ],
+  [
+   "craving",
+   "yearning"
+  ],
+  [
+   "craving",
+   "thirst_for"
+  ],
+  [
+   "yearning",
+   "thirst_for"
+  ],
+  [
+   "placate",
+   "appease"
+  ],
+  [
+   "placate",
+   "defuse"
+  ],
+  [
+   "conciliate",
+   "appease"
+  ],
+  [
+   "exultant",
+   "jubilant"
+  ],
+  [
+   "exultant",
+   "ecstatic"
+  ],
+  [
+   "jubilant",
+   "ecstatic"
+  ],
+  [
+   "bliss",
+   "blissfully"
+  ],
+  [
+   "ecstatic",
+   "full_of_the_joys_of_spring"
+  ],
+  [
+   "ecstatic",
+   "thrilled_to_bits"
+  ],
+  [
+   "ecstatic",
+   "on_top_of_the_world"
+  ],
+  [
+   "ecstatic",
+   "walking_on_air"
+  ],
+  [
+   "ecstatic",
+   "over_the_moon"
+  ],
+  [
+   "full_of_the_joys_of_spring",
+   "thrilled_to_bits"
+  ],
+  [
+   "full_of_the_joys_of_spring",
+   "on_top_of_the_world"
+  ],
+  [
+   "full_of_the_joys_of_spring",
+   "walking_on_air"
+  ],
+  [
+   "full_of_the_joys_of_spring",
+   "over_the_moon"
+  ],
+  [
+   "thrilled_to_bits",
+   "on_top_of_the_world"
+  ],
+  [
+   "thrilled_to_bits",
+   "walking_on_air"
+  ],
+  [
+   "thrilled_to_bits",
+   "over_the_moon"
+  ],
+  [
+   "on_top_of_the_world",
+   "walking_on_air"
+  ],
+  [
+   "on_top_of_the_world",
+   "over_the_moon"
+  ],
+  [
+   "walking_on_air",
+   "over_the_moon"
+  ],
+  [
+   "exultant",
+   "full_of_the_joys_of_spring"
+  ],
+  [
+   "exultant",
+   "thrilled_to_bits"
+  ],
+  [
+   "exultant",
+   "on_top_of_the_world"
+  ],
+  [
+   "exultant",
+   "walking_on_air"
+  ],
+  [
+   "exultant",
+   "over_the_moon"
+  ],
+  [
+   "jubilant",
+   "full_of_the_joys_of_spring"
+  ],
+  [
+   "jubilant",
+   "thrilled_to_bits"
+  ],
+  [
+   "jubilant",
+   "on_top_of_the_world"
+  ],
+  [
+   "jubilant",
+   "walking_on_air"
+  ],
+  [
+   "jubilant",
+   "over_the_moon"
+  ],
+  [
+   "blissful",
+   "bliss"
+  ],
+  [
+   "blissful",
+   "blissfully"
+  ]
+ ]
+}

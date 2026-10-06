@@ -1,0 +1,672 @@
+{
+ "book": "advanced",
+ "unit": 67,
+ "title": "Cause and effect",
+ "title_uz": "Sabab va oqibat",
+ "words": [
+  {
+   "id": "cause_v",
+   "en": "cause",
+   "uz": "sabab bo‘lmoq (ko‘pincha yomonlikka)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two-hour delay to our train was caused by a fallen tree on the line.",
+   "gap": "caused",
+   "alt": [
+    "caused",
+    "causing",
+    "causes"
+   ]
+  },
+  {
+   "id": "produce_v",
+   "en": "produce",
+   "uz": "ishlab chiqmoq, taqdim etmoq (hisobot)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every month the tourist office produces statistics showing how many visitors come to Kokand.",
+   "gap": "produces",
+   "alt": [
+    "produced",
+    "producing",
+    "produces"
+   ]
+  },
+  {
+   "id": "generate_v",
+   "en": "generate",
+   "uz": "hosil qilmoq, yaratmoq (kompyuter)",
+   "pos": "verb",
+   "img": false,
+   "ex": "This app generates colourful graphics from your test marks, so you can see your progress at a glance.",
+   "gap": "generates",
+   "alt": [
+    "generated",
+    "generating",
+    "generates"
+   ]
+  },
+  {
+   "id": "give_pleasure",
+   "en": "give pleasure",
+   "uz": "zavq bag‘ishlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bird-watching has given pleasure to our old music teacher ever since he retired, and he still goes out every weekend.",
+   "gap": "given pleasure",
+   "alt": [
+    "gives pleasure",
+    "gave pleasure",
+    "given pleasure",
+    "giving pleasure"
+   ]
+  },
+  {
+   "id": "revenue",
+   "en": "revenue",
+   "uz": "daromad (tushum)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new ski resort in the mountains is expected to generate millions in revenue for the region every year.",
+   "gap": "revenue",
+   "alt": []
+  },
+  {
+   "id": "complaints",
+   "en": "complaints",
+   "uz": "shikoyatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new bus timetable has generated dozens of complaints from passengers who now wait twice as long.",
+   "gap": "complaints",
+   "alt": [
+    "complaint"
+   ]
+  },
+  {
+   "id": "controversy",
+   "en": "controversy",
+   "uz": "qizg‘in bahs-munozara (janjal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plan to build a car park in the old town has generated a lot of controversy, and residents are still arguing about it.",
+   "gap": "controversy",
+   "alt": []
+  },
+  {
+   "id": "evidence",
+   "en": "evidence",
+   "uz": "dalil (isbot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The survey produced strong evidence that teenagers who sleep less get lower marks.",
+   "gap": "evidence",
+   "alt": []
+  },
+  {
+   "id": "motivation",
+   "en": "motivation",
+   "uz": "turtki (ishtiyoq manbai)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Seeing her older sister graduate gave Laylo the motivation to apply to the same university.",
+   "gap": "motivation",
+   "alt": []
+  },
+  {
+   "id": "provoke",
+   "en": "provoke",
+   "uz": "uyg‘otmoq (his, reaksiya)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The referee's decision provoked angry whistles from the home fans.",
+   "gap": "provoked",
+   "alt": [
+    "provoked",
+    "provoking",
+    "provokes"
+   ]
+  },
+  {
+   "id": "precipitate",
+   "en": "precipitate",
+   "uz": "to‘satdan keltirib chiqarmoq (inqiroz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The sudden closure of the town's only factory precipitated a crisis for hundreds of local families.",
+   "gap": "precipitated",
+   "alt": [
+    "precipitated",
+    "precipitating",
+    "precipitates"
+   ]
+  },
+  {
+   "id": "spark",
+   "en": "spark",
+   "uz": "qo‘zg‘atmoq (bahs, qiziqish)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A single comment from the head teacher sparked a lively debate among the parents.",
+   "gap": "sparked",
+   "alt": [
+    "sparked",
+    "sparking",
+    "sparks"
+   ]
+  },
+  {
+   "id": "bring_about",
+   "en": "bring about",
+   "uz": "asta-sekin olib kelmoq (o‘zgarish)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Over the last decade, smartphones have brought about huge changes in the way teenagers communicate.",
+   "gap": "brought about",
+   "alt": [
+    "brought about",
+    "bringing about",
+    "brings about"
+   ]
+  },
+  {
+   "id": "result_in",
+   "en": "result in",
+   "uz": "…ga olib kelmoq (natijasi bo‘lmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Forgetting to close the garden gate resulted in the neighbour's goats eating all our tomatoes.",
+   "gap": "resulted",
+   "alt": [
+    "resulted in",
+    "resulted",
+    "resulting in",
+    "results in"
+   ]
+  },
+  {
+   "id": "stem_from_v",
+   "en": "stem from",
+   "uz": "…dan kelib chiqmoq (ildizi)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Most of Dilshod's problems in maths stem from the fact that he missed a whole term when his family moved abroad.",
+   "gap": "stem from",
+   "alt": [
+    "stems from",
+    "stemmed from",
+    "stemming from"
+   ]
+  },
+  {
+   "id": "grounds",
+   "en": "grounds",
+   "uz": "asos (jiddiy sabab)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher had no grounds for punishing Aziza, because she had a note from the doctor.",
+   "gap": "grounds",
+   "alt": []
+  },
+  {
+   "id": "implications",
+   "en": "implications",
+   "uz": "kutiladigan oqibatlar (ta’sir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The decision to start lessons at 8 a.m. instead of 9 will have serious implications for families who live far from the school.",
+   "gap": "implications",
+   "alt": [
+    "implication"
+   ]
+  },
+  {
+   "id": "based_on",
+   "en": "based on",
+   "uz": "…ga asoslangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new film is based on a true story about a family of potters from Rishtan.",
+   "gap": "based on",
+   "alt": []
+  },
+  {
+   "id": "sadness",
+   "en": "sadness",
+   "uz": "qayg‘u (g‘amginlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The closing of the old cinema caused great sadness among people who had watched films there as children, and some even cried at the last show.",
+   "gap": "sadness",
+   "alt": []
+  },
+  {
+   "id": "unhappiness",
+   "en": "unhappiness",
+   "uz": "baxtsizlik (norozilik hissi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the survey, long night shifts were the main cause of unhappiness among the hospital's nurses.",
+   "gap": "unhappiness",
+   "alt": []
+  },
+  {
+   "id": "trouble",
+   "en": "trouble",
+   "uz": "tashvish (ko‘ngilsizlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My second-hand printer has given me nothing but trouble since the day I bought it.",
+   "gap": "trouble",
+   "alt": []
+  },
+  {
+   "id": "problems",
+   "en": "problems",
+   "uz": "muammolar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new booking software caused so many problems that the clinic went back to paper for a week.",
+   "gap": "problems",
+   "alt": [
+    "problem"
+   ]
+  },
+  {
+   "id": "pneumonia",
+   "en": "pneumonia",
+   "uz": "zotiljam (o‘pka yallig‘lanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "What started as a bad cold developed into pneumonia, and Ulugbek spent a week in hospital.",
+   "gap": "pneumonia",
+   "alt": []
+  },
+  {
+   "id": "disaster",
+   "en": "disaster",
+   "uz": "falokat (ofat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Building houses so close to the riverbank could cause a disaster if there is ever a flood.",
+   "gap": "disaster",
+   "alt": []
+  },
+  {
+   "id": "accident",
+   "en": "accident",
+   "uz": "baxtsiz hodisa (avariya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Black ice on the bridge caused an accident involving three cars early this morning.",
+   "gap": "accident",
+   "alt": []
+  },
+  {
+   "id": "report",
+   "en": "report",
+   "uz": "hisobot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The committee will produce a report on the state of the town's parks by the end of March.",
+   "gap": "report",
+   "alt": []
+  },
+  {
+   "id": "statistics",
+   "en": "statistics",
+   "uz": "hisob-kitob ma’lumotlari (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Official statistics show that more people now cycle to work than ten years ago.",
+   "gap": "statistics",
+   "alt": []
+  },
+  {
+   "id": "figures",
+   "en": "figures",
+   "uz": "raqamlar (ko‘rsatkichlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop's sales figures for December were the best it had ever had.",
+   "gap": "figures",
+   "alt": []
+  },
+  {
+   "id": "good_results",
+   "en": "good results",
+   "uz": "yaxshi natija",
+   "pos": "noun",
+   "img": false,
+   "ex": "Soaking dried beans overnight produces good results: they cook faster and taste better.",
+   "gap": "good results",
+   "alt": [
+    "good result",
+    "better results",
+    "the best results"
+   ]
+  },
+  {
+   "id": "happiness",
+   "en": "happiness",
+   "uz": "baxt (shodlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her little balcony garden has given Nigora a lot of happiness; she smiles every time a new rose opens.",
+   "gap": "happiness",
+   "alt": []
+  },
+  {
+   "id": "reason",
+   "en": "reason",
+   "uz": "sabab (bahona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The heavy rain gave us a perfect reason to stay in and finish the jigsaw puzzle.",
+   "gap": "reason",
+   "alt": []
+  },
+  {
+   "id": "income",
+   "en": "income",
+   "uz": "shaxsiy kirim (oylik daromad)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Renting out the spare room generates a small extra income for the family each month.",
+   "gap": "income",
+   "alt": []
+  },
+  {
+   "id": "money",
+   "en": "money",
+   "uz": "pul",
+   "pos": "noun",
+   "img": false,
+   "ex": "The charity concert generated enough money to buy new books for the village school.",
+   "gap": "money",
+   "alt": []
+  },
+  {
+   "id": "extra_work",
+   "en": "extra work",
+   "uz": "qo‘shimcha ish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new reporting system has generated a lot of extra work: teachers now fill in three forms instead of one.",
+   "gap": "extra work",
+   "alt": []
+  },
+  {
+   "id": "graphics",
+   "en": "graphics",
+   "uz": "kompyuter tasvirlari (chizmalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The game generates realistic 3D graphics, so the mountains look almost real.",
+   "gap": "graphics",
+   "alt": []
+  },
+  {
+   "id": "documents",
+   "en": "documents",
+   "uz": "hujjatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "With this template, the program can generate contracts and other documents in seconds.",
+   "gap": "documents",
+   "alt": [
+    "document"
+   ]
+  },
+  {
+   "id": "interest",
+   "en": "interest",
+   "uz": "qiziqish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum's new dinosaur exhibition has generated huge interest among local schools.",
+   "gap": "interest",
+   "alt": []
+  },
+  {
+   "id": "enthusiasm",
+   "en": "enthusiasm",
+   "uz": "ishtiyoq (g‘ayrat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The coach's energy generated real enthusiasm, and soon thirty new players had signed up for the team.",
+   "gap": "enthusiasm",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "cause_v",
+   "bring_about"
+  ],
+  [
+   "cause_v",
+   "precipitate"
+  ],
+  [
+   "cause_v",
+   "provoke"
+  ],
+  [
+   "cause_v",
+   "spark"
+  ],
+  [
+   "cause_v",
+   "result_in"
+  ],
+  [
+   "produce_v",
+   "generate_v"
+  ],
+  [
+   "produce_v",
+   "bring_about"
+  ],
+  [
+   "generate_v",
+   "spark"
+  ],
+  [
+   "provoke",
+   "spark"
+  ],
+  [
+   "provoke",
+   "precipitate"
+  ],
+  [
+   "spark",
+   "precipitate"
+  ],
+  [
+   "precipitate",
+   "bring_about"
+  ],
+  [
+   "precipitate",
+   "result_in"
+  ],
+  [
+   "bring_about",
+   "result_in"
+  ],
+  [
+   "bring_about",
+   "spark"
+  ],
+  [
+   "complaints",
+   "controversy"
+  ],
+  [
+   "grounds",
+   "motivation"
+  ],
+  [
+   "grounds",
+   "evidence"
+  ],
+  [
+   "provoke",
+   "generate_v"
+  ],
+  [
+   "provoke",
+   "bring_about"
+  ],
+  [
+   "precipitate",
+   "produce_v"
+  ],
+  [
+   "sadness",
+   "unhappiness"
+  ],
+  [
+   "sadness",
+   "controversy"
+  ],
+  [
+   "unhappiness",
+   "complaints"
+  ],
+  [
+   "unhappiness",
+   "problems"
+  ],
+  [
+   "unhappiness",
+   "controversy"
+  ],
+  [
+   "problems",
+   "complaints"
+  ],
+  [
+   "extra_work",
+   "problems"
+  ],
+  [
+   "extra_work",
+   "trouble"
+  ],
+  [
+   "controversy",
+   "trouble"
+  ],
+  [
+   "sadness",
+   "trouble"
+  ],
+  [
+   "unhappiness",
+   "trouble"
+  ],
+  [
+   "trouble",
+   "problems"
+  ],
+  [
+   "disaster",
+   "accident"
+  ],
+  [
+   "statistics",
+   "figures"
+  ],
+  [
+   "good_results",
+   "evidence"
+  ],
+  [
+   "happiness",
+   "give_pleasure"
+  ],
+  [
+   "happiness",
+   "trouble"
+  ],
+  [
+   "reason",
+   "motivation"
+  ],
+  [
+   "reason",
+   "grounds"
+  ],
+  [
+   "income",
+   "revenue"
+  ],
+  [
+   "income",
+   "money"
+  ],
+  [
+   "money",
+   "revenue"
+  ],
+  [
+   "extra_work",
+   "complaints"
+  ],
+  [
+   "extra_work",
+   "controversy"
+  ],
+  [
+   "interest",
+   "enthusiasm"
+  ],
+  [
+   "interest",
+   "controversy"
+  ],
+  [
+   "enthusiasm",
+   "controversy"
+  ],
+  [
+   "graphics",
+   "documents"
+  ],
+  [
+   "report",
+   "documents"
+  ],
+  [
+   "statistics",
+   "evidence"
+  ],
+  [
+   "statistics",
+   "documents"
+  ],
+  [
+   "happiness",
+   "enthusiasm"
+  ],
+  [
+   "extra_work",
+   "documents"
+  ],
+  [
+   "extra_work",
+   "unhappiness"
+  ],
+  [
+   "enthusiasm",
+   "motivation"
+  ],
+  [
+   "controversy",
+   "problems"
+  ]
+ ]
+}

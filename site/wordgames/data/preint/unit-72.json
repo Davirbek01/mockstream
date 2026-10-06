@@ -1,0 +1,378 @@
+{
+ "book": "preint",
+ "unit": 72,
+ "title": "Suffixes: forming adjectives",
+ "title_uz": "Qo‘shimchalar: sifat yasash",
+ "words": [
+  {
+   "id": "musical",
+   "en": "musical",
+   "uz": "musiqiy (musiqaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Laylo's family is very musical: her father plays the rubab and her two sisters sing in a choir.",
+   "gap": "musical",
+   "alt": []
+  },
+  {
+   "id": "political_al",
+   "en": "political",
+   "uz": "siyosiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before the election, all the political parties put up posters around the city.",
+   "gap": "political",
+   "alt": []
+  },
+  {
+   "id": "electrical",
+   "en": "electrical",
+   "uz": "tokka oid (jihoz, nosozlik)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shop on the corner sells electrical goods like kettles, irons and hairdryers.",
+   "gap": "electrical",
+   "alt": []
+  },
+  {
+   "id": "personal",
+   "en": "personal",
+   "uz": "shaxsiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please don't read my diary without asking; it's very personal.",
+   "gap": "personal",
+   "alt": []
+  },
+  {
+   "id": "national_al",
+   "en": "national",
+   "uz": "milliy (davlatga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before a football match between two countries, the players stand and listen to the national anthem.",
+   "gap": "national",
+   "alt": []
+  },
+  {
+   "id": "cultural_al",
+   "en": "cultural",
+   "uz": "madaniy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school had a cultural exchange with students from Korea, so we learned about each other's music and food.",
+   "gap": "cultural",
+   "alt": []
+  },
+  {
+   "id": "traditional_al",
+   "en": "traditional",
+   "uz": "an’anaviy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old part of the town still has traditional houses made of mud bricks, just like a hundred years ago.",
+   "gap": "traditional",
+   "alt": []
+  },
+  {
+   "id": "normal",
+   "en": "normal",
+   "uz": "odatiy (oddiy hol)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't worry, it's completely normal to feel nervous before an exam.",
+   "gap": "normal",
+   "alt": []
+  },
+  {
+   "id": "enjoyable",
+   "en": "enjoyable",
+   "uz": "maroqli (yoqimli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Thank you for a very enjoyable evening; the food and the music were wonderful.",
+   "gap": "enjoyable",
+   "alt": []
+  },
+  {
+   "id": "comfortable",
+   "en": "comfortable",
+   "uz": "qulay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This sofa is so comfortable that I often fall asleep on it after lunch.",
+   "gap": "comfortable",
+   "alt": []
+  },
+  {
+   "id": "uncomfortable_able",
+   "en": "uncomfortable",
+   "uz": "noqulay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The seats on the night train were so uncomfortable that I couldn't sleep at all.",
+   "gap": "uncomfortable",
+   "alt": []
+  },
+  {
+   "id": "suitable",
+   "en": "suitable",
+   "uz": "mos (to‘g‘ri keladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This film is not suitable for young children: it's far too scary.",
+   "gap": "suitable",
+   "alt": []
+  },
+  {
+   "id": "reliable_able",
+   "en": "reliable",
+   "uz": "ishonchli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My old phone is slow, but it's very reliable: it has never once stopped working.",
+   "gap": "reliable",
+   "alt": []
+  },
+  {
+   "id": "fashionable_able",
+   "en": "fashionable",
+   "uz": "modadagi (urfdagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wide jeans are very fashionable again this year; half the students at school wear them.",
+   "gap": "fashionable",
+   "alt": []
+  },
+  {
+   "id": "reasonable_able",
+   "en": "reasonable",
+   "uz": "maqbul (narx, qaror)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The food at this café is good, and the prices are reasonable too.",
+   "gap": "reasonable",
+   "alt": []
+  },
+  {
+   "id": "sociable",
+   "en": "sociable",
+   "uz": "kirishimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Anvar is very sociable: he loves parties and chats with everyone he meets.",
+   "gap": "sociable",
+   "alt": []
+  },
+  {
+   "id": "unforgettable",
+   "en": "unforgettable",
+   "uz": "unutilmas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Seeing the Northern Lights in Norway was an unforgettable experience.",
+   "gap": "unforgettable",
+   "alt": []
+  },
+  {
+   "id": "unbelievable_able",
+   "en": "unbelievable",
+   "uz": "aql bovar qilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It sounds unbelievable, but my little sister read forty books during the summer holidays.",
+   "gap": "unbelievable",
+   "alt": []
+  },
+  {
+   "id": "colourful",
+   "en": "colourful",
+   "uz": "rang-barang",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The market stalls were full of colourful fruit: red tomatoes, purple aubergines and orange carrots.",
+   "gap": "colourful",
+   "alt": [
+    "colorful"
+   ]
+  },
+  {
+   "id": "helpful",
+   "en": "helpful",
+   "uz": "yordam berishga tayyor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The man at the information desk was very helpful and showed us the way to platform 3.",
+   "gap": "helpful",
+   "alt": []
+  },
+  {
+   "id": "peaceful_ful",
+   "en": "peaceful",
+   "uz": "osoyishta (tinch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The village is very peaceful in the early morning; you can only hear the birds.",
+   "gap": "peaceful",
+   "alt": []
+  },
+  {
+   "id": "useful",
+   "en": "useful",
+   "uz": "foydali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A small torch is very useful when the electricity goes off at night.",
+   "gap": "useful",
+   "alt": []
+  },
+  {
+   "id": "useless",
+   "en": "useless",
+   "uz": "foydasiz (yaroqsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This umbrella is useless: the wind broke it the first time I opened it.",
+   "gap": "useless",
+   "alt": []
+  },
+  {
+   "id": "painful_ful",
+   "en": "painful",
+   "uz": "og‘riqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I hit my knee on the corner of the table, and it was really painful.",
+   "gap": "painful",
+   "alt": []
+  },
+  {
+   "id": "painless",
+   "en": "painless",
+   "uz": "og‘riqsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't be afraid: the blood test is quick and almost painless.",
+   "gap": "painless",
+   "alt": []
+  },
+  {
+   "id": "careful",
+   "en": "careful",
+   "uz": "ehtiyotkor (ehtiyot)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be careful when you cross the road near the school gates.",
+   "gap": "careful",
+   "alt": []
+  },
+  {
+   "id": "careless",
+   "en": "careless",
+   "uz": "e’tiborsiz (beparvo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I lost two marks because of a careless mistake in the last question.",
+   "gap": "careless",
+   "alt": []
+  },
+  {
+   "id": "unsuitable",
+   "en": "unsuitable",
+   "uz": "nomaqbul (mos kelmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Trainers are unsuitable for the school concert; please wear proper shoes.",
+   "gap": "unsuitable",
+   "alt": []
+  },
+  {
+   "id": "unfashionable",
+   "en": "unfashionable",
+   "uz": "modadan qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mr Nazarov's wide 1980s tie looks very unfashionable now; nobody wears that style any more.",
+   "gap": "unfashionable",
+   "alt": []
+  },
+  {
+   "id": "unreasonable",
+   "en": "unreasonable",
+   "uz": "asossiz (haddan oshgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's unreasonable to expect the students to read three novels in one weekend.",
+   "gap": "unreasonable",
+   "alt": []
+  },
+  {
+   "id": "unsociable",
+   "en": "unsociable",
+   "uz": "odamovi (kirishimsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My new neighbour seems a bit unsociable: he never says hello and always eats lunch alone.",
+   "gap": "unsociable",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "comfortable",
+   "uncomfortable_able"
+  ],
+  [
+   "useful",
+   "useless"
+  ],
+  [
+   "painful_ful",
+   "painless"
+  ],
+  [
+   "careful",
+   "careless"
+  ],
+  [
+   "enjoyable",
+   "unforgettable"
+  ],
+  [
+   "unforgettable",
+   "unbelievable_able"
+  ],
+  [
+   "useful",
+   "helpful"
+  ],
+  [
+   "normal",
+   "reasonable_able"
+  ],
+  [
+   "suitable",
+   "unsuitable"
+  ],
+  [
+   "fashionable_able",
+   "unfashionable"
+  ],
+  [
+   "reasonable_able",
+   "unreasonable"
+  ],
+  [
+   "sociable",
+   "unsociable"
+  ],
+  [
+   "unsuitable",
+   "unfashionable"
+  ],
+  [
+   "uncomfortable_able",
+   "unsuitable"
+  ]
+ ]
+}

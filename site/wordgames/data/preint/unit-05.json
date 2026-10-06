@@ -1,0 +1,781 @@
+{
+ "book": "preint",
+ "unit": 5,
+ "title": "Country, nationality and language",
+ "title_uz": "Mamlakat, millat va til",
+ "words": [
+  {
+   "id": "country",
+   "en": "country",
+   "uz": "mamlakat, davlat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kazakhstan is the biggest country next to Uzbekistan.",
+   "gap": "country",
+   "alt": [
+    "countries"
+   ]
+  },
+  {
+   "id": "nationality",
+   "en": "nationality",
+   "uz": "millat, fuqarolik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My passport shows my nationality: Uzbek.",
+   "gap": "nationality",
+   "alt": []
+  },
+  {
+   "id": "language",
+   "en": "language",
+   "uz": "til",
+   "pos": "noun",
+   "img": false,
+   "ex": "How many languages can you speak? I speak three: Uzbek, Russian and English.",
+   "gap": "languages",
+   "alt": [
+    "languages"
+   ]
+  },
+  {
+   "id": "first_language",
+   "en": "first language",
+   "uz": "ona tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "My first language is Uzbek, and English is my second.",
+   "gap": "first language",
+   "alt": []
+  },
+  {
+   "id": "capital",
+   "en": "capital",
+   "uz": "poytaxt",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before 1930, Samarkand was the capital of Uzbekistan; now it is Tashkent.",
+   "gap": "capital",
+   "alt": []
+  },
+  {
+   "id": "population",
+   "en": "population",
+   "uz": "aholi (soni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan's population is growing fast; there are now more than 37 million people.",
+   "gap": "population",
+   "alt": []
+  },
+  {
+   "id": "china",
+   "en": "China",
+   "uz": "Xitoy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Wild pandas live only in China, in the mountains and forests.",
+   "gap": "China",
+   "alt": []
+  },
+  {
+   "id": "chinese",
+   "en": "Chinese",
+   "uz": "xitoy (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Chinese restaurant near the bazaar makes noodles just like in Beijing.",
+   "gap": "Chinese",
+   "alt": []
+  },
+  {
+   "id": "japan",
+   "en": "Japan",
+   "uz": "Yaponiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mount Fuji is the most famous mountain in Japan.",
+   "gap": "Japan",
+   "alt": []
+  },
+  {
+   "id": "japanese",
+   "en": "Japanese",
+   "uz": "yapon (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My sister is learning Japanese so she can watch anime without subtitles.",
+   "gap": "Japanese",
+   "alt": []
+  },
+  {
+   "id": "south_korea",
+   "en": "South Korea",
+   "uz": "Janubiy Koreya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle works in Seoul, the capital of South Korea.",
+   "gap": "South Korea",
+   "alt": [
+    "Korea"
+   ]
+  },
+  {
+   "id": "korean",
+   "en": "Korean",
+   "uz": "koreys (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many Uzbek teenagers love K-pop, so some of them are learning Korean.",
+   "gap": "Korean",
+   "alt": []
+  },
+  {
+   "id": "germany",
+   "en": "Germany",
+   "uz": "Germaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin studies engineering in Berlin, Germany.",
+   "gap": "Germany",
+   "alt": []
+  },
+  {
+   "id": "german",
+   "en": "German",
+   "uz": "nemis (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At our school you can study German after English, with a teacher from Munich.",
+   "gap": "German",
+   "alt": []
+  },
+  {
+   "id": "turkey",
+   "en": "Turkey",
+   "uz": "Turkiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Istanbul is the biggest city in Turkey, but the capital is Ankara.",
+   "gap": "Turkey",
+   "alt": [
+    "Türkiye",
+    "Turkiye"
+   ]
+  },
+  {
+   "id": "turkish",
+   "en": "Turkish",
+   "uz": "turk (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Uzbeks can often understand a little Turkish, because the two languages are close.",
+   "gap": "Turkish",
+   "alt": []
+  },
+  {
+   "id": "russia",
+   "en": "Russia",
+   "uz": "Rossiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "By area, Russia is the biggest country in the world.",
+   "gap": "Russia",
+   "alt": []
+  },
+  {
+   "id": "russian",
+   "en": "Russian",
+   "uz": "rus (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Moscow, almost everyone speaks Russian.",
+   "gap": "Russian",
+   "alt": []
+  },
+  {
+   "id": "france",
+   "en": "France",
+   "uz": "Fransiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Croissants and baguettes come from France.",
+   "gap": "France",
+   "alt": []
+  },
+  {
+   "id": "french",
+   "en": "French",
+   "uz": "fransuz (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Paris and in some parts of Switzerland, people speak French.",
+   "gap": "French",
+   "alt": []
+  },
+  {
+   "id": "spain",
+   "en": "Spain",
+   "uz": "Ispaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madrid and Barcelona are two famous football cities in Spain.",
+   "gap": "Spain",
+   "alt": []
+  },
+  {
+   "id": "spanish",
+   "en": "Spanish",
+   "uz": "ispan (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "People in Mexico and Argentina speak Spanish.",
+   "gap": "Spanish",
+   "alt": []
+  },
+  {
+   "id": "egypt",
+   "en": "Egypt",
+   "uz": "Misr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The River Nile flows through Egypt to the Mediterranean Sea.",
+   "gap": "Egypt",
+   "alt": []
+  },
+  {
+   "id": "arabic",
+   "en": "Arabic",
+   "uz": "arab tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Egypt and Saudi Arabia, people speak Arabic.",
+   "gap": "Arabic",
+   "alt": []
+  },
+  {
+   "id": "brazil",
+   "en": "Brazil",
+   "uz": "Braziliya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rio de Janeiro is a big city in Brazil, famous for football and beaches.",
+   "gap": "Brazil",
+   "alt": []
+  },
+  {
+   "id": "portuguese",
+   "en": "Portuguese",
+   "uz": "portugal tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "People in Brazil speak Portuguese, not Spanish.",
+   "gap": "Portuguese",
+   "alt": []
+  },
+  {
+   "id": "switzerland",
+   "en": "Switzerland",
+   "uz": "Shveytsariya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Geneva and Zurich are two cities in Switzerland.",
+   "gap": "Switzerland",
+   "alt": []
+  },
+  {
+   "id": "the_uk",
+   "en": "the UK",
+   "uz": "Buyuk Britaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin is studying in Edinburgh, a beautiful old city in the UK.",
+   "gap": "the UK",
+   "alt": [
+    "UK",
+    "United Kingdom",
+    "the United Kingdom",
+    "Great Britain",
+    "Britain"
+   ]
+  },
+  {
+   "id": "the_usa",
+   "en": "the USA",
+   "uz": "AQSH (Amerika Qo‘shma Shtatlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "New York and Los Angeles are big cities in the USA.",
+   "gap": "the USA",
+   "alt": [
+    "USA",
+    "the United States",
+    "United States",
+    "the US",
+    "US"
+   ]
+  },
+  {
+   "id": "english",
+   "en": "English",
+   "uz": "ingliz (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Australia, Canada and New Zealand, most people speak English.",
+   "gap": "English",
+   "alt": []
+  },
+  {
+   "id": "british",
+   "en": "British",
+   "uz": "britaniyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In London I took photos of the red double-decker buses, a famous British symbol.",
+   "gap": "British",
+   "alt": []
+  },
+  {
+   "id": "american",
+   "en": "American",
+   "uz": "amerikalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hollywood films are American, but people watch them all over the world.",
+   "gap": "American",
+   "alt": []
+  },
+  {
+   "id": "swiss",
+   "en": "Swiss",
+   "uz": "shveytsariyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Swiss have four official languages: German, French, Italian and Romansh.",
+   "gap": "Swiss",
+   "alt": []
+  },
+  {
+   "id": "continent",
+   "en": "continent",
+   "uz": "qit’a",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan and Mongolia are on the same continent, Asia.",
+   "gap": "continent",
+   "alt": []
+  },
+  {
+   "id": "middle_east",
+   "en": "the Middle East",
+   "uz": "Yaqin Sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Qatar, Oman and Kuwait are in the Middle East.",
+   "gap": "Middle East",
+   "alt": [
+    "Middle East"
+   ]
+  },
+  {
+   "id": "far_east",
+   "en": "the Far East",
+   "uz": "Uzoq Sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "China, Korea and Japan are in the Far East.",
+   "gap": "Far East",
+   "alt": [
+    "Far East"
+   ]
+  },
+  {
+   "id": "australia",
+   "en": "Australia",
+   "uz": "Avstraliya (davlat va qit’a)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kangaroos and koalas are native animals of Australia.",
+   "gap": "Australia",
+   "alt": []
+  },
+  {
+   "id": "australian",
+   "en": "Australian",
+   "uz": "avstraliyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You can see a kangaroo on some Australian coins.",
+   "gap": "Australian",
+   "alt": []
+  },
+  {
+   "id": "brazilian",
+   "en": "Brazilian",
+   "uz": "braziliyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Samba is a lively Brazilian dance from Rio de Janeiro.",
+   "gap": "Brazilian",
+   "alt": []
+  },
+  {
+   "id": "mandarin",
+   "en": "Mandarin",
+   "uz": "mandarin tili (asosiy xitoy tili)",
+   "pos": "noun",
+   "img": false,
+   "ex": "More people speak Mandarin as their first language than any other language.",
+   "gap": "Mandarin",
+   "alt": []
+  },
+  {
+   "id": "cantonese",
+   "en": "Cantonese",
+   "uz": "kanton tili (Gonkong xitoychasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Hong Kong, most families speak Cantonese at home.",
+   "gap": "Cantonese",
+   "alt": []
+  },
+  {
+   "id": "egyptian",
+   "en": "Egyptian",
+   "uz": "misrlik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Pyramids of Giza, near Cairo, are the most famous Egyptian monuments.",
+   "gap": "Egyptian",
+   "alt": []
+  },
+  {
+   "id": "greece",
+   "en": "Greece",
+   "uz": "Gretsiya (Yunoniston)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first Olympic Games took place in ancient Greece.",
+   "gap": "Greece",
+   "alt": []
+  },
+  {
+   "id": "greek",
+   "en": "Greek",
+   "uz": "yunon (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Athens, the street signs use Greek letters as well as Latin ones.",
+   "gap": "Greek",
+   "alt": []
+  },
+  {
+   "id": "israel",
+   "en": "Israel",
+   "uz": "Isroil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tel Aviv and Haifa are cities on the coast of Israel.",
+   "gap": "Israel",
+   "alt": []
+  },
+  {
+   "id": "israeli",
+   "en": "Israeli",
+   "uz": "isroillik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our guide in Tel Aviv was a friendly Israeli student called Noa.",
+   "gap": "Israeli",
+   "alt": []
+  },
+  {
+   "id": "hebrew",
+   "en": "Hebrew",
+   "uz": "ivrit (qadimgi yahudiy tili)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Like Arabic, Hebrew is written from right to left.",
+   "gap": "Hebrew",
+   "alt": []
+  },
+  {
+   "id": "italy",
+   "en": "Italy",
+   "uz": "Italiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Venice, a city with canals instead of streets, is in Italy.",
+   "gap": "Italy",
+   "alt": []
+  },
+  {
+   "id": "italian",
+   "en": "Italian",
+   "uz": "italyan (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pizza and spaghetti are famous Italian dishes.",
+   "gap": "Italian",
+   "alt": []
+  },
+  {
+   "id": "poland",
+   "en": "Poland",
+   "uz": "Polsha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Warsaw is the capital of Poland.",
+   "gap": "Poland",
+   "alt": []
+  },
+  {
+   "id": "polish",
+   "en": "Polish",
+   "uz": "polyak (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pierogi are Polish dumplings, popular in Warsaw and Kraków.",
+   "gap": "Polish",
+   "alt": []
+  },
+  {
+   "id": "saudi_arabia",
+   "en": "Saudi Arabia",
+   "uz": "Saudiya Arabistoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Riyadh is the capital of Saudi Arabia.",
+   "gap": "Saudi Arabia",
+   "alt": []
+  },
+  {
+   "id": "saudi_arabian",
+   "en": "Saudi Arabian",
+   "uz": "saudiyalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Saudi Arabian flag is green with white writing and a sword.",
+   "gap": "Saudi Arabian",
+   "alt": []
+  },
+  {
+   "id": "thailand",
+   "en": "Thailand",
+   "uz": "Tailand",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bangkok, the capital of Thailand, is famous for its cheap and tasty street food.",
+   "gap": "Thailand",
+   "alt": []
+  },
+  {
+   "id": "thai",
+   "en": "Thai",
+   "uz": "tay (millati, tili)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Tom yum is a spicy Thai soup with prawns and lemongrass.",
+   "gap": "Thai",
+   "alt": []
+  },
+  {
+   "id": "england",
+   "en": "England",
+   "uz": "Angliya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Manchester and Liverpool are cities in the north of England.",
+   "gap": "England",
+   "alt": []
+  },
+  {
+   "id": "scotland",
+   "en": "Scotland",
+   "uz": "Shotlandiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Loch Ness, a long, deep lake with a famous monster story, is in Scotland.",
+   "gap": "Scotland",
+   "alt": []
+  },
+  {
+   "id": "wales",
+   "en": "Wales",
+   "uz": "Uels",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cardiff is the capital of Wales.",
+   "gap": "Wales",
+   "alt": []
+  },
+  {
+   "id": "northern_ireland",
+   "en": "Northern Ireland",
+   "uz": "Shimoliy Irlandiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Belfast is the capital of Northern Ireland.",
+   "gap": "Northern Ireland",
+   "alt": []
+  },
+  {
+   "id": "argentina",
+   "en": "Argentina",
+   "uz": "Argentina (Janubiy Amerikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lionel Messi was born in Rosario, a city in Argentina.",
+   "gap": "Argentina",
+   "alt": []
+  },
+  {
+   "id": "argentinian",
+   "en": "Argentinian",
+   "uz": "argentinalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Tango is a famous Argentinian dance from Buenos Aires.",
+   "gap": "Argentinian",
+   "alt": [
+    "Argentine"
+   ]
+  },
+  {
+   "id": "europe",
+   "en": "Europe",
+   "uz": "Yevropa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Portugal, Austria and Belgium are countries in Europe.",
+   "gap": "Europe",
+   "alt": []
+  },
+  {
+   "id": "africa",
+   "en": "Africa",
+   "uz": "Afrika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kenya, Nigeria and Ghana are all in Africa.",
+   "gap": "Africa",
+   "alt": []
+  },
+  {
+   "id": "asia",
+   "en": "Asia",
+   "uz": "Osiyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "India, Nepal and Uzbekistan are all in Asia.",
+   "gap": "Asia",
+   "alt": []
+  },
+  {
+   "id": "north_america",
+   "en": "North America",
+   "uz": "Shimoliy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Canada, the USA and Mexico are in North America.",
+   "gap": "North America",
+   "alt": []
+  },
+  {
+   "id": "south_america",
+   "en": "South America",
+   "uz": "Janubiy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Peru, Chile and Colombia are in South America.",
+   "gap": "South America",
+   "alt": []
+  },
+  {
+   "id": "antarctica",
+   "en": "Antarctica",
+   "uz": "Antarktida",
+   "pos": "noun",
+   "img": false,
+   "ex": "Emperor penguins live on the ice of Antarctica, the coldest continent.",
+   "gap": "Antarctica",
+   "alt": []
+  },
+  {
+   "id": "caribbean",
+   "en": "the Caribbean",
+   "uz": "Karib havzasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cuba and Jamaica are sunny islands in the Caribbean.",
+   "gap": "Caribbean",
+   "alt": [
+    "Caribbean"
+   ]
+  },
+  {
+   "id": "scandinavia",
+   "en": "Scandinavia",
+   "uz": "Skandinaviya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Together, Sweden, Norway and Denmark are often called Scandinavia.",
+   "gap": "Scandinavia",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "language",
+   "first_language"
+  ],
+  [
+   "english",
+   "british"
+  ],
+  [
+   "english",
+   "american"
+  ],
+  [
+   "mandarin",
+   "chinese"
+  ],
+  [
+   "cantonese",
+   "chinese"
+  ],
+  [
+   "cantonese",
+   "mandarin"
+  ],
+  [
+   "england",
+   "the_uk"
+  ],
+  [
+   "scotland",
+   "the_uk"
+  ],
+  [
+   "wales",
+   "the_uk"
+  ],
+  [
+   "northern_ireland",
+   "the_uk"
+  ],
+  [
+   "israeli",
+   "hebrew"
+  ],
+  [
+   "england",
+   "english"
+  ],
+  [
+   "australia",
+   "australian"
+  ]
+ ]
+}

@@ -1,0 +1,393 @@
+{
+ "book": "upper",
+ "unit": 78,
+ "title": "Abbreviations and acronyms",
+ "title_uz": "Qisqartmalar va akronimlar",
+ "words": [
+  {
+   "id": "bbc",
+   "en": "BBC",
+   "uz": "Britaniya teleradio korporatsiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My English teacher listens to a BBC news podcast every morning on her way to school.",
+   "gap": "BBC",
+   "alt": []
+  },
+  {
+   "id": "eu",
+   "en": "EU",
+   "uz": "Yevropa Ittifoqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbek cherries are now sold in EU countries, so the farm needs special safety certificates.",
+   "gap": "EU",
+   "alt": []
+  },
+  {
+   "id": "who_org",
+   "en": "WHO",
+   "uz": "Jahon sog‘liqni saqlash tashkiloti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school nurse put up a colourful WHO poster in the canteen about washing your hands properly.",
+   "gap": "WHO",
+   "alt": []
+  },
+  {
+   "id": "id_card",
+   "en": "ID",
+   "uz": "shaxsni tasdiqlovchi hujjat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank clerk asked to see some ID before she let me open an account.",
+   "gap": "ID",
+   "alt": []
+  },
+  {
+   "id": "gm",
+   "en": "GM",
+   "uz": "genetik o‘zgartirilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some farmers refuse to grow GM maize because they prefer to plant traditional seeds.",
+   "gap": "GM",
+   "alt": []
+  },
+  {
+   "id": "dna",
+   "en": "DNA",
+   "uz": "irsiy axborot tashuvchi molekula",
+   "pos": "noun",
+   "img": false,
+   "ex": "The vet did a DNA test to find out which breeds our puppy comes from.",
+   "gap": "DNA",
+   "alt": []
+  },
+  {
+   "id": "aka",
+   "en": "AKA",
+   "uz": "boshqacha nomi bilan, laqabi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour Komil, aka 'the Bike Doctor', can repair any bicycle in ten minutes.",
+   "gap": "aka",
+   "alt": [
+    "aka",
+    "a.k.a."
+   ]
+  },
+  {
+   "id": "iou",
+   "en": "IOU",
+   "uz": "qarz tilxati",
+   "pos": "noun",
+   "img": false,
+   "ex": "I didn't have any cash, so I wrote my friend an IOU for twenty thousand som.",
+   "gap": "IOU",
+   "alt": [
+    "IOUs"
+   ]
+  },
+  {
+   "id": "atm",
+   "en": "ATM",
+   "uz": "bankomat",
+   "pos": "noun",
+   "img": true,
+   "ex": "The ATM outside the bank swallowed my card, so I had to go inside and ask for help.",
+   "gap": "ATM",
+   "alt": [
+    "ATMs"
+   ]
+  },
+  {
+   "id": "asap",
+   "en": "ASAP",
+   "uz": "imkon qadar tezroq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please send me your homework ASAP; I'm marking everything tonight.",
+   "gap": "ASAP",
+   "alt": [
+    "asap"
+   ]
+  },
+  {
+   "id": "pin_code",
+   "en": "PIN",
+   "uz": "karta maxfiy kodi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Never write your PIN on the back of your bank card.",
+   "gap": "PIN",
+   "alt": [
+    "PINs"
+   ]
+  },
+  {
+   "id": "sad_disorder",
+   "en": "SAD",
+   "uz": "qishki mavsumiy tushkunlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every winter, when the days get short, Feruza feels tired and low; her doctor thinks she has SAD.",
+   "gap": "SAD",
+   "alt": []
+  },
+  {
+   "id": "laser",
+   "en": "laser",
+   "uz": "ingichka kuchli nur (qurilma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat chases the red dot from my laser pointer all around the living room.",
+   "gap": "laser",
+   "alt": [
+    "lasers"
+   ]
+  },
+  {
+   "id": "radar",
+   "en": "radar",
+   "uz": "uzoqdagi narsani aniqlash tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some speed cameras use radar to check how fast cars are going.",
+   "gap": "radar",
+   "alt": []
+  },
+  {
+   "id": "scuba",
+   "en": "scuba",
+   "uz": "suv osti nafas apparati (akvalang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The diving club lends beginners all the scuba equipment, so you only need to bring a towel.",
+   "gap": "scuba",
+   "alt": []
+  },
+  {
+   "id": "sonar",
+   "en": "sonar",
+   "uz": "suv ostini tovush bilan o‘lchagich",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fishing boat uses sonar to find large groups of fish deep under the water.",
+   "gap": "sonar",
+   "alt": []
+  },
+  {
+   "id": "air_con",
+   "en": "air con",
+   "uz": "havo sovitgich (so‘zlashuvda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It's forty degrees outside, so please turn on the air con in the car.",
+   "gap": "air con",
+   "alt": [
+    "air-con",
+    "aircon"
+   ]
+  },
+  {
+   "id": "uni",
+   "en": "uni",
+   "uz": "oliygoh (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister is in her second year at uni, studying architecture.",
+   "gap": "uni",
+   "alt": []
+  },
+  {
+   "id": "mobile",
+   "en": "mobile",
+   "uz": "uyali telefon",
+   "pos": "noun",
+   "img": true,
+   "ex": "I left my mobile on the bus and had to borrow a friend's phone to call it.",
+   "gap": "mobile",
+   "alt": [
+    "mobiles"
+   ]
+  },
+  {
+   "id": "carbs",
+   "en": "carbs",
+   "uz": "uglevodlar (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before a long race, runners often eat plenty of carbs like pasta and rice.",
+   "gap": "carbs",
+   "alt": []
+  },
+  {
+   "id": "sci_fi",
+   "en": "sci-fi",
+   "uz": "fantastika janri (qisqa, so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My classmate Doniyor only watches sci-fi films about robots and journeys to other planets.",
+   "gap": "sci-fi",
+   "alt": [
+    "sci fi"
+   ]
+  },
+  {
+   "id": "high_tech",
+   "en": "high-tech",
+   "uz": "eng zamonaviy, ilg‘or (uskuna)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new hospital is full of high-tech equipment, including robots that carry medicine between floors.",
+   "gap": "high-tech",
+   "alt": [
+    "hi-tech"
+   ]
+  },
+  {
+   "id": "pto",
+   "en": "PTO",
+   "uz": "sahifani o‘giring",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the bottom of the test paper it said 'PTO', so I turned the page and found three more questions.",
+   "gap": "PTO",
+   "alt": []
+  },
+  {
+   "id": "ps_note",
+   "en": "PS",
+   "uz": "xat so‘ngidagi qo‘shimcha izoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of her letter she wrote: 'PS Don't forget to water my flowers!'",
+   "gap": "PS",
+   "alt": [
+    "P.S."
+   ]
+  },
+  {
+   "id": "rsvp",
+   "en": "RSVP",
+   "uz": "javob berishingizni so‘raymiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The invitation to the graduation party said 'RSVP by Friday', so I texted the organisers that night.",
+   "gap": "RSVP",
+   "alt": []
+  },
+  {
+   "id": "kilo",
+   "en": "kilo",
+   "uz": "ming gramm (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tomatoes are fifteen thousand som a kilo at the market today, so let's buy two.",
+   "gap": "kilo",
+   "alt": [
+    "kilos"
+   ]
+  },
+  {
+   "id": "cia",
+   "en": "CIA",
+   "uz": "AQSh tashqi razvedkasi (Markaziy razvedka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before becoming US President, George H. W. Bush ran the CIA, the American spy agency.",
+   "gap": "CIA",
+   "alt": []
+  },
+  {
+   "id": "fbi",
+   "en": "FBI",
+   "uz": "AQSh Federal tergov byurosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Agents from the FBI, America's federal police, arrested the bank robbers in Texas.",
+   "gap": "FBI",
+   "alt": []
+  },
+  {
+   "id": "mi6",
+   "en": "MI6",
+   "uz": "Britaniya tashqi razvedkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the films, James Bond is a spy who works for MI6, the British secret service.",
+   "gap": "MI6",
+   "alt": []
+  },
+  {
+   "id": "nato",
+   "en": "NATO",
+   "uz": "Shimoliy Atlantika harbiy ittifoqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 2023 Finland joined NATO, the military alliance of North America and Europe.",
+   "gap": "NATO",
+   "alt": []
+  },
+  {
+   "id": "awol",
+   "en": "AWOL",
+   "uz": "ruxsatsiz qismdan ketgan (askar)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Two young soldiers went AWOL from the base and were found three days later at a friend's house.",
+   "gap": "AWOL",
+   "alt": []
+  },
+  {
+   "id": "gig",
+   "en": "gig",
+   "uz": "1024 megabayt (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone has only sixteen gigs of storage, so I can't keep many videos on it.",
+   "gap": "gigs",
+   "alt": [
+    "gigs"
+   ]
+  },
+  {
+   "id": "cell_phone",
+   "en": "cell",
+   "uz": "uyali telefon (amerikacha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My American pen friend texted me from her cell while she was waiting for the school bus in Ohio.",
+   "gap": "cell",
+   "alt": [
+    "cells",
+    "cell phone"
+   ]
+  },
+  {
+   "id": "rip",
+   "en": "RIP",
+   "uz": "tinch yotsin (qabr toshida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On the old gravestone, under the soldier's name, were the letters RIP.",
+   "gap": "RIP",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "radar",
+   "sonar"
+  ],
+  [
+   "cell_phone",
+   "mobile"
+  ],
+  [
+   "radar",
+   "laser"
+  ]
+ ]
+}

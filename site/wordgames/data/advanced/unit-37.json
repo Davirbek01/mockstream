@@ -1,0 +1,518 @@
+{
+ "book": "advanced",
+ "unit": 37,
+ "title": "Festivals in their cultural context",
+ "title_uz": "Bayramlar va ularning madaniy muhiti",
+ "words": [
+  {
+   "id": "celebration",
+   "en": "celebration",
+   "uz": "bayram tantanalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "When our school choir won the national contest, the celebrations went on until the head teacher finally sent everyone home.",
+   "gap": "celebrations",
+   "alt": [
+    "celebrations"
+   ]
+  },
+  {
+   "id": "celebrate",
+   "en": "celebrate",
+   "uz": "nishonlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many Chinese families celebrate the New Year with red decorations, dumplings and fireworks.",
+   "gap": "celebrate",
+   "alt": [
+    "celebrates",
+    "celebrated",
+    "celebrating"
+   ]
+  },
+  {
+   "id": "celebratory",
+   "en": "celebratory",
+   "uz": "shodiyona (g‘alaba ruhidagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the exam results came out and everyone had passed, the whole class was in a celebratory mood.",
+   "gap": "celebratory",
+   "alt": []
+  },
+  {
+   "id": "be_held",
+   "en": "be held",
+   "uz": "o‘tkazilmoq (tashkil etilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school science fair is held in the sports hall every April, and parents are welcome to come and vote.",
+   "gap": "is held",
+   "alt": [
+    "is held",
+    "was held",
+    "are held",
+    "held"
+   ]
+  },
+  {
+   "id": "festivities",
+   "en": "festivities",
+   "uz": "bayram tadbirlari (sho‘xliklar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town's spring festivities include horse races, folk music and a huge craft market.",
+   "gap": "festivities",
+   "alt": []
+  },
+  {
+   "id": "festive",
+   "en": "festive",
+   "uz": "bayramona",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The children decorated the classroom with balloons and paper lanterns to give it a festive feel before the party.",
+   "gap": "festive",
+   "alt": []
+  },
+  {
+   "id": "spectacle",
+   "en": "spectacle",
+   "uz": "ajoyib tomosha",
+   "pos": "noun",
+   "img": false,
+   "ex": "The light show projected onto the old fortress walls was a breathtaking spectacle that nobody in the crowd will forget.",
+   "gap": "spectacle",
+   "alt": []
+  },
+  {
+   "id": "spectacular",
+   "en": "spectacular",
+   "uz": "ko‘zni qamashtiruvchi (hayratlanarli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the top of the TV tower, the view of the city lights at night is spectacular.",
+   "gap": "spectacular",
+   "alt": []
+  },
+  {
+   "id": "parade",
+   "en": "parade",
+   "uz": "bezatilgan tantanali namoyish yurishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the first morning of the town's flower festival, a parade of decorated floats moves slowly down the main street.",
+   "gap": "parade",
+   "alt": [
+    "parades"
+   ]
+  },
+  {
+   "id": "procession",
+   "en": "procession",
+   "uz": "tantanali yurish (kortej)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the opening of the regional sports games, a slow procession of athletes carrying their team flags circled the stadium.",
+   "gap": "procession",
+   "alt": [
+    "processions"
+   ]
+  },
+  {
+   "id": "feast",
+   "en": "feast",
+   "uz": "ziyofat (katta dasturxon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To mark the end of the harvest, the farmers' families cooked a feast for over a hundred guests.",
+   "gap": "feast",
+   "alt": [
+    "feasts"
+   ]
+  },
+  {
+   "id": "feasting",
+   "en": "feasting",
+   "uz": "to‘xtovsiz ziyofatlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "After two weeks of non-stop feasting during the holidays, my jeans felt rather tight.",
+   "gap": "feasting",
+   "alt": []
+  },
+  {
+   "id": "ceremony",
+   "en": "ceremony",
+   "uz": "marosim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The prize-giving ceremony ended with every winner shaking hands with the mayor and posing for an official photo.",
+   "gap": "ceremony",
+   "alt": [
+    "ceremonies"
+   ]
+  },
+  {
+   "id": "ceremonial",
+   "en": "ceremonial",
+   "uz": "marosimga oid (tantanali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The president's guards carry ceremonial swords: they are part of the official ritual and have never been used in a fight.",
+   "gap": "ceremonial",
+   "alt": []
+  },
+  {
+   "id": "renewal",
+   "en": "renewal",
+   "uz": "yangilanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "For many cultures, spring is a season of renewal, when nature wakes up after the long winter.",
+   "gap": "renewal",
+   "alt": []
+  },
+  {
+   "id": "renew",
+   "en": "renew",
+   "uz": "qayta jonlantirmoq (yangilamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A week of hiking in the mountains always renews my energy after a long, hard term.",
+   "gap": "renews",
+   "alt": [
+    "renews",
+    "renewed",
+    "renewing"
+   ]
+  },
+  {
+   "id": "superstitious",
+   "en": "superstitious",
+   "uz": "irimchi (xurofotga ishonadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some superstitious footballers always put on their left boot first and refuse to change their socks during a winning run.",
+   "gap": "superstitious",
+   "alt": []
+  },
+  {
+   "id": "centenary",
+   "en": "centenary",
+   "uz": "100 yillik yubiley",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school was founded in 1927, so next year it will celebrate its centenary.",
+   "gap": "centenary",
+   "alt": []
+  },
+  {
+   "id": "bicentenary",
+   "en": "bicentenary",
+   "uz": "200 yillik yubiley",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old stone bridge in our town was built in 1828, so in 2028 we will celebrate its bicentenary with a street fair.",
+   "gap": "bicentenary",
+   "alt": [
+    "bi-centenary"
+   ]
+  },
+  {
+   "id": "flamboyant",
+   "en": "flamboyant",
+   "uz": "o‘ta yorqin va dabdabali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The singer was famous for his flamboyant costumes covered in sequins and feathers.",
+   "gap": "flamboyant",
+   "alt": []
+  },
+  {
+   "id": "raucous",
+   "en": "raucous",
+   "uz": "shovqin-suronli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The raucous football fans kept the whole street awake with their singing until three in the morning.",
+   "gap": "raucous",
+   "alt": []
+  },
+  {
+   "id": "sombre",
+   "en": "sombre",
+   "uz": "g‘amgin (jiddiy va mungli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The memorial service was a sombre occasion: nobody smiled, and almost everyone was dressed in black.",
+   "gap": "sombre",
+   "alt": [
+    "somber"
+   ]
+  },
+  {
+   "id": "atmospheric",
+   "en": "atmospheric",
+   "uz": "o‘ziga xos sehrli muhitli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old castle courtyard, lit only by lanterns, was a wonderfully atmospheric place for an evening concert.",
+   "gap": "atmospheric",
+   "alt": []
+  },
+  {
+   "id": "traced_back_to",
+   "en": "be traced back to",
+   "uz": "ildizi …ga borib taqalmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our family's love of pottery can be traced back to my great-great-grandfather, who sold blue bowls at the market in Rishtan.",
+   "gap": "traced back to",
+   "alt": [
+    "traced back to",
+    "be traced back to"
+   ]
+  },
+  {
+   "id": "commemorate",
+   "en": "commemorate",
+   "uz": "xotirlamoq (rasmiy ravishda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On 9 May, the Day of Remembrance and Honour, people in Uzbekistan commemorate those who died in the Second World War.",
+   "gap": "commemorate",
+   "alt": [
+    "commemorates",
+    "commemorated",
+    "commemorating"
+   ]
+  },
+  {
+   "id": "multicultural",
+   "en": "multicultural",
+   "uz": "ko‘p madaniyatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Tashkent is a multicultural city where you can hear Uzbek, Russian, Korean and Tatar on the same street.",
+   "gap": "multicultural",
+   "alt": []
+  },
+  {
+   "id": "participate_in",
+   "en": "participate in",
+   "uz": "…da ishtirok etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Over two hundred pupils participated in the spring clean-up of the riverbank and filled sixty bags with rubbish.",
+   "gap": "participated in",
+   "alt": [
+    "participated in",
+    "participates in",
+    "participating in"
+   ]
+  },
+  {
+   "id": "festival",
+   "en": "festival",
+   "uz": "yillik bayram (an’anaviy tadbir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every September the village holds a grape festival that lasts three days, with stalls, music and a prize for the heaviest bunch.",
+   "gap": "festival",
+   "alt": [
+    "festivals"
+   ]
+  },
+  {
+   "id": "anniversary",
+   "en": "anniversary",
+   "uz": "yillik sana (yubiley kuni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the tenth anniversary of the theatre's opening, the actors performed the very first play it had ever staged.",
+   "gap": "anniversary",
+   "alt": [
+    "anniversaries"
+   ]
+  },
+  {
+   "id": "custom",
+   "en": "custom",
+   "uz": "urf-odat",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many Uzbek homes it is the custom to offer a guest tea before asking why they have come.",
+   "gap": "custom",
+   "alt": [
+    "customs"
+   ]
+  },
+  {
+   "id": "origin",
+   "en": "origin",
+   "uz": "kelib chiqishi (ibtidosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The game of chess probably had its origin in India around 1,500 years ago.",
+   "gap": "origin",
+   "alt": [
+    "origins"
+   ]
+  },
+  {
+   "id": "parade_v",
+   "en": "parade",
+   "uz": "ko‘chalar bo‘ylab tantanali yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After winning the cup, the players paraded through the city centre on an open-top bus.",
+   "gap": "paraded",
+   "alt": [
+    "paraded",
+    "parades",
+    "parading"
+   ]
+  },
+  {
+   "id": "pagan",
+   "en": "pagan",
+   "uz": "butparastlik davriga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Lighting bonfires on the longest night of the year is a tradition that dates from pagan times, long before Christianity reached northern Europe.",
+   "gap": "pagan",
+   "alt": []
+  },
+  {
+   "id": "fall_in",
+   "en": "fall in",
+   "uz": "(sana) …ga to‘g‘ri kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school sports week usually falls in May, just before the end-of-year exams begin.",
+   "gap": "falls in",
+   "alt": [
+    "falls in",
+    "fell in",
+    "fall on",
+    "falls on",
+    "fell on"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "celebration",
+   "festivities"
+  ],
+  [
+   "celebration",
+   "feasting"
+  ],
+  [
+   "festivities",
+   "feasting"
+  ],
+  [
+   "celebratory",
+   "festive"
+  ],
+  [
+   "spectacular",
+   "flamboyant"
+  ],
+  [
+   "spectacular",
+   "atmospheric"
+  ],
+  [
+   "spectacular",
+   "festive"
+  ],
+  [
+   "parade",
+   "procession"
+  ],
+  [
+   "parade",
+   "ceremony"
+  ],
+  [
+   "parade",
+   "spectacle"
+  ],
+  [
+   "feast",
+   "feasting"
+  ],
+  [
+   "centenary",
+   "bicentenary"
+  ],
+  [
+   "celebrate",
+   "commemorate"
+  ],
+  [
+   "renewal",
+   "renew"
+  ],
+  [
+   "celebration",
+   "parade"
+  ],
+  [
+   "festive",
+   "flamboyant"
+  ],
+  [
+   "celebration",
+   "procession"
+  ],
+  [
+   "ceremony",
+   "procession"
+  ],
+  [
+   "celebration",
+   "spectacle"
+  ],
+  [
+   "celebration",
+   "ceremony"
+  ],
+  [
+   "festive",
+   "atmospheric"
+  ],
+  [
+   "festival",
+   "celebration"
+  ],
+  [
+   "festival",
+   "festivities"
+  ],
+  [
+   "anniversary",
+   "centenary"
+  ],
+  [
+   "anniversary",
+   "bicentenary"
+  ],
+  [
+   "origin",
+   "traced_back_to"
+  ],
+  [
+   "parade_v",
+   "parade"
+  ],
+  [
+   "festival",
+   "feast"
+  ]
+ ]
+}

@@ -1,0 +1,504 @@
+{
+ "book": "advanced",
+ "unit": 90,
+ "title": "Easily confused words",
+ "title_uz": "Oson adashtiriladigan so‘zlar",
+ "words": [
+  {
+   "id": "intervene",
+   "en": "intervene",
+   "uz": "vaziyatga aralashib to‘xtatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When two boys started pushing each other in the corridor, the head teacher had to intervene and calm them down.",
+   "gap": "intervene",
+   "alt": [
+    "intervenes",
+    "intervened",
+    "intervening"
+   ]
+  },
+  {
+   "id": "interfere",
+   "en": "interfere",
+   "uz": "o‘rinsiz aralashmoq, burun suqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mr Karimov means well, but he keeps trying to interfere in how other parents bring up their children.",
+   "gap": "interfere",
+   "alt": [
+    "interferes",
+    "interfered",
+    "interfering"
+   ]
+  },
+  {
+   "id": "continually",
+   "en": "continually",
+   "uz": "qayta-qayta (jonga tegib)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The old printer continually jams; it has stopped five times this morning already!",
+   "gap": "continually",
+   "alt": []
+  },
+  {
+   "id": "continuously",
+   "en": "continuously",
+   "uz": "uzluksiz, to‘xtamay",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The water pump runs continuously, day and night, without a single pause.",
+   "gap": "continuously",
+   "alt": []
+  },
+  {
+   "id": "series",
+   "en": "series",
+   "uz": "turkum ko‘rsatuv (alohida qismli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The channel is showing a new nature series, with a different animal in each separate programme.",
+   "gap": "series",
+   "alt": []
+  },
+  {
+   "id": "serial",
+   "en": "serial",
+   "uz": "davomli hikoyali ko‘rsatuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't miss a single episode of this radio serial, or I'll lose track of the story.",
+   "gap": "serial",
+   "alt": [
+    "serials"
+   ]
+  },
+  {
+   "id": "shade",
+   "en": "shade",
+   "uz": "salqin pana joy (quyoshdan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was forty degrees, so we looked for some shade under the mulberry tree.",
+   "gap": "shade",
+   "alt": []
+  },
+  {
+   "id": "shadow_dark",
+   "en": "shadow",
+   "uz": "tushgan soya (qorong‘i aks)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the sun went down behind the dunes, our shadows stretched further and further across the sand.",
+   "gap": "shadows",
+   "alt": [
+    "shadows"
+   ]
+  },
+  {
+   "id": "moist",
+   "en": "moist",
+   "uz": "nam (yoqimli ma’noda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This carrot cake stays wonderfully soft and moist for days if you keep it in a tin.",
+   "gap": "moist",
+   "alt": []
+  },
+  {
+   "id": "damp",
+   "en": "damp",
+   "uz": "zax, nimnam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The basement smells of mould because the walls are always cold and damp.",
+   "gap": "damp",
+   "alt": []
+  },
+  {
+   "id": "theme",
+   "en": "theme",
+   "uz": "asosiy g‘oya (tadbirning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every drawing at this year's school exhibition follows the theme 'Water is life'.",
+   "gap": "theme",
+   "alt": []
+  },
+  {
+   "id": "topic",
+   "en": "topic",
+   "uz": "suhbat mavzusi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over dinner, the conversation soon moved on to a livelier topic: the weekend's football.",
+   "gap": "topic",
+   "alt": [
+    "topics"
+   ]
+  },
+  {
+   "id": "security",
+   "en": "security",
+   "uz": "qo‘riqlash xizmati, nazorat",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the airport, security checked every bag twice before we could board.",
+   "gap": "security",
+   "alt": []
+  },
+  {
+   "id": "safety",
+   "en": "safety",
+   "uz": "baxtsiz hodisadan ehtiyotlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Road safety lessons teach young children to look both ways before crossing.",
+   "gap": "safety",
+   "alt": []
+  },
+  {
+   "id": "avoid",
+   "en": "avoid",
+   "uz": "chetlab o‘tmoq, qochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We left home at six to avoid the morning traffic jams on the ring road.",
+   "gap": "avoid",
+   "alt": [
+    "avoids",
+    "avoided",
+    "avoiding"
+   ]
+  },
+  {
+   "id": "evade",
+   "en": "evade",
+   "uz": "ustalik bilan chap bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The shop owner was fined for trying to evade taxes by hiding half of his sales.",
+   "gap": "evade",
+   "alt": [
+    "evades",
+    "evaded",
+    "evading"
+   ]
+  },
+  {
+   "id": "outbreak",
+   "en": "outbreak",
+   "uz": "kasallikning to‘satdan tarqalishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Schools in the district closed for a week after an outbreak of flu.",
+   "gap": "outbreak",
+   "alt": [
+    "outbreaks"
+   ]
+  },
+  {
+   "id": "outlook",
+   "en": "outlook",
+   "uz": "istiqbol, kelgusi prognoz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather outlook for the weekend is sunny and dry, so the picnic is on.",
+   "gap": "outlook",
+   "alt": []
+  },
+  {
+   "id": "lookout",
+   "en": "lookout",
+   "uz": "kuzatuvchi (poylab turuvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "One hiker stayed on the high rock as a lookout, watching for storm clouds over the ridge.",
+   "gap": "lookout",
+   "alt": []
+  },
+  {
+   "id": "setup",
+   "en": "setup",
+   "uz": "tuzilma, tashkiliy tartib",
+   "pos": "noun",
+   "img": false,
+   "ex": "The office setup is simple: one manager, two designers and a shared printer.",
+   "gap": "setup",
+   "alt": []
+  },
+  {
+   "id": "set_up",
+   "en": "set up",
+   "uz": "tashkil qilmoq, yo‘lga qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last autumn our class set up a small lending library in the corner of the classroom.",
+   "gap": "set up",
+   "alt": [
+    "sets up",
+    "setting up"
+   ]
+  },
+  {
+   "id": "upend",
+   "en": "upend",
+   "uz": "tik qilib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To get the wardrobe through the narrow door, we had to upend it.",
+   "gap": "upend",
+   "alt": [
+    "upends",
+    "upended",
+    "upending"
+   ]
+  },
+  {
+   "id": "end_up",
+   "en": "end up",
+   "uz": "oxir-oqibat …ga borib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you keep skipping breakfast, you'll end up snacking on crisps by eleven.",
+   "gap": "end up",
+   "alt": [
+    "ends up",
+    "ended up",
+    "ending up"
+   ]
+  },
+  {
+   "id": "hold_up",
+   "en": "hold up",
+   "uz": "kechiktirmoq, ushlab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We were held up by roadworks for almost an hour and missed the start of the concert.",
+   "gap": "held up",
+   "alt": [
+    "holds up",
+    "held up",
+    "holding up"
+   ]
+  },
+  {
+   "id": "outdo",
+   "en": "outdo",
+   "uz": "…dan o‘zib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two cafés on our street keep trying to outdo each other with bigger and bigger portions.",
+   "gap": "outdo",
+   "alt": [
+    "outdoes",
+    "outdid",
+    "outdone",
+    "outdoing"
+   ]
+  },
+  {
+   "id": "do_out",
+   "en": "do out",
+   "uz": "(xonani) bezatib, ta’mirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "They have done out the spare room in pale green and turned it into a quiet study.",
+   "gap": "done out",
+   "alt": [
+    "does out",
+    "did out",
+    "done out",
+    "doing out"
+   ]
+  },
+  {
+   "id": "outrun",
+   "en": "outrun",
+   "uz": "yugurishda quvib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Even the fastest boy in our class couldn't outrun the neighbour's young dog.",
+   "gap": "outrun",
+   "alt": [
+    "outruns",
+    "outran",
+    "outrunning"
+   ]
+  },
+  {
+   "id": "upset",
+   "en": "upset",
+   "uz": "xafa qilmoq, ranjitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The news about the cancelled trip upset her so much that she couldn't finish her lunch.",
+   "gap": "upset",
+   "alt": [
+    "upsets",
+    "upsetting"
+   ]
+  },
+  {
+   "id": "in_the_shadow_of",
+   "en": "in the shadow of",
+   "uz": "…ning salbiy ta’siri ostida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For years the village lived in the shadow of a noisy cement works that covered every roof in dust.",
+   "gap": "in the shadow of",
+   "alt": []
+  },
+  {
+   "id": "breakout",
+   "en": "breakout",
+   "uz": "qamoqdan ommaviy qochish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Guards searched every cell after a breakout in which four inmates climbed over the wall.",
+   "gap": "breakout",
+   "alt": [
+    "breakouts"
+   ]
+  },
+  {
+   "id": "break_out_escape",
+   "en": "break out",
+   "uz": "qamoqdan qochib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two prisoners broke out of the jail by digging a tunnel under the kitchen.",
+   "gap": "broke out",
+   "alt": [
+    "broke out",
+    "breaks out",
+    "breaking out",
+    "broken out"
+   ]
+  },
+  {
+   "id": "break_out_disease",
+   "en": "break out",
+   "uz": "to‘satdan tarqalib ketmoq (kasallik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When measles broke out at the summer camp, all the children were sent home.",
+   "gap": "broke out",
+   "alt": [
+    "broke out",
+    "breaks out",
+    "breaking out",
+    "broken out"
+   ]
+  },
+  {
+   "id": "look_out_for",
+   "en": "look out for",
+   "uz": "hushyor bo‘lib kuzatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "While cycling through the old town, keep looking out for cars reversing out of narrow side streets.",
+   "gap": "looking out for",
+   "alt": [
+    "looks out for",
+    "looked out for",
+    "looking out for"
+   ]
+  },
+  {
+   "id": "look_into",
+   "en": "look into",
+   "uz": "sababini tekshirib o‘rganmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The head teacher has promised to look into why the school buses keep arriving late.",
+   "gap": "look into",
+   "alt": [
+    "looks into",
+    "looked into",
+    "looking into"
+   ]
+  },
+  {
+   "id": "overcook",
+   "en": "overcook",
+   "uz": "haddan ortiq pishirib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you overcook the rice, it turns soft and sticky.",
+   "gap": "overcook",
+   "alt": [
+    "overcooks",
+    "overcooked",
+    "overcooking"
+   ]
+  },
+  {
+   "id": "overcome",
+   "en": "overcome",
+   "uz": "yengib o‘tmoq (qo‘rquv, qiyinchilik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With the help of a patient coach, Rayhona finally managed to overcome her fear of deep water and swam across the pool.",
+   "gap": "overcome",
+   "alt": [
+    "overcomes",
+    "overcame",
+    "overcoming"
+   ]
+  },
+  {
+   "id": "input",
+   "en": "input",
+   "uz": "fikr-mulohaza bilan qo‘shgan hissa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The architects asked for input from pupils before designing the new school library.",
+   "gap": "input",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "avoid",
+   "evade"
+  ],
+  [
+   "setup",
+   "set_up"
+  ],
+  [
+   "shade",
+   "shadow_dark"
+  ],
+  [
+   "in_the_shadow_of",
+   "shade"
+  ],
+  [
+   "in_the_shadow_of",
+   "shadow_dark"
+  ],
+  [
+   "breakout",
+   "outbreak"
+  ],
+  [
+   "break_out_escape",
+   "break_out_disease"
+  ],
+  [
+   "break_out_disease",
+   "outbreak"
+  ],
+  [
+   "breakout",
+   "break_out_escape"
+  ],
+  [
+   "look_out_for",
+   "lookout"
+  ]
+ ]
+}

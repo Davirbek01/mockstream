@@ -1,0 +1,650 @@
+{
+ "book": "elementary",
+ "unit": 31,
+ "title": "Animals",
+ "title_uz": "Hayvonlar",
+ "words": [
+  {
+   "id": "animal",
+   "en": "animal",
+   "uz": "hayvon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zebras, bears, wolves and camels: the zoo has more than a hundred different animals.",
+   "gap": "animals",
+   "alt": [
+    "animals"
+   ]
+  },
+  {
+   "id": "cow",
+   "en": "cow",
+   "uz": "sigir",
+   "pos": "noun",
+   "img": true,
+   "ex": "The cow said 'moo' loudly when our neighbour came into the barn with her milk bucket.",
+   "gap": "cow",
+   "alt": [
+    "cows"
+   ]
+  },
+  {
+   "id": "horse",
+   "en": "horse",
+   "uz": "ot",
+   "pos": "noun",
+   "img": true,
+   "ex": "The boy gave his horse an apple, jumped on its back and rode across the steppe to the next village.",
+   "gap": "horse",
+   "alt": [
+    "horses"
+   ]
+  },
+  {
+   "id": "sheep",
+   "en": "sheep",
+   "uz": "qo‘y",
+   "pos": "noun",
+   "img": true,
+   "ex": "After their spring haircut, the sheep looked thin and cold without their thick wool.",
+   "gap": "sheep",
+   "alt": []
+  },
+  {
+   "id": "goat",
+   "en": "goat",
+   "uz": "echki",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our goat climbed onto the roof of the shed and ate all the leaves of our apricot tree.",
+   "gap": "goat",
+   "alt": [
+    "goats"
+   ]
+  },
+  {
+   "id": "hen",
+   "en": "hen",
+   "uz": "tovuq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our brown hen lays an egg almost every day, so we never buy eggs at the shop.",
+   "gap": "hen",
+   "alt": [
+    "hens",
+    "chicken",
+    "chickens"
+   ]
+  },
+  {
+   "id": "calf",
+   "en": "calf",
+   "uz": "buzoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cow had a calf last night, and by morning it was already standing on its thin legs.",
+   "gap": "calf",
+   "alt": [
+    "calves"
+   ]
+  },
+  {
+   "id": "lamb",
+   "en": "lamb",
+   "uz": "qo‘zichoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring our neighbour's sheep had a lamb, and the children fed it milk from a baby's bottle.",
+   "gap": "lamb",
+   "alt": [
+    "lambs"
+   ]
+  },
+  {
+   "id": "foal",
+   "en": "foal",
+   "uz": "toychoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young foal was only a day old, but it was already running after its mother, a tall brown horse.",
+   "gap": "foal",
+   "alt": [
+    "foals"
+   ]
+  },
+  {
+   "id": "chick",
+   "en": "chick",
+   "uz": "jo‘ja",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twelve fluffy yellow chicks came out of their eggs and ran after the hen.",
+   "gap": "chicks",
+   "alt": [
+    "chicks"
+   ]
+  },
+  {
+   "id": "kid_goat",
+   "en": "kid",
+   "uz": "uloq (echki bolasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our goat had two kids this spring, a white one and a black one.",
+   "gap": "kids",
+   "alt": [
+    "kids"
+   ]
+  },
+  {
+   "id": "wool",
+   "en": "wool",
+   "uz": "jun",
+   "pos": "noun",
+   "img": false,
+   "ex": "This scarf is made of soft sheep's wool, so it keeps my neck warm all through January.",
+   "gap": "wool",
+   "alt": []
+  },
+  {
+   "id": "leather",
+   "en": "leather",
+   "uz": "charm (teri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My new school shoes are made of real leather, so they should last for years.",
+   "gap": "leather",
+   "alt": []
+  },
+  {
+   "id": "beef",
+   "en": "beef",
+   "uz": "mol go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the soup, Mum bought half a kilo of beef, three potatoes and some carrots.",
+   "gap": "beef",
+   "alt": []
+  },
+  {
+   "id": "monkey",
+   "en": "monkey",
+   "uz": "maymun",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the zoo, a cheeky monkey grabbed a banana from a boy's hand and climbed up a tree with it.",
+   "gap": "monkey",
+   "alt": [
+    "monkeys"
+   ]
+  },
+  {
+   "id": "giraffe",
+   "en": "giraffe",
+   "uz": "jirafa",
+   "pos": "noun",
+   "img": true,
+   "ex": "We had to look up high to see the giraffe eating leaves from the top of the tree.",
+   "gap": "giraffe",
+   "alt": [
+    "giraffes"
+   ]
+  },
+  {
+   "id": "tiger",
+   "en": "tiger",
+   "uz": "yo‘lbars",
+   "pos": "noun",
+   "img": true,
+   "ex": "The tiger walked up and down behind the glass, and its orange and black stripes shone in the sun.",
+   "gap": "tiger",
+   "alt": [
+    "tigers"
+   ]
+  },
+  {
+   "id": "snake",
+   "en": "snake",
+   "uz": "ilon",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the glass box, a long green snake was lying curled around a branch.",
+   "gap": "snake",
+   "alt": [
+    "snakes"
+   ]
+  },
+  {
+   "id": "elephant",
+   "en": "elephant",
+   "uz": "fil",
+   "pos": "noun",
+   "img": true,
+   "ex": "The elephant filled its trunk with water and sprayed it all over its back.",
+   "gap": "elephant",
+   "alt": [
+    "elephants"
+   ]
+  },
+  {
+   "id": "lion",
+   "en": "lion",
+   "uz": "sher",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old lion shook his big golden mane and lay down in the shade.",
+   "gap": "lion",
+   "alt": [
+    "lions"
+   ]
+  },
+  {
+   "id": "tortoise",
+   "en": "tortoise",
+   "uz": "toshbaqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our tortoise moves so slowly that it needs ten minutes to cross the garden.",
+   "gap": "tortoise",
+   "alt": [
+    "tortoises"
+   ]
+  },
+  {
+   "id": "rabbit",
+   "en": "rabbit",
+   "uz": "quyon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our rabbit hopped out of its cage at night and dug a deep hole under Mum's flower bed.",
+   "gap": "rabbit",
+   "alt": [
+    "rabbits"
+   ]
+  },
+  {
+   "id": "dog",
+   "en": "dog",
+   "uz": "it",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our dog barks loudly every time someone rings the doorbell.",
+   "gap": "dog",
+   "alt": [
+    "dogs"
+   ]
+  },
+  {
+   "id": "parrot",
+   "en": "parrot",
+   "uz": "to‘tiqush",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our green parrot can say 'Salom!' and copy the sound of my phone.",
+   "gap": "parrot",
+   "alt": [
+    "parrots"
+   ]
+  },
+  {
+   "id": "cat",
+   "en": "cat",
+   "uz": "mushuk",
+   "pos": "noun",
+   "img": true,
+   "ex": "The cat sleeps on the warm windowsill all day and hunts mice in the garden at night.",
+   "gap": "cat",
+   "alt": [
+    "cats"
+   ]
+  },
+  {
+   "id": "bird",
+   "en": "bird",
+   "uz": "qush",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every morning a little brown bird sits on our balcony and sings before the sun comes up.",
+   "gap": "bird",
+   "alt": [
+    "birds"
+   ]
+  },
+  {
+   "id": "pet",
+   "en": "pet",
+   "uz": "uy hayvoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is very small, so the only pet we can keep is a goldfish.",
+   "gap": "pet",
+   "alt": [
+    "pets"
+   ]
+  },
+  {
+   "id": "take_the_dog_for_a_walk",
+   "en": "take the dog for a walk",
+   "uz": "itni sayrga olib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After school, Jamshid takes the dog for a walk around the park.",
+   "gap": "takes the dog for a walk",
+   "alt": [
+    "takes the dog for a walk",
+    "took the dog for a walk",
+    "taking the dog for a walk"
+   ]
+  },
+  {
+   "id": "feed",
+   "en": "feed",
+   "uz": "ovqat bermoq (boqmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before school, my job is to feed the hens: I throw a bowl of corn into the yard for them.",
+   "gap": "feed",
+   "alt": [
+    "feeds",
+    "fed",
+    "feeding"
+   ]
+  },
+  {
+   "id": "pig",
+   "en": "pig",
+   "uz": "cho‘chqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "The farmer's pig rolled in the mud and said 'oink'.",
+   "gap": "pig",
+   "alt": [
+    "pigs"
+   ]
+  },
+  {
+   "id": "piglet",
+   "en": "piglet",
+   "uz": "cho‘chqa bolasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The big mother pig lay in the straw, and eight tiny pink piglets drank her milk.",
+   "gap": "piglets",
+   "alt": [
+    "piglets"
+   ]
+  },
+  {
+   "id": "pork",
+   "en": "pork",
+   "uz": "cho‘chqa go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In China, pork is the most popular meat.",
+   "gap": "pork",
+   "alt": []
+  },
+  {
+   "id": "bacon",
+   "en": "bacon",
+   "uz": "bekon (tuzlangan cho‘chqa go‘shti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A full English breakfast has eggs, sausages, crispy bacon and beans.",
+   "gap": "bacon",
+   "alt": []
+  },
+  {
+   "id": "ham",
+   "en": "ham",
+   "uz": "vetchina (cho‘chqa son go‘shti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Spain, people often eat thin slices of dry ham with bread.",
+   "gap": "ham",
+   "alt": []
+  },
+  {
+   "id": "egg",
+   "en": "egg",
+   "uz": "tuxum",
+   "pos": "noun",
+   "img": true,
+   "ex": "Diana cracked an egg into the hot pan and added a pinch of salt.",
+   "gap": "egg",
+   "alt": [
+    "eggs"
+   ]
+  },
+  {
+   "id": "chicken_meat",
+   "en": "chicken",
+   "uz": "tovuq go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the picnic, Lola made sandwiches with grilled chicken and salad.",
+   "gap": "chicken",
+   "alt": []
+  },
+  {
+   "id": "lamb_meat",
+   "en": "lamb",
+   "uz": "qo‘zi go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Easter, many Greek families cook lamb outside over a fire.",
+   "gap": "lamb",
+   "alt": []
+  },
+  {
+   "id": "zoo",
+   "en": "zoo",
+   "uz": "hayvonot bog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the school trip we spent the whole day at the zoo, watching penguins and bears.",
+   "gap": "zoo",
+   "alt": [
+    "zoos"
+   ]
+  },
+  {
+   "id": "wild_animal",
+   "en": "wild animal",
+   "uz": "yovvoyi hayvon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Wolves and foxes are wild animals, so never try to touch one in the forest.",
+   "gap": "wild animals",
+   "alt": [
+    "wild animals"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cow",
+   "calf"
+  ],
+  [
+   "horse",
+   "foal"
+  ],
+  [
+   "sheep",
+   "lamb"
+  ],
+  [
+   "goat",
+   "kid_goat"
+  ],
+  [
+   "hen",
+   "chick"
+  ],
+  [
+   "sheep",
+   "goat"
+  ],
+  [
+   "lamb",
+   "kid_goat"
+  ],
+  [
+   "lamb",
+   "beef"
+  ],
+  [
+   "bird",
+   "parrot"
+  ],
+  [
+   "bird",
+   "hen"
+  ],
+  [
+   "bird",
+   "chick"
+  ],
+  [
+   "animal",
+   "bird"
+  ],
+  [
+   "lion",
+   "tiger"
+  ],
+  [
+   "pet",
+   "dog"
+  ],
+  [
+   "pet",
+   "cat"
+  ],
+  [
+   "pet",
+   "rabbit"
+  ],
+  [
+   "pet",
+   "parrot"
+  ],
+  [
+   "pet",
+   "tortoise"
+  ],
+  [
+   "animal",
+   "pet"
+  ],
+  [
+   "animal",
+   "wildlife"
+  ],
+  [
+   "wool",
+   "leather"
+  ],
+  [
+   "take_the_dog_for_a_walk",
+   "feed"
+  ],
+  [
+   "pig",
+   "piglet"
+  ],
+  [
+   "pig",
+   "pork"
+  ],
+  [
+   "pork",
+   "bacon"
+  ],
+  [
+   "pork",
+   "ham"
+  ],
+  [
+   "bacon",
+   "ham"
+  ],
+  [
+   "pork",
+   "beef"
+  ],
+  [
+   "bacon",
+   "beef"
+  ],
+  [
+   "ham",
+   "beef"
+  ],
+  [
+   "chicken_meat",
+   "beef"
+  ],
+  [
+   "chicken_meat",
+   "pork"
+  ],
+  [
+   "chicken_meat",
+   "bacon"
+  ],
+  [
+   "chicken_meat",
+   "ham"
+  ],
+  [
+   "chicken_meat",
+   "lamb_meat"
+  ],
+  [
+   "lamb_meat",
+   "beef"
+  ],
+  [
+   "lamb_meat",
+   "pork"
+  ],
+  [
+   "lamb_meat",
+   "bacon"
+  ],
+  [
+   "lamb_meat",
+   "ham"
+  ],
+  [
+   "lamb",
+   "lamb_meat"
+  ],
+  [
+   "hen",
+   "chicken_meat"
+  ],
+  [
+   "egg",
+   "chick"
+  ],
+  [
+   "wild_animal",
+   "animal"
+  ],
+  [
+   "wild_animal",
+   "wildlife"
+  ],
+  [
+   "wild_animal",
+   "pet"
+  ],
+  [
+   "pig",
+   "animal"
+  ]
+ ]
+}

@@ -1,0 +1,496 @@
+{
+ "book": "elementary",
+ "unit": 29,
+ "title": "In the town",
+ "title_uz": "Shaharda",
+ "words": [
+  {
+   "id": "train_station",
+   "en": "train station",
+   "uz": "temir yo‘l vokzali",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our high-speed train to Samarkand leaves the train station at eight, so we need a taxi by seven.",
+   "gap": "train station",
+   "alt": [
+    "railway station",
+    "train stations"
+   ]
+  },
+  {
+   "id": "bus_station",
+   "en": "bus station",
+   "uz": "avtovokzal",
+   "pos": "noun",
+   "img": false,
+   "ex": "The big blue bus to Jizzakh leaves the bus station at nine, so we must be there by half past eight.",
+   "gap": "bus station",
+   "alt": [
+    "bus stations"
+   ]
+  },
+  {
+   "id": "shopping_centre",
+   "en": "shopping centre",
+   "uz": "savdo markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are more than a hundred shops under one roof in the new shopping centre.",
+   "gap": "shopping centre",
+   "alt": [
+    "shopping centres",
+    "shopping center"
+   ]
+  },
+  {
+   "id": "tourist_information",
+   "en": "tourist information",
+   "uz": "turistlar uchun axborot markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our first morning in Bukhara, we asked at tourist information, and a friendly woman gave us a free map of the old city.",
+   "gap": "tourist information",
+   "alt": [
+    "tourist information office",
+    "tourist information offices",
+    "tourist office"
+   ]
+  },
+  {
+   "id": "museum",
+   "en": "museum",
+   "uz": "muzey",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the archaeology museum in Termez we saw Buddhist statues that are almost two thousand years old.",
+   "gap": "museum",
+   "alt": [
+    "museums"
+   ]
+  },
+  {
+   "id": "bank",
+   "en": "bank",
+   "uz": "bank",
+   "pos": "noun",
+   "img": false,
+   "ex": "I need to change some dollars into som, so I'm going to the bank on Amir Temur Street.",
+   "gap": "bank",
+   "alt": [
+    "banks"
+   ]
+  },
+  {
+   "id": "library",
+   "en": "library",
+   "uz": "kutubxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "I borrowed three books from the library, and I must take them back by Friday.",
+   "gap": "library",
+   "alt": [
+    "libraries"
+   ]
+  },
+  {
+   "id": "town_hall",
+   "en": "town hall",
+   "uz": "shahar hokimiyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class visited the town hall and met the people who run our city.",
+   "gap": "town hall",
+   "alt": [
+    "town halls"
+   ]
+  },
+  {
+   "id": "car_park",
+   "en": "car park",
+   "uz": "avtoturargoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was no space on the street, so Dad parked in the big car park behind the cinema.",
+   "gap": "car park",
+   "alt": [
+    "car parks"
+   ]
+  },
+  {
+   "id": "pedestrian_area",
+   "en": "pedestrian area",
+   "uz": "piyodalar hududi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sayilgoh Street is a pedestrian area, so it's full of people walking, artists and musicians, but no traffic.",
+   "gap": "pedestrian area",
+   "alt": [
+    "pedestrian areas"
+   ]
+  },
+  {
+   "id": "cash_machine",
+   "en": "cash machine",
+   "uz": "bankomat",
+   "pos": "noun",
+   "img": true,
+   "ex": "I put my card into the cash machine and took out 200,000 som.",
+   "gap": "cash machine",
+   "alt": [
+    "cash machines"
+   ]
+  },
+  {
+   "id": "parcel",
+   "en": "parcel",
+   "uz": "posilka (jo‘natma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister in Kazan got a big parcel of dried apricots and raisins from us.",
+   "gap": "parcel",
+   "alt": [
+    "parcels"
+   ]
+  },
+  {
+   "id": "exit",
+   "en": "exit",
+   "uz": "chiqish (yo‘li)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the film ended, we followed the green exit signs out of the cinema.",
+   "gap": "exit",
+   "alt": [
+    "exits"
+   ]
+  },
+  {
+   "id": "entrance",
+   "en": "entrance",
+   "uz": "kirish (yo‘li)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The main entrance to the museum is closed today, so please go in through the side door.",
+   "gap": "entrance",
+   "alt": [
+    "entrances"
+   ]
+  },
+  {
+   "id": "no_smoking",
+   "en": "no smoking",
+   "uz": "chekish taqiqlangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's a big no smoking sign at the bus stop, so the man put his cigarette away.",
+   "gap": "no smoking",
+   "alt": []
+  },
+  {
+   "id": "out_of_order",
+   "en": "out of order",
+   "uz": "ishlamayapti (buzuq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The ticket machine at the metro was out of order, so we bought tokens from the woman at the window.",
+   "gap": "out of order",
+   "alt": []
+  },
+  {
+   "id": "keep_off_the_grass",
+   "en": "keep off the grass",
+   "uz": "maysaga kirmang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The boys were playing football on the lawn, but the sign said 'Please keep off the grass'.",
+   "gap": "keep off the grass",
+   "alt": []
+  },
+  {
+   "id": "turn_right",
+   "en": "turn right",
+   "uz": "o‘ngga burilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't turn left at the traffic lights; turn right, and the pharmacy is opposite the bank.",
+   "gap": "turn right",
+   "alt": [
+    "turned right",
+    "turns right",
+    "turning right"
+   ]
+  },
+  {
+   "id": "turn_left",
+   "en": "turn left",
+   "uz": "chapga burilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the mosque, don't go right; turn left into Navoi Street and you'll see our school.",
+   "gap": "turn left",
+   "alt": [
+    "turned left",
+    "turns left",
+    "turning left"
+   ]
+  },
+  {
+   "id": "take_the_first_right",
+   "en": "take the first right",
+   "uz": "birinchi burilishda o‘ngga",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't go to the second street; take the first right after the petrol station.",
+   "gap": "take the first right",
+   "alt": []
+  },
+  {
+   "id": "at_the_end_of_the_road",
+   "en": "at the end of the road",
+   "uz": "ko‘chaning oxirida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our house is at the end of the road; after it there's only the river, so cars can't go any further.",
+   "gap": "at the end of the road",
+   "alt": []
+  },
+  {
+   "id": "on_the_left",
+   "en": "on the left",
+   "uz": "chap tomonda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you come out of the metro, the bookshop is on the left, next to a flower stall.",
+   "gap": "on the left",
+   "alt": []
+  },
+  {
+   "id": "get_off",
+   "en": "get off",
+   "uz": "(transportdan) tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Take the number 45 bus and get off at the fourth stop, outside the hospital.",
+   "gap": "get off",
+   "alt": [
+    "gets off",
+    "got off",
+    "getting off"
+   ]
+  },
+  {
+   "id": "other_side_of_the_road",
+   "en": "other side of the road",
+   "uz": "yo‘lning narigi tomoni",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's no cash machine on this side of the street, but there's one on the other side of the road, next to the bakery.",
+   "gap": "other side of the road",
+   "alt": [
+    "on the other side of the road",
+    "the other side of the road"
+   ]
+  },
+  {
+   "id": "bus_stop",
+   "en": "bus stop",
+   "uz": "avtobus bekati",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a bus stop right outside our school, and the number 12 stops there every ten minutes.",
+   "gap": "bus stop",
+   "alt": [
+    "bus stops"
+   ]
+  },
+  {
+   "id": "how_do_i_get_to",
+   "en": "how do I get to",
+   "uz": "…ga qanday borsam bo‘ladi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, how do I get to Chorsu Bazaar from here?",
+   "gap": "how do I get to",
+   "alt": []
+  },
+  {
+   "id": "get_a_train",
+   "en": "get a train",
+   "uz": "poyezdga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the station we got a train to Andijan at seven in the morning.",
+   "gap": "got a train",
+   "alt": [
+    "gets a train",
+    "got a train",
+    "getting a train"
+   ]
+  },
+  {
+   "id": "get_a_bus",
+   "en": "get a bus",
+   "uz": "avtobusga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was raining, so Aziz got a bus home instead of walking.",
+   "gap": "got a bus",
+   "alt": [
+    "gets a bus",
+    "got a bus",
+    "getting a bus"
+   ]
+  },
+  {
+   "id": "park_car",
+   "en": "park",
+   "uz": "mashinani to‘xtatib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can't park in front of the hospital doors; that place is only for ambulances.",
+   "gap": "park",
+   "alt": [
+    "parks",
+    "parked",
+    "parking"
+   ]
+  },
+  {
+   "id": "go_left",
+   "en": "go left",
+   "uz": "chap tomonga yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the traffic lights, go left and the museum is in front of you.",
+   "gap": "go left",
+   "alt": [
+    "goes left",
+    "went left"
+   ]
+  },
+  {
+   "id": "where_is",
+   "en": "where is",
+   "uz": "… qayerda?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, where is the nearest post office?",
+   "gap": "where is",
+   "alt": [
+    "where's"
+   ]
+  },
+  {
+   "id": "is_there",
+   "en": "is there",
+   "uz": "… bormi? (shu atrofda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, is there a pharmacy near here?",
+   "gap": "is there",
+   "alt": []
+  },
+  {
+   "id": "there_is",
+   "en": "there's",
+   "uz": "… bor (mavjud)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry about money: there's a cash machine inside the supermarket.",
+   "gap": "there's",
+   "alt": [
+    "there is"
+   ]
+  },
+  {
+   "id": "can_i",
+   "en": "can I",
+   "uz": "…sam maylimi? (ruxsat so‘rash)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, officer, can I leave my car here for ten minutes?",
+   "gap": "can I",
+   "alt": []
+  },
+  {
+   "id": "tell_me_the_way_to",
+   "en": "tell me the way to",
+   "uz": "… ga yo‘lni ko‘rsatib bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Could you tell me the way to the town hall, please?",
+   "gap": "tell me the way to",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "bus_station",
+   "bus_stop"
+  ],
+  [
+   "turn_right",
+   "take_the_first_right"
+  ],
+  [
+   "at_the_end_of_the_road",
+   "on_the_left"
+  ],
+  [
+   "on_the_left",
+   "other_side_of_the_road"
+  ],
+  [
+   "at_the_end_of_the_road",
+   "other_side_of_the_road"
+  ],
+  [
+   "take_the_first_right",
+   "turn_left"
+  ],
+  [
+   "cash_machine",
+   "bank"
+  ],
+  [
+   "get_a_train",
+   "get_a_bus"
+  ],
+  [
+   "park_car",
+   "get_off"
+  ],
+  [
+   "go_left",
+   "turn_left"
+  ],
+  [
+   "go_left",
+   "turn_right"
+  ],
+  [
+   "go_left",
+   "take_the_first_right"
+  ],
+  [
+   "where_is",
+   "how_do_i_get_to"
+  ],
+  [
+   "where_is",
+   "is_there"
+  ],
+  [
+   "is_there",
+   "there_is"
+  ],
+  [
+   "tell_me_the_way_to",
+   "how_do_i_get_to"
+  ],
+  [
+   "tell_me_the_way_to",
+   "where_is"
+  ]
+ ]
+}

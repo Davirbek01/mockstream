@@ -1,0 +1,651 @@
+{
+ "book": "preint",
+ "unit": 28,
+ "title": "Transport",
+ "title_uz": "Transport",
+ "words": [
+  {
+   "id": "vehicle",
+   "en": "vehicle",
+   "uz": "transport vositasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only emergency vehicles, such as ambulances and fire engines, may use this lane.",
+   "gap": "vehicles",
+   "alt": [
+    "vehicles"
+   ]
+  },
+  {
+   "id": "coach",
+   "en": "coach",
+   "uz": "avtobus (shaharlararo, qulay)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We went from Tashkent to Urgench by overnight coach and slept in our seats.",
+   "gap": "coach",
+   "alt": [
+    "coaches"
+   ]
+  },
+  {
+   "id": "van",
+   "en": "van",
+   "uz": "furgon (kichik yuk mashinasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The furniture shop delivered our new wardrobe in a small white van.",
+   "gap": "van",
+   "alt": [
+    "vans"
+   ]
+  },
+  {
+   "id": "motorbike",
+   "en": "motorbike",
+   "uz": "mototsikl",
+   "pos": "noun",
+   "img": true,
+   "ex": "Food couriers on motorbikes weave through the traffic to deliver orders quickly.",
+   "gap": "motorbikes",
+   "alt": [
+    "motorbikes",
+    "motorcycle"
+   ]
+  },
+  {
+   "id": "lorry",
+   "en": "lorry",
+   "uz": "yuk mashinasi (katta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy lorries carrying cement aren't allowed into the city centre during the day.",
+   "gap": "lorries",
+   "alt": [
+    "lorries",
+    "truck",
+    "trucks"
+   ]
+  },
+  {
+   "id": "cyclist",
+   "en": "cyclist",
+   "uz": "velosipedchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new bike lane along the canal is popular with cyclists in the mornings.",
+   "gap": "cyclists",
+   "alt": [
+    "cyclists"
+   ]
+  },
+  {
+   "id": "pilot",
+   "en": "pilot",
+   "uz": "uchuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pilot told the passengers to fasten their seat belts because the plane was about to land.",
+   "gap": "pilot",
+   "alt": [
+    "pilots"
+   ]
+  },
+  {
+   "id": "fare",
+   "en": "fare",
+   "uz": "yo‘l haqi (yo‘lkira)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver asked for a higher fare because it was after midnight.",
+   "gap": "fare",
+   "alt": [
+    "fares",
+    "bus fare",
+    "train fare"
+   ]
+  },
+  {
+   "id": "airfare",
+   "en": "airfare",
+   "uz": "aviachipta narxi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In July airfares to Antalya go up a lot, because everyone wants a holiday by the sea.",
+   "gap": "airfares",
+   "alt": [
+    "airfares"
+   ]
+  },
+  {
+   "id": "bus_stop",
+   "en": "bus stop",
+   "uz": "avtobus bekati",
+   "pos": "noun",
+   "img": true,
+   "ex": "I waited at the bus stop for half an hour, but the number 45 never came.",
+   "gap": "bus stop",
+   "alt": [
+    "bus stops"
+   ]
+  },
+  {
+   "id": "platform",
+   "en": "platform",
+   "uz": "perron (vokzal platformasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fast train to Andijan leaves from platform 2 in ten minutes.",
+   "gap": "platform",
+   "alt": [
+    "platforms"
+   ]
+  },
+  {
+   "id": "taxi_rank",
+   "en": "taxi rank",
+   "uz": "taksi turadigan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's always a long line of cars waiting at the taxi rank outside the railway station.",
+   "gap": "taxi rank",
+   "alt": [
+    "taxi ranks"
+   ]
+  },
+  {
+   "id": "journey",
+   "en": "journey",
+   "uz": "safar (yo‘l yurish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the fast Afrosiyob train, the journey from Tashkent to Bukhara takes less than four hours.",
+   "gap": "journey",
+   "alt": [
+    "journeys"
+   ]
+  },
+  {
+   "id": "flight",
+   "en": "flight",
+   "uz": "parvoz (aviareys)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flight was delayed because of heavy snow, so we sat in the airport café for three hours.",
+   "gap": "flight",
+   "alt": [
+    "flights"
+   ]
+  },
+  {
+   "id": "get_on",
+   "en": "get on",
+   "uz": "(avtobus, poyezdga) chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doors closed just as I got on the bus, so my friend had to wait for the next one.",
+   "gap": "got on",
+   "alt": [
+    "gets on",
+    "got on",
+    "getting on"
+   ]
+  },
+  {
+   "id": "get_off",
+   "en": "get off",
+   "uz": "(avtobus, poyezddan) tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the last stop, get off the bus and walk straight to the zoo entrance.",
+   "gap": "get off",
+   "alt": [
+    "gets off",
+    "got off",
+    "getting off"
+   ]
+  },
+  {
+   "id": "get_out_of",
+   "en": "get out of",
+   "uz": "(taksi, mashinadan) chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the taxi stopped, I paid the driver and got out of the car.",
+   "gap": "got out of",
+   "alt": [
+    "gets out of",
+    "got out of",
+    "getting out of"
+   ]
+  },
+  {
+   "id": "catch",
+   "en": "catch",
+   "uz": "(avtobusga) ulgurib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We ran all the way to the station and just caught the last train home.",
+   "gap": "caught",
+   "alt": [
+    "catches",
+    "caught",
+    "catching"
+   ]
+  },
+  {
+   "id": "miss",
+   "en": "miss",
+   "uz": "(avtobusga) ulgurmay qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I overslept and missed the school bus, so Mum had to drive me.",
+   "gap": "missed",
+   "alt": [
+    "misses",
+    "missed",
+    "missing"
+   ]
+  },
+  {
+   "id": "go_by",
+   "en": "go by",
+   "uz": "(transport turida) bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In winter the mountain pass is often closed, so we go by train to Fergana.",
+   "gap": "go by",
+   "alt": [
+    "goes by",
+    "went by",
+    "going by"
+   ]
+  },
+  {
+   "id": "cycle",
+   "en": "cycle",
+   "uz": "velosipedda bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the weather is nice, Ravshan cycles to school along the river path.",
+   "gap": "cycles",
+   "alt": [
+    "cycles",
+    "cycled",
+    "cycling"
+   ]
+  },
+  {
+   "id": "public_transport",
+   "en": "public transport",
+   "uz": "jamoat transporti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Tashkent public transport is cheap: a metro ride costs much less than a taxi.",
+   "gap": "public transport",
+   "alt": []
+  },
+  {
+   "id": "round_the_corner",
+   "en": "round the corner",
+   "uz": "shundoq yaqinda (burilishda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You don't need a taxi; the pharmacy is just round the corner from here.",
+   "gap": "round the corner",
+   "alt": []
+  },
+  {
+   "id": "buses_run",
+   "en": "run",
+   "uz": "qatnamoq (muntazam yurmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Late at night the buses run only once an hour, so check the timetable first.",
+   "gap": "run",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "return_ticket",
+   "en": "return",
+   "uz": "borish-qaytish chiptasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother bought a return to Samarkand, because he's coming back on Sunday evening.",
+   "gap": "return",
+   "alt": [
+    "return ticket",
+    "returns"
+   ]
+  },
+  {
+   "id": "season_ticket",
+   "en": "season ticket",
+   "uz": "abonement (muddatli chipta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad has a monthly season ticket, so he can use the metro as often as he likes.",
+   "gap": "season ticket",
+   "alt": [
+    "season tickets"
+   ]
+  },
+  {
+   "id": "complain_about",
+   "en": "complain about",
+   "uz": "…dan shikoyat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers often complain about the dirty seats on the night buses.",
+   "gap": "complain about",
+   "alt": [
+    "complains about",
+    "complained about",
+    "complaining about"
+   ]
+  },
+  {
+   "id": "complaint",
+   "en": "complaint",
+   "uz": "shikoyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My only complaint about the new bus is that the air conditioning is far too cold.",
+   "gap": "complaint",
+   "alt": [
+    "complaints"
+   ]
+  },
+  {
+   "id": "bus",
+   "en": "bus",
+   "uz": "avtobus",
+   "pos": "noun",
+   "img": true,
+   "ex": "The number 67 bus goes from our street all the way to the university.",
+   "gap": "bus",
+   "alt": [
+    "buses"
+   ]
+  },
+  {
+   "id": "bicycle",
+   "en": "bicycle",
+   "uz": "velosiped",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little sister's first bicycle has pink pedals, a bell and two small extra wheels so she doesn't fall over.",
+   "gap": "bicycle",
+   "alt": [
+    "bicycles",
+    "bike",
+    "bikes"
+   ]
+  },
+  {
+   "id": "train",
+   "en": "train",
+   "uz": "poyezd",
+   "pos": "noun",
+   "img": true,
+   "ex": "The train from Nukus was forty minutes late because of snow on the railway line.",
+   "gap": "train",
+   "alt": [
+    "trains"
+   ]
+  },
+  {
+   "id": "plane",
+   "en": "plane",
+   "uz": "samolyot",
+   "pos": "noun",
+   "img": true,
+   "ex": "From the window of the plane we could see the clouds below us and the wing shining in the sun.",
+   "gap": "plane",
+   "alt": [
+    "planes"
+   ]
+  },
+  {
+   "id": "taxi",
+   "en": "taxi",
+   "uz": "taksi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We waved at a yellow taxi outside the hotel, and the driver turned on the meter.",
+   "gap": "taxi",
+   "alt": [
+    "taxis"
+   ]
+  },
+  {
+   "id": "train_driver",
+   "en": "train driver",
+   "uz": "mashinist (poyezd haydovchisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The train driver sounded the horn twice as we came out of the tunnel.",
+   "gap": "train driver",
+   "alt": [
+    "train drivers"
+   ]
+  },
+  {
+   "id": "taxi_driver",
+   "en": "taxi driver",
+   "uz": "taksi haydovchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The taxi driver put our heavy suitcases in the boot and drove us to the hotel.",
+   "gap": "taxi driver",
+   "alt": [
+    "taxi drivers"
+   ]
+  },
+  {
+   "id": "fly_v",
+   "en": "fly",
+   "uz": "samolyotda uchmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It takes two days by train, so we decided to fly to Moscow instead; it is only about four hours in the air.",
+   "gap": "fly",
+   "alt": [
+    "flies",
+    "flew",
+    "flown",
+    "flying"
+   ]
+  },
+  {
+   "id": "ride_a_bike",
+   "en": "ride a bike",
+   "uz": "velosiped haydamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahnoza learnt to ride a bike when she was five, and now she cycles everywhere.",
+   "gap": "ride a bike",
+   "alt": [
+    "rides a bike",
+    "rode a bike",
+    "ridden a bike",
+    "riding a bike"
+   ]
+  },
+  {
+   "id": "get_in_car",
+   "en": "get in",
+   "uz": "(taksi, mashinaga) o‘tirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hurry up and get in the car, or we'll be late for the airport.",
+   "gap": "get in",
+   "alt": [
+    "gets in",
+    "got in",
+    "getting in"
+   ]
+  },
+  {
+   "id": "get_the_bus",
+   "en": "get the bus",
+   "uz": "avtobusda ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I usually get the bus to school, but on sunny days I walk.",
+   "gap": "get the bus",
+   "alt": [
+    "gets the bus",
+    "got the bus",
+    "getting the bus"
+   ]
+  },
+  {
+   "id": "train_station",
+   "en": "station",
+   "uz": "vokzal (temir yo‘l)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our train leaves at 7:15, so let's meet at the station at seven.",
+   "gap": "station",
+   "alt": [
+    "stations",
+    "train station"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "van",
+   "lorry"
+  ],
+  [
+   "coach",
+   "van"
+  ],
+  [
+   "fare",
+   "airfare"
+  ],
+  [
+   "journey",
+   "flight"
+  ],
+  [
+   "get_on",
+   "get_off"
+  ],
+  [
+   "get_off",
+   "get_out_of"
+  ],
+  [
+   "get_on",
+   "get_out_of"
+  ],
+  [
+   "catch",
+   "miss"
+  ],
+  [
+   "get_on",
+   "catch"
+  ],
+  [
+   "bus_stop",
+   "taxi_rank"
+  ],
+  [
+   "bus_stop",
+   "platform"
+  ],
+  [
+   "return_ticket",
+   "season_ticket"
+  ],
+  [
+   "complain_about",
+   "complaint"
+  ],
+  [
+   "go_by",
+   "cycle"
+  ],
+  [
+   "cyclist",
+   "cycle"
+  ],
+  [
+   "vehicle",
+   "lorry"
+  ],
+  [
+   "buses_run",
+   "go_by"
+  ],
+  [
+   "bus",
+   "coach"
+  ],
+  [
+   "train",
+   "coach"
+  ],
+  [
+   "bicycle",
+   "motorbike"
+  ],
+  [
+   "plane",
+   "flight"
+  ],
+  [
+   "fly_v",
+   "cycle"
+  ],
+  [
+   "ride_a_bike",
+   "cycle"
+  ],
+  [
+   "ride_a_bike",
+   "bicycle"
+  ],
+  [
+   "get_in_car",
+   "get_out_of"
+  ],
+  [
+   "get_in_car",
+   "get_on"
+  ],
+  [
+   "get_the_bus",
+   "catch"
+  ],
+  [
+   "train_station",
+   "platform"
+  ],
+  [
+   "taxi_driver",
+   "train_driver"
+  ],
+  [
+   "taxi",
+   "taxi_rank"
+  ],
+  [
+   "bicycle",
+   "cyclist"
+  ],
+  [
+   "get_the_bus",
+   "ride_a_bike"
+  ]
+ ]
+}

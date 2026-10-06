@@ -1,0 +1,325 @@
+{
+ "book": "preint",
+ "unit": 30,
+ "title": "Notices and warnings",
+ "title_uz": "E’lonlar va ogohlantirishlar",
+ "words": [
+  {
+   "id": "notice",
+   "en": "notice",
+   "uz": "e’lon (yozma xabar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a notice on the school gate: the library will be closed on Friday.",
+   "gap": "notice",
+   "alt": [
+    "notices"
+   ]
+  },
+  {
+   "id": "warning",
+   "en": "warning",
+   "uz": "ogohlantirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The weather service gave a warning about strong winds, so the outdoor concert was cancelled.",
+   "gap": "warning",
+   "alt": [
+    "warnings"
+   ]
+  },
+  {
+   "id": "out_of_order",
+   "en": "out of order",
+   "uz": "ishlamaydi (buzilgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The ticket machine at the station has been out of order all week, so everyone pays at the window.",
+   "gap": "out of order",
+   "alt": []
+  },
+  {
+   "id": "vending_machine",
+   "en": "vending machine",
+   "uz": "savdo avtomati",
+   "pos": "noun",
+   "img": true,
+   "ex": "I put a coin in the vending machine, but no drink came out.",
+   "gap": "vending machine",
+   "alt": [
+    "vending machines"
+   ]
+  },
+  {
+   "id": "no_vacancies",
+   "en": "no vacancies",
+   "uz": "bo‘sh xona yo‘q (mehmonxonada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every hotel in the old town had a 'No vacancies' sign because of the music festival.",
+   "gap": "No vacancies",
+   "alt": []
+  },
+  {
+   "id": "sold_out",
+   "en": "sold out",
+   "uz": "chiptalar sotilib bo‘lgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We wanted to see the concert, but it was sold out a week before.",
+   "gap": "sold out",
+   "alt": []
+  },
+  {
+   "id": "admission_free",
+   "en": "free admission",
+   "uz": "kirish bepul",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The sign outside the museum said 'Free admission', so we went in without buying tickets.",
+   "gap": "Free admission",
+   "alt": [
+    "admission free"
+   ]
+  },
+  {
+   "id": "queue_other_side",
+   "en": "please queue other side",
+   "uz": "navbatga narigi tomondan turing",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the post office a sign said 'Please queue other side', so we moved to the far end of the counter.",
+   "gap": "Please queue other side",
+   "alt": []
+  },
+  {
+   "id": "keep_right",
+   "en": "keep right",
+   "uz": "o‘ng tomondan yuring",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On the escalator in the shopping centre a sign says 'Keep right', so people stand on one side and others can walk past.",
+   "gap": "Keep right",
+   "alt": []
+  },
+  {
+   "id": "keep_off_the_grass",
+   "en": "keep off the grass",
+   "uz": "maysaga kirmang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We wanted to play football in the park, but there were signs everywhere saying 'Keep off the grass'.",
+   "gap": "Keep off the grass",
+   "alt": []
+  },
+  {
+   "id": "exam_in_progress",
+   "en": "examination in progress",
+   "uz": "imtihon ketmoqda (jim bo‘ling)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The sign on the hall door says 'Silence: examination in progress', so please don't knock.",
+   "gap": "examination in progress",
+   "alt": [
+    "exam in progress"
+   ]
+  },
+  {
+   "id": "no_parking",
+   "en": "no parking",
+   "uz": "mashina qo‘yish taqiqlangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A traffic officer gave Dad a fine because he left the car under a 'No parking' sign.",
+   "gap": "No parking",
+   "alt": []
+  },
+  {
+   "id": "no_exit",
+   "en": "no exit",
+   "uz": "chiqish yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The side door of the supermarket says 'No exit', so customers have to leave through the main doors.",
+   "gap": "No exit",
+   "alt": []
+  },
+  {
+   "id": "no_entry",
+   "en": "no entry",
+   "uz": "kirish taqiqlangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The kitchen door had a 'No entry' sign, because only the cooks were allowed in.",
+   "gap": "No entry",
+   "alt": []
+  },
+  {
+   "id": "do_not_disturb",
+   "en": "do not disturb",
+   "uz": "bezovta qilmang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When my brother is preparing for his exams, he hangs a 'Do not disturb' sign on his bedroom door.",
+   "gap": "Do not disturb",
+   "alt": []
+  },
+  {
+   "id": "unattended",
+   "en": "unattended",
+   "uz": "qarovsiz (egasiz qoldirilgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the airport they tell you never to leave your luggage unattended, even for a minute.",
+   "gap": "unattended",
+   "alt": []
+  },
+  {
+   "id": "do_not_feed_animals",
+   "en": "do not feed the animals",
+   "uz": "hayvonlarga ovqat bermang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The sign next to the monkeys says 'Do not feed the animals', but some visitors still throw them bread.",
+   "gap": "Do not feed the animals",
+   "alt": []
+  },
+  {
+   "id": "lean_out",
+   "en": "lean out",
+   "uz": "(derazadan) tashqariga engashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the old train there was a sign saying 'Do not lean out of the window', but my little brother still put his head out.",
+   "gap": "lean out",
+   "alt": [
+    "leans out",
+    "leaned out",
+    "leant out",
+    "leaning out"
+   ]
+  },
+  {
+   "id": "mind_your_head",
+   "en": "mind your head",
+   "uz": "boshingizni ehtiyot qiling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The door to the old cellar is very low, and someone has painted 'Mind your head' above it.",
+   "gap": "Mind your head",
+   "alt": []
+  },
+  {
+   "id": "mind_the_step",
+   "en": "mind the step",
+   "uz": "pog‘onaga ehtiyot bo‘ling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's a 'Mind the step' sign by the café door, because the floor inside is lower than the street.",
+   "gap": "Mind the step",
+   "alt": []
+  },
+  {
+   "id": "parcel",
+   "en": "parcel",
+   "uz": "posilka (pochta jo‘natmasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A big parcel arrived from my cousin in Nukus with dried apricots and a warm hat for me.",
+   "gap": "parcel",
+   "alt": [
+    "parcels"
+   ]
+  },
+  {
+   "id": "fragile",
+   "en": "fragile",
+   "uz": "mo‘rt (tez sinadi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We wrote 'Fragile' in big letters on the box with the glass vases so the courier would carry it carefully.",
+   "gap": "Fragile",
+   "alt": []
+  },
+  {
+   "id": "underground",
+   "en": "underground",
+   "uz": "metro (yer osti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In London people call the underground 'the Tube', and its oldest line opened in 1863.",
+   "gap": "underground",
+   "alt": []
+  },
+  {
+   "id": "post_office",
+   "en": "post office",
+   "uz": "pochta bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I took the parcel to the post office and sent it to my friend in Kazan.",
+   "gap": "post office",
+   "alt": [
+    "post offices"
+   ]
+  },
+  {
+   "id": "bank_money",
+   "en": "bank",
+   "uz": "bank (moliya muassasasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank gave Rustam a loan to buy his first car.",
+   "gap": "bank",
+   "alt": [
+    "banks"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "notice",
+   "warning"
+  ],
+  [
+   "no_vacancies",
+   "sold_out"
+  ],
+  [
+   "no_exit",
+   "no_entry"
+  ],
+  [
+   "mind_your_head",
+   "mind_the_step"
+  ],
+  [
+   "keep_right",
+   "keep_off_the_grass"
+  ],
+  [
+   "no_parking",
+   "no_entry"
+  ],
+  [
+   "out_of_order",
+   "sold_out"
+  ],
+  [
+   "do_not_disturb",
+   "exam_in_progress"
+  ],
+  [
+   "do_not_disturb",
+   "no_entry"
+  ],
+  [
+   "unattended",
+   "fragile"
+  ],
+  [
+   "post_office",
+   "bank_money"
+  ]
+ ]
+}

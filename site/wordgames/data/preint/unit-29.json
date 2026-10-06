@@ -1,0 +1,490 @@
+{
+ "book": "preint",
+ "unit": 29,
+ "title": "On the road",
+ "title_uz": "Yo‘lda",
+ "words": [
+  {
+   "id": "traffic_lights",
+   "en": "traffic lights",
+   "uz": "svetofor",
+   "pos": "noun",
+   "img": true,
+   "ex": "The traffic lights outside our school were broken, so a police officer stopped the cars by hand.",
+   "gap": "traffic lights",
+   "alt": [
+    "traffic light"
+   ]
+  },
+  {
+   "id": "junction",
+   "en": "junction",
+   "uz": "chorraha (yo‘llar kesishgan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Turn left at the next junction, and you'll see our school on the right.",
+   "gap": "junction",
+   "alt": [
+    "junctions"
+   ]
+  },
+  {
+   "id": "bend",
+   "en": "bend",
+   "uz": "yo‘lning egilgan joyi (muyulish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Slow down! There's a sharp bend in the road ahead, and you can't see what's coming.",
+   "gap": "bend",
+   "alt": [
+    "bends"
+   ]
+  },
+  {
+   "id": "overtake",
+   "en": "overtake",
+   "uz": "quvib o‘tmoq (mashinani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's dangerous to overtake a lorry on a narrow mountain road.",
+   "gap": "overtake",
+   "alt": [
+    "overtakes",
+    "overtook",
+    "overtaking",
+    "overtaken"
+   ]
+  },
+  {
+   "id": "speed_limit",
+   "en": "speed limit",
+   "uz": "tezlik chegarasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Drivers who go over the speed limit get a fine sent straight to their phones.",
+   "gap": "speed limit",
+   "alt": [
+    "speed limits"
+   ]
+  },
+  {
+   "id": "road_sign",
+   "en": "road sign",
+   "uz": "yo‘l belgisi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Learner drivers have to know what every road sign means before they take their test.",
+   "gap": "road sign",
+   "alt": [
+    "road signs"
+   ]
+  },
+  {
+   "id": "pedestrian_crossing",
+   "en": "pedestrian crossing",
+   "uz": "piyodalar o‘tish joyi (zebra)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Last week workers painted a new pedestrian crossing with bright white stripes outside the kindergarten.",
+   "gap": "pedestrian crossing",
+   "alt": [
+    "pedestrian crossings"
+   ]
+  },
+  {
+   "id": "bridge",
+   "en": "bridge",
+   "uz": "ko‘prik",
+   "pos": "noun",
+   "img": true,
+   "ex": "We stood on the bridge and watched the water rushing over the rocks below.",
+   "gap": "bridge",
+   "alt": [
+    "bridges"
+   ]
+  },
+  {
+   "id": "motorway",
+   "en": "motorway",
+   "uz": "avtomagistral (katta tezyurar yo‘l)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In Germany we drove for six hours on the motorway and stopped only twice for petrol.",
+   "gap": "motorway",
+   "alt": [
+    "motorways"
+   ]
+  },
+  {
+   "id": "slow_lane",
+   "en": "slow lane",
+   "uz": "sekin harakat qatori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our old car can't go very fast, so Dad always stays in the slow lane.",
+   "gap": "slow lane",
+   "alt": []
+  },
+  {
+   "id": "fast_lane",
+   "en": "fast lane",
+   "uz": "tezkor harakat qatori",
+   "pos": "noun",
+   "img": false,
+   "ex": "A police car with its siren on raced past us in the fast lane.",
+   "gap": "fast lane",
+   "alt": []
+  },
+  {
+   "id": "get_lost",
+   "en": "get lost",
+   "uz": "adashib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We got lost in the narrow streets of the old city and had to use the map on my phone.",
+   "gap": "got lost",
+   "alt": [
+    "gets lost",
+    "got lost",
+    "getting lost"
+   ]
+  },
+  {
+   "id": "on_my_way_to",
+   "en": "on my way to",
+   "uz": "(…)ga ketayotib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I lost my umbrella on my way to school this morning.",
+   "gap": "on my way to",
+   "alt": [
+    "on the way to",
+    "on her way to",
+    "on his way to",
+    "on our way to",
+    "on your way to"
+   ]
+  },
+  {
+   "id": "via",
+   "en": "via",
+   "uz": "orqali (…dan o‘tib)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The bus to Samarkand goes via Gulistan, where it stops for twenty minutes.",
+   "gap": "via",
+   "alt": []
+  },
+  {
+   "id": "turning",
+   "en": "turning",
+   "uz": "burilish (yon yo‘lga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Take the second turning on the left after the bakery, and our house is the third one.",
+   "gap": "turning",
+   "alt": [
+    "turnings"
+   ]
+  },
+  {
+   "id": "end_up",
+   "en": "end up",
+   "uz": "oxiri (kutilmagan joyga) borib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We took the wrong bus and ended up on the other side of the city.",
+   "gap": "ended up",
+   "alt": [
+    "ends up",
+    "ended up",
+    "ending up"
+   ]
+  },
+  {
+   "id": "ask_the_way",
+   "en": "ask the way",
+   "uz": "yo‘l so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the GPS stopped working, we stopped at a petrol station to ask the way.",
+   "gap": "ask the way",
+   "alt": [
+    "asks the way",
+    "asked the way",
+    "asking the way"
+   ]
+  },
+  {
+   "id": "direct",
+   "en": "direct",
+   "uz": "yo‘l ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A police officer directed us to the car park behind the stadium.",
+   "gap": "directed",
+   "alt": [
+    "directs",
+    "directed",
+    "directing"
+   ]
+  },
+  {
+   "id": "main_road",
+   "en": "main road",
+   "uz": "katta (asosiy) ko‘cha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our house is in a quiet side street, but there are shops and buses on the main road two minutes away.",
+   "gap": "main road",
+   "alt": [
+    "main roads"
+   ]
+  },
+  {
+   "id": "pedestrian",
+   "en": "pedestrian",
+   "uz": "piyoda (yayov yuruvchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This street is only for pedestrians, so cars and motorbikes can't use it.",
+   "gap": "pedestrians",
+   "alt": [
+    "pedestrians"
+   ]
+  },
+  {
+   "id": "pavement",
+   "en": "pavement",
+   "uz": "trotuar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Parents with prams can't use the pavement when drivers leave their cars on it.",
+   "gap": "pavement",
+   "alt": [
+    "pavements",
+    "sidewalk"
+   ]
+  },
+  {
+   "id": "approach",
+   "en": "approach",
+   "uz": "yaqinlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As the train was approaching the station, everyone stood up and took their bags.",
+   "gap": "approaching",
+   "alt": [
+    "approaches",
+    "approached",
+    "approaching"
+   ]
+  },
+  {
+   "id": "brake",
+   "en": "brake",
+   "uz": "tormoz bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A cat ran into the road, and the driver braked so hard that the car stopped with a loud screech.",
+   "gap": "braked",
+   "alt": [
+    "brakes",
+    "braked",
+    "braking"
+   ]
+  },
+  {
+   "id": "swerve",
+   "en": "swerve",
+   "uz": "keskin chetga burilib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus swerved suddenly to the left to avoid a dog and nearly hit a tree.",
+   "gap": "swerved",
+   "alt": [
+    "swerves",
+    "swerved",
+    "swerving"
+   ]
+  },
+  {
+   "id": "crash_into",
+   "en": "crash into",
+   "uz": "…ga urilib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The boy wasn't looking where he was going and crashed into a lamp post on his scooter.",
+   "gap": "crashed into",
+   "alt": [
+    "crashes into",
+    "crashed into",
+    "crashing into"
+   ]
+  },
+  {
+   "id": "parked_car",
+   "en": "parked car",
+   "uz": "to‘xtab turgan mashina",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children often run out from between parked cars, so please drive slowly near the school.",
+   "gap": "parked cars",
+   "alt": [
+    "parked cars"
+   ]
+  },
+  {
+   "id": "damage",
+   "en": "damage",
+   "uz": "shikast yetkazmoq (narsaga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The storm damaged the roof of the school gym, so PE lessons were moved outside.",
+   "gap": "damaged",
+   "alt": [
+    "damages",
+    "damaged",
+    "damaging"
+   ]
+  },
+  {
+   "id": "injure",
+   "en": "injure",
+   "uz": "jarohatlamoq (odamni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus slid on the ice, but luckily none of the passengers were injured.",
+   "gap": "injured",
+   "alt": [
+    "injures",
+    "injured",
+    "injuring"
+   ]
+  },
+  {
+   "id": "injury",
+   "en": "injury",
+   "uz": "jarohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our goalkeeper missed three matches because of a knee injury.",
+   "gap": "injury",
+   "alt": [
+    "injuries"
+   ]
+  },
+  {
+   "id": "accident",
+   "en": "accident",
+   "uz": "avariya (yo‘l hodisasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was an accident at the crossroads this morning, so the police closed the road for an hour.",
+   "gap": "accident",
+   "alt": [
+    "accidents"
+   ]
+  },
+  {
+   "id": "damage_n",
+   "en": "damage",
+   "uz": "zarar (buyumga yetgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The flood caused serious damage to the houses near the river.",
+   "gap": "damage",
+   "alt": []
+  },
+  {
+   "id": "inside_lane",
+   "en": "inside lane",
+   "uz": "ichki qator (sekin harakat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy lorries must stay in the inside lane of the motorway and drive slowly.",
+   "gap": "inside lane",
+   "alt": []
+  },
+  {
+   "id": "outside_lane",
+   "en": "outside lane",
+   "uz": "tashqi qator (quvib o‘tish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On British motorways you use the outside lane to overtake and then move back to the left.",
+   "gap": "outside lane",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "junction",
+   "turning"
+  ],
+  [
+   "bend",
+   "turning"
+  ],
+  [
+   "slow_lane",
+   "fast_lane"
+  ],
+  [
+   "motorway",
+   "main_road"
+  ],
+  [
+   "motorway",
+   "junction"
+  ],
+  [
+   "brake",
+   "swerve"
+  ],
+  [
+   "get_lost",
+   "end_up"
+  ],
+  [
+   "ask_the_way",
+   "direct"
+  ],
+  [
+   "overtake",
+   "swerve"
+  ],
+  [
+   "injury",
+   "accident"
+  ],
+  [
+   "traffic_lights",
+   "road_sign"
+  ],
+  [
+   "pedestrian_crossing",
+   "pavement"
+  ],
+  [
+   "damage_n",
+   "damage"
+  ],
+  [
+   "damage_n",
+   "injury"
+  ],
+  [
+   "inside_lane",
+   "slow_lane"
+  ],
+  [
+   "outside_lane",
+   "fast_lane"
+  ],
+  [
+   "inside_lane",
+   "outside_lane"
+  ]
+ ]
+}

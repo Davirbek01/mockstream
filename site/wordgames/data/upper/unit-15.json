@@ -1,0 +1,546 @@
+{
+ "book": "upper",
+ "unit": 15,
+ "title": "Higher education",
+ "title_uz": "Oliy ta’lim",
+ "words": [
+  {
+   "id": "undergraduate",
+   "en": "undergraduate",
+   "uz": "bakalavriat talabasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only seventeen and in the first year of his bachelor's course, Diyor is the youngest undergraduate in the faculty.",
+   "gap": "undergraduate",
+   "alt": [
+    "undergraduates",
+    "undergrad"
+   ]
+  },
+  {
+   "id": "bachelors_degree",
+   "en": "bachelor's degree",
+   "uz": "bakalavr darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After four years of study, she got a bachelor's degree in computer science and found her first job at a bank in Samarkand.",
+   "gap": "bachelor's degree",
+   "alt": [
+    "bachelor's degrees"
+   ]
+  },
+  {
+   "id": "module",
+   "en": "module",
+   "uz": "modul (kurs qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This semester I'm taking four modules, including one on marketing and one on statistics.",
+   "gap": "modules",
+   "alt": [
+    "modules"
+   ]
+  },
+  {
+   "id": "credits",
+   "en": "credits",
+   "uz": "kredit (o‘quv birligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each module is worth 15 credits, and you need 120 to complete the year.",
+   "gap": "credits",
+   "alt": [
+    "credit"
+   ]
+  },
+  {
+   "id": "dissertation",
+   "en": "dissertation",
+   "uz": "bitiruv ishi (bakalavr, magistr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For her master's, Nodira wrote a 15,000-word dissertation on water use in the Aral Sea region.",
+   "gap": "dissertation",
+   "alt": [
+    "dissertations"
+   ]
+  },
+  {
+   "id": "graduate_v",
+   "en": "graduate",
+   "uz": "o‘qishni bitirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Kamola graduated from medical school in June and is now working at a hospital in Andijan.",
+   "gap": "graduated",
+   "alt": [
+    "graduates",
+    "graduated"
+   ]
+  },
+  {
+   "id": "graduate_n",
+   "en": "graduate",
+   "uz": "oliygoh bitiruvchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many recent graduates find it hard to get a job in their field during the first year after university.",
+   "gap": "graduates",
+   "alt": [
+    "graduates"
+   ]
+  },
+  {
+   "id": "postgraduate",
+   "en": "postgraduate",
+   "uz": "magistrant yoki doktorant",
+   "pos": "noun",
+   "img": false,
+   "ex": "Now a postgraduate, she already has her first degree and is studying for a master's in international law.",
+   "gap": "postgraduate",
+   "alt": [
+    "postgraduates",
+    "postgrad"
+   ]
+  },
+  {
+   "id": "masters_degree",
+   "en": "master's degree",
+   "uz": "magistr darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After his first degree, Aziz did a one-year master's degree in Edinburgh.",
+   "gap": "master's degree",
+   "alt": [
+    "master's degrees",
+    "master's"
+   ]
+  },
+  {
+   "id": "phd",
+   "en": "PhD",
+   "uz": "falsafa doktori (PhD) darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dr Usmonova got her PhD after four years of studying cotton diseases.",
+   "gap": "PhD",
+   "alt": [
+    "PhDs"
+   ]
+  },
+  {
+   "id": "specialise",
+   "en": "specialise",
+   "uz": "ixtisoslashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In their later years, medical students can specialise in areas such as surgery or children's health.",
+   "gap": "specialise",
+   "alt": [
+    "specialize",
+    "specialises",
+    "specialised"
+   ]
+  },
+  {
+   "id": "research",
+   "en": "research",
+   "uz": "ilmiy tadqiqot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists at the university are doing research into new kinds of wheat that need less water.",
+   "gap": "research",
+   "alt": []
+  },
+  {
+   "id": "thesis",
+   "en": "thesis",
+   "uz": "doktorlik dissertatsiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After five years, he finally handed in his 300-page PhD thesis on Silk Road trade.",
+   "gap": "thesis",
+   "alt": [
+    "theses"
+   ]
+  },
+  {
+   "id": "campus",
+   "en": "campus",
+   "uz": "universitet shaharchasi (kampus)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new campus has its own library, sports centre and three cafés, so students rarely need to leave it.",
+   "gap": "campus",
+   "alt": [
+    "campuses"
+   ]
+  },
+  {
+   "id": "lecture_theatre",
+   "en": "lecture theatre",
+   "uz": "ma’ruza zali",
+   "pos": "noun",
+   "img": true,
+   "ex": "Over two hundred first-year students fill the lecture theatre every Monday morning for economics.",
+   "gap": "lecture theatre",
+   "alt": [
+    "lecture hall",
+    "lecture theatres"
+   ]
+  },
+  {
+   "id": "lecture",
+   "en": "lecture",
+   "uz": "ma’ruza",
+   "pos": "noun",
+   "img": false,
+   "ex": "The professor's lecture on black holes drew four hundred students, and some had to sit on the stairs.",
+   "gap": "lecture",
+   "alt": [
+    "lectures"
+   ]
+  },
+  {
+   "id": "lecturer",
+   "en": "lecturer",
+   "uz": "ma’ruza o‘qituvchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our physics lecturer explains difficult ideas with simple experiments in front of the whole hall.",
+   "gap": "lecturer",
+   "alt": [
+    "lecturers"
+   ]
+  },
+  {
+   "id": "take_notes",
+   "en": "take notes",
+   "uz": "konspekt qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "During the talk, I took notes on my laptop so I could revise from them later.",
+   "gap": "took notes",
+   "alt": [
+    "took notes",
+    "taking notes",
+    "takes notes"
+   ]
+  },
+  {
+   "id": "seminar",
+   "en": "seminar",
+   "uz": "seminar mashg‘uloti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Thursday's seminar, twelve of us discussed the week's reading in detail.",
+   "gap": "seminar",
+   "alt": [
+    "seminars"
+   ]
+  },
+  {
+   "id": "academic_staff",
+   "en": "academic staff",
+   "uz": "professor-o‘qituvchilar tarkibi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The university employs over 600 academic staff, from young assistants to senior professors.",
+   "gap": "academic staff",
+   "alt": []
+  },
+  {
+   "id": "tutor",
+   "en": "tutor",
+   "uz": "tyutor (yakka/kichik guruh ustozi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each week I meet my tutor with two other students to discuss our essays in detail.",
+   "gap": "tutor",
+   "alt": [
+    "tutors"
+   ]
+  },
+  {
+   "id": "tutorial",
+   "en": "tutorial",
+   "uz": "yakka yoki kichik guruh darsi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a one-to-one tutorial, the professor went through my essay line by line.",
+   "gap": "tutorial",
+   "alt": [
+    "tutorials"
+   ]
+  },
+  {
+   "id": "halls_of_residence",
+   "en": "halls of residence",
+   "uz": "talabalar yotoqxonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In my first year I lived in halls of residence, just five minutes' walk from the library.",
+   "gap": "halls of residence",
+   "alt": [
+    "halls"
+   ]
+  },
+  {
+   "id": "admissions",
+   "en": "admissions",
+   "uz": "qabul bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you have a question about your application, email the admissions office.",
+   "gap": "admissions",
+   "alt": []
+  },
+  {
+   "id": "entry_requirements",
+   "en": "entry requirements",
+   "uz": "qabul talablari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Check the entry requirements carefully: this course asks for IELTS 6.5 and a school certificate.",
+   "gap": "entry requirements",
+   "alt": []
+  },
+  {
+   "id": "funding",
+   "en": "funding",
+   "uz": "moliyalashtirish (mablag‘)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lab lost its government funding, so two of its research projects had to stop.",
+   "gap": "funding",
+   "alt": []
+  },
+  {
+   "id": "tuition_fees",
+   "en": "tuition fees",
+   "uz": "o‘qish to‘lovi (kontrakt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At private universities in Tashkent, tuition fees can be several thousand dollars a year.",
+   "gap": "tuition fees",
+   "alt": [
+    "tuition fee"
+   ]
+  },
+  {
+   "id": "student_loan",
+   "en": "student loan",
+   "uz": "ta’lim krediti (qarz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He paid for his course with a student loan and will pay it back once he starts earning.",
+   "gap": "student loan",
+   "alt": [
+    "student loans"
+   ]
+  },
+  {
+   "id": "scholarship",
+   "en": "scholarship",
+   "uz": "a’lochiga beriladigan o‘qish granti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to her excellent results, Malika won a full scholarship, so her studies cost her nothing.",
+   "gap": "scholarship",
+   "alt": [
+    "scholarships"
+   ]
+  },
+  {
+   "id": "student_union",
+   "en": "student union",
+   "uz": "talabalar ittifoqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The student union runs clubs for chess, film, hiking and volunteering.",
+   "gap": "student union",
+   "alt": [
+    "student unions"
+   ]
+  },
+  {
+   "id": "programme",
+   "en": "programme",
+   "uz": "o‘quv dasturi (yo‘nalish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feruza has applied for a two-year nursing programme that includes long placements in local hospitals.",
+   "gap": "programme",
+   "alt": [
+    "programmes",
+    "program"
+   ]
+  },
+  {
+   "id": "academic_year",
+   "en": "academic year",
+   "uz": "o‘quv yili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In most British universities, the academic year starts in late September and ends in June.",
+   "gap": "academic year",
+   "alt": [
+    "academic years"
+   ]
+  },
+  {
+   "id": "application_uni",
+   "en": "application",
+   "uz": "ariza (o‘qishga kirish uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Universities receive thousands of applications each spring, so it's important to send yours before the deadline.",
+   "gap": "applications",
+   "alt": [
+    "applications"
+   ]
+  },
+  {
+   "id": "student_society",
+   "en": "student society",
+   "uz": "talabalar to‘garagi (jamiyati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every September, each student society sets up a stall at the freshers' fair to attract new members, from chess to salsa.",
+   "gap": "student society",
+   "alt": [
+    "student societies"
+   ]
+  },
+  {
+   "id": "field",
+   "en": "field",
+   "uz": "soha (ilmiy yo‘nalish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Professor Rahimova is one of the leading experts in her field, and scientists from many countries ask for her advice.",
+   "gap": "field",
+   "alt": [
+    "fields"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "undergraduate",
+   "postgraduate"
+  ],
+  [
+   "bachelors_degree",
+   "masters_degree"
+  ],
+  [
+   "masters_degree",
+   "phd"
+  ],
+  [
+   "bachelors_degree",
+   "phd"
+  ],
+  [
+   "dissertation",
+   "thesis"
+  ],
+  [
+   "research",
+   "thesis"
+  ],
+  [
+   "research",
+   "dissertation"
+  ],
+  [
+   "graduate_n",
+   "undergraduate"
+  ],
+  [
+   "graduate_n",
+   "postgraduate"
+  ],
+  [
+   "graduate_v",
+   "graduate_n"
+  ],
+  [
+   "module",
+   "credits"
+  ],
+  [
+   "module",
+   "seminar"
+  ],
+  [
+   "lecture",
+   "lecture_theatre"
+  ],
+  [
+   "lecture",
+   "seminar"
+  ],
+  [
+   "lecture",
+   "tutorial"
+  ],
+  [
+   "seminar",
+   "tutorial"
+  ],
+  [
+   "lecturer",
+   "tutor"
+  ],
+  [
+   "lecturer",
+   "academic_staff"
+  ],
+  [
+   "tutor",
+   "academic_staff"
+  ],
+  [
+   "student_loan",
+   "scholarship"
+  ],
+  [
+   "funding",
+   "scholarship"
+  ],
+  [
+   "funding",
+   "student_loan"
+  ],
+  [
+   "funding",
+   "tuition_fees"
+  ],
+  [
+   "tuition_fees",
+   "student_loan"
+  ],
+  [
+   "campus",
+   "halls_of_residence"
+  ],
+  [
+   "programme",
+   "module"
+  ],
+  [
+   "application_uni",
+   "admissions"
+  ],
+  [
+   "student_society",
+   "student_union"
+  ],
+  [
+   "academic_year",
+   "programme"
+  ]
+ ]
+}

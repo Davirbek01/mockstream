@@ -1,0 +1,188 @@
+{
+ "book": "elementary",
+ "unit": 50,
+ "title": "Conjunctions and connecting words",
+ "title_uz": "Bog‘lovchilar va bog‘lovchi so‘zlar",
+ "words": [
+  {
+   "id": "and",
+   "en": "and",
+   "uz": "va",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Sardor plays both volleyball and basketball at the sports centre.",
+   "gap": "and",
+   "alt": []
+  },
+  {
+   "id": "but",
+   "en": "but",
+   "uz": "lekin",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Thanks for inviting me, but I can't come to your party on Saturday.",
+   "gap": "but",
+   "alt": []
+  },
+  {
+   "id": "or",
+   "en": "or",
+   "uz": "yoki",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Is the maths test on Tuesday or Wednesday? I can't remember which day.",
+   "gap": "or",
+   "alt": []
+  },
+  {
+   "id": "because",
+   "en": "because",
+   "uz": "chunki",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Mum asked why I was so tired, and I told her it was because I went to bed after midnight.",
+   "gap": "because",
+   "alt": []
+  },
+  {
+   "id": "so",
+   "en": "so",
+   "uz": "shuning uchun",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "I didn't have breakfast this morning, so I'm really hungry now.",
+   "gap": "so",
+   "alt": []
+  },
+  {
+   "id": "when",
+   "en": "when",
+   "uz": "… -ganda (qachonki)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "I first saw the sea when I was seven, on a family holiday in Turkey.",
+   "gap": "when",
+   "alt": []
+  },
+  {
+   "id": "before",
+   "en": "before",
+   "uz": "… -dan oldin",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "We got to the cinema ten minutes before the film started, so we had time to buy some water.",
+   "gap": "before",
+   "alt": []
+  },
+  {
+   "id": "after",
+   "en": "after",
+   "uz": "… -dan keyin",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Bekzod was late again: he ran into the classroom ten minutes after the lesson had started.",
+   "gap": "after",
+   "alt": []
+  },
+  {
+   "id": "if",
+   "en": "if",
+   "uz": "agar",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "We'll go to the mountains on Sunday if it doesn't rain.",
+   "gap": "if",
+   "alt": []
+  },
+  {
+   "id": "only",
+   "en": "only",
+   "uz": "faqat / atigi",
+   "pos": "adverb",
+   "img": false,
+   "ex": "There are only four pupils in the drama club this year, so we need more actors.",
+   "gap": "only",
+   "alt": []
+  },
+  {
+   "id": "like_prep",
+   "en": "like",
+   "uz": "… -ga o‘xshab / kabi",
+   "pos": "preposition",
+   "img": false,
+   "ex": "My little brother sings like a real pop star when he's in the shower.",
+   "gap": "like",
+   "alt": []
+  },
+  {
+   "id": "than",
+   "en": "than",
+   "uz": "… -dan (ko‘ra)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "My brother is two years older than me, but I'm taller.",
+   "gap": "than",
+   "alt": []
+  },
+  {
+   "id": "also",
+   "en": "also",
+   "uz": "shuningdek",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Nilufar plays the piano, and she also sings in the school choir, so she's very busy after school.",
+   "gap": "also",
+   "alt": []
+  },
+  {
+   "id": "too",
+   "en": "too",
+   "uz": "ham",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Hasan has a hamster at home, and his cousin has one too.",
+   "gap": "too",
+   "alt": []
+  },
+  {
+   "id": "as_well",
+   "en": "as well",
+   "uz": "ham (gap oxirida)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Dilnoza bought a new dress for the concert, and she got some shoes as well.",
+   "gap": "as well",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "also",
+   "too"
+  ],
+  [
+   "also",
+   "as_well"
+  ],
+  [
+   "too",
+   "as_well"
+  ],
+  [
+   "and",
+   "so"
+  ],
+  [
+   "when",
+   "before"
+  ],
+  [
+   "when",
+   "after"
+  ],
+  [
+   "when",
+   "if"
+  ]
+ ]
+}

@@ -1,0 +1,276 @@
+{
+ "book": "elementary",
+ "unit": 17,
+ "title": "Your phone",
+ "title_uz": "Telefoningiz",
+ "words": [
+  {
+   "id": "camera",
+   "en": "camera",
+   "uz": "kamera",
+   "pos": "noun",
+   "img": true,
+   "ex": "The camera on the back of my phone takes sharp photos even at night.",
+   "gap": "camera",
+   "alt": []
+  },
+  {
+   "id": "battery",
+   "en": "battery",
+   "uz": "batareya",
+   "pos": "noun",
+   "img": true,
+   "ex": "My battery is at 5%, so I need to charge my phone soon.",
+   "gap": "battery",
+   "alt": []
+  },
+  {
+   "id": "phone_case",
+   "en": "phone case",
+   "uz": "telefon g‘ilofi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I dropped my phone on the metro steps, but the thick phone case saved it.",
+   "gap": "phone case",
+   "alt": []
+  },
+  {
+   "id": "app",
+   "en": "app",
+   "uz": "ilova (dastur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I use a weather app to check if I need an umbrella before school.",
+   "gap": "app",
+   "alt": [
+    "apps"
+   ]
+  },
+  {
+   "id": "power_button",
+   "en": "power button",
+   "uz": "yoqish tugmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Press and hold the power button for three seconds to turn on the phone.",
+   "gap": "power button",
+   "alt": []
+  },
+  {
+   "id": "charger",
+   "en": "charger",
+   "uz": "zaryadlovchi qurilma",
+   "pos": "noun",
+   "img": false,
+   "ex": "I left my charger at home, and now my phone is dead.",
+   "gap": "charger",
+   "alt": []
+  },
+  {
+   "id": "sim_card",
+   "en": "SIM card",
+   "uz": "SIM-karta",
+   "pos": "noun",
+   "img": true,
+   "ex": "When my cousin arrived in Tashkent from Seoul, she bought a local SIM card at the airport.",
+   "gap": "SIM card",
+   "alt": [
+    "sim card"
+   ]
+  },
+  {
+   "id": "selfie",
+   "en": "selfie",
+   "uz": "selfi (o‘zini suratga olish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We took a selfie in front of the Tashkent TV Tower.",
+   "gap": "selfie",
+   "alt": [
+    "selfies"
+   ]
+  },
+  {
+   "id": "post_online",
+   "en": "post",
+   "uz": "(internetga) joylamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "She posted the photos of her trip online, and her friends liked them at once.",
+   "gap": "posted",
+   "alt": [
+    "posts",
+    "posted"
+   ]
+  },
+  {
+   "id": "answer",
+   "en": "answer",
+   "uz": "(telefonga) javob bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Why didn't you answer your phone? I called you five times!",
+   "gap": "answer",
+   "alt": [
+    "answered"
+   ]
+  },
+  {
+   "id": "text",
+   "en": "text",
+   "uz": "SMS yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'll text you when my train arrives, so you can meet me at the station.",
+   "gap": "text",
+   "alt": [
+    "texted",
+    "texts"
+   ]
+  },
+  {
+   "id": "message",
+   "en": "message",
+   "uz": "xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've got a new message from my teacher: our lesson starts at nine tomorrow.",
+   "gap": "message",
+   "alt": [
+    "messages"
+   ]
+  },
+  {
+   "id": "download",
+   "en": "download",
+   "uz": "yuklab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The film is big, so download it at home on Wi-Fi before the long bus trip.",
+   "gap": "download",
+   "alt": [
+    "downloaded"
+   ]
+  },
+  {
+   "id": "call",
+   "en": "call",
+   "uz": "qo‘ng‘iroq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last night I called a taxi company and asked for a car to the airport.",
+   "gap": "called",
+   "alt": [
+    "called",
+    "calls"
+   ]
+  },
+  {
+   "id": "pin",
+   "en": "PIN",
+   "uz": "PIN-kod",
+   "pos": "noun",
+   "img": false,
+   "ex": "Type your four-digit PIN to unlock the phone.",
+   "gap": "PIN",
+   "alt": [
+    "pin",
+    "PIN code"
+   ]
+  },
+  {
+   "id": "locked",
+   "en": "locked",
+   "uz": "qulflangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I can't read your message because your phone is locked.",
+   "gap": "locked",
+   "alt": []
+  },
+  {
+   "id": "unlock",
+   "en": "unlock",
+   "uz": "qulfdan ochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Look at the screen, and the phone will unlock with your face.",
+   "gap": "unlock",
+   "alt": []
+  },
+  {
+   "id": "swipe",
+   "en": "swipe",
+   "uz": "(barmoq bilan) surmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To see the next photo, just swipe left.",
+   "gap": "swipe",
+   "alt": []
+  },
+  {
+   "id": "save",
+   "en": "save",
+   "uz": "saqlamoq (xotiraga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't forget to save her number in your phone, or you'll lose it.",
+   "gap": "save",
+   "alt": [
+    "saved"
+   ]
+  },
+  {
+   "id": "delete",
+   "en": "delete",
+   "uz": "o‘chirmoq (ma’lumotni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I sent the wrong photo to the class group, so I quickly deleted it.",
+   "gap": "deleted",
+   "alt": [
+    "deleted"
+   ]
+  },
+  {
+   "id": "memory",
+   "en": "memory",
+   "uz": "xotira (telefon xotirasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This phone has 256 GB of memory, so you can keep thousands of photos.",
+   "gap": "memory",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "text",
+   "message"
+  ],
+  [
+   "battery",
+   "charger"
+  ],
+  [
+   "save",
+   "download"
+  ],
+  [
+   "message",
+   "email"
+  ],
+  [
+   "message",
+   "text_message"
+  ],
+  [
+   "message",
+   "voicemail"
+  ],
+  [
+   "message",
+   "letter"
+  ]
+ ]
+}

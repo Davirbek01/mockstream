@@ -1,0 +1,368 @@
+{
+ "book": "upper",
+ "unit": 88,
+ "title": "Containers and contents",
+ "title_uz": "Idishlar va ularning ichidagi narsalar",
+ "words": [
+  {
+   "id": "basket",
+   "en": "basket",
+   "uz": "savat",
+   "pos": "noun",
+   "img": true,
+   "ex": "She carried the eggs home from the market in a wicker basket.",
+   "gap": "basket",
+   "alt": [
+    "baskets"
+   ]
+  },
+  {
+   "id": "bowl",
+   "en": "bowl",
+   "uz": "kosa",
+   "pos": "noun",
+   "img": true,
+   "ex": "On cold mornings I eat a big bowl of hot porridge with a spoonful of honey.",
+   "gap": "bowl",
+   "alt": [
+    "bowls"
+   ]
+  },
+  {
+   "id": "box",
+   "en": "box",
+   "uz": "quti",
+   "pos": "noun",
+   "img": true,
+   "ex": "My new shoes came in a cardboard box, and the cat immediately climbed into it.",
+   "gap": "box",
+   "alt": [
+    "boxes"
+   ]
+  },
+  {
+   "id": "bucket",
+   "en": "bucket",
+   "uz": "chelak",
+   "pos": "noun",
+   "img": true,
+   "ex": "Grab a mop and a bucket; someone has spilt juice all over the classroom floor.",
+   "gap": "bucket",
+   "alt": [
+    "buckets"
+   ]
+  },
+  {
+   "id": "bag",
+   "en": "bag",
+   "uz": "xalta, sumka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Bring your own cloth bag to the market; the stalls here no longer give out plastic ones.",
+   "gap": "bag",
+   "alt": [
+    "bags"
+   ]
+  },
+  {
+   "id": "barrel",
+   "en": "barrel",
+   "uz": "bochka",
+   "pos": "noun",
+   "img": false,
+   "ex": "The price of a barrel of oil has gone up again this month.",
+   "gap": "barrel",
+   "alt": [
+    "barrels"
+   ]
+  },
+  {
+   "id": "bottle",
+   "en": "bottle",
+   "uz": "shisha (ichimlik idishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Always take a bottle of water with you when you go hiking in summer.",
+   "gap": "bottle",
+   "alt": [
+    "bottles"
+   ]
+  },
+  {
+   "id": "case",
+   "en": "case",
+   "uz": "g‘ilof (ko‘zoynak, asbob uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I keep my glasses in a hard case so they don't get scratched in my bag.",
+   "gap": "case",
+   "alt": [
+    "cases"
+   ]
+  },
+  {
+   "id": "crate",
+   "en": "crate",
+   "uz": "yashik (shisha idishlar uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The shop assistant carried a plastic crate full of empty lemonade bottles into the storeroom.",
+   "gap": "crate",
+   "alt": [
+    "crates"
+   ]
+  },
+  {
+   "id": "jug",
+   "en": "jug",
+   "uz": "ko‘za (suv, sut quyish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Pour the milk into a jug so that everyone can add some to their tea.",
+   "gap": "jug",
+   "alt": [
+    "jugs"
+   ]
+  },
+  {
+   "id": "can",
+   "en": "can",
+   "uz": "metall banka (ichimlik uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "He pulled the ring on a cold can of cola and drank it in one go.",
+   "gap": "can",
+   "alt": [
+    "cans"
+   ]
+  },
+  {
+   "id": "carton",
+   "en": "carton",
+   "uz": "qog‘oz quti (sut, sharbat uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shake the carton of orange juice before you open it; all the bits are at the bottom.",
+   "gap": "carton",
+   "alt": [
+    "cartons"
+   ]
+  },
+  {
+   "id": "jar",
+   "en": "jar",
+   "uz": "shisha banka (murabbo, asal uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can you help me? I can't get the lid off this jar of apricot jam.",
+   "gap": "jar",
+   "alt": [
+    "jars"
+   ]
+  },
+  {
+   "id": "mug",
+   "en": "mug",
+   "uz": "dastali katta chashka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before bed she always drinks a large mug of hot chocolate.",
+   "gap": "mug",
+   "alt": [
+    "mugs"
+   ]
+  },
+  {
+   "id": "packet",
+   "en": "packet",
+   "uz": "kichik qadoq (pechenye, choy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Read the back of the seed packet to find out when to plant the tomatoes.",
+   "gap": "packet",
+   "alt": [
+    "packets"
+   ]
+  },
+  {
+   "id": "pan",
+   "en": "pan",
+   "uz": "tova (ovqat pishirish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Heat a little oil in a frying pan and add the chopped onions.",
+   "gap": "pan",
+   "alt": [
+    "pans"
+   ]
+  },
+  {
+   "id": "pot",
+   "en": "pot",
+   "uz": "gultuvak (o‘simlik ekiladigan idish)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I planted some basil in a small clay pot on the kitchen windowsill.",
+   "gap": "pot",
+   "alt": [
+    "pots"
+   ]
+  },
+  {
+   "id": "sack",
+   "en": "sack",
+   "uz": "qop",
+   "pos": "noun",
+   "img": false,
+   "ex": "The farmer lifted a heavy sack of potatoes onto the back of his truck.",
+   "gap": "sack",
+   "alt": [
+    "sacks"
+   ]
+  },
+  {
+   "id": "tin",
+   "en": "tin",
+   "uz": "konserva bankasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We took a few tins of tuna on our camping trip, but nobody remembered the opener.",
+   "gap": "tins",
+   "alt": [
+    "tins"
+   ]
+  },
+  {
+   "id": "tub",
+   "en": "tub",
+   "uz": "qopqoqli plastik idishcha (muzqaymoq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's half a tub of strawberry ice cream left in the freezer; help yourself.",
+   "gap": "tub",
+   "alt": [
+    "tubs"
+   ]
+  },
+  {
+   "id": "tube",
+   "en": "tube",
+   "uz": "siqiladigan naycha (bo‘yoq, malham)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The art teacher showed us how to squeeze just a little paint from the tube.",
+   "gap": "tube",
+   "alt": [
+    "tubes"
+   ]
+  },
+  {
+   "id": "pack",
+   "en": "pack",
+   "uz": "to‘plam qadog‘i (karta, 6 banka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Do you have a pack of cards? We could play a game while we wait for the train.",
+   "gap": "pack",
+   "alt": [
+    "packs"
+   ]
+  },
+  {
+   "id": "container",
+   "en": "container",
+   "uz": "idish (har qanday sig‘im)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bowls, jars, tins and sacks are all different kinds of container.",
+   "gap": "container",
+   "alt": [
+    "containers"
+   ]
+  },
+  {
+   "id": "wicker",
+   "en": "wicker",
+   "uz": "to‘qima (tol novdasidan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chairs on the hotel terrace are made of wicker, woven from thin willow branches.",
+   "gap": "wicker",
+   "alt": []
+  },
+  {
+   "id": "china",
+   "en": "china",
+   "uz": "nozik oq sopol (farfor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Be careful with those cups: they're made of fine china and break easily.",
+   "gap": "china",
+   "alt": []
+  },
+  {
+   "id": "cardboard",
+   "en": "cardboard",
+   "uz": "qalin qattiq qog‘oz (quti uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children built a little castle out of old cardboard and glue.",
+   "gap": "cardboard",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "bag",
+   "sack"
+  ],
+  [
+   "basket",
+   "bag"
+  ],
+  [
+   "can",
+   "tin"
+  ],
+  [
+   "bottle",
+   "carton"
+  ],
+  [
+   "box",
+   "packet"
+  ],
+  [
+   "box",
+   "crate"
+  ],
+  [
+   "jar",
+   "pot"
+  ],
+  [
+   "sack",
+   "crate"
+  ],
+  [
+   "tub",
+   "box"
+  ],
+  [
+   "tub",
+   "carton"
+  ],
+  [
+   "pack",
+   "packet"
+  ],
+  [
+   "pack",
+   "box"
+  ],
+  [
+   "pack",
+   "pack_of_wolves"
+  ]
+ ]
+}

@@ -1,0 +1,503 @@
+{
+ "book": "advanced",
+ "unit": 46,
+ "title": "Personal finance: making ends meet",
+ "title_uz": "Shaxsiy moliya: tirikchilikni eplash",
+ "words": [
+  {
+   "id": "broke",
+   "en": "broke",
+   "uz": "puli qolmagan (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ulugbek spent all his pocket money on a new football, so now he's completely broke until next week.",
+   "gap": "broke",
+   "alt": []
+  },
+  {
+   "id": "skint",
+   "en": "skint",
+   "uz": "cho‘ntagi qup-quruq (juda so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Can you lend me some money for the bus? I'm skint until Friday.",
+   "gap": "skint",
+   "alt": []
+  },
+  {
+   "id": "rolling_in_it",
+   "en": "rolling in it",
+   "uz": "puli qopda (juda boy, so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since her baking videos became popular online, Nodira has been rolling in it and has even bought her parents a new car.",
+   "gap": "rolling in it",
+   "alt": []
+  },
+  {
+   "id": "strapped_for_cash",
+   "en": "strapped for cash",
+   "uz": "pulga qisilgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Just after moving into their new flat, the Rakhimovs were so strapped for cash that they waited half a year to buy a sofa.",
+   "gap": "strapped for cash",
+   "alt": []
+  },
+  {
+   "id": "bounce",
+   "en": "bounce",
+   "uz": "(chek) to‘lanmay qaytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The festival organisers were embarrassed when the sponsor's cheque bounced because the company's account was empty.",
+   "gap": "bounced",
+   "alt": [
+    "bounced",
+    "bounces",
+    "bouncing"
+   ]
+  },
+  {
+   "id": "cheque",
+   "en": "cheque",
+   "uz": "bank cheki",
+   "pos": "noun",
+   "img": false,
+   "ex": "She wrote the amount in words and figures, signed the cheque and handed it to the builder.",
+   "gap": "cheque",
+   "alt": [
+    "cheques",
+    "check"
+   ]
+  },
+  {
+   "id": "payable_to",
+   "en": "payable to",
+   "uz": "…nomiga (to‘lanadigan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please make the cheque payable to Yunusabad Music School, not to the teacher personally.",
+   "gap": "payable to",
+   "alt": []
+  },
+  {
+   "id": "make_out_to",
+   "en": "make out to",
+   "uz": "(chekni) …nomiga yozmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The bank refused to pay because the cheque had been made out to the wrong company.",
+   "gap": "made out to",
+   "alt": [
+    "made out to",
+    "makes out to",
+    "making out to"
+   ]
+  },
+  {
+   "id": "direct_debit",
+   "en": "direct debit",
+   "uz": "avtomatik to‘lov (hisobdan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our electricity bill is paid by direct debit, so the money leaves our account on the 5th of every month without us lifting a finger.",
+   "gap": "direct debit",
+   "alt": []
+  },
+  {
+   "id": "electronic_transfer",
+   "en": "electronic transfer",
+   "uz": "elektron pul o‘tkazmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A client in Seoul paid the web designer by electronic transfer, and the money reached her account within minutes.",
+   "gap": "electronic transfer",
+   "alt": []
+  },
+  {
+   "id": "charge_to_card",
+   "en": "charge it to my card",
+   "uz": "kartamdan yechib oling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I didn't have enough cash at the hotel, so I asked the receptionist to charge it to my card.",
+   "gap": "charge it to my card",
+   "alt": []
+  },
+  {
+   "id": "apr",
+   "en": "APR",
+   "uz": "yillik foiz stavkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before choosing a credit card, compare the APR: a card charging 18% a year costs far less than one charging 30%.",
+   "gap": "APR",
+   "alt": []
+  },
+  {
+   "id": "expiry_date",
+   "en": "expiry date",
+   "uz": "amal qilish muddati tugash sanasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cashier refused my card because its expiry date had passed the month before.",
+   "gap": "expiry date",
+   "alt": []
+  },
+  {
+   "id": "expire",
+   "en": "expire",
+   "uz": "muddati tugamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My bank card expires in March, so the bank will send me a new one in February.",
+   "gap": "expires",
+   "alt": [
+    "expires",
+    "expired",
+    "expiring"
+   ]
+  },
+  {
+   "id": "fraud",
+   "en": "fraud",
+   "uz": "firibgarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank blocked my card when it noticed three strange payments from abroad and suspected fraud.",
+   "gap": "fraud",
+   "alt": []
+  },
+  {
+   "id": "credit_card",
+   "en": "credit card",
+   "uz": "kredit karta",
+   "pos": "noun",
+   "img": false,
+   "ex": "I booked our flights online with my credit card and paid the bank back when my salary arrived.",
+   "gap": "credit card",
+   "alt": [
+    "credit cards"
+   ]
+  },
+  {
+   "id": "debit_card",
+   "en": "debit card",
+   "uz": "debet karta (o‘z hisobingizdan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every time I pay with my debit card, the money comes straight out of my bank account.",
+   "gap": "debit card",
+   "alt": [
+    "debit cards"
+   ]
+  },
+  {
+   "id": "store_card",
+   "en": "store card",
+   "uz": "do‘kon kredit kartasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The department store offered me its own store card, which I can only use in its branches.",
+   "gap": "store card",
+   "alt": [
+    "store cards"
+   ]
+  },
+  {
+   "id": "withdraw",
+   "en": "withdraw",
+   "uz": "(hisobdan pul) yechib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I need to withdraw some cash before we go to the market, because most stalls there don't take cards.",
+   "gap": "withdraw",
+   "alt": [
+    "withdrew",
+    "withdrawn",
+    "withdraws",
+    "withdrawing"
+   ]
+  },
+  {
+   "id": "pin",
+   "en": "PIN",
+   "uz": "karta maxfiy kodi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cover the keypad with your other hand when you type your PIN at a cash machine.",
+   "gap": "PIN",
+   "alt": []
+  },
+  {
+   "id": "atm",
+   "en": "ATM",
+   "uz": "bankomat",
+   "pos": "noun",
+   "img": true,
+   "ex": "The ATM outside the metro station had run out of cash, so we had to walk to the bank.",
+   "gap": "ATM",
+   "alt": [
+    "ATMs"
+   ]
+  },
+  {
+   "id": "contactless",
+   "en": "contactless",
+   "uz": "tekkizib to‘lanadigan (simsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With a contactless card you just tap the reader and the payment goes through in a second.",
+   "gap": "contactless",
+   "alt": []
+  },
+  {
+   "id": "lump_sum",
+   "en": "lump sum",
+   "uz": "bir yo‘la to‘lanadigan summa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of monthly payments, the quiz show winner chose to receive her prize as one lump sum.",
+   "gap": "lump sum",
+   "alt": []
+  },
+  {
+   "id": "golden_handshake",
+   "en": "golden handshake",
+   "uz": "ishdan ketishdagi katta mukofot",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the director left the company after twenty years, he received a golden handshake worth two years' salary.",
+   "gap": "golden handshake",
+   "alt": []
+  },
+  {
+   "id": "share_portfolio",
+   "en": "share portfolio",
+   "uz": "aksiyalar to‘plami (investitsiyalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her share portfolio includes companies from five different countries, so one bad market won't ruin her.",
+   "gap": "share portfolio",
+   "alt": [
+    "share portfolios"
+   ]
+  },
+  {
+   "id": "stock_market",
+   "en": "stock market",
+   "uz": "fond birjasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Prices on the stock market fell sharply on Monday after news of the bank's huge losses.",
+   "gap": "stock market",
+   "alt": []
+  },
+  {
+   "id": "stocks_and_shares",
+   "en": "stocks and shares",
+   "uz": "aksiya va qimmatli qog‘ozlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rather than keeping all his money in the bank, he put part of it into stocks and shares.",
+   "gap": "stocks and shares",
+   "alt": []
+  },
+  {
+   "id": "life_savings",
+   "en": "life savings",
+   "uz": "butun umrlik jamg‘arma",
+   "pos": "noun",
+   "img": false,
+   "ex": "After forty years as a schoolteacher, Aunt Dilbar put her life savings into opening a small library for the children of her village.",
+   "gap": "life savings",
+   "alt": []
+  },
+  {
+   "id": "borrow",
+   "en": "borrow",
+   "uz": "qarz olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "To open the bakery, the young chef had to borrow from two different banks.",
+   "gap": "borrow",
+   "alt": [
+    "borrowed",
+    "borrows",
+    "borrowing"
+   ]
+  },
+  {
+   "id": "in_debt",
+   "en": "in debt",
+   "uz": "qarzga botgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Spending more than you earn month after month is the quickest way to get into debt.",
+   "gap": "into debt",
+   "alt": [
+    "into debt",
+    "deeply in debt"
+   ]
+  },
+  {
+   "id": "cover_cost",
+   "en": "cover",
+   "uz": "(xarajatni) qoplamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My summer job at the café paid just enough to cover my bus fares for the whole school year.",
+   "gap": "cover",
+   "alt": [
+    "covers",
+    "covered",
+    "covering"
+   ]
+  },
+  {
+   "id": "put_it_on_card",
+   "en": "put it on my card",
+   "uz": "kartam bilan to‘lay (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The taxi driver had no change, so I asked if I could put it on my card instead.",
+   "gap": "put it on my card",
+   "alt": [
+    "stick it on my card"
+   ]
+  },
+  {
+   "id": "get_money_out",
+   "en": "get money out",
+   "uz": "pul chiqarib olmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'll get some money out at the station so we can pay the driver in cash.",
+   "gap": "get some money out",
+   "alt": [
+    "get some money out",
+    "got some money out",
+    "getting some money out"
+   ]
+  },
+  {
+   "id": "cash_machine",
+   "en": "cash machine",
+   "uz": "naqd pul avtomati",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a cash machine inside the supermarket, right next to the flower stall.",
+   "gap": "cash machine",
+   "alt": [
+    "cash machines"
+   ]
+  },
+  {
+   "id": "cashpoint",
+   "en": "cashpoint",
+   "uz": "pul yechish nuqtasi (Britaniyada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Is there a cashpoint near the hotel? I've only got a few coins left in my wallet.",
+   "gap": "cashpoint",
+   "alt": [
+    "cashpoints"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "broke",
+   "skint"
+  ],
+  [
+   "broke",
+   "strapped_for_cash"
+  ],
+  [
+   "skint",
+   "strapped_for_cash"
+  ],
+  [
+   "broke",
+   "in_debt"
+  ],
+  [
+   "direct_debit",
+   "electronic_transfer"
+  ],
+  [
+   "credit_card",
+   "debit_card"
+  ],
+  [
+   "credit_card",
+   "store_card"
+  ],
+  [
+   "debit_card",
+   "store_card"
+  ],
+  [
+   "expire",
+   "expiry_date"
+  ],
+  [
+   "lump_sum",
+   "golden_handshake"
+  ],
+  [
+   "share_portfolio",
+   "stocks_and_shares"
+  ],
+  [
+   "stock_market",
+   "stocks_and_shares"
+  ],
+  [
+   "life_savings",
+   "lump_sum"
+  ],
+  [
+   "pin",
+   "atm"
+  ],
+  [
+   "payable_to",
+   "make_out_to"
+  ],
+  [
+   "withdraw",
+   "borrow"
+  ],
+  [
+   "put_it_on_card",
+   "charge_to_card"
+  ],
+  [
+   "get_money_out",
+   "withdraw"
+  ],
+  [
+   "cash_machine",
+   "atm"
+  ],
+  [
+   "cashpoint",
+   "atm"
+  ],
+  [
+   "cash_machine",
+   "cashpoint"
+  ],
+  [
+   "cash_machine",
+   "pin"
+  ],
+  [
+   "cashpoint",
+   "pin"
+  ]
+ ]
+}

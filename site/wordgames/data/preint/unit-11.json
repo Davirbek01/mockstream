@@ -1,0 +1,539 @@
+{
+ "book": "preint",
+ "unit": 11,
+ "title": "Describing character",
+ "title_uz": "Xarakterni tasvirlash",
+ "words": [
+  {
+   "id": "character",
+   "en": "character",
+   "uz": "xarakter, fe’l-atvor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kamola and her sister look very alike, but in character they are completely different: one is loud and the other is very quiet.",
+   "gap": "character",
+   "alt": []
+  },
+  {
+   "id": "positive",
+   "en": "positive",
+   "uz": "nekbin, ijobiy fikrlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Jasur is a very positive person: even when his team is losing 3-0 at half-time, he says they can still win.",
+   "gap": "positive",
+   "alt": []
+  },
+  {
+   "id": "negative",
+   "en": "negative",
+   "uz": "tushkun, salbiy fikrlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My neighbour is such a negative person: whatever idea you tell him, he answers, 'That will never work.'",
+   "gap": "negative",
+   "alt": []
+  },
+  {
+   "id": "reliable",
+   "en": "reliable",
+   "uz": "ishonchli (so‘zining ustidan chiqadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "If Sardor says he'll come at nine, he comes at nine; he's completely reliable.",
+   "gap": "reliable",
+   "alt": []
+  },
+  {
+   "id": "unreliable",
+   "en": "unreliable",
+   "uz": "va’dasiga turmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't give Bekzod an important job; he's unreliable and often forgets what he promised.",
+   "gap": "unreliable",
+   "alt": []
+  },
+  {
+   "id": "confident",
+   "en": "confident",
+   "uz": "o‘ziga ishongan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a month at the speaking club, Nilufar felt confident enough to give a talk in English in front of the whole school.",
+   "gap": "confident",
+   "alt": []
+  },
+  {
+   "id": "shy",
+   "en": "shy",
+   "uz": "uyatchan, tortinchoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little cousin is very shy: when guests come to our house, she hides behind her mother.",
+   "gap": "shy",
+   "alt": []
+  },
+  {
+   "id": "hard_working",
+   "en": "hard-working",
+   "uz": "mehnatkash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilshod is very hard-working: he studies until late every night and still helps in his father's shop at weekends.",
+   "gap": "hard-working",
+   "alt": [
+    "hardworking",
+    "hard working"
+   ]
+  },
+  {
+   "id": "lazy",
+   "en": "lazy",
+   "uz": "dangasa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother is so lazy that he asks me to pass him the TV remote when it's just a metre away from him.",
+   "gap": "lazy",
+   "alt": []
+  },
+  {
+   "id": "sense_of_humour",
+   "en": "sense of humour",
+   "uz": "hazilni tushunish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our physics teacher has a great sense of humour; her jokes make even Newton's laws fun.",
+   "gap": "sense of humour",
+   "alt": [
+    "sense of humor"
+   ]
+  },
+  {
+   "id": "serious",
+   "en": "serious",
+   "uz": "jiddiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our headteacher is a very serious man; I've never seen him laugh, even at the New Year concert.",
+   "gap": "serious",
+   "alt": []
+  },
+  {
+   "id": "patient",
+   "en": "patient",
+   "uz": "sabrli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You have to be patient with a small child who is learning to tie his shoes; it can take ten minutes.",
+   "gap": "patient",
+   "alt": []
+  },
+  {
+   "id": "impatient",
+   "en": "impatient",
+   "uz": "sabrsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My dad gets very impatient in traffic jams: after two minutes he starts pressing the horn.",
+   "gap": "impatient",
+   "alt": []
+  },
+  {
+   "id": "generous",
+   "en": "generous",
+   "uz": "saxiy, qo‘li ochiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour is very generous: every autumn he gives a big box of grapes from his vineyard to each family in our street.",
+   "gap": "generous",
+   "alt": []
+  },
+  {
+   "id": "mean",
+   "en": "mean",
+   "uz": "xasis",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My uncle is quite mean with money: he never buys anyone a present, even on their birthday.",
+   "gap": "mean",
+   "alt": []
+  },
+  {
+   "id": "honest",
+   "en": "honest",
+   "uz": "halol, rostgo‘y",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the shop assistant gave him too much change, Sherzod was honest and gave the money back.",
+   "gap": "honest",
+   "alt": []
+  },
+  {
+   "id": "dishonest",
+   "en": "dishonest",
+   "uz": "nohalol, aldamchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The online seller was dishonest: he told us the phone was new, but he knew it was old and broken.",
+   "gap": "dishonest",
+   "alt": []
+  },
+  {
+   "id": "clever",
+   "en": "clever",
+   "uz": "aqlli, zehnli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Laylo is so clever that she learned to solve a Rubik's cube in just one evening.",
+   "gap": "clever",
+   "alt": []
+  },
+  {
+   "id": "stupid",
+   "en": "stupid",
+   "uz": "aqlsiz, ahmoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Only a stupid driver looks at his phone while he's driving at a hundred kilometres an hour.",
+   "gap": "stupid",
+   "alt": []
+  },
+  {
+   "id": "calm",
+   "en": "calm",
+   "uz": "xotirjam, vazmin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even when the plane shook in the storm, the pilot's voice stayed calm and relaxed.",
+   "gap": "calm",
+   "alt": []
+  },
+  {
+   "id": "nervous",
+   "en": "nervous",
+   "uz": "hayajonlangan, asabiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before my first piano concert I was so nervous that my hands were shaking and I couldn't eat anything.",
+   "gap": "nervous",
+   "alt": []
+  },
+  {
+   "id": "kind",
+   "en": "kind",
+   "uz": "mehribon, ko‘ngilchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was so kind of you to feed my cat and water my flowers while I was away in Samarkand.",
+   "gap": "kind",
+   "alt": []
+  },
+  {
+   "id": "friendly",
+   "en": "friendly",
+   "uz": "do‘stona, xushmuomala",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The traders at the Siab Bazaar in Samarkand were really friendly: they smiled and chatted with us for ages.",
+   "gap": "friendly",
+   "alt": []
+  },
+  {
+   "id": "sensible",
+   "en": "sensible",
+   "uz": "oqilona ish tutadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's sensible to charge your phone fully before a long hike, in case you get lost.",
+   "gap": "sensible",
+   "alt": []
+  },
+  {
+   "id": "silly",
+   "en": "silly",
+   "uz": "bema’ni, kulgili",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My friends laughed at the silly hat with big rabbit ears that I wore to the party.",
+   "gap": "silly",
+   "alt": []
+  },
+  {
+   "id": "trust",
+   "en": "trust",
+   "uz": "ishonmoq (birovga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I told Aziza my secret because I know I can trust her; she never tells anyone.",
+   "gap": "trust",
+   "alt": []
+  },
+  {
+   "id": "creative",
+   "en": "creative",
+   "uz": "ijodkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our art teacher is very creative: she made a beautiful lamp from old plastic bottles.",
+   "gap": "creative",
+   "alt": []
+  },
+  {
+   "id": "talented",
+   "en": "talented",
+   "uz": "iste’dodli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bobur is a talented young musician; he started playing the dutar at six and has already won two competitions.",
+   "gap": "talented",
+   "alt": []
+  },
+  {
+   "id": "wish",
+   "en": "wish",
+   "uz": "«koshki…» deb orzu qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I wish I could draw like my sister; my pictures always look as if a five-year-old made them.",
+   "gap": "wish",
+   "alt": [
+    "wished"
+   ]
+  },
+  {
+   "id": "talent",
+   "en": "talent",
+   "uz": "iste’dod",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister has a real talent for languages: she learned Turkish just by watching TV series.",
+   "gap": "talent",
+   "alt": [
+    "talents"
+   ]
+  },
+  {
+   "id": "intelligent",
+   "en": "intelligent",
+   "uz": "aqlli, ziyrak",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Madina is an intelligent girl: she understands new maths topics faster than anyone in her class.",
+   "gap": "intelligent",
+   "alt": []
+  },
+  {
+   "id": "nice",
+   "en": "nice",
+   "uz": "yaxshi, yoqimtoy (odam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kids, say thank you to the nice lady who found your ball in her garden.",
+   "gap": "nice",
+   "alt": []
+  },
+  {
+   "id": "pleasant",
+   "en": "pleasant",
+   "uz": "muomalasi yoqimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel receptionist was very pleasant to us: she smiled, chatted about the weather and wished us a good trip.",
+   "gap": "pleasant",
+   "alt": []
+  },
+  {
+   "id": "unkind",
+   "en": "unkind",
+   "uz": "mehrsiz, shafqatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was unkind of the older boys to laugh at Otabek when he fell off his bike.",
+   "gap": "unkind",
+   "alt": []
+  },
+  {
+   "id": "unfriendly",
+   "en": "unfriendly",
+   "uz": "sovuq muomala, do‘stona emas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The guard at the gate was unfriendly: he didn't smile or say hello, and just pointed at the sign.",
+   "gap": "unfriendly",
+   "alt": []
+  },
+  {
+   "id": "unpleasant",
+   "en": "unpleasant",
+   "uz": "yoqimsiz, qo‘pol (muomalada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new manager was so unpleasant to the staff that three people left the company in his first month.",
+   "gap": "unpleasant",
+   "alt": []
+  },
+  {
+   "id": "whats_he_like",
+   "en": "What's he like?",
+   "uz": "U qanaqa odam?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before Nigora met her new boss, she asked a colleague, 'What's he like?'",
+   "gap": "What's he like",
+   "alt": [
+    "What is he like?",
+    "What's she like?",
+    "What is she like?",
+    "What's he like",
+    "What's she like"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "positive",
+   "confident"
+  ],
+  [
+   "calm",
+   "confident"
+  ],
+  [
+   "honest",
+   "reliable"
+  ],
+  [
+   "lazy",
+   "unreliable"
+  ],
+  [
+   "shy",
+   "nervous"
+  ],
+  [
+   "patient",
+   "calm"
+  ],
+  [
+   "patient",
+   "kind"
+  ],
+  [
+   "impatient",
+   "nervous"
+  ],
+  [
+   "kind",
+   "generous"
+  ],
+  [
+   "kind",
+   "friendly"
+  ],
+  [
+   "honest",
+   "kind"
+  ],
+  [
+   "clever",
+   "talented"
+  ],
+  [
+   "clever",
+   "sensible"
+  ],
+  [
+   "stupid",
+   "silly"
+  ],
+  [
+   "creative",
+   "talented"
+  ],
+  [
+   "calm",
+   "sensible"
+  ],
+  [
+   "clever",
+   "intelligent"
+  ],
+  [
+   "intelligent",
+   "talented"
+  ],
+  [
+   "intelligent",
+   "sensible"
+  ],
+  [
+   "clever",
+   "creative"
+  ],
+  [
+   "nice",
+   "kind"
+  ],
+  [
+   "nice",
+   "honest"
+  ],
+  [
+   "nice",
+   "friendly"
+  ],
+  [
+   "nice",
+   "pleasant"
+  ],
+  [
+   "nice",
+   "generous"
+  ],
+  [
+   "pleasant",
+   "friendly"
+  ],
+  [
+   "pleasant",
+   "kind"
+  ],
+  [
+   "unkind",
+   "mean"
+  ],
+  [
+   "unkind",
+   "unfriendly"
+  ],
+  [
+   "unkind",
+   "unpleasant"
+  ],
+  [
+   "unfriendly",
+   "unpleasant"
+  ],
+  [
+   "unfriendly",
+   "serious"
+  ],
+  [
+   "unpleasant",
+   "mean"
+  ],
+  [
+   "unpleasant",
+   "dishonest"
+  ],
+  [
+   "unkind",
+   "stupid"
+  ],
+  [
+   "unkind",
+   "silly"
+  ]
+ ]
+}

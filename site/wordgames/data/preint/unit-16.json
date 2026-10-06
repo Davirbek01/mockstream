@@ -1,0 +1,639 @@
+{
+ "book": "preint",
+ "unit": 16,
+ "title": "Daily routines",
+ "title_uz": "Kun tartibi",
+ "words": [
+  {
+   "id": "wake_up",
+   "en": "wake up",
+   "uz": "uyg‘onmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My alarm rang at six and I woke up, but I stayed under the warm blanket for another twenty minutes.",
+   "gap": "woke up",
+   "alt": [
+    "woke up",
+    "wakes up",
+    "waking up",
+    "woken up"
+   ]
+  },
+  {
+   "id": "get_up",
+   "en": "get up",
+   "uz": "o‘rnidan turmoq (yotoqdan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sundays Bobur lies in bed with his phone and doesn't get up until eleven, when his mum calls him for breakfast.",
+   "gap": "get up",
+   "alt": [
+    "gets up",
+    "got up",
+    "getting up"
+   ]
+  },
+  {
+   "id": "go_to_sleep",
+   "en": "go to sleep",
+   "uz": "uyquga ketmoq, uxlab qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I was so tired after helping my uncle pick apples all day that I went to sleep in the middle of the film, and my sister had to wake me when it ended.",
+   "gap": "went to sleep",
+   "alt": [
+    "went to sleep",
+    "goes to sleep",
+    "going to sleep",
+    "gone to sleep"
+   ]
+  },
+  {
+   "id": "straight_away",
+   "en": "straight away",
+   "uz": "darhol, shu zahoti",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The water pipe in the kitchen broke, so we had to call a plumber straight away, before the whole floor got wet.",
+   "gap": "straight away",
+   "alt": [
+    "straightaway"
+   ]
+  },
+  {
+   "id": "late_night",
+   "en": "have a late night",
+   "uz": "kech yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I had a late night watching the football final, so I'm really tired at school today.",
+   "gap": "had a late night",
+   "alt": [
+    "had a late night",
+    "has a late night",
+    "having a late night"
+   ]
+  },
+  {
+   "id": "early_night",
+   "en": "have an early night",
+   "uz": "barvaqt yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've got an exam at eight tomorrow morning, so I'm going to have an early night and be in bed by nine.",
+   "gap": "have an early night",
+   "alt": [
+    "had an early night",
+    "has an early night",
+    "having an early night"
+   ]
+  },
+  {
+   "id": "have_a_sleep",
+   "en": "have a sleep",
+   "uz": "biroz uxlab olmoq (kunduzi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad works at night, so he usually has a sleep for an hour or two after lunch before his shift.",
+   "gap": "has a sleep",
+   "alt": [
+    "has a sleep",
+    "had a sleep",
+    "having a sleep"
+   ]
+  },
+  {
+   "id": "cereal",
+   "en": "cereal",
+   "uz": "xlopya (nonushtalik yorma)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother pours so much cereal into his bowl that there's no room left for the milk.",
+   "gap": "cereal",
+   "alt": []
+  },
+  {
+   "id": "snack",
+   "en": "snack",
+   "uz": "tamaddi (ovqatlar orasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Between lessons I usually have a quick snack, like an apple or a small packet of nuts.",
+   "gap": "snack",
+   "alt": [
+    "snacks"
+   ]
+  },
+  {
+   "id": "bother",
+   "en": "bother",
+   "uz": "ovora bo‘lmoq (erinib qilmaslik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bus stop is only two minutes from our house, so I never bother to take an umbrella.",
+   "gap": "bother",
+   "alt": [
+    "bothers",
+    "bothered"
+   ]
+  },
+  {
+   "id": "takeaway",
+   "en": "takeaway",
+   "uz": "olib ketiladigan tayyor ovqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the day we moved into the new flat, we were too tired to cook, so we ordered a takeaway of samsa and salad and ate it on the floor.",
+   "gap": "takeaway",
+   "alt": [
+    "takeaways",
+    "take-away"
+   ]
+  },
+  {
+   "id": "feed",
+   "en": "feed",
+   "uz": "ovqat bermoq, boqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every morning before school, Aziz has to feed the chickens in the yard.",
+   "gap": "feed",
+   "alt": [
+    "feeds",
+    "fed",
+    "feeding"
+   ]
+  },
+  {
+   "id": "have_a_shower",
+   "en": "have a shower",
+   "uz": "dush qabul qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After football in the hot sun, I always have a shower, because it's much quicker than filling the bath.",
+   "gap": "have a shower",
+   "alt": [
+    "has a shower",
+    "had a shower",
+    "having a shower"
+   ]
+  },
+  {
+   "id": "have_a_bath",
+   "en": "have a bath",
+   "uz": "vannada cho‘milmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our new flat has only a shower, so I can't have a bath with lots of bubbles like I did in our old house.",
+   "gap": "have a bath",
+   "alt": [
+    "has a bath",
+    "had a bath",
+    "having a bath"
+   ]
+  },
+  {
+   "id": "brush_teeth",
+   "en": "brush your teeth",
+   "uz": "tish yuvmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My toothpaste ran out on the camping trip, so I had to brush my teeth with just water from the river.",
+   "gap": "brush my teeth",
+   "alt": [
+    "brush my teeth",
+    "brush his teeth",
+    "brush her teeth",
+    "brushed my teeth",
+    "brushes his teeth"
+   ]
+  },
+  {
+   "id": "put_on_makeup",
+   "en": "put on make-up",
+   "uz": "pardoz qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister always puts on make-up in front of the mirror before she goes to the theatre.",
+   "gap": "puts on make-up",
+   "alt": [
+    "put on makeup",
+    "puts on make-up",
+    "putting on make-up"
+   ]
+  },
+  {
+   "id": "have_a_shave",
+   "en": "have a shave",
+   "uz": "soqol olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle has a shave every morning, so you never see him with a beard.",
+   "gap": "has a shave",
+   "alt": [
+    "has a shave",
+    "had a shave",
+    "having a shave"
+   ]
+  },
+  {
+   "id": "instead_of",
+   "en": "instead of",
+   "uz": "… o‘rniga",
+   "pos": "preposition",
+   "img": false,
+   "ex": "It was such a nice day that we walked to the park instead of taking the metro.",
+   "gap": "instead of",
+   "alt": []
+  },
+  {
+   "id": "housework",
+   "en": "housework",
+   "uz": "uy yumushlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our house everyone helps with the housework: I wash the dishes and my brother cleans the floors.",
+   "gap": "housework",
+   "alt": []
+  },
+  {
+   "id": "fortunately",
+   "en": "fortunately",
+   "uz": "xayriyatki, baxtga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I left my phone in a taxi, but fortunately the driver brought it back the next day.",
+   "gap": "fortunately",
+   "alt": []
+  },
+  {
+   "id": "cleaner",
+   "en": "cleaner",
+   "uz": "farrosh (tozalovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The office is always spotless, because a cleaner comes every evening after everyone has gone home.",
+   "gap": "cleaner",
+   "alt": [
+    "cleaners"
+   ]
+  },
+  {
+   "id": "do_the_washing",
+   "en": "do the washing",
+   "uz": "kir yuvmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our washing machine is broken, so I can't do the washing until the repairman comes.",
+   "gap": "do the washing",
+   "alt": [
+    "does the washing",
+    "did the washing",
+    "doing the washing"
+   ]
+  },
+  {
+   "id": "do_the_ironing",
+   "en": "do the ironing",
+   "uz": "dazmol qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My school shirts were all creased, so I spent Sunday evening doing the ironing.",
+   "gap": "doing the ironing",
+   "alt": [
+    "does the ironing",
+    "did the ironing",
+    "doing the ironing"
+   ]
+  },
+  {
+   "id": "make_bed",
+   "en": "make your bed",
+   "uz": "o‘rin-ko‘rpani yig‘ishtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before you leave for school, make your bed: fold the blanket and put the pillow straight.",
+   "gap": "make your bed",
+   "alt": [
+    "make my bed",
+    "make the bed",
+    "made my bed",
+    "makes his bed",
+    "makes her bed"
+   ]
+  },
+  {
+   "id": "do_the_shopping",
+   "en": "do the shopping",
+   "uz": "oziq-ovqat xarid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum gave me a list: bread, eggs, tomatoes and rice. It's my turn to do the shopping at the supermarket this week.",
+   "gap": "do the shopping",
+   "alt": [
+    "does the shopping",
+    "did the shopping",
+    "doing the shopping"
+   ]
+  },
+  {
+   "id": "go_shopping",
+   "en": "go shopping",
+   "uz": "xarid qilgani (aylangani) bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturdays, Lola and her friends like to go shopping for clothes at Samarqand Darvoza mall.",
+   "gap": "go shopping",
+   "alt": [
+    "goes shopping",
+    "went shopping",
+    "going shopping"
+   ]
+  },
+  {
+   "id": "spare_time",
+   "en": "spare time",
+   "uz": "bo‘sh vaqt",
+   "pos": "noun",
+   "img": false,
+   "ex": "In his spare time, Timur builds model planes and flies them in the park with his friends.",
+   "gap": "spare time",
+   "alt": []
+  },
+  {
+   "id": "stay_in",
+   "en": "stay in",
+   "uz": "uyda qolmoq (hech qayoqqa chiqmay)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The streets were covered in snow on Saturday, so we decided to stay in and bake a cake with Mum.",
+   "gap": "stay in",
+   "alt": [
+    "stays in",
+    "stayed in",
+    "staying in"
+   ]
+  },
+  {
+   "id": "eat_out",
+   "en": "eat out",
+   "uz": "tashqarida (kafeda) ovqatlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We don't usually cook on Fridays; we eat out at a small lagman café near our house.",
+   "gap": "eat out",
+   "alt": [
+    "eats out",
+    "ate out",
+    "eating out"
+   ]
+  },
+  {
+   "id": "come_round",
+   "en": "come round",
+   "uz": "uyga kirib o‘tmoq (mehmonga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Some friends are coming round tonight to watch the match on our big TV.",
+   "gap": "coming round",
+   "alt": [
+    "comes round",
+    "came round",
+    "coming round"
+   ]
+  },
+  {
+   "id": "chat",
+   "en": "chat",
+   "uz": "gurunglashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Madina and her best friend can chat on the phone for hours about films and music.",
+   "gap": "chat",
+   "alt": [
+    "chats",
+    "chatted",
+    "chatting"
+   ]
+  },
+  {
+   "id": "go_to_bed",
+   "en": "go to bed",
+   "uz": "uxlashga yotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On school nights I go to bed at ten, but I usually read for a while before I fall asleep.",
+   "gap": "go to bed",
+   "alt": [
+    "goes to bed",
+    "went to bed",
+    "going to bed",
+    "gone to bed"
+   ]
+  },
+  {
+   "id": "light_lunch",
+   "en": "have a light lunch",
+   "uz": "yengil tushlik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I had a light lunch, just some soup and bread, because my aunt was cooking a huge dinner for my birthday that evening.",
+   "gap": "had a light lunch",
+   "alt": [
+    "has a light lunch",
+    "had a light lunch",
+    "having a light lunch"
+   ]
+  },
+  {
+   "id": "main_meal",
+   "en": "main meal",
+   "uz": "kunning asosiy ovqati",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents both work until late, so our main meal of the day is breakfast, when the whole family sits at one table.",
+   "gap": "main meal",
+   "alt": [
+    "main meals"
+   ]
+  },
+  {
+   "id": "have_a_wash",
+   "en": "have a wash",
+   "uz": "yuvinib olmoq (qo‘l-yuzni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "There was no hot water for a shower, so I just had a wash at the sink and got dressed.",
+   "gap": "had a wash",
+   "alt": [
+    "has a wash",
+    "had a wash",
+    "having a wash"
+   ]
+  },
+  {
+   "id": "go_out",
+   "en": "go out",
+   "uz": "ko‘ngil ochgani chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Friday nights the twins go out dancing with their friends and don't come home until midnight.",
+   "gap": "go out",
+   "alt": [
+    "goes out",
+    "went out",
+    "going out",
+    "gone out"
+   ]
+  },
+  {
+   "id": "fall_asleep",
+   "en": "fall asleep",
+   "uz": "uxlab qolmoq (beixtiyor)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The lecture was so boring that Rustam fell asleep in the back row and started snoring.",
+   "gap": "fell asleep",
+   "alt": [
+    "falls asleep",
+    "fell asleep",
+    "falling asleep",
+    "fallen asleep"
+   ]
+  },
+  {
+   "id": "luckily",
+   "en": "luckily",
+   "uz": "omadimizga, baxtimizga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bus broke down on the way to the airport, but luckily a taxi stopped for us.",
+   "gap": "luckily",
+   "alt": []
+  },
+  {
+   "id": "clean_teeth",
+   "en": "clean your teeth",
+   "uz": "tishni tozalamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The dentist told Asal to clean her teeth for two minutes after every meal.",
+   "gap": "clean her teeth",
+   "alt": [
+    "clean my teeth",
+    "clean his teeth",
+    "clean her teeth",
+    "cleans his teeth",
+    "cleaned my teeth"
+   ]
+  },
+  {
+   "id": "eat_in",
+   "en": "eat in",
+   "uz": "uyda ovqatlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We usually eat in on weekdays, because cooking at home is much cheaper than going to a café.",
+   "gap": "eat in",
+   "alt": [
+    "eats in",
+    "ate in",
+    "eating in"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "wake_up",
+   "get_up"
+  ],
+  [
+   "late_night",
+   "early_night"
+  ],
+  [
+   "go_to_sleep",
+   "have_a_sleep"
+  ],
+  [
+   "snack",
+   "takeaway"
+  ],
+  [
+   "have_a_shower",
+   "have_a_bath"
+  ],
+  [
+   "do_the_shopping",
+   "go_shopping"
+  ],
+  [
+   "do_the_washing",
+   "do_the_ironing"
+  ],
+  [
+   "go_to_bed",
+   "go_to_sleep"
+  ],
+  [
+   "go_to_bed",
+   "early_night"
+  ],
+  [
+   "have_a_wash",
+   "have_a_shower"
+  ],
+  [
+   "have_a_wash",
+   "have_a_bath"
+  ],
+  [
+   "go_out",
+   "eat_out"
+  ],
+  [
+   "go_out",
+   "stay_in"
+  ],
+  [
+   "fall_asleep",
+   "go_to_sleep"
+  ],
+  [
+   "fall_asleep",
+   "go_to_bed"
+  ],
+  [
+   "fall_asleep",
+   "have_a_sleep"
+  ],
+  [
+   "fall_asleep",
+   "wake_up"
+  ],
+  [
+   "luckily",
+   "fortunately"
+  ],
+  [
+   "luckily",
+   "straight_away"
+  ],
+  [
+   "clean_teeth",
+   "brush_teeth"
+  ],
+  [
+   "eat_in",
+   "eat_out"
+  ],
+  [
+   "eat_in",
+   "stay_in"
+  ],
+  [
+   "eat_in",
+   "go_out"
+  ]
+ ]
+}

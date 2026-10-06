@@ -1,0 +1,417 @@
+{
+ "book": "advanced",
+ "unit": 19,
+ "title": "Socialising and networking",
+ "title_uz": "Davralarda yurish va foydali tanishuvlar",
+ "words": [
+  {
+   "id": "housewarming",
+   "en": "housewarming",
+   "uz": "yangi uyga ko‘chish ziyofati",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the Karimovs finally moved into their new flat, they invited all the neighbours to a housewarming.",
+   "gap": "housewarming",
+   "alt": [
+    "housewarmings",
+    "house-warming"
+   ]
+  },
+  {
+   "id": "stag_party",
+   "en": "stag party",
+   "uz": "to‘y oldidan kuyovning yigitlar bazmi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before Sherzod got married, his friends organised a stag party for him: a fishing trip and a barbecue by the river.",
+   "gap": "stag party",
+   "alt": [
+    "stag parties"
+   ]
+  },
+  {
+   "id": "hen_night",
+   "en": "hen night",
+   "uz": "to‘y oldidan kelinning qizlar bazmi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The evening before Gulnoza got married, her sisters and friends threw her a hen night with music, henna and lots of laughter.",
+   "gap": "hen night",
+   "alt": [
+    "hen nights"
+   ]
+  },
+  {
+   "id": "fancy_dress",
+   "en": "fancy dress",
+   "uz": "bayramona maskarad kostyumi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For World Book Day, everyone at school came in fancy dress as their favourite character.",
+   "gap": "fancy dress",
+   "alt": []
+  },
+  {
+   "id": "reception",
+   "en": "reception",
+   "uz": "rasmiy qabul (ziyofat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the conference, the visiting scientists were invited to a reception at the embassy.",
+   "gap": "reception",
+   "alt": [
+    "receptions"
+   ]
+  },
+  {
+   "id": "black_tie",
+   "en": "black-tie",
+   "uz": "o‘ta rasmiy kiyinish talab qilinadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The invitation said the charity dinner was black-tie, so Dad hired a dinner jacket and a bow tie.",
+   "gap": "black-tie",
+   "alt": [
+    "black tie"
+   ]
+  },
+  {
+   "id": "launch_party",
+   "en": "launch party",
+   "uz": "taqdimot kechasi (yangi kitob, mahsulot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The author signed copies of her new novel at the launch party in a Tashkent bookshop.",
+   "gap": "launch party",
+   "alt": [
+    "launch parties"
+   ]
+  },
+  {
+   "id": "girls_night_out",
+   "en": "girls' night out",
+   "uz": "dugonalar bilan kechki sayr",
+   "pos": "noun",
+   "img": false,
+   "ex": "Once a month, Nilufar and her friends have a girls' night out at the cinema and a pizza place.",
+   "gap": "girls' night out",
+   "alt": [
+    "girls night out"
+   ]
+  },
+  {
+   "id": "leaving_do",
+   "en": "leaving do",
+   "uz": "ishdan ketuvchini kuzatish ziyofati",
+   "pos": "noun",
+   "img": false,
+   "ex": "When our maths teacher retired, the staff organised a leaving do for her in the school hall.",
+   "gap": "leaving do",
+   "alt": [
+    "leaving dos"
+   ]
+  },
+  {
+   "id": "exchange_business_cards",
+   "en": "exchange business cards",
+   "uz": "vizitkalar almashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the tourism fair in Samarkand, Akmal exchanged business cards with three hotel owners.",
+   "gap": "exchanged business cards",
+   "alt": [
+    "exchanged business cards",
+    "exchanging business cards"
+   ]
+  },
+  {
+   "id": "do_lunch",
+   "en": "do lunch",
+   "uz": "birga tushlik qilmoq (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Let's do lunch next week and talk through your ideas for the project.",
+   "gap": "do lunch",
+   "alt": [
+    "did lunch",
+    "doing lunch",
+    "done lunch"
+   ]
+  },
+  {
+   "id": "hobnob_with",
+   "en": "hobnob with",
+   "uz": "mashhurlar bilan apoq-chapoq bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the film festival, young directors were hobnobbing with famous actors and producers.",
+   "gap": "hobnobbing with",
+   "alt": [
+    "hobnobbing with",
+    "hobnobbed with",
+    "hobnobs with"
+   ]
+  },
+  {
+   "id": "rub_shoulders_with",
+   "en": "rub shoulders with",
+   "uz": "nufuzli odamlar davrasida bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Working as an interpreter at the summit, Diyor rubbed shoulders with presidents and ministers.",
+   "gap": "rubbed shoulders with",
+   "alt": [
+    "rubbing shoulders with",
+    "rubbed shoulders with",
+    "rubs shoulders with"
+   ]
+  },
+  {
+   "id": "networking",
+   "en": "networking",
+   "uz": "foydali aloqalar o‘rnatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shohruh joined the young engineers' club mainly for networking: he hopes one of its members will help him find an internship.",
+   "gap": "networking",
+   "alt": []
+  },
+  {
+   "id": "socialising",
+   "en": "socialising",
+   "uz": "ko‘ngilxushlik uchun muloqot",
+   "pos": "noun",
+   "img": false,
+   "ex": "For Jahongir, Friday evenings are for socialising, not work: he just wants to relax and chat with friends.",
+   "gap": "socialising",
+   "alt": [
+    "socializing"
+   ]
+  },
+  {
+   "id": "proactive",
+   "en": "proactive",
+   "uz": "tashabbuskor (o‘zi harakat qiladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Instead of waiting to be told what to do, a proactive intern asks for extra tasks.",
+   "gap": "proactive",
+   "alt": []
+  },
+  {
+   "id": "hang_out_with",
+   "en": "hang out with",
+   "uz": "(kim bilandir) birga vaqt o‘tkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On Saturdays, Malika usually hangs out with her classmates at the Magic City park.",
+   "gap": "hangs out with",
+   "alt": [
+    "hangs out with",
+    "hung out with",
+    "hanging out with"
+   ]
+  },
+  {
+   "id": "knock_around_with",
+   "en": "knock around with",
+   "uz": "(kim bilan) oshnachilik qilib yurmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When I was a teenager, I used to knock around with the boys from the next street, playing football till dark.",
+   "gap": "knock around with",
+   "alt": [
+    "knocks around with",
+    "knocked around with",
+    "knocking around with"
+   ]
+  },
+  {
+   "id": "outstay_your_welcome",
+   "en": "outstay your welcome",
+   "uz": "mehmonda haddan ortiq qolib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It was nearly midnight, and we worried that we had outstayed our welcome, so we thanked our hosts and left.",
+   "gap": "outstayed our welcome",
+   "alt": [
+    "outstayed our welcome",
+    "outstaying my welcome",
+    "outstay our welcome",
+    "outstayed my welcome"
+   ]
+  },
+  {
+   "id": "party_animal",
+   "en": "party animal",
+   "uz": "bazmlarsiz turolmaydigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin is a real party animal: he's the first to arrive at every birthday party and the last to leave the dance floor.",
+   "gap": "party animal",
+   "alt": [
+    "party animals"
+   ]
+  },
+  {
+   "id": "cliquey",
+   "en": "cliquey",
+   "uz": "begonani davrasiga qo‘shmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The older members of the club were so cliquey that newcomers usually ended up sitting alone at lunch.",
+   "gap": "cliquey",
+   "alt": [
+    "cliquy"
+   ]
+  },
+  {
+   "id": "clique",
+   "en": "clique",
+   "uz": "yopiq guruhcha (to‘da)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A small clique of popular girls decided who was allowed to sit at their table.",
+   "gap": "clique",
+   "alt": [
+    "cliques"
+   ]
+  },
+  {
+   "id": "crowd",
+   "en": "crowd",
+   "uz": "(kimningdir) oshna-og‘aynilari davrasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ulugbek turned up at the stadium with his usual crowd from the university.",
+   "gap": "crowd",
+   "alt": []
+  },
+  {
+   "id": "stand_someone_up",
+   "en": "stand someone up",
+   "uz": "uchrashuvga kelmay, kuttirib qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We agreed to meet outside the metro at six, but Sanjar stood me up and didn't even call.",
+   "gap": "stood me up",
+   "alt": [
+    "stood me up",
+    "stood him up",
+    "stand me up",
+    "stands me up",
+    "stood her up"
+   ]
+  },
+  {
+   "id": "wedding_party",
+   "en": "wedding party",
+   "uz": "to‘ydagi eng yaqinlar davrasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the photos, the bride and groom stand in the middle of the wedding party, surrounded by their closest friends and family.",
+   "gap": "wedding party",
+   "alt": [
+    "wedding parties"
+   ]
+  },
+  {
+   "id": "an_item",
+   "en": "an item",
+   "uz": "juftlik (oshiq-ma’shuq, so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nargiza and Timur keep arriving at parties together; their friends suspect they are an item.",
+   "gap": "an item",
+   "alt": [
+    "item"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "hobnob_with",
+   "rub_shoulders_with"
+  ],
+  [
+   "hobnob_with",
+   "hang_out_with"
+  ],
+  [
+   "rub_shoulders_with",
+   "hang_out_with"
+  ],
+  [
+   "networking",
+   "socialising"
+  ],
+  [
+   "clique",
+   "crowd"
+  ],
+  [
+   "stag_party",
+   "hen_night"
+  ],
+  [
+   "hen_night",
+   "girls_night_out"
+  ],
+  [
+   "knock_around_with",
+   "hang_out_with"
+  ],
+  [
+   "knock_around_with",
+   "hobnob_with"
+  ],
+  [
+   "knock_around_with",
+   "rub_shoulders_with"
+  ],
+  [
+   "reception",
+   "launch_party"
+  ],
+  [
+   "reception",
+   "housewarming"
+  ],
+  [
+   "launch_party",
+   "housewarming"
+  ],
+  [
+   "black_tie",
+   "fancy_dress"
+  ],
+  [
+   "leaving_do",
+   "reception"
+  ],
+  [
+   "party_animal",
+   "socialising"
+  ],
+  [
+   "wedding_party",
+   "reception"
+  ],
+  [
+   "wedding_party",
+   "crowd"
+  ],
+  [
+   "wedding_party",
+   "hen_night"
+  ],
+  [
+   "wedding_party",
+   "stag_party"
+  ],
+  [
+   "an_item",
+   "clique"
+  ]
+ ]
+}

@@ -1,0 +1,346 @@
+{
+ "book": "preint",
+ "unit": 2,
+ "title": "Keeping a vocabulary notebook",
+ "title_uz": "Lug‘at daftarini yuritish",
+ "words": [
+  {
+   "id": "notebook",
+   "en": "notebook",
+   "uz": "daftar",
+   "pos": "noun",
+   "img": true,
+   "ex": "I keep all my new English words in a small blue notebook.",
+   "gap": "notebook",
+   "alt": [
+    "vocabulary notebook"
+   ]
+  },
+  {
+   "id": "translation",
+   "en": "translation",
+   "uz": "tarjima",
+   "pos": "noun",
+   "img": false,
+   "ex": "Google gave me a strange translation of the sentence from English into Uzbek.",
+   "gap": "translation",
+   "alt": []
+  },
+  {
+   "id": "translate",
+   "en": "translate",
+   "uz": "tarjima qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Tourists in Khiva sometimes ask me to translate the café menu into English for them.",
+   "gap": "translate",
+   "alt": []
+  },
+  {
+   "id": "mess",
+   "en": "mess",
+   "uz": "betartiblik, chalkash holat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After my brother's birthday party, our living room was a mess: plates and cups everywhere.",
+   "gap": "mess",
+   "alt": []
+  },
+  {
+   "id": "untidy",
+   "en": "untidy",
+   "uz": "tartibsiz, ozoda emas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your handwriting is so untidy that I can't read it.",
+   "gap": "untidy",
+   "alt": []
+  },
+  {
+   "id": "forget",
+   "en": "forget",
+   "uz": "unutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If I don't write new words down, I forget them the next day.",
+   "gap": "forget",
+   "alt": [
+    "forgot",
+    "forgotten"
+   ]
+  },
+  {
+   "id": "make_a_note_of",
+   "en": "make a note of",
+   "uz": "yozib qo‘ymoq (eslab qolish uchun)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I didn't have my notebook, so I made a note of the new word on my hand.",
+   "gap": "made a note of",
+   "alt": [
+    "made a note of",
+    "makes a note of"
+   ]
+  },
+  {
+   "id": "list",
+   "en": "list",
+   "uz": "ro‘yxat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the exam, I made a list of fifty words to revise.",
+   "gap": "list",
+   "alt": []
+  },
+  {
+   "id": "topic",
+   "en": "topic",
+   "uz": "mavzu",
+   "pos": "noun",
+   "img": false,
+   "ex": "On this page I put all the words on the topic of sport: football, wrestling, swimming and so on.",
+   "gap": "topic",
+   "alt": []
+  },
+  {
+   "id": "explanation",
+   "en": "explanation",
+   "uz": "izoh, tushuntirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher's explanation of the word was clear, so I understood it at once.",
+   "gap": "explanation",
+   "alt": []
+  },
+  {
+   "id": "tip",
+   "en": "tip",
+   "uz": "foydali maslahat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Here's a useful tip: learn five new words before breakfast.",
+   "gap": "tip",
+   "alt": []
+  },
+  {
+   "id": "mix_up",
+   "en": "mix up",
+   "uz": "adashtirmoq, aralashtirib yubormoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The twins look exactly the same, so new teachers always mix them up.",
+   "gap": "mix them up",
+   "alt": [
+    "mixed up",
+    "mix them up"
+   ]
+  },
+  {
+   "id": "connection",
+   "en": "connection",
+   "uz": "bog‘liqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't see any connection between the words 'pine' and 'pineapple'.",
+   "gap": "connection",
+   "alt": []
+  },
+  {
+   "id": "necessary",
+   "en": "necessary",
+   "uz": "zarur, kerakli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A translation isn't always necessary; sometimes a picture is enough.",
+   "gap": "necessary",
+   "alt": []
+  },
+  {
+   "id": "unnecessary",
+   "en": "unnecessary",
+   "uz": "keraksiz, ortiqcha",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You already know this word, so it's unnecessary to write it down again.",
+   "gap": "unnecessary",
+   "alt": []
+  },
+  {
+   "id": "synonym",
+   "en": "synonym",
+   "uz": "sinonim (ma’nodosh so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of saying 'nice' all the time, try a synonym like 'lovely'.",
+   "gap": "synonym",
+   "alt": []
+  },
+  {
+   "id": "opposite",
+   "en": "opposite",
+   "uz": "zid ma’noli so‘z (antonim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Next to 'noisy' in my notebook, I wrote its opposite, 'quiet'.",
+   "gap": "opposite",
+   "alt": []
+  },
+  {
+   "id": "collocation",
+   "en": "collocation",
+   "uz": "so‘z birikmasi (kollokatsiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Heavy rain' is a common collocation; we don't say 'strong rain'.",
+   "gap": "collocation",
+   "alt": []
+  },
+  {
+   "id": "date",
+   "en": "date",
+   "uz": "sana",
+   "pos": "noun",
+   "img": false,
+   "ex": "Always write the date in your notebook, so you know when you learned each word.",
+   "gap": "date",
+   "alt": []
+  },
+  {
+   "id": "draw",
+   "en": "draw",
+   "uz": "chizmoq (rasm)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If a word is hard to explain, draw a small picture next to it.",
+   "gap": "draw",
+   "alt": []
+  },
+  {
+   "id": "cup_drink",
+   "en": "cup",
+   "uz": "chashka (finjon)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Would you like a cup of green tea after the lesson?",
+   "gap": "cup",
+   "alt": [
+    "cups"
+   ]
+  },
+  {
+   "id": "saucer",
+   "en": "saucer",
+   "uz": "likopcha (chashka tagligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waiter put the cup down on its saucer without spilling a drop.",
+   "gap": "saucer",
+   "alt": [
+    "saucers"
+   ]
+  },
+  {
+   "id": "mug",
+   "en": "mug",
+   "uz": "krujka (katta dastali chashka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nodir drinks his morning coffee from a huge mug with a cat printed on it.",
+   "gap": "mug",
+   "alt": [
+    "mugs"
+   ]
+  },
+  {
+   "id": "note_down",
+   "en": "note down",
+   "uz": "qayd etib olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "During the radio interview, Farrukh quickly noted down the address of the website.",
+   "gap": "noted down",
+   "alt": [
+    "noted down",
+    "note it down",
+    "notes down",
+    "noting down"
+   ]
+  },
+  {
+   "id": "kitten",
+   "en": "kitten",
+   "uz": "mushukcha (mushuk bolasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our cat had four tiny kittens last week, and their eyes are still closed.",
+   "gap": "kittens",
+   "alt": [
+    "kittens"
+   ]
+  },
+  {
+   "id": "terrible",
+   "en": "terrible",
+   "uz": "dahshatli, juda yomon",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The traffic on the ring road was terrible this morning, and I was an hour late.",
+   "gap": "terrible",
+   "alt": []
+  },
+  {
+   "id": "enjoyment",
+   "en": "enjoyment",
+   "uz": "zavq, huzur",
+   "pos": "noun",
+   "img": false,
+   "ex": "For Shohruh, painting isn't work; he does it purely for enjoyment.",
+   "gap": "enjoyment",
+   "alt": []
+  },
+  {
+   "id": "in_particular",
+   "en": "in particular",
+   "uz": "ayniqsa, xususan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I like all summer fruit, but I love peaches in particular.",
+   "gap": "in particular",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "mess",
+   "untidy"
+  ],
+  [
+   "translation",
+   "explanation"
+  ],
+  [
+   "necessary",
+   "unnecessary"
+  ],
+  [
+   "synonym",
+   "opposite"
+  ],
+  [
+   "cup_drink",
+   "mug"
+  ],
+  [
+   "terrible",
+   "untidy"
+  ],
+  [
+   "note_down",
+   "make_a_note_of"
+  ],
+  [
+   "note_down",
+   "write_down"
+  ]
+ ]
+}

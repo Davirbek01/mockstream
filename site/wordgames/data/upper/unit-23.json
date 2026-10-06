@@ -1,0 +1,522 @@
+{
+ "book": "upper",
+ "unit": 23,
+ "title": "Physical geography",
+ "title_uz": "Tabiiy geografiya",
+ "words": [
+  {
+   "id": "mountain_chain",
+   "en": "mountain chain",
+   "uz": "tog‘ tizimi (tog‘lar zanjiri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the plane window we could see the snowy mountain chain of the Tian Shan stretching for hundreds of kilometres towards China.",
+   "gap": "mountain chain",
+   "alt": [
+    "mountain chains"
+   ]
+  },
+  {
+   "id": "island",
+   "en": "island",
+   "uz": "orol",
+   "pos": "noun",
+   "img": true,
+   "ex": "We took a small boat out to the island in the middle of the lake and had a picnic under the trees.",
+   "gap": "island",
+   "alt": [
+    "islands"
+   ]
+  },
+  {
+   "id": "strait",
+   "en": "strait",
+   "uz": "bo‘g‘oz",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Istanbul, a short ferry ride across the narrow strait takes you from Europe to Asia.",
+   "gap": "strait",
+   "alt": [
+    "straits"
+   ]
+  },
+  {
+   "id": "gulf",
+   "en": "gulf",
+   "uz": "ko‘rfaz (yirik, quruqlikka kirgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In cold winters the sea in the gulf near St Petersburg freezes, and people go out fishing on the ice.",
+   "gap": "gulf",
+   "alt": [
+    "gulfs"
+   ]
+  },
+  {
+   "id": "bay",
+   "en": "bay",
+   "uz": "qo‘ltiq (kichikroq ko‘rfaz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fishing boats shelter in the small bay, where the sea curves into the land and stays calm even in storms.",
+   "gap": "bay",
+   "alt": [
+    "bays"
+   ]
+  },
+  {
+   "id": "ocean",
+   "en": "ocean",
+   "uz": "okean",
+   "pos": "noun",
+   "img": false,
+   "ex": "Flying from Tokyo to Los Angeles, you spend about ten hours over the ocean without seeing any land.",
+   "gap": "ocean",
+   "alt": [
+    "oceans"
+   ]
+  },
+  {
+   "id": "lake",
+   "en": "lake",
+   "uz": "ko‘l",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every summer my cousins swim and sunbathe by Issyk-Kul, a huge mountain lake in Kyrgyzstan.",
+   "gap": "lake",
+   "alt": [
+    "lakes"
+   ]
+  },
+  {
+   "id": "current",
+   "en": "current",
+   "uz": "dengiz (okean) oqimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Swimmers were warned not to go far from the beach because a strong current could pull them out to sea.",
+   "gap": "current",
+   "alt": [
+    "currents"
+   ]
+  },
+  {
+   "id": "plain",
+   "en": "plain",
+   "uz": "tekislik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The wide, flat plains of northern Kazakhstan are perfect for growing wheat.",
+   "gap": "plains",
+   "alt": [
+    "plains"
+   ]
+  },
+  {
+   "id": "barren",
+   "en": "barren",
+   "uz": "taqir (hech narsa o‘smaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Driving across the Kyzylkum, we saw kilometre after kilometre of barren land with hardly a plant in sight.",
+   "gap": "barren",
+   "alt": []
+  },
+  {
+   "id": "active_volcano",
+   "en": "active volcano",
+   "uz": "harakatdagi (so‘nmagan) vulqon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Although it hasn't erupted since 1707, Mount Fuji is still an active volcano, so scientists watch it closely.",
+   "gap": "active volcano",
+   "alt": [
+    "active volcanoes"
+   ]
+  },
+  {
+   "id": "thermal_spring",
+   "en": "thermal spring",
+   "uz": "issiq buloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a long day of skiing, we relaxed in an outdoor pool fed by thermal springs, where the water was as warm as a bath.",
+   "gap": "thermal springs",
+   "alt": [
+    "thermal springs"
+   ]
+  },
+  {
+   "id": "geyser",
+   "en": "geyser",
+   "uz": "geyzer (issiq suv favvorasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Tourists waited with their cameras until the geyser suddenly shot a column of boiling water and steam into the air.",
+   "gap": "geyser",
+   "alt": [
+    "geysers"
+   ]
+  },
+  {
+   "id": "crops",
+   "en": "crops",
+   "uz": "ekinlar (dalada o‘stiriladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cotton and wheat are the main crops grown in the fields of Uzbekistan.",
+   "gap": "crops",
+   "alt": [
+    "crop"
+   ]
+  },
+  {
+   "id": "coast",
+   "en": "coast",
+   "uz": "dengiz bo‘yi (sohil hududi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We rented a car and drove along the coast of Turkey, stopping at a different seaside town each night.",
+   "gap": "coast",
+   "alt": [
+    "coasts"
+   ]
+  },
+  {
+   "id": "shore",
+   "en": "shore",
+   "uz": "qirg‘oq (suv chekkasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We sat on the shore of the Charvak Reservoir and watched the small waves.",
+   "gap": "shore",
+   "alt": [
+    "shores"
+   ]
+  },
+  {
+   "id": "beach",
+   "en": "beach",
+   "uz": "plyaj (qumli sohil)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We spent the whole day on the sandy beach, swimming and building sandcastles.",
+   "gap": "beach",
+   "alt": [
+    "beaches"
+   ]
+  },
+  {
+   "id": "valley",
+   "en": "valley",
+   "uz": "vodiy",
+   "pos": "noun",
+   "img": true,
+   "ex": "Seen from the mountain road, the whole valley below was green with orchards and fields.",
+   "gap": "valley",
+   "alt": [
+    "valleys"
+   ]
+  },
+  {
+   "id": "gorge",
+   "en": "gorge",
+   "uz": "dara (tik qoyali tor vodiy)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The path ran along the bottom of a narrow gorge, with rock walls so high and steep that the sun only reached us at midday.",
+   "gap": "gorge",
+   "alt": [
+    "gorges"
+   ]
+  },
+  {
+   "id": "stream_n",
+   "en": "stream",
+   "uz": "soy (kichik daryo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A cold mountain stream runs past our camp, so we can wash our faces in it every morning.",
+   "gap": "stream",
+   "alt": [
+    "streams"
+   ]
+  },
+  {
+   "id": "foot",
+   "en": "foot",
+   "uz": "tog‘ etagi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our hotel was at the foot of the mountain, so the climb started right outside the door.",
+   "gap": "foot",
+   "alt": []
+  },
+  {
+   "id": "ridge",
+   "en": "ridge",
+   "uz": "tog‘ qirrasi (tizma tepasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We walked along the narrow ridge, with steep slopes dropping away on both sides.",
+   "gap": "ridge",
+   "alt": [
+    "ridges"
+   ]
+  },
+  {
+   "id": "peak",
+   "en": "peak",
+   "uz": "tog‘ cho‘qqisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the top of Big Chimgan we could see the snowy peaks of other mountains in every direction.",
+   "gap": "peaks",
+   "alt": [
+    "peaks"
+   ]
+  },
+  {
+   "id": "summit",
+   "en": "summit",
+   "uz": "tog‘ning eng yuqori nuqtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We started climbing at four in the morning and reached the summit just in time to watch the sunrise from the very top.",
+   "gap": "summit",
+   "alt": [
+    "summits"
+   ]
+  },
+  {
+   "id": "glacier",
+   "en": "glacier",
+   "uz": "muzlik",
+   "pos": "noun",
+   "img": true,
+   "ex": "On our hike in the Alps, the guide showed us how far the glacier has shrunk since he was a boy.",
+   "gap": "glacier",
+   "alt": [
+    "glaciers"
+   ]
+  },
+  {
+   "id": "country",
+   "en": "country",
+   "uz": "mamlakat (davlat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "By area, Kazakhstan is the largest country in Central Asia.",
+   "gap": "country",
+   "alt": [
+    "countries"
+   ]
+  },
+  {
+   "id": "mountain",
+   "en": "mountain",
+   "uz": "tog‘",
+   "pos": "noun",
+   "img": true,
+   "ex": "The railway tunnel at Kamchik runs right through the mountain for more than 19 kilometres.",
+   "gap": "mountain",
+   "alt": [
+    "mountains"
+   ]
+  },
+  {
+   "id": "group_of_islands",
+   "en": "group of islands",
+   "uz": "orollar guruhi (arxipelag)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Maldives is a group of islands in the Indian Ocean, so visitors travel between them by boat or seaplane.",
+   "gap": "group of islands",
+   "alt": [
+    "groups of islands"
+   ]
+  },
+  {
+   "id": "river",
+   "en": "river",
+   "uz": "daryo",
+   "pos": "noun",
+   "img": true,
+   "ex": "The Danube is a river that flows through ten countries before it reaches the Black Sea.",
+   "gap": "river",
+   "alt": [
+    "rivers"
+   ]
+  },
+  {
+   "id": "sea",
+   "en": "sea",
+   "uz": "dengiz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Mediterranean is a sea almost completely surrounded by land, with only a narrow opening to the Atlantic at Gibraltar.",
+   "gap": "sea",
+   "alt": [
+    "seas"
+   ]
+  },
+  {
+   "id": "landscape_land",
+   "en": "landscape",
+   "uz": "yer qiyofasi (tabiiy ko‘rinishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The landscape of the Ustyurt Plateau is dry and almost empty, with tall white cliffs at its edges.",
+   "gap": "landscape",
+   "alt": [
+    "landscapes"
+   ]
+  },
+  {
+   "id": "ice_field",
+   "en": "ice field",
+   "uz": "muz maydoni (keng muz qatlami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pilots flying over Greenland see huge ice fields stretching to the horizon, white and flat in every direction.",
+   "gap": "ice fields",
+   "alt": [
+    "ice fields"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "mountain_chain",
+   "ridge"
+  ],
+  [
+   "gulf",
+   "bay"
+  ],
+  [
+   "current",
+   "stream_n"
+  ],
+  [
+   "plain",
+   "valley"
+  ],
+  [
+   "thermal_spring",
+   "geyser"
+  ],
+  [
+   "coast",
+   "shore"
+  ],
+  [
+   "coast",
+   "beach"
+  ],
+  [
+   "shore",
+   "beach"
+  ],
+  [
+   "valley",
+   "gorge"
+  ],
+  [
+   "peak",
+   "summit"
+  ],
+  [
+   "mountain_chain",
+   "peak"
+  ],
+  [
+   "island",
+   "ocean"
+  ],
+  [
+   "island",
+   "strait"
+  ],
+  [
+   "geyser",
+   "active_volcano"
+  ],
+  [
+   "beach",
+   "ocean"
+  ],
+  [
+   "valley",
+   "barren"
+  ],
+  [
+   "valley",
+   "mountain_chain"
+  ],
+  [
+   "valley",
+   "foot"
+  ],
+  [
+   "gorge",
+   "barren"
+  ],
+  [
+   "gorge",
+   "stream_n"
+  ],
+  [
+   "glacier",
+   "ridge"
+  ],
+  [
+   "glacier",
+   "mountain_chain"
+  ],
+  [
+   "glacier",
+   "peak"
+  ],
+  [
+   "mountain",
+   "peak"
+  ],
+  [
+   "mountain",
+   "ridge"
+  ],
+  [
+   "mountain",
+   "mountain_chain"
+  ],
+  [
+   "sea",
+   "ocean"
+  ],
+  [
+   "sea",
+   "gulf"
+  ],
+  [
+   "sea",
+   "bay"
+  ],
+  [
+   "landscape_land",
+   "plain"
+  ],
+  [
+   "ice_field",
+   "glacier"
+  ],
+  [
+   "ice_field",
+   "plain"
+  ],
+  [
+   "river",
+   "stream_n"
+  ]
+ ]
+}

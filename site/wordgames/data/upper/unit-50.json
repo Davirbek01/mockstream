@@ -1,0 +1,576 @@
+{
+ "book": "upper",
+ "unit": 50,
+ "title": "Commenting on problematic situations",
+ "title_uz": "Muammoli vaziyatlarga munosabat bildirish",
+ "words": [
+  {
+   "id": "chaos",
+   "en": "chaos",
+   "uz": "to‘liq tartibsizlik, alg‘ov-dalg‘ov",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the metro stopped during the morning rush hour, the streets of the city centre were in total chaos.",
+   "gap": "chaos",
+   "alt": []
+  },
+  {
+   "id": "disaster",
+   "en": "disaster",
+   "uz": "falokat, butunlay barbod bo‘lgan ish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school concert was a complete disaster: the microphones didn't work and the piano was out of tune.",
+   "gap": "disaster",
+   "alt": [
+    "disasters"
+   ]
+  },
+  {
+   "id": "dilemma",
+   "en": "dilemma",
+   "uz": "ikki yo‘l orasidagi qiyin tanlov",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm facing a real dilemma: my best friend's birthday party is on the same evening as the final of the regional football cup.",
+   "gap": "dilemma",
+   "alt": []
+  },
+  {
+   "id": "in_a_fix",
+   "en": "in a fix",
+   "uz": "noqulay ahvolda, qiyin ahvolda",
+   "pos": "idiom",
+   "img": false,
+   "ex": "I've locked my keys inside and Mum won't be home until eight, so I'm in a fix unless the spare key is still under the flowerpot.",
+   "gap": "in a fix",
+   "alt": []
+  },
+  {
+   "id": "in_a_tight_corner",
+   "en": "in a tight corner",
+   "uz": "qisilib qolgan, chiqish qiyin ahvolda",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Two goals down with only ten minutes left, our team was in a tight corner and needed a miracle.",
+   "gap": "in a tight corner",
+   "alt": []
+  },
+  {
+   "id": "in_a_muddle",
+   "en": "in a muddle",
+   "uz": "chalkashib ketgan, adashib qolgan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "I got in a muddle with the dates and turned up at the dentist's on the wrong day.",
+   "gap": "in a muddle",
+   "alt": []
+  },
+  {
+   "id": "challenge",
+   "en": "challenge",
+   "uz": "sinov, kuch talab qiladigan vazifa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Climbing to the top of the mountain in a single day will be a real challenge, but our team is ready for it.",
+   "gap": "challenge",
+   "alt": [
+    "challenges"
+   ]
+  },
+  {
+   "id": "badly_affected",
+   "en": "badly affected",
+   "uz": "qattiq zarar ko‘rgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many orchards in the valley were badly affected by a sudden hailstorm in May, and the cherry harvest was tiny.",
+   "gap": "badly affected",
+   "alt": []
+  },
+  {
+   "id": "disrupt",
+   "en": "disrupt",
+   "uz": "izdan chiqarmoq (reja, qatnov)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Heavy snow disrupted train services between Tashkent and Samarkand for most of the day.",
+   "gap": "disrupted",
+   "alt": [
+    "disrupts",
+    "disrupted",
+    "disrupting"
+   ]
+  },
+  {
+   "id": "collapse_talks",
+   "en": "collapse",
+   "uz": "barbod bo‘lmoq, chippakka chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The talks between the two companies collapsed when neither side would agree to lower its price.",
+   "gap": "collapsed",
+   "alt": [
+    "collapses",
+    "collapsed",
+    "collapsing"
+   ]
+  },
+  {
+   "id": "deprive",
+   "en": "deprive",
+   "uz": "mahrum qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Living next to a noisy building site deprived our whole family of sleep for months.",
+   "gap": "deprived",
+   "alt": [
+    "deprives",
+    "deprived",
+    "depriving"
+   ]
+  },
+  {
+   "id": "heartbroken",
+   "en": "heartbroken",
+   "uz": "yuragi ezilgan, qattiq qayg‘urgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The whole team was heartbroken when they lost the final in the very last second of extra time.",
+   "gap": "heartbroken",
+   "alt": []
+  },
+  {
+   "id": "lack",
+   "en": "lack",
+   "uz": "yetishmaslik, kam bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our football team has fast players, but it lacks a reliable goalkeeper.",
+   "gap": "lacks",
+   "alt": [
+    "lacks",
+    "lacked",
+    "lacking"
+   ]
+  },
+  {
+   "id": "take_a_back_seat",
+   "en": "take a back seat",
+   "uz": "chetda turmoq, boshqalarga yo‘l bermoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "This year I'm going to take a back seat and let the younger students organise the school party.",
+   "gap": "take a back seat",
+   "alt": [
+    "took a back seat",
+    "takes a back seat"
+   ]
+  },
+  {
+   "id": "bull_by_the_horns",
+   "en": "take the bull by the horns",
+   "uz": "muammoga dadil yuzma-yuz chiqmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Instead of waiting for someone else to complain about the broken heating in our classroom, Dildora took the bull by the horns and went straight to the head teacher.",
+   "gap": "took the bull by the horns",
+   "alt": [
+    "took the bull by the horns",
+    "takes the bull by the horns"
+   ]
+  },
+  {
+   "id": "stir_things_up",
+   "en": "stir things up",
+   "uz": "vaziyatni battar qizdirmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Everything was calm until Kamol started stirring things up by repeating what Sardor had said about everyone.",
+   "gap": "stirring things up",
+   "alt": [
+    "stirred things up",
+    "stirring things up",
+    "stirs things up"
+   ]
+  },
+  {
+   "id": "pour_oil_on_troubled_waters",
+   "en": "pour oil on troubled waters",
+   "uz": "nizoni bosmoq, vaziyatni yumshatmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "When the two captains started arguing about the score, our PE teacher poured oil on troubled waters by suggesting they replay the last point.",
+   "gap": "poured oil on troubled waters",
+   "alt": [
+    "poured oil on troubled waters",
+    "pours oil on troubled waters"
+   ]
+  },
+  {
+   "id": "cant_face",
+   "en": "can't face",
+   "uz": "(biror ishga) toqati yetmaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After a twelve-hour flight, I just can't face unpacking tonight; I'll do it tomorrow.",
+   "gap": "can't face",
+   "alt": [
+    "couldn't face",
+    "cannot face"
+   ]
+  },
+  {
+   "id": "lay_cards_on_table",
+   "en": "lay your cards on the table",
+   "uz": "niyatini ochiq-oydin aytmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "In the end I laid my cards on the table and told my parents exactly why I wanted to change schools.",
+   "gap": "laid my cards on the table",
+   "alt": [
+    "lay my cards on the table",
+    "laid my cards on the table"
+   ]
+  },
+  {
+   "id": "get_act_together",
+   "en": "get your act together",
+   "uz": "o‘zini yig‘ib olib, ishga kirishmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "If the band wants to be ready for the school concert on Friday, they really need to get their act together and start rehearsing properly.",
+   "gap": "get their act together",
+   "alt": [
+    "get our act together",
+    "got our act together",
+    "get their act together",
+    "got their act together"
+   ]
+  },
+  {
+   "id": "get_to_the_bottom_of",
+   "en": "get to the bottom of",
+   "uz": "(sirni) tagiga yetmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The head teacher was determined to get to the bottom of the mystery of who had painted the school gate pink.",
+   "gap": "get to the bottom of",
+   "alt": [
+    "got to the bottom of"
+   ]
+  },
+  {
+   "id": "sit_up_and_take_notice",
+   "en": "sit up and take notice",
+   "uz": "birdan e’tibor qaratmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The young singer's first song was so fresh that it made the whole music industry sit up and take notice.",
+   "gap": "sit up and take notice",
+   "alt": [
+    "sat up and took notice"
+   ]
+  },
+  {
+   "id": "get_a_grasp_of",
+   "en": "get a grasp of",
+   "uz": "(nima bo‘layotganini) anglab olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It took me a few weeks to get a grasp of how the new online timetable works.",
+   "gap": "get a grasp of",
+   "alt": [
+    "got a grasp of"
+   ]
+  },
+  {
+   "id": "tide_has_turned",
+   "en": "the tide has turned",
+   "uz": "vaziyat (bizning foydamizga) o‘zgardi",
+   "pos": "idiom",
+   "img": false,
+   "ex": "After losing our first four matches, we've won the last three in a row; the tide has turned at last.",
+   "gap": "the tide has turned",
+   "alt": []
+  },
+  {
+   "id": "dead_end",
+   "en": "dead end",
+   "uz": "boshi berk ko‘cha (rejada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our plan to open a school café came to a dead end when we couldn't find a free room for it.",
+   "gap": "dead end",
+   "alt": [
+    "dead ends"
+   ]
+  },
+  {
+   "id": "turning_point",
+   "en": "turning point",
+   "uz": "burilish nuqtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Winning that first competition at the age of twelve was the turning point in her career as a pianist.",
+   "gap": "turning point",
+   "alt": []
+  },
+  {
+   "id": "bury_the_hatchet",
+   "en": "bury the hatchet",
+   "uz": "adovatni unutib yarashmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Otabek and Sanjar hadn't spoken to each other for months after their argument, but on the end-of-year trip they finally buried the hatchet.",
+   "gap": "buried the hatchet",
+   "alt": [
+    "buried the hatchet",
+    "burying the hatchet"
+   ]
+  },
+  {
+   "id": "sweep_under_the_carpet",
+   "en": "sweep under the carpet",
+   "uz": "(muammoni) yashirib, ko‘rmaslikka olmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The problem with the leaking roof was simply swept under the carpet, and now the whole ceiling needs repairing.",
+   "gap": "swept under the carpet",
+   "alt": [
+    "swept under the carpet",
+    "sweeps under the carpet"
+   ]
+  },
+  {
+   "id": "light_end_of_tunnel",
+   "en": "light at the end of the tunnel",
+   "uz": "qiyinchilikning oxiri ko‘rinishi",
+   "pos": "idiom",
+   "img": false,
+   "ex": "After two years of building work on their street, residents can finally see the light at the end of the tunnel.",
+   "gap": "light at the end of the tunnel",
+   "alt": [
+    "the light at the end of the tunnel"
+   ]
+  },
+  {
+   "id": "mildly",
+   "en": "mildly",
+   "uz": "biroz, salgina",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new ringtone is only mildly irritating, so I haven't bothered to change it.",
+   "gap": "mildly",
+   "alt": []
+  },
+  {
+   "id": "intensely",
+   "en": "intensely",
+   "uz": "nihoyatda, o‘ta kuchli",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The constant beeping of the neighbour's car alarm was intensely annoying.",
+   "gap": "intensely",
+   "alt": []
+  },
+  {
+   "id": "irritation",
+   "en": "irritation",
+   "uz": "g‘ashga tegish, jig‘ibiyron bo‘lish",
+   "pos": "noun",
+   "img": false,
+   "ex": "To my irritation, the bus driver went straight past the stop without even slowing down.",
+   "gap": "irritation",
+   "alt": []
+  },
+  {
+   "id": "irritant",
+   "en": "irritant",
+   "uz": "g‘ashga tegadigan narsa",
+   "pos": "noun",
+   "img": false,
+   "ex": "For people living nearby, the noise from the motorway is a constant irritant.",
+   "gap": "irritant",
+   "alt": []
+  },
+  {
+   "id": "annoyance",
+   "en": "annoyance",
+   "uz": "achchiq, norozilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "She couldn't hide her annoyance when her flight was delayed for the third time.",
+   "gap": "annoyance",
+   "alt": []
+  },
+  {
+   "id": "disruption",
+   "en": "disruption",
+   "uz": "uzilish, izdan chiqish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Roadworks on the main bridge will cause disruption to bus routes all week.",
+   "gap": "disruption",
+   "alt": [
+    "disruptions"
+   ]
+  },
+  {
+   "id": "collapse_n",
+   "en": "collapse",
+   "uz": "qulash, barbod bo‘lish (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The collapse of the old wooden bridge during the storm cut the village off for a week.",
+   "gap": "collapse",
+   "alt": []
+  },
+  {
+   "id": "deprivation",
+   "en": "deprivation",
+   "uz": "mahrumlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sleep deprivation can make students forgetful and bad-tempered.",
+   "gap": "deprivation",
+   "alt": []
+  },
+  {
+   "id": "heartbreak",
+   "en": "heartbreak",
+   "uz": "qalb og‘rig‘i, qattiq qayg‘u",
+   "pos": "noun",
+   "img": false,
+   "ex": "Losing their old dog after fifteen years caused the whole family terrible heartbreak.",
+   "gap": "heartbreak",
+   "alt": []
+  },
+  {
+   "id": "effect_n",
+   "en": "effect",
+   "uz": "ta’sir, natija",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new medicine had an immediate effect, and his fever went down within an hour.",
+   "gap": "effect",
+   "alt": [
+    "effects"
+   ]
+  },
+  {
+   "id": "aftershock",
+   "en": "aftershock",
+   "uz": "zilziladan keyingi silkinish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Several small aftershocks were felt in the region for days after the main earthquake.",
+   "gap": "aftershocks",
+   "alt": [
+    "aftershocks"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "chaos",
+   "disaster"
+  ],
+  [
+   "dilemma",
+   "challenge"
+  ],
+  [
+   "in_a_fix",
+   "in_a_tight_corner"
+  ],
+  [
+   "in_a_fix",
+   "in_a_muddle"
+  ],
+  [
+   "in_a_tight_corner",
+   "in_a_muddle"
+  ],
+  [
+   "badly_affected",
+   "disrupt"
+  ],
+  [
+   "collapse_talks",
+   "dead_end"
+  ],
+  [
+   "dead_end",
+   "turning_point"
+  ],
+  [
+   "get_to_the_bottom_of",
+   "get_a_grasp_of"
+  ],
+  [
+   "pour_oil_on_troubled_waters",
+   "bury_the_hatchet"
+  ],
+  [
+   "tide_has_turned",
+   "things_looking_up"
+  ],
+  [
+   "heartbroken",
+   "down_in_the_dumps"
+  ],
+  [
+   "mildly",
+   "intensely"
+  ],
+  [
+   "irritation",
+   "annoyance"
+  ],
+  [
+   "irritant",
+   "annoyance"
+  ],
+  [
+   "irritation",
+   "irritant"
+  ],
+  [
+   "disruption",
+   "disrupt"
+  ],
+  [
+   "disruption",
+   "chaos"
+  ],
+  [
+   "collapse_n",
+   "collapse_talks"
+  ],
+  [
+   "collapse_n",
+   "disaster"
+  ],
+  [
+   "deprivation",
+   "deprive"
+  ],
+  [
+   "deprivation",
+   "lack"
+  ],
+  [
+   "heartbreak",
+   "heartbroken"
+  ],
+  [
+   "effect_n",
+   "badly_affected"
+  ],
+  [
+   "irritant",
+   "challenge"
+  ]
+ ]
+}

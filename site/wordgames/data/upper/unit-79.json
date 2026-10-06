@@ -1,0 +1,192 @@
+{
+ "book": "upper",
+ "unit": 79,
+ "title": "Multi-word expressions",
+ "title_uz": "Ko‘p so‘zli iboralar",
+ "words": [
+  {
+   "id": "seen_better_days",
+   "en": "have seen better days",
+   "uz": "eskirib, titilib qolgan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "My old school bag has seen better days: one strap is broken and the zip won't close.",
+   "gap": "has seen better days",
+   "alt": [
+    "has seen better days",
+    "had seen better days"
+   ]
+  },
+  {
+   "id": "take_the_weight_off",
+   "en": "take the weight off your feet",
+   "uz": "o‘tirib, oyoqqa dam bermoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "You've been standing at the market stall all day; come in and take the weight off your feet.",
+   "gap": "take the weight off your feet",
+   "alt": []
+  },
+  {
+   "id": "pull_a_fast_one",
+   "en": "pull a fast one",
+   "uz": "ustamonlik bilan aldab ketmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The man selling the old car tried to pull a fast one by hiding a crack in the windscreen, but the mechanic spotted it.",
+   "gap": "pull a fast one",
+   "alt": [
+    "pulled a fast one",
+    "pulling a fast one"
+   ]
+  },
+  {
+   "id": "poke_your_nose_in",
+   "en": "poke your nose into",
+   "uz": "boshqaning ishiga burun suqmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "The woman across the landing is always poking her nose into other people's business.",
+   "gap": "poking her nose into",
+   "alt": [
+    "poking her nose into",
+    "pokes his nose into",
+    "poked her nose into",
+    "poke your nose in"
+   ]
+  },
+  {
+   "id": "over_the_moon",
+   "en": "over the moon",
+   "uz": "behad xursand",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Otabek was over the moon when he passed his driving test at the first attempt.",
+   "gap": "over the moon",
+   "alt": []
+  },
+  {
+   "id": "daft_as_a_brush",
+   "en": "as daft as a brush",
+   "uz": "juda laqma, ovsar",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Our puppy is as daft as a brush: yesterday he barked at his own reflection for ten minutes.",
+   "gap": "as daft as a brush",
+   "alt": []
+  },
+  {
+   "id": "make_a_meal_of",
+   "en": "make a meal of",
+   "uz": "arzimas narsani bo‘rttirmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "It's only a tiny scratch on the car door; there's no need to make a meal of it.",
+   "gap": "make a meal of",
+   "alt": [
+    "make a meal out of",
+    "made a meal of",
+    "making a meal of",
+    "makes a meal of"
+   ]
+  },
+  {
+   "id": "make_a_move",
+   "en": "make a move",
+   "uz": "yo‘lga otlanmoq, ketmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "It's getting dark, so I think we should make a move before the last bus goes.",
+   "gap": "make a move",
+   "alt": []
+  },
+  {
+   "id": "on_the_make",
+   "en": "on the make",
+   "uz": "faqat o‘z manfaatini ko‘zlagan",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Don't trust that salesman; he's on the make and only cares about his own commission.",
+   "gap": "on the make",
+   "alt": []
+  },
+  {
+   "id": "make_heavy_weather_of",
+   "en": "make heavy weather of",
+   "uz": "qiynalib, sudralib bajarmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "Javlon is making heavy weather of a simple task that should take him five minutes.",
+   "gap": "making heavy weather of",
+   "alt": [
+    "making heavy weather of",
+    "made heavy weather of",
+    "makes heavy weather of"
+   ]
+  },
+  {
+   "id": "bark_up_wrong_tree",
+   "en": "bark up the wrong tree",
+   "uz": "noto‘g‘ri joydan izlamoq, adashmoq",
+   "pos": "idiom",
+   "img": false,
+   "ex": "If you think Nargiza took your pen, you're barking up the wrong tree; she wasn't even in class today.",
+   "gap": "barking up the wrong tree",
+   "alt": [
+    "barking up the wrong tree"
+   ]
+  },
+  {
+   "id": "have_a_seat",
+   "en": "have a seat",
+   "uz": "marhamat, o‘tiring (xushmuomala)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Please have a seat,' said the receptionist. 'The dentist will see you in five minutes.'",
+   "gap": "have a seat",
+   "alt": []
+  },
+  {
+   "id": "how_do_you_do",
+   "en": "how do you do",
+   "uz": "tanishganimdan xursandman (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the start of the meeting, the visiting professor shook hands with everyone and said, 'How do you do?'",
+   "gap": "How do you do",
+   "alt": []
+  },
+  {
+   "id": "sit_down",
+   "en": "sit down",
+   "uz": "o‘tirmoq (o‘rindiqqa)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The coach told the tired players to sit down on the bench and drink some water.",
+   "gap": "sit down",
+   "alt": [
+    "sits down",
+    "sat down",
+    "sitting down"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "make_a_meal_of",
+   "make_heavy_weather_of"
+  ],
+  [
+   "take_the_weight_off",
+   "have_a_seat"
+  ],
+  [
+   "sit_down",
+   "have_a_seat"
+  ],
+  [
+   "sit_down",
+   "take_the_weight_off"
+  ]
+ ]
+}

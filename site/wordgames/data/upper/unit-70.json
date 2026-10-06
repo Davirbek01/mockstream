@@ -1,0 +1,909 @@
+{
+ "book": "upper",
+ "unit": 70,
+ "title": "Suffixes",
+ "title_uz": "Qo‘shimchalar (suffikslar)",
+ "words": [
+  {
+   "id": "donor",
+   "en": "donor",
+   "uz": "qon yoki pul hadya qiluvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle is a regular blood donor: he gives blood at the hospital twice a year.",
+   "gap": "donor",
+   "alt": [
+    "donors"
+   ]
+  },
+  {
+   "id": "donation",
+   "en": "donation",
+   "uz": "xayriya, hadya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class collected donations of books and toys for the children's hospital.",
+   "gap": "donations",
+   "alt": [
+    "donations"
+   ]
+  },
+  {
+   "id": "bottle_opener",
+   "en": "bottle opener",
+   "uz": "shisha ochqich",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't get the metal cap off this lemonade — have you got a bottle opener?",
+   "gap": "bottle opener",
+   "alt": [
+    "bottle openers"
+   ]
+  },
+  {
+   "id": "pencil_sharpener",
+   "en": "pencil sharpener",
+   "uz": "qalamtarosh",
+   "pos": "noun",
+   "img": true,
+   "ex": "My pencil keeps breaking — can I borrow your pencil sharpener?",
+   "gap": "pencil sharpener",
+   "alt": [
+    "pencil sharpeners",
+    "sharpener"
+   ]
+  },
+  {
+   "id": "stapler",
+   "en": "stapler",
+   "uz": "qog‘oz tikkich (skrepka qoqadigan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Use the stapler to fix the five pages of your essay together before you hand it in.",
+   "gap": "stapler",
+   "alt": [
+    "staplers"
+   ]
+  },
+  {
+   "id": "projector",
+   "en": "projector",
+   "uz": "tasvirni ekranga tushiruvchi apparat",
+   "pos": "noun",
+   "img": true,
+   "ex": "The teacher used the projector to show a map of the Silk Road on the classroom wall.",
+   "gap": "projector",
+   "alt": [
+    "projectors"
+   ]
+  },
+  {
+   "id": "employer",
+   "en": "employer",
+   "uz": "ish beruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The textile factory is the biggest employer in our town: it gives jobs to three thousand people.",
+   "gap": "employer",
+   "alt": [
+    "employers"
+   ]
+  },
+  {
+   "id": "employee",
+   "en": "employee",
+   "uz": "xodim (ishga olingan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank has two hundred employees, and every one of them gets a day off on their birthday.",
+   "gap": "employees",
+   "alt": [
+    "employees"
+   ]
+  },
+  {
+   "id": "addressee",
+   "en": "addressee",
+   "uz": "xat oluvchi, qabul qiluvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the addressee isn't at home, the postman leaves a note and takes the parcel back to the post office.",
+   "gap": "addressee",
+   "alt": [
+    "addressees"
+   ]
+  },
+  {
+   "id": "sender",
+   "en": "sender",
+   "uz": "jo‘natuvchi (xat, posilka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The letter had no stamp, so the post office sent it back to the sender.",
+   "gap": "sender",
+   "alt": [
+    "senders"
+   ]
+  },
+  {
+   "id": "pollution",
+   "en": "pollution",
+   "uz": "ifloslanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Air pollution in big cities is often worse in winter, when people heat their homes.",
+   "gap": "pollution",
+   "alt": []
+  },
+  {
+   "id": "promotion",
+   "en": "promotion",
+   "uz": "lavozimga ko‘tarilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After five years as a nurse, my aunt got a promotion and now runs the whole children's ward.",
+   "gap": "promotion",
+   "alt": [
+    "promotions"
+   ]
+  },
+  {
+   "id": "admission",
+   "en": "admission",
+   "uz": "kirish ruxsati (kirish to‘lovi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Temur was refused admission to the concert because he had left his ticket at home.",
+   "gap": "admission",
+   "alt": []
+  },
+  {
+   "id": "pianist",
+   "en": "pianist",
+   "uz": "pianinochi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin practises the piano for four hours a day because she wants to be a concert pianist.",
+   "gap": "pianist",
+   "alt": [
+    "pianists"
+   ]
+  },
+  {
+   "id": "violinist",
+   "en": "violinist",
+   "uz": "skripkachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young violinist tucked her instrument under her chin, lifted her bow and began to play.",
+   "gap": "violinist",
+   "alt": [
+    "violinists"
+   ]
+  },
+  {
+   "id": "physicist",
+   "en": "physicist",
+   "uz": "materiya va energiyani o‘rganuvchi olim",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister loves maths and science and wants to become a physicist who studies black holes.",
+   "gap": "physicist",
+   "alt": [
+    "physicists"
+   ]
+  },
+  {
+   "id": "forgetfulness",
+   "en": "forgetfulness",
+   "uz": "unutuvchanlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My forgetfulness is a real problem: twice last week I left my keys in the front door.",
+   "gap": "forgetfulness",
+   "alt": []
+  },
+  {
+   "id": "readiness",
+   "en": "readiness",
+   "uz": "(…ga) shaylik, tayyorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone in the mahalla admires her readiness to help the neighbours at any time of day.",
+   "gap": "readiness",
+   "alt": []
+  },
+  {
+   "id": "edible",
+   "en": "edible",
+   "uz": "yeyishga yaroqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The birthday cake was decorated with edible flowers, so you could eat everything on the plate.",
+   "gap": "edible",
+   "alt": []
+  },
+  {
+   "id": "washable",
+   "en": "washable",
+   "uz": "yuvsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This jacket is washable, so you can just put it in the machine when it gets dirty.",
+   "gap": "washable",
+   "alt": []
+  },
+  {
+   "id": "forgivable",
+   "en": "forgivable",
+   "uz": "kechirsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her mistake was easily forgivable: she was new to the job and nobody had explained the rules to her.",
+   "gap": "forgivable",
+   "alt": []
+  },
+  {
+   "id": "modernise",
+   "en": "modernise",
+   "uz": "zamonaviylashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The city plans to modernise the old railway station by adding lifts and escalators.",
+   "gap": "modernise",
+   "alt": [
+    "modernize",
+    "modernises",
+    "modernised",
+    "modernising",
+    "modernized"
+   ]
+  },
+  {
+   "id": "scarcity",
+   "en": "scarcity",
+   "uz": "tanqislik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The scarcity of good doctors in mountain villages means that some families travel for hours to see one.",
+   "gap": "scarcity",
+   "alt": []
+  },
+  {
+   "id": "replacement",
+   "en": "replacement",
+   "uz": "almashtirish (o‘rniga yangisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone screen cracked, but it was still under guarantee, so the shop gave me a free replacement.",
+   "gap": "replacement",
+   "alt": [
+    "replacements"
+   ]
+  },
+  {
+   "id": "flexibility",
+   "en": "flexibility",
+   "uz": "moslashuvchanlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many students like online courses because of the flexibility: they can study whenever they want.",
+   "gap": "flexibility",
+   "alt": []
+  },
+  {
+   "id": "childhood",
+   "en": "childhood",
+   "uz": "bolalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My father spent his childhood in a small village near Namangan.",
+   "gap": "childhood",
+   "alt": [
+    "childhoods"
+   ]
+  },
+  {
+   "id": "membership",
+   "en": "membership",
+   "uz": "a’zolik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My library membership card runs out next month, so I need to renew it.",
+   "gap": "membership",
+   "alt": []
+  },
+  {
+   "id": "refusal",
+   "en": "refusal",
+   "uz": "rad etish (ko‘nmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her refusal to say sorry made the argument with her sister even worse.",
+   "gap": "refusal",
+   "alt": [
+    "refusals"
+   ]
+  },
+  {
+   "id": "harmless",
+   "en": "harmless",
+   "uz": "zararsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't be scared of that little spider in the bath — it's completely harmless.",
+   "gap": "harmless",
+   "alt": []
+  },
+  {
+   "id": "homeless",
+   "en": "homeless",
+   "uz": "boshpanasiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the earthquake, hundreds of families were left homeless and had to live in tents.",
+   "gap": "homeless",
+   "alt": []
+  },
+  {
+   "id": "outrageous",
+   "en": "outrageous",
+   "uz": "haddan oshgan, g‘azablantiruvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Charging fifty thousand som for a small bottle of water is outrageous!",
+   "gap": "outrageous",
+   "alt": []
+  },
+  {
+   "id": "terrify",
+   "en": "terrify",
+   "uz": "dahshatga solmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Thunder terrifies our dog: he hides under the bed every time there's a storm.",
+   "gap": "terrifies",
+   "alt": [
+    "terrifies",
+    "terrified",
+    "terrifying"
+   ]
+  },
+  {
+   "id": "reddish",
+   "en": "reddish",
+   "uz": "qizg‘ish",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As the sun went down, the sand dunes in the desert turned a warm reddish colour.",
+   "gap": "reddish",
+   "alt": []
+  },
+  {
+   "id": "writer",
+   "en": "writer",
+   "uz": "yozuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Abdulla Qodiriy was the writer of the famous novel Bygone Days.",
+   "gap": "writer",
+   "alt": [
+    "writers"
+   ]
+  },
+  {
+   "id": "painter",
+   "en": "painter",
+   "uz": "rassom",
+   "pos": "noun",
+   "img": false,
+   "ex": "The painter mixed blue and yellow on her palette to get the exact green of the spring fields.",
+   "gap": "painter",
+   "alt": [
+    "painters"
+   ]
+  },
+  {
+   "id": "worker",
+   "en": "worker",
+   "uz": "ishchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hundreds of factory workers walked out of the gates when the evening shift ended.",
+   "gap": "workers",
+   "alt": [
+    "workers"
+   ]
+  },
+  {
+   "id": "shopper",
+   "en": "shopper",
+   "uz": "xaridor",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the last Saturday before Navruz, the bazaar is packed with shoppers buying sweets and new clothes.",
+   "gap": "shoppers",
+   "alt": [
+    "shoppers"
+   ]
+  },
+  {
+   "id": "teacher",
+   "en": "teacher",
+   "uz": "o‘qituvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our maths teacher always draws funny pictures on the board to explain fractions.",
+   "gap": "teacher",
+   "alt": [
+    "teachers"
+   ]
+  },
+  {
+   "id": "actor",
+   "en": "actor",
+   "uz": "kino va teatr ijrochisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actor forgot his lines in the second act, but the audience didn't notice.",
+   "gap": "actor",
+   "alt": [
+    "actors"
+   ]
+  },
+  {
+   "id": "operator",
+   "en": "operator",
+   "uz": "(uskunani) boshqaruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The crane operator sat in a tiny cabin forty metres above the building site.",
+   "gap": "operator",
+   "alt": [
+    "operators"
+   ]
+  },
+  {
+   "id": "sailor",
+   "en": "sailor",
+   "uz": "dengizchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young sailor climbed the mast to check the ropes before the ship left the harbour.",
+   "gap": "sailor",
+   "alt": [
+    "sailors"
+   ]
+  },
+  {
+   "id": "payee",
+   "en": "payee",
+   "uz": "pul oluvchi (to‘lov egasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you sign the cheque, write the name of the payee on the first line.",
+   "gap": "payee",
+   "alt": [
+    "payees"
+   ]
+  },
+  {
+   "id": "complication",
+   "en": "complication",
+   "uz": "asorat (kutilmagan murakkablik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The operation went smoothly, and the doctors say there were no complications.",
+   "gap": "complications",
+   "alt": [
+    "complications"
+   ]
+  },
+  {
+   "id": "alteration",
+   "en": "alteration",
+   "uz": "o‘zgartirish (kiyim, reja)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tailor made a few alterations to the jacket so that the sleeves were shorter.",
+   "gap": "alterations",
+   "alt": [
+    "alterations"
+   ]
+  },
+  {
+   "id": "action",
+   "en": "action",
+   "uz": "amaliy harakat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Talking about climate change isn't enough; we need to take action now.",
+   "gap": "action",
+   "alt": []
+  },
+  {
+   "id": "marxist",
+   "en": "Marxist",
+   "uz": "Marks ta’limoti tarafdori",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old professor was a Marxist who believed that factories should belong to the people who work in them.",
+   "gap": "Marxist",
+   "alt": [
+    "Marxists"
+   ]
+  },
+  {
+   "id": "typist",
+   "en": "typist",
+   "uz": "mashinkada matn teruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before computers, every office had a typist who turned the manager's handwritten notes into neat letters.",
+   "gap": "typist",
+   "alt": [
+    "typists"
+   ]
+  },
+  {
+   "id": "buddhism",
+   "en": "Buddhism",
+   "uz": "Budda ta’limoti (din)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many beautiful temples in Thailand and Japan show how important Buddhism is in Asia.",
+   "gap": "Buddhism",
+   "alt": []
+  },
+  {
+   "id": "cellist",
+   "en": "cellist",
+   "uz": "violonchelchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cellist held the large instrument between her knees and played a slow, deep melody.",
+   "gap": "cellist",
+   "alt": [
+    "cellists"
+   ]
+  },
+  {
+   "id": "goodness",
+   "en": "goodness",
+   "uz": "ezgulik, yaxshilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "She helped the old man carry his bags out of pure goodness, not because she wanted thanks.",
+   "gap": "goodness",
+   "alt": []
+  },
+  {
+   "id": "happiness",
+   "en": "happiness",
+   "uz": "baxt, shodlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The photo of the twins laughing in the snow is full of happiness.",
+   "gap": "happiness",
+   "alt": []
+  },
+  {
+   "id": "sadness",
+   "en": "sadness",
+   "uz": "qayg‘u, g‘amginlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a note of sadness in her voice when she said goodbye to her classmates at the bus station.",
+   "gap": "sadness",
+   "alt": []
+  },
+  {
+   "id": "drinkable",
+   "en": "drinkable",
+   "uz": "ichishga yaroqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The water from this mountain spring is clean and drinkable, so you can fill your bottle here.",
+   "gap": "drinkable",
+   "alt": []
+  },
+  {
+   "id": "readable",
+   "en": "readable",
+   "uz": "o‘qib bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her handwriting is so small that it's hardly readable without a magnifying glass.",
+   "gap": "readable",
+   "alt": []
+  },
+  {
+   "id": "commercialise",
+   "en": "commercialise",
+   "uz": "tijoratlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Some people feel that big companies have commercialised Navruz, turning it into a shopping event.",
+   "gap": "commercialised",
+   "alt": [
+    "commercialize",
+    "commercialises",
+    "commercialised",
+    "commercialising",
+    "commercialized"
+   ]
+  },
+  {
+   "id": "industrialise",
+   "en": "industrialise",
+   "uz": "sanoatlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Britain was the first country in the world to industrialise, building thousands of factories and mills in the nineteenth century.",
+   "gap": "industrialise",
+   "alt": [
+    "industrialize",
+    "industrialises",
+    "industrialised",
+    "industrialising",
+    "industrialized"
+   ]
+  },
+  {
+   "id": "computerise",
+   "en": "computerise",
+   "uz": "elektron tizimga o‘tkazmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The clinic has computerised all its patient records, so doctors no longer search through paper files.",
+   "gap": "computerised",
+   "alt": [
+    "computerize",
+    "computerises",
+    "computerised",
+    "computerising",
+    "computerized"
+   ]
+  },
+  {
+   "id": "excitement",
+   "en": "excitement",
+   "uz": "hayajon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children could hardly sleep with excitement on the night before the school trip.",
+   "gap": "excitement",
+   "alt": []
+  },
+  {
+   "id": "enjoyment",
+   "en": "enjoyment",
+   "uz": "zavq, huzur",
+   "pos": "noun",
+   "img": false,
+   "ex": "Reading for enjoyment is very different from reading for an exam.",
+   "gap": "enjoyment",
+   "alt": []
+  },
+  {
+   "id": "productivity",
+   "en": "productivity",
+   "uz": "unumdorlik (mehnat samarasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the office got faster computers, the team's productivity has risen by about twenty per cent.",
+   "gap": "productivity",
+   "alt": []
+  },
+  {
+   "id": "motherhood",
+   "en": "motherhood",
+   "uz": "onalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the birth of her first baby, the singer took a year off to enjoy motherhood.",
+   "gap": "motherhood",
+   "alt": []
+  },
+  {
+   "id": "brotherhood",
+   "en": "brotherhood",
+   "uz": "birodarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football club has a strong sense of brotherhood: the players support each other on and off the pitch.",
+   "gap": "brotherhood",
+   "alt": []
+  },
+  {
+   "id": "friendship",
+   "en": "friendship",
+   "uz": "do‘stlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Their friendship began on the first day of school, when they shared a desk, and it has lasted for forty years.",
+   "gap": "friendship",
+   "alt": [
+    "friendships"
+   ]
+  },
+  {
+   "id": "active",
+   "en": "active",
+   "uz": "faol, harakatchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even at eighty, our neighbour is very active: she swims every morning and works in her garden all afternoon.",
+   "gap": "active",
+   "alt": []
+  },
+  {
+   "id": "passive",
+   "en": "passive",
+   "uz": "majhul nisbat (grammatika)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the sentence 'The window was broken by the wind', the verb is in the passive.",
+   "gap": "passive",
+   "alt": []
+  },
+  {
+   "id": "brutal",
+   "en": "brutal",
+   "uz": "shafqatsiz, dahshatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The storm was brutal: it tore the roofs off several houses in the village.",
+   "gap": "brutal",
+   "alt": []
+  },
+  {
+   "id": "legal",
+   "en": "legal",
+   "uz": "qonuniy (qonunga muvofiq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In many countries it is legal to drive at seventeen, but in Uzbekistan you must be eighteen.",
+   "gap": "legal",
+   "alt": []
+  },
+  {
+   "id": "arrival",
+   "en": "arrival",
+   "uz": "yetib kelish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please check the arrival time of the train from Nukus on the station screen.",
+   "gap": "arrival",
+   "alt": [
+    "arrivals"
+   ]
+  },
+  {
+   "id": "delicious",
+   "en": "delicious",
+   "uz": "juda mazali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bakery near the metro sells delicious warm somsa straight from the oven.",
+   "gap": "delicious",
+   "alt": []
+  },
+  {
+   "id": "hopeful",
+   "en": "hopeful",
+   "uz": "umidvor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctors are hopeful that the patient will be able to go home next week.",
+   "gap": "hopeful",
+   "alt": []
+  },
+  {
+   "id": "useful",
+   "en": "useful",
+   "uz": "foydali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A torch is really useful when the electricity goes off at night.",
+   "gap": "useful",
+   "alt": []
+  },
+  {
+   "id": "forgetful",
+   "en": "forgetful",
+   "uz": "unutuvchan (odam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My older brother is getting so forgetful: yesterday he put his glasses in the fridge.",
+   "gap": "forgetful",
+   "alt": []
+  },
+  {
+   "id": "useless",
+   "en": "useless",
+   "uz": "befoyda, yaroqsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This umbrella is useless now: the wind has bent it inside out.",
+   "gap": "useless",
+   "alt": []
+  },
+  {
+   "id": "beautify",
+   "en": "beautify",
+   "uz": "ko‘rkamlashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Volunteers planted roses along the main road to beautify the town before the festival.",
+   "gap": "beautify",
+   "alt": [
+    "beautifies",
+    "beautified",
+    "beautifying"
+   ]
+  },
+  {
+   "id": "purify",
+   "en": "purify",
+   "uz": "tozalamoq (suv, havoni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We used special tablets to purify the river water before drinking it on our hiking trip.",
+   "gap": "purify",
+   "alt": [
+    "purifies",
+    "purified",
+    "purifying"
+   ]
+  },
+  {
+   "id": "eightish",
+   "en": "eightish",
+   "uz": "soat sakkizlar atrofida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Come round to our flat at eightish; dinner won't be ready before then anyway.",
+   "gap": "eightish",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "edible",
+   "harmless"
+  ],
+  [
+   "worker",
+   "employee"
+  ],
+  [
+   "payee",
+   "addressee"
+  ],
+  [
+   "happiness",
+   "sadness"
+  ],
+  [
+   "brotherhood",
+   "friendship"
+  ],
+  [
+   "industrialise",
+   "modernise"
+  ],
+  [
+   "computerise",
+   "modernise"
+  ],
+  [
+   "commercialise",
+   "modernise"
+  ],
+  [
+   "happiness",
+   "excitement"
+  ]
+ ]
+}

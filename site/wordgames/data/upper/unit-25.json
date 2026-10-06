@@ -1,0 +1,1164 @@
+{
+ "book": "upper",
+ "unit": 25,
+ "title": "Towns",
+ "title_uz": "Shaharlar",
+ "words": [
+  {
+   "id": "metropolis",
+   "en": "metropolis",
+   "uz": "ulkan shahar (metropoliya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After growing up in a small village, Farrukh found life in the busy metropolis exciting but exhausting.",
+   "gap": "metropolis",
+   "alt": [
+    "metropolises"
+   ]
+  },
+  {
+   "id": "suburbs",
+   "en": "suburbs",
+   "uz": "shahar atrofidagi mavzelar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families moved from the crowded centre to the quieter suburbs, where houses have gardens.",
+   "gap": "suburbs",
+   "alt": [
+    "suburb"
+   ]
+  },
+  {
+   "id": "overcrowded",
+   "en": "overcrowded",
+   "uz": "haddan ortiq odam to‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the rush hour the buses are so overcrowded that you can hardly breathe.",
+   "gap": "overcrowded",
+   "alt": []
+  },
+  {
+   "id": "one_way",
+   "en": "one-way",
+   "uz": "bir tomonlama (harakatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You can't turn left here; it's a one-way street.",
+   "gap": "one-way",
+   "alt": [
+    "one way"
+   ]
+  },
+  {
+   "id": "imposing",
+   "en": "imposing",
+   "uz": "salobatli, viqorli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Ark of Bukhara is an imposing fortress whose huge walls rise high above the old city and make visitors feel small.",
+   "gap": "imposing",
+   "alt": []
+  },
+  {
+   "id": "lively",
+   "en": "lively",
+   "uz": "jo‘shqin, hayotga to‘la",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sayilgoh Street, known as Tashkent's \"Broadway\", is a lively place full of street musicians, painters and cafés.",
+   "gap": "lively",
+   "alt": []
+  },
+  {
+   "id": "facilities",
+   "en": "facilities",
+   "uz": "qulayliklar (sport, madaniy obyektlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The town has excellent sports facilities, including a stadium, a pool and tennis courts.",
+   "gap": "facilities",
+   "alt": [
+    "facility"
+   ]
+  },
+  {
+   "id": "residential",
+   "en": "residential",
+   "uz": "turar-joy (hududi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Factories are not allowed in this quiet residential area, only homes and schools.",
+   "gap": "residential",
+   "alt": []
+  },
+  {
+   "id": "outskirts",
+   "en": "outskirts",
+   "uz": "shahar chekkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new airport was built on the outskirts of the city, far from the centre.",
+   "gap": "outskirts",
+   "alt": []
+  },
+  {
+   "id": "overlook",
+   "en": "overlook",
+   "uz": "(…ga) qaragan bo‘lmoq (deraza, uy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our flat on the ninth floor overlooks a park, so we wake up to birdsong every morning.",
+   "gap": "overlooks",
+   "alt": [
+    "overlooks",
+    "overlooked",
+    "overlooking"
+   ]
+  },
+  {
+   "id": "open_spaces",
+   "en": "open spaces",
+   "uz": "ochiq maydonlar (park, xiyobon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children need open spaces like parks and squares where they can run and play.",
+   "gap": "open spaces",
+   "alt": [
+    "open space"
+   ]
+  },
+  {
+   "id": "taxi_rank",
+   "en": "taxi rank",
+   "uz": "taksi to‘xtash joyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a taxi rank outside the railway station where drivers wait for passengers.",
+   "gap": "taxi rank",
+   "alt": [
+    "taxi ranks"
+   ]
+  },
+  {
+   "id": "car_park",
+   "en": "car park",
+   "uz": "avtoturargoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shopping centre has a huge underground car park with space for two thousand cars.",
+   "gap": "car park",
+   "alt": [
+    "car parks"
+   ]
+  },
+  {
+   "id": "department_store",
+   "en": "department store",
+   "uz": "univermag (ko‘p bo‘limli do‘kon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the six floors of the department store you can buy clothes, toys, books and kitchen goods.",
+   "gap": "department store",
+   "alt": [
+    "department stores"
+   ]
+  },
+  {
+   "id": "traffic_jam",
+   "en": "traffic jam",
+   "uz": "tirbandlik",
+   "pos": "noun",
+   "img": true,
+   "ex": "There was a long traffic jam on the ring road, and we were an hour late.",
+   "gap": "traffic jam",
+   "alt": [
+    "traffic jams"
+   ]
+  },
+  {
+   "id": "rush_hour",
+   "en": "rush hour",
+   "uz": "eng gavjum soat (ishga borish payti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Try to avoid the metro during the rush hour, between eight and nine in the morning.",
+   "gap": "rush hour",
+   "alt": []
+  },
+  {
+   "id": "commuters",
+   "en": "commuters",
+   "uz": "har kuni ishga qatnovchilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of commuters travel into Tashkent from Chirchiq and Yangiyul every morning.",
+   "gap": "commuters",
+   "alt": [
+    "commuter"
+   ]
+  },
+  {
+   "id": "slums",
+   "en": "slums",
+   "uz": "qashshoqlar mahallasi (xaroba uylar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The charity builds schools and clinics in the slums on the edge of the city, where families live in huts of metal and wood.",
+   "gap": "slums",
+   "alt": [
+    "slum"
+   ]
+  },
+  {
+   "id": "vandalism",
+   "en": "vandalism",
+   "uz": "vandalizm (mulkni bekorga buzish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Smashing the windows of the new bus shelter was pure vandalism; nothing was even stolen.",
+   "gap": "vandalism",
+   "alt": []
+  },
+  {
+   "id": "poverty",
+   "en": "poverty",
+   "uz": "qashshoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families moved to the city to escape poverty in the countryside.",
+   "gap": "poverty",
+   "alt": []
+  },
+  {
+   "id": "overcrowding",
+   "en": "overcrowding",
+   "uz": "tiqilinchlik (bir joyda odam ko‘pligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With six people sharing two small rooms, overcrowding was the family's biggest problem.",
+   "gap": "overcrowding",
+   "alt": []
+  },
+  {
+   "id": "picturesque",
+   "en": "picturesque",
+   "uz": "manzarali, chiroyli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With its stone houses among the Nurata mountains, the little village of Sentob is so picturesque that every visitor stops to take photos.",
+   "gap": "picturesque",
+   "alt": []
+  },
+  {
+   "id": "historic",
+   "en": "historic",
+   "uz": "tarixiy (tarixiy ahamiyatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Tourists visit Shahrisabz for its historic buildings, including the ruins of Amir Temur's palace.",
+   "gap": "historic",
+   "alt": []
+  },
+  {
+   "id": "spacious",
+   "en": "spacious",
+   "uz": "keng (joyi ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new flats are spacious, with big rooms and high ceilings.",
+   "gap": "spacious",
+   "alt": []
+  },
+  {
+   "id": "magnificent",
+   "en": "magnificent",
+   "uz": "hashamatli, ajoyib",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The magnificent tiles of the Shah-i-Zinda in Samarkand shine in every shade of blue.",
+   "gap": "magnificent",
+   "alt": []
+  },
+  {
+   "id": "deserted",
+   "en": "deserted",
+   "uz": "huvillab qolgan (odamsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At five in the morning the streets were completely deserted; there wasn't a single car.",
+   "gap": "deserted",
+   "alt": []
+  },
+  {
+   "id": "bustling",
+   "en": "bustling",
+   "uz": "qaynab turgan (harakat ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our local market is bustling on Saturday mornings: traders shout, carts squeeze past and crowds push in every direction.",
+   "gap": "bustling",
+   "alt": []
+  },
+  {
+   "id": "packed",
+   "en": "packed",
+   "uz": "liq to‘la (bo‘sh joy yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The concert hall was packed; there wasn't a single empty seat.",
+   "gap": "packed",
+   "alt": []
+  },
+  {
+   "id": "filthy",
+   "en": "filthy",
+   "uz": "o‘ta iflos",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the football match, the park was filthy, covered in plastic bottles and food wrappers.",
+   "gap": "filthy",
+   "alt": []
+  },
+  {
+   "id": "run_down",
+   "en": "run-down",
+   "uz": "qarovsiz, eskirib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old cinema has been run-down for years: the paint is peeling and half the windows are broken.",
+   "gap": "run-down",
+   "alt": [
+    "run down"
+   ]
+  },
+  {
+   "id": "city",
+   "en": "city",
+   "uz": "shahar (yirik, ko‘p qulayliklarga ega)",
+   "pos": "noun",
+   "img": false,
+   "ex": "New York is a city that never sleeps: shops, cafés and trains keep going all night.",
+   "gap": "city",
+   "alt": [
+    "cities"
+   ]
+  },
+  {
+   "id": "town",
+   "en": "town",
+   "uz": "shaharcha (kichikroq shahar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our little town has only one cinema, two schools and a single set of traffic lights.",
+   "gap": "town",
+   "alt": [
+    "towns"
+   ]
+  },
+  {
+   "id": "population",
+   "en": "population",
+   "uz": "aholi soni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan has a population of more than 37 million, the largest in Central Asia.",
+   "gap": "population",
+   "alt": [
+    "populations"
+   ]
+  },
+  {
+   "id": "within_walking_distance",
+   "en": "within walking distance",
+   "uz": "piyoda yetib boriladigan masofada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our hotel was within walking distance of the old town, so we never needed a taxi.",
+   "gap": "within walking distance",
+   "alt": []
+  },
+  {
+   "id": "hilly",
+   "en": "hilly",
+   "uz": "tepalikli, adirli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cycling to school is hard work because our part of town is so hilly: it's uphill all the way.",
+   "gap": "hilly",
+   "alt": []
+  },
+  {
+   "id": "bell_tower",
+   "en": "bell tower",
+   "uz": "qo‘ng‘iroqxona (qo‘ng‘iroqli minora)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every hour the bells ring out from the bell tower of the old church in the square.",
+   "gap": "bell tower",
+   "alt": [
+    "bell-tower",
+    "bell towers"
+   ]
+  },
+  {
+   "id": "site",
+   "en": "site",
+   "uz": "joy (bino turgan yoki qurilgan yer)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new library was built on the site of an old cotton factory that closed in the 1990s.",
+   "gap": "site",
+   "alt": [
+    "sites"
+   ]
+  },
+  {
+   "id": "besiege",
+   "en": "besiege",
+   "uz": "qamal qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In 1219, Genghis Khan's army besieged Otrar for several months before the city finally fell.",
+   "gap": "besieged",
+   "alt": [
+    "besieges",
+    "besieged",
+    "besieging"
+   ]
+  },
+  {
+   "id": "cathedral",
+   "en": "cathedral",
+   "uz": "katta sobor (bosh cherkov)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Work on Cologne's Gothic cathedral began in 1248 and was only finished in 1880.",
+   "gap": "cathedral",
+   "alt": [
+    "cathedrals"
+   ]
+  },
+  {
+   "id": "market",
+   "en": "market",
+   "uz": "bozor",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every Sunday farmers bring fresh fruit, honey and cheese to the open-air market in the main square.",
+   "gap": "market",
+   "alt": [
+    "markets"
+   ]
+  },
+  {
+   "id": "charm",
+   "en": "charm",
+   "uz": "joziba, maftunkorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The narrow streets and old wooden doors give the village a special charm that new towns lack.",
+   "gap": "charm",
+   "alt": []
+  },
+  {
+   "id": "atmosphere_mood",
+   "en": "atmosphere",
+   "uz": "muhit, kayfiyat (joydagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With music, laughter and the smell of grilled corn, the night bazaar has a wonderful atmosphere.",
+   "gap": "atmosphere",
+   "alt": []
+  },
+  {
+   "id": "well_worth_a_visit",
+   "en": "well worth a visit",
+   "uz": "albatta borib ko‘rishga arziydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If you're ever in Termez, the archaeology museum is well worth a visit.",
+   "gap": "well worth a visit",
+   "alt": [
+    "worth a visit"
+   ]
+  },
+  {
+   "id": "exhibition",
+   "en": "exhibition",
+   "uz": "ko‘rgazma",
+   "pos": "noun",
+   "img": false,
+   "ex": "The gallery is holding an exhibition of old photographs of the city, which runs until March.",
+   "gap": "exhibition",
+   "alt": [
+    "exhibitions"
+   ]
+  },
+  {
+   "id": "contemporary",
+   "en": "contemporary",
+   "uz": "zamonaviy (hozirgi davrga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum shows only contemporary art, so every painting there was made in the last twenty years.",
+   "gap": "contemporary",
+   "alt": []
+  },
+  {
+   "id": "fashionable",
+   "en": "fashionable",
+   "uz": "urfdagi, modada bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This year it is fashionable to wear white trainers with a suit.",
+   "gap": "fashionable",
+   "alt": []
+  },
+  {
+   "id": "harbour",
+   "en": "harbour",
+   "uz": "bandargoh (kemalar to‘xtaydigan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Small fishing boats were tied up in the harbour, waiting for the morning tide.",
+   "gap": "harbour",
+   "alt": [
+    "harbours",
+    "harbor"
+   ]
+  },
+  {
+   "id": "district",
+   "en": "district",
+   "uz": "mavze, tuman (shahar qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The banking district is busy on weekdays but almost empty on Sundays.",
+   "gap": "district",
+   "alt": [
+    "districts"
+   ]
+  },
+  {
+   "id": "swimming_pool",
+   "en": "swimming pool",
+   "uz": "suzish havzasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The hotel has an outdoor swimming pool where guests can swim from May to October.",
+   "gap": "swimming pool",
+   "alt": [
+    "swimming pools"
+   ]
+  },
+  {
+   "id": "sports_centre",
+   "en": "sports centre",
+   "uz": "sport majmuasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "With one ticket, you can use the gym, the climbing wall and the badminton courts at the new sports centre.",
+   "gap": "sports centre",
+   "alt": [
+    "sports centres",
+    "sports center"
+   ]
+  },
+  {
+   "id": "golf_course",
+   "en": "golf course",
+   "uz": "18 chuqurchali yashil o‘yin maydoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The golf course has eighteen holes spread over green hills beside the lake.",
+   "gap": "golf course",
+   "alt": [
+    "golf courses"
+   ]
+  },
+  {
+   "id": "tennis_court",
+   "en": "tennis court",
+   "uz": "raketka va to‘p bilan o‘yin maydonchasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We booked a tennis court for an hour, but it started raining after the first set.",
+   "gap": "tennis court",
+   "alt": [
+    "tennis courts"
+   ]
+  },
+  {
+   "id": "football_pitch",
+   "en": "football pitch",
+   "uz": "futbol maydoni",
+   "pos": "noun",
+   "img": true,
+   "ex": "The players walked onto the football pitch, and the referee blew the whistle to start the game.",
+   "gap": "football pitch",
+   "alt": [
+    "football pitches"
+   ]
+  },
+  {
+   "id": "skating_rink",
+   "en": "skating rink",
+   "uz": "konkida uchish maydoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter the square turns into an outdoor skating rink, and you can hire skates by the hour.",
+   "gap": "skating rink",
+   "alt": [
+    "skating rinks"
+   ]
+  },
+  {
+   "id": "theatre_building",
+   "en": "theatre",
+   "uz": "spektakllar qo‘yiladigan bino",
+   "pos": "noun",
+   "img": false,
+   "ex": "The actors bowed at the end of the play, and the whole theatre stood up and clapped.",
+   "gap": "theatre",
+   "alt": [
+    "theatres",
+    "theater"
+   ]
+  },
+  {
+   "id": "opera_house",
+   "en": "opera house",
+   "uz": "kuylab ijro etiladigan spektakl binosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sydney's opera house, with its roof like white sails, is one of the most famous buildings in Australia.",
+   "gap": "opera house",
+   "alt": [
+    "opera houses"
+   ]
+  },
+  {
+   "id": "concert_hall",
+   "en": "concert hall",
+   "uz": "musiqa ijro etiladigan katta zal",
+   "pos": "noun",
+   "img": false,
+   "ex": "The orchestra played Beethoven's Ninth Symphony in the city's new concert hall.",
+   "gap": "concert hall",
+   "alt": [
+    "concert halls"
+   ]
+  },
+  {
+   "id": "radio_station",
+   "en": "radio station",
+   "uz": "ovozli eshittirishlar markazi (efir)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has its own small radio station that plays music and news during the lunch break.",
+   "gap": "radio station",
+   "alt": [
+    "radio stations"
+   ]
+  },
+  {
+   "id": "art_gallery",
+   "en": "art gallery",
+   "uz": "rasm va haykallar ko‘rgazma zali",
+   "pos": "noun",
+   "img": false,
+   "ex": "The art gallery on the second floor shows paintings and sculptures by young local artists.",
+   "gap": "art gallery",
+   "alt": [
+    "art galleries"
+   ]
+  },
+  {
+   "id": "school",
+   "en": "school",
+   "uz": "maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ziyoda's little brother started school in September and already knows the whole alphabet.",
+   "gap": "school",
+   "alt": [
+    "schools"
+   ]
+  },
+  {
+   "id": "college",
+   "en": "college",
+   "uz": "o‘rta maxsus o‘quv yurti",
+   "pos": "noun",
+   "img": false,
+   "ex": "After finishing school, Davron studied car mechanics at a technical college for two years.",
+   "gap": "college",
+   "alt": [
+    "colleges"
+   ]
+  },
+  {
+   "id": "university",
+   "en": "university",
+   "uz": "oliy o‘quv yurti (oliygoh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Abdulla wants to study medicine at university, so he's taking extra biology lessons.",
+   "gap": "university",
+   "alt": [
+    "universities"
+   ]
+  },
+  {
+   "id": "library",
+   "en": "library",
+   "uz": "kutubxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "You can borrow up to five books at a time from the town library.",
+   "gap": "library",
+   "alt": [
+    "libraries"
+   ]
+  },
+  {
+   "id": "adult_education_centre",
+   "en": "adult education centre",
+   "uz": "kattalar uchun o‘quv markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My neighbour, who is 62, is learning Spanish at the adult education centre on Tuesday evenings.",
+   "gap": "adult education centre",
+   "alt": [
+    "adult education centres",
+    "adult education center"
+   ]
+  },
+  {
+   "id": "museum",
+   "en": "museum",
+   "uz": "qadimiy buyumlar saqlanadigan maskan",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dinosaur bones, ancient coins and old weapons are on display in the history museum.",
+   "gap": "museum",
+   "alt": [
+    "museums"
+   ]
+  },
+  {
+   "id": "restaurant",
+   "en": "restaurant",
+   "uz": "ofitsiantli ovqatlanish maskani",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new restaurant by the river serves fish dishes, and you need to book a table at weekends.",
+   "gap": "restaurant",
+   "alt": [
+    "restaurants"
+   ]
+  },
+  {
+   "id": "take_away",
+   "en": "take-away",
+   "uz": "olib ketiladigan ovqat do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "We were too tired to cook, so we ordered pizza from the take-away round the corner.",
+   "gap": "take-away",
+   "alt": [
+    "takeaway",
+    "take-aways",
+    "takeaways"
+   ]
+  },
+  {
+   "id": "hotel",
+   "en": "hotel",
+   "uz": "mehmonxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel has 200 rooms, a conference hall and a rooftop pool.",
+   "gap": "hotel",
+   "alt": [
+    "hotels"
+   ]
+  },
+  {
+   "id": "b_and_b",
+   "en": "B&B",
+   "uz": "nonushtali kichik mehmon uyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We stayed at a small B&B run by a friendly couple who served homemade jam every morning.",
+   "gap": "B&B",
+   "alt": [
+    "bed and breakfast",
+    "B and B",
+    "B&Bs"
+   ]
+  },
+  {
+   "id": "club",
+   "en": "club",
+   "uz": "tungi raqs maskani",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Fridays the club near the station is full of people dancing until three in the morning.",
+   "gap": "club",
+   "alt": [
+    "clubs",
+    "nightclub"
+   ]
+  },
+  {
+   "id": "bus_service",
+   "en": "bus service",
+   "uz": "avtobus qatnovi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The village has only one bus service to town, and it runs twice a day.",
+   "gap": "bus service",
+   "alt": [
+    "bus services"
+   ]
+  },
+  {
+   "id": "car_hire",
+   "en": "car hire",
+   "uz": "avtomobil ijarasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the airport there's a car hire desk where you can rent a car for a few days.",
+   "gap": "car hire",
+   "alt": []
+  },
+  {
+   "id": "parking_meter",
+   "en": "parking meter",
+   "uz": "avtoturargoh to‘lov avtomati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't forget to put coins in the parking meter, or you'll get a fine.",
+   "gap": "parking meter",
+   "alt": [
+    "parking meters"
+   ]
+  },
+  {
+   "id": "health_centre",
+   "en": "health centre",
+   "uz": "poliklinika (tibbiyot markazi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you feel ill, make an appointment to see a doctor at the health centre.",
+   "gap": "health centre",
+   "alt": [
+    "health centres",
+    "health center"
+   ]
+  },
+  {
+   "id": "registry_office",
+   "en": "registry office",
+   "uz": "FHDYo (nikoh qayd etiladigan idora)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Olga and Ivan got married at the registry office with just two friends as witnesses.",
+   "gap": "registry office",
+   "alt": [
+    "registry offices"
+   ]
+  },
+  {
+   "id": "citizens_advice_bureau",
+   "en": "citizens' advice bureau",
+   "uz": "fuqarolarga bepul maslahat markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Tom's landlord refused to return his deposit, he went to the citizens' advice bureau for free help.",
+   "gap": "citizens' advice bureau",
+   "alt": [
+    "citizens advice bureau"
+   ]
+  },
+  {
+   "id": "job_centre",
+   "en": "job centre",
+   "uz": "bandlik markazi (ish topish idorasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the factory closed, Marat went to the job centre every week to look for new work.",
+   "gap": "job centre",
+   "alt": [
+    "job centres",
+    "job center"
+   ]
+  },
+  {
+   "id": "chemists",
+   "en": "chemist's",
+   "uz": "dorixona",
+   "pos": "noun",
+   "img": false,
+   "ex": "You can buy plasters and cough medicine at the chemist's on the corner.",
+   "gap": "chemist's",
+   "alt": [
+    "chemist",
+    "chemists"
+   ]
+  },
+  {
+   "id": "garden_centre",
+   "en": "garden centre",
+   "uz": "ko‘chat va bog‘ buyumlari do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring we buy tomato seedlings and bags of soil at the garden centre.",
+   "gap": "garden centre",
+   "alt": [
+    "garden centres",
+    "garden center"
+   ]
+  },
+  {
+   "id": "police_station",
+   "en": "police station",
+   "uz": "politsiya bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lena reported her stolen bike at the police station, and an officer wrote down the details.",
+   "gap": "police station",
+   "alt": [
+    "police stations"
+   ]
+  },
+  {
+   "id": "town_hall",
+   "en": "town hall",
+   "uz": "shahar hokimiyati binosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mayor's office is on the first floor of the town hall, opposite the main square.",
+   "gap": "town hall",
+   "alt": [
+    "city hall",
+    "town halls"
+   ]
+  },
+  {
+   "id": "estate_agent",
+   "en": "estate agent",
+   "uz": "ko‘chmas mulk agenti (rieltor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We found our new flat through an estate agent, who showed us six places in one afternoon.",
+   "gap": "estate agent",
+   "alt": [
+    "estate agents",
+    "estate agent's"
+   ]
+  },
+  {
+   "id": "industrial_estate",
+   "en": "industrial estate",
+   "uz": "sanoat zonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new car factory is on an industrial estate outside the city, next to the motorway.",
+   "gap": "industrial estate",
+   "alt": [
+    "industrial estates"
+   ]
+  },
+  {
+   "id": "deterioration",
+   "en": "deterioration",
+   "uz": "yomonlashuv (asta-sekin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors linked the city's dirty air to a deterioration in children's health.",
+   "gap": "deterioration",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "suburbs",
+   "outskirts"
+  ],
+  [
+   "overcrowded",
+   "packed"
+  ],
+  [
+   "overcrowded",
+   "bustling"
+  ],
+  [
+   "packed",
+   "bustling"
+  ],
+  [
+   "lively",
+   "bustling"
+  ],
+  [
+   "imposing",
+   "magnificent"
+  ],
+  [
+   "picturesque",
+   "historic"
+  ],
+  [
+   "picturesque",
+   "magnificent"
+  ],
+  [
+   "historic",
+   "magnificent"
+  ],
+  [
+   "taxi_rank",
+   "car_park"
+  ],
+  [
+   "poverty",
+   "overcrowding"
+  ],
+  [
+   "filthy",
+   "run_down"
+  ],
+  [
+   "overcrowded",
+   "overcrowding"
+  ],
+  [
+   "traffic_jam",
+   "rush_hour"
+  ],
+  [
+   "historic",
+   "lively"
+  ],
+  [
+   "lively",
+   "packed"
+  ],
+  [
+   "lively",
+   "picturesque"
+  ],
+  [
+   "imposing",
+   "historic"
+  ],
+  [
+   "imposing",
+   "picturesque"
+  ],
+  [
+   "facilities",
+   "open_spaces"
+  ],
+  [
+   "traffic_jam",
+   "taxi_rank"
+  ],
+  [
+   "traffic_jam",
+   "car_park"
+  ],
+  [
+   "traffic_jam",
+   "commuters"
+  ],
+  [
+   "traffic_jam",
+   "metropolis"
+  ],
+  [
+   "traffic_jam",
+   "bustling"
+  ],
+  [
+   "city",
+   "town"
+  ],
+  [
+   "city",
+   "metropolis"
+  ],
+  [
+   "charm",
+   "atmosphere_mood"
+  ],
+  [
+   "atmosphere_mood",
+   "atmosphere"
+  ],
+  [
+   "contemporary",
+   "fashionable"
+  ],
+  [
+   "concert_hall",
+   "opera_house"
+  ],
+  [
+   "art_gallery",
+   "museum"
+  ],
+  [
+   "college",
+   "university"
+  ],
+  [
+   "restaurant",
+   "take_away"
+  ],
+  [
+   "hotel",
+   "b_and_b"
+  ],
+  [
+   "town",
+   "district"
+  ],
+  [
+   "district",
+   "suburbs"
+  ],
+  [
+   "theatre_building",
+   "opera_house"
+  ],
+  [
+   "theatre_building",
+   "concert_hall"
+  ],
+  [
+   "art_gallery",
+   "exhibition"
+  ],
+  [
+   "museum",
+   "exhibition"
+  ],
+  [
+   "adult_education_centre",
+   "college"
+  ],
+  [
+   "restaurant",
+   "hotel"
+  ],
+  [
+   "registry_office",
+   "town_hall"
+  ]
+ ]
+}

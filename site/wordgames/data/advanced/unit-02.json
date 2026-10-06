@@ -1,0 +1,587 @@
+{
+ "book": "advanced",
+ "unit": 2,
+ "title": "Education: debates and issues",
+ "title_uz": "Ta’lim: munozarali masalalar",
+ "words": [
+  {
+   "id": "equality_of_opportunity",
+   "en": "equality of opportunity",
+   "uz": "imkoniyatlar tengligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Real equality of opportunity means that a village girl in Karakalpakstan has the same chances as a boy from central Tashkent.",
+   "gap": "equality of opportunity",
+   "alt": []
+  },
+  {
+   "id": "selective",
+   "en": "selective",
+   "uz": "saralab qabul qiladigan (imtihonli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With nine hundred applicants for forty places, the specialised maths lyceum is one of the most selective schools in the country.",
+   "gap": "selective",
+   "alt": []
+  },
+  {
+   "id": "comprehensive",
+   "en": "comprehensive",
+   "uz": "imtihonsiz, bepul (davlat maktabi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Having failed the entrance exam for the grammar school, Ben went to the local comprehensive school and still ended up at Oxford.",
+   "gap": "comprehensive",
+   "alt": [
+    "comprehensive school"
+   ]
+  },
+  {
+   "id": "elitism",
+   "en": "elitism",
+   "uz": "elitarlik (ozchilikka imtiyoz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Critics accuse the academy of elitism, since almost all its students come from a handful of wealthy families.",
+   "gap": "elitism",
+   "alt": []
+  },
+  {
+   "id": "league_table",
+   "en": "league table",
+   "uz": "reyting jadvali",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single bad year of exam results dropped the school twenty places in the regional league table.",
+   "gap": "league table",
+   "alt": [
+    "league tables"
+   ]
+  },
+  {
+   "id": "perpetuate",
+   "en": "perpetuate",
+   "uz": "(tengsizlikni) davom ettirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Charging high fees for the best schools will only perpetuate the gap between rich and poor families.",
+   "gap": "perpetuate",
+   "alt": []
+  },
+  {
+   "id": "two_tier_system",
+   "en": "two-tier system",
+   "uz": "ikki pog‘onali tizim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Parents fear a two-tier system, with excellent private schools for the rich and underfunded ones for everyone else.",
+   "gap": "two-tier system",
+   "alt": [
+    "two tier system"
+   ]
+  },
+  {
+   "id": "perceive",
+   "en": "perceive",
+   "uz": "…deb qabul qilmoq (idrok etmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Vocational colleges are often perceived as a second-best choice, even though many of them are excellent.",
+   "gap": "perceived",
+   "alt": [
+    "perceived",
+    "perceives"
+   ]
+  },
+  {
+   "id": "better_off",
+   "en": "better-off",
+   "uz": "badavlatroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the better-off suburbs, almost every pupil in the final year has a private tutor for the university entrance tests.",
+   "gap": "better-off",
+   "alt": [
+    "better off"
+   ]
+  },
+  {
+   "id": "well_endowed",
+   "en": "well-endowed",
+   "uz": "homiylik mablag‘i mo‘l",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Thanks to generous gifts from former students, it's a well-endowed university with its own observatory and concert hall.",
+   "gap": "well-endowed",
+   "alt": [
+    "well endowed"
+   ]
+  },
+  {
+   "id": "less_well_off",
+   "en": "less well-off",
+   "uz": "kam ta’minlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Every September the charity buys school uniforms for children from less well-off families.",
+   "gap": "less well-off",
+   "alt": [
+    "less well off"
+   ]
+  },
+  {
+   "id": "excel",
+   "en": "excel",
+   "uz": "a’lo natijaga erishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Zarina has always excelled at maths, and last year she won a gold medal at the national olympiad.",
+   "gap": "excelled",
+   "alt": [
+    "excelled",
+    "excels"
+   ]
+  },
+  {
+   "id": "scholarship",
+   "en": "scholarship",
+   "uz": "a’lo o‘qish uchun beriladigan grant",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to her outstanding grades, Kamola won a full scholarship to study medicine in Seoul.",
+   "gap": "scholarship",
+   "alt": [
+    "scholarships"
+   ]
+  },
+  {
+   "id": "bursary",
+   "en": "bursary",
+   "uz": "muhtoj talabaga beriladigan stipendiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because both his parents had lost their jobs, the college gave Ulugbek a bursary to cover his living costs.",
+   "gap": "bursary",
+   "alt": [
+    "bursaries"
+   ]
+  },
+  {
+   "id": "tertiary_education",
+   "en": "tertiary education",
+   "uz": "oliy ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only a third of school-leavers in the region go on to tertiary education at a university or college.",
+   "gap": "tertiary education",
+   "alt": []
+  },
+  {
+   "id": "student_loan",
+   "en": "student loan",
+   "uz": "talabalik krediti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ten years after graduating, I'm still paying back my student loan to the bank.",
+   "gap": "student loan",
+   "alt": [
+    "student loans"
+   ]
+  },
+  {
+   "id": "undergraduate",
+   "en": "undergraduate",
+   "uz": "bakalavriat talabasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most undergraduates are between 18 and 22 and are studying for their first degree.",
+   "gap": "undergraduates",
+   "alt": [
+    "undergraduates"
+   ]
+  },
+  {
+   "id": "tuition_fees",
+   "en": "tuition fees",
+   "uz": "o‘qish to‘lovi (kontrakt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families are taking out loans because tuition fees at private universities in Tashkent have risen sharply.",
+   "gap": "tuition fees",
+   "alt": [
+    "tuition fee"
+   ]
+  },
+  {
+   "id": "three_rs",
+   "en": "the three Rs",
+   "uz": "o‘qish, yozish va hisob",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before they learn coding, young children need the three Rs: reading, writing and arithmetic.",
+   "gap": "the three Rs",
+   "alt": [
+    "three Rs",
+    "three rs"
+   ]
+  },
+  {
+   "id": "literacy",
+   "en": "literacy",
+   "uz": "savodxonlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to evening classes, adult literacy in the village has risen: almost everyone can now read and write.",
+   "gap": "literacy",
+   "alt": []
+  },
+  {
+   "id": "numeracy",
+   "en": "numeracy",
+   "uz": "hisob-kitob ko‘nikmasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Good numeracy is essential for a market trader who has to add up prices and count change quickly.",
+   "gap": "numeracy",
+   "alt": []
+  },
+  {
+   "id": "curriculum_reform",
+   "en": "curriculum reform",
+   "uz": "o‘quv dasturi islohoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The latest curriculum reform added coding and financial planning to the subjects every school must teach.",
+   "gap": "curriculum reform",
+   "alt": []
+  },
+  {
+   "id": "syllabus",
+   "en": "syllabus",
+   "uz": "fan dasturi (o‘quv rejasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ask the teacher which topics are on the syllabus for this term's chemistry exam.",
+   "gap": "syllabus",
+   "alt": []
+  },
+  {
+   "id": "lifelong_education",
+   "en": "lifelong education",
+   "uz": "umrbod ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "At 68, our neighbour signed up for a coding course at IT Park, a perfect advertisement for lifelong education.",
+   "gap": "lifelong education",
+   "alt": []
+  },
+  {
+   "id": "mature_student",
+   "en": "mature student",
+   "uz": "katta yoshdagi talaba",
+   "pos": "noun",
+   "img": false,
+   "ex": "At 45, Rustam began his first degree as a mature student and sat in lectures with people half his age.",
+   "gap": "mature student",
+   "alt": [
+    "mature students"
+   ]
+  },
+  {
+   "id": "special_needs_education",
+   "en": "special needs education",
+   "uz": "alohida ehtiyojli bolalar ta’limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pupils with hearing or visual impairments attend the school's special needs education unit.",
+   "gap": "special needs education",
+   "alt": []
+  },
+  {
+   "id": "one_to_one",
+   "en": "one-to-one",
+   "uz": "yakkama-yakka",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ahmad is dyslexic, so he gets an hour of one-to-one teaching with a specialist every week.",
+   "gap": "one-to-one",
+   "alt": [
+    "one to one"
+   ]
+  },
+  {
+   "id": "bullying",
+   "en": "bullying",
+   "uz": "tazyiq (bezorilik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After weeks of bullying from older boys, who took his lunch money every day, Jasur refused to go to school.",
+   "gap": "bullying",
+   "alt": []
+  },
+  {
+   "id": "guidelines",
+   "en": "guidelines",
+   "uz": "yo‘riqnomalar (rasmiy tavsiyalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ministry has issued new guidelines on how much homework primary pupils should be given.",
+   "gap": "guidelines",
+   "alt": [
+    "guideline"
+   ]
+  },
+  {
+   "id": "get_to_grips_with",
+   "en": "get to grips with",
+   "uz": "o‘zlashtirib olmoq (tushunib yetmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It took the teachers a whole term to get to grips with the new online grading system.",
+   "gap": "get to grips with",
+   "alt": []
+  },
+  {
+   "id": "schooling",
+   "en": "schooling",
+   "uz": "maktab ta’limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Children in Uzbekistan receive eleven years of free schooling before they choose a college or university.",
+   "gap": "schooling",
+   "alt": []
+  },
+  {
+   "id": "inherent_in",
+   "en": "inherent in",
+   "uz": "…ga xos (ajralmas qismi bo‘lgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Some unfairness is inherent in any system that chooses pupils by a single exam.",
+   "gap": "inherent in",
+   "alt": []
+  },
+  {
+   "id": "postgraduate",
+   "en": "postgraduate",
+   "uz": "magistrant yoki doktorant",
+   "pos": "noun",
+   "img": false,
+   "ex": "After her bachelor's degree, Nilufar stayed on as a postgraduate, studying for a master's in economics.",
+   "gap": "postgraduate",
+   "alt": [
+    "postgraduates"
+   ]
+  },
+  {
+   "id": "distraction",
+   "en": "distraction",
+   "uz": "chalg‘ituvchi narsa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mobile phones are a constant distraction in class, so our school collects them every morning.",
+   "gap": "distraction",
+   "alt": [
+    "distractions"
+   ]
+  },
+  {
+   "id": "depress",
+   "en": "depress",
+   "uz": "pasaytirmoq (kamaytirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Critics say that the new entrance fees will depress the number of applicants from poorer villages.",
+   "gap": "depress",
+   "alt": [
+    "depressing",
+    "depresses",
+    "depressed"
+   ]
+  },
+  {
+   "id": "endowment",
+   "en": "endowment",
+   "uz": "xayriya jamg‘armasi (fond)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A former student left the college a huge endowment, which now pays for twenty places a year.",
+   "gap": "endowment",
+   "alt": [
+    "endowments"
+   ]
+  },
+  {
+   "id": "high_achieving",
+   "en": "high-achieving",
+   "uz": "yuqori natija ko‘rsatadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The olympiad club is open only to the highest-achieving pupils in each year group.",
+   "gap": "highest-achieving",
+   "alt": [
+    "high achieving",
+    "higher-achieving",
+    "highest-achieving"
+   ]
+  },
+  {
+   "id": "badly_performing",
+   "en": "badly-performing",
+   "uz": "yomon natija ko‘rsatayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Inspectors sent extra teachers to the region's worst-performing schools, where half the pupils had failed maths.",
+   "gap": "worst-performing",
+   "alt": [
+    "badly performing",
+    "worse-performing",
+    "worst-performing"
+   ]
+  },
+  {
+   "id": "continuing_education",
+   "en": "continuing education",
+   "uz": "kattalar uchun uzluksiz ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The university's continuing education department offers evening photography classes for working adults.",
+   "gap": "continuing education",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "selective",
+   "comprehensive"
+  ],
+  [
+   "selective",
+   "well_endowed"
+  ],
+  [
+   "scholarship",
+   "bursary"
+  ],
+  [
+   "bursary",
+   "student_loan"
+  ],
+  [
+   "better_off",
+   "well_endowed"
+  ],
+  [
+   "better_off",
+   "less_well_off"
+  ],
+  [
+   "literacy",
+   "numeracy"
+  ],
+  [
+   "curriculum_reform",
+   "syllabus"
+  ],
+  [
+   "guidelines",
+   "syllabus"
+  ],
+  [
+   "mature_student",
+   "undergraduate"
+  ],
+  [
+   "special_needs_education",
+   "one_to_one"
+  ],
+  [
+   "three_rs",
+   "literacy"
+  ],
+  [
+   "curriculum_reform",
+   "guidelines"
+  ],
+  [
+   "comprehensive",
+   "well_endowed"
+  ],
+  [
+   "student_loan",
+   "tuition_fees"
+  ],
+  [
+   "three_rs",
+   "numeracy"
+  ],
+  [
+   "schooling",
+   "tertiary_education"
+  ],
+  [
+   "schooling",
+   "special_needs_education"
+  ],
+  [
+   "undergraduate",
+   "postgraduate"
+  ],
+  [
+   "postgraduate",
+   "mature_student"
+  ],
+  [
+   "endowment",
+   "scholarship"
+  ],
+  [
+   "endowment",
+   "bursary"
+  ],
+  [
+   "high_achieving",
+   "better_off"
+  ],
+  [
+   "high_achieving",
+   "less_well_off"
+  ],
+  [
+   "high_achieving",
+   "badly_performing"
+  ],
+  [
+   "high_achieving",
+   "selective"
+  ],
+  [
+   "badly_performing",
+   "selective"
+  ],
+  [
+   "badly_performing",
+   "comprehensive"
+  ],
+  [
+   "badly_performing",
+   "well_endowed"
+  ],
+  [
+   "badly_performing",
+   "better_off"
+  ],
+  [
+   "badly_performing",
+   "less_well_off"
+  ],
+  [
+   "continuing_education",
+   "lifelong_education"
+  ],
+  [
+   "depress",
+   "perpetuate"
+  ]
+ ]
+}

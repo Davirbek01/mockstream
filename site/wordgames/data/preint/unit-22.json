@@ -1,0 +1,378 @@
+{
+ "book": "preint",
+ "unit": 22,
+ "title": "Fashion and buying clothes",
+ "title_uz": "Moda va kiyim xarid qilish",
+ "words": [
+  {
+   "id": "shop_v",
+   "en": "shop",
+   "uz": "do‘konlarni aylanib xarid qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My mum hates crowds, so she prefers to shop early on weekday mornings when the mall is quiet.",
+   "gap": "shop",
+   "alt": [
+    "shops",
+    "shopped",
+    "shopping"
+   ]
+  },
+  {
+   "id": "try_on",
+   "en": "try on",
+   "uz": "kiyib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, can I try on these trainers in a size 40, please?",
+   "gap": "try on",
+   "alt": [
+    "tries on",
+    "tried on",
+    "trying on"
+   ]
+  },
+  {
+   "id": "fashionable",
+   "en": "fashionable",
+   "uz": "urfdagi (modali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Wide trousers are very fashionable this year; you see them everywhere.",
+   "gap": "fashionable",
+   "alt": []
+  },
+  {
+   "id": "in_fashion",
+   "en": "in fashion",
+   "uz": "hozir urfda (modada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Big white trainers are in fashion again, so all my classmates want a pair.",
+   "gap": "in fashion",
+   "alt": []
+  },
+  {
+   "id": "go_with",
+   "en": "go with",
+   "uz": "…ga mos tushmoq (birga yarashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Which tie goes with this light blue shirt, the red one or the grey one?",
+   "gap": "goes with",
+   "alt": [
+    "goes with",
+    "went with",
+    "going with"
+   ]
+  },
+  {
+   "id": "match",
+   "en": "match",
+   "uz": "rangi/turi bir xil bo‘lmoq (uyg‘un)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I got dressed in the dark, and now my socks don't match: one is black and the other is brown!",
+   "gap": "match",
+   "alt": [
+    "matches",
+    "matched",
+    "matching"
+   ]
+  },
+  {
+   "id": "fit",
+   "en": "fit",
+   "uz": "o‘lchami to‘g‘ri kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "These shoes don't fit me; they're one size too small.",
+   "gap": "fit",
+   "alt": [
+    "fits",
+    "fitted",
+    "fitting"
+   ]
+  },
+  {
+   "id": "wardrobe",
+   "en": "wardrobe",
+   "uz": "kiyim javoni (shkaf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My wardrobe is so full of clothes that I can't close the door.",
+   "gap": "wardrobe",
+   "alt": [
+    "wardrobes"
+   ]
+  },
+  {
+   "id": "designer_label",
+   "en": "designer label",
+   "uz": "mashhur brend kiyimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some teenagers only want designer labels like Gucci, even though they cost a fortune.",
+   "gap": "designer labels",
+   "alt": [
+    "designer labels"
+   ]
+  },
+  {
+   "id": "reasonable",
+   "en": "reasonable",
+   "uz": "maqbul (qimmat emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The prices at Abu Saxiy market are reasonable, so you can buy a good jacket without spending too much.",
+   "gap": "reasonable",
+   "alt": []
+  },
+  {
+   "id": "dress_in",
+   "en": "dress in",
+   "uz": "ma’lum rang/uslubda kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Madina likes to dress in bright colours, especially yellow and orange.",
+   "gap": "dress in",
+   "alt": [
+    "dresses in",
+    "dressed in",
+    "dressing in"
+   ]
+  },
+  {
+   "id": "have_got_on",
+   "en": "have got on",
+   "uz": "egnida bo‘lmoq (kiyib olgan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Look at what Aziz has got on today: a yellow jacket and purple trousers!",
+   "gap": "has got on",
+   "alt": [
+    "has got on",
+    "had got on"
+   ]
+  },
+  {
+   "id": "shop_assistant",
+   "en": "shop assistant",
+   "uz": "sotuvchi (do‘konda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop assistant brought me the same shirt in a bigger size.",
+   "gap": "shop assistant",
+   "alt": [
+    "shop assistants"
+   ]
+  },
+  {
+   "id": "serve",
+   "en": "serve",
+   "uz": "xizmat ko‘rsatmoq (xaridorga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "There were ten people in the queue but only one assistant to serve them.",
+   "gap": "serve",
+   "alt": [
+    "serves",
+    "served",
+    "serving"
+   ]
+  },
+  {
+   "id": "customer",
+   "en": "customer",
+   "uz": "xaridor (mijoz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop was full of customers, because everything was half price.",
+   "gap": "customers",
+   "alt": [
+    "customers"
+   ]
+  },
+  {
+   "id": "being_served",
+   "en": "I'm being served",
+   "uz": "menga allaqachon xizmat qilishyapti",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When a second assistant offered to help, I said, \"Thanks, but I'm being served,\" and pointed to her colleague.",
+   "gap": "I'm being served",
+   "alt": [
+    "I am being served"
+   ]
+  },
+  {
+   "id": "tight",
+   "en": "tight",
+   "uz": "tor (siqib turadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I can't do up these trousers; they're too tight around the waist.",
+   "gap": "tight",
+   "alt": []
+  },
+  {
+   "id": "loose",
+   "en": "loose",
+   "uz": "keng (bo‘sh, osilib turadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I've lost weight, so all my trousers are loose now and I need a belt.",
+   "gap": "loose",
+   "alt": []
+  },
+  {
+   "id": "thats_a_shame",
+   "en": "that's a shame",
+   "uz": "attang (afsus)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"We haven't got it in your size.\" \"Oh, that's a shame. I really liked the colour.\"",
+   "gap": "that's a shame",
+   "alt": [
+    "that is a shame"
+   ]
+  },
+  {
+   "id": "leave_it",
+   "en": "I'll leave it",
+   "uz": "kerak emas, olmayman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's a nice jacket, but it's too expensive for me, so I'll leave it, thanks.",
+   "gap": "I'll leave it",
+   "alt": [
+    "I will leave it"
+   ]
+  },
+  {
+   "id": "take_it",
+   "en": "I'll take it",
+   "uz": "shuni olaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It fits perfectly and the price is fine, so I'll take it!",
+   "gap": "I'll take it",
+   "alt": [
+    "I will take it",
+    "I'll take them"
+   ]
+  },
+  {
+   "id": "look_for",
+   "en": "look for",
+   "uz": "qidirmoq (izlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, I'm looking for a white shirt for my school uniform.",
+   "gap": "looking for",
+   "alt": [
+    "looks for",
+    "looked for",
+    "looking for"
+   ]
+  },
+  {
+   "id": "changing_room",
+   "en": "changing room",
+   "uz": "kiyib ko‘rish xonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a long queue for the changing rooms, so I bought the shirt without trying it on.",
+   "gap": "changing rooms",
+   "alt": [
+    "changing rooms"
+   ]
+  },
+  {
+   "id": "size",
+   "en": "size",
+   "uz": "o‘lcham (razmer)",
+   "pos": "noun",
+   "img": false,
+   "ex": "These shoes are too small; have you got them in a bigger size?",
+   "gap": "size",
+   "alt": [
+    "sizes"
+   ]
+  },
+  {
+   "id": "thats_a_pity",
+   "en": "that's a pity",
+   "uz": "qanday achinarli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"The concert's been cancelled.\" \"Oh, that's a pity. I was really looking forward to it.\"",
+   "gap": "that's a pity",
+   "alt": [
+    "that is a pity"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fashionable",
+   "in_fashion"
+  ],
+  [
+   "go_with",
+   "match"
+  ],
+  [
+   "match",
+   "fit"
+  ],
+  [
+   "try_on",
+   "look_for"
+  ],
+  [
+   "dress_in",
+   "look_for"
+  ],
+  [
+   "dress_in",
+   "go_with"
+  ],
+  [
+   "shop_v",
+   "serve"
+  ],
+  [
+   "shop_assistant",
+   "customer"
+  ],
+  [
+   "tight",
+   "loose"
+  ],
+  [
+   "being_served",
+   "leave_it"
+  ],
+  [
+   "thats_a_shame",
+   "leave_it"
+  ],
+  [
+   "leave_it",
+   "take_it"
+  ],
+  [
+   "fashionable",
+   "reasonable"
+  ],
+  [
+   "thats_a_pity",
+   "thats_a_shame"
+  ],
+  [
+   "thats_a_pity",
+   "leave_it"
+  ]
+ ]
+}

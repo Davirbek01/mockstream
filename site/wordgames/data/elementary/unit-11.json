@@ -1,0 +1,418 @@
+{
+ "book": "elementary",
+ "unit": 11,
+ "title": "In the kitchen",
+ "title_uz": "Oshxonada",
+ "words": [
+  {
+   "id": "cupboard",
+   "en": "cupboard",
+   "uz": "oshxona shkafi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The tea, sugar and rice are in the kitchen cupboard, behind the small wooden door.",
+   "gap": "cupboard",
+   "alt": []
+  },
+  {
+   "id": "shelf",
+   "en": "shelf",
+   "uz": "javon (polka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum keeps her spice jars in a long row on a shelf above the cooker.",
+   "gap": "shelf",
+   "alt": [
+    "shelves"
+   ]
+  },
+  {
+   "id": "freezer",
+   "en": "freezer",
+   "uz": "muzlatkich kamerasi (morozilnik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep the ice cream in the freezer, at minus eighteen degrees.",
+   "gap": "freezer",
+   "alt": []
+  },
+  {
+   "id": "fridge",
+   "en": "fridge",
+   "uz": "muzlatkich",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother sticks his drawings on the fridge door with colourful magnets.",
+   "gap": "fridge",
+   "alt": []
+  },
+  {
+   "id": "microwave",
+   "en": "microwave",
+   "uz": "mikroto‘lqinli pech",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put the bowl of cold soup in the microwave, press the start button and wait two minutes.",
+   "gap": "microwave",
+   "alt": []
+  },
+  {
+   "id": "tap",
+   "en": "tap",
+   "uz": "jo‘mrak (kran)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The kitchen tap drips all night: drip, drip, drip! I can't sleep.",
+   "gap": "tap",
+   "alt": []
+  },
+  {
+   "id": "worktop",
+   "en": "worktop",
+   "uz": "oshxona ish yuzasi (stoleshnitsa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister rolls out the dough for manti on the worktop, next to the sink.",
+   "gap": "worktop",
+   "alt": []
+  },
+  {
+   "id": "sink",
+   "en": "sink",
+   "uz": "rakovina (idish yuvish joyi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Fill the sink with hot water and wash the plates by hand.",
+   "gap": "sink",
+   "alt": []
+  },
+  {
+   "id": "bin",
+   "en": "bin",
+   "uz": "chiqindi chelagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The kitchen bin is full again, and it's your turn to take it out.",
+   "gap": "bin",
+   "alt": []
+  },
+  {
+   "id": "washing_machine",
+   "en": "washing machine",
+   "uz": "kir yuvish mashinasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "My football shirt is dirty, so I'll put it in the washing machine.",
+   "gap": "washing machine",
+   "alt": []
+  },
+  {
+   "id": "cooker",
+   "en": "cooker",
+   "uz": "plita",
+   "pos": "noun",
+   "img": true,
+   "ex": "The soup is boiling in a big pot on the cooker.",
+   "gap": "cooker",
+   "alt": []
+  },
+  {
+   "id": "dishwasher",
+   "en": "dishwasher",
+   "uz": "idish yuvish mashinasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We don't wash the plates by hand; the dishwasher does it for us.",
+   "gap": "dishwasher",
+   "alt": []
+  },
+  {
+   "id": "coffee_maker",
+   "en": "coffee maker",
+   "uz": "qahva qaynatgich (kofevarka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put water in the coffee maker, press the button and wait for your espresso.",
+   "gap": "coffee maker",
+   "alt": []
+  },
+  {
+   "id": "teapot",
+   "en": "teapot",
+   "uz": "choynak",
+   "pos": "noun",
+   "img": true,
+   "ex": "Leave the green tea in the teapot for three minutes, then pour the first piyola back in.",
+   "gap": "teapot",
+   "alt": []
+  },
+  {
+   "id": "saucepan",
+   "en": "saucepan",
+   "uz": "kastryulka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Warm the milk in a small saucepan, but don't let it boil.",
+   "gap": "saucepan",
+   "alt": []
+  },
+  {
+   "id": "kitchen_roll",
+   "en": "kitchen roll",
+   "uz": "qog‘oz sochiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Tear off a sheet of kitchen roll and wipe up the juice you spilt.",
+   "gap": "kitchen roll",
+   "alt": []
+  },
+  {
+   "id": "tea_towel",
+   "en": "tea towel",
+   "uz": "idish artadigan sochiq",
+   "pos": "noun",
+   "img": false,
+   "ex": "I washed the plates, and my brother dried them with a clean tea towel.",
+   "gap": "tea towel",
+   "alt": []
+  },
+  {
+   "id": "washing_up_liquid",
+   "en": "washing-up liquid",
+   "uz": "idish yuvish suyuqligi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put a little washing-up liquid on the sponge; it makes lots of bubbles.",
+   "gap": "washing-up liquid",
+   "alt": [
+    "washing up liquid"
+   ]
+  },
+  {
+   "id": "frying_pan",
+   "en": "frying pan",
+   "uz": "tova",
+   "pos": "noun",
+   "img": true,
+   "ex": "My mum makes thin pancakes in a frying pan and throws them up in the air to turn them.",
+   "gap": "frying pan",
+   "alt": []
+  },
+  {
+   "id": "cloth",
+   "en": "cloth",
+   "uz": "latta (artqich)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum wets a cloth under the tap and cleans the cooker with it.",
+   "gap": "cloth",
+   "alt": []
+  },
+  {
+   "id": "chopsticks",
+   "en": "chopsticks",
+   "uz": "ovqat cho‘plari",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the Korean café near our school, my friend taught me to hold chopsticks and eat noodles with them.",
+   "gap": "chopsticks",
+   "alt": []
+  },
+  {
+   "id": "glass",
+   "en": "glass",
+   "uz": "stakan",
+   "pos": "noun",
+   "img": true,
+   "ex": "Pour the juice into a tall glass so we can see its lovely orange colour.",
+   "gap": "glass",
+   "alt": []
+  },
+  {
+   "id": "knife",
+   "en": "knife",
+   "uz": "pichoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Be careful, this knife is very sharp; cut the bread slowly.",
+   "gap": "knife",
+   "alt": [
+    "knives"
+   ]
+  },
+  {
+   "id": "fork",
+   "en": "fork",
+   "uz": "sanchqi (vilka)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little sister eats spaghetti by turning it round and round on her fork.",
+   "gap": "fork",
+   "alt": []
+  },
+  {
+   "id": "spoon",
+   "en": "spoon",
+   "uz": "qoshiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Little babies can't hold a knife and fork, so they eat with a spoon.",
+   "gap": "spoon",
+   "alt": []
+  },
+  {
+   "id": "cup",
+   "en": "cup",
+   "uz": "chashka",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the café, the coffee came in a tiny cup on a saucer, with a small biscuit.",
+   "gap": "cup",
+   "alt": []
+  },
+  {
+   "id": "bowl",
+   "en": "bowl",
+   "uz": "kosa",
+   "pos": "noun",
+   "img": false,
+   "ex": "On cold evenings I like a deep bowl of hot shurpa with fresh bread.",
+   "gap": "bowl",
+   "alt": []
+  },
+  {
+   "id": "mug",
+   "en": "mug",
+   "uz": "krujka",
+   "pos": "noun",
+   "img": false,
+   "ex": "I drink hot chocolate from my favourite mug: it's big and heavy and says 'I love Khiva'.",
+   "gap": "mug",
+   "alt": []
+  },
+  {
+   "id": "plate",
+   "en": "plate",
+   "uz": "tarelka (likopcha)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put a slice of cake on each plate and pass them round.",
+   "gap": "plate",
+   "alt": []
+  },
+  {
+   "id": "washing_up",
+   "en": "washing-up",
+   "uz": "idish-tovoq yuvish",
+   "pos": "noun",
+   "img": false,
+   "ex": "After dinner, I help my mum with the washing-up: she washes and I dry.",
+   "gap": "washing-up",
+   "alt": [
+    "washing up"
+   ]
+  },
+  {
+   "id": "dry_v",
+   "en": "dry",
+   "uz": "artib quritmoq (idishni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't put the wet cups away in the cupboard; dry them first.",
+   "gap": "dry",
+   "alt": [
+    "dries",
+    "dried",
+    "drying"
+   ]
+  },
+  {
+   "id": "cook_v",
+   "en": "cook",
+   "uz": "ovqat pishirmoq (tayyorlamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nodir loves to cook, so tonight he's making pasta with tomato sauce for everyone.",
+   "gap": "cook",
+   "alt": [
+    "cooks",
+    "cooked",
+    "cooking"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cupboard",
+   "shelf"
+  ],
+  [
+   "fridge",
+   "freezer"
+  ],
+  [
+   "microwave",
+   "cooker"
+  ],
+  [
+   "sink",
+   "dishwasher"
+  ],
+  [
+   "dishwasher",
+   "washing_machine"
+  ],
+  [
+   "saucepan",
+   "frying_pan"
+  ],
+  [
+   "cloth",
+   "tea_towel"
+  ],
+  [
+   "cloth",
+   "kitchen_roll"
+  ],
+  [
+   "tea_towel",
+   "kitchen_roll"
+  ],
+  [
+   "glass",
+   "cup"
+  ],
+  [
+   "glass",
+   "mug"
+  ],
+  [
+   "cup",
+   "mug"
+  ],
+  [
+   "bowl",
+   "plate"
+  ],
+  [
+   "washing_up",
+   "washing_up_liquid"
+  ],
+  [
+   "teapot",
+   "coffee_maker"
+  ],
+  [
+   "chopsticks",
+   "spoon"
+  ],
+  [
+   "dry_v",
+   "tea_towel"
+  ],
+  [
+   "cook_v",
+   "washing_up"
+  ]
+ ]
+}

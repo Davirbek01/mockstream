@@ -1,0 +1,576 @@
+{
+ "book": "upper",
+ "unit": 21,
+ "title": "Music",
+ "title_uz": "Musiqa",
+ "words": [
+  {
+   "id": "album",
+   "en": "album",
+   "uz": "albom (qo‘shiqlar to‘plami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band's first album came out in 2019 and had ten songs on it.",
+   "gap": "album",
+   "alt": [
+    "albums"
+   ]
+  },
+  {
+   "id": "playlist",
+   "en": "playlist",
+   "uz": "pleylist (tanlangan qo‘shiqlar ro‘yxati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before our long train journey to Nukus, I made a playlist of my favourite songs.",
+   "gap": "playlist",
+   "alt": [
+    "playlists"
+   ]
+  },
+  {
+   "id": "sync",
+   "en": "sync",
+   "uz": "sinxronlashtirmoq (qurilmalarni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every evening I sync my phone with my laptop, so the same songs are on both.",
+   "gap": "sync",
+   "alt": [
+    "synchronise",
+    "synchronize",
+    "syncs",
+    "synced",
+    "syncing"
+   ]
+  },
+  {
+   "id": "stream_music",
+   "en": "stream",
+   "uz": "onlayn tinglamoq (striming)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I don't download whole albums any more; I just stream them on my phone on the bus to school.",
+   "gap": "stream",
+   "alt": [
+    "streams",
+    "streamed",
+    "streaming"
+   ]
+  },
+  {
+   "id": "rock_band",
+   "en": "rock band",
+   "uz": "rok guruhi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin plays guitar in a rock band that performs at student concerts in Tashkent.",
+   "gap": "rock band",
+   "alt": [
+    "rock bands"
+   ]
+  },
+  {
+   "id": "lead_singer",
+   "en": "lead singer",
+   "uz": "guruhning bosh xonandasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "As lead singer, Kamola sings almost every song and stands at the front of the stage.",
+   "gap": "lead singer",
+   "alt": [
+    "lead singers"
+   ]
+  },
+  {
+   "id": "lead_guitar",
+   "en": "lead guitar",
+   "uz": "solo gitara (yetakchi gitara)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jasur plays lead guitar, so he gets the long solos in every song.",
+   "gap": "lead guitar",
+   "alt": []
+  },
+  {
+   "id": "keyboard_player",
+   "en": "keyboard player",
+   "uz": "klavishli cholg‘u ijrochisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our keyboard player can make her instrument sound like a piano, an organ or even violins.",
+   "gap": "keyboard player",
+   "alt": [
+    "keyboard players"
+   ]
+  },
+  {
+   "id": "drums",
+   "en": "drums",
+   "uz": "barabanlar (udarnik to‘plami)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The neighbours complained because my brother practises the drums every night, hitting them as hard as he can.",
+   "gap": "drums",
+   "alt": [
+    "drum"
+   ]
+  },
+  {
+   "id": "drummer",
+   "en": "drummer",
+   "uz": "barabanchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good drummer keeps the beat steady so the rest of the band can follow.",
+   "gap": "drummer",
+   "alt": [
+    "drummers"
+   ]
+  },
+  {
+   "id": "bass_guitar",
+   "en": "bass guitar",
+   "uz": "bas-gitara",
+   "pos": "noun",
+   "img": true,
+   "ex": "Its four thick strings give the bass guitar its deep, low sound.",
+   "gap": "bass guitar",
+   "alt": [
+    "bass",
+    "bass guitars"
+   ]
+  },
+  {
+   "id": "taste_in_music",
+   "en": "taste in music",
+   "uz": "musiqiy did",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class could never agree on songs for the graduation party because everyone's tastes in music were so different.",
+   "gap": "tastes in music",
+   "alt": [
+    "tastes in music"
+   ]
+  },
+  {
+   "id": "hip_hop",
+   "en": "hip-hop",
+   "uz": "xip-xop (musiqa uslubi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the youth centre, Bekzod teaches breakdancing and other hip-hop dance moves to teenagers.",
+   "gap": "hip-hop",
+   "alt": [
+    "hip hop",
+    "hiphop"
+   ]
+  },
+  {
+   "id": "rap",
+   "en": "rap",
+   "uz": "rep (tez aytiladigan ritmik matn)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the school talent show, Sardor wrote a funny rap about homework and performed it over a beat from his phone.",
+   "gap": "rap",
+   "alt": [
+    "raps"
+   ]
+  },
+  {
+   "id": "be_into",
+   "en": "be into",
+   "uz": "(…ga) qiziqmoq, ishqibozi bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little brother is into K-pop and knows every song by BTS by heart.",
+   "gap": "is into",
+   "alt": [
+    "is into",
+    "am into",
+    "are into",
+    "was into",
+    "into"
+   ]
+  },
+  {
+   "id": "soundtrack",
+   "en": "soundtrack",
+   "uz": "film musiqasi (saundtrek)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I loved the soundtrack of that cartoon so much that I listened to its songs for weeks afterwards.",
+   "gap": "soundtrack",
+   "alt": [
+    "soundtracks"
+   ]
+  },
+  {
+   "id": "canned_music",
+   "en": "canned music",
+   "uz": "fon musiqasi (yozib qo‘yilgan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dentist's waiting room was silent except for some quiet canned music coming from a speaker in the ceiling.",
+   "gap": "canned music",
+   "alt": []
+  },
+  {
+   "id": "compose",
+   "en": "compose",
+   "uz": "(musiqa) bastalamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our music teacher composed a short song for the school's anniversary, and the choir sang it at the concert.",
+   "gap": "composed",
+   "alt": [
+    "composes",
+    "composed",
+    "composing"
+   ]
+  },
+  {
+   "id": "read_music",
+   "en": "read music",
+   "uz": "nota o‘qimoq (notani bilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda sings beautifully, but she can't read music, so a page of notes means nothing to her.",
+   "gap": "read music",
+   "alt": [
+    "reads music",
+    "reading music"
+   ]
+  },
+  {
+   "id": "play_by_ear",
+   "en": "play by ear",
+   "uz": "notasiz, eshitib chalmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle never had lessons; he listened to songs on the radio and learned to play by ear on his dutar.",
+   "gap": "play by ear",
+   "alt": [
+    "plays by ear",
+    "played by ear",
+    "playing by ear"
+   ]
+  },
+  {
+   "id": "good_ear",
+   "en": "a good ear",
+   "uz": "nozik musiqiy eshitish qobiliyati",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilnoza has a good ear: she can tell at once when one guitar string is slightly out of tune.",
+   "gap": "a good ear",
+   "alt": [
+    "good ear"
+   ]
+  },
+  {
+   "id": "pick_out_a_tune",
+   "en": "pick out a tune",
+   "uz": "kuyni topib chalib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After hearing the song only twice, Aziz sat at the piano and picked out a tune with one finger.",
+   "gap": "picked out a tune",
+   "alt": [
+    "picks out a tune",
+    "picked out a tune",
+    "picking out a tune"
+   ]
+  },
+  {
+   "id": "talented",
+   "en": "talented",
+   "uz": "iste’dodli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rahim is such a talented musician that the conservatoire offered him a place at fifteen.",
+   "gap": "talented",
+   "alt": []
+  },
+  {
+   "id": "trained_musician",
+   "en": "trained musician",
+   "uz": "kasbiy ta’lim olgan musiqachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laylo spent seven years at the conservatoire, so she is a fully trained musician who could play in any orchestra.",
+   "gap": "trained musician",
+   "alt": [
+    "trained musicians"
+   ]
+  },
+  {
+   "id": "make_music",
+   "en": "make music",
+   "uz": "musiqa chalmoq (o‘zicha musiqa yaratmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My friends and I don't have proper instruments, so we make music with pots, spoons and our own voices.",
+   "gap": "make music",
+   "alt": [
+    "makes music",
+    "making music",
+    "made music"
+   ]
+  },
+  {
+   "id": "classical_music",
+   "en": "classical music",
+   "uz": "mumtoz (klassik) musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some students listen to classical music while they revise because calm piano pieces by Chopin help them concentrate.",
+   "gap": "classical music",
+   "alt": []
+  },
+  {
+   "id": "instrument",
+   "en": "instrument",
+   "uz": "musiqa asbobi (cholg‘u)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam plays three different instruments: the piano, the guitar and the doira.",
+   "gap": "instruments",
+   "alt": [
+    "instruments"
+   ]
+  },
+  {
+   "id": "to_the_full",
+   "en": "to the full",
+   "uz": "to‘liq, maroqlanib (bahra olib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We had front-row seats, so we enjoyed the concert to the full.",
+   "gap": "to the full",
+   "alt": []
+  },
+  {
+   "id": "mp3",
+   "en": "MP3",
+   "uz": "siqilgan audio fayl turi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the flight, Nodira copied forty MP3 files onto her old player so she could listen without the internet.",
+   "gap": "MP3",
+   "alt": [
+    "MP3s",
+    "mp3",
+    "mp3s"
+   ]
+  },
+  {
+   "id": "keyboard_instrument",
+   "en": "keyboard",
+   "uz": "sintezator (elektron klavishli cholg‘u)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Otabek bought a second-hand keyboard with 61 keys and practises on it with headphones so the neighbours can't hear.",
+   "gap": "keyboard",
+   "alt": [
+    "keyboards"
+   ]
+  },
+  {
+   "id": "singer",
+   "en": "singer",
+   "uz": "xonanda (qo‘shiqchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The opera singer held the last high note for so long that the audience started clapping before she finished.",
+   "gap": "singer",
+   "alt": [
+    "singers"
+   ]
+  },
+  {
+   "id": "bass_guitarist",
+   "en": "bass guitarist",
+   "uz": "bas-gitarachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The band put an advert online because they needed a new bass guitarist with a four-string instrument of their own.",
+   "gap": "bass guitarist",
+   "alt": [
+    "bass guitarists"
+   ]
+  },
+  {
+   "id": "r_and_b",
+   "en": "R&B",
+   "uz": "ritm va bluz musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before she became a solo star, Beyoncé sang smooth R&B in the girl group Destiny's Child.",
+   "gap": "R&B",
+   "alt": [
+    "R and B",
+    "RnB",
+    "rhythm and blues"
+   ]
+  },
+  {
+   "id": "jazz",
+   "en": "jazz",
+   "uz": "improvizatsiyaga boy musiqa uslubi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the late-night club, a saxophone player and a pianist improvised jazz for three hours without any written music.",
+   "gap": "jazz",
+   "alt": []
+  },
+  {
+   "id": "sixties_music",
+   "en": "60s music",
+   "uz": "1960-yillar musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The radio show plays only 60s music, so you hear songs from 1960 to 1969 and nothing newer.",
+   "gap": "60s music",
+   "alt": [
+    "sixties music",
+    "1960s music"
+   ]
+  },
+  {
+   "id": "musician",
+   "en": "musician",
+   "uz": "musiqachi (sozanda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Sunday a street musician plays the accordion near the park gate and goes home with a hat full of coins.",
+   "gap": "musician",
+   "alt": [
+    "musicians"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "album",
+   "playlist"
+  ],
+  [
+   "album",
+   "soundtrack"
+  ],
+  [
+   "sync",
+   "stream_music"
+  ],
+  [
+   "lead_guitar",
+   "bass_guitar"
+  ],
+  [
+   "lead_guitar",
+   "drums"
+  ],
+  [
+   "drums",
+   "bass_guitar"
+  ],
+  [
+   "drummer",
+   "keyboard_player"
+  ],
+  [
+   "drummer",
+   "trained_musician"
+  ],
+  [
+   "lead_singer",
+   "trained_musician"
+  ],
+  [
+   "keyboard_player",
+   "trained_musician"
+  ],
+  [
+   "hip_hop",
+   "rap"
+  ],
+  [
+   "read_music",
+   "make_music"
+  ],
+  [
+   "read_music",
+   "play_by_ear"
+  ],
+  [
+   "play_by_ear",
+   "pick_out_a_tune"
+  ],
+  [
+   "play_by_ear",
+   "make_music"
+  ],
+  [
+   "canned_music",
+   "classical_music"
+  ],
+  [
+   "drums",
+   "instrument"
+  ],
+  [
+   "bass_guitar",
+   "instrument"
+  ],
+  [
+   "soundtrack",
+   "score"
+  ],
+  [
+   "keyboard_instrument",
+   "instrument"
+  ],
+  [
+   "singer",
+   "lead_singer"
+  ],
+  [
+   "singer",
+   "musician"
+  ],
+  [
+   "bass_guitarist",
+   "drummer"
+  ],
+  [
+   "musician",
+   "drummer"
+  ],
+  [
+   "musician",
+   "trained_musician"
+  ],
+  [
+   "r_and_b",
+   "jazz"
+  ],
+  [
+   "r_and_b",
+   "hip_hop"
+  ],
+  [
+   "bass_guitarist",
+   "musician"
+  ],
+  [
+   "r_and_b",
+   "rap"
+  ],
+  [
+   "musician",
+   "keyboard_player"
+  ]
+ ]
+}

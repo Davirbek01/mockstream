@@ -1,0 +1,654 @@
+{
+ "book": "upper",
+ "unit": 51,
+ "title": "Number, quantity, degree and intensity",
+ "title_uz": "Son, miqdor, daraja va kuchlilik",
+ "words": [
+  {
+   "id": "number",
+   "en": "number",
+   "uz": "son (sanaladigan narsalar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A surprising number of students in our class chose Korean as their second foreign language.",
+   "gap": "number",
+   "alt": []
+  },
+  {
+   "id": "amount",
+   "en": "amount",
+   "uz": "miqdor (sanalmaydigan narsalar uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Learning to play the dutar well takes a huge amount of patience.",
+   "gap": "amount",
+   "alt": []
+  },
+  {
+   "id": "minute",
+   "en": "minute",
+   "uz": "juda mayda, zarracha (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new laboratory scales can detect minute traces of dust that the human eye cannot see.",
+   "gap": "minute",
+   "alt": []
+  },
+  {
+   "id": "tiny",
+   "en": "tiny",
+   "uz": "jajji, juda kichkina",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The kitten was so tiny that it could sit in the palm of my hand.",
+   "gap": "tiny",
+   "alt": []
+  },
+  {
+   "id": "average",
+   "en": "average",
+   "uz": "o‘rtacha",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rustam isn't a chess genius; he's an average player who wins about half of his games.",
+   "gap": "average",
+   "alt": []
+  },
+  {
+   "id": "considerable",
+   "en": "considerable",
+   "uz": "ancha-muncha, salmoqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new bridge has saved drivers a considerable amount of time: the trip across the river now takes ten minutes instead of forty.",
+   "gap": "considerable",
+   "alt": []
+  },
+  {
+   "id": "significant",
+   "en": "significant",
+   "uz": "sezilarli (darajada ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since the speed cameras were installed, there has been a significant fall in road accidents in our district: about 30% fewer than last year.",
+   "gap": "significant",
+   "alt": []
+  },
+  {
+   "id": "substantial",
+   "en": "substantial",
+   "uz": "katta miqdordagi (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Repairing the old theatre roof will cost a substantial sum, so the city is asking local businesses to help.",
+   "gap": "substantial",
+   "alt": []
+  },
+  {
+   "id": "excessive",
+   "en": "excessive",
+   "uz": "haddan tashqari ko‘p",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Teenagers who spend an excessive amount of time on their phones, up to eight hours a day, often sleep badly.",
+   "gap": "excessive",
+   "alt": []
+  },
+  {
+   "id": "vast_quantity",
+   "en": "vast",
+   "uz": "ulkan, cheksiz keng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the plane we looked down on a vast, empty steppe that seemed to go on forever.",
+   "gap": "vast",
+   "alt": []
+  },
+  {
+   "id": "enormous",
+   "en": "enormous",
+   "uz": "bahaybat, nihoyatda katta",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour grew an enormous pumpkin this year: it weighed nearly forty kilos and won first prize at the district fair.",
+   "gap": "enormous",
+   "alt": []
+  },
+  {
+   "id": "dozens_of",
+   "en": "dozens of",
+   "uz": "o‘nlab",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I found dozens of old pencils in my desk drawer — at least fifty of them!",
+   "gap": "dozens of",
+   "alt": []
+  },
+  {
+   "id": "scores_of",
+   "en": "scores of",
+   "uz": "yigirmalab, ko‘plab (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In its official statement, the airport said that scores of flights had been delayed by thick fog.",
+   "gap": "scores of",
+   "alt": []
+  },
+  {
+   "id": "heaps_of",
+   "en": "heaps of",
+   "uz": "bir uyum, talaygina (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't rush your breakfast; the bus doesn't come until half past eight, so we've got heaps of time.",
+   "gap": "heaps of",
+   "alt": []
+  },
+  {
+   "id": "loads_of",
+   "en": "loads of",
+   "uz": "bir dunyo, juda ko‘p (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't buy any more bread — we've got loads of it at home.",
+   "gap": "loads of",
+   "alt": []
+  },
+  {
+   "id": "tons_of",
+   "en": "tons of",
+   "uz": "tonnalab, behisob (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother's room is a mess: there are tons of comics and old magazines piled up under his bed.",
+   "gap": "tons of",
+   "alt": []
+  },
+  {
+   "id": "a_drop_of",
+   "en": "a drop of",
+   "uz": "bir tomchi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Put just a drop of oil in the frying pan; the eggs won't need any more than that.",
+   "gap": "a drop of",
+   "alt": []
+  },
+  {
+   "id": "utter_nonsense",
+   "en": "utter nonsense",
+   "uz": "mutlaq bema’nilik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't believe him — he's talking utter nonsense about a crocodile living in the school pond.",
+   "gap": "utter nonsense",
+   "alt": []
+  },
+  {
+   "id": "utter_silence",
+   "en": "utter silence",
+   "uz": "mutlaq sukunat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the head teacher raised her hand, four hundred noisy pupils fell into utter silence, and we could hear the birds outside.",
+   "gap": "utter silence",
+   "alt": []
+  },
+  {
+   "id": "utter_chaos",
+   "en": "utter chaos",
+   "uz": "to‘liq tartibsizlik, to‘s-to‘polon",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the fire alarm went off in the middle of lunch, there was utter chaos in the canteen, with trays flying and children running in all directions.",
+   "gap": "utter chaos",
+   "alt": []
+  },
+  {
+   "id": "utterly_ridiculous",
+   "en": "utterly ridiculous",
+   "uz": "mutlaqo kulgili, bema’ni",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad's new hat with a plastic banana on top made everyone laugh — he looked utterly ridiculous!",
+   "gap": "utterly ridiculous",
+   "alt": []
+  },
+  {
+   "id": "utterly_confused",
+   "en": "utterly confused",
+   "uz": "butunlay boshi qotgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new timetable has so many changes that half the class is utterly confused about which room to go to.",
+   "gap": "utterly confused",
+   "alt": []
+  },
+  {
+   "id": "total_disbelief",
+   "en": "total disbelief",
+   "uz": "mutlaqo ishonolmaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Malika stared at her test result in total disbelief: 100 out of 100!",
+   "gap": "total disbelief",
+   "alt": []
+  },
+  {
+   "id": "total_ban",
+   "en": "total ban",
+   "uz": "to‘liq taqiq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since the new rule came in, there has been a total ban on mobile phones in lessons, and teachers collect them at the door.",
+   "gap": "total ban",
+   "alt": []
+  },
+  {
+   "id": "totally_different",
+   "en": "totally different",
+   "uz": "butunlay boshqacha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I thought London would be like Tashkent, but it was totally different: grey skies, red buses and rain almost every day.",
+   "gap": "totally different",
+   "alt": []
+  },
+  {
+   "id": "wholly_dependent",
+   "en": "wholly dependent",
+   "uz": "butunlay bog‘liq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The little animal shelter is wholly dependent on donations: it gets no money from the government at all.",
+   "gap": "wholly dependent",
+   "alt": []
+  },
+  {
+   "id": "wholly_unacceptable",
+   "en": "wholly unacceptable",
+   "uz": "mutlaqo yo‘l qo‘yib bo‘lmaydigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The coach told the players that shouting at the referee was wholly unacceptable and would mean a ban from the next match.",
+   "gap": "wholly unacceptable",
+   "alt": []
+  },
+  {
+   "id": "wholly_inadequate",
+   "en": "wholly inadequate",
+   "uz": "mutlaqo yetarli emas",
+   "pos": "phrase",
+   "img": false,
+   "ex": "One small heater is wholly inadequate for a classroom of thirty pupils in January.",
+   "gap": "wholly inadequate",
+   "alt": []
+  },
+  {
+   "id": "bigger",
+   "en": "bigger",
+   "uz": "kattaroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our class moved to a bigger room because the old one only had twenty desks.",
+   "gap": "bigger",
+   "alt": []
+  },
+  {
+   "id": "smaller",
+   "en": "smaller",
+   "uz": "kichikroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zarina's new phone is smaller than her old one, so it slips easily into her jeans pocket.",
+   "gap": "smaller",
+   "alt": []
+  },
+  {
+   "id": "quantity",
+   "en": "quantity",
+   "uz": "hajm, (katta) miqdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the flood, a huge quantity of mud had to be cleared from the streets of the village.",
+   "gap": "quantity",
+   "alt": []
+  },
+  {
+   "id": "dozen",
+   "en": "dozen",
+   "uz": "o‘n ikkita (dona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The corner shop sells eggs by the dozen, in cardboard boxes of twelve.",
+   "gap": "dozen",
+   "alt": []
+  },
+  {
+   "id": "score_twenty",
+   "en": "score",
+   "uz": "yigirmata (eskirgan son)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old shepherd still counts his flock the traditional way: 'three score sheep', he says, meaning sixty.",
+   "gap": "score",
+   "alt": []
+  },
+  {
+   "id": "bags_of",
+   "en": "bags of",
+   "uz": "qop-qop, mo‘l-ko‘l (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our new team captain has bags of energy and never gives up, even when we're losing.",
+   "gap": "bags of",
+   "alt": []
+  },
+  {
+   "id": "lots_of",
+   "en": "lots of",
+   "uz": "ko‘plab, anchagina (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Lola has lots of stickers on her laptop, mostly cats and planets.",
+   "gap": "lots of",
+   "alt": []
+  },
+  {
+   "id": "utter_contempt",
+   "en": "utter contempt",
+   "uz": "chuqur nafrat, mensimaslik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The proud cat sniffed the cheap dog food with utter contempt and walked away.",
+   "gap": "utter contempt",
+   "alt": []
+  },
+  {
+   "id": "utter_confusion",
+   "en": "utter confusion",
+   "uz": "butunlay sarosima, chalkashlik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new road signs caused utter confusion, and half the drivers took the wrong exit.",
+   "gap": "utter confusion",
+   "alt": []
+  },
+  {
+   "id": "utter_despair",
+   "en": "utter despair",
+   "uz": "chuqur umidsizlik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After losing the final on penalties, the young goalkeeper sat on the grass in utter despair.",
+   "gap": "utter despair",
+   "alt": []
+  },
+  {
+   "id": "utterly_impossible",
+   "en": "utterly impossible",
+   "uz": "mutlaqo imkonsiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With only one bus a day, it's utterly impossible to get to the village and back before dark.",
+   "gap": "utterly impossible",
+   "alt": []
+  },
+  {
+   "id": "totally_unexpected",
+   "en": "totally unexpected",
+   "uz": "mutlaqo kutilmagan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The snow in late April was totally unexpected, and the apricot blossom froze overnight.",
+   "gap": "totally unexpected",
+   "alt": []
+  },
+  {
+   "id": "totally_unsuitable",
+   "en": "totally unsuitable",
+   "uz": "mutlaqo to‘g‘ri kelmaydigan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Those white trainers are totally unsuitable for a muddy mountain walk.",
+   "gap": "totally unsuitable",
+   "alt": []
+  },
+  {
+   "id": "totally_wrong",
+   "en": "totally wrong",
+   "uz": "mutlaqo noto‘g‘ri",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The map on the old website was totally wrong, so we ended up on the other side of the river.",
+   "gap": "totally wrong",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "minute",
+   "tiny"
+  ],
+  [
+   "considerable",
+   "significant"
+  ],
+  [
+   "considerable",
+   "substantial"
+  ],
+  [
+   "significant",
+   "substantial"
+  ],
+  [
+   "vast_quantity",
+   "enormous"
+  ],
+  [
+   "excessive",
+   "enormous"
+  ],
+  [
+   "dozens_of",
+   "scores_of"
+  ],
+  [
+   "dozens_of",
+   "heaps_of"
+  ],
+  [
+   "dozens_of",
+   "loads_of"
+  ],
+  [
+   "dozens_of",
+   "tons_of"
+  ],
+  [
+   "heaps_of",
+   "loads_of"
+  ],
+  [
+   "heaps_of",
+   "tons_of"
+  ],
+  [
+   "loads_of",
+   "tons_of"
+  ],
+  [
+   "total_disbelief",
+   "utter_silence"
+  ],
+  [
+   "utterly_ridiculous",
+   "wholly_unacceptable"
+  ],
+  [
+   "utterly_ridiculous",
+   "totally_different"
+  ],
+  [
+   "wholly_unacceptable",
+   "wholly_inadequate"
+  ],
+  [
+   "considerable",
+   "vast_quantity"
+  ],
+  [
+   "significant",
+   "vast_quantity"
+  ],
+  [
+   "substantial",
+   "vast_quantity"
+  ],
+  [
+   "scores_of",
+   "heaps_of"
+  ],
+  [
+   "scores_of",
+   "loads_of"
+  ],
+  [
+   "scores_of",
+   "tons_of"
+  ],
+  [
+   "utter_chaos",
+   "chaos"
+  ],
+  [
+   "utter_nonsense",
+   "utterly_ridiculous"
+  ],
+  [
+   "bigger",
+   "smaller"
+  ],
+  [
+   "bigger",
+   "vast_quantity"
+  ],
+  [
+   "bigger",
+   "enormous"
+  ],
+  [
+   "quantity",
+   "amount"
+  ],
+  [
+   "quantity",
+   "number"
+  ],
+  [
+   "dozen",
+   "score_twenty"
+  ],
+  [
+   "bags_of",
+   "heaps_of"
+  ],
+  [
+   "bags_of",
+   "loads_of"
+  ],
+  [
+   "bags_of",
+   "tons_of"
+  ],
+  [
+   "bags_of",
+   "dozens_of"
+  ],
+  [
+   "bags_of",
+   "scores_of"
+  ],
+  [
+   "bags_of",
+   "lots_of"
+  ],
+  [
+   "lots_of",
+   "heaps_of"
+  ],
+  [
+   "lots_of",
+   "loads_of"
+  ],
+  [
+   "lots_of",
+   "tons_of"
+  ],
+  [
+   "lots_of",
+   "dozens_of"
+  ],
+  [
+   "lots_of",
+   "scores_of"
+  ],
+  [
+   "utter_contempt",
+   "total_disbelief"
+  ],
+  [
+   "utter_contempt",
+   "utter_despair"
+  ],
+  [
+   "utter_confusion",
+   "utter_chaos"
+  ],
+  [
+   "utter_confusion",
+   "utter_silence"
+  ],
+  [
+   "utter_despair",
+   "utter_silence"
+  ],
+  [
+   "utter_despair",
+   "utter_confusion"
+  ],
+  [
+   "utter_despair",
+   "total_disbelief"
+  ],
+  [
+   "utterly_impossible",
+   "utterly_ridiculous"
+  ],
+  [
+   "totally_unexpected",
+   "totally_different"
+  ],
+  [
+   "totally_unsuitable",
+   "wholly_inadequate"
+  ],
+  [
+   "totally_wrong",
+   "totally_different"
+  ],
+  [
+   "totally_wrong",
+   "wholly_unacceptable"
+  ],
+  [
+   "totally_unsuitable",
+   "wholly_unacceptable"
+  ],
+  [
+   "totally_wrong",
+   "totally_unsuitable"
+  ]
+ ]
+}

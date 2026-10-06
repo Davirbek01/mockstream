@@ -1,0 +1,545 @@
+{
+ "book": "advanced",
+ "unit": 9,
+ "title": "Describing people: appearance and mannerisms",
+ "title_uz": "Odamlarni tasvirlash: tashqi ko‘rinish va xatti-harakat odatlari",
+ "words": [
+  {
+   "id": "slender",
+   "en": "slender",
+   "uz": "xipcha (chiroyli ozg‘in)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Years of ballet had given Nozima a slender, upright figure that made every dress look elegant.",
+   "gap": "slender",
+   "alt": []
+  },
+  {
+   "id": "scrawny",
+   "en": "scrawny",
+   "uz": "qoq suyak (xunuk ozg‘in)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The stray kitten we found behind the bakery was so scrawny that you could count its ribs.",
+   "gap": "scrawny",
+   "alt": []
+  },
+  {
+   "id": "lanky",
+   "en": "lanky",
+   "uz": "novcha va beso‘naqay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since his last growth spurt, our lanky son keeps banging his head on the kitchen doorframe.",
+   "gap": "lanky",
+   "alt": []
+  },
+  {
+   "id": "gangling",
+   "en": "gangling",
+   "uz": "uzun oyoq-qo‘lli, qovushmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The coach saw real potential in the gangling fourteen-year-old who kept tripping over his own feet.",
+   "gap": "gangling",
+   "alt": [
+    "gangly"
+   ]
+  },
+  {
+   "id": "obese",
+   "en": "obese",
+   "uz": "o‘ta semiz (sog‘liqqa xavfli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The vet put our obese cat on a strict diet after it could no longer jump onto the sofa.",
+   "gap": "obese",
+   "alt": []
+  },
+  {
+   "id": "stout",
+   "en": "stout",
+   "uz": "to‘ladan kelgan, gavdali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My aunt is rather stout, so she always buys her dresses a size larger than her slim sister does.",
+   "gap": "stout",
+   "alt": []
+  },
+  {
+   "id": "stocky",
+   "en": "stocky",
+   "uz": "pakana va keng yelkali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our stocky goalkeeper isn't tall, but nobody in the league can push him off the ball.",
+   "gap": "stocky",
+   "alt": []
+  },
+  {
+   "id": "bulk_up",
+   "en": "bulk up",
+   "uz": "mushak qo‘shib to‘lishmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The actor bulked up by ten kilos of muscle to play a weightlifter in his latest film.",
+   "gap": "bulked up",
+   "alt": [
+    "bulked up",
+    "bulking up",
+    "bulks up"
+   ]
+  },
+  {
+   "id": "lean",
+   "en": "lean",
+   "uz": "ozg‘in va sog‘lom",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Years of hiking in the Chimgan mountains have kept my uncle lean and healthy at sixty.",
+   "gap": "lean",
+   "alt": []
+  },
+  {
+   "id": "wiry",
+   "en": "wiry",
+   "uz": "ozg‘in, ammo chayir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Though thin as a rake, the wiry old porter carried our two heavy suitcases up five floors without stopping.",
+   "gap": "wiry",
+   "alt": []
+  },
+  {
+   "id": "unkempt",
+   "en": "unkempt",
+   "uz": "qarovsiz, to‘zg‘igan (soch-soqol)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a month alone on the expedition, he came back with unkempt hair and a wild beard.",
+   "gap": "unkempt",
+   "alt": []
+  },
+  {
+   "id": "never_a_hair_out_of_place",
+   "en": "never a hair out of place",
+   "uz": "doim ozoda-saranjom (sochi tekis)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our director always looks perfect, with never a hair out of place, even after a twelve-hour flight.",
+   "gap": "never a hair out of place",
+   "alt": []
+  },
+  {
+   "id": "immaculate",
+   "en": "immaculate",
+   "uz": "benuqson, top-toza",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel doormen wear immaculate white uniforms that are pressed every single morning.",
+   "gap": "immaculate",
+   "alt": []
+  },
+  {
+   "id": "swarthy",
+   "en": "swarthy",
+   "uz": "qoramag‘iz, qorachadan kelgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The sailor in the old painting has a swarthy, weather-beaten face and a gold ring in one ear.",
+   "gap": "swarthy",
+   "alt": []
+  },
+  {
+   "id": "sallow",
+   "en": "sallow",
+   "uz": "sarg‘imtir, so‘lg‘in (teri)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After weeks in hospital with a liver illness, his skin had turned sallow and he had lost a lot of weight.",
+   "gap": "sallow",
+   "alt": []
+  },
+  {
+   "id": "haggard",
+   "en": "haggard",
+   "uz": "holdan toygan, horg‘in (yuz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After three sleepless nights with their newborn baby, both parents looked haggard.",
+   "gap": "haggard",
+   "alt": []
+  },
+  {
+   "id": "complexion",
+   "en": "complexion",
+   "uz": "yuz rangi (teri tusi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With such a pale complexion, Nilufar burns easily under the Tashkent summer sun.",
+   "gap": "complexion",
+   "alt": [
+    "complexions"
+   ]
+  },
+  {
+   "id": "grin",
+   "en": "grin",
+   "uz": "tishini ko‘rsatib iljaymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The winners were grinning from ear to ear as they lifted the trophy above their heads.",
+   "gap": "grinning",
+   "alt": [
+    "grinning",
+    "grinned",
+    "grins"
+   ]
+  },
+  {
+   "id": "pout",
+   "en": "pout",
+   "uz": "lablarini cho‘chchaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I said no to more sweets, my four-year-old pouted, sticking out her bottom lip in protest.",
+   "gap": "pouted",
+   "alt": [
+    "pouted",
+    "pouting",
+    "pouts"
+   ]
+  },
+  {
+   "id": "grimace",
+   "en": "grimace",
+   "uz": "og‘riqdan aftini bujmaytirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "He grimaced with pain as the nurse cleaned the deep cut on his knee.",
+   "gap": "grimaced",
+   "alt": [
+    "grimaced",
+    "grimacing",
+    "grimaces"
+   ]
+  },
+  {
+   "id": "scowl",
+   "en": "scowl",
+   "uz": "qovoq solib o‘qraymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old caretaker scowled at the boys who had kicked their ball into his flowerbed.",
+   "gap": "scowled",
+   "alt": [
+    "scowled",
+    "scowling",
+    "scowls"
+   ]
+  },
+  {
+   "id": "leer",
+   "en": "leer",
+   "uz": "shilqimona tikilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two men outside the café were leering at every woman who walked past, so we crossed the street.",
+   "gap": "leering",
+   "alt": [
+    "leering",
+    "leered",
+    "leers"
+   ]
+  },
+  {
+   "id": "shrug",
+   "en": "shrug",
+   "uz": "yelka qismoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I asked where the car keys were, my brother just shrugged and carried on playing his game.",
+   "gap": "shrugged",
+   "alt": [
+    "shrugged",
+    "shrugging",
+    "shrugs",
+    "shrug your shoulders"
+   ]
+  },
+  {
+   "id": "fold_your_arms",
+   "en": "fold your arms",
+   "uz": "qo‘llarini ko‘ksida qovushtirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nigora folded her arms across her chest and stood by the door, waiting for an apology.",
+   "gap": "folded her arms",
+   "alt": [
+    "folded her arms",
+    "folded his arms",
+    "fold his arms",
+    "fold her arms",
+    "folding her arms"
+   ]
+  },
+  {
+   "id": "cross_your_legs",
+   "en": "cross your legs",
+   "uz": "oyoqni oyoq ustiga qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "He sat back in the armchair, crossed his legs and opened the newspaper.",
+   "gap": "crossed his legs",
+   "alt": [
+    "crossed his legs",
+    "crossed her legs",
+    "cross his legs",
+    "cross her legs"
+   ]
+  },
+  {
+   "id": "twitch",
+   "en": "twitch",
+   "uz": "beixtiyor pirpiramoq (uchmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whenever he tells a lie, the corner of his left eye starts twitching.",
+   "gap": "twitching",
+   "alt": [
+    "twitching",
+    "twitched",
+    "twitches"
+   ]
+  },
+  {
+   "id": "bite_your_nails",
+   "en": "bite your nails",
+   "uz": "tirnog‘ini tishlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sevinch always bites her nails while she waits for her exam results.",
+   "gap": "bites her nails",
+   "alt": [
+    "bites her nails",
+    "bit his nails",
+    "biting her nails",
+    "bite her nails"
+   ]
+  },
+  {
+   "id": "clench_your_fist",
+   "en": "clench your fist",
+   "uz": "mushtini tugmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Furious, the striker clenched his fist as the referee showed him the red card.",
+   "gap": "clenched his fist",
+   "alt": [
+    "clenched his fist",
+    "clenched her fist",
+    "clenched his fists",
+    "clench his fist"
+   ]
+  },
+  {
+   "id": "drum_your_fingers",
+   "en": "drum your fingers",
+   "uz": "barmoqlari bilan taqillatib turmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The impatient passenger kept drumming his fingers on the counter while the clerk searched for his booking.",
+   "gap": "drumming his fingers",
+   "alt": [
+    "drumming his fingers",
+    "drummed her fingers",
+    "tapping his fingers",
+    "tap your fingers"
+   ]
+  },
+  {
+   "id": "smart_dressed",
+   "en": "smart",
+   "uz": "ozoda va did bilan kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the job interview, Elyor wore a smart grey suit and freshly polished shoes.",
+   "gap": "smart",
+   "alt": []
+  },
+  {
+   "id": "neat",
+   "en": "neat",
+   "uz": "saranjom-sarishta (tartibli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her desk is always neat, with pens in one pot and papers in labelled folders.",
+   "gap": "neat",
+   "alt": []
+  },
+  {
+   "id": "untidy",
+   "en": "untidy",
+   "uz": "betartib (yig‘ishtirilmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "His untidy bedroom was full of dirty socks and empty pizza boxes.",
+   "gap": "untidy",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "slender",
+   "lean"
+  ],
+  [
+   "slender",
+   "wiry"
+  ],
+  [
+   "lean",
+   "wiry"
+  ],
+  [
+   "lanky",
+   "gangling"
+  ],
+  [
+   "scrawny",
+   "wiry"
+  ],
+  [
+   "scrawny",
+   "lanky"
+  ],
+  [
+   "scrawny",
+   "gangling"
+  ],
+  [
+   "obese",
+   "stout"
+  ],
+  [
+   "stout",
+   "stocky"
+  ],
+  [
+   "swarthy",
+   "sallow"
+  ],
+  [
+   "swarthy",
+   "haggard"
+  ],
+  [
+   "sallow",
+   "haggard"
+  ],
+  [
+   "unkempt",
+   "never_a_hair_out_of_place"
+  ],
+  [
+   "pout",
+   "scowl"
+  ],
+  [
+   "scowl",
+   "grimace"
+  ],
+  [
+   "grin",
+   "leer"
+  ],
+  [
+   "fold_your_arms",
+   "clench_your_fist"
+  ],
+  [
+   "fold_your_arms",
+   "cross_your_legs"
+  ],
+  [
+   "twitch",
+   "drum_your_fingers"
+  ],
+  [
+   "scrawny",
+   "lean"
+  ],
+  [
+   "scrawny",
+   "slender"
+  ],
+  [
+   "lanky",
+   "slender"
+  ],
+  [
+   "wiry",
+   "stocky"
+  ],
+  [
+   "wiry",
+   "lanky"
+  ],
+  [
+   "wiry",
+   "gangling"
+  ],
+  [
+   "swarthy",
+   "immaculate"
+  ],
+  [
+   "haggard",
+   "unkempt"
+  ],
+  [
+   "pout",
+   "grimace"
+  ],
+  [
+   "swarthy",
+   "lean"
+  ],
+  [
+   "shrug",
+   "scowl"
+  ],
+  [
+   "clench_your_fist",
+   "scowl"
+  ],
+  [
+   "smart_dressed",
+   "immaculate"
+  ],
+  [
+   "smart_dressed",
+   "neat"
+  ],
+  [
+   "smart_dressed",
+   "elegant"
+  ],
+  [
+   "neat",
+   "immaculate"
+  ],
+  [
+   "untidy",
+   "unkempt"
+  ],
+  [
+   "untidy",
+   "neat"
+  ],
+  [
+   "smart_dressed",
+   "slender"
+  ]
+ ]
+}

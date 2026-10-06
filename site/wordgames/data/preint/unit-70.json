@@ -1,0 +1,352 @@
+{
+ "book": "preint",
+ "unit": 70,
+ "title": "Prefixes: changing meaning",
+ "title_uz": "Old qo‘shimchalar: ma’noni o‘zgartirish",
+ "words": [
+  {
+   "id": "unhappy",
+   "en": "unhappy",
+   "uz": "baxtsiz, xafa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Little Aziza was so unhappy when her balloon flew away that she cried all the way home.",
+   "gap": "unhappy",
+   "alt": []
+  },
+  {
+   "id": "impossible",
+   "en": "impossible",
+   "uz": "imkonsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's impossible to see all of Samarkand in one day; there are far too many sights.",
+   "gap": "impossible",
+   "alt": []
+  },
+  {
+   "id": "incorrect",
+   "en": "incorrect",
+   "uz": "noto‘g‘ri (xato)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bus times on the website were incorrect, so we waited forty minutes for nothing.",
+   "gap": "incorrect",
+   "alt": []
+  },
+  {
+   "id": "illegal",
+   "en": "illegal",
+   "uz": "noqonuniy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You can't park on the pavement here: it's illegal, and the police will take your car away.",
+   "gap": "illegal",
+   "alt": []
+  },
+  {
+   "id": "uncomfortable",
+   "en": "uncomfortable",
+   "uz": "noqulay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The seats on the old bus to Nukus were so uncomfortable that my back hurt for two days.",
+   "gap": "uncomfortable",
+   "alt": []
+  },
+  {
+   "id": "unusual",
+   "en": "unusual",
+   "uz": "g‘ayrioddiy, odatiy bo‘lmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My classmate has a very unusual pet: a small tortoise called Rocket.",
+   "gap": "unusual",
+   "alt": []
+  },
+  {
+   "id": "unexpected",
+   "en": "unexpected",
+   "uz": "kutilmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour's visit was completely unexpected; she didn't phone before she came.",
+   "gap": "unexpected",
+   "alt": []
+  },
+  {
+   "id": "unbelievable",
+   "en": "unbelievable",
+   "uz": "aql bovar qilmas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The view from the top of the TV tower was unbelievable: we could see the whole of Tashkent.",
+   "gap": "unbelievable",
+   "alt": []
+  },
+  {
+   "id": "unable",
+   "en": "unable",
+   "uz": "qodir emas (… olmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Because of thick fog, the plane was unable to land in Namangan and flew back to Tashkent.",
+   "gap": "unable",
+   "alt": []
+  },
+  {
+   "id": "unfit",
+   "en": "unfit",
+   "uz": "jismonan baquvvat emas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a summer on the sofa, I felt so unfit that I couldn't even run to the bus stop.",
+   "gap": "unfit",
+   "alt": []
+  },
+  {
+   "id": "unlucky",
+   "en": "unlucky",
+   "uz": "omadsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our team was unlucky: the ball hit the post twice in the last minute and we lost 1–0.",
+   "gap": "unlucky",
+   "alt": []
+  },
+  {
+   "id": "unlikely",
+   "en": "unlikely",
+   "uz": "ehtimoldan yiroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Look at that clear blue sky; it's unlikely to rain today, so let's have our picnic.",
+   "gap": "unlikely",
+   "alt": []
+  },
+  {
+   "id": "disagree",
+   "en": "disagree",
+   "uz": "rozi bo‘lmaslik (boshqa fikrda bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister thinks the film was great, but I disagree; it was far too long.",
+   "gap": "disagree",
+   "alt": [
+    "disagrees",
+    "disagreed"
+   ]
+  },
+  {
+   "id": "unlock",
+   "en": "unlock",
+   "uz": "(qulfni) ochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister couldn't unlock her bike because she had lost the key to the chain.",
+   "gap": "unlock",
+   "alt": [
+    "unlocks",
+    "unlocked",
+    "unlocking"
+   ]
+  },
+  {
+   "id": "get_undressed",
+   "en": "get undressed",
+   "uz": "yechinmoq (kiyimni yechmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the long trip, I was so tired that I fell asleep on the sofa without getting undressed.",
+   "gap": "getting undressed",
+   "alt": [
+    "got undressed",
+    "getting undressed",
+    "gets undressed"
+   ]
+  },
+  {
+   "id": "unpack",
+   "en": "unpack",
+   "uz": "(sumka, chamadonni) bo‘shatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "As soon as we arrived at the hotel in Shahrisabz, Mum unpacked our suitcases and hung up our clothes.",
+   "gap": "unpacked",
+   "alt": [
+    "unpacks",
+    "unpacked",
+    "unpacking"
+   ]
+  },
+  {
+   "id": "overcharge",
+   "en": "overcharge",
+   "uz": "ortiqcha pul olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The taxi driver overcharged us: the trip usually costs half that price.",
+   "gap": "overcharged",
+   "alt": [
+    "overcharges",
+    "overcharged",
+    "overcharging"
+   ]
+  },
+  {
+   "id": "misunderstand",
+   "en": "misunderstand",
+   "uz": "noto‘g‘ri tushunmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I misunderstood the instructions and did exercise 5 instead of exercise 6.",
+   "gap": "misunderstood",
+   "alt": [
+    "misunderstands",
+    "misunderstood",
+    "misunderstanding"
+   ]
+  },
+  {
+   "id": "mishear",
+   "en": "mishear",
+   "uz": "noto‘g‘ri eshitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The station was so noisy that I misheard the announcement and nearly got on the wrong train.",
+   "gap": "misheard",
+   "alt": [
+    "mishears",
+    "misheard",
+    "mishearing"
+   ]
+  },
+  {
+   "id": "rewrite",
+   "en": "rewrite",
+   "uz": "qayta yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The editor of the school newspaper liked my article but asked me to rewrite the ending.",
+   "gap": "rewrite",
+   "alt": [
+    "rewrites",
+    "rewrote",
+    "rewritten",
+    "rewriting"
+   ]
+  },
+  {
+   "id": "happy",
+   "en": "happy",
+   "uz": "baxtli, xursand",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nigora got 100% in her exam and was so happy that she danced around the kitchen.",
+   "gap": "happy",
+   "alt": []
+  },
+  {
+   "id": "possible",
+   "en": "possible",
+   "uz": "mumkin (imkoni bor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "'Is it possible to get to Nukus by train?' 'Yes, but the journey is very long.'",
+   "gap": "possible",
+   "alt": []
+  },
+  {
+   "id": "correct_adj",
+   "en": "correct",
+   "uz": "to‘g‘ri (xatosiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ten out of ten! All my answers in the quiz were correct.",
+   "gap": "correct",
+   "alt": []
+  },
+  {
+   "id": "legal",
+   "en": "legal",
+   "uz": "qonuniy (qonunga muvofiq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Uzbekistan it is legal to drive a car from the age of eighteen.",
+   "gap": "legal",
+   "alt": []
+  },
+  {
+   "id": "appear",
+   "en": "appear",
+   "uz": "paydo bo‘lmoq (ko‘rinmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A rainbow appeared in the sky as soon as the rain stopped.",
+   "gap": "appeared",
+   "alt": [
+    "appears",
+    "appeared",
+    "appearing"
+   ]
+  },
+  {
+   "id": "lock",
+   "en": "lock",
+   "uz": "qulflamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Remember to lock the front door and close the windows when you go out.",
+   "gap": "lock",
+   "alt": [
+    "locks",
+    "locked",
+    "locking"
+   ]
+  },
+  {
+   "id": "pack",
+   "en": "pack",
+   "uz": "(chamadon, sumkani) yig‘moq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I always pack my suitcase the night before a flight, so I don't forget anything.",
+   "gap": "pack",
+   "alt": [
+    "packs",
+    "packed",
+    "packing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "unable",
+   "unlikely"
+  ],
+  [
+   "unusual",
+   "unbelievable"
+  ],
+  [
+   "misunderstand",
+   "mishear"
+  ],
+  [
+   "unusual",
+   "unexpected"
+  ],
+  [
+   "unhappy",
+   "unlucky"
+  ],
+  [
+   "unfit",
+   "uncomfortable"
+  ],
+  [
+   "lock",
+   "unlock"
+  ]
+ ]
+}

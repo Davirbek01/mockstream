@@ -1,0 +1,555 @@
+{
+ "book": "preint",
+ "unit": 63,
+ "title": "Objects, materials, shapes and colour",
+ "title_uz": "Buyumlar, materiallar, shakllar va ranglar",
+ "words": [
+  {
+   "id": "object",
+   "en": "object",
+   "uz": "buyum (narsa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this game, you put an everyday object in a bag, like a spoon or a key, and your friends guess it by touch.",
+   "gap": "object",
+   "alt": [
+    "objects"
+   ]
+  },
+  {
+   "id": "material",
+   "en": "material",
+   "uz": "ashyo (nimadan yasalgani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'What material is this bag made of?' 'I'm not sure; it looks like some kind of plastic.'",
+   "gap": "material",
+   "alt": [
+    "materials"
+   ]
+  },
+  {
+   "id": "bell",
+   "en": "bell",
+   "uz": "qo‘ng‘iroq",
+   "pos": "noun",
+   "img": false,
+   "ex": "My bike has a little bell that goes 'ring-ring' when people walk in front of me.",
+   "gap": "bell",
+   "alt": [
+    "bells"
+   ]
+  },
+  {
+   "id": "metal",
+   "en": "metal",
+   "uz": "temir, mis kabi qattiq ashyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magnet picks up the paper clips because they're made of metal.",
+   "gap": "metal",
+   "alt": []
+  },
+  {
+   "id": "wood",
+   "en": "wood",
+   "uz": "yog‘och (material)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sanjar's father is a carpenter: he makes stools from wood in his garage.",
+   "gap": "wood",
+   "alt": []
+  },
+  {
+   "id": "wooden",
+   "en": "wooden",
+   "uz": "yog‘ochdan yasalgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the craft fair, Nilufar bought a small wooden box carved from an old walnut tree.",
+   "gap": "wooden",
+   "alt": []
+  },
+  {
+   "id": "fur",
+   "en": "fur",
+   "uz": "mo‘yna (jun teri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our dog's fur gets everywhere: on the carpet, the sofa and my school trousers.",
+   "gap": "fur",
+   "alt": []
+  },
+  {
+   "id": "rubber_material",
+   "en": "rubber",
+   "uz": "rezina",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can I borrow a rubber band to keep these cards together?",
+   "gap": "rubber",
+   "alt": []
+  },
+  {
+   "id": "plastic",
+   "en": "plastic",
+   "uz": "plastik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has stopped selling water in plastic bottles, so we bring our own metal ones now.",
+   "gap": "plastic",
+   "alt": []
+  },
+  {
+   "id": "cloth",
+   "en": "cloth",
+   "uz": "mato (gazlama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class bought five metres of cloth to make curtains for the school stage.",
+   "gap": "cloth",
+   "alt": []
+  },
+  {
+   "id": "cotton",
+   "en": "cotton",
+   "uz": "paxta (ip gazlama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My new school shirt is 100% cotton, so it doesn't make me hot in September.",
+   "gap": "cotton",
+   "alt": []
+  },
+  {
+   "id": "silk",
+   "en": "silk",
+   "uz": "ipak",
+   "pos": "noun",
+   "img": false,
+   "ex": "The silk tie Akmal got for his birthday is so smooth that it keeps sliding off the chair.",
+   "gap": "silk",
+   "alt": []
+  },
+  {
+   "id": "leather",
+   "en": "leather",
+   "uz": "charm (oshlangan teri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shoemaker near our school can fix leather shoes, belts and bags.",
+   "gap": "leather",
+   "alt": []
+  },
+  {
+   "id": "flag",
+   "en": "flag",
+   "uz": "bayroq",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the Olympics, the winner held up her country's flag and ran around the stadium.",
+   "gap": "flag",
+   "alt": [
+    "flags"
+   ]
+  },
+  {
+   "id": "ladder",
+   "en": "ladder",
+   "uz": "narvon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our cat climbed onto the roof, so a firefighter came with a ladder to get it down.",
+   "gap": "ladder",
+   "alt": [
+    "ladders"
+   ]
+  },
+  {
+   "id": "tissue",
+   "en": "tissue",
+   "uz": "qog‘oz ro‘molcha (burun artish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The film was so sad that Lola cried through a whole packet of tissues.",
+   "gap": "tissues",
+   "alt": [
+    "tissues"
+   ]
+  },
+  {
+   "id": "bucket",
+   "en": "bucket",
+   "uz": "chelak",
+   "pos": "noun",
+   "img": true,
+   "ex": "The roof was leaking, so we put a bucket on the floor to catch the water.",
+   "gap": "bucket",
+   "alt": [
+    "buckets"
+   ]
+  },
+  {
+   "id": "antique",
+   "en": "antique",
+   "uz": "qadimiy qimmatbaho buyum",
+   "pos": "noun",
+   "img": false,
+   "ex": "The clock in the museum shop is a real antique, made in 1890.",
+   "gap": "antique",
+   "alt": [
+    "antiques"
+   ]
+  },
+  {
+   "id": "stripes",
+   "en": "stripes",
+   "uz": "yo‘l-yo‘l chiziqlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our football team's shirt has black and white stripes, so we look like zebras!",
+   "gap": "stripes",
+   "alt": [
+    "stripe"
+   ]
+  },
+  {
+   "id": "square",
+   "en": "square",
+   "uz": "kvadrat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our bathroom floor is covered with little blue and white squares, like a chessboard.",
+   "gap": "squares",
+   "alt": [
+    "squares"
+   ]
+  },
+  {
+   "id": "circle",
+   "en": "circle",
+   "uz": "doira",
+   "pos": "noun",
+   "img": false,
+   "ex": "We sat in a big circle around the teacher, and everyone told a story.",
+   "gap": "circle",
+   "alt": [
+    "circles"
+   ]
+  },
+  {
+   "id": "semicircle",
+   "en": "semicircle",
+   "uz": "yarim doira",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the concert, the chairs were put in a semicircle in front of the stage.",
+   "gap": "semicircle",
+   "alt": [
+    "semi-circle",
+    "semicircles"
+   ]
+  },
+  {
+   "id": "star_shape",
+   "en": "star",
+   "uz": "yulduz (shakl)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister cut five-pointed stars out of yellow paper for the New Year tree.",
+   "gap": "stars",
+   "alt": [
+    "stars"
+   ]
+  },
+  {
+   "id": "heart_shape",
+   "en": "heart",
+   "uz": "yurak (shakl)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Mother's Day, Lola drew a big red heart on the card she made for her mother.",
+   "gap": "heart",
+   "alt": [
+    "hearts"
+   ]
+  },
+  {
+   "id": "round",
+   "en": "round",
+   "uz": "dumaloq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rugby balls aren't round like footballs; they're shaped more like an egg.",
+   "gap": "round",
+   "alt": []
+  },
+  {
+   "id": "pointed",
+   "en": "pointed",
+   "uz": "uchli (o‘tkir uchli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be careful with those scissors; they have very pointed ends.",
+   "gap": "pointed",
+   "alt": []
+  },
+  {
+   "id": "navy_blue",
+   "en": "navy blue",
+   "uz": "to‘q ko‘k",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Just after sunset, the sky turned navy blue, almost black.",
+   "gap": "navy blue",
+   "alt": [
+    "navy"
+   ]
+  },
+  {
+   "id": "grey",
+   "en": "grey",
+   "uz": "kulrang",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mr Hamidov's hair has gone grey since last year; he says it's because of our class!",
+   "gap": "grey",
+   "alt": [
+    "gray"
+   ]
+  },
+  {
+   "id": "pink",
+   "en": "pink",
+   "uz": "pushti",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her cheeks went pink when the teacher read her poem to the whole class.",
+   "gap": "pink",
+   "alt": []
+  },
+  {
+   "id": "purple",
+   "en": "purple",
+   "uz": "binafsharang",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The aubergines at the market were dark purple and shiny.",
+   "gap": "purple",
+   "alt": []
+  },
+  {
+   "id": "greenish",
+   "en": "greenish",
+   "uz": "yashilnamo (yashilroq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The water in the old pond wasn't really blue; it looked greenish.",
+   "gap": "greenish",
+   "alt": []
+  },
+  {
+   "id": "chair",
+   "en": "chair",
+   "uz": "stul",
+   "pos": "noun",
+   "img": true,
+   "ex": "The barber pointed to the big chair by the mirror and said, 'Sit down, please.'",
+   "gap": "chair",
+   "alt": [
+    "chairs"
+   ]
+  },
+  {
+   "id": "hat",
+   "en": "hat",
+   "uz": "shlyapa (bosh kiyim)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the sunny boat trip, Nodir bought a straw hat to protect his head.",
+   "gap": "hat",
+   "alt": [
+    "hats"
+   ]
+  },
+  {
+   "id": "bone",
+   "en": "bone",
+   "uz": "suyak",
+   "pos": "noun",
+   "img": false,
+   "ex": "The vet looked at the X-ray and found a broken bone in the dog's back leg.",
+   "gap": "bone",
+   "alt": [
+    "bones"
+   ]
+  },
+  {
+   "id": "shirt",
+   "en": "shirt",
+   "uz": "ko‘ylak (yoqali, tugmali)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Ravshan ironed his white shirt and put on a tie for the job interview.",
+   "gap": "shirt",
+   "alt": [
+    "shirts"
+   ]
+  },
+  {
+   "id": "ball",
+   "en": "ball",
+   "uz": "to‘p",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children kicked the ball so hard that it flew over the school fence.",
+   "gap": "ball",
+   "alt": [
+    "balls"
+   ]
+  },
+  {
+   "id": "made_of",
+   "en": "made of",
+   "uz": "…dan yasalgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This bracelet is made of glass beads, not real stones.",
+   "gap": "made of",
+   "alt": []
+  },
+  {
+   "id": "shape",
+   "en": "shape",
+   "uz": "shakl",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pool at the hotel has a strange shape, like a big letter L.",
+   "gap": "shape",
+   "alt": [
+    "shapes"
+   ]
+  },
+  {
+   "id": "colour",
+   "en": "colour",
+   "uz": "rang",
+   "pos": "noun",
+   "img": false,
+   "ex": "'What colour is your new phone?' 'Silver, with a black case.'",
+   "gap": "colour",
+   "alt": [
+    "colours",
+    "color",
+    "colors"
+   ]
+  },
+  {
+   "id": "square_adj",
+   "en": "square",
+   "uz": "kvadrat shaklidagi (to‘rtburchak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The window is perfectly square, with all four sides the same length.",
+   "gap": "square",
+   "alt": []
+  },
+  {
+   "id": "green",
+   "en": "green",
+   "uz": "yashil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In spring the grass and the leaves on the trees turn bright green.",
+   "gap": "green",
+   "alt": []
+  },
+  {
+   "id": "roundish",
+   "en": "roundish",
+   "uz": "dumaloqroq (deyarli dumaloq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pebble Lola found on the beach isn't completely round; it's roundish, like a small egg.",
+   "gap": "roundish",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "cloth",
+   "cotton"
+  ],
+  [
+   "cloth",
+   "silk"
+  ],
+  [
+   "cotton",
+   "silk"
+  ],
+  [
+   "fur",
+   "leather"
+  ],
+  [
+   "rubber_material",
+   "plastic"
+  ],
+  [
+   "circle",
+   "semicircle"
+  ],
+  [
+   "star_shape",
+   "heart_shape"
+  ],
+  [
+   "round",
+   "square"
+  ],
+  [
+   "grey",
+   "greenish"
+  ],
+  [
+   "navy_blue",
+   "grey"
+  ],
+  [
+   "navy_blue",
+   "purple"
+  ],
+  [
+   "metal",
+   "plastic"
+  ],
+  [
+   "square_adj",
+   "square"
+  ],
+  [
+   "square_adj",
+   "round"
+  ],
+  [
+   "green",
+   "greenish"
+  ],
+  [
+   "green",
+   "purple"
+  ],
+  [
+   "roundish",
+   "round"
+  ],
+  [
+   "cloth",
+   "material"
+  ],
+  [
+   "pink",
+   "purple"
+  ]
+ ]
+}

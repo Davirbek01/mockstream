@@ -1,0 +1,402 @@
+{
+ "book": "elementary",
+ "unit": 30,
+ "title": "In the countryside",
+ "title_uz": "Qishloq joylarida",
+ "words": [
+  {
+   "id": "countryside",
+   "en": "countryside",
+   "uz": "shahar tashqarisi (qishloq joylari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle left the noisy city; now he lives in the countryside, among fields, hills and quiet villages.",
+   "gap": "countryside",
+   "alt": []
+  },
+  {
+   "id": "mountain",
+   "en": "mountain",
+   "uz": "tog‘",
+   "pos": "noun",
+   "img": true,
+   "ex": "Climbing the mountain took us six hours, and at the top there was still snow in June.",
+   "gap": "mountain",
+   "alt": [
+    "mountains"
+   ]
+  },
+  {
+   "id": "forest",
+   "en": "forest",
+   "uz": "(katta) o‘rmon",
+   "pos": "noun",
+   "img": true,
+   "ex": "The forest was so big and thick that we walked for hours under the trees without seeing the sky.",
+   "gap": "forest",
+   "alt": [
+    "forests"
+   ]
+  },
+  {
+   "id": "hill",
+   "en": "hill",
+   "uz": "tepalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "We rolled down the green hill behind the house and laughed all the way to the bottom.",
+   "gap": "hill",
+   "alt": [
+    "hills"
+   ]
+  },
+  {
+   "id": "village",
+   "en": "village",
+   "uz": "qishloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only about 500 people live in my father's village, and everyone knows everyone.",
+   "gap": "village",
+   "alt": [
+    "villages"
+   ]
+  },
+  {
+   "id": "wood",
+   "en": "wood",
+   "uz": "kichik o‘rmon (daraxtzor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Behind the farm there's a small wood with a few hundred trees, where we look for mushrooms in autumn.",
+   "gap": "wood",
+   "alt": [
+    "woods"
+   ]
+  },
+  {
+   "id": "lake",
+   "en": "lake",
+   "uz": "ko‘l",
+   "pos": "noun",
+   "img": true,
+   "ex": "We rowed a boat to the middle of the lake and looked back at the shore all around us.",
+   "gap": "lake",
+   "alt": [
+    "lakes"
+   ]
+  },
+  {
+   "id": "field",
+   "en": "field",
+   "uz": "dala",
+   "pos": "noun",
+   "img": true,
+   "ex": "The children ran across the wide green fields of wheat towards the river.",
+   "gap": "fields",
+   "alt": [
+    "fields"
+   ]
+  },
+  {
+   "id": "path",
+   "en": "path",
+   "uz": "so‘qmoq (piyoda yo‘lak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We followed a narrow path through the trees up to the waterfall; there was room for only one person at a time.",
+   "gap": "path",
+   "alt": [
+    "paths"
+   ]
+  },
+  {
+   "id": "river",
+   "en": "river",
+   "uz": "daryo",
+   "pos": "noun",
+   "img": true,
+   "ex": "The river was too wide and fast to cross, so we walked two kilometres to the bridge.",
+   "gap": "river",
+   "alt": [
+    "rivers"
+   ]
+  },
+  {
+   "id": "farm",
+   "en": "farm",
+   "uz": "ferma (dehqon xo‘jaligi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mr Ergashev has a farm with forty cows, a hundred chickens and a big apple orchard.",
+   "gap": "farm",
+   "alt": [
+    "farms"
+   ]
+  },
+  {
+   "id": "country_road",
+   "en": "country road",
+   "uz": "qishloq yo‘li",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our bus drove slowly along a narrow country road between the fields; we didn't see another car for an hour.",
+   "gap": "country road",
+   "alt": [
+    "country roads"
+   ]
+  },
+  {
+   "id": "small_town",
+   "en": "small town",
+   "uz": "kichik shaharcha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnora lives in a small town of about 8,000 people, with two schools, a hospital and a bazaar.",
+   "gap": "small town",
+   "alt": [
+    "small towns"
+   ]
+  },
+  {
+   "id": "cottage",
+   "en": "cottage",
+   "uz": "qishloq uychasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "For the weekend we rented a little cottage with a wooden roof and a garden full of flowers.",
+   "gap": "cottage",
+   "alt": [
+    "cottages"
+   ]
+  },
+  {
+   "id": "nature",
+   "en": "nature",
+   "uz": "tabiat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bahrom loves nature, so he spends his weekends in the hills among the trees, rivers and wild flowers.",
+   "gap": "nature",
+   "alt": []
+  },
+  {
+   "id": "wildlife",
+   "en": "wildlife",
+   "uz": "yovvoyi hayvonot dunyosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "With binoculars we watched the wildlife by the lake: herons, wild ducks, frogs and even a fox.",
+   "gap": "wildlife",
+   "alt": []
+  },
+  {
+   "id": "conservation_area",
+   "en": "conservation area",
+   "uz": "muhofaza qilinadigan hudud",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hunting isn't allowed in these wetlands because they are a conservation area for rare birds.",
+   "gap": "conservation area",
+   "alt": [
+    "conservation areas"
+   ]
+  },
+  {
+   "id": "national_park",
+   "en": "national park",
+   "uz": "milliy bog‘",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ugam-Chatkal is a huge national park in the mountains northeast of Tashkent, with rivers, forests and wild animals.",
+   "gap": "national park",
+   "alt": [
+    "national parks"
+   ]
+  },
+  {
+   "id": "have_a_picnic",
+   "en": "have a picnic",
+   "uz": "piknik qilmoq (tabiatda ovqatlanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We put a blanket under an apricot tree and had a picnic with bread, fruit and green tea.",
+   "gap": "had a picnic",
+   "alt": [
+    "had a picnic",
+    "has a picnic",
+    "having a picnic"
+   ]
+  },
+  {
+   "id": "go_walking",
+   "en": "go walking",
+   "uz": "piyoda sayrga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every Saturday my mum and her friends go walking in the hills for three or four hours.",
+   "gap": "go walking",
+   "alt": [
+    "goes walking",
+    "went walking",
+    "going walking"
+   ]
+  },
+  {
+   "id": "country_rural",
+   "en": "the country",
+   "uz": "qishloq joylar (shahar emas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents sold their flat in the city and moved to the country to keep bees.",
+   "gap": "the country",
+   "alt": [
+    "country"
+   ]
+  },
+  {
+   "id": "conservation",
+   "en": "conservation",
+   "uz": "tabiatni muhofaza qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Volunteers from our school help with conservation by planting trees along the river.",
+   "gap": "conservation",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "countryside",
+   "village"
+  ],
+  [
+   "conservation_area",
+   "national_park"
+  ],
+  [
+   "forest",
+   "wood"
+  ],
+  [
+   "nature",
+   "wildlife"
+  ],
+  [
+   "mountain",
+   "hill"
+  ],
+  [
+   "village",
+   "small_town"
+  ],
+  [
+   "nature",
+   "mountain"
+  ],
+  [
+   "nature",
+   "forest"
+  ],
+  [
+   "nature",
+   "lake"
+  ],
+  [
+   "nature",
+   "field"
+  ],
+  [
+   "nature",
+   "river"
+  ],
+  [
+   "countryside",
+   "field"
+  ],
+  [
+   "countryside",
+   "farm"
+  ],
+  [
+   "countryside",
+   "cottage"
+  ],
+  [
+   "countryside",
+   "lake"
+  ],
+  [
+   "countryside",
+   "river"
+  ],
+  [
+   "countryside",
+   "small_town"
+  ],
+  [
+   "forest",
+   "river"
+  ],
+  [
+   "lake",
+   "river"
+  ],
+  [
+   "lake",
+   "village"
+  ],
+  [
+   "lake",
+   "mountain"
+  ],
+  [
+   "field",
+   "farm"
+  ],
+  [
+   "field",
+   "village"
+  ],
+  [
+   "farm",
+   "country_road"
+  ],
+  [
+   "cottage",
+   "farm"
+  ],
+  [
+   "cottage",
+   "village"
+  ],
+  [
+   "lake",
+   "cottage"
+  ],
+  [
+   "country_rural",
+   "countryside"
+  ],
+  [
+   "country_rural",
+   "village"
+  ],
+  [
+   "country_rural",
+   "small_town"
+  ],
+  [
+   "conservation",
+   "conservation_area"
+  ],
+  [
+   "conservation",
+   "nature"
+  ],
+  [
+   "conservation",
+   "wildlife"
+  ]
+ ]
+}

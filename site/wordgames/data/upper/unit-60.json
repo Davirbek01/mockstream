@@ -1,0 +1,718 @@
+{
+ "book": "upper",
+ "unit": 60,
+ "title": "Success, failure and difficulty",
+ "title_uz": "Muvaffaqiyat, muvaffaqiyatsizlik va qiyinchilik",
+ "words": [
+  {
+   "id": "succeed",
+   "en": "succeed",
+   "uz": "muvaffaq bo‘lmoq (…ishda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After three hours, Dad and I finally succeeded in fixing the gears on my bike.",
+   "gap": "succeeded",
+   "alt": [
+    "succeeds",
+    "succeeded",
+    "succeeding"
+   ]
+  },
+  {
+   "id": "manage",
+   "en": "manage",
+   "uz": "uddalamoq (…ga ulgurmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We managed to finish the poster just before the bell rang.",
+   "gap": "managed",
+   "alt": [
+    "manages",
+    "managed",
+    "managing"
+   ]
+  },
+  {
+   "id": "achieve",
+   "en": "achieve",
+   "uz": "erishmoq (natija, maqsad)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With regular practice, you can achieve excellent results in the speaking exam.",
+   "gap": "achieve",
+   "alt": [
+    "achieves",
+    "achieved",
+    "achieving"
+   ]
+  },
+  {
+   "id": "accomplish",
+   "en": "accomplish",
+   "uz": "amalga oshirmoq (ko‘p ish; rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We accomplished a lot in the first week of our school project: the website is already online.",
+   "gap": "accomplished",
+   "alt": [
+    "accomplishes",
+    "accomplished",
+    "accomplishing"
+   ]
+  },
+  {
+   "id": "come_off_plan",
+   "en": "come off",
+   "uz": "(reja) o‘xshab chiqmoq (so‘zl.)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "We planned a surprise party for Mum's birthday, but it didn't come off because she came home early.",
+   "gap": "come off",
+   "alt": [
+    "comes off",
+    "came off",
+    "coming off"
+   ]
+  },
+  {
+   "id": "reach_compromise",
+   "en": "reach",
+   "uz": "(murosaga, kelishuvga) kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After an hour of arguing, my brother and I reached a compromise: the zoo in the morning and the cinema in the afternoon.",
+   "gap": "reached",
+   "alt": [
+    "reaches",
+    "reached",
+    "reaching"
+   ]
+  },
+  {
+   "id": "attain",
+   "en": "attain",
+   "uz": "(darajaga) yetmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Only pupils who attain a grade of B or higher can join the advanced English class.",
+   "gap": "attain",
+   "alt": [
+    "attains",
+    "attained",
+    "attaining"
+   ]
+  },
+  {
+   "id": "secure",
+   "en": "secure",
+   "uz": "qo‘lga kiritmoq (joy, g‘alaba)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin studied hard all year and secured a place at the medical university in Tashkent.",
+   "gap": "secured",
+   "alt": [
+    "secures",
+    "secured",
+    "securing"
+   ]
+  },
+  {
+   "id": "realise_ambition",
+   "en": "realise",
+   "uz": "(orzuni) ro‘yobga chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After years of training, Diyora realised her ambition of swimming for the national team.",
+   "gap": "realised",
+   "alt": [
+    "realises",
+    "realised",
+    "realising",
+    "realize",
+    "realized"
+   ]
+  },
+  {
+   "id": "fulfil",
+   "en": "fulfil",
+   "uz": "(majburiyatni) bajarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you sign a contract with a football club, you must fulfil all your obligations under it.",
+   "gap": "fulfil",
+   "alt": [
+    "fulfils",
+    "fulfilled",
+    "fulfill"
+   ]
+  },
+  {
+   "id": "go_wrong",
+   "en": "go wrong",
+   "uz": "chatoq bo‘lib ketmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Everything went wrong on the day of the school trip: the bus broke down and it started to rain.",
+   "gap": "went wrong",
+   "alt": [
+    "goes wrong",
+    "went wrong",
+    "gone wrong",
+    "going wrong"
+   ]
+  },
+  {
+   "id": "backfire",
+   "en": "backfire",
+   "uz": "teskari natija bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Timur's plan to miss the test by pretending to be ill backfired: the teacher made him take it alone after school.",
+   "gap": "backfired",
+   "alt": [
+    "backfires",
+    "backfired",
+    "backfiring"
+   ]
+  },
+  {
+   "id": "fold",
+   "en": "fold",
+   "uz": "yopilib qolmoq (firma, klub)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little bookshop on our street folded after only a year because it had too few customers.",
+   "gap": "folded",
+   "alt": [
+    "folds",
+    "folded",
+    "folding"
+   ]
+  },
+  {
+   "id": "go_under",
+   "en": "go under",
+   "uz": "kasod bo‘lmoq (so‘zl.)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "During the pandemic, many small travel agencies went under because nobody could travel.",
+   "gap": "went under",
+   "alt": [
+    "goes under",
+    "went under",
+    "gone under",
+    "going under"
+   ]
+  },
+  {
+   "id": "falter",
+   "en": "falter",
+   "uz": "oqsamoq, sustlashib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our recycling project faltered for a few months when the money ran out, but in the end it was a big success.",
+   "gap": "faltered",
+   "alt": [
+    "falters",
+    "faltered",
+    "faltering"
+   ]
+  },
+  {
+   "id": "come_to_nothing",
+   "en": "come to nothing",
+   "uz": "zoe ketmoq, besamar qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "All our weeks of rehearsals came to nothing when the competition was cancelled.",
+   "gap": "came to nothing",
+   "alt": [
+    "comes to nothing",
+    "came to nothing",
+    "coming to nothing"
+   ]
+  },
+  {
+   "id": "difficulty",
+   "en": "difficulty",
+   "uz": "qiyinchilik (…da qiynalish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many older people have difficulty reading the small print on medicine boxes.",
+   "gap": "difficulty",
+   "alt": []
+  },
+  {
+   "id": "trouble",
+   "en": "trouble",
+   "uz": "muammo, qiynalish (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had trouble finding a parking space near the stadium on match day.",
+   "gap": "trouble",
+   "alt": []
+  },
+  {
+   "id": "bother_n",
+   "en": "bother",
+   "uz": "ovoragarchilik, tashvish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Renewing my passport was no bother at all: it took only twenty minutes.",
+   "gap": "bother",
+   "alt": []
+  },
+  {
+   "id": "cope",
+   "en": "cope",
+   "uz": "(qiyinchilikka) bardosh bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "How do you cope with so much homework every evening?",
+   "gap": "cope",
+   "alt": [
+    "copes",
+    "coped",
+    "coping"
+   ]
+  },
+  {
+   "id": "success",
+   "en": "success",
+   "uz": "muvaffaqiyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school concert was a great success: every single ticket was sold.",
+   "gap": "success",
+   "alt": []
+  },
+  {
+   "id": "successful",
+   "en": "successful",
+   "uz": "muvaffaqiyatli (kishi, ish)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our team was successful in the regional robotics competition and won first place.",
+   "gap": "successful",
+   "alt": []
+  },
+  {
+   "id": "successfully",
+   "en": "successfully",
+   "uz": "muvaffaqiyatli tarzda (ravish)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My sister successfully passed her driving test at the first attempt.",
+   "gap": "successfully",
+   "alt": []
+  },
+  {
+   "id": "achievement",
+   "en": "achievement",
+   "uz": "yutuq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Winning a gold medal at the national maths olympiad is an amazing achievement for a thirteen-year-old.",
+   "gap": "achievement",
+   "alt": [
+    "achievements"
+   ]
+  },
+  {
+   "id": "achievable",
+   "en": "achievable",
+   "uz": "erishsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Set yourself small targets that are achievable, like learning ten new words a day.",
+   "gap": "achievable",
+   "alt": []
+  },
+  {
+   "id": "fulfilment",
+   "en": "fulfilment",
+   "uz": "ichki qoniqish hissi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Helping weaker pupils catch up gives my mother, a primary teacher, a real sense of fulfilment.",
+   "gap": "fulfilment",
+   "alt": [
+    "fulfillment"
+   ]
+  },
+  {
+   "id": "fulfilling",
+   "en": "fulfilling",
+   "uz": "qoniqish beradigan (ish)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Being a nurse is tiring, but Uncle Rustam says it's the most fulfilling job he could imagine.",
+   "gap": "fulfilling",
+   "alt": []
+  },
+  {
+   "id": "goal",
+   "en": "goal",
+   "uz": "maqsad (aniq natija)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our main goal this term is to raise money for a new school greenhouse.",
+   "gap": "goal",
+   "alt": [
+    "goals"
+   ]
+  },
+  {
+   "id": "aim",
+   "en": "aim",
+   "uz": "maqsad, niyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The aim of today's lesson is to learn how to write a formal letter.",
+   "gap": "aim",
+   "alt": [
+    "aims"
+   ]
+  },
+  {
+   "id": "target",
+   "en": "target",
+   "uz": "reja ko‘rsatkichi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop has a sales target of a thousand phones a month.",
+   "gap": "target",
+   "alt": [
+    "targets"
+   ]
+  },
+  {
+   "id": "ambition",
+   "en": "ambition",
+   "uz": "katta orzu, intilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zafar's ambition is to climb Everest before he turns forty.",
+   "gap": "ambition",
+   "alt": [
+    "ambitions"
+   ]
+  },
+  {
+   "id": "dream",
+   "en": "dream",
+   "uz": "orzu",
+   "pos": "noun",
+   "img": false,
+   "ex": "She finally realised her childhood dream of flying a plane.",
+   "gap": "dream",
+   "alt": [
+    "dreams"
+   ]
+  },
+  {
+   "id": "agreement",
+   "en": "agreement",
+   "uz": "kelishuv, bitim",
+   "pos": "noun",
+   "img": false,
+   "ex": "After long talks, the two companies signed an agreement to build the new factory together.",
+   "gap": "agreement",
+   "alt": []
+  },
+  {
+   "id": "obligation",
+   "en": "obligation",
+   "uz": "majburiyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Parents have a legal obligation to send their children to school.",
+   "gap": "obligation",
+   "alt": [
+    "obligations"
+   ]
+  },
+  {
+   "id": "compromise",
+   "en": "compromise",
+   "uz": "murosa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Neither neighbour would give way, so in the end the judge suggested a compromise: they would share the land equally.",
+   "gap": "compromise",
+   "alt": []
+  },
+  {
+   "id": "find_it_difficult",
+   "en": "find it difficult",
+   "uz": "…ni qiyin deb bilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many new students find it difficult to remember all the teachers' names in the first week.",
+   "gap": "find it difficult",
+   "alt": [
+    "finds it difficult",
+    "found it difficult",
+    "finding it difficult"
+   ]
+  },
+  {
+   "id": "hard_difficult",
+   "en": "hard",
+   "uz": "qiyin (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's hard to hear the teacher when the windows are open and the traffic is noisy.",
+   "gap": "hard",
+   "alt": []
+  },
+  {
+   "id": "accomplishment",
+   "en": "accomplishment",
+   "uz": "erishilgan natija (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Building the robot in just two weeks was a real accomplishment for the young team.",
+   "gap": "accomplishment",
+   "alt": [
+    "accomplishments"
+   ]
+  },
+  {
+   "id": "accomplished_adj",
+   "en": "accomplished",
+   "uz": "mohir, yetuk (san’atkor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nilufar is an accomplished pianist who has played in concert halls across Europe.",
+   "gap": "accomplished",
+   "alt": []
+  },
+  {
+   "id": "attainment",
+   "en": "attainment",
+   "uz": "erishilgan daraja (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school measures pupils' attainment in maths with a test at the end of every year.",
+   "gap": "attainment",
+   "alt": []
+  },
+  {
+   "id": "attainable",
+   "en": "attainable",
+   "uz": "qo‘l yetadigan (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A place in the final is attainable if the team keeps playing this well.",
+   "gap": "attainable",
+   "alt": []
+  },
+  {
+   "id": "harden",
+   "en": "harden",
+   "uz": "qotmoq, qattiqlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Leave the fresh clay pot in the sun for a day until it hardens.",
+   "gap": "hardens",
+   "alt": [
+    "hardens",
+    "hardened",
+    "hardening"
+   ]
+  },
+  {
+   "id": "hardness",
+   "en": "hardness",
+   "uz": "qattiqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hardness of the tap water here leaves white marks inside the kettle.",
+   "gap": "hardness",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "achieve",
+   "accomplish"
+  ],
+  [
+   "achieve",
+   "attain"
+  ],
+  [
+   "achieve",
+   "secure"
+  ],
+  [
+   "achieve",
+   "reach_compromise"
+  ],
+  [
+   "achieve",
+   "realise_ambition"
+  ],
+  [
+   "realise_ambition",
+   "fulfil"
+  ],
+  [
+   "realise_ambition",
+   "attain"
+  ],
+  [
+   "attain",
+   "secure"
+  ],
+  [
+   "attain",
+   "reach_compromise"
+  ],
+  [
+   "secure",
+   "reach_compromise"
+  ],
+  [
+   "manage",
+   "cope"
+  ],
+  [
+   "manage",
+   "succeed"
+  ],
+  [
+   "go_wrong",
+   "backfire"
+  ],
+  [
+   "go_wrong",
+   "come_to_nothing"
+  ],
+  [
+   "fold",
+   "go_under"
+  ],
+  [
+   "difficulty",
+   "trouble"
+  ],
+  [
+   "trouble",
+   "bother_n"
+  ],
+  [
+   "difficulty",
+   "bother_n"
+  ],
+  [
+   "success",
+   "achievement"
+  ],
+  [
+   "fulfilment",
+   "achievement"
+  ],
+  [
+   "realise_ambition",
+   "accomplish"
+  ],
+  [
+   "backfire",
+   "come_to_nothing"
+  ],
+  [
+   "successful",
+   "successfully"
+  ],
+  [
+   "goal",
+   "aim"
+  ],
+  [
+   "goal",
+   "target"
+  ],
+  [
+   "goal",
+   "ambition"
+  ],
+  [
+   "goal",
+   "dream"
+  ],
+  [
+   "aim",
+   "target"
+  ],
+  [
+   "aim",
+   "ambition"
+  ],
+  [
+   "aim",
+   "dream"
+  ],
+  [
+   "target",
+   "ambition"
+  ],
+  [
+   "ambition",
+   "dream"
+  ],
+  [
+   "target",
+   "dream"
+  ],
+  [
+   "agreement",
+   "compromise"
+  ],
+  [
+   "agreement",
+   "obligation"
+  ],
+  [
+   "find_it_difficult",
+   "cope"
+  ],
+  [
+   "hard_difficult",
+   "rough_texture"
+  ],
+  [
+   "accomplishment",
+   "achievement"
+  ],
+  [
+   "accomplishment",
+   "success"
+  ],
+  [
+   "accomplished_adj",
+   "accomplish"
+  ],
+  [
+   "accomplished_adj",
+   "successful"
+  ],
+  [
+   "attainment",
+   "achievement"
+  ],
+  [
+   "attainable",
+   "achievable"
+  ],
+  [
+   "harden",
+   "fold"
+  ],
+  [
+   "hardness",
+   "difficulty"
+  ]
+ ]
+}

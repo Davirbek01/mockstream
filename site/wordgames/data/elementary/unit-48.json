@@ -1,0 +1,310 @@
+{
+ "book": "elementary",
+ "unit": 48,
+ "title": "Talking",
+ "title_uz": "Gapirish fe’llari",
+ "words": [
+  {
+   "id": "say",
+   "en": "say",
+   "uz": "demoq (so‘z yoki gapni aytmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Little Jasur took the sweets from the shopkeeper but forgot to say 'thank you'.",
+   "gap": "say",
+   "alt": [
+    "says",
+    "said",
+    "saying"
+   ]
+  },
+  {
+   "id": "say_hello",
+   "en": "say hello",
+   "uz": "salom aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When you see Aunt Feruza at the market, say hello to her from me.",
+   "gap": "say hello",
+   "alt": [
+    "says hello",
+    "said hello"
+   ]
+  },
+  {
+   "id": "say_goodbye",
+   "en": "say goodbye",
+   "uz": "xayrlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The holiday was over, so we said goodbye to our cousins at the airport and flew home to Urgench.",
+   "gap": "said goodbye",
+   "alt": [
+    "says goodbye",
+    "said goodbye"
+   ]
+  },
+  {
+   "id": "tell",
+   "en": "tell",
+   "uz": "(kimgadir) aytib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please tell me the truth: did you eat the last piece of cake?",
+   "gap": "tell",
+   "alt": [
+    "tells",
+    "told",
+    "telling"
+   ]
+  },
+  {
+   "id": "tell_a_story",
+   "en": "tell a story",
+   "uz": "hikoya aytib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before we went to sleep, Uncle Rustam told us a story about a brave boy and a white horse, but I fell asleep before the end.",
+   "gap": "told us a story",
+   "alt": [
+    "tells a story",
+    "told a story",
+    "told us a story"
+   ]
+  },
+  {
+   "id": "tell_a_joke",
+   "en": "tell a joke",
+   "uz": "latifa aytmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Otabek told a joke in the lunch queue, and everyone laughed so loudly that the cook came out to look.",
+   "gap": "told a joke",
+   "alt": [
+    "tells a joke",
+    "told a joke",
+    "telling a joke"
+   ]
+  },
+  {
+   "id": "ask",
+   "en": "ask",
+   "uz": "so‘ramoq (savol bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother asked me why the sky is blue, but I didn't know.",
+   "gap": "asked",
+   "alt": [
+    "asks",
+    "asked",
+    "asking"
+   ]
+  },
+  {
+   "id": "ask_a_question",
+   "en": "ask a question",
+   "uz": "savol bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the astronaut finished her talk, Zarina put up her hand to ask a question: 'Do you miss your family in space?'",
+   "gap": "ask a question",
+   "alt": [
+    "asks a question",
+    "asked a question"
+   ]
+  },
+  {
+   "id": "ask_the_way",
+   "en": "ask the way",
+   "uz": "yo‘l so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We got lost in the old streets of Kokand, so we asked the way to the Khan's palace.",
+   "gap": "asked the way",
+   "alt": [
+    "asks the way",
+    "asked the way"
+   ]
+  },
+  {
+   "id": "ask_for",
+   "en": "ask for",
+   "uz": "(biror narsani) so‘rab olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was very hot in the shop, so I went to the counter and asked for a glass of water.",
+   "gap": "asked for",
+   "alt": [
+    "asks for",
+    "asked for",
+    "asking for"
+   ]
+  },
+  {
+   "id": "speak",
+   "en": "speak",
+   "uz": "(biror tilda) gapirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin studied in Korea for three years, so she can speak Korean quite well.",
+   "gap": "speak",
+   "alt": [
+    "speaks",
+    "spoke",
+    "speaking"
+   ]
+  },
+  {
+   "id": "talk_to",
+   "en": "talk to",
+   "uz": "suhbatlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda spent an hour on the phone talking to her best friend about the new teacher.",
+   "gap": "talking to",
+   "alt": [
+    "talks to",
+    "talked to",
+    "talking to"
+   ]
+  },
+  {
+   "id": "answer_the_door",
+   "en": "answer the door",
+   "uz": "eshikni ochmoq (kim kelganini ko‘rish)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Someone was knocking, so I went to answer the door, and there was our neighbour with a plate of hot samsa.",
+   "gap": "answer the door",
+   "alt": [
+    "answers the door",
+    "answered the door"
+   ]
+  },
+  {
+   "id": "answer_the_question",
+   "en": "answer the question",
+   "uz": "savolga javob bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Laylo was the only player who could answer the question about volcanoes, so she won the quiz.",
+   "gap": "answer the question",
+   "alt": [
+    "answers the question",
+    "answered the question"
+   ]
+  },
+  {
+   "id": "reply",
+   "en": "reply",
+   "uz": "javob yozmoq (xabarga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I wrote two emails to the hotel about our room, but they didn't reply to either of them.",
+   "gap": "reply",
+   "alt": [
+    "replies",
+    "replied",
+    "replying"
+   ]
+  },
+  {
+   "id": "ask_the_time",
+   "en": "ask the time",
+   "uz": "soat necha ekanini so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Tourists often stop me in the park to ask the time, because the big clock on the tower is broken.",
+   "gap": "ask the time",
+   "alt": [
+    "asks the time",
+    "asked the time",
+    "asking the time"
+   ]
+  },
+  {
+   "id": "tell_the_time",
+   "en": "tell the time",
+   "uz": "soat necha ekanini aytib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, could you tell me the time? My phone battery is dead.",
+   "gap": "tell me the time",
+   "alt": [
+    "tell me the time",
+    "tells the time",
+    "told the time",
+    "told me the time"
+   ]
+  },
+  {
+   "id": "answer_the_phone",
+   "en": "answer the phone",
+   "uz": "telefonga javob bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister's mobile was ringing in the kitchen, but she was in the garden, so I went to answer the phone.",
+   "gap": "answer the phone",
+   "alt": [
+    "answers the phone",
+    "answered the phone",
+    "answering the phone",
+    "answer the telephone"
+   ]
+  },
+  {
+   "id": "ask_someone_to",
+   "en": "ask someone to",
+   "uz": "(kimdandir) … qilishni so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The man next to me on the train was very tall, so I asked him to put my bag on the top shelf.",
+   "gap": "asked him to",
+   "alt": [
+    "ask somebody to",
+    "asks someone to",
+    "asked someone to",
+    "ask him to",
+    "asked him to",
+    "ask her to",
+    "asked her to",
+    "ask me to",
+    "asked me to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "say_hello",
+   "say_goodbye"
+  ],
+  [
+   "tell_a_story",
+   "tell_a_joke"
+  ],
+  [
+   "ask_the_time",
+   "tell_the_time"
+  ],
+  [
+   "ask_the_time",
+   "ask_the_way"
+  ],
+  [
+   "ask_the_time",
+   "ask_a_question"
+  ],
+  [
+   "answer_the_phone",
+   "answer_the_door"
+  ],
+  [
+   "ask_someone_to",
+   "tell"
+  ],
+  [
+   "ask_someone_to",
+   "ask_for"
+  ]
+ ]
+}

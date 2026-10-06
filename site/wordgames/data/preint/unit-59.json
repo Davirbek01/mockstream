@@ -1,0 +1,365 @@
+{
+ "book": "preint",
+ "unit": 59,
+ "title": "War and violence",
+ "title_uz": "Urush va zo‘ravonlik",
+ "words": [
+  {
+   "id": "war",
+   "en": "war",
+   "uz": "urush",
+   "pos": "noun",
+   "img": false,
+   "ex": "My great-grandfather's letters from the war are kept in a wooden box in our living room.",
+   "gap": "war",
+   "alt": [
+    "wars"
+   ]
+  },
+  {
+   "id": "world_war",
+   "en": "world war",
+   "uz": "jahon urushi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every 9 May, our town remembers the soldiers who did not come home from the Second World War.",
+   "gap": "World War",
+   "alt": [
+    "world wars"
+   ]
+  },
+  {
+   "id": "battle",
+   "en": "battle",
+   "uz": "jang",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the history museum there is a large painting of a famous battle with horses and flags.",
+   "gap": "battle",
+   "alt": [
+    "battles"
+   ]
+  },
+  {
+   "id": "enemy",
+   "en": "enemy",
+   "uz": "dushman",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the old story, the hero shakes hands with his enemy and they become friends.",
+   "gap": "enemy",
+   "alt": [
+    "enemies"
+   ]
+  },
+  {
+   "id": "defend",
+   "en": "defend",
+   "uz": "mudofaa qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Long ago, people built thick clay walls around the town to defend it against enemies.",
+   "gap": "defend",
+   "alt": [
+    "defends",
+    "defended",
+    "defending"
+   ]
+  },
+  {
+   "id": "attack",
+   "en": "attack",
+   "uz": "hujum qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The other team attacked down the left, but our goalkeeper stopped the ball.",
+   "gap": "attacked",
+   "alt": [
+    "attacks",
+    "attacked",
+    "attacking"
+   ]
+  },
+  {
+   "id": "attacker",
+   "en": "attacker",
+   "uz": "hujumchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jasur plays as an attacker, so his main job is to score goals.",
+   "gap": "attacker",
+   "alt": [
+    "attackers"
+   ]
+  },
+  {
+   "id": "fight",
+   "en": "fight",
+   "uz": "urishmoq (jang qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our cat and the neighbours' cat fight on the roof almost every night, and the noise wakes everyone up.",
+   "gap": "fight",
+   "alt": [
+    "fights",
+    "fought",
+    "fighting"
+   ]
+  },
+  {
+   "id": "responsibility",
+   "en": "responsibility",
+   "uz": "mas’uliyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Watering the class plants is my responsibility this month.",
+   "gap": "responsibility",
+   "alt": [
+    "responsibilities"
+   ]
+  },
+  {
+   "id": "violence",
+   "en": "violence",
+   "uz": "zo‘ravonlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has a clear rule: no violence of any kind, not even pushing in the lunch queue.",
+   "gap": "violence",
+   "alt": []
+  },
+  {
+   "id": "violent",
+   "en": "violent",
+   "uz": "zo‘ravonlikka to‘la (shafqatsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My parents don't let my little brother watch violent cartoons.",
+   "gap": "violent",
+   "alt": []
+  },
+  {
+   "id": "search_n",
+   "en": "search",
+   "uz": "qidiruv",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a long search, we found the car keys in the fridge!",
+   "gap": "search",
+   "alt": [
+    "searches"
+   ]
+  },
+  {
+   "id": "hide",
+   "en": "hide",
+   "uz": "yashirinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little sister likes to hide behind the curtains when we play at home.",
+   "gap": "hide",
+   "alt": [
+    "hides",
+    "hid",
+    "hidden",
+    "hiding"
+   ]
+  },
+  {
+   "id": "missing",
+   "en": "missing",
+   "uz": "yo‘qolgan (bedarak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our cat has been missing for two days, and we've looked everywhere.",
+   "gap": "missing",
+   "alt": []
+  },
+  {
+   "id": "injured",
+   "en": "injured",
+   "uz": "jarohatlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Two people were slightly injured in the accident, but they are fine now.",
+   "gap": "injured",
+   "alt": []
+  },
+  {
+   "id": "peace",
+   "en": "peace",
+   "uz": "tinchlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years of fighting, the two countries signed an agreement and finally lived in peace.",
+   "gap": "peace",
+   "alt": []
+  },
+  {
+   "id": "peaceful",
+   "en": "peaceful",
+   "uz": "tinch (osoyishta)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Early in the morning, the mountain village of Sentob is quiet and peaceful.",
+   "gap": "peaceful",
+   "alt": []
+  },
+  {
+   "id": "gun",
+   "en": "gun",
+   "uz": "o‘qotar qurol",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the museum we saw an old hunting gun that once belonged to a famous writer.",
+   "gap": "gun",
+   "alt": [
+    "guns"
+   ]
+  },
+  {
+   "id": "carry",
+   "en": "carry",
+   "uz": "o‘zi bilan olib yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Police officers in London don't usually carry guns.",
+   "gap": "carry",
+   "alt": [
+    "carries",
+    "carried",
+    "carrying"
+   ]
+  },
+  {
+   "id": "kill",
+   "en": "kill",
+   "uz": "o‘ldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The farmer covered his young apple trees, because a hard frost could kill them.",
+   "gap": "kill",
+   "alt": [
+    "kills",
+    "killed",
+    "killing"
+   ]
+  },
+  {
+   "id": "bomb",
+   "en": "bomb",
+   "uz": "portlovchi snaryad",
+   "pos": "noun",
+   "img": false,
+   "ex": "Workers building a new road found an old bomb from the war and called the army.",
+   "gap": "bomb",
+   "alt": [
+    "bombs"
+   ]
+  },
+  {
+   "id": "bombing",
+   "en": "bombing",
+   "uz": "bombardimon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Much of the city centre had to be rebuilt after the bombing in 1944.",
+   "gap": "bombing",
+   "alt": [
+    "bombings"
+   ]
+  },
+  {
+   "id": "explode",
+   "en": "explode",
+   "uz": "portlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The firework exploded in the sky in a shower of gold and green.",
+   "gap": "exploded",
+   "alt": [
+    "explodes",
+    "exploded",
+    "exploding"
+   ]
+  },
+  {
+   "id": "shoot",
+   "en": "shoot",
+   "uz": "otmoq (quroldan, kamondan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the sports festival, Nilufar shot ten arrows and hit the target nine times.",
+   "gap": "shot",
+   "alt": [
+    "shoots",
+    "shot",
+    "shooting"
+   ]
+  },
+  {
+   "id": "death",
+   "en": "death",
+   "uz": "o‘lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The number of road deaths in the region fell last year after new speed cameras were installed.",
+   "gap": "deaths",
+   "alt": [
+    "deaths"
+   ]
+  },
+  {
+   "id": "recent",
+   "en": "recent",
+   "uz": "yaqindagi, so‘nggi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "According to a recent survey, most teenagers sleep less than eight hours a night.",
+   "gap": "recent",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "war",
+   "battle"
+  ],
+  [
+   "war",
+   "world_war"
+  ],
+  [
+   "bomb",
+   "gun"
+  ],
+  [
+   "bombing",
+   "battle"
+  ],
+  [
+   "bombing",
+   "attack"
+  ],
+  [
+   "bombing",
+   "war"
+  ],
+  [
+   "kill",
+   "attack"
+  ],
+  [
+   "kill",
+   "destroy"
+  ],
+  [
+   "carry",
+   "hide"
+  ],
+  [
+   "shoot",
+   "injured"
+  ]
+ ]
+}

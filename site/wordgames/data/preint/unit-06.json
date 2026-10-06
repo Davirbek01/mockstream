@@ -1,0 +1,510 @@
+{
+ "book": "preint",
+ "unit": 6,
+ "title": "The physical world",
+ "title_uz": "Tabiat va geografiya",
+ "words": [
+  {
+   "id": "surface",
+   "en": "surface",
+   "uz": "sirt, yuza",
+   "pos": "noun",
+   "img": false,
+   "ex": "Early in the morning, the surface of the pond was as smooth as glass, without a single wave.",
+   "gap": "surface",
+   "alt": []
+  },
+  {
+   "id": "earth",
+   "en": "Earth",
+   "uz": "Yer (sayyoramiz)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Astronauts on the space station travel around the Earth about sixteen times every day.",
+   "gap": "Earth",
+   "alt": [
+    "the Earth",
+    "earth"
+   ]
+  },
+  {
+   "id": "cover_land",
+   "en": "cover",
+   "uz": "qoplamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In autumn the paths in Navoi Park are covered with yellow leaves.",
+   "gap": "covered",
+   "alt": [
+    "covered",
+    "covers"
+   ]
+  },
+  {
+   "id": "cave",
+   "en": "cave",
+   "uz": "g‘or",
+   "pos": "noun",
+   "img": true,
+   "ex": "In 1938 scientists found the bones of a Neanderthal child in Teshik-Tash, a cave in the mountains of Surkhandarya.",
+   "gap": "cave",
+   "alt": [
+    "caves"
+   ]
+  },
+  {
+   "id": "deep",
+   "en": "deep",
+   "uz": "chuqur",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be careful: the water near the dam is three metres deep, so don't swim there.",
+   "gap": "deep",
+   "alt": []
+  },
+  {
+   "id": "canal",
+   "en": "canal",
+   "uz": "kanal (sun’iy suv yo‘li)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 1939 more than 160,000 people dug a huge canal through the Fergana Valley by hand in just 45 days.",
+   "gap": "canal",
+   "alt": [
+    "canals"
+   ]
+  },
+  {
+   "id": "waterfall",
+   "en": "waterfall",
+   "uz": "sharshara",
+   "pos": "noun",
+   "img": true,
+   "ex": "We stood under the waterfall and felt the icy water falling on our heads.",
+   "gap": "waterfall",
+   "alt": [
+    "waterfalls"
+   ]
+  },
+  {
+   "id": "rainforest",
+   "en": "rainforest",
+   "uz": "tropik o‘rmon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Monkeys, parrots and thousands of insects live in the hot, wet rainforest of Brazil.",
+   "gap": "rainforest",
+   "alt": [
+    "rain forest"
+   ]
+  },
+  {
+   "id": "ocean",
+   "en": "ocean",
+   "uz": "okean",
+   "pos": "noun",
+   "img": false,
+   "ex": "Big ships take about ten days to carry goods across the ocean from Europe to America.",
+   "gap": "ocean",
+   "alt": []
+  },
+  {
+   "id": "coast",
+   "en": "coast",
+   "uz": "dengiz sohili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families from Tashkent spend their summer holiday on the Turkish coast, swimming in the sea.",
+   "gap": "coast",
+   "alt": []
+  },
+  {
+   "id": "lake",
+   "en": "lake",
+   "uz": "ko‘l",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aydarkul is a salty lake near Jizzakh, and its still water is perfect for fishing.",
+   "gap": "lake",
+   "alt": [
+    "lakes"
+   ]
+  },
+  {
+   "id": "mountain",
+   "en": "mountain",
+   "uz": "tog‘",
+   "pos": "noun",
+   "img": true,
+   "ex": "Climbing Khazret Sultan, the highest mountain in Uzbekistan, takes several days.",
+   "gap": "mountain",
+   "alt": [
+    "mountains"
+   ]
+  },
+  {
+   "id": "desert",
+   "en": "desert",
+   "uz": "cho‘l, sahro",
+   "pos": "noun",
+   "img": true,
+   "ex": "The Kyzylkum is a huge, dry desert where it almost never rains in summer.",
+   "gap": "desert",
+   "alt": [
+    "deserts"
+   ]
+  },
+  {
+   "id": "river",
+   "en": "river",
+   "uz": "daryo",
+   "pos": "noun",
+   "img": true,
+   "ex": "The Zarafshan is a river that starts at a glacier in Tajikistan and flows west past Samarkand.",
+   "gap": "river",
+   "alt": [
+    "rivers"
+   ]
+  },
+  {
+   "id": "peak",
+   "en": "peak",
+   "uz": "cho‘qqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the peak of Big Chimgan, the cars on the road below look like tiny toys.",
+   "gap": "peak",
+   "alt": [
+    "peaks"
+   ]
+  },
+  {
+   "id": "region",
+   "en": "region",
+   "uz": "mintaqa, hudud",
+   "pos": "noun",
+   "img": false,
+   "ex": "Khorezm is a region of Uzbekistan famous for the old city of Khiva.",
+   "gap": "region",
+   "alt": [
+    "regions"
+   ]
+  },
+  {
+   "id": "consist_of",
+   "en": "consist of",
+   "uz": "…dan iborat bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Uzbekistan consists of twelve regions, the Republic of Karakalpakstan and the city of Tashkent.",
+   "gap": "consists of",
+   "alt": [
+    "consists of"
+   ]
+  },
+  {
+   "id": "contrast",
+   "en": "contrast",
+   "uz": "keskin farq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The contrast between summer and winter in Uzbekistan is huge: from +40 °C to −10 °C.",
+   "gap": "contrast",
+   "alt": [
+    "contrasts"
+   ]
+  },
+  {
+   "id": "landscape",
+   "en": "landscape",
+   "uz": "manzara (tabiat ko‘rinishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The landscape around Muynak is flat and empty: sand, salt and old ships where the sea used to be.",
+   "gap": "landscape",
+   "alt": [
+    "landscapes"
+   ]
+  },
+  {
+   "id": "climate",
+   "en": "climate",
+   "uz": "iqlim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tashkent has a dry climate with long hot summers and cool, wet winters.",
+   "gap": "climate",
+   "alt": []
+  },
+  {
+   "id": "distance",
+   "en": "distance",
+   "uz": "masofa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The distance from Tashkent to Samarkand is about 300 kilometres.",
+   "gap": "distance",
+   "alt": []
+  },
+  {
+   "id": "north",
+   "en": "north",
+   "uz": "shimol",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter, freezing winds come to Uzbekistan from the north, from Siberia.",
+   "gap": "north",
+   "alt": []
+  },
+  {
+   "id": "south",
+   "en": "south",
+   "uz": "janub",
+   "pos": "noun",
+   "img": false,
+   "ex": "Termez, a very hot city in the south of Uzbekistan, is on the border with Afghanistan.",
+   "gap": "south",
+   "alt": []
+  },
+  {
+   "id": "east",
+   "en": "east",
+   "uz": "sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "The windows of our flat face east, so the early morning sun wakes us up.",
+   "gap": "east",
+   "alt": []
+  },
+  {
+   "id": "west",
+   "en": "west",
+   "uz": "g‘arb",
+   "pos": "noun",
+   "img": false,
+   "ex": "My bedroom window faces west, so every evening I can watch the sunset over the rooftops.",
+   "gap": "west",
+   "alt": []
+  },
+  {
+   "id": "north_east",
+   "en": "north-east",
+   "uz": "shimoli-sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tashkent is in the north-east of Uzbekistan, close to the Kazakh border.",
+   "gap": "north-east",
+   "alt": [
+    "northeast",
+    "north east"
+   ]
+  },
+  {
+   "id": "south_east",
+   "en": "south-east",
+   "uz": "janubi-sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dushanbe, the capital of Tajikistan, is south-east of Samarkand, on the other side of the mountains.",
+   "gap": "south-east",
+   "alt": [
+    "southeast",
+    "south east"
+   ]
+  },
+  {
+   "id": "south_west",
+   "en": "south-west",
+   "uz": "janubi-g‘arb",
+   "pos": "noun",
+   "img": false,
+   "ex": "From Bukhara, the road to Turkmenistan goes south-west, towards the city of Turkmenabat.",
+   "gap": "south-west",
+   "alt": [
+    "southwest",
+    "south west"
+   ]
+  },
+  {
+   "id": "north_west",
+   "en": "north-west",
+   "uz": "shimoli-g‘arb",
+   "pos": "noun",
+   "img": false,
+   "ex": "Khiva is in the north-west of Uzbekistan, not far from Turkmenistan.",
+   "gap": "north-west",
+   "alt": [
+    "northwest",
+    "north west"
+   ]
+  },
+  {
+   "id": "over_more",
+   "en": "over",
+   "uz": "…dan ortiq (ko‘proq)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The old stone bridge across the river is over three hundred years old.",
+   "gap": "over",
+   "alt": []
+  },
+  {
+   "id": "record_measure",
+   "en": "record",
+   "uz": "qayd etmoq (o‘lchab yozmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every hour, the scientists recorded the depth of the water in the lake.",
+   "gap": "recorded",
+   "alt": [
+    "recorded",
+    "records",
+    "recording"
+   ]
+  },
+  {
+   "id": "reach_level",
+   "en": "reach",
+   "uz": "yetmoq (darajaga, raqamga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In summer the temperature in some deserts can reach fifty degrees.",
+   "gap": "reach",
+   "alt": [
+    "reached",
+    "reaches",
+    "reaching"
+   ]
+  },
+  {
+   "id": "celsius",
+   "en": "Celsius",
+   "uz": "Selsiy (°C shkalasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Uzbekistan we measure temperature in degrees Celsius, not Fahrenheit.",
+   "gap": "Celsius",
+   "alt": []
+  },
+  {
+   "id": "two_thirds",
+   "en": "two thirds",
+   "uz": "uchdan ikki qism",
+   "pos": "noun",
+   "img": false,
+   "ex": "About two thirds of the pupils in our class walk to school; the rest come by bus.",
+   "gap": "two thirds",
+   "alt": [
+    "two-thirds"
+   ]
+  },
+  {
+   "id": "twice_the_size",
+   "en": "twice the size of",
+   "uz": "…dan ikki baravar katta",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our new flat is twice the size of the old one, so now we each have our own room.",
+   "gap": "twice the size of",
+   "alt": []
+  },
+  {
+   "id": "cover_distance",
+   "en": "cover",
+   "uz": "(masofani) bosib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With strong legs and good shoes, we covered the 25 kilometres to the lake in just five hours.",
+   "gap": "covered",
+   "alt": [
+    "covered",
+    "covers",
+    "covering"
+   ]
+  },
+  {
+   "id": "geographical",
+   "en": "geographical",
+   "uz": "jug‘rofiy (joy va tabiatga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On a geographical map, mountains are usually brown and seas are blue.",
+   "gap": "geographical",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "north",
+   "north_east"
+  ],
+  [
+   "north",
+   "north_west"
+  ],
+  [
+   "east",
+   "north_east"
+  ],
+  [
+   "west",
+   "north_west"
+  ],
+  [
+   "south",
+   "south_east"
+  ],
+  [
+   "east",
+   "south_east"
+  ],
+  [
+   "south",
+   "south_west"
+  ],
+  [
+   "west",
+   "south_west"
+  ],
+  [
+   "mountain",
+   "peak"
+  ],
+  [
+   "river",
+   "canal"
+  ],
+  [
+   "landscape",
+   "earth"
+  ],
+  [
+   "landscape",
+   "cave"
+  ],
+  [
+   "landscape",
+   "waterfall"
+  ],
+  [
+   "landscape",
+   "rainforest"
+  ],
+  [
+   "landscape",
+   "mountain"
+  ],
+  [
+   "landscape",
+   "desert"
+  ],
+  [
+   "landscape",
+   "river"
+  ],
+  [
+   "cover_land",
+   "cover_distance"
+  ]
+ ]
+}

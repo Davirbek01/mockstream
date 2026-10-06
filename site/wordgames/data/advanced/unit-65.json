@@ -1,0 +1,887 @@
+{
+ "book": "advanced",
+ "unit": 65,
+ "title": "All the colours of the rainbow",
+ "title_uz": "Kamalakning barcha ranglari",
+ "words": [
+  {
+   "id": "pitch_black",
+   "en": "pitch black",
+   "uz": "qop-qorong‘i",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There were no street lights in the village, so at night the lanes were pitch black and we needed torches.",
+   "gap": "pitch black",
+   "alt": [
+    "pitch-black"
+   ]
+  },
+  {
+   "id": "jet_black",
+   "en": "jet black",
+   "uz": "qop-qora (soch / ko‘z)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our puppy is so jet-black that at night we can only find her in the garden by her shining eyes.",
+   "gap": "jet-black",
+   "alt": [
+    "jet-black"
+   ]
+  },
+  {
+   "id": "scarlet",
+   "en": "scarlet",
+   "uz": "al-qizil (yorqin qizil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In late spring, wild poppies turn the hillsides outside the city a brilliant scarlet.",
+   "gap": "scarlet",
+   "alt": []
+  },
+  {
+   "id": "crimson",
+   "en": "crimson",
+   "uz": "to‘q qizil (qip-qizil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Diyor's face turned crimson when he realised the whole class had heard him singing in the corridor.",
+   "gap": "crimson",
+   "alt": []
+  },
+  {
+   "id": "shocking_pink",
+   "en": "shocking pink",
+   "uz": "o‘ta yorqin pushti",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nilufar's new trainers are shocking pink, even brighter than the flamingos at the zoo.",
+   "gap": "shocking pink",
+   "alt": [
+    "shocking-pink"
+   ]
+  },
+  {
+   "id": "ginger",
+   "en": "ginger",
+   "uz": "malla (sarg‘ish-qizg‘ish)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbours' ginger cat looks like a small orange lion when it sleeps in the sun.",
+   "gap": "ginger",
+   "alt": []
+  },
+  {
+   "id": "navy",
+   "en": "navy",
+   "uz": "to‘q ko‘k (kiyimda)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school blazers are navy, which looks almost black in photos but is really a very dark blue.",
+   "gap": "navy",
+   "alt": [
+    "navy blue"
+   ]
+  },
+  {
+   "id": "turquoise",
+   "en": "turquoise",
+   "uz": "feruza rang",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The water in the mountain lake was so clear and turquoise that it looked like a postcard.",
+   "gap": "turquoise",
+   "alt": []
+  },
+  {
+   "id": "lime",
+   "en": "lime",
+   "uz": "yorqin sarg‘ish-yashil",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ilhom chose lime football boots, almost the same yellowy green as a tennis ball, so he could find them easily in the changing room.",
+   "gap": "lime",
+   "alt": [
+    "lime green"
+   ]
+  },
+  {
+   "id": "beige",
+   "en": "beige",
+   "uz": "bej (och qaymoqrang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel room had plain beige walls, the colour of milky coffee.",
+   "gap": "beige",
+   "alt": []
+  },
+  {
+   "id": "mousy",
+   "en": "mousy",
+   "uz": "xira och jigarrang (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zebo thinks her mousy hair is boring, but her aunt says the soft light brown suits her.",
+   "gap": "mousy",
+   "alt": [
+    "mousey"
+   ]
+  },
+  {
+   "id": "chestnut",
+   "en": "chestnut",
+   "uz": "to‘q qizg‘ish-jigarrang (ot / soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The farmer's chestnut mare has a coat that shines a rich red-brown in the evening sun.",
+   "gap": "chestnut",
+   "alt": []
+  },
+  {
+   "id": "auburn",
+   "en": "auburn",
+   "uz": "qizg‘ish jigarrang (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Lola's auburn hair looks almost red in the sunshine but dark brown indoors.",
+   "gap": "auburn",
+   "alt": []
+  },
+  {
+   "id": "emerald",
+   "en": "emerald",
+   "uz": "zumrad (yorqin yashil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the spring rain, the young wheat in the fields shone a deep emerald green.",
+   "gap": "emerald",
+   "alt": []
+  },
+  {
+   "id": "amber",
+   "en": "amber",
+   "uz": "qahrabo rang (sariq-to‘q sariq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The traffic light turned amber, so the bus driver slowed down and stopped.",
+   "gap": "amber",
+   "alt": []
+  },
+  {
+   "id": "primary_colours",
+   "en": "primary colours",
+   "uz": "asosiy ranglar",
+   "pos": "noun",
+   "img": false,
+   "ex": "With just the three primary colours and a tube of white, the art class mixed every shade they needed.",
+   "gap": "primary colours",
+   "alt": [
+    "primary colour",
+    "primary colors",
+    "primary color"
+   ]
+  },
+  {
+   "id": "pastel",
+   "en": "pastel",
+   "uz": "mayin och rang",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The nursery walls were painted in soft pastel shades of pink and pale yellow.",
+   "gap": "pastel",
+   "alt": [
+    "pastels"
+   ]
+  },
+  {
+   "id": "vivid",
+   "en": "vivid",
+   "uz": "yorqin / jonli (rang)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The market stall sold silk scarves in vivid colours: bright reds, deep blues and sunny yellows.",
+   "gap": "vivid",
+   "alt": []
+  },
+  {
+   "id": "fluorescent",
+   "en": "fluorescent",
+   "uz": "nur sochuvchi (neon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Road workers wear fluorescent vests that seem to glow when car headlights hit them.",
+   "gap": "fluorescent",
+   "alt": []
+  },
+  {
+   "id": "tinge",
+   "en": "tinge",
+   "uz": "salgina tus (tovlanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years in the sun, the white curtains had a slight tinge of yellow.",
+   "gap": "tinge",
+   "alt": []
+  },
+  {
+   "id": "monochrome",
+   "en": "monochrome",
+   "uz": "bir rangli (oq-qora)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For his art project, Firdavs drew the whole city in monochrome, using only different shades of blue ink.",
+   "gap": "monochrome",
+   "alt": []
+  },
+  {
+   "id": "feel_blue",
+   "en": "feel blue",
+   "uz": "ko‘ngli g‘ash bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rainy Mondays always make me feel blue until I get to school and see my friends.",
+   "gap": "feel blue",
+   "alt": [
+    "feeling blue",
+    "felt blue",
+    "feels blue"
+   ]
+  },
+  {
+   "id": "see_red",
+   "en": "see red",
+   "uz": "qoni qaynamoq (g‘azablanmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When someone pushes in front of him in a queue, Anvar sees red.",
+   "gap": "sees red",
+   "alt": [
+    "sees red",
+    "saw red",
+    "seeing red"
+   ]
+  },
+  {
+   "id": "red_carpet_treatment",
+   "en": "red-carpet treatment",
+   "uz": "aziz mehmondek kutib olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the Olympic boxing champion visited our school, she was given the red-carpet treatment.",
+   "gap": "red-carpet treatment",
+   "alt": [
+    "red carpet treatment"
+   ]
+  },
+  {
+   "id": "red_letter_day",
+   "en": "red-letter day",
+   "uz": "unutilmas quvonchli kun",
+   "pos": "noun",
+   "img": false,
+   "ex": "The day our town opened its first ice rink was a red-letter day for every child in it.",
+   "gap": "red-letter day",
+   "alt": [
+    "red letter day"
+   ]
+  },
+  {
+   "id": "green_with_envy",
+   "en": "green with envy",
+   "uz": "hasaddan kuyib ketgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Sanjar rode up on his new bike, his older brother turned green with envy.",
+   "gap": "green with envy",
+   "alt": []
+  },
+  {
+   "id": "black_sheep",
+   "en": "black sheep",
+   "uz": "oilaning sharmandasi (qora qo‘y)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone in Bobur's family is a doctor, so he jokes that he's the black sheep because he became a musician.",
+   "gap": "black sheep",
+   "alt": []
+  },
+  {
+   "id": "black_mark",
+   "en": "black mark",
+   "uz": "obro‘ga dog‘ (salbiy belgi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two missed training sessions in a row were a black mark against him when the coach picked the team.",
+   "gap": "black mark",
+   "alt": [
+    "black marks"
+   ]
+  },
+  {
+   "id": "grey_area",
+   "en": "grey area",
+   "uz": "noaniq masala (qoida aniq emas)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Whether we can use a phone calculator in the test is a grey area, so let's ask the teacher first.",
+   "gap": "grey area",
+   "alt": [
+    "gray area"
+   ]
+  },
+  {
+   "id": "white_as_a_sheet",
+   "en": "white as a sheet",
+   "uz": "dokadek oqarib ketgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the lift suddenly stopped between floors, Iroda went as white as a sheet.",
+   "gap": "white as a sheet",
+   "alt": []
+  },
+  {
+   "id": "white_knuckle",
+   "en": "white-knuckle",
+   "uz": "yurakni hovuchlatadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new roller coaster is a white-knuckle ride that turns upside down three times.",
+   "gap": "white-knuckle",
+   "alt": [
+    "white knuckle"
+   ]
+  },
+  {
+   "id": "blue_collar",
+   "en": "blue-collar",
+   "uz": "jismoniy mehnatdagi (ishchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The car factory employs hundreds of blue-collar workers on its production lines.",
+   "gap": "blue-collar",
+   "alt": [
+    "blue collar"
+   ]
+  },
+  {
+   "id": "white_collar",
+   "en": "white-collar",
+   "uz": "ofisda ishlaydigan («oq yoqali»)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most white-collar jobs at the bank involve sitting at a computer all day.",
+   "gap": "white-collar",
+   "alt": [
+    "white collar"
+   ]
+  },
+  {
+   "id": "ruby",
+   "en": "ruby",
+   "uz": "yoqut rang (to‘q qizil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For the theatre premiere she wore a velvet dress of deep ruby red.",
+   "gap": "ruby",
+   "alt": []
+  },
+  {
+   "id": "coral",
+   "en": "coral",
+   "uz": "marjon rang (to‘q sariq-pushti)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her bedroom walls are painted coral, a warm orangey pink that glows in the morning sun.",
+   "gap": "coral",
+   "alt": []
+  },
+  {
+   "id": "sapphire",
+   "en": "sapphire",
+   "uz": "to‘q moviy (zangori-ko‘k)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Under the cloudless sky, the glacier lake was a deep sapphire blue.",
+   "gap": "sapphire",
+   "alt": []
+  },
+  {
+   "id": "jade",
+   "en": "jade",
+   "uz": "nefrit rang (to‘q yashil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old porcelain vase in the museum was glazed a cool jade green.",
+   "gap": "jade",
+   "alt": []
+  },
+  {
+   "id": "mauve",
+   "en": "mauve",
+   "uz": "och binafsha",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In April the lilac bushes in the park are covered in mauve flowers, somewhere between pink and light purple.",
+   "gap": "mauve",
+   "alt": []
+  },
+  {
+   "id": "strong_colours",
+   "en": "strong colours",
+   "uz": "to‘q (quyuq) ranglar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pastels suit a bedroom, but for her lively café Sitora chose strong colours like deep red and dark green.",
+   "gap": "strong colours",
+   "alt": [
+    "strong colour",
+    "strong colors",
+    "strong color"
+   ]
+  },
+  {
+   "id": "harsh_colours",
+   "en": "harsh colours",
+   "uz": "ko‘zga tegadigan keskin ranglar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The harsh colours of the new shop sign, screaming orange on acid green, hurt Ravshan's eyes.",
+   "gap": "harsh colours",
+   "alt": [
+    "harsh colour",
+    "harsh colors",
+    "harsh color"
+   ]
+  },
+  {
+   "id": "electric_blue",
+   "en": "electric blue",
+   "uz": "o‘ta yorqin ko‘k",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The singer's suit was electric blue, as bright and glowing as a gas flame under the stage lights.",
+   "gap": "electric blue",
+   "alt": [
+    "electric-blue"
+   ]
+  },
+  {
+   "id": "reddish",
+   "en": "reddish",
+   "uz": "qizg‘ish",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Walking through the canyon, we passed cliffs of a reddish brown, mostly brown with a hint of red.",
+   "gap": "reddish",
+   "alt": []
+  },
+  {
+   "id": "bluey",
+   "en": "bluey",
+   "uz": "ko‘kimtir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the storm the sea near the harbour turned a bluey green, mostly green with just a hint of blue.",
+   "gap": "bluey",
+   "alt": [
+    "bluish"
+   ]
+  },
+  {
+   "id": "red_alert",
+   "en": "red alert",
+   "uz": "favqulodda shay holat",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the river began to rise, every village in the valley was put on red alert.",
+   "gap": "red alert",
+   "alt": []
+  },
+  {
+   "id": "red_flag",
+   "en": "red flag",
+   "uz": "xavf belgisi (ogohlantirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If an online seller will only accept payment in gift cards, treat it as a red flag.",
+   "gap": "red flag",
+   "alt": [
+    "red flags"
+   ]
+  },
+  {
+   "id": "red_politics",
+   "en": "red",
+   "uz": "so‘lchi (kommunistik qarashli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In his student days Komil's politics were very red, but now he votes for a centre party.",
+   "gap": "red",
+   "alt": []
+  },
+  {
+   "id": "turn_green",
+   "en": "turn green",
+   "uz": "ko‘ngli aynib ko‘karib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Halfway across the choppy lake, poor Husan turned green and begged the boatman to head back.",
+   "gap": "turned green",
+   "alt": [
+    "turned green",
+    "turns green",
+    "turning green",
+    "go green",
+    "went green"
+   ]
+  },
+  {
+   "id": "green_eco",
+   "en": "green",
+   "uz": "ekologik (tabiatni asraydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The town's new electric buses are part of a green transport plan to clean up the air.",
+   "gap": "green",
+   "alt": []
+  },
+  {
+   "id": "black_future",
+   "en": "black",
+   "uz": "umidsiz (kelajak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the mine closed, many families felt that the town faced a black future.",
+   "gap": "black",
+   "alt": []
+  },
+  {
+   "id": "black_as_thunder",
+   "en": "as black as thunder",
+   "uz": "qovog‘idan qor yog‘moq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When he saw the long scratch on his new car, Elyor looked as black as thunder.",
+   "gap": "as black as thunder",
+   "alt": []
+  },
+  {
+   "id": "black_market",
+   "en": "black market",
+   "uz": "qora bozor",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the shortage, sugar could only be found on the black market at three times the price.",
+   "gap": "black market",
+   "alt": []
+  },
+  {
+   "id": "grey_matter",
+   "en": "grey matter",
+   "uz": "miya (aql-idrok)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This logic puzzle will really give your grey matter a workout.",
+   "gap": "grey matter",
+   "alt": [
+    "gray matter"
+   ]
+  },
+  {
+   "id": "grey_cells",
+   "en": "grey cells",
+   "uz": "aql (miya hujayralari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Come on, use your little grey cells: the answer to the riddle is right in front of you.",
+   "gap": "grey cells",
+   "alt": [
+    "gray cells",
+    "little grey cells"
+   ]
+  },
+  {
+   "id": "white_as_snow",
+   "en": "white as snow",
+   "uz": "qordek oppoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Freshly washed and dried in the sun, the tablecloths on the line were as white as snow.",
+   "gap": "white as snow",
+   "alt": [
+    "as white as snow"
+   ]
+  },
+  {
+   "id": "whiter_than_white",
+   "en": "whiter than white",
+   "uz": "beg‘ubor (axloqan benuqson)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The candidate presents himself as whiter than white, but reporters have found some unpaid parking fines.",
+   "gap": "whiter than white",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "pitch_black",
+   "jet_black"
+  ],
+  [
+   "ginger",
+   "auburn"
+  ],
+  [
+   "mousy",
+   "auburn"
+  ],
+  [
+   "lime",
+   "emerald"
+  ],
+  [
+   "lime",
+   "fluorescent"
+  ],
+  [
+   "vivid",
+   "fluorescent"
+  ],
+  [
+   "scarlet",
+   "shocking_pink"
+  ],
+  [
+   "navy",
+   "turquoise"
+  ],
+  [
+   "black_sheep",
+   "black_mark"
+  ],
+  [
+   "shocking_pink",
+   "fluorescent"
+  ],
+  [
+   "turquoise",
+   "emerald"
+  ],
+  [
+   "turquoise",
+   "vivid"
+  ],
+  [
+   "emerald",
+   "vivid"
+  ],
+  [
+   "scarlet",
+   "crimson"
+  ],
+  [
+   "chestnut",
+   "auburn"
+  ],
+  [
+   "chestnut",
+   "ginger"
+  ],
+  [
+   "mousy",
+   "beige"
+  ],
+  [
+   "crimson",
+   "white_as_a_sheet"
+  ],
+  [
+   "crimson",
+   "shocking_pink"
+  ],
+  [
+   "shocking_pink",
+   "vivid"
+  ],
+  [
+   "amber",
+   "scarlet"
+  ],
+  [
+   "amber",
+   "crimson"
+  ],
+  [
+   "pastel",
+   "beige"
+  ],
+  [
+   "ruby",
+   "crimson"
+  ],
+  [
+   "ruby",
+   "scarlet"
+  ],
+  [
+   "coral",
+   "scarlet"
+  ],
+  [
+   "sapphire",
+   "navy"
+  ],
+  [
+   "sapphire",
+   "turquoise"
+  ],
+  [
+   "sapphire",
+   "electric_blue"
+  ],
+  [
+   "jade",
+   "emerald"
+  ],
+  [
+   "jade",
+   "lime"
+  ],
+  [
+   "mauve",
+   "pastel"
+  ],
+  [
+   "strong_colours",
+   "harsh_colours"
+  ],
+  [
+   "strong_colours",
+   "vivid"
+  ],
+  [
+   "harsh_colours",
+   "fluorescent"
+  ],
+  [
+   "electric_blue",
+   "fluorescent"
+  ],
+  [
+   "electric_blue",
+   "turquoise"
+  ],
+  [
+   "electric_blue",
+   "vivid"
+  ],
+  [
+   "electric_blue",
+   "navy"
+  ],
+  [
+   "reddish",
+   "chestnut"
+  ],
+  [
+   "reddish",
+   "auburn"
+  ],
+  [
+   "crimson",
+   "red_politics"
+  ],
+  [
+   "black_future",
+   "jet_black"
+  ],
+  [
+   "bluey",
+   "turquoise"
+  ],
+  [
+   "red_flag",
+   "black_mark"
+  ],
+  [
+   "red_flag",
+   "red_alert"
+  ],
+  [
+   "red_politics",
+   "green_eco"
+  ],
+  [
+   "turn_green",
+   "green_with_envy"
+  ],
+  [
+   "black_as_thunder",
+   "white_as_a_sheet"
+  ],
+  [
+   "grey_matter",
+   "grey_cells"
+  ],
+  [
+   "white_as_snow",
+   "white_as_a_sheet"
+  ],
+  [
+   "white_as_snow",
+   "whiter_than_white"
+  ],
+  [
+   "black_future",
+   "pitch_black"
+  ],
+  [
+   "jade",
+   "turquoise"
+  ],
+  [
+   "jade",
+   "bluey"
+  ],
+  [
+   "bluey",
+   "emerald"
+  ],
+  [
+   "reddish",
+   "ginger"
+  ],
+  [
+   "reddish",
+   "crimson"
+  ],
+  [
+   "red_politics",
+   "scarlet"
+  ],
+  [
+   "red_politics",
+   "amber"
+  ],
+  [
+   "red_politics",
+   "reddish"
+  ],
+  [
+   "green_eco",
+   "lime"
+  ],
+  [
+   "green_eco",
+   "turquoise"
+  ],
+  [
+   "coral",
+   "shocking_pink"
+  ],
+  [
+   "black_as_thunder",
+   "green_with_envy"
+  ]
+ ]
+}

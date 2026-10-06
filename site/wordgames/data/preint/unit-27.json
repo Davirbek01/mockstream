@@ -1,0 +1,625 @@
+{
+ "book": "preint",
+ "unit": 27,
+ "title": "Life in the country",
+ "title_uz": "Qishloq hayoti",
+ "words": [
+  {
+   "id": "countryside",
+   "en": "countryside",
+   "uz": "qishloq joylari (shahar tashqarisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every April the countryside outside the city turns green, and families drive out for picnics.",
+   "gap": "countryside",
+   "alt": []
+  },
+  {
+   "id": "nature",
+   "en": "nature",
+   "uz": "tabiat",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother loves nature; he can watch ants and beetles in the garden for hours.",
+   "gap": "nature",
+   "alt": []
+  },
+  {
+   "id": "surrounded_by",
+   "en": "surrounded by",
+   "uz": "…bilan o‘ralgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The village is surrounded by high mountains, so the sun disappears early in the afternoon.",
+   "gap": "surrounded by",
+   "alt": []
+  },
+  {
+   "id": "river_bank",
+   "en": "bank",
+   "uz": "daryo qirg‘og‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had a picnic on the bank of the Chirchik, in the shade of a big willow tree.",
+   "gap": "bank",
+   "alt": [
+    "banks",
+    "river bank"
+   ]
+  },
+  {
+   "id": "woods",
+   "en": "woods",
+   "uz": "o‘rmonzor (kichik o‘rmon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The children went into the woods and collected dry sticks under the trees for the campfire.",
+   "gap": "woods",
+   "alt": [
+    "wood"
+   ]
+  },
+  {
+   "id": "pick",
+   "en": "pick",
+   "uz": "termoq (uzmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In late summer we picked grapes in the vineyard and ate half of them straight away.",
+   "gap": "picked",
+   "alt": [
+    "picks",
+    "picked",
+    "picking"
+   ]
+  },
+  {
+   "id": "season",
+   "en": "season",
+   "uz": "fasl",
+   "pos": "noun",
+   "img": false,
+   "ex": "Spring is my favourite season, because the apricot trees are covered in pink blossom.",
+   "gap": "season",
+   "alt": [
+    "seasons"
+   ]
+  },
+  {
+   "id": "scenery",
+   "en": "scenery",
+   "uz": "go‘zal manzara (tabiat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the top of the mountain pass the scenery was amazing: snowy peaks and green slopes far below.",
+   "gap": "scenery",
+   "alt": []
+  },
+  {
+   "id": "open_spaces",
+   "en": "open spaces",
+   "uz": "keng ochiq maydonlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Big dogs need open spaces where they can run freely, not a tiny flat.",
+   "gap": "open spaces",
+   "alt": [
+    "open space"
+   ]
+  },
+  {
+   "id": "fresh_air",
+   "en": "fresh air",
+   "uz": "toza havo",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a week in the noisy city, it was lovely to breathe the fresh air in the mountains.",
+   "gap": "fresh air",
+   "alt": []
+  },
+  {
+   "id": "farm",
+   "en": "farm",
+   "uz": "ferma (dehqon xo‘jaligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shahzoda's uncle runs a farm near Namangan with fifty cows and a big apricot orchard.",
+   "gap": "farm",
+   "alt": [
+    "farms"
+   ]
+  },
+  {
+   "id": "keep_animals",
+   "en": "keep",
+   "uz": "(hayvon) boqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbours keep chickens and a goat in their back yard, so we always have fresh eggs.",
+   "gap": "keep",
+   "alt": [
+    "keeps",
+    "kept",
+    "keeping"
+   ]
+  },
+  {
+   "id": "farming",
+   "en": "farming",
+   "uz": "dehqonchilik (fermerlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jahongir wants to study farming at university and use drones to water the land.",
+   "gap": "farming",
+   "alt": []
+  },
+  {
+   "id": "crops",
+   "en": "crops",
+   "uz": "ekinlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Without enough rain this summer, the crops dried up and the harvest was very poor.",
+   "gap": "crops",
+   "alt": [
+    "crop"
+   ]
+  },
+  {
+   "id": "wheat",
+   "en": "wheat",
+   "uz": "bug‘doy",
+   "pos": "noun",
+   "img": true,
+   "ex": "The wheat was golden and ready to cut, so the farmers started work at sunrise.",
+   "gap": "wheat",
+   "alt": []
+  },
+  {
+   "id": "sunset",
+   "en": "sunset",
+   "uz": "quyosh botishi (shom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We sat on the roof and watched the sunset until the sky turned pink and then dark.",
+   "gap": "sunset",
+   "alt": [
+    "sunsets"
+   ]
+  },
+  {
+   "id": "hill",
+   "en": "hill",
+   "uz": "tepalik",
+   "pos": "noun",
+   "img": false,
+   "ex": "We climbed to the top of the hill to see the whole village below us.",
+   "gap": "hill",
+   "alt": [
+    "hills"
+   ]
+  },
+  {
+   "id": "branch",
+   "en": "branch",
+   "uz": "shox (daraxt shoxi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The kitten climbed up the tree and sat on a high branch, too scared to come down.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "leaf",
+   "en": "leaf",
+   "uz": "barg",
+   "pos": "noun",
+   "img": true,
+   "ex": "In November the wind blows yellow leaves across the school playground.",
+   "gap": "leaves",
+   "alt": [
+    "leaves"
+   ]
+  },
+  {
+   "id": "ground",
+   "en": "ground",
+   "uz": "yer (yer yuzasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In January the ground was frozen so hard that we couldn't dig a hole for the new tree.",
+   "gap": "ground",
+   "alt": []
+  },
+  {
+   "id": "plant",
+   "en": "plant",
+   "uz": "o‘simlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister grows tomato plants on our balcony and waters them every evening.",
+   "gap": "plants",
+   "alt": [
+    "plants"
+   ]
+  },
+  {
+   "id": "grass",
+   "en": "grass",
+   "uz": "o‘t (maysa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Saturday Dad cuts the grass in front of our house with a noisy old machine.",
+   "gap": "grass",
+   "alt": []
+  },
+  {
+   "id": "root",
+   "en": "root",
+   "uz": "ildiz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old tree has such big roots that they have broken the pavement around it.",
+   "gap": "roots",
+   "alt": [
+    "roots"
+   ]
+  },
+  {
+   "id": "valley",
+   "en": "valley",
+   "uz": "vodiy",
+   "pos": "noun",
+   "img": false,
+   "ex": "A small river runs along the bottom of the valley between the two mountains.",
+   "gap": "valley",
+   "alt": [
+    "valleys"
+   ]
+  },
+  {
+   "id": "farmhouse",
+   "en": "farmhouse",
+   "uz": "fermer uyi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old farmhouse stands alone at the end of a long dirt track, far from any neighbours.",
+   "gap": "farmhouse",
+   "alt": [
+    "farmhouses"
+   ]
+  },
+  {
+   "id": "field",
+   "en": "field",
+   "uz": "dala",
+   "pos": "noun",
+   "img": false,
+   "ex": "In summer the field behind the school is full of tall sunflowers.",
+   "gap": "field",
+   "alt": [
+    "fields"
+   ]
+  },
+  {
+   "id": "fence",
+   "en": "fence",
+   "uz": "to‘siq (panjara devor)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The goats got out because there was a big hole in the wooden fence around the garden.",
+   "gap": "fence",
+   "alt": [
+    "fences"
+   ]
+  },
+  {
+   "id": "gate",
+   "en": "gate",
+   "uz": "darvoza (kichik eshik)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Please close the gate behind you, or the sheep will walk out onto the road.",
+   "gap": "gate",
+   "alt": [
+    "gates"
+   ]
+  },
+  {
+   "id": "tractor",
+   "en": "tractor",
+   "uz": "traktor",
+   "pos": "noun",
+   "img": true,
+   "ex": "The farmer drove his tractor slowly along the road, and a long line of cars waited behind him.",
+   "gap": "tractor",
+   "alt": [
+    "tractors"
+   ]
+  },
+  {
+   "id": "footpath",
+   "en": "footpath",
+   "uz": "piyoda so‘qmoq (yo‘lak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We followed a narrow footpath through the apple orchards down to the stream.",
+   "gap": "footpath",
+   "alt": [
+    "footpaths"
+   ]
+  },
+  {
+   "id": "village",
+   "en": "village",
+   "uz": "qishloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mother's home village has one shop, one school and a tiny mosque by the river.",
+   "gap": "village",
+   "alt": [
+    "villages"
+   ]
+  },
+  {
+   "id": "away",
+   "en": "away",
+   "uz": "(…) uzoqlikda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The nearest swimming pool is forty minutes away by bus, so we only go on Sundays.",
+   "gap": "away",
+   "alt": []
+  },
+  {
+   "id": "worst_thing_about",
+   "en": "the worst thing about",
+   "uz": "…ning eng yomon tomoni",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For me, the worst thing about our summer camp was the food; we ate cold porridge every day.",
+   "gap": "the worst thing about",
+   "alt": []
+  },
+  {
+   "id": "hopeless",
+   "en": "hopeless",
+   "uz": "juda yomon (umidsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The mobile signal in the mountains is hopeless: you have to climb onto a rock to send a message.",
+   "gap": "hopeless",
+   "alt": []
+  },
+  {
+   "id": "be_up",
+   "en": "be up",
+   "uz": "uyg‘oq va oyoqda bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the farm we are up at five every morning to milk the cows.",
+   "gap": "are up",
+   "alt": [
+    "is up",
+    "are up",
+    "was up",
+    "were up",
+    "am up"
+   ]
+  },
+  {
+   "id": "not_much_to_do",
+   "en": "there isn't much to do",
+   "uz": "ko‘ngilochar narsa deyarli yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Teenagers in the village complain that there isn't much to do after school except play football.",
+   "gap": "there isn't much to do",
+   "alt": [
+    "there is not much to do"
+   ]
+  },
+  {
+   "id": "tree",
+   "en": "tree",
+   "uz": "daraxt",
+   "pos": "noun",
+   "img": true,
+   "ex": "We sat in the shade of an old walnut tree and ate our lunch.",
+   "gap": "tree",
+   "alt": [
+    "trees"
+   ]
+  },
+  {
+   "id": "barley",
+   "en": "barley",
+   "uz": "arpa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Farmers in the dry south grow barley to feed their sheep and cattle.",
+   "gap": "barley",
+   "alt": []
+  },
+  {
+   "id": "potato",
+   "en": "potato",
+   "uz": "kartoshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Gulnora mashed the boiled potatoes with butter and milk for dinner.",
+   "gap": "potatoes",
+   "alt": [
+    "potatoes"
+   ]
+  },
+  {
+   "id": "blackberry",
+   "en": "blackberry",
+   "uz": "maymunjon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our fingers turned purple after we picked wild blackberries along the forest path.",
+   "gap": "blackberries",
+   "alt": [
+    "blackberries"
+   ]
+  },
+  {
+   "id": "apple",
+   "en": "apple",
+   "uz": "olma",
+   "pos": "noun",
+   "img": true,
+   "ex": "I always put a crunchy green apple in my school bag for the long break.",
+   "gap": "apple",
+   "alt": [
+    "apples"
+   ]
+  },
+  {
+   "id": "spring",
+   "en": "spring",
+   "uz": "bahor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring, when the snow melts in March, the first green leaves appear.",
+   "gap": "spring",
+   "alt": []
+  },
+  {
+   "id": "summer",
+   "en": "summer",
+   "uz": "yoz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school holidays start in June, and we spend the whole summer at the lake.",
+   "gap": "summer",
+   "alt": []
+  },
+  {
+   "id": "autumn",
+   "en": "autumn",
+   "uz": "kuz",
+   "pos": "noun",
+   "img": false,
+   "ex": "In autumn the leaves on the trees turn yellow and red, and farmers pick the cotton.",
+   "gap": "autumn",
+   "alt": []
+  },
+  {
+   "id": "winter",
+   "en": "winter",
+   "uz": "qish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In January and February, the coldest months of winter, the river freezes.",
+   "gap": "winter",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "countryside",
+   "village"
+  ],
+  [
+   "countryside",
+   "nature"
+  ],
+  [
+   "countryside",
+   "scenery"
+  ],
+  [
+   "open_spaces",
+   "field"
+  ],
+  [
+   "woods",
+   "field"
+  ],
+  [
+   "ground",
+   "grass"
+  ],
+  [
+   "branch",
+   "leaf"
+  ],
+  [
+   "fence",
+   "gate"
+  ],
+  [
+   "farm",
+   "farmhouse"
+  ],
+  [
+   "farm",
+   "field"
+  ],
+  [
+   "hill",
+   "valley"
+  ],
+  [
+   "crops",
+   "wheat"
+  ],
+  [
+   "wheat",
+   "field"
+  ],
+  [
+   "grass",
+   "field"
+  ],
+  [
+   "root",
+   "ground"
+  ],
+  [
+   "countryside",
+   "open_spaces"
+  ],
+  [
+   "farm",
+   "farming"
+  ],
+  [
+   "crops",
+   "plant"
+  ],
+  [
+   "plant",
+   "grass"
+  ],
+  [
+   "barley",
+   "wheat"
+  ],
+  [
+   "barley",
+   "crops"
+  ],
+  [
+   "spring",
+   "summer"
+  ],
+  [
+   "autumn",
+   "winter"
+  ],
+  [
+   "spring",
+   "autumn"
+  ],
+  [
+   "summer",
+   "winter"
+  ]
+ ]
+}

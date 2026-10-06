@@ -1,0 +1,605 @@
+{
+ "book": "advanced",
+ "unit": 99,
+ "title": "Language and gender",
+ "title_uz": "Til va jins",
+ "words": [
+  {
+   "id": "gender_neutral",
+   "en": "gender-neutral",
+   "uz": "jinsga betaraf (so‘z, atama)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the new school handbook, all job titles are gender-neutral, so 'headmaster' has become 'headteacher'.",
+   "gap": "gender-neutral",
+   "alt": [
+    "gender neutral"
+   ]
+  },
+  {
+   "id": "chairperson",
+   "en": "chairperson",
+   "uz": "majlis raisi (betaraf atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The parents' committee elected Shohida as chairperson, so she will now run all its meetings.",
+   "gap": "chairperson",
+   "alt": [
+    "chairpersons"
+   ]
+  },
+  {
+   "id": "spokesperson",
+   "en": "spokesperson",
+   "uz": "rasmiy vakil, matbuot kotibi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A spokesperson for the airline said that all flights would leave on time tomorrow.",
+   "gap": "spokesperson",
+   "alt": [
+    "spokespeople",
+    "spokespersons"
+   ]
+  },
+  {
+   "id": "sales_assistant",
+   "en": "sales assistant",
+   "uz": "do‘kondagi sotuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A friendly sales assistant helped Temur find a winter jacket in his size.",
+   "gap": "sales assistant",
+   "alt": [
+    "sales assistants"
+   ]
+  },
+  {
+   "id": "person_in_the_street",
+   "en": "person in the street",
+   "uz": "oddiy odam (ko‘pchilik vakili)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Economists can explain inflation, but what does the average person in the street think about rising prices?",
+   "gap": "person in the street",
+   "alt": []
+  },
+  {
+   "id": "manhandle",
+   "en": "manhandle",
+   "uz": "qo‘pol kuch bilan ko‘tarmoq yoki sudramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Four removal workers manhandled the heavy piano up three flights of stairs.",
+   "gap": "manhandled",
+   "alt": [
+    "manhandled",
+    "manhandles",
+    "manhandling"
+   ]
+  },
+  {
+   "id": "firefighter",
+   "en": "firefighter",
+   "uz": "o‘t o‘chiruvchi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A firefighter in a heavy helmet unrolled the hose and aimed the water at the burning shed.",
+   "gap": "firefighter",
+   "alt": [
+    "firefighters"
+   ]
+  },
+  {
+   "id": "police_officer",
+   "en": "police officer",
+   "uz": "ichki ishlar organi xodimi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We were lost in the old town, so we asked a police officer for directions to the museum.",
+   "gap": "police officer",
+   "alt": [
+    "police officers"
+   ]
+  },
+  {
+   "id": "flight_attendant",
+   "en": "flight attendant",
+   "uz": "samolyot bortidagi xizmatchi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before take-off, the flight attendant showed us how to fasten our seat belts.",
+   "gap": "flight attendant",
+   "alt": [
+    "flight attendants"
+   ]
+  },
+  {
+   "id": "cleaner",
+   "en": "cleaner",
+   "uz": "farrosh, tozalovchi xodim",
+   "pos": "noun",
+   "img": false,
+   "ex": "The office cleaner comes in at six, long before anyone else arrives.",
+   "gap": "cleaner",
+   "alt": [
+    "cleaners"
+   ]
+  },
+  {
+   "id": "artificial",
+   "en": "artificial",
+   "uz": "sun’iy (tabiiy emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The football pitch at our school has artificial grass, so we can play even after heavy rain.",
+   "gap": "artificial",
+   "alt": []
+  },
+  {
+   "id": "man_made",
+   "en": "man-made",
+   "uz": "inson qo‘li bilan yaratilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lake beside the village is man-made; it was dug fifty years ago to store water for the farms.",
+   "gap": "man-made",
+   "alt": [
+    "man made"
+   ]
+  },
+  {
+   "id": "human_race",
+   "en": "the human race",
+   "uz": "inson zoti (butun odamzod)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Finding enough clean water is one of the biggest challenges facing the human race this century.",
+   "gap": "the human race",
+   "alt": [
+    "human race"
+   ]
+  },
+  {
+   "id": "human_beings",
+   "en": "human beings",
+   "uz": "odamlar, insonlar (mavjudot sifatida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Unlike most animals, human beings can plan many years ahead.",
+   "gap": "human beings",
+   "alt": [
+    "human being"
+   ]
+  },
+  {
+   "id": "staff_verb",
+   "en": "staff",
+   "uz": "(joyni) xodim bilan ta’minlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The help desk is staffed by student volunteers from eight in the morning until six.",
+   "gap": "staffed",
+   "alt": [
+    "staffed",
+    "staffs",
+    "staffing"
+   ]
+  },
+  {
+   "id": "ms_title",
+   "en": "Ms",
+   "uz": "xonim (oilaviy holatni bildirmaydi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the form, Dilnoza ticked Ms because she saw no reason to show whether she was married.",
+   "gap": "Ms",
+   "alt": []
+  },
+  {
+   "id": "male",
+   "en": "male",
+   "uz": "erkak jinsli, erkak (biologiyada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many bird species, the male has much brighter feathers, which it shows off in spring.",
+   "gap": "male",
+   "alt": [
+    "males"
+   ]
+  },
+  {
+   "id": "female",
+   "en": "female",
+   "uz": "urg‘ochi, ayol jinsli (biologiyada)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our biology teacher asked us to count how many of the guppies in the class aquarium were female.",
+   "gap": "female",
+   "alt": [
+    "females"
+   ]
+  },
+  {
+   "id": "masculine",
+   "en": "masculine",
+   "uz": "erkaklarga xos",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With its dark wooden walls and leather armchairs, the old library has a rather masculine feel.",
+   "gap": "masculine",
+   "alt": []
+  },
+  {
+   "id": "feminine",
+   "en": "feminine",
+   "uz": "ayollarga xos, nazokatli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The designer added soft lace to the collar to give the blouse a more feminine look.",
+   "gap": "feminine",
+   "alt": []
+  },
+  {
+   "id": "guy",
+   "en": "guy",
+   "uz": "yigit, odam (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new guy in our office knows absolutely everything about computers.",
+   "gap": "guy",
+   "alt": []
+  },
+  {
+   "id": "you_guys",
+   "en": "you guys",
+   "uz": "sizlar (so‘zl., guruhga murojaat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hey, do you guys want to play football after school?",
+   "gap": "you guys",
+   "alt": []
+  },
+  {
+   "id": "girly",
+   "en": "girly",
+   "uz": "qizlarga xos (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Munisa and her friends planned a girly afternoon of face masks and nail painting.",
+   "gap": "girly",
+   "alt": [
+    "girlie"
+   ]
+  },
+  {
+   "id": "lad",
+   "en": "lad",
+   "uz": "o‘spirin yigit, bola (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football coach told the lads to warm up properly before training.",
+   "gap": "lads",
+   "alt": [
+    "lads"
+   ]
+  },
+  {
+   "id": "macho",
+   "en": "macho",
+   "uz": "o‘zini «qattiq erkak» qilib ko‘rsatuvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Farrux refuses to wear a helmet because he thinks it looks weak, which is just silly macho pride.",
+   "gap": "macho",
+   "alt": []
+  },
+  {
+   "id": "chairman",
+   "en": "chairman",
+   "uz": "rais (erkak shakli, eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company's annual report still calls its leader the chairman, although a woman has held the post since 2019.",
+   "gap": "chairman",
+   "alt": [
+    "chairmen"
+   ]
+  },
+  {
+   "id": "chair_person",
+   "en": "chair",
+   "uz": "rais (qisqa betaraf shakl)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dr Usmonova will act as chair of the conference and introduce each speaker.",
+   "gap": "chair",
+   "alt": []
+  },
+  {
+   "id": "salesman",
+   "en": "salesman",
+   "uz": "sotuvchi (erkak, eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The travelling salesman in the old film goes from door to door selling vacuum cleaners.",
+   "gap": "salesman",
+   "alt": [
+    "salesmen"
+   ]
+  },
+  {
+   "id": "man_in_the_street",
+   "en": "man in the street",
+   "uz": "oddiy odam (eski ibora)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Politicians often claim to know what the man in the street wants, but few of them ever take the bus.",
+   "gap": "man in the street",
+   "alt": []
+  },
+  {
+   "id": "neanderthal_man",
+   "en": "Neanderthal Man",
+   "uz": "yo‘qolib ketgan ibtidoiy odam turi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum's new hall shows how Neanderthal Man made stone tools and used fire.",
+   "gap": "Neanderthal Man",
+   "alt": []
+  },
+  {
+   "id": "marital_status",
+   "en": "marital status",
+   "uz": "oilaviy holat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The online form asks for your date of birth and marital status, but not your religion.",
+   "gap": "marital status",
+   "alt": []
+  },
+  {
+   "id": "miss_title",
+   "en": "Miss",
+   "uz": "turmushga chiqmagan ayolga murojaat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The letter was addressed to Miss Clarke, the young teacher who had only just finished her training.",
+   "gap": "Miss",
+   "alt": []
+  },
+  {
+   "id": "mrs_title",
+   "en": "Mrs",
+   "uz": "turmushga chiqqan ayolga murojaat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone in the village called the retired headmistress Mrs Harper, using her husband's surname.",
+   "gap": "Mrs",
+   "alt": []
+  },
+  {
+   "id": "spokesman",
+   "en": "spokesman",
+   "uz": "vakil (erkak shakli, eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A spokesman for the football club confirmed that the new stadium would open in May.",
+   "gap": "spokesman",
+   "alt": [
+    "spokesmen"
+   ]
+  },
+  {
+   "id": "fireman",
+   "en": "fireman",
+   "uz": "o‘t o‘chiruvchi (eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the children's picture book, a friendly fireman rescues a kitten from a tall tree.",
+   "gap": "fireman",
+   "alt": [
+    "firemen"
+   ]
+  },
+  {
+   "id": "policeman",
+   "en": "policeman",
+   "uz": "politsiyachi (erkak, eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A policeman on a horse was directing traffic outside the stadium.",
+   "gap": "policeman",
+   "alt": [
+    "policemen"
+   ]
+  },
+  {
+   "id": "air_hostess",
+   "en": "air hostess",
+   "uz": "samolyotdagi ayol xizmatchi (eski)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the 1960s, an air hostess often had to leave her job if she got married.",
+   "gap": "air hostess",
+   "alt": [
+    "air hostesses"
+   ]
+  },
+  {
+   "id": "cleaning_lady",
+   "en": "cleaning lady",
+   "uz": "farrosh ayol (eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cleaning lady at the hostel left fresh towels on every bed before noon.",
+   "gap": "cleaning lady",
+   "alt": [
+    "cleaning ladies"
+   ]
+  },
+  {
+   "id": "foreman",
+   "en": "foreman",
+   "uz": "ishchilar boshlig‘i, usta (eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The foreman on the building site checks that everyone is wearing a helmet.",
+   "gap": "foreman",
+   "alt": [
+    "foremen"
+   ]
+  },
+  {
+   "id": "mankind",
+   "en": "mankind",
+   "uz": "insoniyat (eski atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Learning to control fire was one of the most important steps in the long history of mankind.",
+   "gap": "mankind",
+   "alt": []
+  },
+  {
+   "id": "man_verb",
+   "en": "man",
+   "uz": "(joyda) navbatchilik qilmoq (eski)",
+   "pos": "verb",
+   "img": false,
+   "ex": "During the storm, two coastguards manned the lookout tower all night.",
+   "gap": "manned",
+   "alt": [
+    "manned",
+    "manning",
+    "mans"
+   ]
+  },
+  {
+   "id": "girlfriend",
+   "en": "girlfriend",
+   "uz": "dugona (ayollar tilida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shoira is going to the cinema with three of her girlfriends from university.",
+   "gap": "girlfriends",
+   "alt": [
+    "girlfriends"
+   ]
+  },
+  {
+   "id": "laddish",
+   "en": "laddish",
+   "uz": "to‘da yigitlarcha qo‘pol (xulq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The neighbours complained about the laddish shouting and singing from the flat upstairs after the match.",
+   "gap": "laddish",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "chairperson",
+   "spokesperson"
+  ],
+  [
+   "artificial",
+   "man_made"
+  ],
+  [
+   "human_race",
+   "human_beings"
+  ],
+  [
+   "male",
+   "female"
+  ],
+  [
+   "masculine",
+   "feminine"
+  ],
+  [
+   "feminine",
+   "girly"
+  ],
+  [
+   "guy",
+   "lad"
+  ],
+  [
+   "masculine",
+   "macho"
+  ],
+  [
+   "chairman",
+   "chairperson"
+  ],
+  [
+   "chair_person",
+   "chairperson"
+  ],
+  [
+   "chairman",
+   "chair_person"
+  ],
+  [
+   "salesman",
+   "sales_assistant"
+  ],
+  [
+   "man_in_the_street",
+   "person_in_the_street"
+  ],
+  [
+   "miss_title",
+   "mrs_title"
+  ],
+  [
+   "miss_title",
+   "ms_title"
+  ],
+  [
+   "mrs_title",
+   "ms_title"
+  ],
+  [
+   "spokesman",
+   "spokesperson"
+  ],
+  [
+   "fireman",
+   "firefighter"
+  ],
+  [
+   "policeman",
+   "police_officer"
+  ],
+  [
+   "air_hostess",
+   "flight_attendant"
+  ],
+  [
+   "cleaning_lady",
+   "cleaner"
+  ],
+  [
+   "mankind",
+   "human_race"
+  ],
+  [
+   "mankind",
+   "human_beings"
+  ],
+  [
+   "man_verb",
+   "staff_verb"
+  ],
+  [
+   "laddish",
+   "macho"
+  ],
+  [
+   "chair_person",
+   "spokesperson"
+  ]
+ ]
+}

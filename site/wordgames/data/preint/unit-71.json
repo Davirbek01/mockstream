@@ -1,0 +1,504 @@
+{
+ "book": "preint",
+ "unit": 71,
+ "title": "Suffixes: forming nouns",
+ "title_uz": "Qo‘shimchalar: ot yasash",
+ "words": [
+  {
+   "id": "invention",
+   "en": "invention",
+   "uz": "ixtiro",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother's latest invention is a machine that feeds the cat while we're at school.",
+   "gap": "invention",
+   "alt": [
+    "inventions"
+   ]
+  },
+  {
+   "id": "discussion",
+   "en": "discussion",
+   "uz": "muhokama",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a long discussion in class about mobile phones, we voted to keep them in our bags during lessons.",
+   "gap": "discussion",
+   "alt": [
+    "discussions"
+   ]
+  },
+  {
+   "id": "translation_ion",
+   "en": "translation",
+   "uz": "tarjima",
+   "pos": "noun",
+   "img": false,
+   "ex": "My English isn't good enough to read this novel yet, so I bought the Uzbek translation.",
+   "gap": "translation",
+   "alt": [
+    "translations"
+   ]
+  },
+  {
+   "id": "relaxation",
+   "en": "relaxation",
+   "uz": "hordiq chiqarish (bo‘shashish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lying in a warm bath with soft music on is my favourite kind of relaxation.",
+   "gap": "relaxation",
+   "alt": []
+  },
+  {
+   "id": "improvement",
+   "en": "improvement",
+   "uz": "yaxshilanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Your handwriting was hard to read in September, but there's been a big improvement since then.",
+   "gap": "improvement",
+   "alt": [
+    "improvements"
+   ]
+  },
+  {
+   "id": "government_ment",
+   "en": "government",
+   "uz": "hukumat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The government has promised to build three new schools in our district next year.",
+   "gap": "government",
+   "alt": [
+    "governments"
+   ]
+  },
+  {
+   "id": "management",
+   "en": "management",
+   "uz": "rahbariyat (boshqaruv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel's management apologised to the guests for the broken lift and gave them free breakfast.",
+   "gap": "management",
+   "alt": []
+  },
+  {
+   "id": "development",
+   "en": "development",
+   "uz": "rivojlanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new airport will bring a lot of development to the small towns around it.",
+   "gap": "development",
+   "alt": []
+  },
+  {
+   "id": "weakness",
+   "en": "weakness",
+   "uz": "zaif tomon (kamchilik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Javohir is great at maths, but spelling is his biggest weakness.",
+   "gap": "weakness",
+   "alt": [
+    "weaknesses"
+   ]
+  },
+  {
+   "id": "happiness",
+   "en": "happiness",
+   "uz": "baxt (shodlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her face was full of happiness when she saw her exam results: top marks in every subject.",
+   "gap": "happiness",
+   "alt": []
+  },
+  {
+   "id": "illness_ness",
+   "en": "illness",
+   "uz": "kasallik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our chemistry teacher was away for a month with a long illness, so a student teacher took her classes.",
+   "gap": "illness",
+   "alt": [
+    "illnesses"
+   ]
+  },
+  {
+   "id": "fitness",
+   "en": "fitness",
+   "uz": "jismoniy tayyorgarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Swimming three times a week has really improved my fitness; I can run up the stairs now without getting tired.",
+   "gap": "fitness",
+   "alt": []
+  },
+  {
+   "id": "stupidity",
+   "en": "stupidity",
+   "uz": "ahmoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was pure stupidity to leave my phone on the bus seat; of course someone took it.",
+   "gap": "stupidity",
+   "alt": []
+  },
+  {
+   "id": "popularity",
+   "en": "popularity",
+   "uz": "mashhurlik (ommaboplik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The popularity of electric cars in our city has grown a lot in the last few years.",
+   "gap": "popularity",
+   "alt": []
+  },
+  {
+   "id": "similarity",
+   "en": "similarity",
+   "uz": "o‘xshashlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can see a similarity between your handwriting and your father's: you both make very round letters.",
+   "gap": "similarity",
+   "alt": [
+    "similarities"
+   ]
+  },
+  {
+   "id": "ability",
+   "en": "ability",
+   "uz": "qobiliyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mohira has the ability to learn new songs very quickly; she only needs to hear them once.",
+   "gap": "ability",
+   "alt": [
+    "abilities"
+   ]
+  },
+  {
+   "id": "inability",
+   "en": "inability",
+   "uz": "qila olmaslik (uquvsizlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "His inability to say no means he always has too much work.",
+   "gap": "inability",
+   "alt": []
+  },
+  {
+   "id": "ballet_dancer",
+   "en": "ballet dancer",
+   "uz": "klassik sahna raqsi ijrochisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar stands on her toes for hours in the dance studio because she dreams of becoming a ballet dancer in Paris.",
+   "gap": "ballet dancer",
+   "alt": [
+    "ballet dancers"
+   ]
+  },
+  {
+   "id": "company_director",
+   "en": "company director",
+   "uz": "firma rahbari",
+   "pos": "noun",
+   "img": false,
+   "ex": "As company director, Mr Usmonov makes all the big decisions about the business.",
+   "gap": "company director",
+   "alt": [
+    "company directors"
+   ]
+  },
+  {
+   "id": "artist_painter",
+   "en": "artist",
+   "uz": "rassom",
+   "pos": "noun",
+   "img": false,
+   "ex": "The artist sat by the river all morning, painting the boats and the old bridge.",
+   "gap": "artist",
+   "alt": [
+    "artists"
+   ]
+  },
+  {
+   "id": "pop_singer",
+   "en": "pop singer",
+   "uz": "estrada qo‘shiqchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pop singer released a new song yesterday, and it already has two million views online.",
+   "gap": "pop singer",
+   "alt": [
+    "pop singers"
+   ]
+  },
+  {
+   "id": "translator",
+   "en": "translator",
+   "uz": "tarjimon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Japanese engineers brought a translator with them, because nobody at the factory spoke Japanese.",
+   "gap": "translator",
+   "alt": [
+    "translators"
+   ]
+  },
+  {
+   "id": "economist",
+   "en": "economist",
+   "uz": "iqtisodchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ms Ergasheva is an economist who often explains on TV why food prices go up and down.",
+   "gap": "economist",
+   "alt": [
+    "economists"
+   ]
+  },
+  {
+   "id": "professional_footballer",
+   "en": "professional footballer",
+   "uz": "futbolni kasb qilgan o‘yinchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Elyor trains every day after school because he wants to become a professional footballer and play for Nasaf.",
+   "gap": "professional footballer",
+   "alt": [
+    "professional footballers"
+   ]
+  },
+  {
+   "id": "film_actor",
+   "en": "film actor",
+   "uz": "kinoda rol ijro etuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After years of drama lessons, Islom is now a film actor with small roles in three Uzbek comedies.",
+   "gap": "film actor",
+   "alt": [
+    "film actors"
+   ]
+  },
+  {
+   "id": "scientist",
+   "en": "scientist",
+   "uz": "olim",
+   "pos": "noun",
+   "img": false,
+   "ex": "When I grow up, I want to be a scientist and work in a lab looking for new medicines.",
+   "gap": "scientist",
+   "alt": [
+    "scientists"
+   ]
+  },
+  {
+   "id": "discuss",
+   "en": "discuss",
+   "uz": "muhokama qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the cinema, Gulnoza and Dilfuza sat in a café and discussed the film they had just watched.",
+   "gap": "discussed",
+   "alt": [
+    "discussed",
+    "discusses",
+    "discussing"
+   ]
+  },
+  {
+   "id": "relax",
+   "en": "relax",
+   "uz": "dam olmoq (bo‘shashmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a long day at the factory, Mr Hamidov likes to relax in the garden with a cup of green tea.",
+   "gap": "relax",
+   "alt": [
+    "relaxed",
+    "relaxes",
+    "relaxing"
+   ]
+  },
+  {
+   "id": "improve",
+   "en": "improve",
+   "uz": "yaxshilamoq (yaxshilanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Reading English comics every evening has really improved my spelling.",
+   "gap": "improved",
+   "alt": [
+    "improved",
+    "improves",
+    "improving"
+   ]
+  },
+  {
+   "id": "govern",
+   "en": "govern",
+   "uz": "(davlatni) idora qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the election, the winning party will govern the country for the next five years.",
+   "gap": "govern",
+   "alt": [
+    "governed",
+    "governs",
+    "governing"
+   ]
+  },
+  {
+   "id": "manage_business",
+   "en": "manage",
+   "uz": "(firma, do‘konni) boshqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shoira manages a small bakery near the station and starts work at five every morning.",
+   "gap": "manages",
+   "alt": [
+    "managed",
+    "manages",
+    "managing"
+   ]
+  },
+  {
+   "id": "develop",
+   "en": "develop",
+   "uz": "rivojlanmoq (rivojlantirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Babies develop very quickly in their first two years: they learn to walk and talk.",
+   "gap": "develop",
+   "alt": [
+    "developed",
+    "develops",
+    "developing"
+   ]
+  },
+  {
+   "id": "weak",
+   "en": "weak",
+   "uz": "zaif (kuchsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This tea is too weak for me; can you put another tea bag in the pot?",
+   "gap": "weak",
+   "alt": []
+  },
+  {
+   "id": "strong",
+   "en": "strong",
+   "uz": "kuchli (baquvvat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sherali is strong enough to carry the heavy box of books up to the fourth floor by himself.",
+   "gap": "strong",
+   "alt": []
+  },
+  {
+   "id": "ill",
+   "en": "ill",
+   "uz": "kasal (betob)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nodira stayed at home today because she was ill with a high temperature.",
+   "gap": "ill",
+   "alt": []
+  },
+  {
+   "id": "fit_adj",
+   "en": "fit",
+   "uz": "jismonan chiniqqan (sog‘lom)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mr Karimov is seventy, but he swims every morning and is still very fit.",
+   "gap": "fit",
+   "alt": []
+  },
+  {
+   "id": "similar",
+   "en": "similar",
+   "uz": "o‘xshash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our two classrooms look very similar: same desks, same board, even the same posters.",
+   "gap": "similar",
+   "alt": []
+  },
+  {
+   "id": "different",
+   "en": "different",
+   "uz": "boshqacha (har xil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Each student in the group chose a different topic for the project, so nobody repeated anyone else.",
+   "gap": "different",
+   "alt": []
+  },
+  {
+   "id": "able",
+   "en": "able",
+   "uz": "qodir (… oladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a year in Spain, Lobar was able to speak Spanish quite well.",
+   "gap": "able",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "ability",
+   "inability"
+  ],
+  [
+   "improvement",
+   "development"
+  ],
+  [
+   "relax",
+   "relaxation"
+  ],
+  [
+   "improve",
+   "develop"
+  ],
+  [
+   "govern",
+   "manage_business"
+  ],
+  [
+   "govern",
+   "develop"
+  ],
+  [
+   "weak",
+   "strong"
+  ],
+  [
+   "strong",
+   "fit_adj"
+  ],
+  [
+   "weak",
+   "ill"
+  ],
+  [
+   "similar",
+   "different"
+  ],
+  [
+   "able",
+   "unable"
+  ]
+ ]
+}

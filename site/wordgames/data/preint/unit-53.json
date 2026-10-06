@@ -1,0 +1,600 @@
+{
+ "book": "preint",
+ "unit": 53,
+ "title": "Phoning and texting",
+ "title_uz": "Telefonda gaplashish va SMS yozish",
+ "words": [
+  {
+   "id": "is_that",
+   "en": "is that",
+   "uz": "Siz …misiz? (telefonda so‘rash)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hello, is that Dilshod? It's Kamola from your English class.",
+   "gap": "is that",
+   "alt": []
+  },
+  {
+   "id": "whos_calling",
+   "en": "who's calling",
+   "uz": "Kim qo‘ng‘iroq qilyapti?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The receptionist politely asked who was calling, and I gave her my name.",
+   "gap": "who was calling",
+   "alt": [
+    "who is calling",
+    "who was calling"
+   ]
+  },
+  {
+   "id": "put_through",
+   "en": "put through",
+   "uz": "ulab qo‘ymoq (telefonda)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Please hold the line; I'm putting you through to the manager now.",
+   "gap": "putting you through",
+   "alt": [
+    "put you through",
+    "putting you through",
+    "puts you through"
+   ]
+  },
+  {
+   "id": "speaking",
+   "en": "speaking",
+   "uz": "Labbay, o‘zimman (telefonda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Could I speak to Mrs Rakhimova, please?' 'Yes, speaking. How can I help?'",
+   "gap": "speaking",
+   "alt": []
+  },
+  {
+   "id": "ring_phone",
+   "en": "ring",
+   "uz": "qo‘ng‘iroq qilmoq (telefonda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our football coach doesn't read messages, so if you can't come to training, ring him before six.",
+   "gap": "ring",
+   "alt": [
+    "rings",
+    "rang",
+    "ringing"
+   ]
+  },
+  {
+   "id": "give_a_ring",
+   "en": "give someone a ring",
+   "uz": "qo‘ng‘iroq qilib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'll give you a ring tonight to tell you what time the match starts.",
+   "gap": "give you a ring",
+   "alt": [
+    "give you a ring",
+    "gave her a ring",
+    "gives him a ring"
+   ]
+  },
+  {
+   "id": "phone_back",
+   "en": "phone back",
+   "uz": "qayta qo‘ng‘iroq qilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Bobur missed my call because he was in the shower, but he phoned me back ten minutes later.",
+   "gap": "phoned me back",
+   "alt": [
+    "phoned me back",
+    "phone you back",
+    "phones back"
+   ]
+  },
+  {
+   "id": "on_the_phone",
+   "en": "on the phone",
+   "uz": "telefonda gaplashayotgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please wait outside for a minute; the head teacher is on the phone to a parent.",
+   "gap": "on the phone",
+   "alt": []
+  },
+  {
+   "id": "dial",
+   "en": "dial",
+   "uz": "raqam termoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My phone screen is broken, so I have to dial every number very carefully.",
+   "gap": "dial",
+   "alt": [
+    "dials",
+    "dialled",
+    "dialling"
+   ]
+  },
+  {
+   "id": "wrong_number",
+   "en": "wrong number",
+   "uz": "noto‘g‘ri raqam",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sorry, I think you've got the wrong number; there's no Shahzod here.",
+   "gap": "wrong number",
+   "alt": []
+  },
+  {
+   "id": "leave_a_message",
+   "en": "leave a message",
+   "uz": "xabar qoldirmoq (telefonda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nobody answered at the dentist's, so I left a message asking them to call me.",
+   "gap": "left a message",
+   "alt": [
+    "left a message",
+    "leaves a message",
+    "leaving a message"
+   ]
+  },
+  {
+   "id": "be_out",
+   "en": "be out",
+   "uz": "uyda yo‘q bo‘lmoq (tashqarida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I called at seven, but Sardor's mum said he was out at football practice.",
+   "gap": "was out",
+   "alt": [
+    "is out",
+    "are out",
+    "was out",
+    "were out"
+   ]
+  },
+  {
+   "id": "answerphone",
+   "en": "answerphone",
+   "uz": "avtojavob apparati",
+   "pos": "noun",
+   "img": false,
+   "ex": "When we got home, the red light on the answerphone was flashing: someone had called while we were out.",
+   "gap": "answerphone",
+   "alt": [
+    "answerphones"
+   ]
+  },
+  {
+   "id": "get_through_phone",
+   "en": "get through",
+   "uz": "ulana olmoq (telefonda)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I tried to call the railway station all morning, but I couldn't get through.",
+   "gap": "get through",
+   "alt": [
+    "got through",
+    "gets through",
+    "getting through"
+   ]
+  },
+  {
+   "id": "engaged",
+   "en": "engaged",
+   "uz": "band (telefon liniyasi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I've phoned the taxi company three times, but the line is still engaged.",
+   "gap": "engaged",
+   "alt": []
+  },
+  {
+   "id": "landline",
+   "en": "landline",
+   "uz": "statsionar (uy) telefoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "We hardly use our landline now; everyone in the family just calls from their own mobile.",
+   "gap": "landline",
+   "alt": [
+    "landlines"
+   ]
+  },
+  {
+   "id": "mobile_phone",
+   "en": "mobile phone",
+   "uz": "mobil telefon",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little sister got her first mobile phone in fifth grade, and now she sends me voice messages from the school bus.",
+   "gap": "mobile phone",
+   "alt": [
+    "mobile phones"
+   ]
+  },
+  {
+   "id": "emergency_number",
+   "en": "emergency number",
+   "uz": "favqulodda yordam raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "When a man fainted at the bus stop, I called 103, the emergency number for an ambulance.",
+   "gap": "emergency number",
+   "alt": [
+    "emergency numbers"
+   ]
+  },
+  {
+   "id": "dialling_code",
+   "en": "dialling code",
+   "uz": "telefon kodi (davlat/shahar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My friend in Tbilisi forgot to put +998, the dialling code for Uzbekistan, before our number, so his call didn't work.",
+   "gap": "dialling code",
+   "alt": [
+    "dialling codes"
+   ]
+  },
+  {
+   "id": "text_v",
+   "en": "text",
+   "uz": "SMS yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't call me during the lesson; just text me and I'll read it at break.",
+   "gap": "text",
+   "alt": [
+    "texts",
+    "texted",
+    "texting"
+   ]
+  },
+  {
+   "id": "abbreviation",
+   "en": "abbreviation",
+   "uz": "qisqartma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our English teacher doesn't accept abbreviations like 'pls' or 'tmrw' in our essays.",
+   "gap": "abbreviations",
+   "alt": [
+    "abbreviations"
+   ]
+  },
+  {
+   "id": "asap",
+   "en": "ASAP",
+   "uz": "imkon qadar tezroq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Come to the bus stop ASAP; the bus leaves in ten minutes!",
+   "gap": "ASAP",
+   "alt": []
+  },
+  {
+   "id": "fyi",
+   "en": "FYI",
+   "uz": "ma’lum bo‘lsin (ma’lumot uchun)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Just FYI, the class trip has moved from Wednesday to Thursday.",
+   "gap": "FYI",
+   "alt": []
+  },
+  {
+   "id": "in_my_opinion",
+   "en": "in my opinion",
+   "uz": "menimcha (fikrimcha)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The film was far too long and, in my opinion, quite boring.",
+   "gap": "in my opinion",
+   "alt": []
+  },
+  {
+   "id": "mainly",
+   "en": "mainly",
+   "uz": "asosan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our old music teacher mainly uses his phone for calls and the weather, never for games.",
+   "gap": "mainly",
+   "alt": []
+  },
+  {
+   "id": "hello_phone",
+   "en": "hello",
+   "uz": "allo (telefonga javob berish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Laylo picked up the phone, she said hello, but nobody answered.",
+   "gap": "hello",
+   "alt": []
+  },
+  {
+   "id": "its_name",
+   "en": "it's",
+   "uz": "bu men, … (telefonda o‘zini aytish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hi, Nargiza, it's Olim from the chess club. Are you free on Saturday?",
+   "gap": "it's",
+   "alt": [
+    "it is"
+   ]
+  },
+  {
+   "id": "receptionist",
+   "en": "receptionist",
+   "uz": "qabulxona xodimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ask the receptionist at the front desk for the key to room 304.",
+   "gap": "receptionist",
+   "alt": [
+    "receptionists"
+   ]
+  },
+  {
+   "id": "phone_call",
+   "en": "phone call",
+   "uz": "telefon qo‘ng‘irog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Excuse me for a moment, I have to answer this phone call from my boss.",
+   "gap": "phone call",
+   "alt": [
+    "phone calls",
+    "call",
+    "calls"
+   ]
+  },
+  {
+   "id": "not_in",
+   "en": "not in",
+   "uz": "joyida yo‘q (ishxonada, uyda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm afraid the manager is not in today; she'll be back on Monday.",
+   "gap": "not in",
+   "alt": []
+  },
+  {
+   "id": "mostly",
+   "en": "mostly",
+   "uz": "ko‘pincha, aksariyat hollarda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "In winter Gulnora mostly reads at home, but in summer she's outside all day.",
+   "gap": "mostly",
+   "alt": []
+  },
+  {
+   "id": "boyfriend",
+   "en": "boyfriend",
+   "uz": "yigiti (sevgilisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ziyoda's boyfriend gave her a big bunch of flowers on her birthday.",
+   "gap": "boyfriend",
+   "alt": [
+    "boyfriends"
+   ]
+  },
+  {
+   "id": "kiss",
+   "en": "kiss",
+   "uz": "o‘pich",
+   "pos": "noun",
+   "img": false,
+   "ex": "The little boy gave his mother a kiss on the cheek and ran into the kindergarten.",
+   "gap": "kiss",
+   "alt": [
+    "kisses"
+   ]
+  },
+  {
+   "id": "abbr_cu",
+   "en": "CU",
+   "uz": "ko‘rishguncha (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Kamron texted: 'Running late, CU at the cinema at 7.'",
+   "gap": "CU",
+   "alt": []
+  },
+  {
+   "id": "abbr_bf",
+   "en": "BF",
+   "uz": "yigit, sevgili (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "In her message Dilfuza wrote, 'Can I bring my BF to your party?'",
+   "gap": "BF",
+   "alt": []
+  },
+  {
+   "id": "abbr_gf",
+   "en": "GF",
+   "uz": "qiz, sevgili (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Shavkat's message said, 'Going to the cinema with my GF tonight.'",
+   "gap": "GF",
+   "alt": []
+  },
+  {
+   "id": "abbr_b4",
+   "en": "B4",
+   "uz": "oldin (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "My sister texted: 'Call me B4 you leave the house.'",
+   "gap": "B4",
+   "alt": []
+  },
+  {
+   "id": "abbr_2day",
+   "en": "2DAY",
+   "uz": "bugun (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Ravshan's message said: 'No school 2DAY, the heating is broken!'",
+   "gap": "2DAY",
+   "alt": []
+  },
+  {
+   "id": "abbr_u",
+   "en": "U",
+   "uz": "sen, siz (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Kamila's text said: 'I'm at the bank, where are U?'",
+   "gap": "U",
+   "alt": []
+  },
+  {
+   "id": "abbr_2moro",
+   "en": "2MORO",
+   "uz": "ertaga (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "The coach texted the team: 'Training at 8 2MORO, don't be late.'",
+   "gap": "2MORO",
+   "alt": []
+  },
+  {
+   "id": "abbr_thx",
+   "en": "THX",
+   "uz": "rahmat (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "When I sent Nodir the homework, he replied: 'THX for the help!'",
+   "gap": "THX",
+   "alt": []
+  },
+  {
+   "id": "abbr_y",
+   "en": "Y",
+   "uz": "nega? (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Dilnoza wrote 'Y?' when I said I can't come to the cinema.",
+   "gap": "Y",
+   "alt": []
+  },
+  {
+   "id": "abbr_lol",
+   "en": "LOL",
+   "uz": "qattiq kulyapman (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Under my funny photo of the cat in a box, Botir wrote 'LOL'.",
+   "gap": "LOL",
+   "alt": []
+  },
+  {
+   "id": "abbr_pls",
+   "en": "PLS",
+   "uz": "iltimos (SMS qisqartmasi)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "My brother's text said: 'PLS bring my charger when you come home.'",
+   "gap": "PLS",
+   "alt": []
+  },
+  {
+   "id": "abbr_x",
+   "en": "X",
+   "uz": "o‘pich (SMS oxirida)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "At the end of her message to her mother, Shirin added a big X.",
+   "gap": "X",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "give_a_ring",
+   "phone_back"
+  ],
+  [
+   "answerphone",
+   "landline"
+  ],
+  [
+   "landline",
+   "mobile_phone"
+  ],
+  [
+   "asap",
+   "fyi"
+  ],
+  [
+   "ring_phone",
+   "give_a_ring"
+  ],
+  [
+   "ring_phone",
+   "dial"
+  ],
+  [
+   "ring_phone",
+   "phone_back"
+  ],
+  [
+   "hello_phone",
+   "speaking"
+  ],
+  [
+   "its_name",
+   "is_that"
+  ],
+  [
+   "phone_call",
+   "text_v"
+  ],
+  [
+   "not_in",
+   "be_out"
+  ],
+  [
+   "mostly",
+   "mainly"
+  ],
+  [
+   "boyfriend",
+   "abbr_bf"
+  ],
+  [
+   "abbr_bf",
+   "abbr_gf"
+  ],
+  [
+   "boyfriend",
+   "abbr_gf"
+  ],
+  [
+   "kiss",
+   "abbr_x"
+  ],
+  [
+   "abbr_2day",
+   "abbr_2moro"
+  ],
+  [
+   "asap",
+   "abbr_2day"
+  ],
+  [
+   "abbr_thx",
+   "abbr_lol"
+  ]
+ ]
+}

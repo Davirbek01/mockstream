@@ -1,0 +1,1316 @@
+{
+ "book": "upper",
+ "unit": 5,
+ "title": "Countries, nationalities and languages",
+ "title_uz": "Davlatlar, millatlar va tillar",
+ "words": [
+  {
+   "id": "the_netherlands",
+   "en": "the Netherlands",
+   "uz": "Niderlandiya (Gollandiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin studies in Rotterdam, the biggest port in the Netherlands.",
+   "gap": "the Netherlands",
+   "alt": [
+    "Netherlands"
+   ]
+  },
+  {
+   "id": "the_uae",
+   "en": "the UAE",
+   "uz": "BAA (Birlashgan Arab Amirliklari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many families from Tashkent fly to Dubai, in the UAE, for a winter holiday in the sun.",
+   "gap": "the UAE",
+   "alt": [
+    "UAE",
+    "the United Arab Emirates"
+   ]
+  },
+  {
+   "id": "dutch",
+   "en": "Dutch",
+   "uz": "gollandiyalik (Niderlandiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Amsterdam, most street signs are in Dutch, but nearly everyone speaks English too.",
+   "gap": "Dutch",
+   "alt": []
+  },
+  {
+   "id": "polish",
+   "en": "Polish",
+   "uz": "polyakcha (Polshaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour from Kraków taught us to make Polish dumplings called pierogi.",
+   "gap": "Polish",
+   "alt": []
+  },
+  {
+   "id": "danish",
+   "en": "Danish",
+   "uz": "daniyalik (Daniyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Danish student from Aarhus in our dorm cycles to lectures even when it snows.",
+   "gap": "Danish",
+   "alt": []
+  },
+  {
+   "id": "turkish",
+   "en": "Turkish",
+   "uz": "turkcha (Turkiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We had baklava and strong Turkish coffee in a small café in Istanbul.",
+   "gap": "Turkish",
+   "alt": []
+  },
+  {
+   "id": "brazilian",
+   "en": "Brazilian",
+   "uz": "braziliyalik (Braziliyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our football club has signed a Brazilian striker from São Paulo.",
+   "gap": "Brazilian",
+   "alt": []
+  },
+  {
+   "id": "korean",
+   "en": "Korean",
+   "uz": "koreyscha (Koreyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "K-dramas are so popular in Tashkent that my sister is learning Korean to watch them without subtitles.",
+   "gap": "Korean",
+   "alt": []
+  },
+  {
+   "id": "japanese",
+   "en": "Japanese",
+   "uz": "yaponcha (Yaponiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school has a club for anime fans who want to read manga in the original Japanese.",
+   "gap": "Japanese",
+   "alt": []
+  },
+  {
+   "id": "chinese",
+   "en": "Chinese",
+   "uz": "xitoycha (Xitoyga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many of the electric cars on Tashkent streets are made by BYD, a Chinese company.",
+   "gap": "Chinese",
+   "alt": []
+  },
+  {
+   "id": "portuguese",
+   "en": "Portuguese",
+   "uz": "portugalcha (Portugaliyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "People in Brazil, Angola and Mozambique speak Portuguese.",
+   "gap": "Portuguese",
+   "alt": []
+  },
+  {
+   "id": "arabic",
+   "en": "Arabic",
+   "uz": "arab tili (arabcha)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour is learning Arabic so that she can read old manuscripts in the libraries of Bukhara.",
+   "gap": "Arabic",
+   "alt": []
+  },
+  {
+   "id": "swiss",
+   "en": "Swiss",
+   "uz": "shveytsariyalik (Shveytsariyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My father bought a watch in Geneva: a real Swiss one.",
+   "gap": "Swiss",
+   "alt": []
+  },
+  {
+   "id": "thai",
+   "en": "Thai",
+   "uz": "tailandcha (Tailandga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Bangkok we tried lots of spicy Thai food from street stalls.",
+   "gap": "Thai",
+   "alt": []
+  },
+  {
+   "id": "greek",
+   "en": "Greek",
+   "uz": "yunoncha (Gretsiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In a café in Samarkand we ordered a Greek salad with feta cheese and olives.",
+   "gap": "Greek",
+   "alt": []
+  },
+  {
+   "id": "spaniard",
+   "en": "Spaniard",
+   "uz": "ispan (Ispaniyalik kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our Spanish teacher is a Spaniard from Valencia who has lived in Tashkent for ten years.",
+   "gap": "Spaniard",
+   "alt": [
+    "a Spaniard"
+   ]
+  },
+  {
+   "id": "swede",
+   "en": "Swede",
+   "uz": "shved (Shvetsiyalik kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tall tourist asking for directions near the Registan was a Swede from Gothenburg.",
+   "gap": "Swede",
+   "alt": [
+    "a Swede"
+   ]
+  },
+  {
+   "id": "pole",
+   "en": "Pole",
+   "uz": "polyak (Polshalik kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pilot of our flight was a Pole: he made his announcements in Polish first and then in English.",
+   "gap": "Pole",
+   "alt": [
+    "a Pole"
+   ]
+  },
+  {
+   "id": "pakistani",
+   "en": "Pakistani",
+   "uz": "pokistonlik (Pokistonga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour from Lahore cooks the best Pakistani biryani in the street.",
+   "gap": "Pakistani",
+   "alt": []
+  },
+  {
+   "id": "icelandic",
+   "en": "Icelandic",
+   "uz": "islandiyalik (Islandiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In Reykjavik we tried to read the Icelandic street signs, but every word looked impossible.",
+   "gap": "Icelandic",
+   "alt": []
+  },
+  {
+   "id": "dane",
+   "en": "Dane",
+   "uz": "daniyalik kishi (Daniya fuqarosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our IELTS examiner was a Dane from Copenhagen, but her English sounded completely British.",
+   "gap": "Dane",
+   "alt": [
+    "a Dane"
+   ]
+  },
+  {
+   "id": "finn",
+   "en": "Finn",
+   "uz": "fin (Finlyandiyalik kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our guide in Helsinki was a Finn who taught us to say 'kiitos', which means thank you in Finnish.",
+   "gap": "Finn",
+   "alt": [
+    "a Finn"
+   ]
+  },
+  {
+   "id": "the_mediterranean",
+   "en": "the Mediterranean",
+   "uz": "O‘rta yer dengizi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Italy, Greece and Spain all have long coasts on the Mediterranean.",
+   "gap": "the Mediterranean",
+   "alt": [
+    "Mediterranean"
+   ]
+  },
+  {
+   "id": "the_middle_east",
+   "en": "the Middle East",
+   "uz": "Yaqin Sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Saudi Arabia, Jordan and Iraq are countries in the Middle East.",
+   "gap": "the Middle East",
+   "alt": [
+    "Middle East"
+   ]
+  },
+  {
+   "id": "the_far_east",
+   "en": "the Far East",
+   "uz": "Uzoq Sharq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Japan, Korea and China are countries in the Far East.",
+   "gap": "the Far East",
+   "alt": [
+    "Far East"
+   ]
+  },
+  {
+   "id": "the_arctic",
+   "en": "the Arctic",
+   "uz": "Arktika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Polar bears live in the Arctic, where the sea stays frozen for most of the year.",
+   "gap": "the Arctic",
+   "alt": [
+    "Arctic"
+   ]
+  },
+  {
+   "id": "antarctica",
+   "en": "Antarctica",
+   "uz": "Antarktida",
+   "pos": "noun",
+   "img": false,
+   "ex": "Penguins live in Antarctica, the coldest continent on Earth.",
+   "gap": "Antarctica",
+   "alt": []
+  },
+  {
+   "id": "scandinavia",
+   "en": "Scandinavia",
+   "uz": "Skandinaviya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Norway, Sweden and Denmark together make up Scandinavia.",
+   "gap": "Scandinavia",
+   "alt": []
+  },
+  {
+   "id": "the_caribbean",
+   "en": "the Caribbean",
+   "uz": "Karib havzasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jamaica and Cuba are sunny islands in the Caribbean.",
+   "gap": "the Caribbean",
+   "alt": [
+    "Caribbean"
+   ]
+  },
+  {
+   "id": "ethnic_group",
+   "en": "ethnic group",
+   "uz": "etnik guruh (elat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan is home to more than a hundred ethnic groups.",
+   "gap": "ethnic groups",
+   "alt": [
+    "ethnic groups"
+   ]
+  },
+  {
+   "id": "dialect",
+   "en": "dialect",
+   "uz": "sheva",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Khorezm people speak a dialect of Uzbek that sounds quite different from the Tashkent one.",
+   "gap": "dialect",
+   "alt": [
+    "dialects"
+   ]
+  },
+  {
+   "id": "mother_tongue",
+   "en": "mother tongue",
+   "uz": "ona tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbek is my mother tongue, but I also speak Russian and English.",
+   "gap": "mother tongue",
+   "alt": [
+    "mother tongues"
+   ]
+  },
+  {
+   "id": "bilingual",
+   "en": "bilingual",
+   "uz": "ikki tilli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Jasur grew up speaking both Uzbek and Russian at home, so he is bilingual.",
+   "gap": "bilingual",
+   "alt": []
+  },
+  {
+   "id": "multilingual",
+   "en": "multilingual",
+   "uz": "ko‘p tilli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many people in Tashkent are multilingual: they switch between Uzbek, Russian and English all day.",
+   "gap": "multilingual",
+   "alt": []
+  },
+  {
+   "id": "monolingual",
+   "en": "monolingual",
+   "uz": "bir tilli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before he moved to Seoul, my uncle was monolingual: he spoke only Uzbek.",
+   "gap": "monolingual",
+   "alt": []
+  },
+  {
+   "id": "the_united_states",
+   "en": "the United States",
+   "uz": "AQSh (Amerika Qo‘shma Shtatlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every year thousands of students from Uzbekistan apply to universities in the United States, especially in New York and California.",
+   "gap": "the United States",
+   "alt": [
+    "United States",
+    "the US",
+    "the USA",
+    "US",
+    "USA"
+   ]
+  },
+  {
+   "id": "the_united_kingdom",
+   "en": "the United Kingdom",
+   "uz": "Buyuk Britaniya (Birlashgan Qirollik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "England, Scotland, Wales and Northern Ireland together form the United Kingdom.",
+   "gap": "the United Kingdom",
+   "alt": [
+    "United Kingdom",
+    "the UK",
+    "UK"
+   ]
+  },
+  {
+   "id": "the_philippines",
+   "en": "the Philippines",
+   "uz": "Filippin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Manila, the capital of the Philippines, stands on the island of Luzon.",
+   "gap": "the Philippines",
+   "alt": [
+    "Philippines"
+   ]
+  },
+  {
+   "id": "the_commonwealth",
+   "en": "the Commonwealth",
+   "uz": "Millatlar Hamdo‘stligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "India, Canada and Nigeria are all members of the Commonwealth, a group of countries linked to Britain.",
+   "gap": "the Commonwealth",
+   "alt": [
+    "Commonwealth"
+   ]
+  },
+  {
+   "id": "british",
+   "en": "British",
+   "uz": "britaniyalik (Britaniyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Agatha Christie was a British writer, famous for her detective stories.",
+   "gap": "British",
+   "alt": []
+  },
+  {
+   "id": "irish",
+   "en": "Irish",
+   "uz": "irlandiyalik (Irlandiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On St Patrick's Day, people in Dublin wear green and dance to Irish music.",
+   "gap": "Irish",
+   "alt": []
+  },
+  {
+   "id": "flemish",
+   "en": "Flemish",
+   "uz": "flamandcha (Flandriyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the north of Belgium people speak Flemish, which is very close to the language of the Netherlands.",
+   "gap": "Flemish",
+   "alt": []
+  },
+  {
+   "id": "spanish",
+   "en": "Spanish",
+   "uz": "ispancha (Ispaniyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most people in Mexico and Argentina speak Spanish.",
+   "gap": "Spanish",
+   "alt": []
+  },
+  {
+   "id": "canadian",
+   "en": "Canadian",
+   "uz": "kanadalik (Kanadaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Toronto is the largest Canadian city.",
+   "gap": "Canadian",
+   "alt": []
+  },
+  {
+   "id": "latvian",
+   "en": "Latvian",
+   "uz": "latviyalik (Latviyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Riga, the Latvian capital, has a beautiful old town near the Baltic Sea.",
+   "gap": "Latvian",
+   "alt": []
+  },
+  {
+   "id": "russian",
+   "en": "Russian",
+   "uz": "ruscha (Rossiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Leo Tolstoy, the great Russian writer, wrote 'War and Peace'.",
+   "gap": "Russian",
+   "alt": []
+  },
+  {
+   "id": "australian",
+   "en": "Australian",
+   "uz": "avstraliyalik (Avstraliyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The kangaroo is probably the most famous Australian animal.",
+   "gap": "Australian",
+   "alt": []
+  },
+  {
+   "id": "vietnamese",
+   "en": "Vietnamese",
+   "uz": "vyetnamcha (Vyetnamga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pho, a noodle soup with beef and fresh herbs, is a popular Vietnamese dish from Hanoi.",
+   "gap": "Vietnamese",
+   "alt": []
+  },
+  {
+   "id": "maltese",
+   "en": "Maltese",
+   "uz": "maltalik (Maltaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Valletta, the Maltese capital, is one of the smallest capital cities in Europe.",
+   "gap": "Maltese",
+   "alt": []
+  },
+  {
+   "id": "taiwanese",
+   "en": "Taiwanese",
+   "uz": "tayvanlik (Tayvanga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bubble tea, with its little balls of tapioca, is a Taiwanese invention that is now popular all over the world.",
+   "gap": "Taiwanese",
+   "alt": []
+  },
+  {
+   "id": "israeli",
+   "en": "Israeli",
+   "uz": "isroillik (Isroilga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Tel Aviv is a large Israeli city on the coast of the Mediterranean.",
+   "gap": "Israeli",
+   "alt": []
+  },
+  {
+   "id": "iraqi",
+   "en": "Iraqi",
+   "uz": "iroqlik (Iroqqa oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Baghdad, the Iraqi capital, stands on the River Tigris.",
+   "gap": "Iraqi",
+   "alt": []
+  },
+  {
+   "id": "kuwaiti",
+   "en": "Kuwaiti",
+   "uz": "quvaytlik (Quvaytga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Kuwaiti dinar is one of the most valuable currencies in the world.",
+   "gap": "Kuwaiti",
+   "alt": []
+  },
+  {
+   "id": "yemeni",
+   "en": "Yemeni",
+   "uz": "yamanlik (Yamanga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mocha coffee takes its name from an old Yemeni port on the Red Sea.",
+   "gap": "Yemeni",
+   "alt": []
+  },
+  {
+   "id": "bangladeshi",
+   "en": "Bangladeshi",
+   "uz": "bangladeshlik (Bangladeshga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dhaka is the largest Bangladeshi city and one of the most crowded places on Earth.",
+   "gap": "Bangladeshi",
+   "alt": []
+  },
+  {
+   "id": "slavonic",
+   "en": "Slavonic",
+   "uz": "slavyan (tillariga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Russian, Polish and Czech are all Slavonic languages.",
+   "gap": "Slavonic",
+   "alt": [
+    "Slavic"
+   ]
+  },
+  {
+   "id": "cypriot",
+   "en": "Cypriot",
+   "uz": "kiprlik (Kiprga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Halloumi is a salty Cypriot cheese that you can grill without it melting.",
+   "gap": "Cypriot",
+   "alt": []
+  },
+  {
+   "id": "turk",
+   "en": "Turk",
+   "uz": "turk (Turkiyalik kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our host in Ankara, a Turk born and raised in the city, told us that Uzbek and his own language share hundreds of words.",
+   "gap": "Turk",
+   "alt": [
+    "a Turk",
+    "Turks"
+   ]
+  },
+  {
+   "id": "briton",
+   "en": "Briton",
+   "uz": "britaniyalik kishi (Britaniya fuqarosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Andy Murray, the tennis player from Scotland, is a Briton who has won Wimbledon twice.",
+   "gap": "Briton",
+   "alt": [
+    "a Briton",
+    "Britons"
+   ]
+  },
+  {
+   "id": "arab",
+   "en": "Arab",
+   "uz": "arab (kishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shopkeeper was an Arab from Morocco who also spoke French and Spanish.",
+   "gap": "Arab",
+   "alt": [
+    "an Arab",
+    "Arabs"
+   ]
+  },
+  {
+   "id": "german",
+   "en": "German",
+   "uz": "nemis (Germaniyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "BMW and Volkswagen are German car companies.",
+   "gap": "German",
+   "alt": []
+  },
+  {
+   "id": "italian",
+   "en": "Italian",
+   "uz": "italyan (Italiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pizza and pasta are probably the most famous Italian dishes.",
+   "gap": "Italian",
+   "alt": []
+  },
+  {
+   "id": "belgian",
+   "en": "Belgian",
+   "uz": "belgiyalik (Belgiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Brussels is famous for Belgian chocolate and waffles.",
+   "gap": "Belgian",
+   "alt": []
+  },
+  {
+   "id": "catalan",
+   "en": "Catalan",
+   "uz": "katalon (Kataloniyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Barcelona fans often wave the red and yellow Catalan flag at matches.",
+   "gap": "Catalan",
+   "alt": []
+  },
+  {
+   "id": "african",
+   "en": "African",
+   "uz": "afrikalik (Afrikaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nigeria has the largest population of any African country.",
+   "gap": "African",
+   "alt": [
+    "an African",
+    "Africans"
+   ]
+  },
+  {
+   "id": "european",
+   "en": "European",
+   "uz": "yevropalik (Yevropaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Paris and Rome are full of tourists, but plenty of Europeans also come to see our Silk Road cities.",
+   "gap": "Europeans",
+   "alt": [
+    "a European",
+    "Europeans"
+   ]
+  },
+  {
+   "id": "french",
+   "en": "French",
+   "uz": "fransuz (Fransiyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Croissants are a typical French breakfast, especially in Paris cafés.",
+   "gap": "French",
+   "alt": []
+  },
+  {
+   "id": "north_america",
+   "en": "North America",
+   "uz": "Shimoliy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Canada, the USA and Mexico are the three largest countries in North America.",
+   "gap": "North America",
+   "alt": []
+  },
+  {
+   "id": "europe",
+   "en": "Europe",
+   "uz": "Yevropa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Danube flows through ten countries in Europe before it reaches the Black Sea.",
+   "gap": "Europe",
+   "alt": []
+  },
+  {
+   "id": "north_africa",
+   "en": "North Africa",
+   "uz": "Shimoliy Afrika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Morocco, Algeria and Tunisia are countries in North Africa.",
+   "gap": "North Africa",
+   "alt": []
+  },
+  {
+   "id": "the_atlantic",
+   "en": "the Atlantic",
+   "uz": "Atlantika okeani",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Titanic sank in the Atlantic after hitting an iceberg in 1912.",
+   "gap": "the Atlantic",
+   "alt": [
+    "Atlantic",
+    "the Atlantic Ocean"
+   ]
+  },
+  {
+   "id": "australia",
+   "en": "Australia",
+   "uz": "Avstraliya (qit’a)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sydney and Melbourne are the two biggest cities in Australia.",
+   "gap": "Australia",
+   "alt": []
+  },
+  {
+   "id": "the_antarctic",
+   "en": "the Antarctic",
+   "uz": "Antarktika (janubiy qutb mintaqasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists working in the Antarctic live in research stations through months of darkness.",
+   "gap": "the Antarctic",
+   "alt": [
+    "Antarctic"
+   ]
+  },
+  {
+   "id": "asia",
+   "en": "Asia",
+   "uz": "Osiyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "The largest continent is Asia, home to more than half of the world's people.",
+   "gap": "Asia",
+   "alt": []
+  },
+  {
+   "id": "east_asia",
+   "en": "East Asia",
+   "uz": "Sharqiy Osiyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rice is the main food in much of East Asia, from China to Japan.",
+   "gap": "East Asia",
+   "alt": []
+  },
+  {
+   "id": "the_indian_ocean",
+   "en": "the Indian Ocean",
+   "uz": "Hind okeani",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Maldives are a group of small islands in the Indian Ocean, south-west of Sri Lanka.",
+   "gap": "the Indian Ocean",
+   "alt": [
+    "Indian Ocean"
+   ]
+  },
+  {
+   "id": "southern_africa",
+   "en": "Southern Africa",
+   "uz": "Janubiy Afrika (mintaqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Namibia, Botswana and Zimbabwe are countries in Southern Africa.",
+   "gap": "Southern Africa",
+   "alt": []
+  },
+  {
+   "id": "south_america",
+   "en": "South America",
+   "uz": "Janubiy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Amazon, the largest rainforest in the world, covers a huge part of South America.",
+   "gap": "South America",
+   "alt": []
+  },
+  {
+   "id": "central_america",
+   "en": "Central America",
+   "uz": "Markaziy Amerika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Panama, Costa Rica and Guatemala are countries in Central America.",
+   "gap": "Central America",
+   "alt": []
+  },
+  {
+   "id": "the_pacific",
+   "en": "the Pacific",
+   "uz": "Tinch okeani",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hawaii is a group of volcanic islands in the middle of the Pacific.",
+   "gap": "the Pacific",
+   "alt": [
+    "Pacific",
+    "the Pacific Ocean"
+   ]
+  },
+  {
+   "id": "african_caribbean",
+   "en": "African-Caribbean",
+   "uz": "afro-karib (Karibdagi afrika avlodlari)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Notting Hill Carnival in London began as a celebration of African-Caribbean music and culture.",
+   "gap": "African-Caribbean",
+   "alt": [
+    "Afro-Caribbean"
+   ]
+  },
+  {
+   "id": "asian",
+   "en": "Asian",
+   "uz": "osiyolik (Osiyoga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The restaurant serves Asian food, from Chinese dumplings to Thai curries.",
+   "gap": "Asian",
+   "alt": [
+    "Asians"
+   ]
+  },
+  {
+   "id": "latin_american",
+   "en": "Latin American",
+   "uz": "Lotin Amerikasiga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Salsa and tango are popular Latin American dances.",
+   "gap": "Latin American",
+   "alt": []
+  },
+  {
+   "id": "scandinavian",
+   "en": "Scandinavian",
+   "uz": "skandinaviyalik (Skandinaviyaga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "IKEA, the furniture company, is a Scandinavian brand that started in Sweden.",
+   "gap": "Scandinavian",
+   "alt": []
+  },
+  {
+   "id": "native_language",
+   "en": "native language",
+   "uz": "tug‘ma tili (o‘z tili)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Although Russian is her native language, Diyora writes all her poems in Uzbek.",
+   "gap": "native language",
+   "alt": []
+  },
+  {
+   "id": "first_language",
+   "en": "first language",
+   "uz": "birinchi (asosiy) tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Karakalpak is the first language of many people in Nukus, but almost all of them also speak Uzbek.",
+   "gap": "first language",
+   "alt": []
+  },
+  {
+   "id": "second_language",
+   "en": "second language",
+   "uz": "ikkinchi tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Feruza speaks Uzbek at home, and English is her second language.",
+   "gap": "second language",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "dutch",
+   "the_netherlands"
+  ],
+  [
+   "pole",
+   "polish"
+  ],
+  [
+   "dane",
+   "danish"
+  ],
+  [
+   "the_middle_east",
+   "the_far_east"
+  ],
+  [
+   "the_arctic",
+   "antarctica"
+  ],
+  [
+   "the_uae",
+   "the_middle_east"
+  ],
+  [
+   "bilingual",
+   "multilingual"
+  ],
+  [
+   "bilingual",
+   "monolingual"
+  ],
+  [
+   "multilingual",
+   "monolingual"
+  ],
+  [
+   "the_united_states",
+   "the_united_kingdom"
+  ],
+  [
+   "north_america",
+   "south_america"
+  ],
+  [
+   "north_america",
+   "central_america"
+  ],
+  [
+   "north_america",
+   "the_united_states"
+  ],
+  [
+   "south_america",
+   "central_america"
+  ],
+  [
+   "south_america",
+   "the_united_states"
+  ],
+  [
+   "central_america",
+   "the_united_states"
+  ],
+  [
+   "north_africa",
+   "southern_africa"
+  ],
+  [
+   "north_africa",
+   "the_middle_east"
+  ],
+  [
+   "southern_africa",
+   "the_middle_east"
+  ],
+  [
+   "the_atlantic",
+   "the_pacific"
+  ],
+  [
+   "the_atlantic",
+   "the_indian_ocean"
+  ],
+  [
+   "the_atlantic",
+   "the_mediterranean"
+  ],
+  [
+   "the_atlantic",
+   "the_caribbean"
+  ],
+  [
+   "the_pacific",
+   "the_indian_ocean"
+  ],
+  [
+   "the_pacific",
+   "the_mediterranean"
+  ],
+  [
+   "the_pacific",
+   "the_caribbean"
+  ],
+  [
+   "the_indian_ocean",
+   "the_mediterranean"
+  ],
+  [
+   "the_indian_ocean",
+   "the_caribbean"
+  ],
+  [
+   "the_mediterranean",
+   "the_caribbean"
+  ],
+  [
+   "asia",
+   "east_asia"
+  ],
+  [
+   "asia",
+   "the_far_east"
+  ],
+  [
+   "asia",
+   "the_middle_east"
+  ],
+  [
+   "east_asia",
+   "the_far_east"
+  ],
+  [
+   "east_asia",
+   "the_middle_east"
+  ],
+  [
+   "antarctica",
+   "the_antarctic"
+  ],
+  [
+   "the_antarctic",
+   "the_arctic"
+  ],
+  [
+   "european",
+   "asian"
+  ],
+  [
+   "european",
+   "scandinavian"
+  ],
+  [
+   "european",
+   "african"
+  ],
+  [
+   "european",
+   "latin_american"
+  ],
+  [
+   "european",
+   "african_caribbean"
+  ],
+  [
+   "asian",
+   "scandinavian"
+  ],
+  [
+   "asian",
+   "african"
+  ],
+  [
+   "asian",
+   "latin_american"
+  ],
+  [
+   "asian",
+   "african_caribbean"
+  ],
+  [
+   "scandinavian",
+   "african"
+  ],
+  [
+   "scandinavian",
+   "latin_american"
+  ],
+  [
+   "scandinavian",
+   "african_caribbean"
+  ],
+  [
+   "african",
+   "latin_american"
+  ],
+  [
+   "african",
+   "african_caribbean"
+  ],
+  [
+   "latin_american",
+   "african_caribbean"
+  ],
+  [
+   "native_language",
+   "first_language"
+  ],
+  [
+   "native_language",
+   "mother_tongue"
+  ],
+  [
+   "native_language",
+   "second_language"
+  ],
+  [
+   "first_language",
+   "mother_tongue"
+  ],
+  [
+   "first_language",
+   "second_language"
+  ],
+  [
+   "mother_tongue",
+   "second_language"
+  ],
+  [
+   "spanish",
+   "catalan"
+  ],
+  [
+   "spanish",
+   "spaniard"
+  ],
+  [
+   "catalan",
+   "spaniard"
+  ],
+  [
+   "flemish",
+   "dutch"
+  ],
+  [
+   "flemish",
+   "belgian"
+  ],
+  [
+   "dutch",
+   "belgian"
+  ],
+  [
+   "arab",
+   "arabic"
+  ],
+  [
+   "arab",
+   "african"
+  ],
+  [
+   "arabic",
+   "african"
+  ],
+  [
+   "turk",
+   "turkish"
+  ],
+  [
+   "briton",
+   "british"
+  ],
+  [
+   "europe",
+   "european"
+  ],
+  [
+   "asia",
+   "asian"
+  ],
+  [
+   "australia",
+   "australian"
+  ],
+  [
+   "scandinavian",
+   "scandinavia"
+  ],
+  [
+   "african_caribbean",
+   "the_caribbean"
+  ],
+  [
+   "the_commonwealth",
+   "the_united_kingdom"
+  ],
+  [
+   "irish",
+   "british"
+  ],
+  [
+   "north_america",
+   "the_caribbean"
+  ],
+  [
+   "europe",
+   "the_netherlands"
+  ],
+  [
+   "asia",
+   "the_uae"
+  ],
+  [
+   "asian",
+   "chinese"
+  ],
+  [
+   "asian",
+   "thai"
+  ],
+  [
+   "asian",
+   "pakistani"
+  ],
+  [
+   "asian",
+   "vietnamese"
+  ],
+  [
+   "asian",
+   "israeli"
+  ],
+  [
+   "asian",
+   "yemeni"
+  ],
+  [
+   "scandinavian",
+   "danish"
+  ],
+  [
+   "latin_american",
+   "brazilian"
+  ],
+  [
+   "cypriot",
+   "greek"
+  ],
+  [
+   "cypriot",
+   "turkish"
+  ],
+  [
+   "yemeni",
+   "arabic"
+  ],
+  [
+   "taiwanese",
+   "chinese"
+  ]
+ ]
+}

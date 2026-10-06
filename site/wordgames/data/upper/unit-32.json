@@ -1,0 +1,574 @@
+{
+ "book": "upper",
+ "unit": 32,
+ "title": "Holidays",
+ "title_uz": "Ta’til va dam olish",
+ "words": [
+  {
+   "id": "campsite",
+   "en": "campsite",
+   "uz": "kemping (chodir tikiladigan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We found a quiet campsite by the river in Arslanbob and put up our tent under the walnut trees.",
+   "gap": "campsite",
+   "alt": [
+    "campsites"
+   ]
+  },
+  {
+   "id": "pitch_a_tent",
+   "en": "pitch a tent",
+   "uz": "chodir tikmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It was getting dark and windy, so it took us almost an hour to pitch the tent.",
+   "gap": "pitch the tent",
+   "alt": [
+    "pitch the tent",
+    "pitched a tent",
+    "pitched the tent",
+    "pitching a tent"
+   ]
+  },
+  {
+   "id": "caravan",
+   "en": "caravan",
+   "uz": "uy-tirkama (karavan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our Dutch neighbours tow their caravan behind the car all the way to Spain each summer, so they always sleep in their own beds.",
+   "gap": "caravan",
+   "alt": [
+    "caravans"
+   ]
+  },
+  {
+   "id": "self_catering",
+   "en": "self-catering",
+   "uz": "ovqatni o‘zing tayyorlaydigan (uy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We rented a self-catering flat with a small kitchen, so we could make our own breakfast and save money.",
+   "gap": "self-catering",
+   "alt": [
+    "self catering"
+   ]
+  },
+  {
+   "id": "guesthouse",
+   "en": "guesthouse",
+   "uz": "mehmon uyi (kichik arzon mehmonxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Boysun we stayed at a family guesthouse with only five rooms, and the owner baked fresh bread every morning.",
+   "gap": "guesthouse",
+   "alt": [
+    "guest house",
+    "guesthouses"
+   ]
+  },
+  {
+   "id": "youth_hostel",
+   "en": "youth hostel",
+   "uz": "yoshlar yotoqxonasi (xostel)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To save money, the students stayed in a youth hostel where twelve people shared one room.",
+   "gap": "youth hostel",
+   "alt": [
+    "youth hostels"
+   ]
+  },
+  {
+   "id": "bunk_bed",
+   "en": "bunk bed",
+   "uz": "ikki qavatli karavot",
+   "pos": "noun",
+   "img": true,
+   "ex": "The children's room has a bunk bed, and the twins argue every night about who sleeps on top.",
+   "gap": "bunk bed",
+   "alt": [
+    "bunk beds"
+   ]
+  },
+  {
+   "id": "package_holiday",
+   "en": "package holiday",
+   "uz": "tayyor turpaket (hammasi ichida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We booked a package holiday to Antalya: the flights, the hotel and all our meals were included in one price.",
+   "gap": "package holiday",
+   "alt": [
+    "package holidays"
+   ]
+  },
+  {
+   "id": "cruise",
+   "en": "cruise",
+   "uz": "kruiz (kemada dam olish safari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of flying, the retired teachers booked a Mediterranean cruise, and the ship stopped at a different port every morning.",
+   "gap": "cruise",
+   "alt": [
+    "cruises"
+   ]
+  },
+  {
+   "id": "adventure_holiday",
+   "en": "adventure holiday",
+   "uz": "sarguzashtli ta’til",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister went on an adventure holiday in Kyrgyzstan: rafting, rock climbing and sleeping in a yurt.",
+   "gap": "adventure holiday",
+   "alt": [
+    "adventure holidays"
+   ]
+  },
+  {
+   "id": "sightseeing",
+   "en": "sightseeing",
+   "uz": "diqqatga sazovor joylarni ko‘rish",
+   "pos": "noun",
+   "img": false,
+   "ex": "We spent the morning sightseeing in the old town and the afternoon relaxing by the pool.",
+   "gap": "sightseeing",
+   "alt": []
+  },
+  {
+   "id": "get_away",
+   "en": "get away",
+   "uz": "dam olishga ketmoq (odatiy joydan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a busy term, it's great to get away from the city for a few days and breathe fresh mountain air.",
+   "gap": "get away",
+   "alt": [
+    "gets away",
+    "got away",
+    "getting away"
+   ]
+  },
+  {
+   "id": "remote",
+   "en": "remote",
+   "uz": "chekka, olis (joy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The village is so remote that the nearest shop is forty kilometres away.",
+   "gap": "remote",
+   "alt": []
+  },
+  {
+   "id": "winding",
+   "en": "winding",
+   "uz": "ilonizi (burilishi ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The road over the Kamchik Pass is long and winding, so drive slowly on the sharp bends.",
+   "gap": "winding",
+   "alt": []
+  },
+  {
+   "id": "surrounding",
+   "en": "surrounding",
+   "uz": "atrofdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the castle walls you can see the river and all the surrounding farmland.",
+   "gap": "surrounding",
+   "alt": []
+  },
+  {
+   "id": "terrifying",
+   "en": "terrifying",
+   "uz": "dahshatli (juda qo‘rqinchli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The drive was so terrifying that I closed my eyes every time the bus overtook a lorry on a narrow bend.",
+   "gap": "terrifying",
+   "alt": []
+  },
+  {
+   "id": "worthwhile",
+   "en": "worthwhile",
+   "uz": "arzigulik (sarflangan kuchga)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It's a four-hour climb to the lake, but the view at the top makes it all worthwhile.",
+   "gap": "worthwhile",
+   "alt": []
+  },
+  {
+   "id": "memorable",
+   "en": "memorable",
+   "uz": "unutilmas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'll never forget that week by the sea; it was the most memorable holiday of my life.",
+   "gap": "memorable",
+   "alt": []
+  },
+  {
+   "id": "impressive",
+   "en": "impressive",
+   "uz": "salobatli, kishini qoyil qoldiradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old fortress walls are very impressive: twelve metres high and wide enough to drive a cart along.",
+   "gap": "impressive",
+   "alt": []
+  },
+  {
+   "id": "delightful",
+   "en": "delightful",
+   "uz": "juda yoqimli, dilkash",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our hostess was delightful: she welcomed us with tea and told us funny stories about the town every evening.",
+   "gap": "delightful",
+   "alt": []
+  },
+  {
+   "id": "inconvenient",
+   "en": "inconvenient",
+   "uz": "noqulay (borish qiyin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel was lovely, but its location was inconvenient: the nearest metro station was a forty-minute walk away.",
+   "gap": "inconvenient",
+   "alt": []
+  },
+  {
+   "id": "exceptional",
+   "en": "exceptional",
+   "uz": "odatdagidan ancha a’lo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shashlik at a tiny roadside café near Kokand was exceptional, far better than anything we'd eaten in expensive restaurants.",
+   "gap": "exceptional",
+   "alt": []
+  },
+  {
+   "id": "breathtaking",
+   "en": "breathtaking",
+   "uz": "nafasni to‘xtatadigan darajada go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As the cable car climbed above the clouds, a breathtaking view of the snowy valley opened up below us, and everyone reached for their cameras.",
+   "gap": "breathtaking",
+   "alt": []
+  },
+  {
+   "id": "exclusive",
+   "en": "exclusive",
+   "uz": "faqat tanlanganlar uchun",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Guests at the resort have exclusive access to a private beach that is closed to the public.",
+   "gap": "exclusive",
+   "alt": []
+  },
+  {
+   "id": "exhilarating",
+   "en": "exhilarating",
+   "uz": "hayajonga soladigan, ruhlantiruvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Rafting down the river was an exhilarating ride; we were soaked, shouting and laughing at the same time.",
+   "gap": "exhilarating",
+   "alt": []
+  },
+  {
+   "id": "exotic",
+   "en": "exotic",
+   "uz": "ekzotik (g‘ayrioddiy, uzoq yurtga xos)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For tourists from northern Europe, fruits like mango and papaya seem exotic, but here in the tropics they are everyday food.",
+   "gap": "exotic",
+   "alt": []
+  },
+  {
+   "id": "glamorous",
+   "en": "glamorous",
+   "uz": "jozibali va dabdabali (yulduzlarcha)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My cousin does make-up for film actors; her job sounds glamorous, but she often works sixteen-hour days in cold studios.",
+   "gap": "glamorous",
+   "alt": []
+  },
+  {
+   "id": "luxurious",
+   "en": "luxurious",
+   "uz": "hashamatli (o‘ta qulay)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The suite was so luxurious that it even had a marble bath, silk sheets and a butler on call day and night.",
+   "gap": "luxurious",
+   "alt": []
+  },
+  {
+   "id": "unspoilt",
+   "en": "unspoilt",
+   "uz": "tabiati buzilmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unlike the crowded resorts on the coast, the valley is still unspoilt, with no hotels, no roads and clean rivers.",
+   "gap": "unspoilt",
+   "alt": [
+    "unspoiled"
+   ]
+  },
+  {
+   "id": "unique",
+   "en": "unique",
+   "uz": "betakror, yagona",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Watching the eclipse from the desert was a unique opportunity; the next one there won't happen for decades.",
+   "gap": "unique",
+   "alt": []
+  },
+  {
+   "id": "piste",
+   "en": "piste",
+   "uz": "chang‘i trassasi (qiyalik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Beginners should stay on the easy green piste until they can stop and turn safely on their skis.",
+   "gap": "piste",
+   "alt": [
+    "pistes"
+   ]
+  },
+  {
+   "id": "excursion",
+   "en": "excursion",
+   "uz": "guruh bilan qisqa sayr (ekskursiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the hotel we joined a half-day excursion by boat to watch the dolphins.",
+   "gap": "excursion",
+   "alt": [
+    "excursions"
+   ]
+  },
+  {
+   "id": "adventurous",
+   "en": "adventurous",
+   "uz": "tavakkalni yoqtiradigan (dadil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Only the most adventurous members of our group were brave enough to try the zip line across the gorge.",
+   "gap": "adventurous",
+   "alt": []
+  },
+  {
+   "id": "stop_off",
+   "en": "stop off",
+   "uz": "yo‘l-yo‘lakay to‘xtab o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the way to the lake we stopped off at a small village to buy fresh bread and honey.",
+   "gap": "stopped off",
+   "alt": [
+    "stops off",
+    "stopped off",
+    "stopping off"
+   ]
+  },
+  {
+   "id": "wish_you_were_here",
+   "en": "wish you were here",
+   "uz": "qani endi sen ham shu yerda bo‘lsang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rano ended her postcard from the seaside with the usual line: we miss you and wish you were here!",
+   "gap": "wish you were here",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "package_holiday",
+   "adventure_holiday"
+  ],
+  [
+   "package_holiday",
+   "cruise"
+  ],
+  [
+   "youth_hostel",
+   "guesthouse"
+  ],
+  [
+   "winding",
+   "terrifying"
+  ],
+  [
+   "surrounding",
+   "remote"
+  ],
+  [
+   "surrounding",
+   "unspoilt"
+  ],
+  [
+   "unspoilt",
+   "remote"
+  ],
+  [
+   "terrifying",
+   "exhilarating"
+  ],
+  [
+   "memorable",
+   "delightful"
+  ],
+  [
+   "memorable",
+   "exceptional"
+  ],
+  [
+   "memorable",
+   "exhilarating"
+  ],
+  [
+   "delightful",
+   "exceptional"
+  ],
+  [
+   "exceptional",
+   "impressive"
+  ],
+  [
+   "breathtaking",
+   "impressive"
+  ],
+  [
+   "glamorous",
+   "luxurious"
+  ],
+  [
+   "glamorous",
+   "exclusive"
+  ],
+  [
+   "luxurious",
+   "exclusive"
+  ],
+  [
+   "luxurious",
+   "impressive"
+  ],
+  [
+   "exclusive",
+   "unique"
+  ],
+  [
+   "exotic",
+   "unique"
+  ],
+  [
+   "cruise",
+   "voyage"
+  ],
+  [
+   "cruise",
+   "journey"
+  ],
+  [
+   "terrifying",
+   "rough"
+  ],
+  [
+   "winding",
+   "rough"
+  ],
+  [
+   "remote",
+   "inconvenient"
+  ],
+  [
+   "unique",
+   "exceptional"
+  ],
+  [
+   "breathtaking",
+   "memorable"
+  ],
+  [
+   "breathtaking",
+   "unique"
+  ],
+  [
+   "breathtaking",
+   "terrifying"
+  ],
+  [
+   "glamorous",
+   "exhilarating"
+  ],
+  [
+   "glamorous",
+   "exotic"
+  ],
+  [
+   "glamorous",
+   "delightful"
+  ],
+  [
+   "memorable",
+   "luxurious"
+  ],
+  [
+   "memorable",
+   "impressive"
+  ],
+  [
+   "memorable",
+   "glamorous"
+  ],
+  [
+   "breathtaking",
+   "delightful"
+  ],
+  [
+   "exhilarating",
+   "exceptional"
+  ],
+  [
+   "glamorous",
+   "impressive"
+  ],
+  [
+   "excursion",
+   "cruise"
+  ],
+  [
+   "excursion",
+   "sightseeing"
+  ],
+  [
+   "excursion",
+   "trip_journey"
+  ],
+  [
+   "adventurous",
+   "exclusive"
+  ],
+  [
+   "adventurous",
+   "memorable"
+  ],
+  [
+   "excursion",
+   "adventure_holiday"
+  ]
+ ]
+}

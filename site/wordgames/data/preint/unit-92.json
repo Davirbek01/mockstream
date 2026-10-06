@@ -1,0 +1,340 @@
+{
+ "book": "preint",
+ "unit": 92,
+ "title": "Time and sequence",
+ "title_uz": "Vaqt va ketma-ketlik",
+ "words": [
+  {
+   "id": "as_soon_as",
+   "en": "as soon as",
+   "uz": "…shi bilanoq",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Text me as soon as you get your exam results; I can't wait to hear how you did.",
+   "gap": "as soon as",
+   "alt": []
+  },
+  {
+   "id": "while_time",
+   "en": "while",
+   "uz": "…ayotgan paytda (bir vaqtda)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "I listened to an audiobook while I was cleaning my room.",
+   "gap": "while",
+   "alt": []
+  },
+  {
+   "id": "just_as",
+   "en": "just as",
+   "uz": "aynan … paytda",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The lights went out just as Iroda was blowing out the candles on her birthday cake.",
+   "gap": "just as",
+   "alt": []
+  },
+  {
+   "id": "then_seq",
+   "en": "then",
+   "uz": "keyin, so‘ng",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Fold the paper in half, then cut carefully along the line.",
+   "gap": "then",
+   "alt": []
+  },
+  {
+   "id": "after_that",
+   "en": "after that",
+   "uz": "shundan keyin",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On Mondays we have maths first, after that English, and then a long lunch break.",
+   "gap": "after that",
+   "alt": []
+  },
+  {
+   "id": "afterwards",
+   "en": "afterwards",
+   "uz": "keyinroq, so‘ngra",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Let's do our homework first and play football afterwards.",
+   "gap": "afterwards",
+   "alt": []
+  },
+  {
+   "id": "after_doing",
+   "en": "after",
+   "uz": "…gandan keyin",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Temur felt much better after sleeping for ten hours.",
+   "gap": "after",
+   "alt": []
+  },
+  {
+   "id": "before_doing",
+   "en": "before",
+   "uz": "…dan oldin",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Please switch off your phones before entering the exam room.",
+   "gap": "before",
+   "alt": []
+  },
+  {
+   "id": "first_of_all",
+   "en": "first of all",
+   "uz": "eng avvalo",
+   "pos": "phrase",
+   "img": false,
+   "ex": "To make green tea properly, first of all you warm the teapot, then you add the leaves.",
+   "gap": "first of all",
+   "alt": [
+    "first"
+   ]
+  },
+  {
+   "id": "finally",
+   "en": "finally",
+   "uz": "va nihoyat (ro‘yxat oxirida)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "There are three rules in our science lab: wear goggles, tie back long hair and, finally, never eat or drink anything.",
+   "gap": "finally",
+   "alt": []
+  },
+  {
+   "id": "to_begin_with",
+   "en": "to begin with",
+   "uz": "boshida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new job was easy to begin with, but it soon got much harder.",
+   "gap": "to begin with",
+   "alt": []
+  },
+  {
+   "id": "after_a_while",
+   "en": "after a while",
+   "uz": "biroz vaqt o‘tib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The noise from the road is annoying at first, but you get used to it after a while.",
+   "gap": "after a while",
+   "alt": []
+  },
+  {
+   "id": "eventually",
+   "en": "eventually",
+   "uz": "oxir-oqibatda (ancha vaqtdan keyin)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We waited for the bus for almost an hour, but it did come eventually.",
+   "gap": "eventually",
+   "alt": []
+  },
+  {
+   "id": "firstly",
+   "en": "firstly",
+   "uz": "birinchidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I don't want to join the club: firstly, it's too expensive, and secondly, the meetings are too late.",
+   "gap": "firstly",
+   "alt": []
+  },
+  {
+   "id": "secondly",
+   "en": "secondly",
+   "uz": "ikkinchidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I'm not buying that phone. Firstly, the battery is weak; secondly, the screen is tiny; and thirdly, it's far too expensive.",
+   "gap": "secondly",
+   "alt": []
+  },
+  {
+   "id": "for_one_thing",
+   "en": "for one thing",
+   "uz": "bir sababi shuki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm not going to the new pool: for one thing, it's on the other side of town, and for another, the water is always freezing.",
+   "gap": "for one thing",
+   "alt": []
+  },
+  {
+   "id": "for_a_start",
+   "en": "for a start",
+   "uz": "avvalambor (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Why did you leave the drama club?' 'Well, for a start, the rehearsals were on Saturday mornings, and besides, I never got a good part.'",
+   "gap": "for a start",
+   "alt": []
+  },
+  {
+   "id": "anyway",
+   "en": "anyway",
+   "uz": "baribir (qolaversa)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I don't mind missing the concert; I don't really like that band anyway.",
+   "gap": "anyway",
+   "alt": []
+  },
+  {
+   "id": "sequence",
+   "en": "sequence",
+   "uz": "ketma-ketlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Press the four buttons in the right sequence, or the door won't open.",
+   "gap": "sequence",
+   "alt": []
+  },
+  {
+   "id": "when_time",
+   "en": "when",
+   "uz": "…ganda (o‘sha paytda)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "My sister was only six when our family moved to Namangan.",
+   "gap": "when",
+   "alt": []
+  },
+  {
+   "id": "as_time",
+   "en": "as",
+   "uz": "…ayotganda (xuddi shu onda)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The phone rang as I was unlocking the front door, so I nearly dropped my keys.",
+   "gap": "as",
+   "alt": []
+  },
+  {
+   "id": "besides_reason",
+   "en": "besides",
+   "uz": "qolaversa (yana bir sabab)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "We can't go camping this weekend: the forecast says heavy rain, and besides, Laziz has a cold.",
+   "gap": "besides",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "as_soon_as",
+   "after_doing"
+  ],
+  [
+   "while_time",
+   "just_as"
+  ],
+  [
+   "then_seq",
+   "after_that"
+  ],
+  [
+   "then_seq",
+   "afterwards"
+  ],
+  [
+   "after_that",
+   "afterwards"
+  ],
+  [
+   "first_of_all",
+   "firstly"
+  ],
+  [
+   "first_of_all",
+   "to_begin_with"
+  ],
+  [
+   "first_of_all",
+   "for_a_start"
+  ],
+  [
+   "finally",
+   "eventually"
+  ],
+  [
+   "after_a_while",
+   "eventually"
+  ],
+  [
+   "firstly",
+   "for_one_thing"
+  ],
+  [
+   "firstly",
+   "for_a_start"
+  ],
+  [
+   "for_one_thing",
+   "for_a_start"
+  ],
+  [
+   "after_doing",
+   "before_doing"
+  ],
+  [
+   "to_begin_with",
+   "firstly"
+  ],
+  [
+   "to_begin_with",
+   "for_a_start"
+  ],
+  [
+   "when_time",
+   "as_soon_as"
+  ],
+  [
+   "when_time",
+   "while_time"
+  ],
+  [
+   "when_time",
+   "just_as"
+  ],
+  [
+   "as_time",
+   "when_time"
+  ],
+  [
+   "as_time",
+   "while_time"
+  ],
+  [
+   "as_time",
+   "just_as"
+  ],
+  [
+   "besides_reason",
+   "anyway"
+  ],
+  [
+   "besides_reason",
+   "besides"
+  ],
+  [
+   "besides_reason",
+   "whats_more"
+  ],
+  [
+   "besides_reason",
+   "in_addition"
+  ],
+  [
+   "besides_reason",
+   "secondly"
+  ]
+ ]
+}

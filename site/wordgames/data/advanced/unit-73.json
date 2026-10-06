@@ -1,0 +1,569 @@
+{
+ "book": "advanced",
+ "unit": 73,
+ "title": "Complaining and protesting",
+ "title_uz": "Shikoyat va norozilik",
+ "words": [
+  {
+   "id": "fed_up_with",
+   "en": "fed up with",
+   "uz": "… dan bezor bo‘lmoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Gulnoza is fed up with her old phone: it switches itself off every time she opens the camera.",
+   "gap": "fed up with",
+   "alt": []
+  },
+  {
+   "id": "sick_of",
+   "en": "sick of",
+   "uz": "… jonga tegmoq (to‘yib ketmoq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm sick of eating cold sandwiches for lunch every single day.",
+   "gap": "sick of",
+   "alt": []
+  },
+  {
+   "id": "had_enough_of",
+   "en": "have had enough of",
+   "uz": "… dan sabr kosasi to‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Honestly, I've had enough of the neighbours' dog barking half the night.",
+   "gap": "had enough of",
+   "alt": [
+    "had enough of",
+    "has had enough of"
+   ]
+  },
+  {
+   "id": "for_goodness_sake",
+   "en": "for goodness' sake",
+   "uz": "e, qo‘ysangiz-chi! (jahl bilan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Hurry up, for goodness' sake, or we'll miss the last bus home!",
+   "gap": "for goodness' sake",
+   "alt": [
+    "for goodness sake"
+   ]
+  },
+  {
+   "id": "look_here",
+   "en": "look here",
+   "uz": "qarang-chi! (jiddiy tanbeh)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Now look here, young man, you can't leave your bike in front of the fire exit!",
+   "gap": "look here",
+   "alt": []
+  },
+  {
+   "id": "not_on",
+   "en": "not on",
+   "uz": "yo‘l qo‘yib bo‘lmaydi (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's not on to play loud music at two in the morning when the whole building is asleep.",
+   "gap": "not on",
+   "alt": []
+  },
+  {
+   "id": "enough_is_enough",
+   "en": "enough is enough",
+   "uz": "bas, yetar!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the fifth power cut in a week, the café owner decided that enough was enough and bought a generator.",
+   "gap": "enough was enough",
+   "alt": [
+    "enough was enough"
+   ]
+  },
+  {
+   "id": "wont_do",
+   "en": "it won't do",
+   "uz": "bunday davom etolmaydi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You've been late four times this week, Oybek. It just won't do.",
+   "gap": "won't do",
+   "alt": [
+    "won't do",
+    "will not do",
+    "it will not do"
+   ]
+  },
+  {
+   "id": "unsatisfactory",
+   "en": "unsatisfactory",
+   "uz": "qoniqarsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The inspectors rated the hotel kitchen as unsatisfactory and gave the owners two weeks to clean it up.",
+   "gap": "unsatisfactory",
+   "alt": []
+  },
+  {
+   "id": "take_exception_to",
+   "en": "take exception to",
+   "uz": "… dan qattiq ranjimoq (e’tiroz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last month the cycling club took great exception to a newspaper article that called all cyclists a danger on the road.",
+   "gap": "took great exception to",
+   "alt": [
+    "took exception to",
+    "takes exception to",
+    "taking exception to",
+    "took great exception to",
+    "take great exception to"
+   ]
+  },
+  {
+   "id": "object_to",
+   "en": "object to",
+   "uz": "… ga qarshi chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many residents strongly object to being woken at six every morning by the building work next door.",
+   "gap": "object to",
+   "alt": [
+    "objected to",
+    "objects to",
+    "objecting to"
+   ]
+  },
+  {
+   "id": "objection",
+   "en": "objection",
+   "uz": "e’tiroz",
+   "pos": "noun",
+   "img": false,
+   "ex": "Does anyone have an objection to moving the meeting to Thursday?",
+   "gap": "objection",
+   "alt": [
+    "objections"
+   ]
+  },
+  {
+   "id": "shameful",
+   "en": "shameful",
+   "uz": "sharmandali (uyat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Throwing away bread that is still perfectly good is a shameful waste.",
+   "gap": "shameful",
+   "alt": []
+  },
+  {
+   "id": "complaint",
+   "en": "complaint",
+   "uz": "shikoyat (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel received so many complaints about the noisy air conditioning that it finally replaced it.",
+   "gap": "complaints",
+   "alt": [
+    "complaints"
+   ]
+  },
+  {
+   "id": "protest_noun",
+   "en": "protest",
+   "uz": "norozilik (namoyishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hundreds of farmers gathered outside the ministry in protest at the new water charges.",
+   "gap": "protest",
+   "alt": [
+    "protests"
+   ]
+  },
+  {
+   "id": "remonstrate",
+   "en": "remonstrate",
+   "uz": "(kimgadir) e’tiroz bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The captain remonstrated with the referee, but the goal still stood.",
+   "gap": "remonstrated",
+   "alt": [
+    "remonstrated",
+    "remonstrates",
+    "remonstrating"
+   ]
+  },
+  {
+   "id": "find_fault_with",
+   "en": "find fault with",
+   "uz": "… dan ayb qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nothing pleases our new manager: she finds fault with everything, even the font we use in our emails.",
+   "gap": "finds fault with",
+   "alt": [
+    "finds fault with",
+    "found fault with",
+    "finding fault with"
+   ]
+  },
+  {
+   "id": "fault_finding",
+   "en": "fault-finding",
+   "uz": "ikir-chikirga osilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Constant fault-finding over tiny mistakes destroys a young team's confidence.",
+   "gap": "fault-finding",
+   "alt": [
+    "fault finding",
+    "faultfinding"
+   ]
+  },
+  {
+   "id": "moan",
+   "en": "moan",
+   "uz": "nolimoq (zorlanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every summer my neighbour Botir moans about the heat, but he still refuses to buy a fan.",
+   "gap": "moans",
+   "alt": [
+    "moans",
+    "moaned",
+    "moaning"
+   ]
+  },
+  {
+   "id": "grumble",
+   "en": "grumble",
+   "uz": "to‘ng‘illamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old caretaker grumbled to himself as he swept up the same leaves for the third time that day.",
+   "gap": "grumbled",
+   "alt": [
+    "grumbled",
+    "grumbles",
+    "grumbling"
+   ]
+  },
+  {
+   "id": "gripe",
+   "en": "gripe",
+   "uz": "gina, norozilik sababi (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My biggest gripe with the new canteen is that it closes before the last lesson ends.",
+   "gap": "gripe",
+   "alt": [
+    "gripes"
+   ]
+  },
+  {
+   "id": "grouse",
+   "en": "grouse",
+   "uz": "tinmay noliyvermoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Whatever the result, the fans will grouse about the ticket prices for days; they always do.",
+   "gap": "grouse",
+   "alt": [
+    "grouses",
+    "groused",
+    "grousing"
+   ]
+  },
+  {
+   "id": "whinge",
+   "en": "whinge",
+   "uz": "ingillab nolimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't whinge, Diyor; the waterfall is only another ten minutes' walk!",
+   "gap": "whinge",
+   "alt": [
+    "whinges",
+    "whinged",
+    "whingeing",
+    "whinging"
+   ]
+  },
+  {
+   "id": "do_something_about",
+   "en": "do something about",
+   "uz": "…ga biror chora ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The classroom heating barely works, so we asked the head teacher to do something about it before winter.",
+   "gap": "do something about",
+   "alt": [
+    "done something about",
+    "doing something about"
+   ]
+  },
+  {
+   "id": "cheer_up",
+   "en": "cheer up",
+   "uz": "ko‘nglini ko‘tarmoq (xafa bo‘lmaslik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Feruza was upset about her mark, but she soon cheered up when her friends invited her to the cinema.",
+   "gap": "cheered up",
+   "alt": [
+    "cheered up",
+    "cheers up",
+    "cheering up"
+   ]
+  },
+  {
+   "id": "not_at_all_satisfied",
+   "en": "not at all satisfied with",
+   "uz": "…dan mutlaqo qoniqmagan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dear Sir, I am not at all satisfied with the repair carried out on my washing machine on 3 May.",
+   "gap": "not at all satisfied with",
+   "alt": []
+  },
+  {
+   "id": "something_will_have_to_be_done",
+   "en": "something will have to be done about",
+   "uz": "bu borada albatta chora ko‘rish kerak",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bins behind the market are overflowing again, and something will have to be done about them before the hot weather arrives.",
+   "gap": "something will have to be done about",
+   "alt": []
+  },
+  {
+   "id": "wish_you_wouldnt",
+   "en": "I wish you wouldn't",
+   "uz": "…masangiz edi (iltimos, qilmang)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I wish you wouldn't leave your wet towels on the bedroom floor every morning.",
+   "gap": "wish you wouldn't",
+   "alt": [
+    "wish you wouldn't"
+   ]
+  },
+  {
+   "id": "change_your_ways",
+   "en": "change your ways",
+   "uz": "xulq-atvorini o‘zgartirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new coach told Ravshan that he would lose his place in the team unless he changed his ways and came to training on time.",
+   "gap": "changed his ways",
+   "alt": [
+    "changed his ways",
+    "change his ways",
+    "change her ways",
+    "changed her ways",
+    "change their ways"
+   ]
+  },
+  {
+   "id": "wish_to_complain",
+   "en": "I wish to complain about",
+   "uz": "… yuzasidan shikoyat qilmoqchiman (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dear Manager, I wish to complain about the rude behaviour of one of your waiters last Friday.",
+   "gap": "I wish to complain about",
+   "alt": [
+    "wish to complain about"
+   ]
+  },
+  {
+   "id": "unacceptable",
+   "en": "unacceptable",
+   "uz": "qabul qilib bo‘lmaydigan (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The lift in our block has broken down for the fourth time this month, which is simply unacceptable for elderly residents.",
+   "gap": "unacceptable",
+   "alt": []
+  },
+  {
+   "id": "complain_about",
+   "en": "complain about",
+   "uz": "… dan shikoyat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Several guests complained about the smell of paint in the corridor, so the hotel moved them to another floor.",
+   "gap": "complained about",
+   "alt": [
+    "complained about",
+    "complains about",
+    "complaining about",
+    "complain"
+   ]
+  },
+  {
+   "id": "protest_verb",
+   "en": "protest",
+   "uz": "qattiq norozilik bildirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Thousands of residents marched through the city centre, protesting about the plan to close the children's hospital.",
+   "gap": "protesting about",
+   "alt": [
+    "protest about",
+    "protests about",
+    "protested about",
+    "protesting about",
+    "protested",
+    "protesting",
+    "protests"
+   ]
+  },
+  {
+   "id": "remonstrance",
+   "en": "remonstrance",
+   "uz": "rasmiy e’tiroz (juda kitobiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite the remonstrance of several senior scholars, the academy went ahead with the new spelling rules.",
+   "gap": "remonstrance",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "fed_up_with",
+   "sick_of"
+  ],
+  [
+   "fed_up_with",
+   "had_enough_of"
+  ],
+  [
+   "sick_of",
+   "had_enough_of"
+  ],
+  [
+   "look_here",
+   "for_goodness_sake"
+  ],
+  [
+   "not_on",
+   "wont_do"
+  ],
+  [
+   "not_on",
+   "shameful"
+  ],
+  [
+   "take_exception_to",
+   "object_to"
+  ],
+  [
+   "moan",
+   "grumble"
+  ],
+  [
+   "moan",
+   "grouse"
+  ],
+  [
+   "moan",
+   "whinge"
+  ],
+  [
+   "grouse",
+   "whinge"
+  ],
+  [
+   "gripe",
+   "grouse"
+  ],
+  [
+   "gripe",
+   "whinge"
+  ],
+  [
+   "gripe",
+   "complaint"
+  ],
+  [
+   "grumble",
+   "grouse"
+  ],
+  [
+   "grumble",
+   "whinge"
+  ],
+  [
+   "do_something_about",
+   "complain_about"
+  ],
+  [
+   "do_something_about",
+   "something_will_have_to_be_done"
+  ],
+  [
+   "not_at_all_satisfied",
+   "fed_up_with"
+  ],
+  [
+   "not_at_all_satisfied",
+   "sick_of"
+  ],
+  [
+   "wish_to_complain",
+   "object_to"
+  ],
+  [
+   "wish_to_complain",
+   "take_exception_to"
+  ],
+  [
+   "wish_to_complain",
+   "complain_about"
+  ],
+  [
+   "unacceptable",
+   "unsatisfactory"
+  ],
+  [
+   "unacceptable",
+   "shameful"
+  ],
+  [
+   "unacceptable",
+   "not_on"
+  ],
+  [
+   "complain_about",
+   "object_to"
+  ],
+  [
+   "complain_about",
+   "protest_verb"
+  ],
+  [
+   "protest_verb",
+   "protest_noun"
+  ],
+  [
+   "remonstrance",
+   "objection"
+  ],
+  [
+   "remonstrance",
+   "protest_noun"
+  ],
+  [
+   "remonstrance",
+   "complaint"
+  ],
+  [
+   "take_exception_to",
+   "complain_about"
+  ]
+ ]
+}

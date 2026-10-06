@@ -1,0 +1,367 @@
+{
+ "book": "preint",
+ "unit": 17,
+ "title": "The place where you live",
+ "title_uz": "Siz yashaydigan joy",
+ "words": [
+  {
+   "id": "location",
+   "en": "location",
+   "uz": "joylashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new café is in a great location, right next to the university, so it's always full of students.",
+   "gap": "location",
+   "alt": []
+  },
+  {
+   "id": "outskirts",
+   "en": "outskirts",
+   "uz": "shahar chekkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Land is cheaper on the outskirts of Tashkent, so many families build houses there, far from the busy centre.",
+   "gap": "outskirts",
+   "alt": []
+  },
+  {
+   "id": "move",
+   "en": "move",
+   "uz": "ko‘chib o‘tmoq (boshqa uyga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Dad got a job in Navoi, the whole family moved there from Jizzakh.",
+   "gap": "moved",
+   "alt": [
+    "moved",
+    "moves",
+    "moving"
+   ]
+  },
+  {
+   "id": "space",
+   "en": "space",
+   "uz": "bo‘sh joy, kenglik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The kitchen is so small that there isn't enough space for a table and chairs.",
+   "gap": "space",
+   "alt": []
+  },
+  {
+   "id": "view",
+   "en": "view",
+   "uz": "manzara (biror joydan ko‘rinish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our hotel room in Chimgan had a wonderful view of the snowy mountains.",
+   "gap": "view",
+   "alt": [
+    "views"
+   ]
+  },
+  {
+   "id": "rent",
+   "en": "rent",
+   "uz": "ijaraga olib yashamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Most students can't buy a home, so they rent a room near the university and pay for it every month.",
+   "gap": "rent",
+   "alt": [
+    "rents",
+    "rented",
+    "renting"
+   ]
+  },
+  {
+   "id": "flat",
+   "en": "flat",
+   "uz": "kvartira, xonadon",
+   "pos": "noun",
+   "img": false,
+   "ex": "We live in a three-room flat in Yunusabad, on the fourth floor.",
+   "gap": "flat",
+   "alt": [
+    "flats"
+   ]
+  },
+  {
+   "id": "apartment",
+   "en": "apartment",
+   "uz": "kvartira (AQSh inglizchasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin works in New York and lives in a small apartment in a tall building in Manhattan.",
+   "gap": "apartment",
+   "alt": [
+    "apartments"
+   ]
+  },
+  {
+   "id": "downstairs",
+   "en": "downstairs",
+   "uz": "pastki qavatda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The family who live downstairs complain when our children jump on the floor.",
+   "gap": "downstairs",
+   "alt": []
+  },
+  {
+   "id": "upstairs",
+   "en": "upstairs",
+   "uz": "yuqori qavatda",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our neighbours upstairs have a big dog, and we can hear it walking above our heads.",
+   "gap": "upstairs",
+   "alt": []
+  },
+  {
+   "id": "block_of_flats",
+   "en": "block of flats",
+   "uz": "ko‘p qavatli turar joy binosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Akmal lives on the twelfth floor of a tall block of flats next to the new shopping centre.",
+   "gap": "block of flats",
+   "alt": [
+    "blocks of flats"
+   ]
+  },
+  {
+   "id": "lift",
+   "en": "lift",
+   "uz": "lift",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lift wasn't working, so we had to carry the new sofa up the stairs to the seventh floor.",
+   "gap": "lift",
+   "alt": [
+    "lifts"
+   ]
+  },
+  {
+   "id": "air_conditioning",
+   "en": "air conditioning",
+   "uz": "konditsioner (havo sovutish tizimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In July it's often over forty degrees in Tashkent, so you really need air conditioning in your flat.",
+   "gap": "air conditioning",
+   "alt": []
+  },
+  {
+   "id": "top_floor",
+   "en": "top floor",
+   "uz": "eng yuqori qavat",
+   "pos": "noun",
+   "img": false,
+   "ex": "We live on the top floor of a nine-storey building, so on clear days we can see the mountains from our kitchen.",
+   "gap": "top floor",
+   "alt": []
+  },
+  {
+   "id": "ground_floor",
+   "en": "ground floor",
+   "uz": "yer sathidagi qavat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nodira's flat is on the ground floor, so she never needs the lift or the stairs, and she can talk to her friends in the street through the window.",
+   "gap": "ground floor",
+   "alt": []
+  },
+  {
+   "id": "balcony",
+   "en": "balcony",
+   "uz": "balkon",
+   "pos": "noun",
+   "img": false,
+   "ex": "In summer, Sevara grows tomatoes and flowers in big pots on her balcony on the fifth floor.",
+   "gap": "balcony",
+   "alt": [
+    "balconies"
+   ]
+  },
+  {
+   "id": "steps",
+   "en": "steps",
+   "uz": "kirish oldidagi zinalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Be careful on the front steps: they are covered in ice this morning.",
+   "gap": "steps",
+   "alt": [
+    "step"
+   ]
+  },
+  {
+   "id": "front_door",
+   "en": "front door",
+   "uz": "kirish eshigi",
+   "pos": "noun",
+   "img": true,
+   "ex": "I lost my keys, so I couldn't open the front door and had to sit outside until Mum came home.",
+   "gap": "front door",
+   "alt": [
+    "front doors"
+   ]
+  },
+  {
+   "id": "own",
+   "en": "own",
+   "uz": "egalik qilmoq (o‘ziniki bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "They don't pay rent any more, because now they own their house.",
+   "gap": "own",
+   "alt": [
+    "owns",
+    "owned"
+   ]
+  },
+  {
+   "id": "cottage",
+   "en": "cottage",
+   "uz": "qishloqdagi kichik eski uy",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every summer we stay in a tiny cottage in a village in the Scottish hills; it's two hundred years old and has no internet.",
+   "gap": "cottage",
+   "alt": [
+    "cottages"
+   ]
+  },
+  {
+   "id": "charming",
+   "en": "charming",
+   "uz": "maftunkor, yoqimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With its narrow streets, small tea houses and friendly people, the old part of Kokand is really charming.",
+   "gap": "charming",
+   "alt": []
+  },
+  {
+   "id": "lots_of_character",
+   "en": "lots of character",
+   "uz": "o‘ziga xos ruhi bor (betakror)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old house in Margilan has lots of character, with its carved wooden doors and painted ceilings.",
+   "gap": "lots of character",
+   "alt": []
+  },
+  {
+   "id": "dark_room",
+   "en": "dark",
+   "uz": "qorong‘i (yorug‘lik kam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The room faces north and has only one small window, so it's quite dark even at midday.",
+   "gap": "dark",
+   "alt": []
+  },
+  {
+   "id": "light_room",
+   "en": "light",
+   "uz": "yorug‘ (quyosh nuri ko‘p)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My bedroom has two big windows facing south, so it's very light and sunny all day.",
+   "gap": "light",
+   "alt": []
+  },
+  {
+   "id": "heat",
+   "en": "heat",
+   "uz": "isitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our old house has thin walls and high ceilings, so it's very difficult to heat when it's minus ten outside.",
+   "gap": "heat",
+   "alt": [
+    "heats",
+    "heated",
+    "heating"
+   ]
+  },
+  {
+   "id": "central_heating",
+   "en": "central heating",
+   "uz": "markaziy isitish tizimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The block of flats has central heating, so every room is warm all winter.",
+   "gap": "central heating",
+   "alt": []
+  },
+  {
+   "id": "first_floor",
+   "en": "first floor",
+   "uz": "ikkinchi qavat (Britaniyada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our hotel in Edinburgh had eight floors, and our room was on the first floor, just one floor above reception.",
+   "gap": "first floor",
+   "alt": []
+  },
+  {
+   "id": "second_floor",
+   "en": "second floor",
+   "uz": "uchinchi qavat (Britaniyada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a café on the ground floor, offices on the first floor, and a gym on the second floor of the building.",
+   "gap": "second floor",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "flat",
+   "apartment"
+  ],
+  [
+   "flat",
+   "block_of_flats"
+  ],
+  [
+   "apartment",
+   "block_of_flats"
+  ],
+  [
+   "rent",
+   "own"
+  ],
+  [
+   "top_floor",
+   "upstairs"
+  ],
+  [
+   "ground_floor",
+   "downstairs"
+  ],
+  [
+   "charming",
+   "lots_of_character"
+  ],
+  [
+   "air_conditioning",
+   "central_heating"
+  ],
+  [
+   "second_floor",
+   "first_floor"
+  ],
+  [
+   "second_floor",
+   "top_floor"
+  ],
+  [
+   "second_floor",
+   "ground_floor"
+  ]
+ ]
+}

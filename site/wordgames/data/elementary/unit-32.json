@@ -1,0 +1,555 @@
+{
+ "book": "elementary",
+ "unit": 32,
+ "title": "Travelling",
+ "title_uz": "Sayohat",
+ "words": [
+  {
+   "id": "train",
+   "en": "train",
+   "uz": "poyezd",
+   "pos": "noun",
+   "img": true,
+   "ex": "We slept in a small compartment on the overnight train to Nukus and woke up in the desert.",
+   "gap": "train",
+   "alt": [
+    "trains"
+   ]
+  },
+  {
+   "id": "bus",
+   "en": "bus",
+   "uz": "avtobus",
+   "pos": "noun",
+   "img": true,
+   "ex": "The yellow school bus stops outside our gate at 7:40 every morning.",
+   "gap": "bus",
+   "alt": [
+    "buses"
+   ]
+  },
+  {
+   "id": "bicycle",
+   "en": "bicycle",
+   "uz": "velosiped",
+   "pos": "noun",
+   "img": true,
+   "ex": "I pedalled my bicycle up the steep hill to school, and when I got there my legs were burning.",
+   "gap": "bicycle",
+   "alt": [
+    "bike",
+    "bicycles",
+    "bikes"
+   ]
+  },
+  {
+   "id": "taxi",
+   "en": "taxi",
+   "uz": "taksi",
+   "pos": "noun",
+   "img": true,
+   "ex": "It was raining and late, so we ordered a taxi on an app instead of walking home.",
+   "gap": "taxi",
+   "alt": [
+    "taxis"
+   ]
+  },
+  {
+   "id": "car",
+   "en": "car",
+   "uz": "mashina (avtomobil)",
+   "pos": "noun",
+   "img": true,
+   "ex": "There are five of us, so we all squeeze into Dad's small car with our bags on the roof.",
+   "gap": "car",
+   "alt": [
+    "cars"
+   ]
+  },
+  {
+   "id": "helicopter",
+   "en": "helicopter",
+   "uz": "vertolyot",
+   "pos": "noun",
+   "img": true,
+   "ex": "A helicopter flew low over the stadium, filming the match from the air.",
+   "gap": "helicopter",
+   "alt": [
+    "helicopters"
+   ]
+  },
+  {
+   "id": "plane",
+   "en": "plane",
+   "uz": "samolyot",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our plane flew high above the clouds, and I could see snowy mountains far below.",
+   "gap": "plane",
+   "alt": [
+    "aeroplane",
+    "planes"
+   ]
+  },
+  {
+   "id": "motorbike",
+   "en": "motorbike",
+   "uz": "mototsikl",
+   "pos": "noun",
+   "img": true,
+   "ex": "The delivery man arrived on a red motorbike with a big box on the back and a helmet on his head.",
+   "gap": "motorbike",
+   "alt": [
+    "motorcycle",
+    "motorbikes"
+   ]
+  },
+  {
+   "id": "underground",
+   "en": "underground",
+   "uz": "metro (yer osti poyezdi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The streets above were full of traffic jams, so we went down the steps into the station and took the underground.",
+   "gap": "underground",
+   "alt": []
+  },
+  {
+   "id": "boat",
+   "en": "boat",
+   "uz": "qayiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "There was no bridge, so a small boat carried us and our bags across the river.",
+   "gap": "boat",
+   "alt": [
+    "boats"
+   ]
+  },
+  {
+   "id": "ship",
+   "en": "ship",
+   "uz": "kema",
+   "pos": "noun",
+   "img": true,
+   "ex": "The huge cruise ship had twelve decks, three swimming pools and a cinema for its passengers.",
+   "gap": "ship",
+   "alt": [
+    "ships"
+   ]
+  },
+  {
+   "id": "map",
+   "en": "map",
+   "uz": "xarita",
+   "pos": "noun",
+   "img": true,
+   "ex": "My phone had no internet, so I opened a paper map to find the old town.",
+   "gap": "map",
+   "alt": [
+    "maps"
+   ]
+  },
+  {
+   "id": "timetable",
+   "en": "timetable",
+   "uz": "qatnov jadvali",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the timetable on the wall, the next bus to the airport leaves at 9:15.",
+   "gap": "timetable",
+   "alt": [
+    "timetables"
+   ]
+  },
+  {
+   "id": "customs",
+   "en": "customs",
+   "uz": "bojxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "At customs, an officer opened my suitcase and asked me about the three jars of honey inside.",
+   "gap": "customs",
+   "alt": []
+  },
+  {
+   "id": "single_ticket",
+   "en": "single ticket",
+   "uz": "bir tomonga chipta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Akmal is moving to Termez and isn't coming back, so he only needs a single ticket.",
+   "gap": "single ticket",
+   "alt": [
+    "single tickets"
+   ]
+  },
+  {
+   "id": "return_ticket",
+   "en": "return ticket",
+   "uz": "borib-kelish chiptasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We're coming home on Sunday evening, so please give me a return ticket to Namangan.",
+   "gap": "return ticket",
+   "alt": [
+    "return tickets"
+   ]
+  },
+  {
+   "id": "book_a_seat",
+   "en": "book a seat",
+   "uz": "oldindan joy band qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The holiday trains fill up quickly, so it's best to book a seat a week before you travel.",
+   "gap": "book a seat",
+   "alt": [
+    "booked a seat",
+    "books a seat",
+    "booking a seat"
+   ]
+  },
+  {
+   "id": "journey",
+   "en": "journey",
+   "uz": "safar (yo‘l yurish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The journey through the mountain pass was long, but the views made the hours pass quickly.",
+   "gap": "journey",
+   "alt": [
+    "journeys"
+   ]
+  },
+  {
+   "id": "depart",
+   "en": "depart",
+   "uz": "jo‘nab ketmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers, please note: today the 18:40 express to Bukhara will depart ten minutes late.",
+   "gap": "depart",
+   "alt": [
+    "departs",
+    "departed",
+    "departing"
+   ]
+  },
+  {
+   "id": "platform",
+   "en": "platform",
+   "uz": "perron (platforma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We stood on the cold platform with our bags and watched the lights of the train come closer.",
+   "gap": "platform",
+   "alt": [
+    "platforms"
+   ]
+  },
+  {
+   "id": "change_trains",
+   "en": "change trains",
+   "uz": "boshqa poyezdga o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There's no train straight to our village, so we have to change trains in Karshi.",
+   "gap": "change trains",
+   "alt": [
+    "changed trains",
+    "changes trains",
+    "changing trains"
+   ]
+  },
+  {
+   "id": "direct_train",
+   "en": "direct train",
+   "uz": "to‘g‘ridan-to‘g‘ri boradigan poyezd",
+   "pos": "noun",
+   "img": false,
+   "ex": "Good news: it's a direct train, so you can stay in your seat all the way to Navoi.",
+   "gap": "direct train",
+   "alt": [
+    "direct trains"
+   ]
+  },
+  {
+   "id": "restaurant_car",
+   "en": "restaurant car",
+   "uz": "vagon-restoran",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had hot soup and tea in the restaurant car while the train crossed the steppe.",
+   "gap": "restaurant car",
+   "alt": [
+    "restaurant cars"
+   ]
+  },
+  {
+   "id": "check_in",
+   "en": "check in",
+   "uz": "ro‘yxatdan o‘tmoq (aeroportda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the airport desk we checked in our suitcases and got our seat numbers.",
+   "gap": "checked in",
+   "alt": [
+    "checked in",
+    "checks in",
+    "checking in"
+   ]
+  },
+  {
+   "id": "take_off_plane",
+   "en": "take off",
+   "uz": "havoga ko‘tarilmoq (samolyot)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The engines got louder and louder, and then the plane took off into the night sky.",
+   "gap": "took off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taking off"
+   ]
+  },
+  {
+   "id": "flight",
+   "en": "flight",
+   "uz": "parvoz (reys)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The pilot told us that our flight was going to be bumpy, so we kept our seat belts on.",
+   "gap": "flight",
+   "alt": [
+    "flights"
+   ]
+  },
+  {
+   "id": "land",
+   "en": "land",
+   "uz": "qo‘nmoq (samolyot)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a four-hour flight, we landed in Dubai and went straight to passport control.",
+   "gap": "landed",
+   "alt": [
+    "lands",
+    "landed",
+    "landing"
+   ]
+  },
+  {
+   "id": "boarding_card",
+   "en": "boarding card",
+   "uz": "bortga chiqish taloni",
+   "pos": "noun",
+   "img": false,
+   "ex": "I couldn't find my boarding card at the gate, but luckily there was a copy on my phone.",
+   "gap": "boarding card",
+   "alt": [
+    "boarding cards"
+   ]
+  },
+  {
+   "id": "flight_attendant",
+   "en": "flight attendant",
+   "uz": "styuardessa / styuard",
+   "pos": "noun",
+   "img": false,
+   "ex": "A friendly flight attendant brought us juice and showed us how to fasten our seat belts.",
+   "gap": "flight attendant",
+   "alt": [
+    "flight attendants"
+   ]
+  },
+  {
+   "id": "get_on",
+   "en": "get on",
+   "uz": "(transportga) chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doors opened and we got on the train just before they closed again.",
+   "gap": "got on",
+   "alt": [
+    "gets on",
+    "got on",
+    "getting on"
+   ]
+  },
+  {
+   "id": "hire_a_car",
+   "en": "hire a car",
+   "uz": "mashina ijaraga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On holiday in Kyrgyzstan we hired a car and drove all the way round Lake Issyk-Kul.",
+   "gap": "hired a car",
+   "alt": [
+    "hires a car",
+    "hired a car",
+    "hiring a car"
+   ]
+  },
+  {
+   "id": "fill_up",
+   "en": "fill up",
+   "uz": "benzin quyib bakni to‘ldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The tank was nearly empty, so Dad stopped at the petrol station to fill up.",
+   "gap": "fill up",
+   "alt": [
+    "fills up",
+    "filled up",
+    "filling up"
+   ]
+  },
+  {
+   "id": "petrol",
+   "en": "petrol",
+   "uz": "benzin",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car ran out of petrol in the middle of the desert, and we had to wait two hours for help.",
+   "gap": "petrol",
+   "alt": []
+  },
+  {
+   "id": "give_a_lift",
+   "en": "give a lift",
+   "uz": "mashinada olib borib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My friend's mum saw me walking home with a heavy bag and stopped to give me a lift.",
+   "gap": "give me a lift",
+   "alt": [
+    "give me a lift",
+    "give you a lift",
+    "gave me a lift",
+    "gives us a lift",
+    "giving me a lift"
+   ]
+  },
+  {
+   "id": "reserve_a_seat",
+   "en": "reserve a seat",
+   "uz": "o‘rindiqni bron qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Otabek phoned the bus company to reserve a seat near the front.",
+   "gap": "reserve a seat",
+   "alt": [
+    "reserves a seat",
+    "reserved a seat",
+    "reserving a seat"
+   ]
+  },
+  {
+   "id": "in_advance",
+   "en": "in advance",
+   "uz": "oldindan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Plane tickets to Istanbul are much cheaper if you buy them two months in advance.",
+   "gap": "in advance",
+   "alt": []
+  },
+  {
+   "id": "go_through_customs",
+   "en": "go through customs",
+   "uz": "bojxona ko‘rigidan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After we got our bags, we went through customs and met our driver outside.",
+   "gap": "went through customs",
+   "alt": [
+    "goes through customs",
+    "went through customs",
+    "gone through customs",
+    "going through customs"
+   ]
+  },
+  {
+   "id": "have_a_good_flight",
+   "en": "have a good flight",
+   "uz": "parvozi bexatar bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the airport, Bekzod's sister hugged him and told him to have a good flight.",
+   "gap": "have a good flight",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "train",
+   "underground"
+  ],
+  [
+   "bicycle",
+   "motorbike"
+  ],
+  [
+   "plane",
+   "helicopter"
+  ],
+  [
+   "boat",
+   "ship"
+  ],
+  [
+   "book_a_seat",
+   "check_in"
+  ],
+  [
+   "taxi",
+   "bus"
+  ],
+  [
+   "taxi",
+   "car"
+  ],
+  [
+   "train",
+   "direct_train"
+  ],
+  [
+   "flight",
+   "journey"
+  ],
+  [
+   "flight",
+   "plane"
+  ],
+  [
+   "get_on",
+   "check_in"
+  ],
+  [
+   "reserve_a_seat",
+   "book_a_seat"
+  ],
+  [
+   "reserve_a_seat",
+   "check_in"
+  ],
+  [
+   "in_advance",
+   "book_a_seat"
+  ],
+  [
+   "go_through_customs",
+   "customs"
+  ],
+  [
+   "go_through_customs",
+   "check_in"
+  ],
+  [
+   "have_a_good_flight",
+   "flight"
+  ]
+ ]
+}

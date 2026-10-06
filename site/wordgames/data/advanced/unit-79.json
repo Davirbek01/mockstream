@@ -1,0 +1,487 @@
+{
+ "book": "advanced",
+ "unit": 79,
+ "title": "Academic writing: making sense",
+ "title_uz": "Akademik yozuv: fikrni aniq ifodalash",
+ "words": [
+  {
+   "id": "advocate",
+   "en": "advocate",
+   "uz": "…ni yoqlab chiqmoq (targ‘ib qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The author advocates shorter school days and longer breaks for younger children.",
+   "gap": "advocates",
+   "alt": [
+    "advocates",
+    "advocated",
+    "advocating"
+   ]
+  },
+  {
+   "id": "deduce",
+   "en": "deduce",
+   "uz": "dalillardan mantiqiy xulosa chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "From the wet umbrellas by the door, Komil deduced that it had started raining outside.",
+   "gap": "deduced",
+   "alt": [
+    "deduced",
+    "deduces",
+    "deducing"
+   ]
+  },
+  {
+   "id": "infer",
+   "en": "infer",
+   "uz": "bilvosita xulosa qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The poem never says so directly, but readers can infer from its sad tone that the poet missed his home town.",
+   "gap": "infer",
+   "alt": [
+    "inferred",
+    "infers",
+    "inferring"
+   ]
+  },
+  {
+   "id": "complement",
+   "en": "complement",
+   "uz": "bir-birini to‘ldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her study of village dialects nicely complements earlier research on city speech, so together they give a fuller picture.",
+   "gap": "complements",
+   "alt": [
+    "complements",
+    "complemented"
+   ]
+  },
+  {
+   "id": "overlap_with",
+   "en": "overlap with",
+   "uz": "qisman ustma-ust tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two grammar books overlap with each other in places, so you don't need to read both chapters on tenses.",
+   "gap": "overlap with",
+   "alt": [
+    "overlaps with",
+    "overlapped with"
+   ]
+  },
+  {
+   "id": "empirical",
+   "en": "empirical",
+   "uz": "kuzatuv va tajribaga asoslangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The theory sounds clever, but nobody has tested it, so there is no empirical data to support it.",
+   "gap": "empirical",
+   "alt": []
+  },
+  {
+   "id": "ambiguous",
+   "en": "ambiguous",
+   "uz": "ikki xil ma’noli (noaniq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The instructions were ambiguous: half the class thought the essay was due on Monday, the other half on Friday.",
+   "gap": "ambiguous",
+   "alt": []
+  },
+  {
+   "id": "coherent",
+   "en": "coherent",
+   "uz": "izchil (mantiqan bog‘langan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your essay has good ideas, but it needs a more coherent structure so that readers can follow the argument.",
+   "gap": "coherent",
+   "alt": []
+  },
+  {
+   "id": "authoritative",
+   "en": "authoritative",
+   "uz": "nufuzli va puxta (mutaxassislarniki)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This is the most authoritative guide to the birds of Central Asia, written by experts with forty years of field work.",
+   "gap": "authoritative",
+   "alt": []
+  },
+  {
+   "id": "arbitrary",
+   "en": "arbitrary",
+   "uz": "asossiz, tavakkaliga tanlangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The limit of 500 visitors a day seems arbitrary; nobody can explain where the number came from.",
+   "gap": "arbitrary",
+   "alt": []
+  },
+  {
+   "id": "distort",
+   "en": "distort",
+   "uz": "buzib ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Including only the best students' scores would distort the picture of how the whole school is doing.",
+   "gap": "distort",
+   "alt": [
+    "distorts",
+    "distorted",
+    "distorting"
+   ]
+  },
+  {
+   "id": "incidence",
+   "en": "incidence",
+   "uz": "uchrash darajasi (tez-tezligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The study looked at the incidence of eye problems among teenagers who spend over six hours a day on screens.",
+   "gap": "incidence",
+   "alt": []
+  },
+  {
+   "id": "predominant",
+   "en": "predominant",
+   "uz": "ustun (eng ko‘p uchraydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Green is the predominant colour in the painting, with only small touches of red and yellow.",
+   "gap": "predominant",
+   "alt": []
+  },
+  {
+   "id": "in_sequence",
+   "en": "in sequence",
+   "uz": "ketma-ket tartibda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Arrange the pictures in sequence so that the story makes sense from beginning to end.",
+   "gap": "in sequence",
+   "alt": []
+  },
+  {
+   "id": "widespread",
+   "en": "widespread",
+   "uz": "keng tarqalgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The decision to close the park caused widespread anger among local families.",
+   "gap": "widespread",
+   "alt": []
+  },
+  {
+   "id": "append",
+   "en": "append",
+   "uz": "oxiriga ilova qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A list of all the books I used is appended at the end of the report.",
+   "gap": "appended",
+   "alt": [
+    "appended",
+    "appends",
+    "appending"
+   ]
+  },
+  {
+   "id": "conceive",
+   "en": "conceive",
+   "uz": "o‘ylab topmoq (g‘oyani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The idea for the app was first conceived during a long train journey to Termez.",
+   "gap": "conceived",
+   "alt": [
+    "conceived",
+    "conceives",
+    "conceiving"
+   ]
+  },
+  {
+   "id": "contradict",
+   "en": "contradict",
+   "uz": "…ga zid kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Your two answers contradict each other: in one you say the lake is growing, and in the other that it is shrinking.",
+   "gap": "contradict",
+   "alt": [
+    "contradicts",
+    "contradicted",
+    "contradicting"
+   ]
+  },
+  {
+   "id": "denote",
+   "en": "denote",
+   "uz": "belgisi bo‘lmoq (anglatmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On this hiking map, a small red triangle denotes a mountain shelter.",
+   "gap": "denotes",
+   "alt": [
+    "denotes",
+    "denoted"
+   ]
+  },
+  {
+   "id": "negate",
+   "en": "negate",
+   "uz": "yo‘qqa chiqarmoq (befoyda qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Eating a huge cake straight after the gym will negate all the benefits of your workout.",
+   "gap": "negate",
+   "alt": [
+    "negates",
+    "negated",
+    "negating"
+   ]
+  },
+  {
+   "id": "reflect_upon",
+   "en": "reflect upon",
+   "uz": "chuqur mulohaza yuritmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the final chapter, the writer reflects upon her childhood in a small mountain village.",
+   "gap": "reflects upon",
+   "alt": [
+    "reflect on",
+    "reflects upon",
+    "reflected upon",
+    "reflecting upon"
+   ]
+  },
+  {
+   "id": "trigger",
+   "en": "trigger",
+   "uz": "qo‘zg‘atmoq (sabab bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Strong smells, such as fresh paint, can trigger a headache in some people.",
+   "gap": "trigger",
+   "alt": [
+    "triggers",
+    "triggered",
+    "triggering"
+   ]
+  },
+  {
+   "id": "utilise",
+   "en": "utilise",
+   "uz": "foydalanmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school plans to utilise the empty basement as a music room.",
+   "gap": "utilise",
+   "alt": [
+    "utilize",
+    "utilised",
+    "utilises",
+    "utilising",
+    "utilized"
+   ]
+  },
+  {
+   "id": "instance_of",
+   "en": "an instance of",
+   "uz": "…ning bir misoli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Anvar's habit of copying homework is just one instance of a wider problem in the class.",
+   "gap": "instance of",
+   "alt": [
+    "instance of"
+   ]
+  },
+  {
+   "id": "the_converse",
+   "en": "the converse",
+   "uz": "buning teskarisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some people assume that tall players are always better at basketball, but quite often the converse is true.",
+   "gap": "converse",
+   "alt": [
+    "converse"
+   ]
+  },
+  {
+   "id": "crucial",
+   "en": "crucial",
+   "uz": "hal qiluvchi (o‘ta muhim)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Getting enough sleep before an exam is crucial for clear thinking.",
+   "gap": "crucial",
+   "alt": []
+  },
+  {
+   "id": "notwithstanding",
+   "en": "notwithstanding",
+   "uz": "…ga qaramay (rasmiy)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The bad weather notwithstanding, the festival attracted thousands of visitors.",
+   "gap": "notwithstanding",
+   "alt": []
+  },
+  {
+   "id": "somewhat",
+   "en": "somewhat",
+   "uz": "birmuncha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The second half of the novel is somewhat slower than the first.",
+   "gap": "somewhat",
+   "alt": []
+  },
+  {
+   "id": "thereby",
+   "en": "thereby",
+   "uz": "shu tariqa (shu yo‘l bilan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The city added more buses at rush hour, thereby reducing crowding on the metro.",
+   "gap": "thereby",
+   "alt": []
+  },
+  {
+   "id": "whereby",
+   "en": "whereby",
+   "uz": "unga ko‘ra (u orqali)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The library has a new system whereby students can borrow e-books from home.",
+   "gap": "whereby",
+   "alt": []
+  },
+  {
+   "id": "reside_in",
+   "en": "reside in",
+   "uz": "…da yotmoq (sabab, mohiyat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The main weakness of your essay resides in its conclusion, which simply repeats the introduction.",
+   "gap": "resides in",
+   "alt": [
+    "resides in",
+    "resided in"
+   ]
+  },
+  {
+   "id": "demonstrate",
+   "en": "demonstrate",
+   "uz": "isbotlab ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our class experiment clearly demonstrated that bean plants grow faster near the window than in a dark cupboard.",
+   "gap": "demonstrated",
+   "alt": [
+    "demonstrates",
+    "demonstrated",
+    "demonstrating"
+   ]
+  },
+  {
+   "id": "comprehensive_thorough",
+   "en": "comprehensive",
+   "uz": "har tomonlama to‘liq (qamrovli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum's new guide is comprehensive: it describes every one of the 4,000 objects on display.",
+   "gap": "comprehensive",
+   "alt": []
+  },
+  {
+   "id": "indicate",
+   "en": "indicate",
+   "uz": "ko‘rsatmoq (dalolat bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Early results indicate that the new reading programme has improved pupils' spelling.",
+   "gap": "indicate",
+   "alt": [
+    "indicates",
+    "indicated",
+    "indicating"
+   ]
+  },
+  {
+   "id": "perceive_notice",
+   "en": "perceive",
+   "uz": "ko‘rmoq, sezmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bees can perceive colours that are completely invisible to the human eye, such as ultraviolet.",
+   "gap": "perceive",
+   "alt": [
+    "perceived",
+    "perceives",
+    "perceiving"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "deduce",
+   "infer"
+  ],
+  [
+   "complement",
+   "overlap_with"
+  ],
+  [
+   "empirical",
+   "authoritative"
+  ],
+  [
+   "arbitrary",
+   "ambiguous"
+  ],
+  [
+   "conceive",
+   "advocate"
+  ],
+  [
+   "instance_of",
+   "incidence"
+  ],
+  [
+   "predominant",
+   "widespread"
+  ],
+  [
+   "thereby",
+   "whereby"
+  ],
+  [
+   "demonstrate",
+   "denote"
+  ],
+  [
+   "comprehensive_thorough",
+   "authoritative"
+  ],
+  [
+   "indicate",
+   "demonstrate"
+  ],
+  [
+   "indicate",
+   "denote"
+  ],
+  [
+   "comprehensive_thorough",
+   "empirical"
+  ]
+ ]
+}

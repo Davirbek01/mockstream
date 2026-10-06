@@ -1,0 +1,526 @@
+{
+ "book": "advanced",
+ "unit": 40,
+ "title": "The haves and the have-nots",
+ "title_uz": "Boylar va kambag‘allar",
+ "words": [
+  {
+   "id": "fundamentally",
+   "en": "fundamentally",
+   "uz": "tubdan (mohiyatan)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The two plans are fundamentally different: one builds new roads, the other improves public transport.",
+   "gap": "fundamentally",
+   "alt": []
+  },
+  {
+   "id": "denial",
+   "en": "denial",
+   "uz": "mahrum qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keeping girls out of school is a denial of their basic right to an education.",
+   "gap": "denial",
+   "alt": []
+  },
+  {
+   "id": "violation",
+   "en": "violation",
+   "uz": "buzish (poymol qilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Locking the workers inside the factory at night was a serious violation of safety laws.",
+   "gap": "violation",
+   "alt": [
+    "violations"
+   ]
+  },
+  {
+   "id": "dignity",
+   "en": "dignity",
+   "uz": "inson qadri (sha’ni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Volunteers at the food bank try to treat every visitor with dignity and respect.",
+   "gap": "dignity",
+   "alt": []
+  },
+  {
+   "id": "absolute_poverty",
+   "en": "absolute poverty",
+   "uz": "mutlaq qashshoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to fast economic growth, the number of people in China living in absolute poverty has fallen dramatically since 1980.",
+   "gap": "absolute poverty",
+   "alt": []
+  },
+  {
+   "id": "relative_poverty",
+   "en": "relative poverty",
+   "uz": "nisbiy qashshoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "A family with a flat and a phone may not be poor by world standards, yet still live in relative poverty compared with its neighbours.",
+   "gap": "relative poverty",
+   "alt": []
+  },
+  {
+   "id": "extreme_poverty",
+   "en": "extreme poverty",
+   "uz": "o‘ta qashshoqlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Millions of people in extreme poverty cannot afford even one proper meal a day.",
+   "gap": "extreme poverty",
+   "alt": []
+  },
+  {
+   "id": "poverty_line",
+   "en": "poverty line",
+   "uz": "qashshoqlik chegarasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nearly a third of the town's families live below the official poverty line, so the council gives their children free school meals.",
+   "gap": "poverty line",
+   "alt": []
+  },
+  {
+   "id": "penury",
+   "en": "penury",
+   "uz": "muhtojlik (qattiq qashshoqlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The once-famous painter spent his last years in penury, unable even to pay the rent on his tiny room.",
+   "gap": "penury",
+   "alt": []
+  },
+  {
+   "id": "shelter",
+   "en": "shelter",
+   "uz": "boshpana",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the storm tore the roofs off their houses, dozens of families found shelter in the school gym.",
+   "gap": "shelter",
+   "alt": []
+  },
+  {
+   "id": "nutrition",
+   "en": "nutrition",
+   "uz": "ovqatlanish (oziqlanish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Good nutrition in the first years of life helps a child's brain to develop properly.",
+   "gap": "nutrition",
+   "alt": []
+  },
+  {
+   "id": "malnourished",
+   "en": "malnourished",
+   "uz": "to‘yib ovqatlanmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Doctors found that many children in the camp were malnourished: for months they had eaten almost nothing but bread.",
+   "gap": "malnourished",
+   "alt": []
+  },
+  {
+   "id": "illiterate",
+   "en": "illiterate",
+   "uz": "savodsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My great-grandmother grew up illiterate, but she learned to read at forty and then read every newspaper she could find.",
+   "gap": "illiterate",
+   "alt": []
+  },
+  {
+   "id": "sanitation",
+   "en": "sanitation",
+   "uz": "oqova va gigiyena sharoiti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Poor sanitation in the overcrowded camp led to an outbreak of cholera.",
+   "gap": "sanitation",
+   "alt": []
+  },
+  {
+   "id": "deprived",
+   "en": "deprived",
+   "uz": "kam ta’minlangan (mahrum)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new sports centre was built in one of the most deprived parts of the city, where children had nowhere to play.",
+   "gap": "deprived",
+   "alt": []
+  },
+  {
+   "id": "class_as",
+   "en": "class as",
+   "uz": "…deb hisoblamoq (toifalamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Anyone earning less than this amount is classed as poor by the government.",
+   "gap": "classed as",
+   "alt": [
+    "classed as",
+    "classes as",
+    "classing as"
+   ]
+  },
+  {
+   "id": "affluence",
+   "en": "affluence",
+   "uz": "farovonlik (to‘kin-sochinlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The affluence of the new suburb is obvious from the expensive cars parked outside every house.",
+   "gap": "affluence",
+   "alt": []
+  },
+  {
+   "id": "affluent",
+   "en": "affluent",
+   "uz": "badavlat",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Children from affluent families often spend their summers at expensive language camps abroad.",
+   "gap": "affluent",
+   "alt": []
+  },
+  {
+   "id": "super_rich",
+   "en": "super-rich",
+   "uz": "o‘ta boylar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new island resort, with villas costing millions of dollars, is a playground for the super-rich.",
+   "gap": "super-rich",
+   "alt": [
+    "super rich"
+   ]
+  },
+  {
+   "id": "breadline",
+   "en": "breadline",
+   "uz": "zo‘rg‘a kun ko‘rish darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the factory closed, many families in the town were living on the breadline.",
+   "gap": "breadline",
+   "alt": []
+  },
+  {
+   "id": "make_ends_meet",
+   "en": "make ends meet",
+   "uz": "tirikchilikka pul yetkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With three children and only one salary, my aunt's family finds it hard to make ends meet.",
+   "gap": "make ends meet",
+   "alt": [
+    "making ends meet",
+    "makes ends meet"
+   ]
+  },
+  {
+   "id": "poverty_stricken",
+   "en": "poverty-stricken",
+   "uz": "qashshoqlik domiga tushgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film follows a boy from a poverty-stricken fishing village who teaches himself to code on a borrowed laptop.",
+   "gap": "poverty-stricken",
+   "alt": []
+  },
+  {
+   "id": "impoverished",
+   "en": "impoverished",
+   "uz": "qashshoqlashgan (nochor)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Years of drought have left the once-rich farming region impoverished, and many shops in its towns have closed.",
+   "gap": "impoverished",
+   "alt": []
+  },
+  {
+   "id": "destitute",
+   "en": "destitute",
+   "uz": "hech vaqosiz qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When the family business went bankrupt, they were left destitute, with no home, savings or possessions.",
+   "gap": "destitute",
+   "alt": []
+  },
+  {
+   "id": "hand_to_mouth",
+   "en": "from hand to mouth",
+   "uz": "bir amallab kun ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "As a student, Jasur lived from hand to mouth, often waiting for his next payment before he could buy food.",
+   "gap": "from hand to mouth",
+   "alt": [
+    "live from hand to mouth"
+   ]
+  },
+  {
+   "id": "money_is_tight",
+   "en": "money is tight",
+   "uz": "pul tanqis (qo‘l kalta)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This month money is tight, so we're spending the holidays at home instead of travelling.",
+   "gap": "money is tight",
+   "alt": [
+    "money was tight",
+    "money has been tight"
+   ]
+  },
+  {
+   "id": "tighten_belts",
+   "en": "tighten your belt",
+   "uz": "xarajatni qisqartirmoq (tejamoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With food prices rising so fast, many families are having to tighten their belts.",
+   "gap": "tighten their belts",
+   "alt": [
+    "tighten their belts",
+    "tighten our belts",
+    "tightened their belts"
+   ]
+  },
+  {
+   "id": "income_bracket",
+   "en": "income bracket",
+   "uz": "daromad toifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new flats near the park are aimed at buyers in a much higher income bracket.",
+   "gap": "income bracket",
+   "alt": [
+    "income brackets"
+   ]
+  },
+  {
+   "id": "human_poverty",
+   "en": "human poverty",
+   "uz": "inson qashshoqligi (ko‘p jihatli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Measuring human poverty means looking at schooling, clean water and healthcare, not just at how much money people earn.",
+   "gap": "human poverty",
+   "alt": []
+  },
+  {
+   "id": "malnutrition",
+   "en": "malnutrition",
+   "uz": "to‘yib ovqatlanmaslik",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the long drought, aid workers treated hundreds of children for malnutrition.",
+   "gap": "malnutrition",
+   "alt": [
+    "malnourishment"
+   ]
+  },
+  {
+   "id": "deprivation",
+   "en": "deprivation",
+   "uz": "mahrumlik (zarur narsalar yetishmasligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The council's map of social deprivation shows which streets most need new schools, clinics and parks.",
+   "gap": "deprivation",
+   "alt": []
+  },
+  {
+   "id": "destitution",
+   "en": "destitution",
+   "uz": "butkul qashshoqlik (hech vaqosizlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Having lost his house, his savings and his job in the same year, the former banker fell into complete destitution.",
+   "gap": "destitution",
+   "alt": []
+  },
+  {
+   "id": "the_rich",
+   "en": "the rich",
+   "uz": "boylar (badavlat odamlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new tax will be paid mainly by the rich, while families on low incomes will pay less.",
+   "gap": "the rich",
+   "alt": []
+  },
+  {
+   "id": "the_poor",
+   "en": "the poor",
+   "uz": "kambag‘allar (yo‘qsillar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The clinic near the railway station treats the poor free of charge.",
+   "gap": "the poor",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "denial",
+   "violation"
+  ],
+  [
+   "absolute_poverty",
+   "relative_poverty"
+  ],
+  [
+   "absolute_poverty",
+   "extreme_poverty"
+  ],
+  [
+   "relative_poverty",
+   "extreme_poverty"
+  ],
+  [
+   "penury",
+   "extreme_poverty"
+  ],
+  [
+   "penury",
+   "absolute_poverty"
+  ],
+  [
+   "poverty_line",
+   "breadline"
+  ],
+  [
+   "deprived",
+   "impoverished"
+  ],
+  [
+   "deprived",
+   "poverty_stricken"
+  ],
+  [
+   "impoverished",
+   "poverty_stricken"
+  ],
+  [
+   "destitute",
+   "impoverished"
+  ],
+  [
+   "destitute",
+   "deprived"
+  ],
+  [
+   "destitute",
+   "poverty_stricken"
+  ],
+  [
+   "affluent",
+   "super_rich"
+  ],
+  [
+   "affluence",
+   "affluent"
+  ],
+  [
+   "make_ends_meet",
+   "hand_to_mouth"
+  ],
+  [
+   "money_is_tight",
+   "tighten_belts"
+  ],
+  [
+   "penury",
+   "relative_poverty"
+  ],
+  [
+   "make_ends_meet",
+   "tighten_belts"
+  ],
+  [
+   "sanitation",
+   "nutrition"
+  ],
+  [
+   "malnutrition",
+   "malnourished"
+  ],
+  [
+   "malnutrition",
+   "nutrition"
+  ],
+  [
+   "deprivation",
+   "deprived"
+  ],
+  [
+   "deprivation",
+   "destitution"
+  ],
+  [
+   "deprivation",
+   "penury"
+  ],
+  [
+   "destitution",
+   "destitute"
+  ],
+  [
+   "destitution",
+   "penury"
+  ],
+  [
+   "destitution",
+   "extreme_poverty"
+  ],
+  [
+   "the_rich",
+   "super_rich"
+  ],
+  [
+   "the_rich",
+   "affluent"
+  ],
+  [
+   "human_poverty",
+   "absolute_poverty"
+  ],
+  [
+   "human_poverty",
+   "extreme_poverty"
+  ],
+  [
+   "destitution",
+   "absolute_poverty"
+  ],
+  [
+   "deprivation",
+   "absolute_poverty"
+  ],
+  [
+   "deprivation",
+   "relative_poverty"
+  ],
+  [
+   "deprivation",
+   "extreme_poverty"
+  ],
+  [
+   "deprivation",
+   "denial"
+  ],
+  [
+   "human_poverty",
+   "deprivation"
+  ]
+ ]
+}

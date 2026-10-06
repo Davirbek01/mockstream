@@ -1,0 +1,588 @@
+{
+ "book": "preint",
+ "unit": 25,
+ "title": "Cooking",
+ "title_uz": "Ovqat pishirish",
+ "words": [
+  {
+   "id": "boil",
+   "en": "boil",
+   "uz": "qaynatmoq (suvda pishirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Put the pasta in the saucepan only when the water starts to boil.",
+   "gap": "boil",
+   "alt": [
+    "boils",
+    "boiled",
+    "boiling"
+   ]
+  },
+  {
+   "id": "fry",
+   "en": "fry",
+   "uz": "qovurmoq (tovada, yog‘da)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Aziza fried the potatoes in hot oil until they were golden and crispy.",
+   "gap": "fried",
+   "alt": [
+    "fries",
+    "fried",
+    "frying"
+   ]
+  },
+  {
+   "id": "grill",
+   "en": "grill",
+   "uz": "grilda pishirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you grill meat instead of frying it, you don't need any oil, because the fat drips away.",
+   "gap": "grill",
+   "alt": [
+    "grills",
+    "grilled",
+    "grilling"
+   ]
+  },
+  {
+   "id": "roast",
+   "en": "roast",
+   "uz": "duxovkada yog‘ bilan pishirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sundays we roast a whole chicken in the oven with potatoes and a little oil.",
+   "gap": "roast",
+   "alt": [
+    "roasts",
+    "roasted",
+    "roasting"
+   ]
+  },
+  {
+   "id": "bake",
+   "en": "bake",
+   "uz": "duxovkada yopmoq (pishiriq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister baked a chocolate cake for my birthday, with fifteen candles on top.",
+   "gap": "baked",
+   "alt": [
+    "bakes",
+    "baked",
+    "baking"
+   ]
+  },
+  {
+   "id": "barbecue",
+   "en": "barbecue",
+   "uz": "mangal (barbekyu)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In summer we cook shashlik outside on a barbecue in the garden.",
+   "gap": "barbecue",
+   "alt": [
+    "barbecues"
+   ]
+  },
+  {
+   "id": "raw",
+   "en": "raw",
+   "uz": "xom (pishirilmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother eats carrots raw, straight from the fridge, but I prefer them cooked.",
+   "gap": "raw",
+   "alt": []
+  },
+  {
+   "id": "saucepan",
+   "en": "saucepan",
+   "uz": "kastryulka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Pour the milk into a small saucepan and warm it slowly for the baby.",
+   "gap": "saucepan",
+   "alt": [
+    "saucepans"
+   ]
+  },
+  {
+   "id": "frying_pan",
+   "en": "frying pan",
+   "uz": "skovoroda (tova)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Heat some oil in a frying pan and cook the eggs until the edges go crispy.",
+   "gap": "frying pan",
+   "alt": [
+    "frying pans"
+   ]
+  },
+  {
+   "id": "peel",
+   "en": "peel",
+   "uz": "po‘stini archmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I peeled the orange, gave everyone a piece and put the skin in the bin.",
+   "gap": "peeled",
+   "alt": [
+    "peels",
+    "peeled",
+    "peeling"
+   ]
+  },
+  {
+   "id": "chop",
+   "en": "chop",
+   "uz": "mayda to‘g‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "She chopped the dill and parsley into tiny pieces and sprinkled them over the soup.",
+   "gap": "chopped",
+   "alt": [
+    "chops",
+    "chopped",
+    "chopping"
+   ]
+  },
+  {
+   "id": "add",
+   "en": "add",
+   "uz": "qo‘shmoq (solmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the soup is almost ready, add a pinch of salt and some fresh herbs.",
+   "gap": "add",
+   "alt": [
+    "adds",
+    "added",
+    "adding"
+   ]
+  },
+  {
+   "id": "stir",
+   "en": "stir",
+   "uz": "aralashtirmoq (qoshiq bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Keep stirring the rice pudding with a wooden spoon so it doesn't stick to the pan.",
+   "gap": "stirring",
+   "alt": [
+    "stirs",
+    "stirred",
+    "stirring"
+   ]
+  },
+  {
+   "id": "chef",
+   "en": "chef",
+   "uz": "oshpaz (restoranda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The chef at our favourite restaurant spent five years learning to cook in Italy.",
+   "gap": "chef",
+   "alt": [
+    "chefs"
+   ]
+  },
+  {
+   "id": "taste",
+   "en": "taste",
+   "uz": "tatib ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I taste your ice cream? I want to see if I like pistachio.",
+   "gap": "taste",
+   "alt": [
+    "tastes",
+    "tasted",
+    "tasting"
+   ]
+  },
+  {
+   "id": "tasty",
+   "en": "tasty",
+   "uz": "mazali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Everyone asked for a second bowl because the soup was so tasty.",
+   "gap": "tasty",
+   "alt": []
+  },
+  {
+   "id": "spicy",
+   "en": "spicy",
+   "uz": "achchiq (qalampirli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I can't finish these Korean noodles; the red chilli sauce makes them far too spicy for me.",
+   "gap": "spicy",
+   "alt": []
+  },
+  {
+   "id": "flavour",
+   "en": "flavour",
+   "uz": "ta’m turi (vanil, shokolad…)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My favourite tea shop sells green tea in different flavours: lemon, mint and even melon.",
+   "gap": "flavours",
+   "alt": [
+    "flavours",
+    "flavor",
+    "flavors"
+   ]
+  },
+  {
+   "id": "horrible",
+   "en": "horrible",
+   "uz": "bemaza (jirkanch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The milk had gone off and tasted horrible, so I poured it away.",
+   "gap": "horrible",
+   "alt": []
+  },
+  {
+   "id": "delicious",
+   "en": "delicious",
+   "uz": "juda mazali (lazzatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Thank you for dinner; the manti were absolutely delicious!",
+   "gap": "delicious",
+   "alt": []
+  },
+  {
+   "id": "sour",
+   "en": "sour",
+   "uz": "nordon",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Unripe green apricots are very sour; one bite makes your whole face screw up.",
+   "gap": "sour",
+   "alt": []
+  },
+  {
+   "id": "bitter",
+   "en": "bitter",
+   "uz": "taxir",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This medicine is so bitter that my little brother always drinks juice right after it.",
+   "gap": "bitter",
+   "alt": []
+  },
+  {
+   "id": "recipe",
+   "en": "recipe",
+   "uz": "retsept (tayyorlash tartibi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I found a recipe for pancakes online, followed it step by step, and they came out perfectly.",
+   "gap": "recipe",
+   "alt": [
+    "recipes"
+   ]
+  },
+  {
+   "id": "ingredients",
+   "en": "ingredients",
+   "uz": "masalliqlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you start, check that you have all the ingredients: flour, eggs, milk and sugar.",
+   "gap": "ingredients",
+   "alt": [
+    "ingredient"
+   ]
+  },
+  {
+   "id": "pie",
+   "en": "pie",
+   "uz": "pirog",
+   "pos": "noun",
+   "img": true,
+   "ex": "My aunt made a cherry pie, and the whole flat smelled of warm pastry.",
+   "gap": "pie",
+   "alt": [
+    "pies"
+   ]
+  },
+  {
+   "id": "good_cook",
+   "en": "good cook",
+   "uz": "pazanda (yaxshi ovqat qiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle is a really good cook; his lagman is better than any restaurant's.",
+   "gap": "good cook",
+   "alt": [
+    "good cooks"
+   ]
+  },
+  {
+   "id": "grill_n",
+   "en": "grill",
+   "uz": "grill (pechning ustki qizdirgichi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put the cheese sandwiches under the grill for two minutes until the top turns golden.",
+   "gap": "grill",
+   "alt": [
+    "grills"
+   ]
+  },
+  {
+   "id": "barbecue_v",
+   "en": "barbecue",
+   "uz": "mangalda pishirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the riverside picnic, Diyor barbecued corn and chicken over hot coals.",
+   "gap": "barbecued",
+   "alt": [
+    "barbecues",
+    "barbecued",
+    "barbecuing"
+   ]
+  },
+  {
+   "id": "taste_n",
+   "en": "taste",
+   "uz": "ta’m (maza)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't stand the taste of coriander; to me it is like soap.",
+   "gap": "taste",
+   "alt": [
+    "tastes"
+   ]
+  },
+  {
+   "id": "sweet",
+   "en": "sweet",
+   "uz": "shirin (ta’mi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This cake has too much sugar in it; it's far too sweet for me.",
+   "gap": "sweet",
+   "alt": []
+  },
+  {
+   "id": "smooth",
+   "en": "smooth",
+   "uz": "mayin (taxir emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This coffee from Ethiopia tastes smooth, not bitter, so I drink it without sugar.",
+   "gap": "smooth",
+   "alt": []
+  },
+  {
+   "id": "apple_pie",
+   "en": "apple pie",
+   "uz": "olmali pirog",
+   "pos": "noun",
+   "img": true,
+   "ex": "The café near our school serves warm apple pie with a scoop of ice cream.",
+   "gap": "apple pie",
+   "alt": [
+    "apple pies"
+   ]
+  },
+  {
+   "id": "vanilla",
+   "en": "vanilla",
+   "uz": "vanil (ta’m)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the ice-cream stall Laylo always chooses vanilla, but her brother prefers chocolate.",
+   "gap": "vanilla",
+   "alt": []
+  },
+  {
+   "id": "lasagne",
+   "en": "lasagne",
+   "uz": "lazanya (italyan taomi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Nodir baked a big tray of lasagne with layers of pasta, meat sauce and cheese.",
+   "gap": "lasagne",
+   "alt": [
+    "lasagna"
+   ]
+  },
+  {
+   "id": "cook_v",
+   "en": "cook",
+   "uz": "ovqat pishirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's my turn to cook dinner tonight, so I'm making chicken soup.",
+   "gap": "cook",
+   "alt": [
+    "cooks",
+    "cooked",
+    "cooking"
+   ]
+  },
+  {
+   "id": "dish",
+   "en": "dish",
+   "uz": "taom (ovqat turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waiter recommended the house special, a spicy dish of noodles, beef and vegetables.",
+   "gap": "dish",
+   "alt": [
+    "dishes"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "barbecue",
+   "grill_n"
+  ],
+  [
+   "chef",
+   "cook_v"
+  ],
+  [
+   "fry",
+   "roast"
+  ],
+  [
+   "grill",
+   "bake"
+  ],
+  [
+   "grill",
+   "roast"
+  ],
+  [
+   "roast",
+   "bake"
+  ],
+  [
+   "saucepan",
+   "frying_pan"
+  ],
+  [
+   "peel",
+   "chop"
+  ],
+  [
+   "add",
+   "stir"
+  ],
+  [
+   "chef",
+   "good_cook"
+  ],
+  [
+   "tasty",
+   "delicious"
+  ],
+  [
+   "tasty",
+   "horrible"
+  ],
+  [
+   "horrible",
+   "sour"
+  ],
+  [
+   "horrible",
+   "bitter"
+  ],
+  [
+   "sour",
+   "bitter"
+  ],
+  [
+   "spicy",
+   "bitter"
+  ],
+  [
+   "taste",
+   "flavour"
+  ],
+  [
+   "grill",
+   "barbecue"
+  ],
+  [
+   "grill_n",
+   "grill"
+  ],
+  [
+   "barbecue_v",
+   "barbecue"
+  ],
+  [
+   "barbecue_v",
+   "grill"
+  ],
+  [
+   "barbecue_v",
+   "roast"
+  ],
+  [
+   "taste_n",
+   "taste"
+  ],
+  [
+   "taste_n",
+   "flavour"
+  ],
+  [
+   "sweet",
+   "tasty"
+  ],
+  [
+   "smooth",
+   "sweet"
+  ],
+  [
+   "smooth",
+   "tasty"
+  ],
+  [
+   "smooth",
+   "delicious"
+  ],
+  [
+   "apple_pie",
+   "pie"
+  ],
+  [
+   "cook_v",
+   "roast"
+  ],
+  [
+   "cook_v",
+   "bake"
+  ],
+  [
+   "cook_v",
+   "fry"
+  ],
+  [
+   "cook_v",
+   "grill"
+  ],
+  [
+   "cook_v",
+   "barbecue_v"
+  ],
+  [
+   "barbecue_v",
+   "bake"
+  ]
+ ]
+}

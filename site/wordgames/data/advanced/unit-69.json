@@ -1,0 +1,812 @@
+{
+ "book": "advanced",
+ "unit": 69,
+ "title": "Difficulties and dilemmas",
+ "title_uz": "Qiyinchiliklar va mushkul tanlovlar",
+ "words": [
+  {
+   "id": "snag",
+   "en": "snag",
+   "uz": "kichik g‘ov (kutilmagan muammo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our picnic plan was perfect; the only snag was that nobody in the group had a car.",
+   "gap": "snag",
+   "alt": [
+    "snags"
+   ]
+  },
+  {
+   "id": "hitch",
+   "en": "hitch",
+   "uz": "kichik uzilish (to‘xtalish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to weeks of rehearsals, the school concert went off without a hitch.",
+   "gap": "hitch",
+   "alt": [
+    "hitches"
+   ]
+  },
+  {
+   "id": "glitch",
+   "en": "glitch",
+   "uz": "texnik nosozlik (dasturda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A software glitch meant that the whole class's test scores vanished from the website for an hour.",
+   "gap": "glitch",
+   "alt": [
+    "glitches"
+   ]
+  },
+  {
+   "id": "setback",
+   "en": "setback",
+   "uz": "ortga ketish (muvaffaqiyatsizlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The team suffered a setback when their best player moved to another city, but they still reached the final.",
+   "gap": "setback",
+   "alt": [
+    "setbacks"
+   ]
+  },
+  {
+   "id": "stumbling_block",
+   "en": "stumbling block",
+   "uz": "asosiy to‘siq (kelishuvga)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Money remains the main stumbling block to building a new sports hall for the school.",
+   "gap": "stumbling block",
+   "alt": [
+    "stumbling blocks"
+   ]
+  },
+  {
+   "id": "pitfall",
+   "en": "pitfall",
+   "uz": "yashirin xavf (kutilmagan tuzoq)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This guide warns first-year students about the common pitfalls of living away from home.",
+   "gap": "pitfalls",
+   "alt": [
+    "pitfalls"
+   ]
+  },
+  {
+   "id": "obstacle",
+   "en": "obstacle",
+   "uz": "to‘siq (g‘ov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fear of speaking in public was the biggest obstacle Nigora had to overcome before her first debate.",
+   "gap": "obstacle",
+   "alt": [
+    "obstacles"
+   ]
+  },
+  {
+   "id": "impediment",
+   "en": "impediment",
+   "uz": "nuqson, monelik (nutqda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Despite a slight speech impediment, Akmal became a confident radio presenter.",
+   "gap": "impediment",
+   "alt": [
+    "impediments"
+   ]
+  },
+  {
+   "id": "dilemma",
+   "en": "dilemma",
+   "uz": "mushkul tanlov (ikki yo‘l orasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar faced a real dilemma: go to her best friend's birthday party or revise for tomorrow's exam.",
+   "gap": "dilemma",
+   "alt": [
+    "dilemmas"
+   ]
+  },
+  {
+   "id": "ordeal",
+   "en": "ordeal",
+   "uz": "og‘ir sinov (azob-uqubat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a twelve-hour delay at the airport with two crying babies, the journey home was a real ordeal.",
+   "gap": "ordeal",
+   "alt": [
+    "ordeals"
+   ]
+  },
+  {
+   "id": "have_difficulty",
+   "en": "have difficulty",
+   "uz": "qiynalmoq (…ishda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many tourists have difficulty in finding the old caravanserai without a guide.",
+   "gap": "have difficulty",
+   "alt": [
+    "has difficulty",
+    "had difficulty",
+    "having difficulty"
+   ]
+  },
+  {
+   "id": "problematic",
+   "en": "problematic",
+   "uz": "muammoli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Finding a parking space near the stadium on match days can be problematic.",
+   "gap": "problematic",
+   "alt": []
+  },
+  {
+   "id": "abstruse",
+   "en": "abstruse",
+   "uz": "tushunib bo‘lmas darajada mavhum",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The guest professor's lecture on string theory was so abstruse that even the best students were lost.",
+   "gap": "abstruse",
+   "alt": []
+  },
+  {
+   "id": "arduous",
+   "en": "arduous",
+   "uz": "mashaqqatli (ko‘p kuch talab qiladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The climb to the top of Big Chimgan was an arduous task that took us almost eight hours.",
+   "gap": "arduous",
+   "alt": []
+  },
+  {
+   "id": "convoluted",
+   "en": "convoluted",
+   "uz": "chalkash (uzun va tushunarsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The instructions for the new washing machine were so convoluted that Dad gave up and watched a video instead.",
+   "gap": "convoluted",
+   "alt": []
+  },
+  {
+   "id": "gruelling",
+   "en": "gruelling",
+   "uz": "o‘ta toliqtiruvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a gruelling ninety-minute match in the July heat, the players could hardly walk.",
+   "gap": "gruelling",
+   "alt": [
+    "grueling"
+   ]
+  },
+  {
+   "id": "insufferable",
+   "en": "insufferable",
+   "uz": "chidab bo‘lmas",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In August the heat on the old bus was insufferable, so we opened every window.",
+   "gap": "insufferable",
+   "alt": []
+  },
+  {
+   "id": "obstructive",
+   "en": "obstructive",
+   "uz": "ataylab xalaqit beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The man at the ticket office was deliberately obstructive and refused to explain how to get a refund.",
+   "gap": "obstructive",
+   "alt": []
+  },
+  {
+   "id": "traumatic",
+   "en": "traumatic",
+   "uz": "qattiq ruhiy zarba beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Getting lost in a huge crowd at the age of four was a traumatic experience that Dilfuza still remembers.",
+   "gap": "traumatic",
+   "alt": []
+  },
+  {
+   "id": "wayward",
+   "en": "wayward",
+   "uz": "o‘jar, gapga kirmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new football coach managed to turn a wayward teenager into a disciplined team captain.",
+   "gap": "wayward",
+   "alt": []
+  },
+  {
+   "id": "what_a_drag",
+   "en": "what a drag",
+   "uz": "Eh, jonga tegdi-ya!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The trip to the waterfall has been cancelled because of the rain? What a drag! I was really looking forward to it.",
+   "gap": "what a drag",
+   "alt": []
+  },
+  {
+   "id": "chore",
+   "en": "chore",
+   "uz": "zerikarli majburiy ish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Washing the dishes after a big family dinner is a chore nobody in our house enjoys.",
+   "gap": "chore",
+   "alt": [
+    "chores"
+   ]
+  },
+  {
+   "id": "whats_eating",
+   "en": "what's eating him",
+   "uz": "Unga nima bo‘ldi? (nega xafa)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shoxrux hasn't said a word to anyone all morning; what's eating him?",
+   "gap": "what's eating",
+   "alt": [
+    "what's eating",
+    "what is eating him",
+    "what's eating her"
+   ]
+  },
+  {
+   "id": "hassle",
+   "en": "hassle",
+   "uz": "ovoragarchilik (mashmasha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Getting a visa used to be such a hassle, but now you can apply online in minutes.",
+   "gap": "hassle",
+   "alt": []
+  },
+  {
+   "id": "hassle_v",
+   "en": "hassle",
+   "uz": "tinmay qistamoq (xira qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Reporters kept hassling the young footballer for an interview as he walked to the team bus.",
+   "gap": "hassling",
+   "alt": [
+    "hassled",
+    "hassling",
+    "hassles"
+   ]
+  },
+  {
+   "id": "sheer_torture",
+   "en": "sheer torture",
+   "uz": "haqiqiy azob (qiynoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sitting through a three-hour speech in that stuffy hall was sheer torture.",
+   "gap": "sheer torture",
+   "alt": []
+  },
+  {
+   "id": "slog",
+   "en": "slog",
+   "uz": "tinmay ter to‘kib ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ahmad slogged all summer at a car wash to save money for a laptop.",
+   "gap": "slogged",
+   "alt": [
+    "slogged",
+    "slogging",
+    "slogs"
+   ]
+  },
+  {
+   "id": "in_a_fix",
+   "en": "in a fix",
+   "uz": "chatoq ahvolda (qiyin vaziyatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm in a fix: I've locked my keys inside the car and the spare set is at home in Namangan.",
+   "gap": "in a fix",
+   "alt": []
+  },
+  {
+   "id": "up_to_neck",
+   "en": "up to your neck",
+   "uz": "bo‘g‘zigacha botgan (ish, tashvishga)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I can't come to the cinema tonight; I'm up to my neck in exam revision.",
+   "gap": "up to my neck",
+   "alt": [
+    "up to my neck",
+    "up to his neck",
+    "up to her neck",
+    "up to our necks",
+    "up to their necks"
+   ]
+  },
+  {
+   "id": "off_the_hook",
+   "en": "off the hook",
+   "uz": "balodan qutulgan (javobgarlikdan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The teacher forgot to collect the homework, so we were off the hook for another day.",
+   "gap": "off the hook",
+   "alt": []
+  },
+  {
+   "id": "out_of_woods",
+   "en": "out of the woods",
+   "uz": "xavf butunlay ortda qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We won today, so we're no longer bottom of the league, but we're not out of the woods yet.",
+   "gap": "out of the woods",
+   "alt": [
+    "out of the wood"
+   ]
+  },
+  {
+   "id": "downside",
+   "en": "downside",
+   "uz": "salbiy tomoni (kamchiligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The downside of having a big garden is that someone has to water it every evening in summer.",
+   "gap": "downside",
+   "alt": []
+  },
+  {
+   "id": "complex",
+   "en": "complex",
+   "uz": "murakkab (ko‘p qismli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Climate change is a complex issue with scientific, economic and social sides all tied together.",
+   "gap": "complex",
+   "alt": []
+  },
+  {
+   "id": "tough",
+   "en": "tough",
+   "uz": "og‘ir (qiyin, mashaqqatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Choosing between two good universities was a tough decision for Sitora.",
+   "gap": "tough",
+   "alt": [
+    "tougher",
+    "toughest"
+   ]
+  },
+  {
+   "id": "whats_got_into",
+   "en": "what's got into him",
+   "uz": "Unga nima jin urdi? (g‘alati xulq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ilhom is usually so calm, but today he's shouting at everyone; what's got into him?",
+   "gap": "what's got into",
+   "alt": [
+    "what's got into",
+    "what's got into her",
+    "what has got into him"
+   ]
+  },
+  {
+   "id": "whats_bugging",
+   "en": "what's bugging him",
+   "uz": "Uni nima bezovta qilyapti?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Madina keeps sighing and checking her phone; what's bugging her?",
+   "gap": "what's bugging",
+   "alt": [
+    "what's bugging",
+    "what's bugging her",
+    "what is bugging him"
+   ]
+  },
+  {
+   "id": "whats_up_with",
+   "en": "what's up with him",
+   "uz": "Unga nima qildi? (holi qanday)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Elyor didn't even touch his favourite cake at the party; what's up with him?",
+   "gap": "what's up with",
+   "alt": [
+    "what's up with",
+    "what's with him",
+    "what's up with her"
+   ]
+  },
+  {
+   "id": "grind",
+   "en": "grind",
+   "uz": "zerikarli ishni tinmay qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For three months Farhod ground away at his thesis every night after work.",
+   "gap": "ground",
+   "alt": [
+    "ground",
+    "grinds",
+    "grinding",
+    "grind away",
+    "ground away"
+   ]
+  },
+  {
+   "id": "graft",
+   "en": "graft",
+   "uz": "jon-jahdi bilan mehnat qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The two brothers grafted on the farm from dawn till dusk all summer.",
+   "gap": "grafted",
+   "alt": [
+    "grafted",
+    "grafts",
+    "grafting"
+   ]
+  },
+  {
+   "id": "flog_yourself",
+   "en": "flog yourself to death",
+   "uz": "o‘zini o‘ldirgudek ishlatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take a break, Ravshan; there's no point flogging yourself to death over one presentation.",
+   "gap": "flogging yourself to death",
+   "alt": [
+    "flogging yourself to death",
+    "flogging himself to death",
+    "flogged herself to death",
+    "flog himself to death"
+   ]
+  },
+  {
+   "id": "in_a_spot",
+   "en": "in a spot",
+   "uz": "noqulay ahvolda qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm in a spot: I promised to help two different friends move house on the same Saturday.",
+   "gap": "in a spot",
+   "alt": []
+  },
+  {
+   "id": "in_a_hole",
+   "en": "in a hole",
+   "uz": "chuqurga tushib qolgan (pulsiz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After losing his job and having his car break down in the same month, Komil was really in a hole.",
+   "gap": "in a hole",
+   "alt": []
+  },
+  {
+   "id": "up_against_it",
+   "en": "up against it",
+   "uz": "qiyinchilikka ro‘para kelgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With two players injured and the final tomorrow, the team is really up against it.",
+   "gap": "up against it",
+   "alt": []
+  },
+  {
+   "id": "sticky_situation",
+   "en": "sticky situation",
+   "uz": "chigal (noxush) vaziyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bakery is in a sticky situation now that its only flour supplier has gone bankrupt.",
+   "gap": "sticky situation",
+   "alt": [
+    "sticky situations"
+   ]
+  },
+  {
+   "id": "tricky_situation",
+   "en": "tricky situation",
+   "uz": "nozik (ehtiyot talab) vaziyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Telling your best friend that you don't like her new haircut puts you in a tricky situation.",
+   "gap": "tricky situation",
+   "alt": [
+    "tricky situations"
+   ]
+  },
+  {
+   "id": "in_the_clear",
+   "en": "in the clear",
+   "uz": "xavfdan forig‘ bo‘lgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The operation went well, and the doctors say Yulduz is now in the clear.",
+   "gap": "in the clear",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "snag",
+   "hitch"
+  ],
+  [
+   "snag",
+   "glitch"
+  ],
+  [
+   "hitch",
+   "glitch"
+  ],
+  [
+   "snag",
+   "downside"
+  ],
+  [
+   "hitch",
+   "downside"
+  ],
+  [
+   "snag",
+   "stumbling_block"
+  ],
+  [
+   "setback",
+   "stumbling_block"
+  ],
+  [
+   "setback",
+   "obstacle"
+  ],
+  [
+   "stumbling_block",
+   "obstacle"
+  ],
+  [
+   "stumbling_block",
+   "impediment"
+  ],
+  [
+   "obstacle",
+   "impediment"
+  ],
+  [
+   "pitfall",
+   "obstacle"
+  ],
+  [
+   "ordeal",
+   "hassle"
+  ],
+  [
+   "ordeal",
+   "sheer_torture"
+  ],
+  [
+   "chore",
+   "hassle"
+  ],
+  [
+   "abstruse",
+   "convoluted"
+  ],
+  [
+   "problematic",
+   "convoluted"
+  ],
+  [
+   "arduous",
+   "gruelling"
+  ],
+  [
+   "insufferable",
+   "sheer_torture"
+  ],
+  [
+   "what_a_drag",
+   "sheer_torture"
+  ],
+  [
+   "hassle",
+   "hassle_v"
+  ],
+  [
+   "off_the_hook",
+   "out_of_woods"
+  ],
+  [
+   "in_a_fix",
+   "up_to_neck"
+  ],
+  [
+   "ordeal",
+   "chore"
+  ],
+  [
+   "problematic",
+   "arduous"
+  ],
+  [
+   "snag",
+   "obstacle"
+  ],
+  [
+   "snag",
+   "hassle"
+  ],
+  [
+   "stumbling_block",
+   "hitch"
+  ],
+  [
+   "complex",
+   "convoluted"
+  ],
+  [
+   "complex",
+   "problematic"
+  ],
+  [
+   "complex",
+   "abstruse"
+  ],
+  [
+   "tough",
+   "problematic"
+  ],
+  [
+   "complex",
+   "tough"
+  ],
+  [
+   "tough",
+   "gruelling"
+  ],
+  [
+   "tough",
+   "traumatic"
+  ],
+  [
+   "tricky_situation",
+   "hassle"
+  ],
+  [
+   "whats_got_into",
+   "whats_eating"
+  ],
+  [
+   "whats_got_into",
+   "whats_bugging"
+  ],
+  [
+   "whats_got_into",
+   "whats_up_with"
+  ],
+  [
+   "whats_bugging",
+   "whats_eating"
+  ],
+  [
+   "whats_bugging",
+   "whats_up_with"
+  ],
+  [
+   "whats_up_with",
+   "whats_eating"
+  ],
+  [
+   "grind",
+   "slog"
+  ],
+  [
+   "grind",
+   "graft"
+  ],
+  [
+   "graft",
+   "slog"
+  ],
+  [
+   "flog_yourself",
+   "slog"
+  ],
+  [
+   "in_a_spot",
+   "in_a_fix"
+  ],
+  [
+   "in_a_spot",
+   "in_a_hole"
+  ],
+  [
+   "in_a_spot",
+   "up_against_it"
+  ],
+  [
+   "in_a_spot",
+   "up_to_neck"
+  ],
+  [
+   "in_a_hole",
+   "in_a_fix"
+  ],
+  [
+   "in_a_hole",
+   "up_against_it"
+  ],
+  [
+   "in_a_hole",
+   "up_to_neck"
+  ],
+  [
+   "up_against_it",
+   "in_a_fix"
+  ],
+  [
+   "up_against_it",
+   "up_to_neck"
+  ],
+  [
+   "sticky_situation",
+   "tricky_situation"
+  ],
+  [
+   "sticky_situation",
+   "dilemma"
+  ],
+  [
+   "tricky_situation",
+   "dilemma"
+  ],
+  [
+   "in_the_clear",
+   "off_the_hook"
+  ],
+  [
+   "in_the_clear",
+   "out_of_woods"
+  ],
+  [
+   "flog_yourself",
+   "grind"
+  ],
+  [
+   "flog_yourself",
+   "graft"
+  ],
+  [
+   "sticky_situation",
+   "hassle"
+  ],
+  [
+   "tough",
+   "abstruse"
+  ],
+  [
+   "tough",
+   "arduous"
+  ]
+ ]
+}

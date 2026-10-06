@@ -1,0 +1,467 @@
+{
+ "book": "preint",
+ "unit": 13,
+ "title": "Family and friends",
+ "title_uz": "Oila va do‘stlar",
+ "words": [
+  {
+   "id": "relatives",
+   "en": "relatives",
+   "uz": "qarindoshlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Navruz we visit all our relatives, even Dad's cousins who live in Khiva.",
+   "gap": "relatives",
+   "alt": [
+    "relative"
+   ]
+  },
+  {
+   "id": "widow",
+   "en": "widow",
+   "uz": "beva ayol",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mrs Saidova has been a widow since her husband died ten years ago, and she lives with her daughter's family.",
+   "gap": "widow",
+   "alt": []
+  },
+  {
+   "id": "remarry",
+   "en": "remarry",
+   "uz": "qayta turmush qurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Three years after the divorce, my uncle remarried, and now he has a baby daughter.",
+   "gap": "remarried",
+   "alt": [
+    "remarried",
+    "remarries"
+   ]
+  },
+  {
+   "id": "stepfather",
+   "en": "stepfather",
+   "uz": "o‘gay ota",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola's real dad lives in Kazan, so she lives with her mum and her stepfather, Anvar, who married her mum two years ago.",
+   "gap": "stepfather",
+   "alt": []
+  },
+  {
+   "id": "elder",
+   "en": "elder",
+   "uz": "katta (aka yoki opa haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bobur is my elder brother; he's three years older than me and already at university.",
+   "gap": "elder",
+   "alt": []
+  },
+  {
+   "id": "twins",
+   "en": "twins",
+   "uz": "egizaklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hasan and Husan are twins: they were born ten minutes apart, and they still share one bedroom.",
+   "gap": "twins",
+   "alt": [
+    "twin"
+   ]
+  },
+  {
+   "id": "close_family",
+   "en": "close family",
+   "uz": "ahil oila",
+   "pos": "noun",
+   "img": false,
+   "ex": "We're a close family: we have dinner together every evening and tell each other everything.",
+   "gap": "close family",
+   "alt": []
+  },
+  {
+   "id": "only_child",
+   "en": "only child",
+   "uz": "yagona farzand",
+   "pos": "noun",
+   "img": false,
+   "ex": "As an only child, Sevara got all her parents' attention, but she often felt lonely at home.",
+   "gap": "only child",
+   "alt": []
+  },
+  {
+   "id": "on_fathers_side",
+   "en": "father's side",
+   "uz": "ota tomon(dan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My cousins on my father's side all live in Namangan, while Mum's family is in Tashkent.",
+   "gap": "father's side",
+   "alt": [
+    "on my father's side",
+    "fathers side"
+   ]
+  },
+  {
+   "id": "cousin",
+   "en": "cousin",
+   "uz": "amakivachcha / xolavachcha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilshod is my cousin: his father, Rustam, is my dad's younger brother.",
+   "gap": "cousin",
+   "alt": [
+    "cousins"
+   ]
+  },
+  {
+   "id": "get_on_well_with",
+   "en": "get on well with",
+   "uz": "yaxshi chiqishmoq, til topishmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I get on well with my roommate: we never argue and we often cook together.",
+   "gap": "get on well with",
+   "alt": [
+    "gets on well with",
+    "got on well with"
+   ]
+  },
+  {
+   "id": "favourite",
+   "en": "favourite",
+   "uz": "eng yaxshi ko‘rgan, sevimli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Out of all his students, I think I'm Mr Aliev's favourite, because he always asks me to help him.",
+   "gap": "favourite",
+   "alt": [
+    "favorite"
+   ]
+  },
+  {
+   "id": "nephew",
+   "en": "nephew",
+   "uz": "jiyan (o‘g‘il)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother's son Akbar is my nephew, and I take him to football every Saturday.",
+   "gap": "nephew",
+   "alt": []
+  },
+  {
+   "id": "niece",
+   "en": "niece",
+   "uz": "jiyan (qiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister's daughter Zarina is my niece, and she has just started school.",
+   "gap": "niece",
+   "alt": []
+  },
+  {
+   "id": "sister_in_law",
+   "en": "sister-in-law",
+   "uz": "yanga / qayinopa / qayinsingil",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister-in-law Shahnoza, my brother's wife, makes the best samsa in the whole family.",
+   "gap": "sister-in-law",
+   "alt": [
+    "sister in law"
+   ]
+  },
+  {
+   "id": "best_friend",
+   "en": "best friend",
+   "uz": "eng yaqin do‘st",
+   "pos": "noun",
+   "img": false,
+   "ex": "Of all my friends, Murod is my best friend: I tell him things I don't tell anyone else.",
+   "gap": "best friend",
+   "alt": []
+  },
+  {
+   "id": "school_friend",
+   "en": "school friend",
+   "uz": "maktabdosh do‘st",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doniyor isn't from my university; he's an old school friend from my class in Andijan.",
+   "gap": "school friend",
+   "alt": []
+  },
+  {
+   "id": "get_to_know",
+   "en": "get to know",
+   "uz": "yaqindan tanishib olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We got to know each other at a chess tournament in Nukus, and now we message each other every day.",
+   "gap": "got to know",
+   "alt": [
+    "got to know",
+    "getting to know"
+   ]
+  },
+  {
+   "id": "mate",
+   "en": "mate",
+   "uz": "oshna, o‘rtoq (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hi, mate! Are you coming to the football match tonight?",
+   "gap": "mate",
+   "alt": [
+    "mates"
+   ]
+  },
+  {
+   "id": "ever_since",
+   "en": "ever since",
+   "uz": "o‘shandan beri",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Jamshid moved to Seoul in 2019 and has lived there ever since.",
+   "gap": "ever since",
+   "alt": []
+  },
+  {
+   "id": "friendship",
+   "en": "friendship",
+   "uz": "do‘stlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Their friendship started in the first grade and is still strong thirty years later.",
+   "gap": "friendship",
+   "alt": []
+  },
+  {
+   "id": "current",
+   "en": "current",
+   "uz": "hozirgi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Akmal has changed jobs many times; his current job is at a bank in Samarkand.",
+   "gap": "current",
+   "alt": []
+  },
+  {
+   "id": "ex_husband",
+   "en": "ex-husband",
+   "uz": "sobiq er",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the divorce, the children spend their weekends with Mrs Usmonova's ex-husband.",
+   "gap": "ex-husband",
+   "alt": [
+    "ex husband"
+   ]
+  },
+  {
+   "id": "relations",
+   "en": "relations",
+   "uz": "qarindosh-urug‘lar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lots of relations from the village came to the city for my sister's graduation party.",
+   "gap": "relations",
+   "alt": [
+    "relation"
+   ]
+  },
+  {
+   "id": "uncle",
+   "en": "uncle",
+   "uz": "amaki / tog‘a",
+   "pos": "noun",
+   "img": false,
+   "ex": "Farrux's uncle, his mother's brother, runs a small car repair shop in Termez.",
+   "gap": "uncle",
+   "alt": [
+    "uncles"
+   ]
+  },
+  {
+   "id": "married",
+   "en": "married",
+   "uz": "uylangan / turmushga chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Both of my older brothers are married now, and they live with their wives in their own flats.",
+   "gap": "married",
+   "alt": []
+  },
+  {
+   "id": "mother_in_law",
+   "en": "mother-in-law",
+   "uz": "qaynona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Sunday Dilnoza visits her mother-in-law, her husband's mum, and they bake bread together.",
+   "gap": "mother-in-law",
+   "alt": [
+    "mother in law"
+   ]
+  },
+  {
+   "id": "brother_in_law",
+   "en": "brother-in-law",
+   "uz": "pochcha / qayinaka / qayini",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother-in-law, my sister's husband, flies planes for Uzbekistan Airways.",
+   "gap": "brother-in-law",
+   "alt": [
+    "brother in law"
+   ]
+  },
+  {
+   "id": "son_in_law",
+   "en": "son-in-law",
+   "uz": "kuyov (qizining eri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mrs Aminova's son-in-law, who married her eldest daughter, helps her in the garden every weekend.",
+   "gap": "son-in-law",
+   "alt": [
+    "son in law"
+   ]
+  },
+  {
+   "id": "ex_girlfriend",
+   "en": "ex-girlfriend",
+   "uz": "sobiq sevgilisi (qiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the concert, Diyor saw his ex-girlfriend, the girl he went out with at college, holding hands with someone new.",
+   "gap": "ex-girlfriend",
+   "alt": [
+    "ex girlfriend",
+    "ex-girlfriends"
+   ]
+  },
+  {
+   "id": "younger",
+   "en": "younger",
+   "uz": "kichik (uka yoki singil haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ozod has two younger sisters, aged five and seven, and he walks them to school every day.",
+   "gap": "younger",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "best_friend",
+   "mate"
+  ],
+  [
+   "best_friend",
+   "school_friend"
+  ],
+  [
+   "elder",
+   "favourite"
+  ],
+  [
+   "current",
+   "favourite"
+  ],
+  [
+   "get_to_know",
+   "get_on_well_with"
+  ],
+  [
+   "relatives",
+   "mate"
+  ],
+  [
+   "stepfather",
+   "ex_husband"
+  ],
+  [
+   "close_family",
+   "relatives"
+  ],
+  [
+   "school_friend",
+   "mate"
+  ],
+  [
+   "relations",
+   "relatives"
+  ],
+  [
+   "relations",
+   "mate"
+  ],
+  [
+   "relations",
+   "close_family"
+  ],
+  [
+   "uncle",
+   "cousin"
+  ],
+  [
+   "uncle",
+   "nephew"
+  ],
+  [
+   "uncle",
+   "stepfather"
+  ],
+  [
+   "mother_in_law",
+   "sister_in_law"
+  ],
+  [
+   "brother_in_law",
+   "sister_in_law"
+  ],
+  [
+   "brother_in_law",
+   "mother_in_law"
+  ],
+  [
+   "son_in_law",
+   "nephew"
+  ],
+  [
+   "son_in_law",
+   "brother_in_law"
+  ],
+  [
+   "ex_girlfriend",
+   "ex_husband"
+  ],
+  [
+   "younger",
+   "elder"
+  ],
+  [
+   "married",
+   "widow"
+  ],
+  [
+   "married",
+   "remarry"
+  ],
+  [
+   "relations",
+   "cousin"
+  ],
+  [
+   "relations",
+   "uncle"
+  ],
+  [
+   "younger",
+   "favourite"
+  ]
+ ]
+}

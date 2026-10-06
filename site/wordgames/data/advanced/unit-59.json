@@ -1,0 +1,376 @@
+{
+ "book": "advanced",
+ "unit": 59,
+ "title": "Space: no room to swing a cat",
+ "title_uz": "Joy: qimirlashga ham joy yo‘q",
+ "words": [
+  {
+   "id": "extensive",
+   "en": "extensive",
+   "uz": "katta hududni egallagan (keng)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum's collection is so extensive that you would need a whole week to see every hall properly.",
+   "gap": "extensive",
+   "alt": []
+  },
+  {
+   "id": "spacious",
+   "en": "spacious",
+   "uz": "keng va bemalol (xona, uy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new flat is far more spacious than the old one: at last each of us has a bedroom of our own.",
+   "gap": "spacious",
+   "alt": []
+  },
+  {
+   "id": "roomy",
+   "en": "roomy",
+   "uz": "sig‘imli, ichi keng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour's minivan is roomy enough for the whole football team and all their kit.",
+   "gap": "roomy",
+   "alt": []
+  },
+  {
+   "id": "rambling",
+   "en": "rambling",
+   "uz": "tartibsiz kengaygan (ko‘p qanotli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Each generation added rooms in a different style, so the house grew into a rambling building with no clear plan at all.",
+   "gap": "rambling",
+   "alt": []
+  },
+  {
+   "id": "wide_open_spaces",
+   "en": "wide open spaces",
+   "uz": "keng ochiq dalalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Davron loves the wide open spaces of the Kyzylkum, where you can see the horizon in every direction.",
+   "gap": "wide open spaces",
+   "alt": []
+  },
+  {
+   "id": "scattered",
+   "en": "scattered",
+   "uz": "sochilib joylashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the storm, broken branches lay scattered all over the school playground.",
+   "gap": "scattered",
+   "alt": [
+    "scatter"
+   ]
+  },
+  {
+   "id": "spread_out",
+   "en": "spread out",
+   "uz": "bir-biridan uzoq joylashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The houses in the village are so spread out that the postman does his round by motorbike.",
+   "gap": "spread out",
+   "alt": []
+  },
+  {
+   "id": "ample_room",
+   "en": "ample room",
+   "uz": "mo‘l-ko‘l joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new classroom has ample room for thirty desks, a reading corner and a big table for group projects.",
+   "gap": "ample room",
+   "alt": []
+  },
+  {
+   "id": "take_up_room",
+   "en": "take up a lot of room",
+   "uz": "ko‘p joy egallamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The old piano takes up a lot of room, so we're giving it to the music school down the road.",
+   "gap": "takes up a lot of room",
+   "alt": [
+    "takes up a lot of room",
+    "took up a lot of room",
+    "taking up a lot of room",
+    "take up room"
+   ]
+  },
+  {
+   "id": "make_room",
+   "en": "make room",
+   "uz": "joy bo‘shatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Could you move your bag, please? I need to make room for our guest on the sofa.",
+   "gap": "make room",
+   "alt": [
+    "made room",
+    "making room",
+    "makes room"
+   ]
+  },
+  {
+   "id": "cramped",
+   "en": "cramped",
+   "uz": "tor va siqiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Six of us lived in a cramped two-room flat, so there was never a quiet corner to do homework.",
+   "gap": "cramped",
+   "alt": []
+  },
+  {
+   "id": "poky",
+   "en": "poky",
+   "uz": "kichkina va noqulay (xona, uy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The cheap hotel gave us a poky little room with one tiny window looking onto a brick wall.",
+   "gap": "poky",
+   "alt": []
+  },
+  {
+   "id": "congested",
+   "en": "congested",
+   "uz": "tirband (odam, mashinaga to‘la)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The roads near the stadium are always congested before a big match, so we leave the car at home and walk.",
+   "gap": "congested",
+   "alt": []
+  },
+  {
+   "id": "compact",
+   "en": "compact",
+   "uz": "ixcham",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My aunt bought a compact camera that slips easily into her coat pocket.",
+   "gap": "compact",
+   "alt": []
+  },
+  {
+   "id": "hemmed_in",
+   "en": "hemmed in",
+   "uz": "qurshovda qolgan (qimirlay olmay)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our bus was hemmed in by lorries on both sides, and the driver couldn't change lanes.",
+   "gap": "hemmed in",
+   "alt": [
+    "hem in"
+   ]
+  },
+  {
+   "id": "bustling",
+   "en": "bustling",
+   "uz": "gavjum (odamlar bilan qaynayotgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the morning before the holiday, the flower market was bustling with shoppers carrying armfuls of tulips.",
+   "gap": "bustling",
+   "alt": []
+  },
+  {
+   "id": "no_room_to_swing_a_cat",
+   "en": "no room to swing a cat",
+   "uz": "juda tor (o‘girilishga joy yo‘q)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Their first kitchen was so tiny that there was no room to swing a cat, let alone cook for guests.",
+   "gap": "no room to swing a cat",
+   "alt": [
+    "not enough room to swing a cat"
+   ]
+  },
+  {
+   "id": "packed_in_like_sardines",
+   "en": "packed in like sardines",
+   "uz": "bochkadagi baliqdek tiqilib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On the metro at rush hour we were packed in like sardines, and I couldn't even reach my phone.",
+   "gap": "packed in like sardines",
+   "alt": [
+    "packed like sardines"
+   ]
+  },
+  {
+   "id": "labyrinth",
+   "en": "labyrinth",
+   "uz": "chalkash yo‘laklar to‘ri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old part of the bazaar is a labyrinth of narrow lanes, and I get lost there every time.",
+   "gap": "labyrinth",
+   "alt": []
+  },
+  {
+   "id": "boundary",
+   "en": "boundary",
+   "uz": "chegara (hudud chekkasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football rolled over the boundary of the school grounds and into the neighbour's apricot orchard.",
+   "gap": "boundary",
+   "alt": [
+    "boundaries"
+   ]
+  },
+  {
+   "id": "extension",
+   "en": "extension",
+   "uz": "uyga qo‘shib qurilgan qism",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the twins were born, my aunt and uncle built an extension so that the house had two more bedrooms.",
+   "gap": "extension",
+   "alt": [
+    "extensions"
+   ]
+  },
+  {
+   "id": "rear",
+   "en": "rear",
+   "uz": "orqa tomon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car park is at the rear of the building, behind the kitchens.",
+   "gap": "rear",
+   "alt": []
+  },
+  {
+   "id": "crammed_into",
+   "en": "crammed into",
+   "uz": "tor joyga tiqilishgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Forty of us were crammed into the tiny balcony of the school hall to watch the final.",
+   "gap": "crammed into",
+   "alt": [
+    "cram into",
+    "crammed in"
+   ]
+  },
+  {
+   "id": "squeeze_in",
+   "en": "squeeze in",
+   "uz": "oraga siqilib kirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The lift was nearly full, but the courier managed to squeeze in with his parcels just before the doors closed.",
+   "gap": "squeeze in",
+   "alt": [
+    "squeezed in",
+    "squeezing in",
+    "squeezes in"
+   ]
+  },
+  {
+   "id": "a_bit_of_a_squash",
+   "en": "a bit of a squash",
+   "uz": "biroz tiqilinch",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With five of us and all the camping gear, the car will be a bit of a squash, but it's only an hour's drive.",
+   "gap": "a bit of a squash",
+   "alt": []
+  },
+  {
+   "id": "stuff",
+   "en": "stuff",
+   "uz": "shoshib tiqib yubormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Late for school, Temur stuffed his books into his rucksack and ran out of the door.",
+   "gap": "stuffed",
+   "alt": [
+    "stuffed",
+    "stuffs",
+    "stuffing"
+   ]
+  },
+  {
+   "id": "room_space",
+   "en": "room",
+   "uz": "bo‘sh joy (sig‘im)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Is there room for one more chair at your table, or should I sit by the window?",
+   "gap": "room",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "spacious",
+   "roomy"
+  ],
+  [
+   "spacious",
+   "rambling"
+  ],
+  [
+   "spacious",
+   "extensive"
+  ],
+  [
+   "scattered",
+   "spread_out"
+  ],
+  [
+   "cramped",
+   "poky"
+  ],
+  [
+   "cramped",
+   "compact"
+  ],
+  [
+   "congested",
+   "bustling"
+  ],
+  [
+   "crammed_into",
+   "packed_in_like_sardines"
+  ],
+  [
+   "no_room_to_swing_a_cat",
+   "a_bit_of_a_squash"
+  ],
+  [
+   "ample_room",
+   "wide_open_spaces"
+  ],
+  [
+   "hemmed_in",
+   "crammed_into"
+  ],
+  [
+   "poky",
+   "compact"
+  ],
+  [
+   "room_space",
+   "ample_room"
+  ],
+  [
+   "room_space",
+   "make_room"
+  ],
+  [
+   "room_space",
+   "take_up_room"
+  ],
+  [
+   "room_space",
+   "wide_open_spaces"
+  ]
+ ]
+}

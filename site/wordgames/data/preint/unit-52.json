@@ -1,0 +1,544 @@
+{
+ "book": "preint",
+ "unit": 52,
+ "title": "Newspapers and television",
+ "title_uz": "Gazeta va televideniye",
+ "words": [
+  {
+   "id": "newspaper",
+   "en": "newspaper",
+   "uz": "gazeta",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour buys a newspaper at the kiosk every morning and does the crossword on the bus.",
+   "gap": "newspaper",
+   "alt": [
+    "newspapers",
+    "paper",
+    "papers"
+   ]
+  },
+  {
+   "id": "magazine",
+   "en": "magazine",
+   "uz": "jurnal (rasmli nashr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Malika buys a glossy fashion magazine every month, full of photos of clothes and shoes.",
+   "gap": "magazine",
+   "alt": [
+    "magazines"
+   ]
+  },
+  {
+   "id": "be_published",
+   "en": "be published",
+   "uz": "nashr etilmoq (chop etilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our town newspaper is published every day except Sunday.",
+   "gap": "is published",
+   "alt": [
+    "is published",
+    "are published",
+    "was published",
+    "were published"
+   ]
+  },
+  {
+   "id": "national",
+   "en": "national",
+   "uz": "umummilliy (butun mamlakat uchun)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ozod's robot was so clever that a national newspaper wrote about it, and people all over the country read his story.",
+   "gap": "national",
+   "alt": []
+  },
+  {
+   "id": "regional",
+   "en": "regional",
+   "uz": "viloyat (mintaqaviy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The regional paper in Urgench reports news from Khorezm, not from the rest of the country.",
+   "gap": "regional",
+   "alt": []
+  },
+  {
+   "id": "e_paper",
+   "en": "e-paper",
+   "uz": "elektron gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz doesn't buy printed newspapers any more; he pays for an e-paper and reads it on his tablet.",
+   "gap": "e-paper",
+   "alt": [
+    "e-papers"
+   ]
+  },
+  {
+   "id": "mobile_edition",
+   "en": "mobile edition",
+   "uz": "mobil nashr (telefon uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mobile edition of the paper has big letters, so it's easy to read on a small phone screen.",
+   "gap": "mobile edition",
+   "alt": [
+    "mobile editions"
+   ]
+  },
+  {
+   "id": "weekly",
+   "en": "weekly",
+   "uz": "haftalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school newsletter is weekly: a new issue comes out every Friday.",
+   "gap": "weekly",
+   "alt": []
+  },
+  {
+   "id": "monthly",
+   "en": "monthly",
+   "uz": "oylik (har oy chiqadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The science magazine is monthly, so I have to wait four weeks for the next issue.",
+   "gap": "monthly",
+   "alt": []
+  },
+  {
+   "id": "report",
+   "en": "report",
+   "uz": "xabar (gazeta, TV)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ten minutes after the final whistle, the paper's website already had a report on the match, with photos.",
+   "gap": "report",
+   "alt": [
+    "reports"
+   ]
+  },
+  {
+   "id": "reporter",
+   "en": "reporter",
+   "uz": "muxbir",
+   "pos": "noun",
+   "img": false,
+   "ex": "The TV reporter stood outside the stadium in the rain, holding a microphone and describing the crowd.",
+   "gap": "reporter",
+   "alt": [
+    "reporters"
+   ]
+  },
+  {
+   "id": "journalist",
+   "en": "journalist",
+   "uz": "jurnalist",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before she started writing novels, Zulfiya worked as a journalist for a newspaper for ten years.",
+   "gap": "journalist",
+   "alt": [
+    "journalists"
+   ]
+  },
+  {
+   "id": "article",
+   "en": "article",
+   "uz": "maqola",
+   "pos": "noun",
+   "img": false,
+   "ex": "I read a long article in the magazine about how bees make honey; it took me twenty minutes.",
+   "gap": "article",
+   "alt": [
+    "articles"
+   ]
+  },
+  {
+   "id": "headline",
+   "en": "headline",
+   "uz": "sarlavha (gazetada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The headline on the front page was in huge letters: LOCAL TEAM WINS THE CUP!",
+   "gap": "headline",
+   "alt": [
+    "headlines"
+   ]
+  },
+  {
+   "id": "advert",
+   "en": "advert",
+   "uz": "reklama",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a full-page advert for a new phone in the middle of the magazine.",
+   "gap": "advert",
+   "alt": [
+    "adverts",
+    "advertisement",
+    "advertisements"
+   ]
+  },
+  {
+   "id": "broadcast",
+   "en": "broadcast",
+   "uz": "efirga uzatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school concert will be broadcast live on the regional TV channel next Saturday.",
+   "gap": "broadcast",
+   "alt": [
+    "broadcasts",
+    "broadcasting"
+   ]
+  },
+  {
+   "id": "programme",
+   "en": "programme",
+   "uz": "ko‘rsatuv (TV, radio)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are so many cooking programmes on TV now that my aunt has stopped buying recipe books.",
+   "gap": "programmes",
+   "alt": [
+    "programmes"
+   ]
+  },
+  {
+   "id": "the_news",
+   "en": "the news",
+   "uz": "yangiliklar (ko‘rsatuv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle always watches the news at nine o'clock to find out what's happening in the world.",
+   "gap": "the news",
+   "alt": []
+  },
+  {
+   "id": "weather_forecast",
+   "en": "weather forecast",
+   "uz": "ob-havo ma’lumoti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tomorrow's weather forecast says sun in the morning and rain after four, so take an umbrella.",
+   "gap": "weather forecast",
+   "alt": [
+    "weather forecasts"
+   ]
+  },
+  {
+   "id": "documentary",
+   "en": "documentary",
+   "uz": "hujjatli film",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night we watched a two-hour documentary about the workers who built the Tashkent metro in the 1970s.",
+   "gap": "documentary",
+   "alt": [
+    "documentaries"
+   ]
+  },
+  {
+   "id": "chat_show",
+   "en": "chat show",
+   "uz": "tok-shou (mehmon bilan suhbat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On last night's TV chat show, the host asked a famous footballer about his childhood.",
+   "gap": "chat show",
+   "alt": [
+    "chat shows"
+   ]
+  },
+  {
+   "id": "series",
+   "en": "series",
+   "uz": "serial (ko‘p qismli film)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The detective series has twelve episodes, and I watched them all in one week.",
+   "gap": "series",
+   "alt": []
+  },
+  {
+   "id": "soap_opera",
+   "en": "soap opera",
+   "uz": "yillab davom etadigan teleserial",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aunt Malohat never misses her favourite soap opera; it has been on TV three evenings a week since before I was born.",
+   "gap": "soap opera",
+   "alt": [
+    "soap operas"
+   ]
+  },
+  {
+   "id": "reality_tv_show",
+   "en": "reality TV show",
+   "uz": "realiti-shou",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this reality TV show, ordinary families compete to build the best house in eight weeks.",
+   "gap": "reality TV show",
+   "alt": [
+    "reality TV shows"
+   ]
+  },
+  {
+   "id": "celebrity",
+   "en": "celebrity",
+   "uz": "mashhur odam (yulduz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lots of celebrities walked down the red carpet at the opening of the film festival.",
+   "gap": "celebrities",
+   "alt": [
+    "celebrities"
+   ]
+  },
+  {
+   "id": "well_known",
+   "en": "well-known",
+   "uz": "taniqli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new café opened with a concert by a well-known singer, so the street was full of fans.",
+   "gap": "well-known",
+   "alt": []
+  },
+  {
+   "id": "channel",
+   "en": "channel",
+   "uz": "telekanal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Press 5 on the remote control to switch to the sports channel.",
+   "gap": "channel",
+   "alt": [
+    "channels"
+   ]
+  },
+  {
+   "id": "radio_station",
+   "en": "radio station",
+   "uz": "radiostansiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Switch to 104 FM; that's the radio station that plays only Uzbek music.",
+   "gap": "radio station",
+   "alt": [
+    "radio stations"
+   ]
+  },
+  {
+   "id": "forum",
+   "en": "forum",
+   "uz": "onlayn muhokama sahifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the newspaper's online forum, readers argued for days about the new bus timetable.",
+   "gap": "forum",
+   "alt": [
+    "forums"
+   ]
+  },
+  {
+   "id": "podcast",
+   "en": "podcast",
+   "uz": "podkast",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning on the metro I listen to a ten-minute English podcast on my phone.",
+   "gap": "podcast",
+   "alt": [
+    "podcasts"
+   ]
+  },
+  {
+   "id": "according_to",
+   "en": "according to",
+   "uz": "… ga ko‘ra",
+   "pos": "preposition",
+   "img": false,
+   "ex": "We can't drive to Baysun today: according to the radio, the mountain road is closed because of snow.",
+   "gap": "according to",
+   "alt": []
+  },
+  {
+   "id": "it_says_in",
+   "en": "it says in",
+   "uz": "… da yozilishicha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Look, it says in the paper that the new metro station opens next month.",
+   "gap": "it says in",
+   "alt": [
+    "it said in"
+   ]
+  },
+  {
+   "id": "broadcasting_company",
+   "en": "broadcasting company",
+   "uz": "teleradiokompaniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "The national broadcasting company has five TV channels and three radio stations.",
+   "gap": "broadcasting company",
+   "alt": [
+    "broadcasting companies"
+   ]
+  },
+  {
+   "id": "the_media",
+   "en": "the media",
+   "uz": "ommaviy axborot vositalari (OAV)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young chess champion from Namangan got a lot of attention in the media last year.",
+   "gap": "the media",
+   "alt": [
+    "media"
+   ]
+  },
+  {
+   "id": "refer_to",
+   "en": "refer to",
+   "uz": "tilga olmoq (… ga ishora qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In his speech, the head of the club referred to the article about our robot team.",
+   "gap": "referred to",
+   "alt": [
+    "refers to",
+    "referred to",
+    "referring to"
+   ]
+  },
+  {
+   "id": "drugs",
+   "en": "drugs",
+   "uz": "giyohvand moddalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the airport, the police found drugs hidden inside a box of bananas.",
+   "gap": "drugs",
+   "alt": [
+    "drug"
+   ]
+  },
+  {
+   "id": "shampoo",
+   "en": "shampoo",
+   "uz": "soch yuvish vositasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "This shampoo smells of apples and makes my hair really soft.",
+   "gap": "shampoo",
+   "alt": [
+    "shampoos"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "newspaper",
+   "magazine"
+  ],
+  [
+   "national",
+   "regional"
+  ],
+  [
+   "weekly",
+   "monthly"
+  ],
+  [
+   "report",
+   "article"
+  ],
+  [
+   "reporter",
+   "journalist"
+  ],
+  [
+   "be_published",
+   "broadcast"
+  ],
+  [
+   "documentary",
+   "series"
+  ],
+  [
+   "series",
+   "soap_opera"
+  ],
+  [
+   "chat_show",
+   "reality_tv_show"
+  ],
+  [
+   "celebrity",
+   "well_known"
+  ],
+  [
+   "channel",
+   "radio_station"
+  ],
+  [
+   "according_to",
+   "it_says_in"
+  ],
+  [
+   "national",
+   "well_known"
+  ],
+  [
+   "regional",
+   "well_known"
+  ],
+  [
+   "report",
+   "headline"
+  ],
+  [
+   "programme",
+   "series"
+  ],
+  [
+   "programme",
+   "documentary"
+  ],
+  [
+   "e_paper",
+   "mobile_edition"
+  ],
+  [
+   "programme",
+   "chat_show"
+  ],
+  [
+   "report",
+   "the_news"
+  ],
+  [
+   "newspaper",
+   "headline"
+  ],
+  [
+   "the_media",
+   "the_news"
+  ],
+  [
+   "broadcasting_company",
+   "channel"
+  ],
+  [
+   "broadcasting_company",
+   "radio_station"
+  ]
+ ]
+}

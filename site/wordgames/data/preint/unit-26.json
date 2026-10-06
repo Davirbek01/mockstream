@@ -1,0 +1,514 @@
+{
+ "book": "preint",
+ "unit": 26,
+ "title": "City life",
+ "title_uz": "Shahar hayoti",
+ "words": [
+  {
+   "id": "rush_hour",
+   "en": "rush hour",
+   "uz": "tig‘iz soat (ishga qatnov vaqti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The metro is so full during the morning rush hour that I sometimes wait for the next train.",
+   "gap": "rush hour",
+   "alt": []
+  },
+  {
+   "id": "in_a_hurry",
+   "en": "in a hurry",
+   "uz": "shoshilayotgan (shoshib turgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sorry, I can't stop and talk now; I'm in a hurry to get to my English lesson.",
+   "gap": "in a hurry",
+   "alt": []
+  },
+  {
+   "id": "get_stuck",
+   "en": "get stuck",
+   "uz": "tiqilib qolmoq (yo‘lda qolib ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We got stuck behind a broken-down lorry for forty minutes and missed the start of the film.",
+   "gap": "got stuck",
+   "alt": [
+    "gets stuck",
+    "got stuck",
+    "getting stuck"
+   ]
+  },
+  {
+   "id": "traffic_jam",
+   "en": "traffic jam",
+   "uz": "tirbandlik",
+   "pos": "noun",
+   "img": true,
+   "ex": "There was a long traffic jam on the ring road, so the taxi driver took the back streets.",
+   "gap": "traffic jam",
+   "alt": [
+    "traffic jams"
+   ]
+  },
+  {
+   "id": "nowhere_to_park",
+   "en": "nowhere to park",
+   "uz": "mashina qo‘yadigan joy yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad drove round the stadium three times, but there was nowhere to park, so next time we came by metro.",
+   "gap": "nowhere to park",
+   "alt": []
+  },
+  {
+   "id": "car_park",
+   "en": "car park",
+   "uz": "avtoturargoh",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shopping centre has a huge underground car park with room for two thousand cars.",
+   "gap": "car park",
+   "alt": [
+    "car parks"
+   ]
+  },
+  {
+   "id": "parking_space",
+   "en": "parking space",
+   "uz": "mashina qo‘yish joyi (bitta)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It took Mum twenty minutes to find an empty parking space near the clinic.",
+   "gap": "parking space",
+   "alt": [
+    "parking spaces"
+   ]
+  },
+  {
+   "id": "stressful",
+   "en": "stressful",
+   "uz": "asabni charchatadigan (stressli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Exams, a new school and moving house all in one month: it was such a stressful time that Sevara worried every night.",
+   "gap": "stressful",
+   "alt": []
+  },
+  {
+   "id": "stressed",
+   "en": "stressed",
+   "uz": "asabiylashgan (stress holatida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before his driving test Otabek felt so stressed that he couldn't sleep.",
+   "gap": "stressed",
+   "alt": []
+  },
+  {
+   "id": "exhausted",
+   "en": "exhausted",
+   "uz": "holdan toygan (juda charchagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a twelve-hour shift at the hospital, the nurse was so exhausted that she fell asleep on the bus home.",
+   "gap": "exhausted",
+   "alt": []
+  },
+  {
+   "id": "nightlife",
+   "en": "nightlife",
+   "uz": "tungi hayot (kechki ko‘ngilocharlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students love the city's nightlife: cafés, cinemas and concert halls stay open until late.",
+   "gap": "nightlife",
+   "alt": []
+  },
+  {
+   "id": "advantage",
+   "en": "advantage",
+   "uz": "afzallik (ijobiy tomon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "One big advantage of living next to the metro is that you never need a car.",
+   "gap": "advantage",
+   "alt": [
+    "advantages"
+   ]
+  },
+  {
+   "id": "disadvantage",
+   "en": "disadvantage",
+   "uz": "kamchilik (salbiy tomon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The only disadvantage of our new flat is the noise from the busy road outside.",
+   "gap": "disadvantage",
+   "alt": [
+    "disadvantages"
+   ]
+  },
+  {
+   "id": "lively",
+   "en": "lively",
+   "uz": "jo‘shqin (hayotga to‘la)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On summer evenings the square by the fountains is lively, with street musicians, families and ice-cream sellers.",
+   "gap": "lively",
+   "alt": []
+  },
+  {
+   "id": "wide_variety",
+   "en": "a wide variety of",
+   "uz": "turli-tuman, xilma-xil",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new sports centre offers a wide variety of clubs, from chess and karate to swimming.",
+   "gap": "a wide variety of",
+   "alt": []
+  },
+  {
+   "id": "art_gallery",
+   "en": "art gallery",
+   "uz": "san’at galereyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturday our class visited an art gallery to see paintings by young local artists.",
+   "gap": "art gallery",
+   "alt": [
+    "art galleries"
+   ]
+  },
+  {
+   "id": "cultural",
+   "en": "cultural",
+   "uz": "madaniy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Every autumn the city puts on lots of cultural events: concerts, theatre shows and craft fairs.",
+   "gap": "cultural",
+   "alt": []
+  },
+  {
+   "id": "crowded",
+   "en": "crowded",
+   "uz": "odam gavjum (tiqilinch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The bus was so crowded that I had to stand all the way, squeezed against the door.",
+   "gap": "crowded",
+   "alt": []
+  },
+  {
+   "id": "dirty",
+   "en": "dirty",
+   "uz": "iflos",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the match in the rain, the boys' football shirts were so dirty that Mum washed them twice.",
+   "gap": "dirty",
+   "alt": []
+  },
+  {
+   "id": "dangerous",
+   "en": "dangerous",
+   "uz": "xavfli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Don't cross the road here; it's dangerous, because cars come round the corner very fast.",
+   "gap": "dangerous",
+   "alt": []
+  },
+  {
+   "id": "clean",
+   "en": "clean",
+   "uz": "toza (iflos emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Volunteers picked up all the rubbish, and now the river bank is clean again.",
+   "gap": "clean",
+   "alt": []
+  },
+  {
+   "id": "safe",
+   "en": "safe",
+   "uz": "xavfsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our street is quiet and safe, so parents let their children play outside until dinner.",
+   "gap": "safe",
+   "alt": []
+  },
+  {
+   "id": "pollution",
+   "en": "pollution",
+   "uz": "ifloslanish (havo, suv)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On windless winter days, pollution from cars and chimneys makes the sky over the city grey.",
+   "gap": "pollution",
+   "alt": []
+  },
+  {
+   "id": "crime_rate",
+   "en": "crime rate",
+   "uz": "jinoyatchilik darajasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The crime rate in our district fell after the police put cameras on every corner.",
+   "gap": "crime rate",
+   "alt": []
+  },
+  {
+   "id": "at_night",
+   "en": "at night",
+   "uz": "kechasi (qorong‘ida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I don't like walking through the park at night, because half of the lamps don't work.",
+   "gap": "at night",
+   "alt": []
+  },
+  {
+   "id": "mix",
+   "en": "mix",
+   "uz": "aralashma (har xil odamlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school has a real mix of students: Uzbeks, Russians, Koreans, Tatars and Kazakhs.",
+   "gap": "mix",
+   "alt": []
+  },
+  {
+   "id": "going_on",
+   "en": "going on",
+   "uz": "sodir bo‘layotgan (bo‘lib turgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's always something going on in the city centre at weekends: festivals, fairs and street music.",
+   "gap": "going on",
+   "alt": [
+    "go on",
+    "goes on",
+    "went on"
+   ]
+  },
+  {
+   "id": "dull",
+   "en": "dull",
+   "uz": "zerikarli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum guide spoke in the same quiet voice for an hour, and the tour was really dull.",
+   "gap": "dull",
+   "alt": []
+  },
+  {
+   "id": "town_centre",
+   "en": "town centre",
+   "uz": "shahar markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus from our village takes forty minutes to reach the town centre, where all the big shops are.",
+   "gap": "town centre",
+   "alt": [
+    "town centres",
+    "town center"
+   ]
+  },
+  {
+   "id": "culture",
+   "en": "culture",
+   "uz": "madaniyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you're interested in history and culture, visit the old theatre and the city museums.",
+   "gap": "culture",
+   "alt": []
+  },
+  {
+   "id": "quiet",
+   "en": "quiet",
+   "uz": "sokin (odam kam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum is usually quiet on weekday mornings, so you can see the paintings without anyone in front of you.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "exciting",
+   "en": "exciting",
+   "uz": "hayajonli (qiziqarli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The football final was so exciting that the fans were jumping and screaming until the last minute.",
+   "gap": "exciting",
+   "alt": []
+  },
+  {
+   "id": "you_get",
+   "en": "you get",
+   "uz": "uchraydi (…bor bo‘ladi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In a big city you get people from every corner of the country.",
+   "gap": "you get",
+   "alt": [
+    "you don't get"
+   ]
+  },
+  {
+   "id": "bar_drinks",
+   "en": "bar",
+   "uz": "bar (ichimlik joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel has a small bar next to the pool where guests can order juice and cocktails.",
+   "gap": "bar",
+   "alt": [
+    "bars"
+   ]
+  },
+  {
+   "id": "club",
+   "en": "club",
+   "uz": "klub (tungi raqs maskani)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturday night Javlon and his friends went dancing at a club until two in the morning.",
+   "gap": "club",
+   "alt": [
+    "clubs"
+   ]
+  },
+  {
+   "id": "restaurant",
+   "en": "restaurant",
+   "uz": "restoran",
+   "pos": "noun",
+   "img": false,
+   "ex": "We booked a table at a Georgian restaurant for Feruza's birthday dinner.",
+   "gap": "restaurant",
+   "alt": [
+    "restaurants"
+   ]
+  },
+  {
+   "id": "cinema",
+   "en": "cinema",
+   "uz": "kinoteatr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new animated film is on at the cinema near the metro, and tickets are half price on Tuesdays.",
+   "gap": "cinema",
+   "alt": [
+    "cinemas"
+   ]
+  },
+  {
+   "id": "theatre",
+   "en": "theatre",
+   "uz": "teatr",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the theatre the actors came back on stage three times while the audience clapped.",
+   "gap": "theatre",
+   "alt": [
+    "theatres",
+    "theater"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "car_park",
+   "parking_space"
+  ],
+  [
+   "nowhere_to_park",
+   "parking_space"
+  ],
+  [
+   "stressful",
+   "dangerous"
+  ],
+  [
+   "stressed",
+   "exhausted"
+  ],
+  [
+   "advantage",
+   "disadvantage"
+  ],
+  [
+   "lively",
+   "crowded"
+  ],
+  [
+   "lively",
+   "cultural"
+  ],
+  [
+   "safe",
+   "dangerous"
+  ],
+  [
+   "dirty",
+   "pollution"
+  ],
+  [
+   "dirty",
+   "clean"
+  ],
+  [
+   "clean",
+   "safe"
+  ],
+  [
+   "rush_hour",
+   "traffic_jam"
+  ],
+  [
+   "wide_variety",
+   "mix"
+  ],
+  [
+   "culture",
+   "cultural"
+  ],
+  [
+   "culture",
+   "nightlife"
+  ],
+  [
+   "quiet",
+   "crowded"
+  ],
+  [
+   "quiet",
+   "dull"
+  ],
+  [
+   "exciting",
+   "lively"
+  ],
+  [
+   "bar_drinks",
+   "restaurant"
+  ],
+  [
+   "bar_drinks",
+   "club"
+  ],
+  [
+   "cinema",
+   "theatre"
+  ],
+  [
+   "exciting",
+   "stressful"
+  ]
+ ]
+}

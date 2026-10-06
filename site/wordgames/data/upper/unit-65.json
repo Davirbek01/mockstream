@@ -1,0 +1,544 @@
+{
+ "book": "upper",
+ "unit": 65,
+ "title": "Addition",
+ "title_uz": "Qo‘shimcha ma’lumot qo‘shish",
+ "words": [
+  {
+   "id": "in_addition",
+   "en": "in addition",
+   "uz": "bunga qo‘shimcha ravishda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Regular exercise improves your mood; in addition, it helps you sleep better.",
+   "gap": "in addition",
+   "alt": []
+  },
+  {
+   "id": "additionally",
+   "en": "additionally",
+   "uz": "qo‘shimcha tarzda (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The hotel has a pool and a gym; additionally, guests can borrow bikes for free.",
+   "gap": "additionally",
+   "alt": []
+  },
+  {
+   "id": "furthermore",
+   "en": "furthermore",
+   "uz": "bundan tashqari (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Cycling to school keeps you fit and, furthermore, it saves your parents a lot of money on petrol.",
+   "gap": "furthermore",
+   "alt": []
+  },
+  {
+   "id": "moreover",
+   "en": "moreover",
+   "uz": "qolaversa (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The new metro line will reduce traffic in the city centre; moreover, it will cut air pollution.",
+   "gap": "moreover",
+   "alt": []
+  },
+  {
+   "id": "whats_more",
+   "en": "what's more",
+   "uz": "ustiga-ustak (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My aunt's new flat is huge, and what's more, it has a view of the mountains.",
+   "gap": "what's more",
+   "alt": [
+    "what is more"
+   ]
+  },
+  {
+   "id": "equally",
+   "en": "equally",
+   "uz": "xuddi shu darajada (ikkinchi fikr)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Good marks matter, but equally, it's important to enjoy what you are learning.",
+   "gap": "equally",
+   "alt": []
+  },
+  {
+   "id": "likewise",
+   "en": "likewise",
+   "uz": "xuddi shunday (qilmoq)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The first guest took off her shoes at the door, and everyone else did likewise.",
+   "gap": "likewise",
+   "alt": []
+  },
+  {
+   "id": "on_top_of_that",
+   "en": "on top of that",
+   "uz": "buning ustiga yana (ta’kid)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We missed the last bus home, and on top of that it started to pour with rain.",
+   "gap": "on top of that",
+   "alt": [
+    "on top of all that"
+   ]
+  },
+  {
+   "id": "plus",
+   "en": "plus",
+   "uz": "yana, ustiga (so‘zl.)",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "Let's stay at Uncle Jamshid's house; it's right next to the lake at Charvak, plus it's free!",
+   "gap": "plus",
+   "alt": []
+  },
+  {
+   "id": "and_so_on",
+   "en": "and so on",
+   "uz": "va hokazo",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the Siyob bazaar you can buy dried apricots, raisins, almonds, walnuts and so on.",
+   "gap": "and so on",
+   "alt": []
+  },
+  {
+   "id": "and_so_on_and_so_forth",
+   "en": "and so on and so forth",
+   "uz": "va hokazo va hokazo (cho‘zilib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our driving instructor can talk for hours about cars: engines, tyres, seats, radios, and so on and so forth.",
+   "gap": "and so on and so forth",
+   "alt": []
+  },
+  {
+   "id": "into_the_bargain",
+   "en": "into the bargain",
+   "uz": "buning ustiga (yana bir fazilat)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our new history teacher is clever, funny and a great storyteller into the bargain.",
+   "gap": "into the bargain",
+   "alt": []
+  },
+  {
+   "id": "to_boot",
+   "en": "to boot",
+   "uz": "tag‘in (so‘zl., gap oxirida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new phone is fast and light, and cheap to boot.",
+   "gap": "to boot",
+   "alt": []
+  },
+  {
+   "id": "further_to",
+   "en": "further to",
+   "uz": "…ga qo‘shimcha (xat boshida, rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dear Ms Rahimova, further to your email of 12 March, I am pleased to confirm your place on the summer course.",
+   "gap": "further to",
+   "alt": []
+  },
+  {
+   "id": "in_addition_to",
+   "en": "in addition to",
+   "uz": "…dan tashqari, …ga qo‘shimcha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our school offers Chinese and German lessons in addition to English and Russian.",
+   "gap": "in addition to",
+   "alt": []
+  },
+  {
+   "id": "alongside",
+   "en": "alongside",
+   "uz": "…bilan bir qatorda",
+   "pos": "preposition",
+   "img": false,
+   "ex": "At the festival, local dancers performed alongside a famous folk group from Kazakhstan.",
+   "gap": "alongside",
+   "alt": []
+  },
+  {
+   "id": "as_well_as",
+   "en": "as well as",
+   "uz": "…ish bilan birga (shuningdek)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Tonight I have to tidy my room as well as revising for tomorrow's history test.",
+   "gap": "as well as",
+   "alt": []
+  },
+  {
+   "id": "besides",
+   "en": "besides",
+   "uz": "…dan tashqari (yana)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Who else, besides you and Malika, is coming to the party?",
+   "gap": "besides",
+   "alt": []
+  },
+  {
+   "id": "apart_from",
+   "en": "apart from",
+   "uz": "…dan boshqa yana",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The festival has lots to offer: apart from the music, there's street food, crafts and a firework show.",
+   "gap": "apart from",
+   "alt": []
+  },
+  {
+   "id": "along_with",
+   "en": "along with",
+   "uz": "…bilan birga (odamlar)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The head teacher came to watch our match, along with several parents and our old PE teacher.",
+   "gap": "along with",
+   "alt": []
+  },
+  {
+   "id": "together_with",
+   "en": "together with",
+   "uz": "…bilan birgalikda",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Please send your application form together with two photos and a copy of your passport.",
+   "gap": "together with",
+   "alt": []
+  },
+  {
+   "id": "etc",
+   "en": "etc.",
+   "uz": "va h.k. (yozma qisqartma)",
+   "pos": "abbreviation",
+   "img": false,
+   "ex": "Bring your PE kit, a towel, a water bottle etc. to the sports centre on Friday.",
+   "gap": "etc.",
+   "alt": [
+    "etc"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "in_addition",
+   "additionally"
+  ],
+  [
+   "in_addition",
+   "furthermore"
+  ],
+  [
+   "in_addition",
+   "moreover"
+  ],
+  [
+   "in_addition",
+   "whats_more"
+  ],
+  [
+   "in_addition",
+   "on_top_of_that"
+  ],
+  [
+   "in_addition",
+   "equally"
+  ],
+  [
+   "in_addition",
+   "plus"
+  ],
+  [
+   "additionally",
+   "furthermore"
+  ],
+  [
+   "additionally",
+   "moreover"
+  ],
+  [
+   "additionally",
+   "whats_more"
+  ],
+  [
+   "additionally",
+   "on_top_of_that"
+  ],
+  [
+   "additionally",
+   "equally"
+  ],
+  [
+   "additionally",
+   "plus"
+  ],
+  [
+   "furthermore",
+   "moreover"
+  ],
+  [
+   "furthermore",
+   "whats_more"
+  ],
+  [
+   "furthermore",
+   "on_top_of_that"
+  ],
+  [
+   "furthermore",
+   "equally"
+  ],
+  [
+   "furthermore",
+   "plus"
+  ],
+  [
+   "moreover",
+   "whats_more"
+  ],
+  [
+   "moreover",
+   "on_top_of_that"
+  ],
+  [
+   "moreover",
+   "equally"
+  ],
+  [
+   "moreover",
+   "plus"
+  ],
+  [
+   "whats_more",
+   "on_top_of_that"
+  ],
+  [
+   "whats_more",
+   "equally"
+  ],
+  [
+   "whats_more",
+   "plus"
+  ],
+  [
+   "on_top_of_that",
+   "equally"
+  ],
+  [
+   "on_top_of_that",
+   "plus"
+  ],
+  [
+   "equally",
+   "likewise"
+  ],
+  [
+   "likewise",
+   "in_addition"
+  ],
+  [
+   "likewise",
+   "additionally"
+  ],
+  [
+   "likewise",
+   "furthermore"
+  ],
+  [
+   "likewise",
+   "moreover"
+  ],
+  [
+   "and_so_on",
+   "and_so_on_and_so_forth"
+  ],
+  [
+   "into_the_bargain",
+   "to_boot"
+  ],
+  [
+   "in_addition_to",
+   "as_well_as"
+  ],
+  [
+   "in_addition_to",
+   "besides"
+  ],
+  [
+   "in_addition_to",
+   "apart_from"
+  ],
+  [
+   "in_addition_to",
+   "alongside"
+  ],
+  [
+   "in_addition_to",
+   "further_to"
+  ],
+  [
+   "as_well_as",
+   "besides"
+  ],
+  [
+   "as_well_as",
+   "apart_from"
+  ],
+  [
+   "as_well_as",
+   "alongside"
+  ],
+  [
+   "as_well_as",
+   "along_with"
+  ],
+  [
+   "as_well_as",
+   "together_with"
+  ],
+  [
+   "besides",
+   "apart_from"
+  ],
+  [
+   "besides",
+   "alongside"
+  ],
+  [
+   "apart_from",
+   "alongside"
+  ],
+  [
+   "along_with",
+   "together_with"
+  ],
+  [
+   "along_with",
+   "alongside"
+  ],
+  [
+   "apart_from",
+   "along_with"
+  ],
+  [
+   "apart_from",
+   "together_with"
+  ],
+  [
+   "besides",
+   "along_with"
+  ],
+  [
+   "besides",
+   "together_with"
+  ],
+  [
+   "together_with",
+   "in_addition_to"
+  ],
+  [
+   "together_with",
+   "alongside"
+  ],
+  [
+   "together_with",
+   "plus"
+  ],
+  [
+   "along_with",
+   "plus"
+  ],
+  [
+   "along_with",
+   "in_addition_to"
+  ],
+  [
+   "besides",
+   "in_addition"
+  ],
+  [
+   "besides",
+   "additionally"
+  ],
+  [
+   "besides",
+   "furthermore"
+  ],
+  [
+   "besides",
+   "moreover"
+  ],
+  [
+   "besides",
+   "whats_more"
+  ],
+  [
+   "besides",
+   "on_top_of_that"
+  ],
+  [
+   "besides",
+   "plus"
+  ],
+  [
+   "besides",
+   "equally"
+  ],
+  [
+   "besides",
+   "to_boot"
+  ],
+  [
+   "besides",
+   "into_the_bargain"
+  ],
+  [
+   "plus",
+   "in_addition_to"
+  ],
+  [
+   "plus",
+   "as_well_as"
+  ],
+  [
+   "plus",
+   "alongside"
+  ],
+  [
+   "into_the_bargain",
+   "on_top_of_that"
+  ],
+  [
+   "into_the_bargain",
+   "whats_more"
+  ],
+  [
+   "to_boot",
+   "on_top_of_that"
+  ],
+  [
+   "to_boot",
+   "whats_more"
+  ],
+  [
+   "etc",
+   "and_so_on"
+  ],
+  [
+   "etc",
+   "and_so_on_and_so_forth"
+  ]
+ ]
+}

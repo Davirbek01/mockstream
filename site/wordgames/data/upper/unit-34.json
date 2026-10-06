@@ -1,0 +1,493 @@
+{
+ "book": "upper",
+ "unit": 34,
+ "title": "Computers",
+ "title_uz": "Kompyuterlar",
+ "words": [
+  {
+   "id": "desktop_computer",
+   "en": "desktop computer",
+   "uz": "stol kompyuteri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The library has six desktop computers that anyone can use, but they are fixed to the tables.",
+   "gap": "desktop computers",
+   "alt": [
+    "desktop computers",
+    "desktop",
+    "PC"
+   ]
+  },
+  {
+   "id": "laptop",
+   "en": "laptop",
+   "uz": "noutbuk",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziz carries his laptop in his backpack and does his homework on the long bus ride home.",
+   "gap": "laptop",
+   "alt": [
+    "laptops"
+   ]
+  },
+  {
+   "id": "tablet_computer",
+   "en": "tablet",
+   "uz": "planshet",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister reads e-books on a tablet, turning the pages with a swipe of her finger.",
+   "gap": "tablet",
+   "alt": [
+    "tablets"
+   ]
+  },
+  {
+   "id": "hard_disk",
+   "en": "hard disk",
+   "uz": "qattiq disk",
+   "pos": "noun",
+   "img": false,
+   "ex": "My computer's hard disk was full, so I moved all my old films to an external drive.",
+   "gap": "hard disk",
+   "alt": [
+    "hard drive",
+    "hard disks"
+   ]
+  },
+  {
+   "id": "disk_drive",
+   "en": "disk drive",
+   "uz": "disk yurituvchi (diskovod)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My new laptop doesn't have a disk drive, so I can't play the old music CDs my dad gave me.",
+   "gap": "disk drive",
+   "alt": [
+    "disk drives"
+   ]
+  },
+  {
+   "id": "memory_stick",
+   "en": "memory stick",
+   "uz": "fleshka",
+   "pos": "noun",
+   "img": true,
+   "ex": "I saved my presentation on a memory stick, which hangs on my keyring, and took it to school.",
+   "gap": "memory stick",
+   "alt": [
+    "memory sticks",
+    "USB stick",
+    "flash drive"
+   ]
+  },
+  {
+   "id": "ram",
+   "en": "RAM",
+   "uz": "operativ xotira (RAM)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My old laptop doesn't have enough RAM, so it slows down when I open more than a few browser tabs.",
+   "gap": "RAM",
+   "alt": []
+  },
+  {
+   "id": "microchip",
+   "en": "microchip",
+   "uz": "mikrochip",
+   "pos": "noun",
+   "img": true,
+   "ex": "Most bank cards now have a tiny gold-coloured microchip that stores information about the account.",
+   "gap": "microchip",
+   "alt": [
+    "chip",
+    "microchips"
+   ]
+  },
+  {
+   "id": "network",
+   "en": "network",
+   "uz": "kompyuter tarmog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "All the computers in our school are connected to one network, so teachers can share files instantly.",
+   "gap": "network",
+   "alt": [
+    "networks"
+   ]
+  },
+  {
+   "id": "app",
+   "en": "app",
+   "uz": "ilova (mobil dastur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's an app for learning Spanish that reminds me to practise every evening at eight.",
+   "gap": "app",
+   "alt": [
+    "apps",
+    "application"
+   ]
+  },
+  {
+   "id": "word_processing",
+   "en": "word-processing",
+   "uz": "matn muharriri (matn terish dasturi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She typed her essay using word-processing software, then let it check her spelling.",
+   "gap": "word-processing",
+   "alt": [
+    "word processing"
+   ]
+  },
+  {
+   "id": "spreadsheet",
+   "en": "spreadsheet",
+   "uz": "elektron jadval",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our class treasurer keeps a spreadsheet of who has paid for the trip, and it adds up the totals automatically.",
+   "gap": "spreadsheet",
+   "alt": [
+    "spreadsheets"
+   ]
+  },
+  {
+   "id": "graphics",
+   "en": "graphics",
+   "uz": "kompyuter grafikasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The game's graphics are so realistic that the rain on the streets looks almost real.",
+   "gap": "graphics",
+   "alt": []
+  },
+  {
+   "id": "display",
+   "en": "display",
+   "uz": "displey (ekran tasviri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The display on my new phone is so bright that I can read it easily even in direct sunlight.",
+   "gap": "display",
+   "alt": []
+  },
+  {
+   "id": "icon",
+   "en": "icon",
+   "uz": "ikonka (ekrandagi belgi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To open the calculator, tap the small icon with the plus and minus signs at the bottom of the screen.",
+   "gap": "icon",
+   "alt": [
+    "icons"
+   ]
+  },
+  {
+   "id": "cursor",
+   "en": "cursor",
+   "uz": "kursor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Move the cursor to the end of the line and then start typing the new sentence.",
+   "gap": "cursor",
+   "alt": []
+  },
+  {
+   "id": "click",
+   "en": "click",
+   "uz": "bosmoq (sichqoncha tugmasini)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To watch the video, just click on the white arrow in the middle of the picture.",
+   "gap": "click",
+   "alt": [
+    "clicks",
+    "clicked",
+    "clicking"
+   ]
+  },
+  {
+   "id": "back_up",
+   "en": "back up",
+   "uz": "zaxira nusxa olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I back up my photos every Sunday, so I won't lose them if my phone breaks.",
+   "gap": "back up",
+   "alt": [
+    "backs up",
+    "backed up",
+    "backing up"
+   ]
+  },
+  {
+   "id": "delete",
+   "en": "delete",
+   "uz": "o‘chirib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I accidentally deleted my essay, but luckily I found it again in the recycle bin.",
+   "gap": "deleted",
+   "alt": [
+    "deletes",
+    "deleted",
+    "deleting"
+   ]
+  },
+  {
+   "id": "undo",
+   "en": "undo",
+   "uz": "bekor qilmoq (oxirgi amalni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I pressed Ctrl+Z to undo my last change, and the missing paragraph came back.",
+   "gap": "undo",
+   "alt": [
+    "undoes",
+    "undid",
+    "undone"
+   ]
+  },
+  {
+   "id": "key_in",
+   "en": "key in",
+   "uz": "klaviaturada terib kiritmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cashier keyed in the price wrongly, so I was charged twice as much.",
+   "gap": "keyed in",
+   "alt": [
+    "keys in",
+    "keyed in",
+    "keying in"
+   ]
+  },
+  {
+   "id": "upgrade",
+   "en": "upgrade",
+   "uz": "kuchliroq versiyaga almashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school upgraded all its computers last summer, so now they start in seconds.",
+   "gap": "upgraded",
+   "alt": [
+    "upgrades",
+    "upgraded",
+    "upgrading"
+   ]
+  },
+  {
+   "id": "run_program",
+   "en": "run",
+   "uz": "ishlatmoq (dasturni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My old computer is too slow to run the latest video-editing software.",
+   "gap": "run",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "operating_system",
+   "en": "operating system",
+   "uz": "operatsion tizim",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone asked me to update its operating system before I could use the new camera features.",
+   "gap": "operating system",
+   "alt": [
+    "operating systems"
+   ]
+  },
+  {
+   "id": "plug_in",
+   "en": "plug in",
+   "uz": "ulamoq (rozetkaga, portga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "If your battery is low, plug in the charger before you start the video call.",
+   "gap": "plug in",
+   "alt": [
+    "plugs in",
+    "plugged in",
+    "plugging in"
+   ]
+  },
+  {
+   "id": "store_data",
+   "en": "store",
+   "uz": "saqlamoq (ma’lumotni xotirada)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My laptop can store about fifty thousand photos, so I've never had to delete any.",
+   "gap": "store",
+   "alt": [
+    "stores",
+    "stored",
+    "storing"
+   ]
+  },
+  {
+   "id": "hardware",
+   "en": "hardware",
+   "uz": "kompyuter qurilmalari (apparat qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school spent most of its budget on hardware, such as new monitors, keyboards and printers.",
+   "gap": "hardware",
+   "alt": []
+  },
+  {
+   "id": "scanner_pc",
+   "en": "scanner",
+   "uz": "skaner (hujjat, rasm uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I put the old school photo face down on the scanner and saved a copy on my computer.",
+   "gap": "scanner",
+   "alt": [
+    "scanners"
+   ]
+  },
+  {
+   "id": "gigabyte",
+   "en": "gigabyte",
+   "uz": "gigabayt (xotira o‘lchovi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My new phone has 128 gigabytes of storage, enough for thousands of photos and songs.",
+   "gap": "gigabytes",
+   "alt": [
+    "gigabytes",
+    "GB"
+   ]
+  },
+  {
+   "id": "touch_screen",
+   "en": "touch screen",
+   "uz": "sensorli ekran",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ticket machine at the station has a touch screen, so you just tap your destination with a finger.",
+   "gap": "touch screen",
+   "alt": [
+    "touch screens",
+    "touchscreen"
+   ]
+  },
+  {
+   "id": "portable",
+   "en": "portable",
+   "uz": "ko‘chma (olib yurish oson)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We took a portable speaker on the picnic; it's small enough to fit in a jacket pocket.",
+   "gap": "portable",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "touch_screen",
+   "display"
+  ],
+  [
+   "touch_screen",
+   "tablet_computer"
+  ],
+  [
+   "desktop_computer",
+   "laptop"
+  ],
+  [
+   "laptop",
+   "tablet_computer"
+  ],
+  [
+   "tablet_computer",
+   "smartphone"
+  ],
+  [
+   "hard_disk",
+   "memory_stick"
+  ],
+  [
+   "hard_disk",
+   "ram"
+  ],
+  [
+   "word_processing",
+   "spreadsheet"
+  ],
+  [
+   "graphics",
+   "display"
+  ],
+  [
+   "icon",
+   "cursor"
+  ],
+  [
+   "key_in",
+   "insert"
+  ],
+  [
+   "plug_in",
+   "insert"
+  ],
+  [
+   "install",
+   "upgrade"
+  ],
+  [
+   "install",
+   "run_program"
+  ],
+  [
+   "run_program",
+   "upgrade"
+  ],
+  [
+   "back_up",
+   "delete"
+  ],
+  [
+   "network",
+   "server"
+  ],
+  [
+   "network",
+   "the_cloud"
+  ],
+  [
+   "app",
+   "browser"
+  ],
+  [
+   "laptop",
+   "smartphone"
+  ],
+  [
+   "hard_disk",
+   "disk_drive"
+  ],
+  [
+   "hardware",
+   "graphics"
+  ],
+  [
+   "gigabyte",
+   "ram"
+  ],
+  [
+   "store_data",
+   "back_up"
+  ]
+ ]
+}

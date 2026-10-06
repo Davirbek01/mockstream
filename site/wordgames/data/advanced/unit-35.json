@@ -1,0 +1,580 @@
+{
+ "book": "advanced",
+ "unit": 35,
+ "title": "Authorities: customs and police",
+ "title_uz": "Rasmiy idoralar: bojxona va politsiya",
+ "words": [
+  {
+   "id": "landing_card",
+   "en": "landing card",
+   "uz": "kelish kartochkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shortly before we landed, the cabin crew handed out landing cards for foreign passengers to fill in.",
+   "gap": "landing cards",
+   "alt": [
+    "landing cards"
+   ]
+  },
+  {
+   "id": "customs_declaration_form",
+   "en": "customs declaration form",
+   "uz": "bojxona deklaratsiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you are carrying more than the permitted amount of cash, you must write it on the customs declaration form.",
+   "gap": "customs declaration form",
+   "alt": [
+    "customs declaration",
+    "customs declaration forms"
+   ]
+  },
+  {
+   "id": "vaccination_certificate",
+   "en": "vaccination certificate",
+   "uz": "emlash guvohnomasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before her research trip to Africa, Professor Karimova got a yellow-fever injection and a vaccination certificate to show at the border.",
+   "gap": "vaccination certificate",
+   "alt": [
+    "vaccination certificates"
+   ]
+  },
+  {
+   "id": "entry_regulations",
+   "en": "entry regulations",
+   "uz": "mamlakatga kirish qoidalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before booking the trip, Sherzod checked the entry regulations and discovered that his passport had to be valid for at least six more months.",
+   "gap": "entry regulations",
+   "alt": []
+  },
+  {
+   "id": "e_passport_gates",
+   "en": "e-passport gates",
+   "uz": "elektron pasport darvozalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of queuing at the desk, we went through the e-passport gates, which took less than a minute.",
+   "gap": "e-passport gates",
+   "alt": [
+    "e-passport gate",
+    "epassport gates"
+   ]
+  },
+  {
+   "id": "facial_recognition",
+   "en": "facial recognition",
+   "uz": "yuzni tanib olish texnologiyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The machine uses facial recognition to compare your face with the photo stored in your passport chip.",
+   "gap": "facial recognition",
+   "alt": [
+    "facial recognition technology"
+   ]
+  },
+  {
+   "id": "spot_check",
+   "en": "spot check",
+   "uz": "tanlab tekshiruv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Officers were carrying out spot checks, so only about one passenger in ten had their suitcase opened.",
+   "gap": "spot checks",
+   "alt": [
+    "spot checks"
+   ]
+  },
+  {
+   "id": "restricted_goods",
+   "en": "restricted goods",
+   "uz": "cheklangan tovarlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some medicines count as restricted goods, so you can only bring them in with a letter from your doctor.",
+   "gap": "restricted goods",
+   "alt": [
+    "banned or restricted goods"
+   ]
+  },
+  {
+   "id": "allowance",
+   "en": "allowance",
+   "uz": "ruxsat etilgan me’yor",
+   "pos": "noun",
+   "img": false,
+   "ex": "He bought so much perfume in the duty-free shop that he went over his allowance and had to pay tax on it.",
+   "gap": "allowance",
+   "alt": []
+  },
+  {
+   "id": "sniffer_dog",
+   "en": "sniffer dog",
+   "uz": "hidlovchi it (maxsus o‘rgatilgan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the airport, a sniffer dog sat down beside a suitcase that turned out to be full of hidden cash.",
+   "gap": "sniffer dog",
+   "alt": [
+    "sniffer dogs",
+    "detector dog",
+    "detector dogs"
+   ]
+  },
+  {
+   "id": "detect",
+   "en": "detect",
+   "uz": "aniqlamoq (yashirinni topmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The scanners at the security gate can detect metal objects inside hand luggage.",
+   "gap": "detect",
+   "alt": [
+    "detected",
+    "detects",
+    "detecting"
+   ]
+  },
+  {
+   "id": "clear_customs",
+   "en": "clear customs",
+   "uz": "bojxonadan o‘tmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After landing, it took us almost an hour to clear customs because three flights had arrived at once.",
+   "gap": "clear customs",
+   "alt": [
+    "cleared customs",
+    "clearing customs",
+    "clears customs"
+   ]
+  },
+  {
+   "id": "port_of_entry",
+   "en": "port of entry",
+   "uz": "chegaradan kirish punkti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Although Dilnoza's final stop was Samarkand, Tashkent was her port of entry, so that is where she showed her passport and visa.",
+   "gap": "port of entry",
+   "alt": []
+  },
+  {
+   "id": "refugee",
+   "en": "refugee",
+   "uz": "qochqin",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the war started, millions of refugees crossed into neighbouring countries in search of safety.",
+   "gap": "refugees",
+   "alt": [
+    "refugees"
+   ]
+  },
+  {
+   "id": "claim_asylum",
+   "en": "claim asylum",
+   "uz": "boshpana so‘ramoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The journalist feared prison at home, so he claimed asylum as soon as he arrived in Norway.",
+   "gap": "claimed asylum",
+   "alt": [
+    "claimed asylum",
+    "claiming asylum",
+    "claims asylum"
+   ]
+  },
+  {
+   "id": "asylum_seeker",
+   "en": "asylum seeker",
+   "uz": "boshpana izlovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Local volunteers teach the language to asylum seekers while they wait for a decision on their case.",
+   "gap": "asylum seekers",
+   "alt": [
+    "asylum seekers",
+    "asylum-seeker",
+    "asylum-seekers"
+   ]
+  },
+  {
+   "id": "persecution",
+   "en": "persecution",
+   "uz": "ta’qib (zulm)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The family left their homeland to escape persecution for their religious beliefs.",
+   "gap": "persecution",
+   "alt": []
+  },
+  {
+   "id": "enforce_the_law",
+   "en": "enforce the law",
+   "uz": "qonun ijrosini ta’minlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everyone ignored the ban on fishing in the reservoir until a new inspector arrived and started to enforce the law.",
+   "gap": "enforce the law",
+   "alt": [
+    "enforces the law",
+    "enforced the law",
+    "enforcing the law"
+   ]
+  },
+  {
+   "id": "stop_and_search",
+   "en": "stop and search",
+   "uz": "to‘xtatib tintuv qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Officers were allowed to stop and search fans outside the stadium after reports that some were bringing in fireworks.",
+   "gap": "stop and search",
+   "alt": [
+    "stopped and searched",
+    "stop-and-search"
+   ]
+  },
+  {
+   "id": "suspicion",
+   "en": "suspicion",
+   "uz": "shubha (gumon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A man was arrested on suspicion of stealing bicycles from the station car park.",
+   "gap": "suspicion",
+   "alt": []
+  },
+  {
+   "id": "search_warrant",
+   "en": "search warrant",
+   "uz": "tintuvga order (sud ruxsati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The officers waited outside the flat until a judge had signed a search warrant.",
+   "gap": "search warrant",
+   "alt": [
+    "search warrants"
+   ]
+  },
+  {
+   "id": "speed_camera",
+   "en": "speed camera",
+   "uz": "tezlikni qayd etuvchi kamera",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a speed camera just after the bridge, so drivers always slow down there.",
+   "gap": "speed camera",
+   "alt": [
+    "speed cameras",
+    "safety camera"
+   ]
+  },
+  {
+   "id": "exceed_the_speed_limit",
+   "en": "exceed the speed limit",
+   "uz": "tezlik chegarasidan oshmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Drivers who exceed the speed limit near schools face heavy fines.",
+   "gap": "exceed the speed limit",
+   "alt": [
+    "exceeding the speed limit",
+    "exceeded the speed limit",
+    "exceeds the speed limit"
+   ]
+  },
+  {
+   "id": "traffic_warden",
+   "en": "traffic warden",
+   "uz": "avtoturargoh nazoratchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A traffic warden was walking along the street, checking every car parked outside the bank.",
+   "gap": "traffic warden",
+   "alt": [
+    "traffic wardens"
+   ]
+  },
+  {
+   "id": "parking_ticket",
+   "en": "parking ticket",
+   "uz": "noto‘g‘ri to‘xtash uchun jarima qog‘ozi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We left the car by the hospital entrance for ten minutes and came back to find a parking ticket on the windscreen.",
+   "gap": "parking ticket",
+   "alt": [
+    "parking tickets"
+   ]
+  },
+  {
+   "id": "surveillance",
+   "en": "surveillance",
+   "uz": "kuzatuv (yashirin nazorat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The suspect had been under police surveillance for several weeks before he was arrested.",
+   "gap": "surveillance",
+   "alt": []
+  },
+  {
+   "id": "cctv",
+   "en": "CCTV",
+   "uz": "videokuzatuv kameralari tizimi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Thanks to CCTV footage from a nearby shop, police found the stolen scooter within a day.",
+   "gap": "CCTV",
+   "alt": [
+    "cctv"
+   ]
+  },
+  {
+   "id": "security_forces",
+   "en": "security forces",
+   "uz": "xavfsizlik kuchlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the summit, the security forces closed all the roads around the conference centre.",
+   "gap": "security forces",
+   "alt": []
+  },
+  {
+   "id": "plain_clothes_police",
+   "en": "plain-clothes police",
+   "uz": "fuqarocha kiyimdagi politsiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the football final, plain-clothes police mixed with the crowd to watch for trouble.",
+   "gap": "plain-clothes police",
+   "alt": [
+    "plain clothes police",
+    "plain-clothes officers",
+    "plain-clothes police officers"
+   ]
+  },
+  {
+   "id": "undercover",
+   "en": "undercover",
+   "uz": "yashirin (soxta nom bilan) ishlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For two years an undercover officer used a false name to gather evidence against the gang of car thieves.",
+   "gap": "undercover",
+   "alt": []
+  },
+  {
+   "id": "anti_corruption_squad",
+   "en": "anti-corruption squad",
+   "uz": "korrupsiyaga qarshi bo‘linma",
+   "pos": "noun",
+   "img": false,
+   "ex": "The anti-corruption squad arrested two officials who had taken money for issuing building permits.",
+   "gap": "anti-corruption squad",
+   "alt": [
+    "anti corruption squad"
+   ]
+  },
+  {
+   "id": "bribery",
+   "en": "bribery",
+   "uz": "poraxo‘rlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football referee was banned for life after he was found guilty of bribery.",
+   "gap": "bribery",
+   "alt": []
+  },
+  {
+   "id": "cybercrime",
+   "en": "cybercrime",
+   "uz": "kiberjinoyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Banks are hiring more IT specialists to fight cybercrime.",
+   "gap": "cybercrime",
+   "alt": []
+  },
+  {
+   "id": "phishing",
+   "en": "phishing",
+   "uz": "aldov xatlari orqali maxfiy ma’lumot o‘g‘irlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our accountant nearly clicked on a link in a phishing email that claimed to come from the tax office.",
+   "gap": "phishing",
+   "alt": []
+  },
+  {
+   "id": "drug_squad",
+   "en": "drug squad",
+   "uz": "giyohvandlikka qarshi bo‘linma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Officers from the drug squad found packets of heroin hidden inside a delivery of frozen fish.",
+   "gap": "drug squad",
+   "alt": []
+  },
+  {
+   "id": "corruption",
+   "en": "corruption",
+   "uz": "nopoklik (mansabni suiiste’mol qilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new mayor promised to fight corruption after it emerged that city contracts had been given to officials' relatives.",
+   "gap": "corruption",
+   "alt": []
+  },
+  {
+   "id": "cyberterrorism",
+   "en": "cyberterrorism",
+   "uz": "internet orqali terror harakatlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "A small extremist group, not a foreign army, was behind the online attack on the city's water system, so experts called it cyberterrorism.",
+   "gap": "cyberterrorism",
+   "alt": []
+  },
+  {
+   "id": "cyberwarfare",
+   "en": "cyberwarfare",
+   "uz": "davlatlararo kiberurush",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both countries are training special military units for cyberwarfare, ready to attack each other's computer networks.",
+   "gap": "cyberwarfare",
+   "alt": []
+  },
+  {
+   "id": "fine",
+   "en": "fine",
+   "uz": "jarima (pul jazosi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Anyone caught dropping litter in the park now has to pay a fine.",
+   "gap": "fine",
+   "alt": [
+    "fines"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "landing_card",
+   "customs_declaration_form"
+  ],
+  [
+   "landing_card",
+   "vaccination_certificate"
+  ],
+  [
+   "customs_declaration_form",
+   "vaccination_certificate"
+  ],
+  [
+   "e_passport_gates",
+   "facial_recognition"
+  ],
+  [
+   "spot_check",
+   "stop_and_search"
+  ],
+  [
+   "refugee",
+   "asylum_seeker"
+  ],
+  [
+   "claim_asylum",
+   "asylum_seeker"
+  ],
+  [
+   "speed_camera",
+   "cctv"
+  ],
+  [
+   "surveillance",
+   "cctv"
+  ],
+  [
+   "plain_clothes_police",
+   "undercover"
+  ],
+  [
+   "security_forces",
+   "plain_clothes_police"
+  ],
+  [
+   "bribery",
+   "cybercrime"
+  ],
+  [
+   "anti_corruption_squad",
+   "security_forces"
+  ],
+  [
+   "cybercrime",
+   "phishing"
+  ],
+  [
+   "restricted_goods",
+   "allowance"
+  ],
+  [
+   "traffic_warden",
+   "parking_ticket"
+  ],
+  [
+   "detect",
+   "sniffer_dog"
+  ],
+  [
+   "entry_regulations",
+   "restricted_goods"
+  ],
+  [
+   "cctv",
+   "facial_recognition"
+  ],
+  [
+   "sniffer_dog",
+   "security_forces"
+  ],
+  [
+   "sniffer_dog",
+   "spot_check"
+  ],
+  [
+   "drug_squad",
+   "anti_corruption_squad"
+  ],
+  [
+   "corruption",
+   "bribery"
+  ],
+  [
+   "cyberterrorism",
+   "cybercrime"
+  ],
+  [
+   "cyberwarfare",
+   "cybercrime"
+  ],
+  [
+   "cyberterrorism",
+   "cyberwarfare"
+  ],
+  [
+   "fine",
+   "parking_ticket"
+  ],
+  [
+   "drug_squad",
+   "security_forces"
+  ]
+ ]
+}

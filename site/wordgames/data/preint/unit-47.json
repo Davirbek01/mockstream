@@ -1,0 +1,473 @@
+{
+ "book": "preint",
+ "unit": 47,
+ "title": "Air travel",
+ "title_uz": "Havo sayohati",
+ "words": [
+  {
+   "id": "departure",
+   "en": "departure",
+   "uz": "jo‘nash (uchib ketish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our departure was at five in the morning, so we had to leave home in the dark.",
+   "gap": "departure",
+   "alt": [
+    "departures"
+   ]
+  },
+  {
+   "id": "departures_board",
+   "en": "departures board",
+   "uz": "jo‘nash reyslari tablosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We looked up at the departures board and were happy to see that our flight was on time.",
+   "gap": "departures board",
+   "alt": [
+    "departures boards"
+   ]
+  },
+  {
+   "id": "flight_number",
+   "en": "flight number",
+   "uz": "reys raqami",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you call the airline, have your flight number ready; it's printed on your ticket, for example HY601.",
+   "gap": "flight number",
+   "alt": [
+    "flight numbers"
+   ]
+  },
+  {
+   "id": "check_in_desk",
+   "en": "check-in desk",
+   "uz": "ro‘yxatdan o‘tish peshtaxtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the check-in desk, a smiling woman put my suitcase on the belt and gave me a seat by the window.",
+   "gap": "check-in desk",
+   "alt": [
+    "check-in",
+    "check-in desks",
+    "check in desk"
+   ]
+  },
+  {
+   "id": "excess_baggage",
+   "en": "excess baggage",
+   "uz": "ortiqcha yuk (uchun to‘lov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aunt Nodira packed so many presents for her relatives in Riga that she had to pay forty dollars for excess baggage.",
+   "gap": "excess baggage",
+   "alt": []
+  },
+  {
+   "id": "hand_luggage",
+   "en": "hand luggage",
+   "uz": "qo‘l yuki (salonga olinadigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Keep your medicine and phone charger in your hand luggage, so they stay with you in the cabin during the flight.",
+   "gap": "hand luggage",
+   "alt": []
+  },
+  {
+   "id": "aircraft",
+   "en": "aircraft",
+   "uz": "samolyot (havo kemasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The airline's new aircraft has 300 seats and a small screen in the back of every seat.",
+   "gap": "aircraft",
+   "alt": []
+  },
+  {
+   "id": "boarding_card",
+   "en": "boarding card",
+   "uz": "bortga chiqish taloni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you get on the plane, show your boarding card to the staff at the door, together with your passport.",
+   "gap": "boarding card",
+   "alt": [
+    "boarding cards"
+   ]
+  },
+  {
+   "id": "passport_control",
+   "en": "passport control",
+   "uz": "pasport nazorati",
+   "pos": "noun",
+   "img": false,
+   "ex": "At passport control, the officer compared my photo with my face and then let me through.",
+   "gap": "passport control",
+   "alt": []
+  },
+  {
+   "id": "departure_lounge",
+   "en": "departure lounge",
+   "uz": "jo‘nash zali (kutish zali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With an hour to wait, we sat in the departure lounge and watched the planes through the big windows.",
+   "gap": "departure lounge",
+   "alt": [
+    "departure lounges"
+   ]
+  },
+  {
+   "id": "duty_free_shop",
+   "en": "duty-free shop",
+   "uz": "bojsiz savdo do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum bought a box of Swiss chocolates for half the normal price at the duty-free shop.",
+   "gap": "duty-free shop",
+   "alt": [
+    "duty-free shops",
+    "duty free shop",
+    "duty-free"
+   ]
+  },
+  {
+   "id": "take_off_plane",
+   "en": "take off",
+   "uz": "havoga ko‘tarilmoq (uchib ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The plane took off at exactly six in the morning, and soon the city was just tiny lights below us.",
+   "gap": "took off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taking off",
+    "take-off"
+   ]
+  },
+  {
+   "id": "boarding_gate",
+   "en": "gate",
+   "uz": "bortga chiqish eshigi (aeroportda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flight was boarding already, so we ran to gate 7 at the far end of the hall.",
+   "gap": "gate",
+   "alt": [
+    "gates"
+   ]
+  },
+  {
+   "id": "board_the_plane",
+   "en": "board the plane",
+   "uz": "samolyotga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Families with small children are usually invited to board the plane first.",
+   "gap": "board the plane",
+   "alt": [
+    "boards the plane",
+    "boarded the plane",
+    "boarding the plane"
+   ]
+  },
+  {
+   "id": "overhead_locker",
+   "en": "overhead locker",
+   "uz": "o‘rindiq tepasidagi yuk javoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "I put my backpack in the overhead locker and sat down by the window.",
+   "gap": "overhead locker",
+   "alt": [
+    "overhead lockers"
+   ]
+  },
+  {
+   "id": "fasten_seat_belt",
+   "en": "fasten your seat belt",
+   "uz": "xavfsizlik kamarini taqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little light above my head came on with a 'ding', which means: fasten your seat belt.",
+   "gap": "fasten your seat belt",
+   "alt": [
+    "fasten seat belt",
+    "fasten your seatbelt"
+   ]
+  },
+  {
+   "id": "delay",
+   "en": "delay",
+   "uz": "kechikish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of thick fog, there was a two-hour delay, and we didn't leave until midnight.",
+   "gap": "delay",
+   "alt": [
+    "delays"
+   ]
+  },
+  {
+   "id": "runway",
+   "en": "runway",
+   "uz": "uchish-qo‘nish yo‘lagi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy snow covered the runway, so workers had to clear it before any plane could leave.",
+   "gap": "runway",
+   "alt": [
+    "runways"
+   ]
+  },
+  {
+   "id": "passenger",
+   "en": "passenger",
+   "uz": "yo‘lovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plane was completely full: there were 180 passengers and not one empty seat.",
+   "gap": "passengers",
+   "alt": [
+    "passengers"
+   ]
+  },
+  {
+   "id": "luggage",
+   "en": "luggage",
+   "uz": "yuk (bagaj)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We had so much luggage for our month in Malaysia that it didn't all fit in the taxi.",
+   "gap": "luggage",
+   "alt": []
+  },
+  {
+   "id": "luggage_trolley",
+   "en": "luggage trolley",
+   "uz": "yuk aravachasi (aeroportda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our bags were heavy, so my cousin found a luggage trolley and pushed them all to the exit.",
+   "gap": "luggage trolley",
+   "alt": [
+    "luggage trolleys"
+   ]
+  },
+  {
+   "id": "suitcase",
+   "en": "suitcase",
+   "uz": "chamadon",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little sister packed her suitcase a week before the trip and had to sit on it to close the zip.",
+   "gap": "suitcase",
+   "alt": [
+    "suitcases"
+   ]
+  },
+  {
+   "id": "arrival",
+   "en": "arrival",
+   "uz": "yetib kelish (qo‘nish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our arrival in Dubai was twenty minutes early, so the hotel driver wasn't there yet.",
+   "gap": "arrival",
+   "alt": [
+    "arrivals"
+   ]
+  },
+  {
+   "id": "land",
+   "en": "land",
+   "uz": "qo‘nmoq (yerga tushmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We landed in Almaty in heavy rain, and everyone clapped when the wheels touched the ground.",
+   "gap": "landed",
+   "alt": [
+    "lands",
+    "landed",
+    "landing"
+   ]
+  },
+  {
+   "id": "announcement",
+   "en": "announcement",
+   "uz": "e’lon (ovozli xabar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We heard an announcement in three languages: the flight to Urgench was now ready for boarding.",
+   "gap": "announcement",
+   "alt": [
+    "announcements"
+   ]
+  },
+  {
+   "id": "cabin_crew",
+   "en": "cabin crew",
+   "uz": "bort xodimlari (styuardessalar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the flight, the cabin crew brought us juice, sandwiches and warm blankets.",
+   "gap": "cabin crew",
+   "alt": []
+  },
+  {
+   "id": "terminal",
+   "en": "terminal",
+   "uz": "aeroport binosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After landing, a bus took us from the plane to the terminal, where we joined a long queue for passport control.",
+   "gap": "terminal",
+   "alt": [
+    "terminals",
+    "terminal building"
+   ]
+  },
+  {
+   "id": "baggage_reclaim",
+   "en": "baggage reclaim",
+   "uz": "bagajni qaytarib olish joyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We waited at baggage reclaim for ages before our bags finally came round on the belt.",
+   "gap": "baggage reclaim",
+   "alt": []
+  },
+  {
+   "id": "go_through_customs",
+   "en": "go through customs",
+   "uz": "bojxonadan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After we collected our bags, we went through customs and found our driver waiting outside.",
+   "gap": "went through customs",
+   "alt": [
+    "goes through customs",
+    "went through customs",
+    "going through customs"
+   ]
+  },
+  {
+   "id": "weigh_luggage",
+   "en": "weigh",
+   "uz": "tortmoq (vaznini o‘lchamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At check-in, the woman put my bag on the belt to weigh it: it was exactly 23 kilos.",
+   "gap": "weigh",
+   "alt": [
+    "weighs",
+    "weighed",
+    "weighing"
+   ]
+  },
+  {
+   "id": "departure_time",
+   "en": "departure time",
+   "uz": "jo‘nash vaqti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The departure time on our ticket was 14:35, so we left home three hours early.",
+   "gap": "departure time",
+   "alt": [
+    "departure times"
+   ]
+  },
+  {
+   "id": "passport",
+   "en": "passport",
+   "uz": "chet elga chiqish hujjati",
+   "pos": "noun",
+   "img": true,
+   "ex": "My passport expires next month, so I must get a new one before our trip abroad.",
+   "gap": "passport",
+   "alt": [
+    "passports"
+   ]
+  },
+  {
+   "id": "perfume",
+   "en": "perfume",
+   "uz": "atir",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the duty-free shop, my sister tried three kinds of perfume and smelled her wrist after each one.",
+   "gap": "perfume",
+   "alt": [
+    "perfumes"
+   ]
+  },
+  {
+   "id": "cigarette",
+   "en": "cigarette",
+   "uz": "chekiladigan tamaki o‘rami",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a no-smoking sign, so you can't light a cigarette anywhere in the terminal.",
+   "gap": "cigarette",
+   "alt": [
+    "cigarettes"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "departure",
+   "arrival"
+  ],
+  [
+   "take_off_plane",
+   "land"
+  ],
+  [
+   "luggage",
+   "hand_luggage"
+  ],
+  [
+   "luggage",
+   "suitcase"
+  ],
+  [
+   "hand_luggage",
+   "suitcase"
+  ],
+  [
+   "passport_control",
+   "go_through_customs"
+  ],
+  [
+   "departure_lounge",
+   "terminal"
+  ],
+  [
+   "boarding_gate",
+   "departure_lounge"
+  ],
+  [
+   "aircraft",
+   "runway"
+  ],
+  [
+   "excess_baggage",
+   "luggage"
+  ],
+  [
+   "excess_baggage",
+   "hand_luggage"
+  ],
+  [
+   "departure",
+   "departure_time"
+  ],
+  [
+   "arrival",
+   "departure_time"
+  ]
+ ]
+}

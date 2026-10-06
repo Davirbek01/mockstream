@@ -1,0 +1,441 @@
+{
+ "book": "advanced",
+ "unit": 43,
+ "title": "The letter of the law",
+ "title_uz": "Qonun bandiga ko‘ra",
+ "words": [
+  {
+   "id": "bend_the_rules",
+   "en": "bend the rules",
+   "uz": "qoidani biroz chetlab o‘tmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The librarian bent the rules a little and let me borrow a fourth book, even though the limit is three.",
+   "gap": "bent the rules",
+   "alt": [
+    "bent the rules",
+    "bending the rules",
+    "bend the law"
+   ]
+  },
+  {
+   "id": "contravene",
+   "en": "contravene",
+   "uz": "qonunga zid ish qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Building a garage so close to the river would contravene the town's planning laws.",
+   "gap": "contravene",
+   "alt": [
+    "contravened",
+    "contravenes",
+    "contravention"
+   ]
+  },
+  {
+   "id": "infringe",
+   "en": "infringe",
+   "uz": "huquqni buzmoq (poymol qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Uploading the whole film to your own channel would infringe the studio's copyright.",
+   "gap": "infringe",
+   "alt": [
+    "infringed",
+    "infringes",
+    "infringement"
+   ]
+  },
+  {
+   "id": "impeach",
+   "en": "impeach",
+   "uz": "lavozimdan chetlatish uchun ayblamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Opposition members collected enough votes to impeach the governor over the missing road-building money.",
+   "gap": "impeach",
+   "alt": [
+    "impeached",
+    "impeachment"
+   ]
+  },
+  {
+   "id": "lodge_an_appeal",
+   "en": "lodge an appeal",
+   "uz": "yuqori sudga shikoyat bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The fined company immediately lodged an appeal, arguing that the inspectors had measured the noise wrongly.",
+   "gap": "lodged an appeal",
+   "alt": [
+    "lodged an appeal",
+    "lodges an appeal"
+   ]
+  },
+  {
+   "id": "overturn",
+   "en": "overturn",
+   "uz": "sud qarorini bekor qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last month the higher court overturned the ruling, saying the first judge had misread the contract.",
+   "gap": "overturned",
+   "alt": [
+    "overturned",
+    "overturns"
+   ]
+  },
+  {
+   "id": "quash",
+   "en": "quash",
+   "uz": "ayblov hukmini bekor qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "His conviction was quashed when phone records proved he had been in another city at the time.",
+   "gap": "quashed",
+   "alt": [
+    "quashed",
+    "quashes"
+   ]
+  },
+  {
+   "id": "set_a_precedent",
+   "en": "set a precedent",
+   "uz": "keyingi ishlar uchun andoza yaratmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "If the judge agrees with the parents, it will set a precedent for hundreds of similar cases.",
+   "gap": "set a precedent",
+   "alt": [
+    "sets a precedent",
+    "setting a precedent"
+   ]
+  },
+  {
+   "id": "custody",
+   "en": "custody",
+   "uz": "bolaga vasiylik huquqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the divorce, the judge gave the father custody of the children, and their mother sees them every weekend.",
+   "gap": "custody",
+   "alt": []
+  },
+  {
+   "id": "annul",
+   "en": "annul",
+   "uz": "haqiqiy emas deb topmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The contract was annulled when the court discovered that one of the people who had signed it was only fifteen years old.",
+   "gap": "annulled",
+   "alt": [
+    "annulled",
+    "annuls",
+    "annulment"
+   ]
+  },
+  {
+   "id": "sue",
+   "en": "sue",
+   "uz": "sudga da’vo qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The family sued the travel company after their 'sea-view hotel' turned out to be a building site.",
+   "gap": "sued",
+   "alt": [
+    "sued",
+    "sues",
+    "suing"
+   ]
+  },
+  {
+   "id": "allege",
+   "en": "allege",
+   "uz": "isbotsiz ayblamoq (da’vo qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The newspaper alleges that the builder used cheap materials, but it has not shown any proof yet.",
+   "gap": "alleges",
+   "alt": [
+    "alleged",
+    "alleges",
+    "alleging"
+   ]
+  },
+  {
+   "id": "amend",
+   "en": "amend",
+   "uz": "qonunga o‘zgartirish kiritmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Parliament voted to amend the road safety law so that children under twelve must wear a helmet on a bike.",
+   "gap": "amend",
+   "alt": [
+    "amended",
+    "amends",
+    "amendment"
+   ]
+  },
+  {
+   "id": "discrimination",
+   "en": "discrimination",
+   "uz": "kamsitish (teng ko‘rmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank was fined for age discrimination after it rejected every job applicant over fifty.",
+   "gap": "discrimination",
+   "alt": []
+  },
+  {
+   "id": "embezzle",
+   "en": "embezzle",
+   "uz": "pulni o‘zlashtirmoq (talon-toroj)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Over five years, the club's treasurer quietly embezzled thousands of dollars from the members' fees.",
+   "gap": "embezzled",
+   "alt": [
+    "embezzled",
+    "embezzles",
+    "embezzlement",
+    "embezzler"
+   ]
+  },
+  {
+   "id": "harassment",
+   "en": "harassment",
+   "uz": "tazyiq o‘tkazish (bezovta qilish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The debt collectors were fined for harassment after phoning the family twenty times a day.",
+   "gap": "harassment",
+   "alt": [
+    "harass"
+   ]
+  },
+  {
+   "id": "insider_trading",
+   "en": "insider trading",
+   "uz": "ichki maxfiy ma’lumot bilan aksiya savdosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The manager was found guilty of insider trading: he had bought shares the day before his company's secret good news was announced.",
+   "gap": "insider trading",
+   "alt": [
+    "insider dealing"
+   ]
+  },
+  {
+   "id": "money_laundering",
+   "en": "money laundering",
+   "uz": "jinoiy pulni legallashtirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The police discovered that a small car wash, which hardly ever had any customers, was being used for money laundering.",
+   "gap": "money laundering",
+   "alt": [
+    "launder money"
+   ]
+  },
+  {
+   "id": "perjury",
+   "en": "perjury",
+   "uz": "yolg‘on guvohlik berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The witness was charged with perjury when security camera footage showed that his story in court had been completely invented.",
+   "gap": "perjury",
+   "alt": [
+    "perjurer"
+   ]
+  },
+  {
+   "id": "trespass",
+   "en": "trespass",
+   "uz": "begona yerga ruxsatsiz kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Two teenagers were warned for trespassing after climbing the fence into the closed water park.",
+   "gap": "trespassing",
+   "alt": [
+    "trespassing",
+    "trespassed",
+    "trespasser"
+   ]
+  },
+  {
+   "id": "law_abiding",
+   "en": "law-abiding",
+   "uz": "qonunga itoatkor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My neighbour is a completely law-abiding citizen: he waits for the green light even on an empty street at midnight.",
+   "gap": "law-abiding",
+   "alt": [
+    "law abiding"
+   ]
+  },
+  {
+   "id": "law_breaker",
+   "en": "law-breaker",
+   "uz": "qonunbuzar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new cameras on the motorway are designed to catch law-breakers who drive far too fast.",
+   "gap": "law-breakers",
+   "alt": [
+    "law-breakers",
+    "lawbreaker",
+    "lawbreakers"
+   ]
+  },
+  {
+   "id": "lay_down_the_law",
+   "en": "lay down the law",
+   "uz": "qat’iy talab qo‘ymoq (buyruq ohangida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On her first day, the new coach laid down the law: no phones at practice and nobody arrives late.",
+   "gap": "laid down the law",
+   "alt": [
+    "laid down the law",
+    "lays down the law"
+   ]
+  },
+  {
+   "id": "law_unto_yourself",
+   "en": "law unto yourself",
+   "uz": "o‘z bilganidan qolmaydigan odam",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our cat is a law unto herself: she comes home when she likes and ignores everyone who calls her.",
+   "gap": "law unto herself",
+   "alt": [
+    "law unto herself",
+    "law unto himself",
+    "law unto themselves"
+   ]
+  },
+  {
+   "id": "uphold_verdict",
+   "en": "uphold",
+   "uz": "sud hukmini o‘z kuchida qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The appeal court upheld the verdict, so the builder still has to pay for the damage to his neighbour's wall.",
+   "gap": "upheld",
+   "alt": [
+    "upheld",
+    "upholds",
+    "upholding"
+   ]
+  },
+  {
+   "id": "pervert_the_course_of_justice",
+   "en": "pervert the course of justice",
+   "uz": "odil sudlovga to‘sqinlik qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The driver was accused of perverting the course of justice after he asked a friend to tell police she had been at the wheel.",
+   "gap": "perverting the course of justice",
+   "alt": [
+    "perverting the course of justice",
+    "perverted the course of justice",
+    "perverts the course of justice"
+   ]
+  },
+  {
+   "id": "stalking",
+   "en": "stalking",
+   "uz": "ta’qib qilib tinchini buzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer went to the police about stalking after the same stranger turned up outside her flat every night for a month.",
+   "gap": "stalking",
+   "alt": [
+    "stalk",
+    "stalked",
+    "stalks",
+    "stalker",
+    "stalkers"
+   ]
+  },
+  {
+   "id": "take_law_into_own_hands",
+   "en": "take the law into your own hands",
+   "uz": "o‘zboshimchalik bilan jazolamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the police did nothing about the all-night parties, some residents took the law into their own hands and cut off the building's electricity.",
+   "gap": "took the law into their own hands",
+   "alt": [
+    "took the law into their own hands",
+    "take the law into their own hands",
+    "taking the law into their own hands"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "contravene",
+   "infringe"
+  ],
+  [
+   "overturn",
+   "quash"
+  ],
+  [
+   "overturn",
+   "uphold"
+  ],
+  [
+   "bend_the_rules",
+   "contravene"
+  ],
+  [
+   "allege",
+   "sue"
+  ],
+  [
+   "law_breaker",
+   "law_abiding"
+  ],
+  [
+   "uphold_verdict",
+   "overturn"
+  ],
+  [
+   "uphold_verdict",
+   "quash"
+  ],
+  [
+   "uphold_verdict",
+   "uphold"
+  ],
+  [
+   "pervert_the_course_of_justice",
+   "perjury"
+  ],
+  [
+   "stalking",
+   "harassment"
+  ],
+  [
+   "take_law_into_own_hands",
+   "lay_down_the_law"
+  ],
+  [
+   "take_law_into_own_hands",
+   "bend_the_rules"
+  ],
+  [
+   "overturn",
+   "annul"
+  ],
+  [
+   "quash",
+   "annul"
+  ]
+ ]
+}

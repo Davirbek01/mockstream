@@ -1,0 +1,468 @@
+{
+ "book": "upper",
+ "unit": 57,
+ "title": "Possession and giving",
+ "title_uz": "Egalik va berish",
+ "words": [
+  {
+   "id": "possessions",
+   "en": "possessions",
+   "uz": "bor-yo‘q mol-mulk",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour is moving to a tiny flat, so she's selling most of her possessions: furniture, books, even her piano.",
+   "gap": "possessions",
+   "alt": [
+    "possession"
+   ]
+  },
+  {
+   "id": "belongings",
+   "en": "belongings",
+   "uz": "shaxsiy buyumlar (sumka, kiyim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the hostel in Nukus, each guest gets a small cupboard to keep their belongings safe.",
+   "gap": "belongings",
+   "alt": []
+  },
+  {
+   "id": "estate",
+   "en": "estate",
+   "uz": "katta yer mulki (uy-joyi bilan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The farmer's estate near Fergana covers two hundred hectares of orchards and cotton fields.",
+   "gap": "estate",
+   "alt": [
+    "estates"
+   ]
+  },
+  {
+   "id": "housing_estate",
+   "en": "housing estate",
+   "uz": "turar-joy mavzesi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We live on a new housing estate on the edge of Samarkand, where all the blocks look the same.",
+   "gap": "housing estate",
+   "alt": [
+    "housing estates"
+   ]
+  },
+  {
+   "id": "property",
+   "en": "property",
+   "uz": "ko‘chmas mulk (uy, yer)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Tashkent, property prices have risen so fast that young couples can hardly afford a flat.",
+   "gap": "property",
+   "alt": [
+    "properties"
+   ]
+  },
+  {
+   "id": "proprietor",
+   "en": "proprietor",
+   "uz": "egasi (do‘kon, mehmonxona; rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The proprietor of the small guesthouse in Shahrisabz greets every guest personally at the gate.",
+   "gap": "proprietor",
+   "alt": [
+    "proprietors"
+   ]
+  },
+  {
+   "id": "landlord",
+   "en": "landlord",
+   "uz": "uy egasi (ijaraga beruvchi erkak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The landlord promised to fix the broken heater in our flat, but he still hasn't come.",
+   "gap": "landlord",
+   "alt": [
+    "landlords"
+   ]
+  },
+  {
+   "id": "landlady",
+   "en": "landlady",
+   "uz": "uy bekasi (ijaraga beruvchi ayol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The landlady, an elderly woman who lives downstairs, lets her spare flat to students and collects the rent herself.",
+   "gap": "landlady",
+   "alt": [
+    "landladies"
+   ]
+  },
+  {
+   "id": "tenant",
+   "en": "tenant",
+   "uz": "ijarachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new tenants upstairs moved in last week and have already invited us for tea.",
+   "gap": "tenants",
+   "alt": [
+    "tenants"
+   ]
+  },
+  {
+   "id": "inherit",
+   "en": "inherit",
+   "uz": "meros olmoq (mol-mulk, xislat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shohruh inherited his father's talent for drawing; they both sketch everything they see.",
+   "gap": "inherited",
+   "alt": [
+    "inherits",
+    "inherited",
+    "inheriting"
+   ]
+  },
+  {
+   "id": "contribute",
+   "en": "contribute",
+   "uz": "hissa qo‘shmoq (pul bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Everyone in our class contributed 10,000 som towards a present for our teacher.",
+   "gap": "contributed",
+   "alt": [
+    "contributes",
+    "contributed",
+    "contributing"
+   ]
+  },
+  {
+   "id": "donate",
+   "en": "donate",
+   "uz": "xayriya qilmoq, beg‘araz bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Over two hundred people donated blood at the hospital's open day.",
+   "gap": "donated",
+   "alt": [
+    "donates",
+    "donated",
+    "donating"
+   ]
+  },
+  {
+   "id": "provide",
+   "en": "provide",
+   "uz": "ta’minlamoq (suv, oziq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school provides free lunches for all pupils in the first four years.",
+   "gap": "provides",
+   "alt": [
+    "provides",
+    "provided",
+    "providing"
+   ]
+  },
+  {
+   "id": "supply",
+   "en": "supply",
+   "uz": "yetkazib bermoq (savdo asosida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A farm near Jizzakh supplies the city's supermarkets with fresh milk every morning.",
+   "gap": "supplies",
+   "alt": [
+    "supplies",
+    "supplied",
+    "supplying"
+   ]
+  },
+  {
+   "id": "present_with",
+   "en": "present",
+   "uz": "tantanali taqdim etmoq (mukofot)",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the end of the year, the head teacher presented each prize winner with a certificate and a book.",
+   "gap": "presented",
+   "alt": [
+    "presents",
+    "presented",
+    "presenting"
+   ]
+  },
+  {
+   "id": "support",
+   "en": "support",
+   "uz": "boqmoq, moddiy qo‘llab-quvvatlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since her father's illness, Zebo has supported the whole family with her salary from the clinic.",
+   "gap": "supported",
+   "alt": [
+    "supports",
+    "supported",
+    "supporting"
+   ]
+  },
+  {
+   "id": "cater_for",
+   "en": "cater for",
+   "uz": "ehtiyojini qondirmoq, xizmat qilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The menu at the new café caters for vegetarians as well as meat-eaters.",
+   "gap": "caters for",
+   "alt": [
+    "caters for",
+    "catered for",
+    "catering for"
+   ]
+  },
+  {
+   "id": "leave_will",
+   "en": "leave",
+   "uz": "vasiyat qilib qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In his will, the painter left all his pictures to the city museum.",
+   "gap": "left",
+   "alt": [
+    "leaves",
+    "left",
+    "leaving"
+   ]
+  },
+  {
+   "id": "sponsor",
+   "en": "sponsor",
+   "uz": "homiylik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A local mobile phone company has agreed to sponsor our school's football team for the new season.",
+   "gap": "sponsor",
+   "alt": [
+    "sponsors",
+    "sponsored",
+    "sponsoring"
+   ]
+  },
+  {
+   "id": "allocate",
+   "en": "allocate",
+   "uz": "taqsimlab bermoq (vazifa, joy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ms Yusupova allocated each group a different region of Uzbekistan to research for the project.",
+   "gap": "allocated",
+   "alt": [
+    "allocates",
+    "allocated",
+    "allocating"
+   ]
+  },
+  {
+   "id": "hand_over",
+   "en": "hand over",
+   "uz": "topshirmoq (mas’ul shaxsga)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "If you find a lost phone in the metro, you should hand over the phone to a member of staff.",
+   "gap": "hand over",
+   "alt": [
+    "hands over",
+    "handed over",
+    "handing over"
+   ]
+  },
+  {
+   "id": "let_go_of",
+   "en": "let go of",
+   "uz": "(ko‘ngli istamay) qo‘ldan chiqarmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Mum finds it hard to let go of our old baby clothes, so she keeps them all in a box.",
+   "gap": "let go of",
+   "alt": [
+    "lets go of",
+    "letting go of"
+   ]
+  },
+  {
+   "id": "hand_out",
+   "en": "hand out",
+   "uz": "tarqatmoq (hammaga)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "At the Tashkent marathon, volunteers handed out bottles of water to the runners.",
+   "gap": "handed out",
+   "alt": [
+    "hands out",
+    "handed out",
+    "handing out"
+   ]
+  },
+  {
+   "id": "give_away",
+   "en": "give away",
+   "uz": "tekinga berib yubormoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My brother had grown out of his winter coat, so we gave it away to a family in the next street.",
+   "gap": "gave it away",
+   "alt": [
+    "gives away",
+    "gave away",
+    "given away",
+    "giving away",
+    "gave it away"
+   ]
+  },
+  {
+   "id": "hand_down",
+   "en": "hand down",
+   "uz": "avloddan avlodga o‘tkazmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Many of the songs we sing at Navruz have been handed down from parents to children for centuries.",
+   "gap": "handed down",
+   "alt": [
+    "hands down",
+    "handed down",
+    "handing down"
+   ]
+  },
+  {
+   "id": "owner",
+   "en": "owner",
+   "uz": "egasi (har qanday narsaning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The owner of the lost dog put posters on every lamp post in the street.",
+   "gap": "owner",
+   "alt": [
+    "owners"
+   ]
+  },
+  {
+   "id": "give_out",
+   "en": "give out",
+   "uz": "ulashib chiqmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "At the entrance to the concert hall, students gave out free programmes to every guest.",
+   "gap": "gave out",
+   "alt": [
+    "gives out",
+    "gave out",
+    "given out",
+    "giving out"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "possessions",
+   "belongings"
+  ],
+  [
+   "estate",
+   "property"
+  ],
+  [
+   "estate",
+   "housing_estate"
+  ],
+  [
+   "proprietor",
+   "landlord"
+  ],
+  [
+   "landlord",
+   "landlady"
+  ],
+  [
+   "contribute",
+   "donate"
+  ],
+  [
+   "donate",
+   "leave_will"
+  ],
+  [
+   "provide",
+   "supply"
+  ],
+  [
+   "present_with",
+   "provide"
+  ],
+  [
+   "present_with",
+   "hand_over"
+  ],
+  [
+   "sponsor",
+   "support"
+  ],
+  [
+   "cater_for",
+   "supply"
+  ],
+  [
+   "hand_out",
+   "give_away"
+  ],
+  [
+   "give_away",
+   "hand_over"
+  ],
+  [
+   "possessions",
+   "property"
+  ],
+  [
+   "proprietor",
+   "landlady"
+  ],
+  [
+   "hand_out",
+   "donate"
+  ],
+  [
+   "owner",
+   "proprietor"
+  ],
+  [
+   "owner",
+   "landlord"
+  ],
+  [
+   "owner",
+   "landlady"
+  ],
+  [
+   "owner",
+   "tenant"
+  ],
+  [
+   "give_out",
+   "hand_out"
+  ],
+  [
+   "give_out",
+   "give_away"
+  ],
+  [
+   "give_out",
+   "hand_over"
+  ],
+  [
+   "give_out",
+   "donate"
+  ]
+ ]
+}

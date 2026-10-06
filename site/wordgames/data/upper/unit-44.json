@@ -1,0 +1,453 @@
+{
+ "book": "upper",
+ "unit": 44,
+ "title": "Like, dislike and desire",
+ "title_uz": "Yoqtirish, yoqtirmaslik va xohish",
+ "words": [
+  {
+   "id": "fascinate",
+   "en": "fascinate",
+   "uz": "maftun etmoq, qiziqtirib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My nephew is fascinated by space; he can name every planet and dozens of their moons.",
+   "gap": "fascinated",
+   "alt": [
+    "fascinates",
+    "fascinated"
+   ]
+  },
+  {
+   "id": "attract",
+   "en": "attract",
+   "uz": "o‘ziga tortmoq, jalb qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "What first attracted me to photography was the idea of catching a moment that will never come back.",
+   "gap": "attracted",
+   "alt": [
+    "attracts",
+    "attracted",
+    "attracting"
+   ]
+  },
+  {
+   "id": "keen_on",
+   "en": "keen on",
+   "uz": "(…ga) qiziqadigan, ishqiboz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm not keen on spicy food, so could you leave the chilli out of my soup?",
+   "gap": "keen on",
+   "alt": []
+  },
+  {
+   "id": "appeal_to",
+   "en": "appeal to",
+   "uz": "(…ga) yoqmoq, ma’qul kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A lazy beach holiday doesn't appeal to me; I prefer cities with museums and busy markets.",
+   "gap": "appeal to",
+   "alt": [
+    "appeals to",
+    "appealed to",
+    "appealing to"
+   ]
+  },
+  {
+   "id": "captivated",
+   "en": "captivated",
+   "uz": "sehrlanib qolgan, mahliyo",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The children were captivated by the puppet show and didn't make a sound for a whole hour.",
+   "gap": "captivated",
+   "alt": [
+    "captivate",
+    "captivates"
+   ]
+  },
+  {
+   "id": "caring",
+   "en": "caring",
+   "uz": "g‘amxo‘r",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The school nurse is a very caring woman: when I twisted my ankle on the stairs, she phoned my parents and stayed with me until they arrived.",
+   "gap": "caring",
+   "alt": []
+  },
+  {
+   "id": "fond_of",
+   "en": "fond of",
+   "uz": "(…ni) yaxshi ko‘radigan, mehr qo‘ygan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Old Mr Yusupov is very fond of his cat and chats to it as if it were a person.",
+   "gap": "fond of",
+   "alt": []
+  },
+  {
+   "id": "affectionate",
+   "en": "affectionate",
+   "uz": "erkalovchi, mehrini ko‘rsatadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our puppy is very affectionate and climbs onto everyone's lap to be stroked.",
+   "gap": "affectionate",
+   "alt": []
+  },
+  {
+   "id": "passionate_about",
+   "en": "passionate about",
+   "uz": "(…ga) jon-dili bilan berilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our biology teacher gets so passionate about protecting the environment that her voice shakes whenever she talks about plastic in the sea.",
+   "gap": "passionate about",
+   "alt": []
+  },
+  {
+   "id": "devoted_to",
+   "en": "devoted to",
+   "uz": "(…ga) butunlay bag‘ishlangan, sodiq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The village doctor has been devoted to her patients for forty years and still visits the elderly ones at home.",
+   "gap": "devoted to",
+   "alt": []
+  },
+  {
+   "id": "care_for",
+   "en": "care for",
+   "uz": "parvarish qilmoq, qaramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At the centre, volunteers care for injured storks until they are strong enough to fly again.",
+   "gap": "care for",
+   "alt": [
+    "cares for",
+    "cared for",
+    "caring for"
+   ]
+  },
+  {
+   "id": "detest",
+   "en": "detest",
+   "uz": "o‘lguday yomon ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I detest standing in queues, so I always buy my train tickets online the night before.",
+   "gap": "detest",
+   "alt": [
+    "detests",
+    "detested"
+   ]
+  },
+  {
+   "id": "cant_bear",
+   "en": "can't bear",
+   "uz": "chiday olmaslik, ko‘ra olmaslik",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our football captain, of all people, can't bear the sight of blood and turns away whenever he has an injection.",
+   "gap": "can't bear",
+   "alt": [
+    "cannot bear",
+    "couldn't bear"
+   ]
+  },
+  {
+   "id": "repel",
+   "en": "repel",
+   "uz": "o‘zidan itarmoq, bezdirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "His bossy, rude manner repels almost everyone he meets, so he has very few real friends.",
+   "gap": "repels",
+   "alt": [
+    "repels",
+    "repelled",
+    "repelling"
+   ]
+  },
+  {
+   "id": "revolt",
+   "en": "revolt",
+   "uz": "ko‘ngil aynitmoq, jirkantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The smell of the old fish in the bin revolted me so much that I had to open every window.",
+   "gap": "revolted",
+   "alt": [
+    "revolts",
+    "revolted"
+   ]
+  },
+  {
+   "id": "appal",
+   "en": "appal",
+   "uz": "dahshatga solmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We were appalled to learn that the old zoo kept its bears in tiny concrete cages.",
+   "gap": "appalled",
+   "alt": [
+    "appall",
+    "appals",
+    "appalled"
+   ]
+  },
+  {
+   "id": "disgust",
+   "en": "disgust",
+   "uz": "nafrat uyg‘otmoq, ijirg‘antirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Cockroaches really disgust me; I can't even look at a picture of one.",
+   "gap": "disgust",
+   "alt": [
+    "disgusts",
+    "disgusted"
+   ]
+  },
+  {
+   "id": "desire_n",
+   "en": "desire",
+   "uz": "kuchli xohish, ishtiyoq (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ever since reading about the Silk Road, I've had a strong desire to travel the whole route by train.",
+   "gap": "desire",
+   "alt": [
+    "desires"
+   ]
+  },
+  {
+   "id": "look_forward_to",
+   "en": "look forward to",
+   "uz": "intiqlik bilan kutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm really looking forward to the summer camp; my best friend is coming too, and we're going to try rock climbing.",
+   "gap": "looking forward to",
+   "alt": [
+    "looking forward to",
+    "looks forward to",
+    "looked forward to"
+   ]
+  },
+  {
+   "id": "dread",
+   "en": "dread",
+   "uz": "qo‘rqib kutmoq, vahima qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'm dreading my dentist appointment tomorrow; last time the filling really hurt.",
+   "gap": "dreading",
+   "alt": [
+    "dreads",
+    "dreaded",
+    "dreading"
+   ]
+  },
+  {
+   "id": "long_for",
+   "en": "long for",
+   "uz": "(…ga) zor bo‘lmoq, juda qo‘msamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After three grey weeks of rain, everyone in town was longing for a sunny day.",
+   "gap": "longing for",
+   "alt": [
+    "longing for",
+    "longs for",
+    "longed for"
+   ]
+  },
+  {
+   "id": "yearn_for",
+   "en": "yearn for",
+   "uz": "(…ni) sog‘inib orzu qilmoq (adabiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Living far from home, the old poet yearned for the smell of fresh bread from his mother's tandoor.",
+   "gap": "yearned for",
+   "alt": [
+    "yearns for",
+    "yearned for",
+    "yearning for"
+   ]
+  },
+  {
+   "id": "fall_in_love_with",
+   "en": "fall in love with",
+   "uz": "(…ni) sevib qolmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Saida fell in love with the old wooden house the moment she walked through the gate.",
+   "gap": "fell in love with",
+   "alt": [
+    "fell in love with",
+    "falls in love with",
+    "fallen in love with",
+    "falling in love with"
+   ]
+  },
+  {
+   "id": "fall_for",
+   "en": "fall for",
+   "uz": "(birovga) birdan ko‘ngil bermoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the novel, the young sailor falls for the lighthouse keeper's daughter at first sight.",
+   "gap": "falls for",
+   "alt": [
+    "falls for",
+    "fell for",
+    "fallen for",
+    "falling for"
+   ]
+  },
+  {
+   "id": "loving",
+   "en": "loving",
+   "uz": "mehribon, sevuvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The puppy grew up in a loving home with three children who adored it.",
+   "gap": "loving",
+   "alt": []
+  },
+  {
+   "id": "desire_v",
+   "en": "desire",
+   "uz": "istamoq, xohlamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hotel promises its guests anything they desire, from fresh flowers to a private chef.",
+   "gap": "desire",
+   "alt": [
+    "desires",
+    "desired"
+   ]
+  },
+  {
+   "id": "fancy_surprise",
+   "en": "fancy",
+   "uz": "qarang-a! (hayrat: kim o‘ylabdi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Well, fancy seeing you at the dentist's! I haven't seen you since we left school.",
+   "gap": "fancy",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "fascinate",
+   "captivated"
+  ],
+  [
+   "keen_on",
+   "fond_of"
+  ],
+  [
+   "keen_on",
+   "passionate_about"
+  ],
+  [
+   "fond_of",
+   "devoted_to"
+  ],
+  [
+   "detest",
+   "cant_bear"
+  ],
+  [
+   "revolt",
+   "disgust"
+  ],
+  [
+   "long_for",
+   "yearn_for"
+  ],
+  [
+   "long_for",
+   "look_forward_to"
+  ],
+  [
+   "appal",
+   "revolt"
+  ],
+  [
+   "appal",
+   "disgust"
+  ],
+  [
+   "appal",
+   "repel"
+  ],
+  [
+   "disgust",
+   "repel"
+  ],
+  [
+   "repel",
+   "revolt"
+  ],
+  [
+   "captivated",
+   "thrilled"
+  ],
+  [
+   "caring",
+   "affectionate"
+  ],
+  [
+   "fond_of",
+   "passionate_about"
+  ],
+  [
+   "repel",
+   "upset"
+  ],
+  [
+   "appal",
+   "furious"
+  ],
+  [
+   "attract",
+   "appeal_to"
+  ],
+  [
+   "fond_of",
+   "affectionate"
+  ],
+  [
+   "passionate_about",
+   "devoted_to"
+  ],
+  [
+   "fall_in_love_with",
+   "fall_for"
+  ],
+  [
+   "loving",
+   "caring"
+  ],
+  [
+   "loving",
+   "affectionate"
+  ],
+  [
+   "desire_v",
+   "desire_n"
+  ],
+  [
+   "fall_for",
+   "attract"
+  ]
+ ]
+}

@@ -1,0 +1,330 @@
+{
+ "book": "elementary",
+ "unit": 36,
+ "title": "Problems at home and work",
+ "title_uz": "Uydagi va ishdagi muammolar",
+ "words": [
+  {
+   "id": "mend",
+   "en": "mend",
+   "uz": "tuzatmoq (buzilganni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The chain on my bike came off again, so Dad is going to mend it before our trip on Saturday.",
+   "gap": "mend",
+   "alt": [
+    "mends",
+    "mended",
+    "mending"
+   ]
+  },
+  {
+   "id": "repair",
+   "en": "repair",
+   "uz": "ta’mirlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A man from the service centre came to repair our fridge, and now it's cold inside again.",
+   "gap": "repair",
+   "alt": [
+    "repairs",
+    "repaired",
+    "repairing"
+   ]
+  },
+  {
+   "id": "broken",
+   "en": "broken",
+   "uz": "singan, buzilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The screen of my phone is broken: there's a long crack right across it.",
+   "gap": "broken",
+   "alt": []
+  },
+  {
+   "id": "not_working",
+   "en": "not working",
+   "uz": "ishlamayapti",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The heating in our classroom isn't working, so we're all sitting in our coats today.",
+   "gap": "isn't working",
+   "alt": [
+    "isn't working",
+    "wasn't working",
+    "aren't working",
+    "weren't working"
+   ]
+  },
+  {
+   "id": "water_the_plants",
+   "en": "water the plants",
+   "uz": "o‘simliklarga suv quymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "While we were visiting friends in Andijan for a week, our neighbour came in every day to water the plants on the balcony.",
+   "gap": "water the plants",
+   "alt": [
+    "waters the plants",
+    "watered the plants",
+    "watering the plants"
+   ]
+  },
+  {
+   "id": "untidy",
+   "en": "untidy",
+   "uz": "tartibsiz, yig‘ishtirilmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your room is so untidy: there are clothes on the floor and books all over the bed!",
+   "gap": "untidy",
+   "alt": []
+  },
+  {
+   "id": "tidy",
+   "en": "tidy",
+   "uz": "yig‘ishtirmoq (tartibga keltirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before my friends come over on Saturday, I always tidy my room and put my books back on the shelf.",
+   "gap": "tidy",
+   "alt": [
+    "tidies",
+    "tidied",
+    "tidying"
+   ]
+  },
+  {
+   "id": "lose",
+   "en": "lose",
+   "uz": "yo‘qotmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Be careful with your new phone; don't lose it like the old one, which you left on the bus!",
+   "gap": "lose",
+   "alt": [
+    "loses",
+    "lost",
+    "losing"
+   ]
+  },
+  {
+   "id": "look_for",
+   "en": "look for",
+   "uz": "qidirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you help me look for my pencil case? I can't find it anywhere.",
+   "gap": "look for",
+   "alt": [
+    "looks for",
+    "looked for",
+    "looking for"
+   ]
+  },
+  {
+   "id": "cut_your_finger",
+   "en": "cut your finger",
+   "uz": "barmog‘ini kesib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I cut my finger on a sharp knife while I was making a salad.",
+   "gap": "cut my finger",
+   "alt": [
+    "cut my finger",
+    "cut his finger",
+    "cut her finger",
+    "cuts his finger",
+    "cuts her finger",
+    "cutting my finger"
+   ]
+  },
+  {
+   "id": "plaster",
+   "en": "plaster",
+   "uz": "leykoplastir (yaraga)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum washed the small cut on my knee and put a plaster on it.",
+   "gap": "plaster",
+   "alt": [
+    "plasters"
+   ]
+  },
+  {
+   "id": "have_a_row",
+   "en": "have a row",
+   "uz": "janjallashib qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Oybek and his best friend had a row about a football game, and now they aren't speaking to each other.",
+   "gap": "had a row",
+   "alt": [
+    "had a row",
+    "has a row",
+    "having a row"
+   ]
+  },
+  {
+   "id": "apologise",
+   "en": "apologise",
+   "uz": "kechirim so‘ramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I shouted at my little brother this morning, so after school I went to apologise to him.",
+   "gap": "apologise",
+   "alt": [
+    "apologize",
+    "apologises",
+    "apologised",
+    "apologising",
+    "apologizes",
+    "apologized"
+   ]
+  },
+  {
+   "id": "bad_day",
+   "en": "bad day",
+   "uz": "omadsiz kun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everything went wrong today: I missed the bus, forgot my lunch and got a low mark. What a bad day!",
+   "gap": "bad day",
+   "alt": []
+  },
+  {
+   "id": "late_for_work",
+   "en": "late for work",
+   "uz": "ishga kechikkan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bus broke down on the way to the office this morning, so Mum was late for work.",
+   "gap": "late for work",
+   "alt": []
+  },
+  {
+   "id": "too_much_work",
+   "en": "too much work",
+   "uz": "ish juda ko‘p",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dad can't come to my football match today; he has too much work at the office.",
+   "gap": "too much work",
+   "alt": []
+  },
+  {
+   "id": "colleague",
+   "en": "colleague",
+   "uz": "hamkasb",
+   "pos": "noun",
+   "img": false,
+   "ex": "My mum's colleague, the other English teacher at her school, often comes to our house for tea.",
+   "gap": "colleague",
+   "alt": [
+    "colleagues"
+   ]
+  },
+  {
+   "id": "in_a_bad_mood",
+   "en": "in a bad mood",
+   "uz": "kayfiyati yomon",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't ask Dad about a new phone now; he's in a bad mood after a long, difficult day.",
+   "gap": "in a bad mood",
+   "alt": []
+  },
+  {
+   "id": "crash_computer",
+   "en": "crash",
+   "uz": "qotib qolmoq (kompyuter)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My laptop crashed while I was writing my essay, so I had to start again from the beginning.",
+   "gap": "crashed",
+   "alt": [
+    "crashes",
+    "crashed",
+    "crashing"
+   ]
+  },
+  {
+   "id": "photocopier",
+   "en": "photocopier",
+   "uz": "nusxa ko‘chirish apparati",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our teacher used the photocopier in the school office to make thirty copies of the test.",
+   "gap": "photocopier",
+   "alt": [
+    "photocopiers"
+   ]
+  },
+  {
+   "id": "forget",
+   "en": "forget",
+   "uz": "unutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda forgot to take her umbrella this morning, so she got wet on the way to the bus stop.",
+   "gap": "forgot",
+   "alt": [
+    "forgets",
+    "forgot",
+    "forgotten",
+    "forgetting"
+   ]
+  },
+  {
+   "id": "coffee_machine",
+   "en": "coffee machine",
+   "uz": "qahva apparati",
+   "pos": "noun",
+   "img": true,
+   "ex": "In our office kitchen, the coffee machine makes a hot cappuccino in thirty seconds.",
+   "gap": "coffee machine",
+   "alt": [
+    "coffee machines"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "mend",
+   "repair"
+  ],
+  [
+   "broken",
+   "not_working"
+  ],
+  [
+   "tidy",
+   "untidy"
+  ],
+  [
+   "lose",
+   "look_for"
+  ],
+  [
+   "late_for_work",
+   "in_a_bad_mood"
+  ],
+  [
+   "bad_day",
+   "in_a_bad_mood"
+  ],
+  [
+   "crash_computer",
+   "catch_fire"
+  ],
+  [
+   "forget",
+   "lose"
+  ],
+  [
+   "coffee_machine",
+   "photocopier"
+  ]
+ ]
+}

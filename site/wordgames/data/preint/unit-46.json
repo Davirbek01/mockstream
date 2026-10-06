@@ -1,0 +1,287 @@
+{
+ "book": "preint",
+ "unit": 46,
+ "title": "Travel bookings",
+ "title_uz": "Sayohatni bron qilish",
+ "words": [
+  {
+   "id": "adventure_holiday",
+   "en": "adventure holiday",
+   "uz": "sarguzashtli dam olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rustam loves danger, so he chose an adventure holiday with rafting and rock climbing in the mountains.",
+   "gap": "adventure holiday",
+   "alt": [
+    "adventure holidays"
+   ]
+  },
+  {
+   "id": "skiing_holiday",
+   "en": "skiing holiday",
+   "uz": "chang‘i uchish uchun dam olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In February we went on a skiing holiday in Georgia, and I fell over in the snow about fifty times on the first day.",
+   "gap": "skiing holiday",
+   "alt": [
+    "skiing holidays"
+   ]
+  },
+  {
+   "id": "family_holiday",
+   "en": "family holiday",
+   "uz": "oilaviy dam olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every August we go on a family holiday: Mum, Dad, my two brothers and me, all squeezed into one car.",
+   "gap": "family holiday",
+   "alt": [
+    "family holidays"
+   ]
+  },
+  {
+   "id": "beach_holiday",
+   "en": "beach holiday",
+   "uz": "plyajda dam olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sevara hates cold weather; for her, the perfect trip is a beach holiday with warm sea and soft sand.",
+   "gap": "beach holiday",
+   "alt": [
+    "beach holidays"
+   ]
+  },
+  {
+   "id": "go_on_a_cruise",
+   "en": "go on a cruise",
+   "uz": "kruizga chiqmoq (kemada sayohat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When they retire, my neighbours want to go on a cruise around the Mediterranean, stopping at a new port every day.",
+   "gap": "go on a cruise",
+   "alt": [
+    "goes on a cruise",
+    "went on a cruise",
+    "going on a cruise"
+   ]
+  },
+  {
+   "id": "city_break",
+   "en": "city break",
+   "uz": "shaharga qisqa sayohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "We didn't have much time, so we chose a three-day city break in Baku to see its old town and museums.",
+   "gap": "city break",
+   "alt": [
+    "city breaks"
+   ]
+  },
+  {
+   "id": "book_online",
+   "en": "book online",
+   "uz": "internet orqali bron qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Train tickets are often cheaper if you book online, so my sister bought ours on her phone.",
+   "gap": "book online",
+   "alt": [
+    "books online",
+    "booked online",
+    "booking online"
+   ]
+  },
+  {
+   "id": "destination",
+   "en": "destination",
+   "uz": "borish manzili (yo‘l oxiri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our final destination was Nurata, but we stopped in Jizzakh for lunch on the way.",
+   "gap": "destination",
+   "alt": [
+    "destinations"
+   ]
+  },
+  {
+   "id": "bed_and_breakfast",
+   "en": "bed and breakfast",
+   "uz": "nonushtali kichik mehmonxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of a big hotel, we stayed at a small bed and breakfast where the owner cooked us eggs every morning.",
+   "gap": "bed and breakfast",
+   "alt": [
+    "B&B",
+    "B&Bs",
+    "bed and breakfasts"
+   ]
+  },
+  {
+   "id": "online_review",
+   "en": "online review",
+   "uz": "internetdagi sharh (mijozlar fikri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before choosing the guesthouse, Mum read the online reviews, and most guests wrote that the rooms were spotless.",
+   "gap": "online reviews",
+   "alt": [
+    "online reviews"
+   ]
+  },
+  {
+   "id": "weekend_break",
+   "en": "weekend break",
+   "uz": "dam olish kunlaridagi qisqa safar",
+   "pos": "noun",
+   "img": false,
+   "ex": "We left on Saturday morning and came back on Sunday night: a perfect weekend break in a wooden cabin in the mountains.",
+   "gap": "weekend break",
+   "alt": [
+    "weekend breaks"
+   ]
+  },
+  {
+   "id": "package_holiday",
+   "en": "package holiday",
+   "uz": "tayyor turpaket (yo‘l + mehmonxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents were too busy to plan anything, so they bought a package holiday from a travel agency: one price for the flights, the hotel and all the meals.",
+   "gap": "package holiday",
+   "alt": [
+    "package holidays"
+   ]
+  },
+  {
+   "id": "search_for",
+   "en": "search for",
+   "uz": "qidirmoq (izlab topmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "My cousin spent the whole evening searching for cheap flights to Cairo, but every ticket was too expensive.",
+   "gap": "searching for",
+   "alt": [
+    "searches for",
+    "searched for",
+    "searching for"
+   ]
+  },
+  {
+   "id": "pick_up_collect",
+   "en": "pick up",
+   "uz": "borib olmoq (olib ketmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After school, Aziza picked up her little brother from the kindergarten and walked him home.",
+   "gap": "picked up",
+   "alt": [
+    "picks up",
+    "picked up",
+    "picking up"
+   ]
+  },
+  {
+   "id": "wifi_password",
+   "en": "wi-fi password",
+   "uz": "simsiz internet paroli",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first thing my brother asked at the guesthouse was the wi-fi password, so he could connect his laptop.",
+   "gap": "wi-fi password",
+   "alt": [
+    "wifi password",
+    "Wi-Fi password"
+   ]
+  },
+  {
+   "id": "listing",
+   "en": "listing",
+   "uz": "e’lon (ijaradagi joy tavsifi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the owner's listing, the flat has two bedrooms, a balcony and a washing machine.",
+   "gap": "listing",
+   "alt": [
+    "listings"
+   ]
+  },
+  {
+   "id": "iron",
+   "en": "iron",
+   "uz": "dazmol",
+   "pos": "noun",
+   "img": true,
+   "ex": "I left the hot iron on my favourite T-shirt for too long and burnt a brown hole in it.",
+   "gap": "iron",
+   "alt": [
+    "irons"
+   ]
+  },
+  {
+   "id": "switch_on",
+   "en": "switch on",
+   "uz": "yoqmoq (ishga tushirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "As soon as the match started, Otabek switched on the TV and turned the volume right up.",
+   "gap": "switched on",
+   "alt": [
+    "switches on",
+    "switched on",
+    "switching on"
+   ]
+  },
+  {
+   "id": "recommend",
+   "en": "recommend",
+   "uz": "tavsiya qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our English teacher recommended a short detective novel for the holidays, and I finished it in two days.",
+   "gap": "recommended",
+   "alt": [
+    "recommends",
+    "recommended",
+    "recommending"
+   ]
+  },
+  {
+   "id": "nearby",
+   "en": "nearby",
+   "uz": "yaqin atrofdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My cousin hurt his arm at football, so we took him to a nearby clinic instead of the big hospital across town.",
+   "gap": "nearby",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "family_holiday",
+   "beach_holiday"
+  ],
+  [
+   "city_break",
+   "weekend_break"
+  ],
+  [
+   "listing",
+   "online_review"
+  ],
+  [
+   "book_online",
+   "search_for"
+  ],
+  [
+   "adventure_holiday",
+   "skiing_holiday"
+  ],
+  [
+   "city_break",
+   "package_holiday"
+  ]
+ ]
+}

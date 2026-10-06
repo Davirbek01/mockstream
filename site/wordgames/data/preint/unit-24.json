@@ -1,0 +1,713 @@
+{
+ "book": "preint",
+ "unit": 24,
+ "title": "Food",
+ "title_uz": "Oziq-ovqat",
+ "words": [
+  {
+   "id": "pineapple",
+   "en": "pineapple",
+   "uz": "ananas",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cutting a pineapple is hard work because of its spiky skin, but the sweet yellow fruit inside is worth it.",
+   "gap": "pineapple",
+   "alt": [
+    "pineapples"
+   ]
+  },
+  {
+   "id": "strawberry",
+   "en": "strawberry",
+   "uz": "qulupnay",
+   "pos": "noun",
+   "img": true,
+   "ex": "In May we pick strawberries at our dacha, and half of them never reach the kitchen.",
+   "gap": "strawberries",
+   "alt": [
+    "strawberries"
+   ]
+  },
+  {
+   "id": "grapes",
+   "en": "grapes",
+   "uz": "uzum",
+   "pos": "noun",
+   "img": true,
+   "ex": "The vine in our yard gives us so many grapes in August that we dry some of them to make raisins.",
+   "gap": "grapes",
+   "alt": [
+    "grape",
+    "bunch of grapes"
+   ]
+  },
+  {
+   "id": "peach",
+   "en": "peach",
+   "uz": "shaftoli",
+   "pos": "noun",
+   "img": true,
+   "ex": "Fergana peaches have soft, furry skin and are so juicy that you need a napkin to eat one.",
+   "gap": "peaches",
+   "alt": [
+    "peaches"
+   ]
+  },
+  {
+   "id": "pear",
+   "en": "pear",
+   "uz": "nok",
+   "pos": "noun",
+   "img": true,
+   "ex": "I put a green pear in my lunch box, but it was still hard, so I left it on the windowsill to get soft.",
+   "gap": "pear",
+   "alt": [
+    "pears"
+   ]
+  },
+  {
+   "id": "melon",
+   "en": "melon",
+   "uz": "qovun",
+   "pos": "noun",
+   "img": true,
+   "ex": "In late summer the bazaars of Khorezm are full of sweet yellow melons, some as big as a football.",
+   "gap": "melons",
+   "alt": [
+    "melons"
+   ]
+  },
+  {
+   "id": "olives",
+   "en": "olives",
+   "uz": "zaytun",
+   "pos": "noun",
+   "img": true,
+   "ex": "My Turkish friend eats salty black olives with cheese and bread for breakfast.",
+   "gap": "olives",
+   "alt": [
+    "olive"
+   ]
+  },
+  {
+   "id": "coconut",
+   "en": "coconut",
+   "uz": "kokos yong‘og‘i",
+   "pos": "noun",
+   "img": true,
+   "ex": "On holiday in Thailand we bought a coconut from a beach stall and drank the juice through a straw.",
+   "gap": "coconut",
+   "alt": [
+    "coconuts"
+   ]
+  },
+  {
+   "id": "lemon",
+   "en": "lemon",
+   "uz": "limon",
+   "pos": "noun",
+   "img": true,
+   "ex": "I squeezed half a lemon into my tea, and it tasted nicely sour.",
+   "gap": "lemon",
+   "alt": [
+    "lemons"
+   ]
+  },
+  {
+   "id": "beans",
+   "en": "beans",
+   "uz": "loviya",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum leaves the dry red beans in water overnight before she cooks them in a soup.",
+   "gap": "beans",
+   "alt": [
+    "bean"
+   ]
+  },
+  {
+   "id": "peas",
+   "en": "peas",
+   "uz": "ko‘k no‘xat",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little brother chases the tiny green peas round his plate and hides them under the potatoes.",
+   "gap": "peas",
+   "alt": [
+    "pea"
+   ]
+  },
+  {
+   "id": "onion",
+   "en": "onion",
+   "uz": "piyoz",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every time I chop onions for soup, my eyes start to water.",
+   "gap": "onions",
+   "alt": [
+    "onions"
+   ]
+  },
+  {
+   "id": "garlic",
+   "en": "garlic",
+   "uz": "sarimsoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad adds three cloves of garlic to the tomato sauce, and the whole kitchen smells of it.",
+   "gap": "garlic",
+   "alt": []
+  },
+  {
+   "id": "carrot",
+   "en": "carrot",
+   "uz": "sabzi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum grated a big orange carrot into the cabbage salad to give it some colour.",
+   "gap": "carrot",
+   "alt": [
+    "carrots"
+   ]
+  },
+  {
+   "id": "mushrooms",
+   "en": "mushrooms",
+   "uz": "qo‘ziqorin",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the rain we picked mushrooms in the forest, but we only took the ones we knew were safe.",
+   "gap": "mushrooms",
+   "alt": [
+    "mushroom"
+   ]
+  },
+  {
+   "id": "aubergine",
+   "en": "aubergine",
+   "uz": "baqlajon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour Zarina fries slices of dark purple aubergine and serves them with yoghurt.",
+   "gap": "aubergine",
+   "alt": [
+    "aubergines"
+   ]
+  },
+  {
+   "id": "courgette",
+   "en": "courgette",
+   "uz": "kabachok (qovoqcha)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The garden gave us so many courgettes this summer that Mum fried them almost every day.",
+   "gap": "courgettes",
+   "alt": [
+    "courgettes"
+   ]
+  },
+  {
+   "id": "pepper",
+   "en": "pepper",
+   "uz": "bolgar qalampiri",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad stuffed red and yellow peppers with rice and minced meat.",
+   "gap": "peppers",
+   "alt": [
+    "peppers"
+   ]
+  },
+  {
+   "id": "cabbage",
+   "en": "cabbage",
+   "uz": "karam",
+   "pos": "noun",
+   "img": true,
+   "ex": "For karam dolma, we wrap rice and meat in the big soft leaves of a boiled cabbage.",
+   "gap": "cabbage",
+   "alt": [
+    "cabbages"
+   ]
+  },
+  {
+   "id": "broccoli",
+   "en": "broccoli",
+   "uz": "brokkoli",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum steams broccoli for only three minutes, so the little green heads stay crunchy.",
+   "gap": "broccoli",
+   "alt": []
+  },
+  {
+   "id": "spinach",
+   "en": "spinach",
+   "uz": "ismaloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "In spring we buy samsa filled with spinach instead of meat, so they are green inside.",
+   "gap": "spinach",
+   "alt": []
+  },
+  {
+   "id": "lettuce",
+   "en": "lettuce",
+   "uz": "salat bargi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put a few crisp leaves of lettuce in the sandwich with the cheese.",
+   "gap": "lettuce",
+   "alt": [
+    "lettuces"
+   ]
+  },
+  {
+   "id": "tomato",
+   "en": "tomato",
+   "uz": "pomidor",
+   "pos": "noun",
+   "img": true,
+   "ex": "We grow tomatoes in pots on our balcony, and by July they turn from green to bright red.",
+   "gap": "tomatoes",
+   "alt": [
+    "tomatoes"
+   ]
+  },
+  {
+   "id": "cucumber",
+   "en": "cucumber",
+   "uz": "bodring",
+   "pos": "noun",
+   "img": true,
+   "ex": "In summer we eat fresh cucumbers straight from the garden with a little salt.",
+   "gap": "cucumbers",
+   "alt": [
+    "cucumbers"
+   ]
+  },
+  {
+   "id": "oil",
+   "en": "oil",
+   "uz": "o‘simlik yog‘i (moy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum heats sunflower oil in a big kazan before she adds the meat and onions.",
+   "gap": "oil",
+   "alt": []
+  },
+  {
+   "id": "vinegar",
+   "en": "vinegar",
+   "uz": "sirka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mix three spoons of oil with one spoon of vinegar to make a simple dressing.",
+   "gap": "vinegar",
+   "alt": []
+  },
+  {
+   "id": "salad_dressing",
+   "en": "salad dressing",
+   "uz": "salat sousi (zapravka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister pours so much salad dressing on her plate that the leaves swim in it.",
+   "gap": "salad dressing",
+   "alt": []
+  },
+  {
+   "id": "beef",
+   "en": "beef",
+   "uz": "mol go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "This burger is made from 100% beef, and the meat comes from local cows.",
+   "gap": "beef",
+   "alt": []
+  },
+  {
+   "id": "lamb",
+   "en": "lamb",
+   "uz": "qo‘zi go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our family the favourite meat is lamb; Mum puts it in almost every soup.",
+   "gap": "lamb",
+   "alt": []
+  },
+  {
+   "id": "chicken",
+   "en": "chicken",
+   "uz": "tovuq go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "At my birthday party we ate spicy chicken wings with our fingers.",
+   "gap": "chicken",
+   "alt": []
+  },
+  {
+   "id": "vegetarian",
+   "en": "vegetarian",
+   "uz": "vegetarian (go‘sht yemaydigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin is a vegetarian, so at the party we made her a rice dish with vegetables and no meat.",
+   "gap": "vegetarian",
+   "alt": [
+    "vegetarians"
+   ]
+  },
+  {
+   "id": "salmon",
+   "en": "salmon",
+   "uz": "losos (qizil baliq)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mum grilled a big piece of salmon, and its pink flesh was soft and tasty.",
+   "gap": "salmon",
+   "alt": []
+  },
+  {
+   "id": "prawns",
+   "en": "prawns",
+   "uz": "krevetka",
+   "pos": "noun",
+   "img": true,
+   "ex": "At a seaside café in Turkey we ordered fried prawns, which turn pink when they are cooked.",
+   "gap": "prawns",
+   "alt": [
+    "prawn"
+   ]
+  },
+  {
+   "id": "mussels",
+   "en": "mussels",
+   "uz": "midiya (dengiz chig‘anog‘i)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In Spain we ate mussels in tomato sauce; their black shells open when they are cooked.",
+   "gap": "mussels",
+   "alt": [
+    "mussel"
+   ]
+  },
+  {
+   "id": "crab",
+   "en": "crab",
+   "uz": "qisqichbaqa (krab)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On the beach we watched a little crab walking sideways across the sand.",
+   "gap": "crab",
+   "alt": [
+    "crabs"
+   ]
+  },
+  {
+   "id": "salad",
+   "en": "salad",
+   "uz": "salat",
+   "pos": "noun",
+   "img": true,
+   "ex": "For lunch I made a big salad of lettuce, cucumber and tomatoes with a little oil.",
+   "gap": "salad",
+   "alt": [
+    "salads"
+   ]
+  },
+  {
+   "id": "calf",
+   "en": "calf",
+   "uz": "buzoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Last night the farmer's cow gave birth to a calf, and by morning it was standing on its wobbly legs.",
+   "gap": "calf",
+   "alt": [
+    "calves"
+   ]
+  },
+  {
+   "id": "lamb_animal",
+   "en": "lamb",
+   "uz": "qo‘zichoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "In spring we watched a newborn lamb drinking milk from its mother, a big white sheep.",
+   "gap": "lamb",
+   "alt": [
+    "lambs"
+   ]
+  },
+  {
+   "id": "hen",
+   "en": "hen",
+   "uz": "tovuq (makiyon)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our neighbour's brown hen lays an egg in the straw behind the shed every morning.",
+   "gap": "hen",
+   "alt": [
+    "hens"
+   ]
+  },
+  {
+   "id": "veal",
+   "en": "veal",
+   "uz": "buzoq go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Italy we tried veal, the pale, tender meat of a young calf, cooked with lemon.",
+   "gap": "veal",
+   "alt": []
+  },
+  {
+   "id": "pork",
+   "en": "pork",
+   "uz": "cho‘chqa go‘shti",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sausages at the German Christmas market were made of pork, the meat from pigs.",
+   "gap": "pork",
+   "alt": []
+  },
+  {
+   "id": "meat",
+   "en": "meat",
+   "uz": "go‘sht",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the butcher's counter you can buy every kind of meat: beef, lamb, chicken and veal.",
+   "gap": "meat",
+   "alt": []
+  },
+  {
+   "id": "fish",
+   "en": "fish",
+   "uz": "baliq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Temur sat by the lake all morning with his rod and line, but he didn't catch a single fish.",
+   "gap": "fish",
+   "alt": []
+  },
+  {
+   "id": "seafood",
+   "en": "seafood",
+   "uz": "dengiz mahsulotlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our hotel by the sea served seafood every night: prawns, mussels, crab and squid.",
+   "gap": "seafood",
+   "alt": []
+  },
+  {
+   "id": "fruit",
+   "en": "fruit",
+   "uz": "meva",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a bowl of fruit on the kitchen table: apples, bananas and oranges.",
+   "gap": "fruit",
+   "alt": [
+    "fruits"
+   ]
+  },
+  {
+   "id": "vegetables",
+   "en": "vegetables",
+   "uz": "sabzavotlar",
+   "pos": "noun",
+   "img": true,
+   "ex": "The soup was full of vegetables: carrots, potatoes, onions and cabbage.",
+   "gap": "vegetables",
+   "alt": [
+    "vegetable"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "peach",
+   "pear"
+  ],
+  [
+   "olives",
+   "grapes"
+  ],
+  [
+   "beans",
+   "peas"
+  ],
+  [
+   "onion",
+   "garlic"
+  ],
+  [
+   "cabbage",
+   "lettuce"
+  ],
+  [
+   "cucumber",
+   "courgette"
+  ],
+  [
+   "aubergine",
+   "courgette"
+  ],
+  [
+   "prawns",
+   "crab"
+  ],
+  [
+   "salmon",
+   "prawns"
+  ],
+  [
+   "beef",
+   "lamb"
+  ],
+  [
+   "vinegar",
+   "salad_dressing"
+  ],
+  [
+   "vinegar",
+   "lemon"
+  ],
+  [
+   "pineapple",
+   "coconut"
+  ],
+  [
+   "lettuce",
+   "spinach"
+  ],
+  [
+   "pepper",
+   "tomato"
+  ],
+  [
+   "cucumber",
+   "tomato"
+  ],
+  [
+   "oil",
+   "vinegar"
+  ],
+  [
+   "oil",
+   "salad_dressing"
+  ],
+  [
+   "chicken",
+   "beef"
+  ],
+  [
+   "chicken",
+   "lamb"
+  ],
+  [
+   "mussels",
+   "prawns"
+  ],
+  [
+   "mussels",
+   "crab"
+  ],
+  [
+   "mussels",
+   "olives"
+  ],
+  [
+   "broccoli",
+   "cabbage"
+  ],
+  [
+   "broccoli",
+   "spinach"
+  ],
+  [
+   "courgette",
+   "pepper"
+  ],
+  [
+   "tomato",
+   "strawberry"
+  ],
+  [
+   "salmon",
+   "beef"
+  ],
+  [
+   "salmon",
+   "lamb"
+  ],
+  [
+   "strawberry",
+   "peas"
+  ],
+  [
+   "courgette",
+   "tomato"
+  ],
+  [
+   "salad",
+   "salad_dressing"
+  ],
+  [
+   "salad",
+   "lettuce"
+  ],
+  [
+   "calf",
+   "veal"
+  ],
+  [
+   "lamb_animal",
+   "lamb"
+  ],
+  [
+   "hen",
+   "chicken"
+  ],
+  [
+   "veal",
+   "beef"
+  ],
+  [
+   "meat",
+   "beef"
+  ],
+  [
+   "meat",
+   "salmon"
+  ],
+  [
+   "fish",
+   "salmon"
+  ],
+  [
+   "seafood",
+   "mussels"
+  ],
+  [
+   "seafood",
+   "fish"
+  ],
+  [
+   "fruit",
+   "strawberry"
+  ],
+  [
+   "vegetables",
+   "cucumber"
+  ],
+  [
+   "vegetables",
+   "pepper"
+  ]
+ ]
+}

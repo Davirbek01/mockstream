@@ -1,0 +1,344 @@
+{
+ "book": "elementary",
+ "unit": 2,
+ "title": "Birth, marriage and death",
+ "title_uz": "Tug‘ilish, nikoh va o‘lim",
+ "words": [
+  {
+   "id": "baby",
+   "en": "baby",
+   "uz": "chaqaloq",
+   "pos": "noun",
+   "img": true,
+   "ex": "The baby is only two months old, so she sleeps most of the day.",
+   "gap": "baby",
+   "alt": []
+  },
+  {
+   "id": "born",
+   "en": "born",
+   "uz": "tug‘ilgan",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister was born on 5 May, so her birthday is in May.",
+   "gap": "born",
+   "alt": []
+  },
+  {
+   "id": "birthday",
+   "en": "birthday",
+   "uz": "tug‘ilgan kun",
+   "pos": "noun",
+   "img": true,
+   "ex": "Today is my birthday, and I'm thirteen!",
+   "gap": "birthday",
+   "alt": []
+  },
+  {
+   "id": "single",
+   "en": "single",
+   "uz": "turmush qurmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My uncle has never been married; he is still single.",
+   "gap": "single",
+   "alt": []
+  },
+  {
+   "id": "married",
+   "en": "married",
+   "uz": "turmush qurgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mum and Dad are married; they have been husband and wife for fifteen years.",
+   "gap": "married",
+   "alt": []
+  },
+  {
+   "id": "widowed",
+   "en": "widowed",
+   "uz": "beva qolgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mrs Rahimova's husband died five years ago, so she is widowed and lives with her son.",
+   "gap": "widowed",
+   "alt": []
+  },
+  {
+   "id": "divorced",
+   "en": "divorced",
+   "uz": "ajrashgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "They aren't married any more: they got divorced last year.",
+   "gap": "divorced",
+   "alt": []
+  },
+  {
+   "id": "separated",
+   "en": "separated",
+   "uz": "alohida yashaydigan (ajrashmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "They live in different flats now, but they aren't divorced; they're separated.",
+   "gap": "separated",
+   "alt": []
+  },
+  {
+   "id": "honeymoon",
+   "en": "honeymoon",
+   "uz": "asal oyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Right after the wedding, my cousin and her husband flew to Turkey for their honeymoon.",
+   "gap": "honeymoon",
+   "alt": []
+  },
+  {
+   "id": "wedding",
+   "en": "wedding",
+   "uz": "to‘y",
+   "pos": "noun",
+   "img": true,
+   "ex": "My cousin got married last week, and hundreds of guests danced at her wedding.",
+   "gap": "wedding",
+   "alt": []
+  },
+  {
+   "id": "bride",
+   "en": "bride",
+   "uz": "kelin",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the wedding, the bride sat next to her new husband and smiled at the guests.",
+   "gap": "bride",
+   "alt": []
+  },
+  {
+   "id": "groom",
+   "en": "groom",
+   "uz": "kuyov",
+   "pos": "noun",
+   "img": false,
+   "ex": "The groom was nervous before he saw his bride.",
+   "gap": "groom",
+   "alt": []
+  },
+  {
+   "id": "funeral",
+   "en": "funeral",
+   "uz": "dafn marosimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone wore dark clothes and was very sad at the funeral.",
+   "gap": "funeral",
+   "alt": []
+  },
+  {
+   "id": "die",
+   "en": "die",
+   "uz": "o‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A fish can't live out of water; it will die in a few minutes.",
+   "gap": "die",
+   "alt": [
+    "died"
+   ]
+  },
+  {
+   "id": "dead",
+   "en": "dead",
+   "uz": "o‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The flowers got no water for a month, and now they are dead.",
+   "gap": "dead",
+   "alt": []
+  },
+  {
+   "id": "ill",
+   "en": "ill",
+   "uz": "kasal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Aziz was very ill with flu, so he stayed in bed for a week.",
+   "gap": "ill",
+   "alt": []
+  },
+  {
+   "id": "heart_attack",
+   "en": "heart attack",
+   "uz": "yurak xuruji (infarkt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old man next door had a heart attack, but the doctors saved his life.",
+   "gap": "heart attack",
+   "alt": []
+  },
+  {
+   "id": "have_a_baby",
+   "en": "have a baby",
+   "uz": "farzand ko‘rmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our neighbour Nodira had a baby last night: a little girl.",
+   "gap": "had a baby",
+   "alt": [
+    "had a baby",
+    "has a baby",
+    "having a baby"
+   ]
+  },
+  {
+   "id": "kilogram",
+   "en": "kilogram",
+   "uz": "kilogramm",
+   "pos": "noun",
+   "img": false,
+   "ex": "I bought two kilograms of apples at the bazaar.",
+   "gap": "kilograms",
+   "alt": [
+    "kilograms",
+    "kilo",
+    "kilos",
+    "kilogramme"
+   ]
+  },
+  {
+   "id": "call_after",
+   "en": "call after",
+   "uz": "(birovning) ismini qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My parents love the poet Navoi, so they called me after him: my name is Alisher.",
+   "gap": "called me after",
+   "alt": [
+    "call me after",
+    "called me after",
+    "call him after",
+    "call her after",
+    "called him after",
+    "called her after"
+   ]
+  },
+  {
+   "id": "partner",
+   "en": "partner",
+   "uz": "hayot sherigi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the company dinner, every worker could bring a husband, wife or partner.",
+   "gap": "partner",
+   "alt": [
+    "partners"
+   ]
+  },
+  {
+   "id": "get_married",
+   "en": "get married",
+   "uz": "turmush qurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shoira and Doniyor got married last spring, and now they are husband and wife.",
+   "gap": "got married",
+   "alt": [
+    "got married",
+    "gets married",
+    "getting married"
+   ]
+  },
+  {
+   "id": "marriage",
+   "en": "marriage",
+   "uz": "nikoh, er-xotinlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "After forty happy years of marriage, the old couple still hold hands in the park.",
+   "gap": "marriage",
+   "alt": []
+  },
+  {
+   "id": "break_up",
+   "en": "break up",
+   "uz": "buzilmoq (nikoh/munosabat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Their marriage started to break up when he moved abroad for work.",
+   "gap": "break up",
+   "alt": [
+    "breaks up",
+    "broke up",
+    "broken up"
+   ]
+  },
+  {
+   "id": "become",
+   "en": "become",
+   "uz": "bo‘lib qolmoq, aylanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Rustam was twenty-five, he became a doctor.",
+   "gap": "became",
+   "alt": [
+    "became",
+    "becomes"
+   ]
+  },
+  {
+   "id": "die_of",
+   "en": "die of",
+   "uz": "...dan vafot etmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Long ago, many people died of simple illnesses because there were no good medicines.",
+   "gap": "died of",
+   "alt": [
+    "died of",
+    "dies of"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "divorced",
+   "separated"
+  ],
+  [
+   "die",
+   "dead"
+  ],
+  [
+   "have_a_baby",
+   "born"
+  ],
+  [
+   "have_a_baby",
+   "get_married"
+  ],
+  [
+   "get_married",
+   "married"
+  ],
+  [
+   "break_up",
+   "die"
+  ],
+  [
+   "break_up",
+   "divorced"
+  ],
+  [
+   "die",
+   "die_of"
+  ],
+  [
+   "dead",
+   "die_of"
+  ],
+  [
+   "marriage",
+   "wedding"
+  ]
+ ]
+}

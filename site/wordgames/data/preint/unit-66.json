@@ -1,0 +1,386 @@
+{
+ "book": "preint",
+ "unit": 66,
+ "title": "Requests, permission and suggestions",
+ "title_uz": "Iltimos, ruxsat so‘rash va takliflar",
+ "words": [
+  {
+   "id": "request",
+   "en": "request",
+   "uz": "iltimos (so‘rov)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school director said yes to our class's request for a longer lunch break on hot days.",
+   "gap": "request",
+   "alt": [
+    "requests"
+   ]
+  },
+  {
+   "id": "permission",
+   "en": "permission",
+   "uz": "ruxsat",
+   "pos": "noun",
+   "img": false,
+   "ex": "You need a letter of permission from your parents to go on the school trip to the zoo.",
+   "gap": "permission",
+   "alt": []
+  },
+  {
+   "id": "suggestion",
+   "en": "suggestion",
+   "uz": "taklif (maslahat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin's suggestion was to take the night train to Bukhara, and nobody had a better plan.",
+   "gap": "suggestion",
+   "alt": [
+    "suggestions"
+   ]
+  },
+  {
+   "id": "could_you_possibly",
+   "en": "could you possibly",
+   "uz": "Iloji bo‘lsa, … qila olasizmi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, could you possibly move your bag so that I can sit down?",
+   "gap": "could you possibly",
+   "alt": []
+  },
+  {
+   "id": "wonder_if_you_could",
+   "en": "I wonder if you could",
+   "uz": "Qilib bera olmasmikansiz? (o‘ta muloyim)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mum phoned our neighbour: 'Hello, Mrs Rahimova, I wonder if you could water our plants while we're in Fergana?'",
+   "gap": "I wonder if you could",
+   "alt": [
+    "I was wondering if you could"
+   ]
+  },
+  {
+   "id": "afraid_i_cant",
+   "en": "I'm afraid I can't",
+   "uz": "Afsuski, qila olmayman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Can you lend me your calculator?' 'Sorry, I'm afraid I can't; I need it for my own test.'",
+   "gap": "I'm afraid I can't",
+   "alt": []
+  },
+  {
+   "id": "of_course",
+   "en": "of course",
+   "uz": "Albatta",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Could you help me carry these boxes up to the fourth floor?' 'Yes, of course!'",
+   "gap": "of course",
+   "alt": []
+  },
+  {
+   "id": "help_yourself",
+   "en": "help yourself",
+   "uz": "Marhamat, o‘zingiz oling",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'These apples look delicious.' 'Please help yourself to another one. Eat as many as you want!'",
+   "gap": "help yourself",
+   "alt": []
+  },
+  {
+   "id": "go_ahead",
+   "en": "go ahead",
+   "uz": "Bemalol, qilavering",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Can I try your new bike?' 'Sure, go ahead and ride it round the yard, but be careful at the corner.'",
+   "gap": "go ahead",
+   "alt": []
+  },
+  {
+   "id": "may_i",
+   "en": "May I",
+   "uz": "Mumkinmi? (rasmiy ruxsat so‘rash)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before the exam started, Bekzod put up his hand and asked, 'May I borrow a pencil?' 'Yes, you may,' said the teacher.",
+   "gap": "may I",
+   "alt": []
+  },
+  {
+   "id": "have_a_look",
+   "en": "have a look at",
+   "uz": "ko‘zdan kechirmoq, qarab chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I was ill yesterday; can I have a look at your notes from the history lesson before the test?",
+   "gap": "have a look at",
+   "alt": []
+  },
+  {
+   "id": "do_you_mind_if",
+   "en": "Do you mind if",
+   "uz": "Qarshi emasmisiz? (ruxsat so‘rash)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "In the dentist's waiting room, a woman asked me, 'Excuse me, do you mind if I charge my phone here?' 'No, not at all.'",
+   "gap": "do you mind if",
+   "alt": []
+  },
+  {
+   "id": "shall_we",
+   "en": "Shall we",
+   "uz": "Nima qilaylik? / … qilaylikmi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The rain has stopped at last. Where shall we go this afternoon, the park or the zoo?",
+   "gap": "shall we",
+   "alt": []
+  },
+  {
+   "id": "lets",
+   "en": "Let's",
+   "uz": "Qani, … qilaylik",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm tired of staying indoors all day, so let's go for a walk along the Ankhor canal, shall we?",
+   "gap": "let's",
+   "alt": []
+  },
+  {
+   "id": "we_could",
+   "en": "We could",
+   "uz": "… qilsak ham bo‘ladi (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'What can we do if it rains on Saturday?' 'Well, we could always visit the museum instead of playing football in the park.'",
+   "gap": "we could",
+   "alt": []
+  },
+  {
+   "id": "how_about",
+   "en": "How about",
+   "uz": "… qilsak-chi? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I don't know what to buy Malika for her birthday.' 'Well, how about getting her a new sketchbook? She loves drawing.'",
+   "gap": "how about",
+   "alt": []
+  },
+  {
+   "id": "why_dont_we",
+   "en": "Why don't we",
+   "uz": "Nega … qilmaylik? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The queue for the cable car is huge, so why don't we come back early tomorrow morning?",
+   "gap": "why don't we",
+   "alt": []
+  },
+  {
+   "id": "do_you_fancy",
+   "en": "Do you fancy",
+   "uz": "… qilishni xohlaysanmi? (norasmiy taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother called from the stadium: 'I've got two free tickets, so do you fancy watching the match with me?'",
+   "gap": "do you fancy",
+   "alt": []
+  },
+  {
+   "id": "i_dont_mind",
+   "en": "I don't mind",
+   "uz": "Menga farqi yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Shall we eat at home tonight or go out?' 'Honestly, I don't mind; you choose.'",
+   "gap": "I don't mind",
+   "alt": []
+  },
+  {
+   "id": "great_idea",
+   "en": "great idea",
+   "uz": "Zo‘r fikr!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When Laylo suggested a picnic in the botanical garden, everyone said it was a great idea.",
+   "gap": "great idea",
+   "alt": []
+  },
+  {
+   "id": "if_you_like",
+   "en": "if you like",
+   "uz": "Xohlasangiz, mayli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Can we take the old road over the hills?' 'Yes, if you like, but it's much slower.'",
+   "gap": "if you like",
+   "alt": []
+  },
+  {
+   "id": "sounds_good",
+   "en": "sounds good",
+   "uz": "Ma’qul, yaxshi bo‘lardi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We could meet at the Registan at six.' 'That sounds good; see you there.'",
+   "gap": "sounds good",
+   "alt": []
+  },
+  {
+   "id": "dont_fancy_that",
+   "en": "I don't fancy that",
+   "uz": "Bunga hech xohishim yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Let's walk all the way home.' 'Hmm, I don't fancy that; it's nearly five kilometres.'",
+   "gap": "I don't fancy that",
+   "alt": []
+  },
+  {
+   "id": "id_rather",
+   "en": "I'd rather",
+   "uz": "Men … ni afzal ko‘raman (… dan ko‘ra)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Shall we take the bus to the market?' 'Mm, I'd rather walk than stand on a crowded bus.'",
+   "gap": "I'd rather",
+   "alt": [
+    "I would rather"
+   ]
+  },
+  {
+   "id": "sure_reply",
+   "en": "Sure",
+   "uz": "Xo‘p, mayli (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Can you pass me that pen?' 'Sure, here you are.'",
+   "gap": "Sure",
+   "alt": []
+  },
+  {
+   "id": "could_you",
+   "en": "Could you",
+   "uz": "… qila olasizmi? (iltimos)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the bus stop, an old man asked me, 'Could you read this timetable for me, please? I've left my glasses at home.'",
+   "gap": "Could you",
+   "alt": []
+  },
+  {
+   "id": "could_i_possibly",
+   "en": "Could I possibly",
+   "uz": "Iloji bo‘lsa, … qilsam bo‘ladimi?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, could I possibly use your phone? Mine has no battery.",
+   "gap": "could I possibly",
+   "alt": []
+  },
+  {
+   "id": "you_choose",
+   "en": "You choose",
+   "uz": "Siz tanlang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Which film shall we watch tonight?' 'Honestly, I'm happy with anything, so you choose.'",
+   "gap": "you choose",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "request",
+   "suggestion"
+  ],
+  [
+   "could_you_possibly",
+   "wonder_if_you_could"
+  ],
+  [
+   "of_course",
+   "if_you_like"
+  ],
+  [
+   "of_course",
+   "i_dont_mind"
+  ],
+  [
+   "i_dont_mind",
+   "if_you_like"
+  ],
+  [
+   "if_you_like",
+   "go_ahead"
+  ],
+  [
+   "shall_we",
+   "why_dont_we"
+  ],
+  [
+   "how_about",
+   "do_you_fancy"
+  ],
+  [
+   "great_idea",
+   "sounds_good"
+  ],
+  [
+   "afraid_i_cant",
+   "dont_fancy_that"
+  ],
+  [
+   "sure_reply",
+   "of_course"
+  ],
+  [
+   "could_you",
+   "could_you_possibly"
+  ],
+  [
+   "could_you",
+   "wonder_if_you_could"
+  ],
+  [
+   "could_i_possibly",
+   "may_i"
+  ],
+  [
+   "you_choose",
+   "go_ahead"
+  ],
+  [
+   "you_choose",
+   "i_dont_mind"
+  ],
+  [
+   "could_i_possibly",
+   "could_you_possibly"
+  ],
+  [
+   "could_i_possibly",
+   "could_you"
+  ],
+  [
+   "how_about",
+   "do_you_fancy"
+  ],
+  [
+   "we_could",
+   "why_dont_we"
+  ],
+  [
+   "of_course",
+   "no_problem"
+  ],
+  [
+   "sure_reply",
+   "no_problem"
+  ]
+ ]
+}

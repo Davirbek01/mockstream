@@ -1,0 +1,410 @@
+{
+ "book": "advanced",
+ "unit": 101,
+ "title": "Red tape",
+ "title_uz": "Qog‘ozbozlik tili",
+ "words": [
+  {
+   "id": "eligible",
+   "en": "eligible",
+   "uz": "(…ga) haqli, talablarga javob beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pupils with top marks in all subjects are eligible for a free place on the summer course.",
+   "gap": "eligible",
+   "alt": [
+    "eligible for"
+   ]
+  },
+  {
+   "id": "attain",
+   "en": "attain",
+   "uz": "(yoshga) yetmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Players who have attained the age of eighteen may no longer enter the junior chess championship.",
+   "gap": "attained",
+   "alt": [
+    "attained",
+    "attains",
+    "attaining"
+   ]
+  },
+  {
+   "id": "bestow",
+   "en": "bestow",
+   "uz": "(mukofot, unvon) topshirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last spring the city bestowed an honorary award on the school's oldest music teacher.",
+   "gap": "bestowed",
+   "alt": [
+    "bestowed",
+    "bestows",
+    "bestow on",
+    "bestowed on",
+    "bestowed upon"
+   ]
+  },
+  {
+   "id": "demolish",
+   "en": "demolish",
+   "uz": "(binoni) buzib tashlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The old cinema will be demolished to make room for a public library.",
+   "gap": "demolished",
+   "alt": [
+    "demolished",
+    "demolishes",
+    "demolishing"
+   ]
+  },
+  {
+   "id": "adjoining",
+   "en": "adjoining",
+   "uz": "yonma-yon, tutash (xona, yer)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel gave us two adjoining rooms with a connecting door between them.",
+   "gap": "adjoining",
+   "alt": []
+  },
+  {
+   "id": "the_undersigned",
+   "en": "the undersigned",
+   "uz": "quyida imzo chekuvchi (shaxs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you have any questions about your new contract, please contact the undersigned on the number below.",
+   "gap": "the undersigned",
+   "alt": [
+    "undersigned"
+   ]
+  },
+  {
+   "id": "aforementioned",
+   "en": "aforementioned",
+   "uz": "yuqorida qayd etilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please bring the aforementioned documents to your interview on Friday.",
+   "gap": "aforementioned",
+   "alt": []
+  },
+  {
+   "id": "hereby",
+   "en": "hereby",
+   "uz": "shu bilan (rasmiy hujjatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The library hereby gives notice that the reading room will be closed for repairs throughout August.",
+   "gap": "hereby",
+   "alt": []
+  },
+  {
+   "id": "commence",
+   "en": "commence",
+   "uz": "boshlanmoq, boshlamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Registration for evening classes will commence on 1 September and close at the end of the month.",
+   "gap": "commence",
+   "alt": [
+    "commences",
+    "commenced",
+    "commencing"
+   ]
+  },
+  {
+   "id": "commencement",
+   "en": "commencement",
+   "uz": "boshlanish (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Latecomers will not be admitted after the commencement of the performance.",
+   "gap": "commencement",
+   "alt": []
+  },
+  {
+   "id": "cease",
+   "en": "cease",
+   "uz": "to‘xtatmoq, to‘xtamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After forty years on the high street, the family bakery ceased trading last spring.",
+   "gap": "ceased",
+   "alt": [
+    "ceased",
+    "ceases",
+    "ceasing"
+   ]
+  },
+  {
+   "id": "cessation",
+   "en": "cessation",
+   "uz": "to‘xtatilish (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cessation of bus services after 10 p.m. has upset many night-shift workers.",
+   "gap": "cessation",
+   "alt": []
+  },
+  {
+   "id": "next_of_kin",
+   "en": "next of kin",
+   "uz": "eng yaqin qarindosh (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the hospital form, write the name and phone number of your next of kin.",
+   "gap": "next of kin",
+   "alt": []
+  },
+  {
+   "id": "in_the_event_of",
+   "en": "in the event of",
+   "uz": "…yuz bergan taqdirda (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Parents will get a text message by 7 a.m. in the event of heavy snow, saying whether the school is open.",
+   "gap": "in the event of",
+   "alt": []
+  },
+  {
+   "id": "evacuate",
+   "en": "evacuate",
+   "uz": "(odamlarni) xavfsiz joyga chiqarmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The school was evacuated for an hour after someone smelled gas in the kitchen.",
+   "gap": "evacuated",
+   "alt": [
+    "evacuated",
+    "evacuates",
+    "evacuating"
+   ]
+  },
+  {
+   "id": "facilitate",
+   "en": "facilitate",
+   "uz": "osonlashtirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new ramps will facilitate access for wheelchair users.",
+   "gap": "facilitate",
+   "alt": [
+    "facilitates",
+    "facilitated",
+    "facilitating"
+   ]
+  },
+  {
+   "id": "proceed",
+   "en": "proceed",
+   "uz": "(keyingi joyga, bosqichga) o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Passengers for flight 207 should now proceed to gate 12.",
+   "gap": "proceed",
+   "alt": [
+    "proceeds",
+    "proceeded",
+    "proceeding"
+   ]
+  },
+  {
+   "id": "rectify",
+   "en": "rectify",
+   "uz": "(xatoni) tuzatmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "We apologise for the billing error and will rectify it within five working days.",
+   "gap": "rectify",
+   "alt": [
+    "rectified",
+    "rectifies",
+    "rectifying"
+   ]
+  },
+  {
+   "id": "resume",
+   "en": "resume",
+   "uz": "qayta boshlamoq (to‘xtagandan so‘ng)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a ten-minute break, the meeting resumed with the second item on the agenda.",
+   "gap": "resumed",
+   "alt": [
+    "resumed",
+    "resumes",
+    "resuming"
+   ]
+  },
+  {
+   "id": "tenant",
+   "en": "tenant",
+   "uz": "ijarachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every tenant in the building has a key to the shared laundry room.",
+   "gap": "tenant",
+   "alt": [
+    "tenants"
+   ]
+  },
+  {
+   "id": "communal",
+   "en": "communal",
+   "uz": "umumiy foydalanishdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Residents are reminded that the communal garden may not be used for parties after 10 p.m.",
+   "gap": "communal",
+   "alt": []
+  },
+  {
+   "id": "bureaucratic",
+   "en": "bureaucratic",
+   "uz": "qog‘ozbozlikka xos, rasmiyatchilikli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many small businesses complain about the bureaucratic forms they have to fill in every month.",
+   "gap": "bureaucratic",
+   "alt": []
+  },
+  {
+   "id": "instruct",
+   "en": "instruct",
+   "uz": "ko‘rsatma bermoq, buyurmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Visitors are instructed to wear a hard hat at all times on the building site.",
+   "gap": "instructed",
+   "alt": [
+    "instructs",
+    "instructed",
+    "instructing"
+   ]
+  },
+  {
+   "id": "acknowledge_receipt",
+   "en": "acknowledge receipt",
+   "uz": "olinganini tasdiqlamoq (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our office will acknowledge receipt of your application within three working days.",
+   "gap": "acknowledge receipt",
+   "alt": [
+    "acknowledge receipt of",
+    "acknowledged receipt",
+    "acknowledges receipt"
+   ]
+  },
+  {
+   "id": "with_the_compliments_of",
+   "en": "with the compliments of",
+   "uz": "…ning hurmati bilan (sovg‘a xatchasi)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Each free sample came with a small card reading 'with the compliments of Green Leaf Tea'.",
+   "gap": "with the compliments of",
+   "alt": []
+  },
+  {
+   "id": "notify",
+   "en": "notify",
+   "uz": "rasman xabardor qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Travellers must notify the embassy at once if their passport is lost or stolen.",
+   "gap": "notify",
+   "alt": [
+    "notified",
+    "notifies",
+    "notifying"
+   ]
+  },
+  {
+   "id": "at_your_earliest_convenience",
+   "en": "at your earliest convenience",
+   "uz": "imkon qadar tezroq (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kindly return the signed contract at your earliest convenience.",
+   "gap": "at your earliest convenience",
+   "alt": []
+  },
+  {
+   "id": "clarification",
+   "en": "clarification",
+   "uz": "aniqlik kiritish (tushuntirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If any of the instructions are unclear, ask the examiner for clarification.",
+   "gap": "clarification",
+   "alt": []
+  },
+  {
+   "id": "enclose",
+   "en": "enclose",
+   "uz": "(xatga) ilova qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "With this application I enclose a copy of my school certificate.",
+   "gap": "enclose",
+   "alt": [
+    "enclosed",
+    "encloses",
+    "enclosing"
+   ]
+  },
+  {
+   "id": "in_respect_of",
+   "en": "in respect of",
+   "uz": "…ga oid, …uchun (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Fines in respect of overdue library books must be paid before the end of term.",
+   "gap": "in respect of",
+   "alt": []
+  },
+  {
+   "id": "with_regard_to",
+   "en": "with regard to",
+   "uz": "…ga kelsak, …yuzasidan (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I have forwarded your question with regard to bus passes to the transport office.",
+   "gap": "with regard to",
+   "alt": [
+    "with regards to"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "commence",
+   "resume"
+  ],
+  [
+   "commence",
+   "proceed"
+  ],
+  [
+   "commencement",
+   "cessation"
+  ],
+  [
+   "in_respect_of",
+   "with_regard_to"
+  ],
+  [
+   "communal",
+   "adjoining"
+  ],
+  [
+   "cease",
+   "resume"
+  ]
+ ]
+}

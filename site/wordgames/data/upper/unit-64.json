@@ -1,0 +1,387 @@
+{
+ "book": "upper",
+ "unit": 64,
+ "title": "Concession and contrast",
+ "title_uz": "Yon berish va qarama-qarshilik",
+ "words": [
+  {
+   "id": "acknowledge",
+   "en": "acknowledge",
+   "uz": "e’tirof etmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The report acknowledged that the new bus lanes had reduced traffic, but pointed out that the buses were still overcrowded.",
+   "gap": "acknowledged",
+   "alt": [
+    "acknowledges",
+    "acknowledged",
+    "acknowledging"
+   ]
+  },
+  {
+   "id": "accept_that",
+   "en": "accept",
+   "uz": "(…ligiga) rozi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I accept that our new flat is small, but it's only two minutes from the metro.",
+   "gap": "accept",
+   "alt": [
+    "accepts",
+    "accepted",
+    "accepting"
+   ]
+  },
+  {
+   "id": "admit",
+   "en": "admit",
+   "uz": "(xatoni) bo‘yniga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The goalkeeper admitted that he hadn't seen the ball until it was in the net.",
+   "gap": "admitted",
+   "alt": [
+    "admits",
+    "admitted",
+    "admitting"
+   ]
+  },
+  {
+   "id": "concede",
+   "en": "concede",
+   "uz": "(bahsda) yon bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a long argument, Jasur finally conceded that I had been right about the time of the last train.",
+   "gap": "conceded",
+   "alt": [
+    "concedes",
+    "conceded",
+    "conceding"
+   ]
+  },
+  {
+   "id": "all_well_and_good",
+   "en": "all well and good",
+   "uz": "bu yaxshi-ku, lekin…",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You say you'll study all weekend. That's all well and good, but you haven't even opened your books yet.",
+   "gap": "all well and good",
+   "alt": []
+  },
+  {
+   "id": "all_very_well",
+   "en": "it's all very well",
+   "uz": "…ish oson-ku, ammo…",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's all very well telling me to eat more vegetables, Dad, but you never eat any yourself!",
+   "gap": "all very well",
+   "alt": [
+    "all very well"
+   ]
+  },
+  {
+   "id": "after_all",
+   "en": "after all",
+   "uz": "axir",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Let's invite Sardor to play with us — he is our cousin, after all.",
+   "gap": "after all",
+   "alt": []
+  },
+  {
+   "id": "for_all_that",
+   "en": "for all that",
+   "uz": "shunga qaramay (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The guesthouse in Khiva was old and the beds were hard, but for all that we loved our stay there.",
+   "gap": "for all that",
+   "alt": []
+  },
+  {
+   "id": "admittedly",
+   "en": "admittedly",
+   "uz": "to‘g‘ri, tan olish kerak",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our team, admittedly, didn't play very well, but we still deserved to win.",
+   "gap": "admittedly",
+   "alt": []
+  },
+  {
+   "id": "in_fact",
+   "en": "in fact",
+   "uz": "aslida esa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I thought the exam would be easy, but in fact it was the hardest one of the year.",
+   "gap": "in fact",
+   "alt": []
+  },
+  {
+   "id": "quite_the_opposite",
+   "en": "quite the opposite",
+   "uz": "aksincha (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Aziza isn't shy at all — quite the opposite: she chats to everyone she meets.",
+   "gap": "quite the opposite",
+   "alt": []
+  },
+  {
+   "id": "in_contrast",
+   "en": "in contrast",
+   "uz": "bunga zid ravishda, farqli o‘laroq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shahzod plans every trip down to the minute; in contrast, his best friend just packs a bag and goes.",
+   "gap": "in contrast",
+   "alt": []
+  },
+  {
+   "id": "on_the_other_hand",
+   "en": "on the other hand",
+   "uz": "boshqa tomondan esa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My new phone has a brilliant camera; on the other hand, the battery hardly lasts a day.",
+   "gap": "on the other hand",
+   "alt": []
+  },
+  {
+   "id": "on_the_contrary",
+   "en": "on the contrary",
+   "uz": "aksincha (rasmiy, e’tiroz)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "\"I suppose the trip to Samarkand was boring.\" \"Not at all — on the contrary, it was the best day of the year!\"",
+   "gap": "on the contrary",
+   "alt": []
+  },
+  {
+   "id": "nevertheless",
+   "en": "nevertheless",
+   "uz": "shunga qaramasdan (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The road to Charvak was full of traffic; nevertheless, we arrived in time for lunch.",
+   "gap": "nevertheless",
+   "alt": []
+  },
+  {
+   "id": "poles_apart",
+   "en": "poles apart",
+   "uz": "yer bilan osmoncha farqli",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our two maths teachers are poles apart: one explains everything slowly, the other races through the lesson.",
+   "gap": "poles apart",
+   "alt": []
+  },
+  {
+   "id": "world_of_difference",
+   "en": "a world of difference",
+   "uz": "juda katta farq (…orasida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "There's a world of difference between knowing the rules of the road and actually driving a car.",
+   "gap": "world of difference",
+   "alt": [
+    "world of difference"
+   ]
+  },
+  {
+   "id": "great_divide",
+   "en": "a great divide",
+   "uz": "chuqur ajralish (guruhlar orasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many countries there's a great divide between families who can afford private schools and those who can't.",
+   "gap": "great divide",
+   "alt": [
+    "great divide",
+    "divide"
+   ]
+  },
+  {
+   "id": "yawning_gap",
+   "en": "a yawning gap",
+   "uz": "juda keng jarlik (darajalar orasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The yawning gap between the best and the weakest pupils in our class worries our teacher.",
+   "gap": "yawning gap",
+   "alt": [
+    "yawning gap"
+   ]
+  },
+  {
+   "id": "discrepancy",
+   "en": "discrepancy",
+   "uz": "nomuvofiqlik (raqam, gap va ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a big discrepancy between the price on the shelf and the price I paid at the till.",
+   "gap": "discrepancy",
+   "alt": [
+    "discrepancies"
+   ]
+  },
+  {
+   "id": "although",
+   "en": "although",
+   "uz": "garchi … bo‘lsa-da",
+   "pos": "conjunction",
+   "img": false,
+   "ex": "The little café near our school is always busy although its coffee is quite expensive.",
+   "gap": "although",
+   "alt": []
+  },
+  {
+   "id": "the_reverse",
+   "en": "the reverse",
+   "uz": "buning teskarisi (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone expected the older team to win easily, but the reverse happened: the youngest pupils took the cup.",
+   "gap": "the reverse",
+   "alt": [
+    "reverse"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "acknowledge",
+   "accept_that"
+  ],
+  [
+   "acknowledge",
+   "admit"
+  ],
+  [
+   "acknowledge",
+   "concede"
+  ],
+  [
+   "accept_that",
+   "admit"
+  ],
+  [
+   "accept_that",
+   "concede"
+  ],
+  [
+   "admit",
+   "concede"
+  ],
+  [
+   "all_well_and_good",
+   "all_very_well"
+  ],
+  [
+   "for_all_that",
+   "nevertheless"
+  ],
+  [
+   "admittedly",
+   "in_fact"
+  ],
+  [
+   "in_fact",
+   "on_the_contrary"
+  ],
+  [
+   "in_fact",
+   "after_all"
+  ],
+  [
+   "quite_the_opposite",
+   "on_the_contrary"
+  ],
+  [
+   "in_contrast",
+   "on_the_other_hand"
+  ],
+  [
+   "poles_apart",
+   "world_of_difference"
+  ],
+  [
+   "world_of_difference",
+   "great_divide"
+  ],
+  [
+   "world_of_difference",
+   "yawning_gap"
+  ],
+  [
+   "world_of_difference",
+   "discrepancy"
+  ],
+  [
+   "great_divide",
+   "yawning_gap"
+  ],
+  [
+   "great_divide",
+   "discrepancy"
+  ],
+  [
+   "yawning_gap",
+   "discrepancy"
+  ],
+  [
+   "after_all",
+   "admittedly"
+  ],
+  [
+   "for_all_that",
+   "in_fact"
+  ],
+  [
+   "for_all_that",
+   "on_the_other_hand"
+  ],
+  [
+   "quite_the_opposite",
+   "in_fact"
+  ],
+  [
+   "on_the_other_hand",
+   "nevertheless"
+  ],
+  [
+   "on_the_other_hand",
+   "admittedly"
+  ],
+  [
+   "for_all_that",
+   "after_all"
+  ],
+  [
+   "nevertheless",
+   "after_all"
+  ],
+  [
+   "in_contrast",
+   "on_the_contrary"
+  ],
+  [
+   "in_contrast",
+   "quite_the_opposite"
+  ],
+  [
+   "the_reverse",
+   "quite_the_opposite"
+  ],
+  [
+   "the_reverse",
+   "on_the_contrary"
+  ]
+ ]
+}

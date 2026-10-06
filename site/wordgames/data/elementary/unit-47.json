@@ -1,0 +1,218 @@
+{
+ "book": "elementary",
+ "unit": 47,
+ "title": "Everyday things",
+ "title_uz": "Kundalik ishlar",
+ "words": [
+  {
+   "id": "go_to_the_bathroom",
+   "en": "go to the bathroom",
+   "uz": "hojatxonaga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Excuse me, teacher, may I go to the bathroom? I need to wash my hands after the art lesson.",
+   "gap": "go to the bathroom",
+   "alt": [
+    "goes to the bathroom",
+    "went to the bathroom"
+   ]
+  },
+  {
+   "id": "listen_to_the_radio",
+   "en": "listen to the radio",
+   "uz": "radio tinglamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the car on the way to work, Dad likes to listen to the radio, especially the morning news.",
+   "gap": "listen to the radio",
+   "alt": [
+    "listens to the radio",
+    "listened to the radio",
+    "listening to the radio"
+   ]
+  },
+  {
+   "id": "phone_a_friend",
+   "en": "phone a friend",
+   "uz": "do‘stga qo‘ng‘iroq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I'm stuck on my homework, I phone a friend from my class and we do it together.",
+   "gap": "phone a friend",
+   "alt": [
+    "call a friend",
+    "phones a friend",
+    "phoned a friend"
+   ]
+  },
+  {
+   "id": "wash_clothes",
+   "en": "wash clothes",
+   "uz": "kir yuvmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Saturday mornings Mum washes clothes, and I hang them on the balcony to dry.",
+   "gap": "washes clothes",
+   "alt": [
+    "washes clothes",
+    "washed clothes",
+    "washing clothes"
+   ]
+  },
+  {
+   "id": "clean_the_house",
+   "en": "clean the house",
+   "uz": "uyni tozalamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A week before Navruz, everyone in our family helps to clean the house from top to bottom.",
+   "gap": "clean the house",
+   "alt": [
+    "cleans the house",
+    "cleaned the house",
+    "cleaning the house"
+   ]
+  },
+  {
+   "id": "go_for_a_walk",
+   "en": "go for a walk",
+   "uz": "sayrga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After dinner, my parents often go for a walk along the canal and come back before dark.",
+   "gap": "go for a walk",
+   "alt": [
+    "goes for a walk",
+    "went for a walk",
+    "going for a walk"
+   ]
+  },
+  {
+   "id": "write_letters",
+   "en": "write letters",
+   "uz": "xat yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There was no internet in the mountain village last summer, so I wrote letters to my best friend and posted them every week.",
+   "gap": "wrote letters",
+   "alt": [
+    "writes letters",
+    "wrote letters",
+    "writing letters"
+   ]
+  },
+  {
+   "id": "write_emails",
+   "en": "write emails",
+   "uz": "elektron xat yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My uncle writes emails to his colleagues in Germany every day, and they get them in a second.",
+   "gap": "writes emails",
+   "alt": [
+    "writes emails",
+    "wrote emails",
+    "writing emails",
+    "write e-mails"
+   ]
+  },
+  {
+   "id": "go_out",
+   "en": "go out",
+   "uz": "(dam olgani) tashqariga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My big sister stays at home on weekdays, but on Friday evenings she goes out with her friends to a café in the city centre.",
+   "gap": "goes out",
+   "alt": [
+    "goes out",
+    "went out",
+    "going out"
+   ]
+  },
+  {
+   "id": "watch_a_film",
+   "en": "watch a film",
+   "uz": "film ko‘rmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last night we made popcorn and watched a film on our new TV.",
+   "gap": "watched a film",
+   "alt": [
+    "watches a film",
+    "watched a film",
+    "watching a film"
+   ]
+  },
+  {
+   "id": "how_often",
+   "en": "how often",
+   "uz": "qanchalik tez-tez",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The dentist asked Bobur how often he brushes his teeth, and he said, 'Twice a day, honestly!'",
+   "gap": "how often",
+   "alt": []
+  },
+  {
+   "id": "what_time",
+   "en": "what time",
+   "uz": "soat nechada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Can you tell me what time the bank opens? Is it at nine or at ten o'clock?",
+   "gap": "what time",
+   "alt": []
+  },
+  {
+   "id": "three_times_a_week",
+   "en": "three times a week",
+   "uz": "haftasiga uch marta",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My sister has swimming lessons three times a week: on Monday, Wednesday and Friday.",
+   "gap": "three times a week",
+   "alt": []
+  },
+  {
+   "id": "normally",
+   "en": "normally",
+   "uz": "odatda (normal holatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I normally walk to school, but today it was raining, so Dad drove me.",
+   "gap": "normally",
+   "alt": []
+  },
+  {
+   "id": "usually",
+   "en": "usually",
+   "uz": "odatda / ko‘pincha",
+   "pos": "adverb",
+   "img": false,
+   "ex": "On Sundays we usually have a late breakfast at about ten o'clock.",
+   "gap": "usually",
+   "alt": []
+  },
+  {
+   "id": "by_bus",
+   "en": "by bus",
+   "uz": "avtobusda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our school is far from home, so I go by bus; the number 54 stops right outside our gate.",
+   "gap": "by bus",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "normally",
+   "usually"
+  ],
+  [
+   "go_out",
+   "go_for_a_walk"
+  ]
+ ]
+}

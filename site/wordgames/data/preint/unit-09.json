@@ -1,0 +1,510 @@
+{
+ "book": "preint",
+ "unit": 9,
+ "title": "The body and movement",
+ "title_uz": "Tana va harakatlar",
+ "words": [
+  {
+   "id": "skin",
+   "en": "skin",
+   "uz": "teri",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a day on the beach without sun cream, the skin on my back was red and sore.",
+   "gap": "skin",
+   "alt": []
+  },
+  {
+   "id": "forehead",
+   "en": "forehead",
+   "uz": "peshona",
+   "pos": "noun",
+   "img": false,
+   "ex": "His long fringe covers his forehead and nearly reaches his eyes.",
+   "gap": "forehead",
+   "alt": []
+  },
+  {
+   "id": "neck",
+   "en": "neck",
+   "uz": "bo‘yin",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was cold, so she wrapped a warm scarf around her neck.",
+   "gap": "neck",
+   "alt": []
+  },
+  {
+   "id": "cheek",
+   "en": "cheek",
+   "uz": "yonoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "When my cousin came back from Korea, my aunt kissed him on both cheeks at the airport.",
+   "gap": "cheeks",
+   "alt": [
+    "cheeks"
+   ]
+  },
+  {
+   "id": "lip",
+   "en": "lip",
+   "uz": "lab",
+   "pos": "noun",
+   "img": true,
+   "ex": "The baby pressed her lips together and refused to eat the soup.",
+   "gap": "lips",
+   "alt": [
+    "lips"
+   ]
+  },
+  {
+   "id": "chest",
+   "en": "chest",
+   "uz": "ko‘krak",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor put her ear to my chest to listen to my heart.",
+   "gap": "chest",
+   "alt": []
+  },
+  {
+   "id": "waist",
+   "en": "waist",
+   "uz": "bel",
+   "pos": "noun",
+   "img": false,
+   "ex": "These trousers are too big around the waist; I need a belt.",
+   "gap": "waist",
+   "alt": []
+  },
+  {
+   "id": "knee",
+   "en": "knee",
+   "uz": "tizza",
+   "pos": "noun",
+   "img": false,
+   "ex": "I fell off my bike and hurt my knee, so now I can't bend my leg.",
+   "gap": "knee",
+   "alt": [
+    "knees"
+   ]
+  },
+  {
+   "id": "ankle",
+   "en": "ankle",
+   "uz": "to‘piq",
+   "pos": "noun",
+   "img": false,
+   "ex": "She twisted her ankle playing football, and now her foot is swollen.",
+   "gap": "ankle",
+   "alt": [
+    "ankles"
+   ]
+  },
+  {
+   "id": "chin",
+   "en": "chin",
+   "uz": "iyak",
+   "pos": "noun",
+   "img": false,
+   "ex": "He has a small pointed beard on his chin.",
+   "gap": "chin",
+   "alt": []
+  },
+  {
+   "id": "shoulder",
+   "en": "shoulder",
+   "uz": "yelka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad carried my little sister on his shoulders so she could see the Navruz concert.",
+   "gap": "shoulders",
+   "alt": [
+    "shoulders"
+   ]
+  },
+  {
+   "id": "hip",
+   "en": "hip",
+   "uz": "yonbosh (beldan pastki yon qism)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She carried the baby on her hip while she hung out the washing.",
+   "gap": "hip",
+   "alt": [
+    "hips"
+   ]
+  },
+  {
+   "id": "wrist",
+   "en": "wrist",
+   "uz": "bilak bo‘g‘imi (soat taqiladigan joy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He always wears a smartwatch on his left wrist.",
+   "gap": "wrist",
+   "alt": [
+    "wrists"
+   ]
+  },
+  {
+   "id": "thumb",
+   "en": "thumb",
+   "uz": "bosh barmoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "He put his thumb up to show us that everything was OK.",
+   "gap": "thumb",
+   "alt": [
+    "thumbs"
+   ]
+  },
+  {
+   "id": "toe",
+   "en": "toe",
+   "uz": "oyoq barmog‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "The water at Charvak was so cold that I only put my toes in.",
+   "gap": "toes",
+   "alt": [
+    "toes"
+   ]
+  },
+  {
+   "id": "elbow",
+   "en": "elbow",
+   "uz": "tirsak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please don't put your elbows on the table while we're eating.",
+   "gap": "elbows",
+   "alt": [
+    "elbows"
+   ]
+  },
+  {
+   "id": "heel",
+   "en": "heel",
+   "uz": "tovon",
+   "pos": "noun",
+   "img": false,
+   "ex": "I stepped on a sharp stone, and now my heel hurts every time I put my foot down.",
+   "gap": "heel",
+   "alt": [
+    "heels"
+   ]
+  },
+  {
+   "id": "bottom",
+   "en": "bottom",
+   "uz": "dumba",
+   "pos": "noun",
+   "img": false,
+   "ex": "Babies learning to walk often sit down suddenly on their bottom.",
+   "gap": "bottom",
+   "alt": [
+    "bottoms"
+   ]
+  },
+  {
+   "id": "breathe",
+   "en": "breathe",
+   "uz": "nafas olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the exam, close your eyes and breathe slowly through your nose.",
+   "gap": "breathe",
+   "alt": [
+    "breathing",
+    "breathes",
+    "breathed"
+   ]
+  },
+  {
+   "id": "smile",
+   "en": "smile",
+   "uz": "jilmaymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The new girl looked nervous, so I smiled at her to make her feel welcome.",
+   "gap": "smiled",
+   "alt": [
+    "smiled",
+    "smiling",
+    "smiles"
+   ]
+  },
+  {
+   "id": "laugh",
+   "en": "laugh",
+   "uz": "kulmoq (ovoz chiqarib)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The joke was so funny that the whole class laughed loudly.",
+   "gap": "laughed",
+   "alt": [
+    "laughed",
+    "laughing",
+    "laughs"
+   ]
+  },
+  {
+   "id": "cry",
+   "en": "cry",
+   "uz": "yig‘lamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little boy started crying when he dropped his ice cream.",
+   "gap": "crying",
+   "alt": [
+    "cried",
+    "crying",
+    "cries"
+   ]
+  },
+  {
+   "id": "nod",
+   "en": "nod",
+   "uz": "bosh irg‘amoq (ha ma’nosida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I asked if she was ready, and she nodded to say yes.",
+   "gap": "nodded",
+   "alt": [
+    "nodded",
+    "nodding",
+    "nods"
+   ]
+  },
+  {
+   "id": "shake_head",
+   "en": "shake your head",
+   "uz": "bosh chayqamoq (yo‘q ma’nosida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the teacher asked if he had finished, Sardor shook his head sadly: not yet.",
+   "gap": "shook his head",
+   "alt": [
+    "shook his head",
+    "shook her head",
+    "shook my head",
+    "shake my head",
+    "shake his head",
+    "shakes his head",
+    "shakes her head",
+    "shaking his head",
+    "shaking her head"
+   ]
+  },
+  {
+   "id": "yawn",
+   "en": "yawn",
+   "uz": "esnamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The film was so long and boring that everyone started yawning.",
+   "gap": "yawning",
+   "alt": [
+    "yawned",
+    "yawning",
+    "yawns"
+   ]
+  },
+  {
+   "id": "shake_hands",
+   "en": "shake hands",
+   "uz": "qo‘l berib ko‘rishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Uzbek men meet, they usually shake hands with each other and ask about their families.",
+   "gap": "shake hands",
+   "alt": [
+    "shook hands",
+    "shaking hands",
+    "shakes hands"
+   ]
+  },
+  {
+   "id": "fold_arms",
+   "en": "fold your arms",
+   "uz": "qo‘llarni qovushtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The guard stood by the door and folded his arms across his chest, looking bored.",
+   "gap": "folded his arms",
+   "alt": [
+    "folded his arms",
+    "folded her arms",
+    "folded my arms",
+    "fold my arms",
+    "folds his arms",
+    "folding his arms"
+   ]
+  },
+  {
+   "id": "comb_hair",
+   "en": "comb your hair",
+   "uz": "sochni taramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the class photo, Mum told me to comb my hair because it was a mess.",
+   "gap": "comb my hair",
+   "alt": [
+    "comb my hair",
+    "comb his hair",
+    "comb her hair",
+    "combed my hair",
+    "combed his hair",
+    "combed her hair"
+   ]
+  },
+  {
+   "id": "wave",
+   "en": "wave",
+   "uz": "qo‘l silkitmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The children waved to the train as it left Samarkand station.",
+   "gap": "waved",
+   "alt": [
+    "waved",
+    "waving",
+    "waves"
+   ]
+  },
+  {
+   "id": "blow_nose",
+   "en": "blow your nose",
+   "uz": "burun qoqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've got a bad cold, so I have to blow my nose all the time.",
+   "gap": "blow my nose",
+   "alt": [
+    "blow my nose",
+    "blow his nose",
+    "blew my nose",
+    "blew his nose",
+    "blew her nose"
+   ]
+  },
+  {
+   "id": "breast",
+   "en": "breast",
+   "uz": "ko‘krak bezi (ayollarda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors say that breast milk is the best food for newborn babies.",
+   "gap": "breast",
+   "alt": []
+  },
+  {
+   "id": "nose",
+   "en": "nose",
+   "uz": "burun",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't smell the flowers because my nose is blocked.",
+   "gap": "nose",
+   "alt": []
+  },
+  {
+   "id": "mouth",
+   "en": "mouth",
+   "uz": "og‘iz",
+   "pos": "noun",
+   "img": true,
+   "ex": "Please don't speak with your mouth full of food.",
+   "gap": "mouth",
+   "alt": []
+  },
+  {
+   "id": "face",
+   "en": "face",
+   "uz": "yuz (chehra)",
+   "pos": "noun",
+   "img": true,
+   "ex": "She had a big smile on her face when she saw her exam results.",
+   "gap": "face",
+   "alt": []
+  },
+  {
+   "id": "head",
+   "en": "head",
+   "uz": "bosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's very sunny, so put a hat on your head before you go out.",
+   "gap": "head",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "waist",
+   "hip"
+  ],
+  [
+   "smile",
+   "laugh"
+  ],
+  [
+   "nod",
+   "shake_head"
+  ],
+  [
+   "shake_hands",
+   "wave"
+  ],
+  [
+   "laugh",
+   "cry"
+  ],
+  [
+   "bottom",
+   "hip"
+  ],
+  [
+   "hip",
+   "shoulder"
+  ],
+  [
+   "knee",
+   "hip"
+  ],
+  [
+   "smile",
+   "wave"
+  ],
+  [
+   "smile",
+   "nod"
+  ],
+  [
+   "breast",
+   "chest"
+  ],
+  [
+   "face",
+   "lip"
+  ],
+  [
+   "face",
+   "chin"
+  ],
+  [
+   "head",
+   "neck"
+  ],
+  [
+   "head",
+   "shoulder"
+  ],
+  [
+   "face",
+   "forehead"
+  ]
+ ]
+}

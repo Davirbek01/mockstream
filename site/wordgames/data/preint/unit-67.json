@@ -1,0 +1,288 @@
+{
+ "book": "preint",
+ "unit": 67,
+ "title": "Opinions, agreeing and disagreeing",
+ "title_uz": "Fikr bildirish, qo‘shilish va e’tiroz",
+ "words": [
+  {
+   "id": "opinion",
+   "en": "opinion",
+   "uz": "fikr (shaxsiy qarash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Everyone in our family has a different opinion about where to go for the summer holidays.",
+   "gap": "opinion",
+   "alt": [
+    "opinions"
+   ]
+  },
+  {
+   "id": "what_do_you_think_of",
+   "en": "What do you think of",
+   "uz": "… haqida qanday fikrdasiz?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'So, what do you think of my new haircut?' Dilnoza asked her sister nervously.",
+   "gap": "what do you think of",
+   "alt": [
+    "What do you think about"
+   ]
+  },
+  {
+   "id": "how_do_you_feel_about",
+   "en": "How do you feel about",
+   "uz": "… ga munosabatingiz qanday?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our class teacher smiled and asked, 'So, how do you feel about having a test on Monday?'",
+   "gap": "how do you feel about",
+   "alt": []
+  },
+  {
+   "id": "personally",
+   "en": "personally",
+   "uz": "shaxsan men (o‘zimcha)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Most of my friends love scary films, but personally, I find them a bit boring.",
+   "gap": "personally",
+   "alt": []
+  },
+  {
+   "id": "my_view_is",
+   "en": "my view is",
+   "uz": "Mening nuqtai nazarim shuki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our football coach listened to everyone and then said, 'Well, my view is that we need more practice before the match.'",
+   "gap": "my view is",
+   "alt": [
+    "my feeling is"
+   ]
+  },
+  {
+   "id": "newspaper_says",
+   "en": "the newspaper says",
+   "uz": "Gazetada yozilishicha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Take a coat tomorrow: the newspaper says it will be cold and windy in Tashkent all week.",
+   "gap": "the newspaper says",
+   "alt": [
+    "the paper says"
+   ]
+  },
+  {
+   "id": "agree_with",
+   "en": "agree with",
+   "uz": "(kimgadir) qo‘shilmoq, rozi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Do you agree with Malika that the school canteen should sell more fruit?",
+   "gap": "agree with",
+   "alt": [
+    "agrees with",
+    "agreed with"
+   ]
+  },
+  {
+   "id": "totally_agree",
+   "en": "totally agree",
+   "uz": "To‘liq qo‘shilaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Teachers shouldn't give homework for the holidays.' 'Yes! I totally agree, one hundred percent!'",
+   "gap": "totally agree",
+   "alt": []
+  },
+  {
+   "id": "partly_agree",
+   "en": "partly agree",
+   "uz": "Qisman qo‘shilaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I partly agree with Anvar: the school concert was fun, but it was far too long.",
+   "gap": "partly agree",
+   "alt": []
+  },
+  {
+   "id": "certain_extent",
+   "en": "to a certain extent",
+   "uz": "Ma’lum darajada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new bus timetable is better to a certain extent, but the buses are still often late.",
+   "gap": "to a certain extent",
+   "alt": []
+  },
+  {
+   "id": "thats_true",
+   "en": "That's true",
+   "uz": "To‘g‘ri, shunday",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'The metro is much faster than the bus.' 'Yes, that's true, but it's very crowded in the morning.'",
+   "gap": "that's true",
+   "alt": []
+  },
+  {
+   "id": "see_what_you_mean",
+   "en": "I see what you mean",
+   "uz": "Nima demoqchiligingizni tushunaman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'This phone is too expensive for a ten-year-old.' 'Mm, I see what you mean, but he really needs one for school.'",
+   "gap": "I see what you mean",
+   "alt": []
+  },
+  {
+   "id": "good_point",
+   "en": "good point",
+   "uz": "O‘rinli fikr",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'If we go by car, we can stop wherever we like.' 'That's a good point, but the train is cheaper.'",
+   "gap": "good point",
+   "alt": []
+  },
+  {
+   "id": "take_your_point",
+   "en": "I take your point",
+   "uz": "Gapingizda jon bor, lekin…",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'You should go to bed earlier.' 'OK, I take your point, but I have so much homework.'",
+   "gap": "I take your point",
+   "alt": []
+  },
+  {
+   "id": "feel_strongly",
+   "en": "feel strongly about",
+   "uz": "… haqida qat’iy fikrda bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our biology teacher feels strongly about plastic bags, so she always takes her own cloth bag to the shops.",
+   "gap": "feels strongly about",
+   "alt": [
+    "feels strongly about",
+    "felt strongly about"
+   ]
+  },
+  {
+   "id": "absolutely_right",
+   "en": "absolutely right",
+   "uz": "Mutlaqo haqsiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We should leave early to miss the traffic.' 'You're absolutely right; let's go at seven.'",
+   "gap": "absolutely right",
+   "alt": []
+  },
+  {
+   "id": "absolutely_wrong",
+   "en": "absolutely wrong",
+   "uz": "Mutlaqo noto‘g‘ri",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Timur said the swimming pool would be open until ten, but he was absolutely wrong: it was already closed at eight.",
+   "gap": "absolutely wrong",
+   "alt": []
+  },
+  {
+   "id": "disagree_completely",
+   "en": "disagree completely",
+   "uz": "Umuman qo‘shilmayman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother says football is boring, but I disagree completely: it's the best game in the world.",
+   "gap": "disagree completely",
+   "alt": []
+  },
+  {
+   "id": "dont_agree_at_all",
+   "en": "don't agree at all",
+   "uz": "Zarracha ham rozi emasman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Kamola thinks we should cancel the class party, but I don't agree at all; we've planned it for weeks.",
+   "gap": "don't agree at all",
+   "alt": []
+  },
+  {
+   "id": "to_some_extent",
+   "en": "to some extent",
+   "uz": "qaysidir darajada",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I agree with you to some extent: the trip was fun, but it cost far too much.",
+   "gap": "to some extent",
+   "alt": []
+  },
+  {
+   "id": "dont_think",
+   "en": "I don't think",
+   "uz": "… deb o‘ylamayman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I don't think the shop is open now; all the lights are off.",
+   "gap": "don't think",
+   "alt": []
+  },
+  {
+   "id": "feel_that",
+   "en": "I feel that",
+   "uz": "Menimcha, … (fikr bildirish)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the head teacher asked for ideas, Aziz put up his hand: 'I feel that we need more benches in the playground.'",
+   "gap": "I feel that",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "what_do_you_think_of",
+   "how_do_you_feel_about"
+  ],
+  [
+   "thats_true",
+   "see_what_you_mean"
+  ],
+  [
+   "thats_true",
+   "take_your_point"
+  ],
+  [
+   "see_what_you_mean",
+   "take_your_point"
+  ],
+  [
+   "disagree_completely",
+   "dont_agree_at_all"
+  ],
+  [
+   "good_point",
+   "great_idea"
+  ],
+  [
+   "to_some_extent",
+   "certain_extent"
+  ],
+  [
+   "feel_that",
+   "my_view_is"
+  ],
+  [
+   "thats_true",
+   "good_point"
+  ],
+  [
+   "see_what_you_mean",
+   "good_point"
+  ],
+  [
+   "take_your_point",
+   "good_point"
+  ]
+ ]
+}

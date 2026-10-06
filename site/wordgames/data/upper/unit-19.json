@@ -1,0 +1,744 @@
+{
+ "book": "upper",
+ "unit": 19,
+ "title": "Art and literature",
+ "title_uz": "San’at va adabiyot",
+ "words": [
+  {
+   "id": "biography",
+   "en": "biography",
+   "uz": "tarjimai hol kitobi (biografiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm reading a biography of Babur that describes how he left the Fergana Valley and founded an empire in India.",
+   "gap": "biography",
+   "alt": [
+    "biographies"
+   ]
+  },
+  {
+   "id": "short_story",
+   "en": "short story",
+   "uz": "hikoya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Abdulla Qahhor wrote many short stories, some of them only a few pages long.",
+   "gap": "short stories",
+   "alt": [
+    "short stories"
+   ]
+  },
+  {
+   "id": "performing_arts",
+   "en": "performing arts",
+   "uz": "sahna san’atlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilshod wants a career in the performing arts, so he's applying to drama school in Tashkent.",
+   "gap": "performing arts",
+   "alt": []
+  },
+  {
+   "id": "fine_art",
+   "en": "fine art",
+   "uz": "tasviriy san’at",
+   "pos": "noun",
+   "img": false,
+   "ex": "She studied fine art in Tashkent and now paints large oil pictures of city life.",
+   "gap": "fine art",
+   "alt": [
+    "fine arts"
+   ]
+  },
+  {
+   "id": "ceramics",
+   "en": "ceramics",
+   "uz": "keramika (sopol buyumlar san’ati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rishton in the Fergana Valley is famous for its blue and turquoise ceramics.",
+   "gap": "ceramics",
+   "alt": []
+  },
+  {
+   "id": "architecture",
+   "en": "architecture",
+   "uz": "me’morchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tashkent's metro stations are famous for their architecture: each one has its own marble halls, chandeliers and decorations.",
+   "gap": "architecture",
+   "alt": []
+  },
+  {
+   "id": "art_lover",
+   "en": "art lover",
+   "uz": "san’at shaydosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My aunt is a great art lover; she has visited the Savitsky Museum in Nukus three times.",
+   "gap": "art lover",
+   "alt": [
+    "art lovers"
+   ]
+  },
+  {
+   "id": "artistic",
+   "en": "artistic",
+   "uz": "ijodkor, badiiy didli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Shoira is very artistic; she designed and painted all the decorations for our school's end-of-year concert herself.",
+   "gap": "artistic",
+   "alt": []
+  },
+  {
+   "id": "work_of_art",
+   "en": "work of art",
+   "uz": "san’at asari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old carved door was so beautiful that it looked more like a work of art than a door.",
+   "gap": "work of art",
+   "alt": [
+    "works of art"
+   ]
+  },
+  {
+   "id": "arts_and_crafts",
+   "en": "arts and crafts",
+   "uz": "hunarmandchilik buyumlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the Navruz fair you can buy arts and crafts: embroidered suzani, carved wooden boxes and silver jewellery.",
+   "gap": "arts and crafts",
+   "alt": []
+  },
+  {
+   "id": "sculptor",
+   "en": "sculptor",
+   "uz": "haykaltarosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sculptor spent two years carving the figure from a single block of marble.",
+   "gap": "sculptor",
+   "alt": [
+    "sculptors"
+   ]
+  },
+  {
+   "id": "sculpture",
+   "en": "sculpture",
+   "uz": "haykaltaroshlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ancient Greek sculpture, especially the marble figures of gods and athletes, inspired European artists for centuries.",
+   "gap": "sculpture",
+   "alt": []
+  },
+  {
+   "id": "statue",
+   "en": "statue",
+   "uz": "haykal",
+   "pos": "noun",
+   "img": true,
+   "ex": "A bronze statue of Amir Temur on horseback stands in the centre of Tashkent.",
+   "gap": "statue",
+   "alt": [
+    "statues"
+   ]
+  },
+  {
+   "id": "potter",
+   "en": "potter",
+   "uz": "kulol",
+   "pos": "noun",
+   "img": false,
+   "ex": "The potter sat at his wheel and shaped the wet clay into a bowl.",
+   "gap": "potter",
+   "alt": [
+    "potters"
+   ]
+  },
+  {
+   "id": "pottery",
+   "en": "pottery",
+   "uz": "kulolchilik (sopol idishlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gijduvon pottery, with its warm brown and yellow colours, is sold at craft markets all over the country.",
+   "gap": "pottery",
+   "alt": []
+  },
+  {
+   "id": "architect",
+   "en": "architect",
+   "uz": "me’mor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The architect showed us drawings of the new library before the building work began.",
+   "gap": "architect",
+   "alt": [
+    "architects"
+   ]
+  },
+  {
+   "id": "abstract",
+   "en": "abstract",
+   "uz": "abstrakt (mavhum)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her paintings are completely abstract: just red triangles and black lines, with nothing you could recognise as a person or a place.",
+   "gap": "abstract",
+   "alt": []
+  },
+  {
+   "id": "portrait",
+   "en": "portrait",
+   "uz": "portret",
+   "pos": "noun",
+   "img": false,
+   "ex": "The painter asked Malika to sit still for two hours while he finished her portrait.",
+   "gap": "portrait",
+   "alt": [
+    "portraits"
+   ]
+  },
+  {
+   "id": "landscape",
+   "en": "landscape",
+   "uz": "manzara (tabiat tasviri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The artist painted a landscape of green hills and tall poplar trees near the village.",
+   "gap": "landscape",
+   "alt": [
+    "landscapes"
+   ]
+  },
+  {
+   "id": "still_life",
+   "en": "still life",
+   "uz": "natyurmort",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our art teacher put a bowl of pomegranates and a jug on the table, and we painted a still life.",
+   "gap": "still life",
+   "alt": [
+    "still lifes"
+   ]
+  },
+  {
+   "id": "original",
+   "en": "original",
+   "uz": "asl (nusxa emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Experts studied the painting for months and finally agreed that it was original, not a copy.",
+   "gap": "original",
+   "alt": []
+  },
+  {
+   "id": "novelist",
+   "en": "novelist",
+   "uz": "romannavis",
+   "pos": "noun",
+   "img": false,
+   "ex": "Leo Tolstoy, the great Russian novelist, spent six years writing War and Peace.",
+   "gap": "novelist",
+   "alt": [
+    "novelists"
+   ]
+  },
+  {
+   "id": "series",
+   "en": "series",
+   "uz": "turkum (bir qahramonli kitoblar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Once Malika finished the first book, she read the whole series in a month, all seven volumes.",
+   "gap": "series",
+   "alt": []
+  },
+  {
+   "id": "setting",
+   "en": "setting",
+   "uz": "voqealar joyi va davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "The story has an unusual setting: a tiny village high in the mountains during a long, snowy winter.",
+   "gap": "setting",
+   "alt": [
+    "settings"
+   ]
+  },
+  {
+   "id": "bestseller",
+   "en": "bestseller",
+   "uz": "eng ko‘p sotilgan kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her first novel became a bestseller and sold over a million copies.",
+   "gap": "bestseller",
+   "alt": [
+    "bestsellers",
+    "best-seller"
+   ]
+  },
+  {
+   "id": "critic",
+   "en": "critic",
+   "uz": "tanqidchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The critics hated the film, but ordinary cinema-goers loved it.",
+   "gap": "critics",
+   "alt": [
+    "critics"
+   ]
+  },
+  {
+   "id": "plot",
+   "en": "plot",
+   "uz": "syujet (voqealar rivoji)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plot had so many twists that I had no idea who the killer was until the very last page.",
+   "gap": "plot",
+   "alt": [
+    "plots"
+   ]
+  },
+  {
+   "id": "character",
+   "en": "character",
+   "uz": "personaj (asar qahramoni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The main character of the book is a young doctor who moves to a remote village.",
+   "gap": "character",
+   "alt": [
+    "characters"
+   ]
+  },
+  {
+   "id": "literary",
+   "en": "literary",
+   "uz": "jiddiy badiiy (adabiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Next to the popular thrillers, the bookshop has a shelf of more literary novels for readers who want serious, thoughtful writing.",
+   "gap": "literary",
+   "alt": []
+  },
+  {
+   "id": "review",
+   "en": "review",
+   "uz": "taqriz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The newspaper gave the new novel a glowing review, calling it brilliant.",
+   "gap": "review",
+   "alt": [
+    "reviews"
+   ]
+  },
+  {
+   "id": "publication",
+   "en": "publication",
+   "uz": "nashr (chop etilishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The book is ready for publication and will be in the shops in May.",
+   "gap": "publication",
+   "alt": []
+  },
+  {
+   "id": "extract",
+   "en": "extract",
+   "uz": "parcha (kitobdan olingan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We read an extract from the first chapter in class, and now I want to read the whole book.",
+   "gap": "extract",
+   "alt": [
+    "extracts"
+   ]
+  },
+  {
+   "id": "passage",
+   "en": "passage",
+   "uz": "matn parchasi (qisqa bo‘lak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Read the short passage on page 12 and answer the five questions below it.",
+   "gap": "passage",
+   "alt": [
+    "passages"
+   ]
+  },
+  {
+   "id": "literature",
+   "en": "literature",
+   "uz": "adabiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulshan is studying English literature and has to read three long books a week.",
+   "gap": "literature",
+   "alt": []
+  },
+  {
+   "id": "novel",
+   "en": "novel",
+   "uz": "roman (yirik badiiy asar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It took Dilfuza three weeks to finish the novel, because it was nearly nine hundred pages long.",
+   "gap": "novel",
+   "alt": [
+    "novels"
+   ]
+  },
+  {
+   "id": "drama",
+   "en": "drama",
+   "uz": "dramaturgiya (sahna asarlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At university Elif studied drama and spent most evenings rehearsing plays with other students.",
+   "gap": "drama",
+   "alt": []
+  },
+  {
+   "id": "theatre",
+   "en": "theatre",
+   "uz": "teatr (sahna san’ati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ayesha loves the theatre and goes to see a new play almost every month.",
+   "gap": "theatre",
+   "alt": [
+    "theater"
+   ]
+  },
+  {
+   "id": "cinema",
+   "en": "cinema",
+   "uz": "kino san’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Iranian cinema has won many international prizes, especially for films about ordinary families.",
+   "gap": "cinema",
+   "alt": []
+  },
+  {
+   "id": "dance",
+   "en": "dance",
+   "uz": "raqs san’ati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Contemporary dance often mixes classical steps with hip-hop movements.",
+   "gap": "dance",
+   "alt": []
+  },
+  {
+   "id": "opera",
+   "en": "opera",
+   "uz": "kuylab ijro etiladigan sahna asari",
+   "pos": "noun",
+   "img": false,
+   "ex": "In opera, the performers sing almost every line instead of speaking it, usually with an orchestra.",
+   "gap": "opera",
+   "alt": [
+    "operas"
+   ]
+  },
+  {
+   "id": "concert",
+   "en": "concert",
+   "uz": "tomoshabinlar oldida jonli musiqa ijrosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The orchestra gave a free concert in the park, and hundreds of families brought blankets to sit on.",
+   "gap": "concert",
+   "alt": [
+    "concerts"
+   ]
+  },
+  {
+   "id": "painting",
+   "en": "painting",
+   "uz": "rangtasvir (rasm chizish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She gave up her office job to concentrate on painting, and now sells her oil pictures online.",
+   "gap": "painting",
+   "alt": []
+  },
+  {
+   "id": "country_and_western",
+   "en": "country and western",
+   "uz": "Amerika kovboy-xalq musiqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On long drives across Texas, the truck driver listens to country and western, with its guitars and songs about cowboys.",
+   "gap": "country and western",
+   "alt": []
+  },
+  {
+   "id": "the_arts",
+   "en": "the arts",
+   "uz": "san’at sohalari (barchasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The city now spends more money on the arts than ever before, from theatres to museums and music festivals.",
+   "gap": "the arts",
+   "alt": []
+  },
+  {
+   "id": "arts_page",
+   "en": "arts page",
+   "uz": "gazetaning madaniyat sahifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I always turn to the arts page first to see which exhibitions and plays are recommended.",
+   "gap": "arts page",
+   "alt": [
+    "arts pages"
+   ]
+  },
+  {
+   "id": "art_skill",
+   "en": "art",
+   "uz": "mahorat (ijodiy san’at)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Learning the art of calligraphy takes years of patient practice.",
+   "gap": "art",
+   "alt": []
+  },
+  {
+   "id": "reproduction",
+   "en": "reproduction",
+   "uz": "rasmning bosma nusxasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The painting in the hotel lobby isn't a real Van Gogh; it's a cheap reproduction.",
+   "gap": "reproduction",
+   "alt": [
+    "reproductions"
+   ]
+  },
+  {
+   "id": "ebook",
+   "en": "ebook",
+   "uz": "elektron kitob",
+   "pos": "noun",
+   "img": false,
+   "ex": "I read ebooks on my phone during the long metro ride, so I don't need to carry heavy books.",
+   "gap": "ebooks",
+   "alt": [
+    "ebooks",
+    "e-book",
+    "e-books"
+   ]
+  },
+  {
+   "id": "chapter",
+   "en": "chapter",
+   "uz": "bob (kitob qismi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The detective finally solves the mystery in the last chapter of the book.",
+   "gap": "chapter",
+   "alt": [
+    "chapters"
+   ]
+  },
+  {
+   "id": "advance_copy",
+   "en": "advance copy",
+   "uz": "sotuvdan oldingi nusxa (kitob)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Journalists received advance copies of the memoir two weeks before it went on sale.",
+   "gap": "advance copies",
+   "alt": [
+    "advance copies"
+   ]
+  },
+  {
+   "id": "throw_a_pot",
+   "en": "throw a pot",
+   "uz": "charxda sopol idish yasamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At a craft workshop in Rishton, Nadia learned to throw a pot on a spinning wheel.",
+   "gap": "throw a pot",
+   "alt": [
+    "throws a pot",
+    "threw a pot",
+    "throwing a pot",
+    "thrown a pot"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "performing_arts",
+   "fine_art"
+  ],
+  [
+   "ceramics",
+   "pottery"
+  ],
+  [
+   "sculptor",
+   "potter"
+  ],
+  [
+   "sculpture",
+   "statue"
+  ],
+  [
+   "sculptor",
+   "sculpture"
+  ],
+  [
+   "architect",
+   "architecture"
+  ],
+  [
+   "potter",
+   "pottery"
+  ],
+  [
+   "portrait",
+   "landscape"
+  ],
+  [
+   "landscape",
+   "still_life"
+  ],
+  [
+   "portrait",
+   "still_life"
+  ],
+  [
+   "novelist",
+   "critic"
+  ],
+  [
+   "plot",
+   "setting"
+  ],
+  [
+   "review",
+   "critic"
+  ],
+  [
+   "work_of_art",
+   "arts_and_crafts"
+  ],
+  [
+   "biography",
+   "short_story"
+  ],
+  [
+   "fine_art",
+   "artistic"
+  ],
+  [
+   "extract",
+   "passage"
+  ],
+  [
+   "artistic",
+   "original"
+  ],
+  [
+   "work_of_art",
+   "sculpture"
+  ],
+  [
+   "literary",
+   "artistic"
+  ],
+  [
+   "novel",
+   "biography"
+  ],
+  [
+   "novel",
+   "novelist"
+  ],
+  [
+   "drama",
+   "performing_arts"
+  ],
+  [
+   "drama",
+   "theatre"
+  ],
+  [
+   "theatre",
+   "performing_arts"
+  ],
+  [
+   "cinema",
+   "performing_arts"
+  ],
+  [
+   "dance",
+   "performing_arts"
+  ],
+  [
+   "opera",
+   "concert"
+  ],
+  [
+   "painting",
+   "fine_art"
+  ],
+  [
+   "the_arts",
+   "performing_arts"
+  ],
+  [
+   "the_arts",
+   "fine_art"
+  ],
+  [
+   "literature",
+   "drama"
+  ],
+  [
+   "reproduction",
+   "original"
+  ],
+  [
+   "chapter",
+   "passage"
+  ],
+  [
+   "chapter",
+   "extract"
+  ],
+  [
+   "throw_a_pot",
+   "pottery"
+  ],
+  [
+   "throw_a_pot",
+   "potter"
+  ],
+  [
+   "novel",
+   "bestseller"
+  ],
+  [
+   "novel",
+   "series"
+  ]
+ ]
+}

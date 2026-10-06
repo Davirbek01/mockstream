@@ -1,0 +1,318 @@
+{
+ "book": "elementary",
+ "unit": 8,
+ "title": "Conversations 1: Greetings and wishes",
+ "title_uz": "Suhbat 1: Salomlashish va tilaklar",
+ "words": [
+  {
+   "id": "good_morning",
+   "en": "Good morning",
+   "uz": "Xayrli tong",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's eight o'clock, and the teacher walks into the classroom: 'Good morning, everyone! Sit down, please.'",
+   "gap": "Good morning",
+   "alt": []
+  },
+  {
+   "id": "good_afternoon",
+   "en": "Good afternoon",
+   "uz": "Xayrli kun (tushdan keyin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At three o'clock the receptionist answers the phone: 'Good afternoon, IT Park. How can I help you?'",
+   "gap": "Good afternoon",
+   "alt": []
+  },
+  {
+   "id": "good_evening",
+   "en": "Good evening",
+   "uz": "Xayrli kech",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At nine p.m. the TV presenter smiles at the camera: 'Good evening, and welcome to the news.'",
+   "gap": "Good evening",
+   "alt": []
+  },
+  {
+   "id": "hello",
+   "en": "Hello",
+   "uz": "Salom / Assalomu alaykum",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The phone rings and Anvar picks it up: 'Hello? Who's speaking, please?'",
+   "gap": "Hello",
+   "alt": []
+  },
+  {
+   "id": "hi",
+   "en": "Hi",
+   "uz": "Salom (do‘stona)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sardor sees Bek at the bus stop and waves: 'Hi, Bek! What's up?'",
+   "gap": "Hi",
+   "alt": []
+  },
+  {
+   "id": "how_are_you",
+   "en": "How are you?",
+   "uz": "Qalaysiz? / Ahvolingiz qanday?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Hi, Malika! I haven't seen you for weeks. How are you?' 'Great, thanks! I've just come back from the mountains.'",
+   "gap": "How are you",
+   "alt": [
+    "How are you"
+   ]
+  },
+  {
+   "id": "not_too_bad",
+   "en": "Not too bad",
+   "uz": "Yomon emas, rahmat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'How are things, Kamol?' 'Not too bad, thanks. A bit tired after work.'",
+   "gap": "Not too bad",
+   "alt": []
+  },
+  {
+   "id": "goodbye",
+   "en": "Goodbye",
+   "uz": "Xayr",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the airport Dad hugged us and said, 'Goodbye! I'll call you from Seoul.'",
+   "gap": "Goodbye",
+   "alt": [
+    "Good-bye"
+   ]
+  },
+  {
+   "id": "see_you_soon",
+   "en": "See you soon",
+   "uz": "Tez orada ko‘rishamiz",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I'm going to Bukhara, but I'll be back on Friday.' 'OK. See you soon!'",
+   "gap": "See you soon",
+   "alt": []
+  },
+  {
+   "id": "goodnight",
+   "en": "Goodnight",
+   "uz": "Xayrli tun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I yawned, closed my book and went to my room: 'I'm off to bed. Goodnight, everyone!'",
+   "gap": "Goodnight",
+   "alt": [
+    "Good night"
+   ]
+  },
+  {
+   "id": "sleep_well",
+   "en": "Sleep well",
+   "uz": "Yaxshi uxlang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mum turned off the light in the baby's room and whispered: 'Sleep well, my little star.'",
+   "gap": "Sleep well",
+   "alt": []
+  },
+  {
+   "id": "please",
+   "en": "please",
+   "uz": "iltimos",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The little boy pointed at the ice cream: 'Please, Mum! Can I have one?'",
+   "gap": "Please",
+   "alt": []
+  },
+  {
+   "id": "thank_you",
+   "en": "Thank you",
+   "uz": "Rahmat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Here's your umbrella; you left it in the classroom.' 'Thank you very much! I looked for it everywhere.'",
+   "gap": "Thank you",
+   "alt": [
+    "Thanks"
+   ]
+  },
+  {
+   "id": "cheers",
+   "en": "Cheers",
+   "uz": "Rahmat (norasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Here's the charger you wanted.' 'Cheers, mate!'",
+   "gap": "Cheers",
+   "alt": []
+  },
+  {
+   "id": "excuse_me",
+   "en": "Excuse me",
+   "uz": "Kechirasiz (murojaat qilganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A tourist stops me in the street: 'Excuse me, where is the nearest metro station?'",
+   "gap": "Excuse me",
+   "alt": []
+  },
+  {
+   "id": "sorry",
+   "en": "Sorry",
+   "uz": "Uzr (aybni tan olib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Ouch! You're standing on my foot!' 'Sorry! I didn't see it.'",
+   "gap": "Sorry",
+   "alt": []
+  },
+  {
+   "id": "bless_you",
+   "en": "Bless you",
+   "uz": "Sog‘ bo‘ling (aksirganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Aaa-choo!' 'Bless you!' 'Thanks. I think I've got a cold.'",
+   "gap": "Bless you",
+   "alt": []
+  },
+  {
+   "id": "happy_birthday",
+   "en": "Happy Birthday",
+   "uz": "Tug‘ilgan kuning muborak!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shahzoda is ten today! We all shouted 'Happy Birthday!' and she blew out the candles.",
+   "gap": "Happy Birthday",
+   "alt": []
+  },
+  {
+   "id": "merry_christmas",
+   "en": "Merry Christmas",
+   "uz": "Rojdestvo muborak!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "On 25 December our English pen friend from London sent us a card: 'Merry Christmas!'",
+   "gap": "Merry Christmas",
+   "alt": [
+    "Happy Christmas"
+   ]
+  },
+  {
+   "id": "happy_new_year",
+   "en": "Happy New Year",
+   "uz": "Yangi yil muborak!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At midnight on 31 December the fireworks started, and everyone shouted 'Happy New Year!'",
+   "gap": "Happy New Year",
+   "alt": []
+  },
+  {
+   "id": "good_luck",
+   "en": "Good luck",
+   "uz": "Omad yor bo‘lsin!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'My driving test is tomorrow morning.' 'Good luck! I hope you pass.'",
+   "gap": "Good luck",
+   "alt": []
+  },
+  {
+   "id": "congratulations",
+   "en": "Congratulations",
+   "uz": "Tabriklayman!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'We're getting married in June!' 'Congratulations! I'm so happy for you both.'",
+   "gap": "Congratulations",
+   "alt": []
+  },
+  {
+   "id": "well_done",
+   "en": "Well done",
+   "uz": "Barakalla! / Ofarin!",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'I got the top mark in the maths olympiad!' 'Well done! You worked so hard.'",
+   "gap": "Well done",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "hello",
+   "hi"
+  ],
+  [
+   "hello",
+   "good_morning"
+  ],
+  [
+   "hello",
+   "good_afternoon"
+  ],
+  [
+   "hello",
+   "good_evening"
+  ],
+  [
+   "hi",
+   "good_morning"
+  ],
+  [
+   "hi",
+   "good_afternoon"
+  ],
+  [
+   "hi",
+   "good_evening"
+  ],
+  [
+   "goodbye",
+   "see_you_soon"
+  ],
+  [
+   "goodbye",
+   "goodnight"
+  ],
+  [
+   "goodnight",
+   "sleep_well"
+  ],
+  [
+   "thank_you",
+   "cheers"
+  ],
+  [
+   "excuse_me",
+   "sorry"
+  ],
+  [
+   "congratulations",
+   "well_done"
+  ],
+  [
+   "congratulations",
+   "good_luck"
+  ],
+  [
+   "congratulations",
+   "happy_birthday"
+  ],
+  [
+   "merry_christmas",
+   "happy_new_year"
+  ],
+  [
+   "how_are_you",
+   "not_too_bad"
+  ]
+ ]
+}

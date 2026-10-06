@@ -1,0 +1,948 @@
+{
+ "book": "upper",
+ "unit": 18,
+ "title": "Sport",
+ "title_uz": "Sport",
+ "words": [
+  {
+   "id": "hang_gliding",
+   "en": "hang-gliding",
+   "uz": "deltaplanda uchish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Flying like a bird under a big triangle-shaped wing, with no engine at all: that's what hang-gliding feels like.",
+   "gap": "hang-gliding",
+   "alt": [
+    "hang gliding"
+   ]
+  },
+  {
+   "id": "fencing",
+   "en": "fencing",
+   "uz": "qilichbozlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "In fencing, the two competitors wear white suits and masks and fight with thin swords.",
+   "gap": "fencing",
+   "alt": []
+  },
+  {
+   "id": "showjumping",
+   "en": "showjumping",
+   "uz": "ot bilan to‘siqlardan sakrash",
+   "pos": "noun",
+   "img": false,
+   "ex": "In showjumping, horse and rider must clear a course of fences without knocking any of them down.",
+   "gap": "showjumping",
+   "alt": [
+    "show jumping",
+    "show-jumping"
+   ]
+  },
+  {
+   "id": "windsurfing",
+   "en": "windsurfing",
+   "uz": "vindserfing (yelkanli taxtada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For windsurfing you need a board, a sail and a good strong wind.",
+   "gap": "windsurfing",
+   "alt": []
+  },
+  {
+   "id": "snooker",
+   "en": "snooker",
+   "uz": "snuker (bilyard turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In snooker, players try to hit red and coloured balls into the pockets of a large green table.",
+   "gap": "snooker",
+   "alt": []
+  },
+  {
+   "id": "scuba_diving",
+   "en": "scuba diving",
+   "uz": "akvalang bilan sho‘ng‘ish",
+   "pos": "noun",
+   "img": false,
+   "ex": "With an air tank on her back, Nigora went scuba diving in the Red Sea and swam among hundreds of fish.",
+   "gap": "scuba diving",
+   "alt": [
+    "scuba-diving"
+   ]
+  },
+  {
+   "id": "archery",
+   "en": "archery",
+   "uz": "kamondan otish (sport turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar took up archery last year and can now hit a target seventy metres away.",
+   "gap": "archery",
+   "alt": []
+  },
+  {
+   "id": "bowling",
+   "en": "bowling",
+   "uz": "bouling",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the bowling centre, Timur rolled a heavy ball down the lane and knocked over all ten pins.",
+   "gap": "bowling",
+   "alt": [
+    "ten-pin bowling",
+    "tenpin bowling"
+   ]
+  },
+  {
+   "id": "motor_racing",
+   "en": "motor racing",
+   "uz": "avtopoyga",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bobur loves motor racing and never misses a Formula 1 race on TV, where the cars reach over 300 km/h.",
+   "gap": "motor racing",
+   "alt": [
+    "motor-racing"
+   ]
+  },
+  {
+   "id": "golf_club",
+   "en": "golf club",
+   "uz": "golf tayoqchasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "He took a golf club out of his bag and hit the ball towards the hole.",
+   "gap": "golf club",
+   "alt": [
+    "golf clubs"
+   ]
+  },
+  {
+   "id": "racket",
+   "en": "racket",
+   "uz": "raketka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madina broke a string on her tennis racket in the very first set.",
+   "gap": "racket",
+   "alt": [
+    "racquet",
+    "rackets"
+   ]
+  },
+  {
+   "id": "oar",
+   "en": "oar",
+   "uz": "eshkak (qayiq bortiga mahkamlangan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In rowing, each person in the boat pulls a long oar through the water while sitting with their back to the finish.",
+   "gap": "oar",
+   "alt": [
+    "oars"
+   ]
+  },
+  {
+   "id": "paddle",
+   "en": "paddle",
+   "uz": "kanoe eshkagi (qo‘lda ushlanadi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a canoe, you hold a paddle in your hands and push it through the water on either side.",
+   "gap": "paddle",
+   "alt": [
+    "paddles"
+   ]
+  },
+  {
+   "id": "cue",
+   "en": "cue",
+   "uz": "kiy (bilyard tayoqchasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before each shot, the snooker player rubs a little chalk on the tip of his cue.",
+   "gap": "cue",
+   "alt": [
+    "cues"
+   ]
+  },
+  {
+   "id": "bat",
+   "en": "bat",
+   "uz": "bita (kriket, beysbol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In cricket, the player holds a flat wooden bat and tries to hit the ball away from the wicket behind him.",
+   "gap": "bat",
+   "alt": [
+    "bats"
+   ]
+  },
+  {
+   "id": "fishing_rod",
+   "en": "fishing rod",
+   "uz": "qarmoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every Sunday, Dad takes his fishing rod to the river and comes home with a few fish, or with none at all.",
+   "gap": "fishing rod",
+   "alt": [
+    "rod",
+    "fishing rods"
+   ]
+  },
+  {
+   "id": "bow",
+   "en": "bow",
+   "uz": "kamon (o‘q otish quroli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hold the bow in your left hand, pull the string back to your cheek with your right, and let the arrow go.",
+   "gap": "bow",
+   "alt": [
+    "bows"
+   ]
+  },
+  {
+   "id": "hockey_stick",
+   "en": "hockey stick",
+   "uz": "xokkey klyushkasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The goalkeeper stopped the puck, and a defender quickly hit it up the ice with his hockey stick.",
+   "gap": "hockey stick",
+   "alt": [
+    "hockey sticks",
+    "stick"
+   ]
+  },
+  {
+   "id": "pole_vault",
+   "en": "pole vault",
+   "uz": "langarcho‘p bilan sakrash",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the pole vault, athletes run fast, push a long flexible stick into the ground and fly over a bar more than five metres high.",
+   "gap": "pole vault",
+   "alt": [
+    "pole-vault"
+   ]
+  },
+  {
+   "id": "javelin",
+   "en": "javelin",
+   "uz": "nayza (uloqtirish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Throwing the javelin needs a fast run-up and a very strong arm.",
+   "gap": "javelin",
+   "alt": [
+    "javelins"
+   ]
+  },
+  {
+   "id": "discus",
+   "en": "discus",
+   "uz": "disk (uloqtirish uchun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The athlete spun round twice inside the circle and threw the heavy discus.",
+   "gap": "discus",
+   "alt": []
+  },
+  {
+   "id": "sprinter",
+   "en": "sprinter",
+   "uz": "qisqa masofaga yuguruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the start of the 200 metres, each sprinter crouched low, waiting for the starting gun.",
+   "gap": "sprinter",
+   "alt": [
+    "sprinters"
+   ]
+  },
+  {
+   "id": "marathon",
+   "en": "marathon",
+   "uz": "marafon",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin ran her first marathon in Tashkent: 42 kilometres in just under five hours.",
+   "gap": "marathon",
+   "alt": [
+    "marathons"
+   ]
+  },
+  {
+   "id": "long_distance_runner",
+   "en": "long-distance runner",
+   "uz": "uzoq masofaga yuguruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Eliud Kipchoge, the Kenyan long-distance runner, won the Olympic marathon in both 2016 and 2021.",
+   "gap": "long-distance runner",
+   "alt": [
+    "long-distance runners",
+    "long distance runner"
+   ]
+  },
+  {
+   "id": "set_a_record",
+   "en": "set a record",
+   "uz": "rekord o‘rnatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In 2024 the Swedish athlete Armand Duplantis set a new world record at the Paris Olympics.",
+   "gap": "set",
+   "alt": [
+    "set",
+    "sets",
+    "setting"
+   ]
+  },
+  {
+   "id": "qualify",
+   "en": "qualify",
+   "uz": "saralashdan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In 2025, Uzbekistan's national football team qualified for the World Cup for the first time.",
+   "gap": "qualified",
+   "alt": [
+    "qualifies",
+    "qualified",
+    "qualifying"
+   ]
+  },
+  {
+   "id": "hold_the_record",
+   "en": "hold the record",
+   "uz": "rekord egasi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our PE teacher has held the record for the school long jump since 1998: nobody has jumped further than 6.9 metres.",
+   "gap": "held the record",
+   "alt": [
+    "holds the record",
+    "held the record",
+    "holding the record"
+   ]
+  },
+  {
+   "id": "knocked_out",
+   "en": "be knocked out",
+   "uz": "musobaqadan chiqib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our team won the first two games but got knocked out in the quarter-finals.",
+   "gap": "knocked out",
+   "alt": [
+    "knocked out",
+    "knock out"
+   ]
+  },
+  {
+   "id": "semi_final",
+   "en": "semi-final",
+   "uz": "yarim final",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only four teams are left in the semi-finals, and the two winners will meet in the final.",
+   "gap": "semi-finals",
+   "alt": [
+    "semi-finals",
+    "semifinal",
+    "semi final"
+   ]
+  },
+  {
+   "id": "competitive",
+   "en": "competitive",
+   "uz": "raqobatli (g‘alabaga intiluvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Getting into the national volleyball team is very competitive: hundreds of girls try, but only twelve are chosen.",
+   "gap": "competitive",
+   "alt": []
+  },
+  {
+   "id": "trophy",
+   "en": "trophy",
+   "uz": "kubok (sovrin)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The captain lifted the silver trophy above her head as the fans cheered.",
+   "gap": "trophy",
+   "alt": [
+    "trophies"
+   ]
+  },
+  {
+   "id": "spectators",
+   "en": "spectators",
+   "uz": "tomoshabinlar (stadionda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "More than 30,000 spectators filled the stadium for the derby between Pakhtakor and Bunyodkor.",
+   "gap": "spectators",
+   "alt": [
+    "spectator"
+   ]
+  },
+  {
+   "id": "jockey",
+   "en": "jockey",
+   "uz": "chavandoz (ot poygasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The jockey, a tiny man in bright colours, rode the horse to victory in the big race.",
+   "gap": "jockey",
+   "alt": [
+    "jockeys"
+   ]
+  },
+  {
+   "id": "mountaineer",
+   "en": "mountaineer",
+   "uz": "alpinist",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mountaineer spent three days climbing to the top of Khan Tengri in the Tian Shan.",
+   "gap": "mountaineer",
+   "alt": [
+    "mountaineers"
+   ]
+  },
+  {
+   "id": "gymnast",
+   "en": "gymnast",
+   "uz": "gimnastikachi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young gymnast did a perfect handstand on the beam and then a double somersault.",
+   "gap": "gymnast",
+   "alt": [
+    "gymnasts"
+   ]
+  },
+  {
+   "id": "archer",
+   "en": "archer",
+   "uz": "kamonchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Korean archer hit the centre of the target with all six arrows and won the gold medal.",
+   "gap": "archer",
+   "alt": [
+    "archers"
+   ]
+  },
+  {
+   "id": "canoeist",
+   "en": "canoeist",
+   "uz": "kanoe sportchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The canoeist knelt in her narrow boat and steered it carefully through the fast, rocky water.",
+   "gap": "canoeist",
+   "alt": [
+    "canoeists"
+   ]
+  },
+  {
+   "id": "pool",
+   "en": "pool",
+   "uz": "pul (bilyardning sodda turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the student bar there's a small pool table, and two friends were trying to pot the last black ball.",
+   "gap": "pool",
+   "alt": []
+  },
+  {
+   "id": "darts",
+   "en": "darts",
+   "uz": "kichik o‘qlarni nishonga otish o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "In many English pubs, people play darts, throwing small arrows at a round board on the wall.",
+   "gap": "darts",
+   "alt": []
+  },
+  {
+   "id": "dart",
+   "en": "dart",
+   "uz": "nishonga otiladigan kichik o‘q",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her last dart landed right in the centre of the board and won her the game.",
+   "gap": "dart",
+   "alt": []
+  },
+  {
+   "id": "squash",
+   "en": "squash",
+   "uz": "yopiq kortda devorga to‘p urish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two colleagues play squash at lunchtime, hitting a small rubber ball against the walls of an indoor court.",
+   "gap": "squash",
+   "alt": []
+  },
+  {
+   "id": "badminton",
+   "en": "badminton",
+   "uz": "volan bilan o‘ynaladigan raketka o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "We played badminton in the garden, hitting the shuttlecock back and forth over a low net.",
+   "gap": "badminton",
+   "alt": []
+  },
+  {
+   "id": "tennis",
+   "en": "tennis",
+   "uz": "kortda raketka bilan to‘p o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sabina has played tennis since she was seven and now competes in junior tournaments on clay courts.",
+   "gap": "tennis",
+   "alt": []
+  },
+  {
+   "id": "cricket",
+   "en": "cricket",
+   "uz": "Britaniyacha bita-to‘p o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "A single game of cricket can last five days, and the players traditionally dress all in white.",
+   "gap": "cricket",
+   "alt": []
+  },
+  {
+   "id": "baseball",
+   "en": "baseball",
+   "uz": "Amerikacha bita-to‘p o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the USA, the New York Yankees are probably the most famous baseball team.",
+   "gap": "baseball",
+   "alt": []
+  },
+  {
+   "id": "table_tennis",
+   "en": "table tennis",
+   "uz": "stol ustida raketkali to‘p o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the hostel's common room there's a green table with a small net, and we play table tennis every evening.",
+   "gap": "table tennis",
+   "alt": []
+  },
+  {
+   "id": "ice_hockey",
+   "en": "ice hockey",
+   "uz": "muz ustidagi shayba o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Canada and Russia have long been rivals in ice hockey, a fast game played on skates.",
+   "gap": "ice hockey",
+   "alt": []
+  },
+  {
+   "id": "field_hockey",
+   "en": "field hockey",
+   "uz": "maysada tayoq bilan to‘p o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Unlike on ice, in field hockey the players run on grass and hit a hard ball with curved sticks.",
+   "gap": "field hockey",
+   "alt": []
+  },
+  {
+   "id": "canoeing",
+   "en": "canoeing",
+   "uz": "qisqa eshkak bilan qayiqda suzish",
+   "pos": "noun",
+   "img": false,
+   "ex": "We went canoeing on a calm lake, each of us holding a single paddle.",
+   "gap": "canoeing",
+   "alt": []
+  },
+  {
+   "id": "rowing",
+   "en": "rowing",
+   "uz": "akademik eshkak eshish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Oxford and Cambridge universities hold a famous rowing race on the River Thames every spring.",
+   "gap": "rowing",
+   "alt": []
+  },
+  {
+   "id": "fishing",
+   "en": "fishing",
+   "uz": "baliq ovi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturday mornings, Oybek goes fishing at a quiet pond outside the town and brings home carp.",
+   "gap": "fishing",
+   "alt": []
+  },
+  {
+   "id": "fishing_line",
+   "en": "line",
+   "uz": "qarmoq ipi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A big carp pulled so hard that the line snapped and the fish swam away.",
+   "gap": "line",
+   "alt": [
+    "lines",
+    "fishing line"
+   ]
+  },
+  {
+   "id": "golf",
+   "en": "golf",
+   "uz": "to‘pni chuqurchaga kiritish o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "My boss plays golf every Sunday and is proud that he once got the ball into the hole with one shot.",
+   "gap": "golf",
+   "alt": []
+  },
+  {
+   "id": "high_jump",
+   "en": "high jump",
+   "uz": "balandlikka sakrash",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the high jump, athletes leap backwards over a bar without any equipment and land on a thick mat.",
+   "gap": "high jump",
+   "alt": []
+  },
+  {
+   "id": "long_jump",
+   "en": "long jump",
+   "uz": "uzunlikka sakrash",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the long jump, competitors sprint down a track and leap as far as possible into a pit of sand.",
+   "gap": "long jump",
+   "alt": []
+  },
+  {
+   "id": "breaststroke",
+   "en": "breaststroke",
+   "uz": "qurbaqasimon suzish usuli",
+   "pos": "noun",
+   "img": false,
+   "ex": "Aziza can't swim front crawl yet, so she does breaststroke and keeps her head above the water.",
+   "gap": "breaststroke",
+   "alt": []
+  },
+  {
+   "id": "footballer",
+   "en": "footballer",
+   "uz": "futbol o‘yinchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour's son is a professional footballer who plays in goal for a club in Namangan.",
+   "gap": "footballer",
+   "alt": [
+    "footballers"
+   ]
+  },
+  {
+   "id": "swimmer",
+   "en": "swimmer",
+   "uz": "suzuvchi (sportchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola is a strong swimmer: she can do forty lengths without a rest.",
+   "gap": "swimmer",
+   "alt": [
+    "swimmers"
+   ]
+  },
+  {
+   "id": "tennis_player",
+   "en": "tennis player",
+   "uz": "kortda raketka bilan o‘ynovchi sportchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young tennis player served so hard that her opponent couldn't even touch the ball.",
+   "gap": "tennis player",
+   "alt": [
+    "tennis players"
+   ]
+  },
+  {
+   "id": "referee",
+   "en": "referee",
+   "uz": "hakam (maydondagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The referee blew his whistle and showed the defender a red card.",
+   "gap": "referee",
+   "alt": [
+    "referees"
+   ]
+  },
+  {
+   "id": "fans",
+   "en": "fans",
+   "uz": "muxlislar",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the team's bus arrived, hundreds of fans in red scarves were waiting outside the hotel to cheer.",
+   "gap": "fans",
+   "alt": [
+    "fan"
+   ]
+  },
+  {
+   "id": "round_stage",
+   "en": "round",
+   "uz": "bosqich (musobaqa turi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ten players are still in the competition after the second round, which ended late last night.",
+   "gap": "round",
+   "alt": [
+    "rounds"
+   ]
+  },
+  {
+   "id": "final",
+   "en": "final",
+   "uz": "hal qiluvchi o‘yin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of people watched the cup final on big screens in the city square.",
+   "gap": "final",
+   "alt": [
+    "finals"
+   ]
+  },
+  {
+   "id": "be_beaten",
+   "en": "be beaten",
+   "uz": "mag‘lub bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our chess team reached the regional final but was beaten by a school from Termez.",
+   "gap": "was beaten",
+   "alt": [
+    "beaten",
+    "was beaten",
+    "were beaten"
+   ]
+  },
+  {
+   "id": "make_it_to",
+   "en": "make it to",
+   "uz": "(musobaqada) …gacha yetib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nobody expected the village team to make it to the quarter-finals, but they won four games in a row.",
+   "gap": "make it to",
+   "alt": [
+    "made it to",
+    "makes it to",
+    "making it to"
+   ]
+  },
+  {
+   "id": "sports_equipment",
+   "en": "sports equipment",
+   "uz": "sport anjomlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The gym in our block has new sports equipment: treadmills, weights and exercise bikes.",
+   "gap": "sports equipment",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "oar",
+   "paddle"
+  ],
+  [
+   "golf_club",
+   "cue"
+  ],
+  [
+   "golf_club",
+   "bat"
+  ],
+  [
+   "bat",
+   "racket"
+  ],
+  [
+   "cue",
+   "bat"
+  ],
+  [
+   "javelin",
+   "discus"
+  ],
+  [
+   "archery",
+   "archer"
+  ],
+  [
+   "sprinter",
+   "marathon"
+  ],
+  [
+   "snooker",
+   "cue"
+  ],
+  [
+   "showjumping",
+   "jockey"
+  ],
+  [
+   "windsurfing",
+   "scuba_diving"
+  ],
+  [
+   "javelin",
+   "pole_vault"
+  ],
+  [
+   "pool",
+   "snooker"
+  ],
+  [
+   "darts",
+   "dart"
+  ],
+  [
+   "darts",
+   "archery"
+  ],
+  [
+   "badminton",
+   "tennis"
+  ],
+  [
+   "tennis",
+   "squash"
+  ],
+  [
+   "badminton",
+   "squash"
+  ],
+  [
+   "table_tennis",
+   "tennis"
+  ],
+  [
+   "tennis",
+   "tennis_player"
+  ],
+  [
+   "cricket",
+   "baseball"
+  ],
+  [
+   "cricket",
+   "bat"
+  ],
+  [
+   "baseball",
+   "bat"
+  ],
+  [
+   "ice_hockey",
+   "field_hockey"
+  ],
+  [
+   "field_hockey",
+   "hockey_stick"
+  ],
+  [
+   "ice_hockey",
+   "hockey_stick"
+  ],
+  [
+   "canoeing",
+   "rowing"
+  ],
+  [
+   "canoeing",
+   "canoeist"
+  ],
+  [
+   "rowing",
+   "oar"
+  ],
+  [
+   "fishing",
+   "rowing"
+  ],
+  [
+   "fishing",
+   "canoeing"
+  ],
+  [
+   "fishing",
+   "fishing_rod"
+  ],
+  [
+   "fishing_line",
+   "fishing_rod"
+  ],
+  [
+   "golf",
+   "golf_club"
+  ],
+  [
+   "high_jump",
+   "pole_vault"
+  ],
+  [
+   "high_jump",
+   "long_jump"
+  ],
+  [
+   "long_jump",
+   "pole_vault"
+  ],
+  [
+   "footballer",
+   "swimmer"
+  ],
+  [
+   "swimmer",
+   "tennis_player"
+  ],
+  [
+   "fans",
+   "spectators"
+  ],
+  [
+   "round_stage",
+   "semi_final"
+  ],
+  [
+   "final",
+   "semi_final"
+  ],
+  [
+   "be_beaten",
+   "knocked_out"
+  ],
+  [
+   "make_it_to",
+   "qualify"
+  ]
+ ]
+}

@@ -1,0 +1,356 @@
+{
+ "book": "elementary",
+ "unit": 5,
+ "title": "Describing people",
+ "title_uz": "Odamlarni tasvirlash",
+ "words": [
+  {
+   "id": "tall",
+   "en": "tall",
+   "uz": "baland bo‘yli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother is so tall that he often hits his head on the door.",
+   "gap": "tall",
+   "alt": []
+  },
+  {
+   "id": "short",
+   "en": "short",
+   "uz": "past bo‘yli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little cousin is too short to reach the top shelf.",
+   "gap": "short",
+   "alt": []
+  },
+  {
+   "id": "medium_height",
+   "en": "medium height",
+   "uz": "o‘rta bo‘yli",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most boys in our class are of medium height, but Aziz is very tall.",
+   "gap": "medium height",
+   "alt": []
+  },
+  {
+   "id": "height",
+   "en": "height",
+   "uz": "bo‘y (balandlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "What is your height? One metre sixty.",
+   "gap": "height",
+   "alt": []
+  },
+  {
+   "id": "slim",
+   "en": "slim",
+   "uz": "xipcha",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My sister does yoga every day, so she is very slim.",
+   "gap": "slim",
+   "alt": []
+  },
+  {
+   "id": "thin",
+   "en": "thin",
+   "uz": "oriq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hungry cat was so thin that you could see its bones.",
+   "gap": "thin",
+   "alt": []
+  },
+  {
+   "id": "fat",
+   "en": "fat",
+   "uz": "semiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The panda eats all day, so it is big and fat.",
+   "gap": "fat",
+   "alt": []
+  },
+  {
+   "id": "overweight",
+   "en": "overweight",
+   "uz": "ortiqcha vaznli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ten extra kilos made him overweight, so he started jogging.",
+   "gap": "overweight",
+   "alt": []
+  },
+  {
+   "id": "weight",
+   "en": "weight",
+   "uz": "vazn",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write your height and weight on the form.",
+   "gap": "weight",
+   "alt": []
+  },
+  {
+   "id": "weigh",
+   "en": "weigh",
+   "uz": "tortmoq (vaznini o‘lchamoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The nurse asked me to stand on the scales so she could weigh me.",
+   "gap": "weigh",
+   "alt": []
+  },
+  {
+   "id": "dark",
+   "en": "dark",
+   "uz": "qora, qoramtir (soch, teri)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother has dark hair, almost black.",
+   "gap": "dark",
+   "alt": []
+  },
+  {
+   "id": "fair",
+   "en": "fair",
+   "uz": "oqish, och rangli (teri, soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "People with fair skin get sunburnt quickly.",
+   "gap": "fair",
+   "alt": []
+  },
+  {
+   "id": "blonde",
+   "en": "blonde",
+   "uz": "sariq (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her blonde hair is almost yellow.",
+   "gap": "blonde",
+   "alt": [
+    "blond"
+   ]
+  },
+  {
+   "id": "beard",
+   "en": "beard",
+   "uz": "soqol",
+   "pos": "noun",
+   "img": true,
+   "ex": "Qorbobo's white beard is so long that it reaches his chest.",
+   "gap": "beard",
+   "alt": []
+  },
+  {
+   "id": "moustache",
+   "en": "moustache",
+   "uz": "mo‘ylov",
+   "pos": "noun",
+   "img": true,
+   "ex": "My uncle has a moustache but no beard.",
+   "gap": "moustache",
+   "alt": [
+    "mustache"
+   ]
+  },
+  {
+   "id": "beautiful",
+   "en": "beautiful",
+   "uz": "go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "What a beautiful view of the mountains!",
+   "gap": "beautiful",
+   "alt": []
+  },
+  {
+   "id": "pretty",
+   "en": "pretty",
+   "uz": "yoqimtoy, chiroyli (qizlar haqida)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The little girl in the photo has a pretty smile.",
+   "gap": "pretty",
+   "alt": []
+  },
+  {
+   "id": "good_looking",
+   "en": "good-looking",
+   "uz": "kelishgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He isn't ugly at all; he's very good-looking.",
+   "gap": "good-looking",
+   "alt": [
+    "good looking"
+   ]
+  },
+  {
+   "id": "ugly",
+   "en": "ugly",
+   "uz": "xunuk",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the story, the frog is ugly, but the princess is beautiful.",
+   "gap": "ugly",
+   "alt": []
+  },
+  {
+   "id": "old",
+   "en": "old",
+   "uz": "qari, eski",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our school building is very old; it was built in 1910.",
+   "gap": "old",
+   "alt": []
+  },
+  {
+   "id": "young",
+   "en": "young",
+   "uz": "yosh",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My mum is young; she's only thirty-two.",
+   "gap": "young",
+   "alt": []
+  },
+  {
+   "id": "middle_aged",
+   "en": "middle-aged",
+   "uz": "o‘rta yoshli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "He isn't young or old; he's middle-aged, about fifty.",
+   "gap": "middle-aged",
+   "alt": [
+    "middle aged"
+   ]
+  },
+  {
+   "id": "elderly",
+   "en": "elderly",
+   "uz": "keksa, yoshi ulug‘ (hurmat bilan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Please give your seat to elderly people on the bus.",
+   "gap": "elderly",
+   "alt": []
+  },
+  {
+   "id": "look_like",
+   "en": "look like",
+   "uz": "(tashqi) ko‘rinishi qanday",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've never met your cousin. What does he look like? Is he tall?",
+   "gap": "look like",
+   "alt": []
+  },
+  {
+   "id": "heavy",
+   "en": "heavy",
+   "uz": "og‘ir (vaznli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This box of books is too heavy for me to lift alone.",
+   "gap": "heavy",
+   "alt": []
+  },
+  {
+   "id": "average_looking",
+   "en": "average-looking",
+   "uz": "oddiy ko‘rinishli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nobody notices Timur in a crowd: he isn't handsome or ugly, just average-looking.",
+   "gap": "average-looking",
+   "alt": [
+    "average looking"
+   ]
+  },
+  {
+   "id": "go_on_a_diet",
+   "en": "go on a diet",
+   "uz": "parhezga o‘tmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nilufar wants to lose five kilos, so she has decided to go on a diet.",
+   "gap": "go on a diet",
+   "alt": [
+    "went on a diet",
+    "goes on a diet",
+    "going on a diet"
+   ]
+  },
+  {
+   "id": "metre",
+   "en": "metre",
+   "uz": "metr",
+   "pos": "noun",
+   "img": false,
+   "ex": "The basketball player is two metres tall, so he has to bend down at every door.",
+   "gap": "metres",
+   "alt": [
+    "metres",
+    "meter",
+    "meters"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "slim",
+   "thin"
+  ],
+  [
+   "fat",
+   "overweight"
+  ],
+  [
+   "beautiful",
+   "pretty"
+  ],
+  [
+   "beautiful",
+   "good_looking"
+  ],
+  [
+   "pretty",
+   "good_looking"
+  ],
+  [
+   "old",
+   "elderly"
+  ],
+  [
+   "fair",
+   "blonde"
+  ],
+  [
+   "height",
+   "weight"
+  ],
+  [
+   "average_looking",
+   "good_looking"
+  ],
+  [
+   "average_looking",
+   "ugly"
+  ],
+  [
+   "heavy",
+   "overweight"
+  ],
+  [
+   "heavy",
+   "fat"
+  ]
+ ]
+}

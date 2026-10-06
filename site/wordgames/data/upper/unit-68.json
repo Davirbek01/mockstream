@@ -1,0 +1,496 @@
+{
+ "book": "upper",
+ "unit": 68,
+ "title": "Linking words in writing",
+ "title_uz": "Yozma nutqdagi bog‘lovchi so‘zlar",
+ "words": [
+  {
+   "id": "firstly",
+   "en": "firstly",
+   "uz": "birinchidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "There are three reasons why I prefer the train: firstly, the seats are more comfortable; secondly, it is never stuck in traffic.",
+   "gap": "firstly",
+   "alt": []
+  },
+  {
+   "id": "first_of_all",
+   "en": "first of all",
+   "uz": "avvalambor, eng avvalo",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before you start cooking, first of all wash your hands and tie back your hair.",
+   "gap": "first of all",
+   "alt": []
+  },
+  {
+   "id": "secondly",
+   "en": "secondly",
+   "uz": "ikkinchidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "I'm against the new car park: firstly, it will destroy our only green space; secondly, it will bring more traffic; and finally, nobody asked local people.",
+   "gap": "secondly",
+   "alt": []
+  },
+  {
+   "id": "lastly",
+   "en": "lastly",
+   "uz": "oxirgi navbatda (ro‘yxatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "To write a good essay, make a plan, then write it, and lastly check it for spelling mistakes.",
+   "gap": "lastly",
+   "alt": []
+  },
+  {
+   "id": "at_last",
+   "en": "at last",
+   "uz": "nihoyat (uzoq kutishdan keyin)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After three hours in the queue at the passport office, my name was called at last.",
+   "gap": "at last",
+   "alt": []
+  },
+  {
+   "id": "turning_to",
+   "en": "turning to",
+   "uz": "endi …ga o‘tsak (yangi mavzu)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "So much for the cost of the new stadium; turning to transport, the main difficulty will be parking.",
+   "gap": "turning to",
+   "alt": []
+  },
+  {
+   "id": "leaving_aside",
+   "en": "leaving aside",
+   "uz": "…ni hozircha chetga qo‘yib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The plan sounds good but, leaving aside the cost for a moment, will anyone actually use the new car park?",
+   "gap": "leaving aside",
+   "alt": []
+  },
+  {
+   "id": "in_parenthesis",
+   "en": "in parenthesis",
+   "uz": "aytib o‘tish joiz (yon gap)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The novel was a great success; in parenthesis, it should be noted that the writer was only nineteen at the time.",
+   "gap": "in parenthesis",
+   "alt": []
+  },
+  {
+   "id": "to_sum_up",
+   "en": "to sum up",
+   "uz": "umumlashtirib aytganda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "So, to sum up, our town needs more buses, cheaper tickets and safer bike lanes.",
+   "gap": "sum up",
+   "alt": [
+    "sum up"
+   ]
+  },
+  {
+   "id": "in_conclusion",
+   "en": "in conclusion",
+   "uz": "xulosa qilib aytganda (matn yakuni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Both sides have strong arguments. In conclusion, I believe pupils should use their phones only during the break.",
+   "gap": "conclusion",
+   "alt": [
+    "conclusion"
+   ]
+  },
+  {
+   "id": "in_other_words",
+   "en": "in other words",
+   "uz": "boshqacha aytganda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The hotel was fully booked for the holiday; in other words, there wasn't a single free room.",
+   "gap": "in other words",
+   "alt": []
+  },
+  {
+   "id": "that_is_to_say",
+   "en": "that is to say",
+   "uz": "ya’ni (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The museum is open on weekdays, that is to say, from Monday to Friday.",
+   "gap": "that is to say",
+   "alt": []
+  },
+  {
+   "id": "for_example",
+   "en": "for example",
+   "uz": "masalan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our school offers lots of after-school clubs, for example chess, robotics and table tennis.",
+   "gap": "for example",
+   "alt": []
+  },
+  {
+   "id": "for_instance",
+   "en": "for instance",
+   "uz": "misol uchun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Many fruits grow well in the Fergana Valley — apricots and pomegranates, for instance.",
+   "gap": "for instance",
+   "alt": []
+  },
+  {
+   "id": "say_eg",
+   "en": "say",
+   "uz": "aytaylik (taxminiy misol)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We could meet at, say, four o'clock, if that suits everyone.",
+   "gap": "say",
+   "alt": []
+  },
+  {
+   "id": "briefly",
+   "en": "briefly",
+   "uz": "qisqacha aytganda (to‘liq emas)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The rules of the quiz are quite long but, briefly, each team has one minute to answer each question.",
+   "gap": "briefly",
+   "alt": []
+  },
+  {
+   "id": "so_to_speak",
+   "en": "so to speak",
+   "uz": "ta’bir joiz bo‘lsa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My little sister is, so to speak, the real boss of our house.",
+   "gap": "so to speak",
+   "alt": []
+  },
+  {
+   "id": "as_it_were",
+   "en": "as it were",
+   "uz": "go‘yoki (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "During exam season the school library becomes, as it were, a second home for Sevara.",
+   "gap": "as it were",
+   "alt": []
+  },
+  {
+   "id": "the_following",
+   "en": "the following",
+   "uz": "quyidagi(lar)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Please bring the following items on the trip: a hat, a water bottle and comfortable shoes.",
+   "gap": "the following",
+   "alt": []
+  },
+  {
+   "id": "above",
+   "en": "above",
+   "uz": "yuqorida (matnda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "As was mentioned above, the survey was carried out in three schools in Gulistan.",
+   "gap": "above",
+   "alt": []
+  },
+  {
+   "id": "below",
+   "en": "below",
+   "uz": "quyida (matnda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Some examples of these common mistakes will be given below, at the end of this chapter.",
+   "gap": "below",
+   "alt": []
+  },
+  {
+   "id": "overleaf",
+   "en": "overleaf",
+   "uz": "varaqning orqa betida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "This side of the form asks for your personal details; the health questions are printed overleaf, on the back of the sheet.",
+   "gap": "overleaf",
+   "alt": []
+  },
+  {
+   "id": "further_details",
+   "en": "for further details",
+   "uz": "batafsil ma’lumot uchun",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This leaflet gives only the main rules; for further details, please visit the school website.",
+   "gap": "further details",
+   "alt": [
+    "further details"
+   ]
+  },
+  {
+   "id": "refer_you_to",
+   "en": "refer you to",
+   "uz": "…ga e’tiboringizni qaratmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before making a complaint, I would like to refer you to rule 6 of the hostel agreement, which you signed on arrival.",
+   "gap": "refer you to",
+   "alt": []
+  },
+  {
+   "id": "with_reference_to",
+   "en": "with reference to",
+   "uz": "…ga asosan (rasmiy xatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dear Sir or Madam, with reference to your advertisement in Tuesday's newspaper, I would like to apply for the summer job at your café.",
+   "gap": "with reference to",
+   "alt": []
+  },
+  {
+   "id": "first_list",
+   "en": "first",
+   "uz": "avvalo (ro‘yxatdagi 1-fikr)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "My essay makes two points. First, homework should be shorter; second, it should be more creative.",
+   "gap": "first",
+   "alt": []
+  },
+  {
+   "id": "next_list",
+   "en": "next",
+   "uz": "keyingi navbatda (ro‘yxatda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Firstly, choose a topic for your project; next, find at least three good sources.",
+   "gap": "next",
+   "alt": []
+  },
+  {
+   "id": "thirdly",
+   "en": "thirdly",
+   "uz": "uchinchidan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The trip was a success: firstly, the weather was perfect; secondly, the guide was excellent; and thirdly, nobody got lost.",
+   "gap": "thirdly",
+   "alt": []
+  },
+  {
+   "id": "finally_list",
+   "en": "finally",
+   "uz": "va nihoyat (so‘nggi bosqich)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "To make green tea, warm the teapot, add the leaves, pour in hot water and finally leave it for three minutes.",
+   "gap": "finally",
+   "alt": []
+  },
+  {
+   "id": "in_summary",
+   "en": "in summary",
+   "uz": "qisqa xulosa qilsak (asosiy fikrlar)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The report ends with a short list: in summary, the park needs more lights, more bins and more benches.",
+   "gap": "in summary",
+   "alt": []
+  },
+  {
+   "id": "in_sum",
+   "en": "in sum",
+   "uz": "jamlab aytganda (o‘ta rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The committee's findings were clear; in sum, the economic costs of the project far outweigh its benefits.",
+   "gap": "in sum",
+   "alt": []
+  },
+  {
+   "id": "to_conclude",
+   "en": "to conclude",
+   "uz": "so‘nggi so‘z o‘rnida (yakunlab)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "And now, to conclude, I would like to thank all the volunteers who made today's festival possible.",
+   "gap": "to conclude",
+   "alt": []
+  },
+  {
+   "id": "see_ref",
+   "en": "see",
+   "uz": "qarang (…betga, bo‘limga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "For a map of the walking routes, see page 14 of the guidebook.",
+   "gap": "see",
+   "alt": []
+  },
+  {
+   "id": "earlier_text",
+   "en": "earlier",
+   "uz": "avvalroq (matnning oldingi qismida)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "As I explained earlier in this essay, most pupils in our town walk to school.",
+   "gap": "earlier",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "firstly",
+   "first_of_all"
+  ],
+  [
+   "to_sum_up",
+   "in_conclusion"
+  ],
+  [
+   "in_other_words",
+   "that_is_to_say"
+  ],
+  [
+   "for_example",
+   "for_instance"
+  ],
+  [
+   "for_example",
+   "say_eg"
+  ],
+  [
+   "for_instance",
+   "say_eg"
+  ],
+  [
+   "so_to_speak",
+   "as_it_were"
+  ],
+  [
+   "turning_to",
+   "leaving_aside"
+  ],
+  [
+   "first_list",
+   "firstly"
+  ],
+  [
+   "first_list",
+   "first_of_all"
+  ],
+  [
+   "next_list",
+   "secondly"
+  ],
+  [
+   "next_list",
+   "thirdly"
+  ],
+  [
+   "next_list",
+   "lastly"
+  ],
+  [
+   "next_list",
+   "finally_list"
+  ],
+  [
+   "thirdly",
+   "lastly"
+  ],
+  [
+   "thirdly",
+   "finally_list"
+  ],
+  [
+   "finally_list",
+   "lastly"
+  ],
+  [
+   "finally_list",
+   "at_last"
+  ],
+  [
+   "finally_list",
+   "to_conclude"
+  ],
+  [
+   "in_summary",
+   "to_sum_up"
+  ],
+  [
+   "in_summary",
+   "in_sum"
+  ],
+  [
+   "in_summary",
+   "in_conclusion"
+  ],
+  [
+   "in_summary",
+   "briefly"
+  ],
+  [
+   "in_summary",
+   "in_other_words"
+  ],
+  [
+   "in_sum",
+   "to_sum_up"
+  ],
+  [
+   "in_sum",
+   "in_conclusion"
+  ],
+  [
+   "in_sum",
+   "briefly"
+  ],
+  [
+   "in_sum",
+   "in_other_words"
+  ],
+  [
+   "to_conclude",
+   "in_conclusion"
+  ],
+  [
+   "to_conclude",
+   "lastly"
+  ],
+  [
+   "to_conclude",
+   "to_sum_up"
+  ],
+  [
+   "earlier_text",
+   "above"
+  ],
+  [
+   "to_conclude",
+   "briefly"
+  ],
+  [
+   "to_conclude",
+   "in_summary"
+  ],
+  [
+   "to_conclude",
+   "in_sum"
+  ]
+ ]
+}

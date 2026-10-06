@@ -1,0 +1,543 @@
+{
+ "book": "advanced",
+ "unit": 12,
+ "title": "Relationships: ups and downs",
+ "title_uz": "Munosabatlar: yaxshi-yomon kunlar",
+ "words": [
+  {
+   "id": "casual_acquaintance",
+   "en": "casual acquaintance",
+   "uz": "shunchaki tanish (yuzaki)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I wouldn't call Jasur a friend; he's just a casual acquaintance from the gym.",
+   "gap": "casual acquaintance",
+   "alt": [
+    "casual acquaintances"
+   ]
+  },
+  {
+   "id": "speak_ill_of",
+   "en": "speak ill of",
+   "uz": "…ni yomonlab gapirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A true friend would never speak ill of you to people you hardly know.",
+   "gap": "speak ill of",
+   "alt": [
+    "speaks ill of",
+    "spoke ill of",
+    "speaking ill of"
+   ]
+  },
+  {
+   "id": "behind_your_back",
+   "en": "behind your back",
+   "uz": "orqavarotdan (yo‘qligingizda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Nodira smiles at me in class, but I've heard she laughs at me behind my back.",
+   "gap": "behind my back",
+   "alt": [
+    "behind my back",
+    "behind her back",
+    "behind his back",
+    "behind our backs"
+   ]
+  },
+  {
+   "id": "disloyal",
+   "en": "disloyal",
+   "uz": "xiyonatkor (sotqin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Leaking the team's tactics to a rival club was deeply disloyal to the coach who had trusted him.",
+   "gap": "disloyal",
+   "alt": []
+  },
+  {
+   "id": "unsupportive",
+   "en": "unsupportive",
+   "uz": "qo‘llab-quvvatlamaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When I decided to study art instead of medicine, my family was unsupportive at first; Dad wouldn't even look at my drawings.",
+   "gap": "unsupportive",
+   "alt": []
+  },
+  {
+   "id": "supportive_friends",
+   "en": "supportive",
+   "uz": "qo‘llab-quvvatlaydigan (yelkadosh)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When I failed my driving test, my friends were really supportive and helped me practise for the next one.",
+   "gap": "supportive",
+   "alt": []
+  },
+  {
+   "id": "dishonest",
+   "en": "dishonest",
+   "uz": "insofsiz (aldamchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "It was dishonest of the seller to hide the crack in the phone screen with a sticker.",
+   "gap": "dishonest",
+   "alt": []
+  },
+  {
+   "id": "disrespectful",
+   "en": "disrespectful",
+   "uz": "hurmatsiz (odobsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Checking your phone while your teacher is explaining something is disrespectful.",
+   "gap": "disrespectful",
+   "alt": []
+  },
+  {
+   "id": "two_faced",
+   "en": "two-faced",
+   "uz": "ikkiyuzlamachi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She's so two-faced: sweet to your face and nasty as soon as you leave the room.",
+   "gap": "two-faced",
+   "alt": [
+    "two faced"
+   ]
+  },
+  {
+   "id": "ally",
+   "en": "ally",
+   "uz": "ittifoqchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the school debate, Sherzod and I were opponents in the first round but became allies in the final against Lyceum No. 2.",
+   "gap": "allies",
+   "alt": [
+    "allies"
+   ]
+  },
+  {
+   "id": "business_partner",
+   "en": "business partner",
+   "uz": "biznesdagi sherik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Davron and his business partner each put in half the money to open their café in Chilanzar.",
+   "gap": "business partner",
+   "alt": [
+    "business partners"
+   ]
+  },
+  {
+   "id": "bitter_rivals",
+   "en": "bitter rivals",
+   "uz": "ashaddiy raqiblar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The two bakeries on our street have been bitter rivals for years, each claiming to make the best samsa in Jizzakh.",
+   "gap": "bitter rivals",
+   "alt": [
+    "bitter rival",
+    "arch rivals",
+    "arch rival"
+   ]
+  },
+  {
+   "id": "sworn_enemies",
+   "en": "sworn enemies",
+   "uz": "abadiy dushmanlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the novel, two knights who grew up together become sworn enemies after one betrays the other in battle.",
+   "gap": "sworn enemies",
+   "alt": [
+    "sworn enemy"
+   ]
+  },
+  {
+   "id": "distant",
+   "en": "distant",
+   "uz": "sovuq (o‘zini olib qochadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since he moved to the new class, Otabek has been rather distant: he hardly says hello to his old friends any more.",
+   "gap": "distant",
+   "alt": []
+  },
+  {
+   "id": "scrupulously_honest",
+   "en": "scrupulously honest",
+   "uz": "o‘ta vijdonli va halol",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our accountant is scrupulously honest; she once drove back across town to return a single coin of change.",
+   "gap": "scrupulously honest",
+   "alt": []
+  },
+  {
+   "id": "unswerving_loyalty",
+   "en": "unswerving loyalty",
+   "uz": "og‘ishmas sadoqat",
+   "pos": "noun",
+   "img": false,
+   "ex": "For forty years the nurse served the village clinic with unswerving loyalty, turning down every offer of a better-paid job in the city.",
+   "gap": "unswerving loyalty",
+   "alt": []
+  },
+  {
+   "id": "staunch_ally",
+   "en": "staunch ally",
+   "uz": "eng ishonchli tarafdor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In every staff meeting, Malika is my staunchest ally: she backs my ideas even when others laugh.",
+   "gap": "staunchest ally",
+   "alt": [
+    "staunchest ally",
+    "staunch allies"
+   ]
+  },
+  {
+   "id": "deeply_critical",
+   "en": "deeply critical",
+   "uz": "qattiq tanqid qiluvchi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The film reviewer was deeply critical of the ending, calling it lazy and rushed.",
+   "gap": "deeply critical",
+   "alt": []
+  },
+  {
+   "id": "break_down",
+   "en": "break down",
+   "uz": "barbod bo‘lmoq (munosabat)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Their friendship broke down after a silly argument over money.",
+   "gap": "broke down",
+   "alt": [
+    "broke down",
+    "breaks down",
+    "broken down"
+   ]
+  },
+  {
+   "id": "misunderstanding",
+   "en": "misunderstanding",
+   "uz": "anglashilmovchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was all a misunderstanding: I thought she meant this Monday, but she meant the following one.",
+   "gap": "misunderstanding",
+   "alt": [
+    "misunderstandings"
+   ]
+  },
+  {
+   "id": "rift",
+   "en": "rift",
+   "uz": "darz ketish (jiddiy ixtilof)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plan to cut down the old plane trees for a car park opened up a deep rift in the neighbourhood, with half the residents signing a petition against it.",
+   "gap": "rift",
+   "alt": []
+  },
+  {
+   "id": "discord",
+   "en": "discord",
+   "uz": "kelishmovchilik va norozilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the new manager brought in her strict rules, there has been a lot of discord in the office: people argue and grumble all day.",
+   "gap": "discord",
+   "alt": []
+  },
+  {
+   "id": "see_eye_to_eye",
+   "en": "see eye to eye",
+   "uz": "fikri bir joydan chiqmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My sister and I rarely see eye to eye on politics, so we avoid the topic at dinner.",
+   "gap": "see eye to eye",
+   "alt": [
+    "saw eye to eye",
+    "sees eye to eye"
+   ]
+  },
+  {
+   "id": "on_bad_terms",
+   "en": "on bad terms",
+   "uz": "orasi buzuq (yomon munosabatda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The two neighbours have been on bad terms ever since one of them built a wall across the shared path.",
+   "gap": "on bad terms",
+   "alt": []
+  },
+  {
+   "id": "turn_sour",
+   "en": "turn sour",
+   "uz": "aynimoq (yomonlashib ketmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Relations between the two partners turned sour when one of them started taking money from the till without asking.",
+   "gap": "turned sour",
+   "alt": [
+    "turned sour",
+    "turns sour"
+   ]
+  },
+  {
+   "id": "split_up",
+   "en": "split up",
+   "uz": "ajralishib ketmoq (juftlik)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Dilfuza and her boyfriend split up last month, but they're still on friendly terms.",
+   "gap": "split up",
+   "alt": [
+    "splits up",
+    "splitting up"
+   ]
+  },
+  {
+   "id": "ups_and_downs",
+   "en": "ups and downs",
+   "uz": "yaxshi va yomon damlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Like any long friendship, ours has had its ups and downs, but we always make up in the end.",
+   "gap": "ups and downs",
+   "alt": []
+  },
+  {
+   "id": "bumpy_relationship",
+   "en": "bumpy relationship",
+   "uz": "notinch munosabat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Theirs was a bumpy relationship, full of arguments followed by tearful reunions.",
+   "gap": "bumpy relationship",
+   "alt": []
+  },
+  {
+   "id": "broken_home",
+   "en": "broken home",
+   "uz": "ajrashgan oila",
+   "pos": "noun",
+   "img": false,
+   "ex": "Growing up in a broken home, Sanjar spent weekdays with his mother and weekends with his father.",
+   "gap": "broken home",
+   "alt": []
+  },
+  {
+   "id": "family_feud",
+   "en": "family feud",
+   "uz": "oilaviy adovat (yillab janjal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A quarrel over who should get a house started a family feud that kept the cousins apart for twenty years.",
+   "gap": "family feud",
+   "alt": [
+    "family feuds"
+   ]
+  },
+  {
+   "id": "disloyalty",
+   "en": "disloyalty",
+   "uz": "sotqinlik (vafosizlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fans saw the striker's sudden move to the rival club as an act of disloyalty.",
+   "gap": "disloyalty",
+   "alt": []
+  },
+  {
+   "id": "respect",
+   "en": "respect",
+   "uz": "hurmat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The concert began with a minute's silence out of respect for the flood victims.",
+   "gap": "respect",
+   "alt": []
+  },
+  {
+   "id": "disrespect",
+   "en": "disrespect",
+   "uz": "hurmatsizlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer showed complete disrespect for her fans by arriving two hours late and leaving after three songs.",
+   "gap": "disrespect",
+   "alt": []
+  },
+  {
+   "id": "honest",
+   "en": "honest",
+   "uz": "halol (vijdonli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Be honest with me: did you really like my presentation, or are you just being polite?",
+   "gap": "honest",
+   "alt": []
+  },
+  {
+   "id": "truthful",
+   "en": "truthful",
+   "uz": "rostgo‘y (haqiqatni aytadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Under oath, the witness promised to be completely truthful about what she had seen at the bus stop.",
+   "gap": "truthful",
+   "alt": []
+  },
+  {
+   "id": "untruthful",
+   "en": "untruthful",
+   "uz": "yolg‘on (haqiqatga zid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The advert was untruthful: the 'free' gift actually cost an extra fifty thousand sum.",
+   "gap": "untruthful",
+   "alt": []
+  },
+  {
+   "id": "critical",
+   "en": "critical",
+   "uz": "tanqidchil (doim kamchilik izlaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Otabek's piano teacher was always critical of the way he sat, so he started practising in front of a mirror.",
+   "gap": "critical",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "casual_acquaintance",
+   "business_partner"
+  ],
+  [
+   "speak_ill_of",
+   "behind_your_back"
+  ],
+  [
+   "disloyal",
+   "disrespectful"
+  ],
+  [
+   "disloyal",
+   "two_faced"
+  ],
+  [
+   "disloyal",
+   "dishonest"
+  ],
+  [
+   "dishonest",
+   "two_faced"
+  ],
+  [
+   "unsupportive",
+   "distant"
+  ],
+  [
+   "unsupportive",
+   "deeply_critical"
+  ],
+  [
+   "distant",
+   "disrespectful"
+  ],
+  [
+   "bitter_rivals",
+   "sworn_enemies"
+  ],
+  [
+   "ally",
+   "staunch_ally"
+  ],
+  [
+   "break_down",
+   "turn_sour"
+  ],
+  [
+   "break_down",
+   "split_up"
+  ],
+  [
+   "rift",
+   "family_feud"
+  ],
+  [
+   "rift",
+   "discord"
+  ],
+  [
+   "discord",
+   "family_feud"
+  ],
+  [
+   "ups_and_downs",
+   "bumpy_relationship"
+  ],
+  [
+   "on_bad_terms",
+   "see_eye_to_eye"
+  ],
+  [
+   "on_bad_terms",
+   "bitter_rivals"
+  ],
+  [
+   "on_bad_terms",
+   "sworn_enemies"
+  ],
+  [
+   "supportive_friends",
+   "staunch_ally"
+  ],
+  [
+   "disloyalty",
+   "disrespect"
+  ],
+  [
+   "honest",
+   "truthful"
+  ],
+  [
+   "honest",
+   "scrupulously_honest"
+  ],
+  [
+   "honest",
+   "supportive_friends"
+  ],
+  [
+   "truthful",
+   "untruthful"
+  ],
+  [
+   "untruthful",
+   "dishonest"
+  ],
+  [
+   "critical",
+   "deeply_critical"
+  ],
+  [
+   "critical",
+   "unsupportive"
+  ],
+  [
+   "respect",
+   "disrespect"
+  ]
+ ]
+}

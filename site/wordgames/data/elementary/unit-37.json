@@ -1,0 +1,272 @@
+{
+ "book": "elementary",
+ "unit": 37,
+ "title": "Global problems",
+ "title_uz": "Dunyo muammolari",
+ "words": [
+  {
+   "id": "natural_disaster",
+   "en": "natural disaster",
+   "uz": "tabiiy ofat",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the natural disaster, people from all over the country sent food, blankets and tents to help.",
+   "gap": "natural disaster",
+   "alt": [
+    "natural disasters"
+   ]
+  },
+  {
+   "id": "snowstorm",
+   "en": "snowstorm",
+   "uz": "qor bo‘roni",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the snowstorm, the wind blew so much snow onto the mountain road that all the buses stopped.",
+   "gap": "snowstorm",
+   "alt": [
+    "snowstorms"
+   ]
+  },
+  {
+   "id": "forest_fire",
+   "en": "forest fire",
+   "uz": "o‘rmon yong‘ini",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please don't light a campfire in the woods in hot, dry weather; it can easily start a forest fire.",
+   "gap": "forest fire",
+   "alt": [
+    "forest fires"
+   ]
+  },
+  {
+   "id": "catch_fire",
+   "en": "catch fire",
+   "uz": "o‘t olib ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The dry grass next to the railway caught fire, but the firefighters came quickly and put it out.",
+   "gap": "caught fire",
+   "alt": [
+    "catches fire",
+    "caught fire",
+    "catching fire"
+   ]
+  },
+  {
+   "id": "earthquake",
+   "en": "earthquake",
+   "uz": "zilzila",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the earthquake last night, the plates in our kitchen shook and the lamp moved from side to side.",
+   "gap": "earthquake",
+   "alt": [
+    "earthquakes"
+   ]
+  },
+  {
+   "id": "flood",
+   "en": "flood",
+   "uz": "suv toshqini",
+   "pos": "noun",
+   "img": false,
+   "ex": "After three days of heavy rain, there was a flood in the village, and water came into the houses.",
+   "gap": "flood",
+   "alt": [
+    "floods",
+    "flooded",
+    "flooding"
+   ]
+  },
+  {
+   "id": "crowded",
+   "en": "crowded",
+   "uz": "odam gavjum",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On Saturday afternoon the ice rink was so crowded that we couldn't find a free bench.",
+   "gap": "crowded",
+   "alt": []
+  },
+  {
+   "id": "poor",
+   "en": "poor",
+   "uz": "kambag‘al",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Their family is poor, so every September the mahalla helps them buy clothes and school books.",
+   "gap": "poor",
+   "alt": []
+  },
+  {
+   "id": "homeless",
+   "en": "homeless",
+   "uz": "uysiz (boshpanasiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In winter the city opens warm shelters, so homeless people have somewhere to sleep.",
+   "gap": "homeless",
+   "alt": []
+  },
+  {
+   "id": "unemployed",
+   "en": "unemployed",
+   "uz": "ishsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Dilnoza's father lost his job at the factory, and he has been unemployed since March.",
+   "gap": "unemployed",
+   "alt": []
+  },
+  {
+   "id": "pollution",
+   "en": "pollution",
+   "uz": "ifloslanish",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturday our class picked up old plastic bags along the river bank, because we want less pollution in our town.",
+   "gap": "pollution",
+   "alt": []
+  },
+  {
+   "id": "polluted",
+   "en": "polluted",
+   "uz": "ifloslangan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nobody swims in this river now because it's polluted: a factory puts dirty water into it.",
+   "gap": "polluted",
+   "alt": []
+  },
+  {
+   "id": "air_pollution",
+   "en": "air pollution",
+   "uz": "havo ifloslanishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On days with bad air pollution, doctors tell people with asthma to stay indoors.",
+   "gap": "air pollution",
+   "alt": []
+  },
+  {
+   "id": "war",
+   "en": "war",
+   "uz": "urush",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our history lesson we read a letter that a young soldier wrote to his mother during the war.",
+   "gap": "war",
+   "alt": [
+    "wars"
+   ]
+  },
+  {
+   "id": "on_strike",
+   "en": "on strike",
+   "uz": "ish tashlashda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The bus drivers in London are on strike today, so thousands of people are walking to work.",
+   "gap": "on strike",
+   "alt": []
+  },
+  {
+   "id": "car_crash",
+   "en": "car crash",
+   "uz": "avtohalokat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour had a car crash on an icy road last winter, but luckily nobody was hurt.",
+   "gap": "car crash",
+   "alt": [
+    "car crashes"
+   ]
+  },
+  {
+   "id": "traffic_jam",
+   "en": "traffic jam",
+   "uz": "tirbandlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "We sat in a traffic jam for an hour on the way to the theatre and missed the start of the play.",
+   "gap": "traffic jam",
+   "alt": [
+    "traffic jams"
+   ]
+  },
+  {
+   "id": "rush_hour",
+   "en": "rush hour",
+   "uz": "eng tig‘iz soat (ishga borish payti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't take a taxi in the rush hour; the roads are full and it's quicker to walk.",
+   "gap": "rush hour",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "natural_disaster",
+   "earthquake"
+  ],
+  [
+   "natural_disaster",
+   "flood"
+  ],
+  [
+   "natural_disaster",
+   "snowstorm"
+  ],
+  [
+   "natural_disaster",
+   "forest_fire"
+  ],
+  [
+   "forest_fire",
+   "catch_fire"
+  ],
+  [
+   "poor",
+   "homeless"
+  ],
+  [
+   "poor",
+   "unemployed"
+  ],
+  [
+   "homeless",
+   "unemployed"
+  ],
+  [
+   "pollution",
+   "air_pollution"
+  ],
+  [
+   "pollution",
+   "polluted"
+  ],
+  [
+   "traffic_jam",
+   "rush_hour"
+  ],
+  [
+   "traffic_jam",
+   "car_crash"
+  ],
+  [
+   "crowded",
+   "traffic_jam"
+  ],
+  [
+   "unemployed",
+   "in_a_bad_mood"
+  ],
+  [
+   "natural_disaster",
+   "war"
+  ]
+ ]
+}

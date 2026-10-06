@@ -1,0 +1,687 @@
+{
+ "book": "preint",
+ "unit": 48,
+ "title": "Hotels and restaurants",
+ "title_uz": "Mehmonxona va restoranlar",
+ "words": [
+  {
+   "id": "room_service",
+   "en": "room service",
+   "uz": "xonaga ovqat yetkazish xizmati",
+   "pos": "noun",
+   "img": false,
+   "ex": "We were too tired to go out, so we ordered soup and salad from room service and ate upstairs.",
+   "gap": "room service",
+   "alt": []
+  },
+  {
+   "id": "single_room",
+   "en": "single room",
+   "uz": "bir kishilik xona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Saidov travels alone for work, so he always asks for a single room.",
+   "gap": "single room",
+   "alt": [
+    "single rooms"
+   ]
+  },
+  {
+   "id": "double_room",
+   "en": "double room",
+   "uz": "ikki kishilik xona (bitta katta karavot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My aunt and uncle took a double room with one big bed, and their children slept next door.",
+   "gap": "double room",
+   "alt": [
+    "double rooms"
+   ]
+  },
+  {
+   "id": "twin_room",
+   "en": "twin room",
+   "uz": "ikki kishilik xona (ikkita karavot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother and I shared a twin room, so each of us had our own bed.",
+   "gap": "twin room",
+   "alt": [
+    "twin rooms"
+   ]
+  },
+  {
+   "id": "satellite_tv",
+   "en": "satellite TV",
+   "uz": "sun’iy yo‘ldosh televideniyesi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to satellite TV in the hotel, the football fans in our group could watch a match live from Spain.",
+   "gap": "satellite TV",
+   "alt": []
+  },
+  {
+   "id": "mini_bar",
+   "en": "mini-bar",
+   "uz": "xonadagi kichik muzlatgich",
+   "pos": "noun",
+   "img": false,
+   "ex": "The juice in the mini-bar was very expensive, so we bought our drinks at a shop instead.",
+   "gap": "mini-bar",
+   "alt": [
+    "minibar",
+    "mini bar",
+    "mini-bars"
+   ]
+  },
+  {
+   "id": "internet_access",
+   "en": "internet access",
+   "uz": "internetdan foydalanish imkoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was no internet access in our room, so I couldn't send my homework to the teacher by email.",
+   "gap": "internet access",
+   "alt": []
+  },
+  {
+   "id": "safe_box",
+   "en": "safe",
+   "uz": "seyf (pul saqlash qutisi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before going to the beach, I locked my passport and money in the safe in our room.",
+   "gap": "safe",
+   "alt": [
+    "safes"
+   ]
+  },
+  {
+   "id": "hair_dryer",
+   "en": "hair dryer",
+   "uz": "fen (soch quritgich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My sister always packs her own hair dryer, but this hotel had one in every bathroom.",
+   "gap": "hair dryer",
+   "alt": [
+    "hair dryers",
+    "hairdryer"
+   ]
+  },
+  {
+   "id": "in_the_heart_of",
+   "en": "in the heart of",
+   "uz": "qoq markazida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our hotel was in the heart of the old city, so we could walk to every museum.",
+   "gap": "in the heart of",
+   "alt": []
+  },
+  {
+   "id": "fully_booked",
+   "en": "fully booked",
+   "uz": "to‘liq band (bo‘sh joy yo‘q)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We phoned three hotels in Andijan, but they were all fully booked for the Navruz holiday.",
+   "gap": "fully booked",
+   "alt": []
+  },
+  {
+   "id": "book_a_room",
+   "en": "book a room",
+   "uz": "xona band qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mrs Karimova phoned a small hotel in Termez and booked a room for the three days of the conference.",
+   "gap": "booked a room",
+   "alt": [
+    "books a room",
+    "booked a room",
+    "booking a room"
+   ]
+  },
+  {
+   "id": "in_advance",
+   "en": "in advance",
+   "uz": "oldindan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Tickets for the concert sold out in minutes, but luckily my sister had bought ours two months in advance.",
+   "gap": "in advance",
+   "alt": []
+  },
+  {
+   "id": "check_in_hotel",
+   "en": "check in",
+   "uz": "mehmonxonada ro‘yxatdan o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We checked in at three o'clock, got our key card and went straight up to our room.",
+   "gap": "checked in",
+   "alt": [
+    "checks in",
+    "checked in",
+    "checking in"
+   ]
+  },
+  {
+   "id": "reception_desk",
+   "en": "reception",
+   "uz": "qabulxona (mehmonxonada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you lose your key card, just ask at reception and they will give you a new one.",
+   "gap": "reception",
+   "alt": []
+  },
+  {
+   "id": "stay_noun",
+   "en": "stay",
+   "uz": "turish (mehmon bo‘lib qolish muddati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our stay at the guesthouse lasted five nights, and the owners treated us like part of the family.",
+   "gap": "stay",
+   "alt": [
+    "stays"
+   ]
+  },
+  {
+   "id": "check_out_hotel",
+   "en": "check out",
+   "uz": "hisob-kitob qilib mehmonxonadan chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the last morning we paid the bill, checked out and left our bags with the porter until the train.",
+   "gap": "checked out",
+   "alt": [
+    "checks out",
+    "checked out",
+    "checking out"
+   ]
+  },
+  {
+   "id": "book_a_table",
+   "en": "book a table",
+   "uz": "restoranda stol band qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The restaurant is always busy on Fridays, so I'll phone them and book a table by the window.",
+   "gap": "book a table",
+   "alt": [
+    "books a table",
+    "booked a table",
+    "booking a table"
+   ]
+  },
+  {
+   "id": "make_a_reservation",
+   "en": "make a reservation",
+   "uz": "oldindan joy band qilmoq (bron)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can make a reservation on the restaurant's website by filling in your name, the date and the number of guests.",
+   "gap": "make a reservation",
+   "alt": [
+    "makes a reservation",
+    "made a reservation",
+    "making a reservation"
+   ]
+  },
+  {
+   "id": "three_course_meal",
+   "en": "three-course meal",
+   "uz": "uch bosqichli taom (uch xil ovqat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the graduation dinner we had a three-course meal: soup, then lamb with rice, then fruit and ice cream.",
+   "gap": "three-course meal",
+   "alt": [
+    "three course meal",
+    "three-course meals"
+   ]
+  },
+  {
+   "id": "starter",
+   "en": "starter",
+   "uz": "yengil gazak (birinchi taom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a starter I had a small bowl of lentil soup, and after that the grilled fish arrived.",
+   "gap": "starter",
+   "alt": [
+    "starters"
+   ]
+  },
+  {
+   "id": "main_course",
+   "en": "main course",
+   "uz": "asosiy taom",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the soup, my main course was grilled chicken with rice and vegetables.",
+   "gap": "main course",
+   "alt": [
+    "main courses"
+   ]
+  },
+  {
+   "id": "dessert",
+   "en": "dessert",
+   "uz": "shirinlik (desert)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We were so full after the meat that we had no room for dessert, so we just ordered tea.",
+   "gap": "dessert",
+   "alt": [
+    "desserts"
+   ]
+  },
+  {
+   "id": "service_restaurant",
+   "en": "service",
+   "uz": "xizmat haqi (hisobdagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the restaurant, the bill already included twelve per cent for service, so we didn't add anything extra.",
+   "gap": "service",
+   "alt": []
+  },
+  {
+   "id": "tip_money",
+   "en": "tip",
+   "uz": "choychaqa (ofitsiantga qo‘shimcha pul)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waiter was so friendly and helpful that we left him a tip of twenty thousand sum.",
+   "gap": "tip",
+   "alt": [
+    "tips"
+   ]
+  },
+  {
+   "id": "ready_to_order",
+   "en": "ready to order",
+   "uz": "buyurtma berishga tayyor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The waiter came back with his notepad and asked us, 'Are you ready to order?'",
+   "gap": "ready to order",
+   "alt": []
+  },
+  {
+   "id": "mixed_salad",
+   "en": "mixed salad",
+   "uz": "aralash salat",
+   "pos": "noun",
+   "img": false,
+   "ex": "With my fish, I'd like a mixed salad of lettuce, tomatoes, cucumbers and peppers.",
+   "gap": "mixed salad",
+   "alt": [
+    "mixed salads"
+   ]
+  },
+  {
+   "id": "well_done",
+   "en": "well-done",
+   "uz": "yaxshi pishgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I don't like any pink inside my meat, so I always ask for my steak well-done.",
+   "gap": "well-done",
+   "alt": [
+    "well done"
+   ]
+  },
+  {
+   "id": "rare_steak",
+   "en": "rare",
+   "uz": "chala pishgan (go‘sht, ichi qizil)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My neighbour Bekzod likes his steak rare, still red and juicy in the middle.",
+   "gap": "rare",
+   "alt": []
+  },
+  {
+   "id": "sparkling",
+   "en": "sparkling",
+   "uz": "gazli (suv)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I prefer sparkling water because I like the tiny bubbles on my tongue.",
+   "gap": "sparkling",
+   "alt": []
+  },
+  {
+   "id": "still_water",
+   "en": "still water",
+   "uz": "gazsiz suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bubbles make Malika hiccup, so she only drinks still water.",
+   "gap": "still water",
+   "alt": []
+  },
+  {
+   "id": "ill_have",
+   "en": "I'll have",
+   "uz": "… ni olaman (buyurtmada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the waiter came to our table, I said, 'I'll have the vegetable soup, please.'",
+   "gap": "I'll have",
+   "alt": []
+  },
+  {
+   "id": "facilities",
+   "en": "facilities",
+   "uz": "qulayliklar (xizmatlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel's facilities are excellent: there's an indoor pool, a gym and a sauna.",
+   "gap": "facilities",
+   "alt": [
+    "facility"
+   ]
+  },
+  {
+   "id": "direct_dial_telephone",
+   "en": "direct-dial telephone",
+   "uz": "to‘g‘ridan-to‘g‘ri qo‘ng‘iroq telefoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "From the direct-dial telephone in your room you can call any number abroad without going through reception.",
+   "gap": "direct-dial telephone",
+   "alt": [
+    "direct dial telephone",
+    "direct-dial telephones"
+   ]
+  },
+  {
+   "id": "parking",
+   "en": "parking",
+   "uz": "avtoturargoh (mashina qo‘yish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hotel has free parking for guests, so you can leave your car there for the whole week.",
+   "gap": "parking",
+   "alt": []
+  },
+  {
+   "id": "bath_tub",
+   "en": "bath",
+   "uz": "vanna",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the long hike, I lay in a hot bath full of bubbles for half an hour.",
+   "gap": "bath",
+   "alt": [
+    "baths"
+   ]
+  },
+  {
+   "id": "shower_cubicle",
+   "en": "shower",
+   "uz": "dush (kabina)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our bathroom had no bath, just a shower with hot water that came down like rain.",
+   "gap": "shower",
+   "alt": [
+    "showers"
+   ]
+  },
+  {
+   "id": "reserve",
+   "en": "reserve",
+   "uz": "zahiraga olib qo‘ymoq (band qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can reserve seats for the evening show by phoning the theatre.",
+   "gap": "reserve",
+   "alt": [
+    "reserves",
+    "reserved",
+    "reserving"
+   ]
+  },
+  {
+   "id": "department_store",
+   "en": "department store",
+   "uz": "univermag (katta do‘kon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the third floor of the department store you can buy toys, and the fourth floor sells furniture.",
+   "gap": "department store",
+   "alt": [
+    "department stores"
+   ]
+  },
+  {
+   "id": "include",
+   "en": "include",
+   "uz": "o‘z ichiga olmoq (qo‘shilgan bo‘lmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The price of the room doesn't include breakfast, so we ate at a café across the street.",
+   "gap": "include",
+   "alt": [
+    "includes",
+    "included",
+    "including"
+   ]
+  },
+  {
+   "id": "medium_steak",
+   "en": "medium",
+   "uz": "o‘rtacha pishgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Not too red and not too dry, please: I'd like my lamb chops medium, just a little pink inside.",
+   "gap": "medium",
+   "alt": []
+  },
+  {
+   "id": "mineral_water",
+   "en": "mineral water",
+   "uz": "mineral suv",
+   "pos": "noun",
+   "img": false,
+   "ex": "The doctor told him to drink a glass of mineral water from the mountain springs every morning.",
+   "gap": "mineral water",
+   "alt": []
+  },
+  {
+   "id": "steak",
+   "en": "steak",
+   "uz": "qovurilgan qalin go‘sht bo‘lagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "He ordered a thick beef steak and asked the chef not to cook it too long.",
+   "gap": "steak",
+   "alt": [
+    "steaks"
+   ]
+  },
+  {
+   "id": "waiter",
+   "en": "waiter",
+   "uz": "ofitsiant (erkak)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young waiter wrote our order in his notebook and hurried to the kitchen.",
+   "gap": "waiter",
+   "alt": [
+    "waiters"
+   ]
+  },
+  {
+   "id": "waitress",
+   "en": "waitress",
+   "uz": "ofitsiant ayol",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waitress tied her apron, picked up four plates at once and carried them to our table.",
+   "gap": "waitress",
+   "alt": [
+    "waitresses"
+   ]
+  },
+  {
+   "id": "soup",
+   "en": "soup",
+   "uz": "sho‘rva (suyuq ovqat)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On cold winter evenings, a bowl of hot vegetable soup is the best dinner.",
+   "gap": "soup",
+   "alt": [
+    "soups"
+   ]
+  },
+  {
+   "id": "ice_cream",
+   "en": "ice cream",
+   "uz": "muzqaymoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "The children wanted vanilla ice cream with chocolate sauce, served in tall glasses.",
+   "gap": "ice cream",
+   "alt": []
+  },
+  {
+   "id": "bill",
+   "en": "bill",
+   "uz": "hisob (to‘lanadigan summa qog‘ozi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When we finished our meal, I asked the waiter for the bill, and we split it between the four of us.",
+   "gap": "bill",
+   "alt": [
+    "bills"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "single_room",
+   "double_room"
+  ],
+  [
+   "single_room",
+   "twin_room"
+  ],
+  [
+   "double_room",
+   "twin_room"
+  ],
+  [
+   "book_a_room",
+   "make_a_reservation"
+  ],
+  [
+   "book_a_table",
+   "make_a_reservation"
+  ],
+  [
+   "book_a_room",
+   "book_a_table"
+  ],
+  [
+   "check_in_hotel",
+   "check_out_hotel"
+  ],
+  [
+   "starter",
+   "main_course"
+  ],
+  [
+   "starter",
+   "dessert"
+  ],
+  [
+   "main_course",
+   "dessert"
+  ],
+  [
+   "sparkling",
+   "still_water"
+  ],
+  [
+   "rare_steak",
+   "well_done"
+  ],
+  [
+   "service_restaurant",
+   "tip_money"
+  ],
+  [
+   "room_service",
+   "service_restaurant"
+  ],
+  [
+   "three_course_meal",
+   "main_course"
+  ],
+  [
+   "satellite_tv",
+   "internet_access"
+  ],
+  [
+   "book_a_room",
+   "reserve"
+  ],
+  [
+   "book_a_table",
+   "reserve"
+  ],
+  [
+   "make_a_reservation",
+   "reserve"
+  ],
+  [
+   "well_done",
+   "medium_steak"
+  ],
+  [
+   "rare_steak",
+   "medium_steak"
+  ],
+  [
+   "still_water",
+   "mineral_water"
+  ],
+  [
+   "sparkling",
+   "mineral_water"
+  ],
+  [
+   "dessert",
+   "ice_cream"
+  ],
+  [
+   "bath_tub",
+   "shower_cubicle"
+  ],
+  [
+   "waiter",
+   "waitress"
+  ],
+  [
+   "bill",
+   "service_restaurant"
+  ],
+  [
+   "bill",
+   "tip_money"
+  ],
+  [
+   "three_course_meal",
+   "soup"
+  ]
+ ]
+}

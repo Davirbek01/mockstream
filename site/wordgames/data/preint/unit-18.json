@@ -1,0 +1,656 @@
+{
+ "book": "preint",
+ "unit": 18,
+ "title": "Around the home",
+ "title_uz": "Uy ichida",
+ "words": [
+  {
+   "id": "share",
+   "en": "share",
+   "uz": "baham ko‘rmoq (birga foydalanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hostel was full, so I had to share a room with two students from Japan.",
+   "gap": "share",
+   "alt": [
+    "shares",
+    "shared",
+    "sharing"
+   ]
+  },
+  {
+   "id": "en_suite",
+   "en": "en-suite bathroom",
+   "uz": "yotoqxonaga tutash vannaxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every room in the hotel has an en-suite bathroom, so you don't have to walk down the corridor to wash.",
+   "gap": "en-suite bathroom",
+   "alt": [
+    "en suite bathroom",
+    "en-suite"
+   ]
+  },
+  {
+   "id": "spare_room",
+   "en": "spare room",
+   "uz": "mehmonlar uchun bo‘sh xona",
+   "pos": "noun",
+   "img": false,
+   "ex": "We keep the spare room ready with a clean bed in case guests arrive from Termez.",
+   "gap": "spare room",
+   "alt": []
+  },
+  {
+   "id": "dining_room",
+   "en": "dining room",
+   "uz": "ovqatlanish xonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Sundays we eat in the dining room at the big table, not in the kitchen.",
+   "gap": "dining room",
+   "alt": []
+  },
+  {
+   "id": "study",
+   "en": "study",
+   "uz": "ish xonasi (kabinet)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad works from home, so he turned the small room next to the kitchen into a study with a desk and bookshelves.",
+   "gap": "study",
+   "alt": []
+  },
+  {
+   "id": "utility_room",
+   "en": "utility room",
+   "uz": "xo‘jalik xonasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We keep the washing machine, the ironing board and the cleaning things in a small utility room behind the kitchen.",
+   "gap": "utility room",
+   "alt": []
+  },
+  {
+   "id": "dishwasher",
+   "en": "dishwasher",
+   "uz": "idish yuvish mashinasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "After my sister's birthday party there were so many dirty plates that we ran the dishwasher twice.",
+   "gap": "dishwasher",
+   "alt": []
+  },
+  {
+   "id": "washing_machine",
+   "en": "washing machine",
+   "uz": "kir yuvish mashinasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Check your pockets before you put your jeans in the washing machine; last week I washed my bus ticket.",
+   "gap": "washing machine",
+   "alt": []
+  },
+  {
+   "id": "cooker",
+   "en": "cooker",
+   "uz": "plita (gaz yoki elektr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our new cooker has four gas rings on top and an oven underneath.",
+   "gap": "cooker",
+   "alt": []
+  },
+  {
+   "id": "oven",
+   "en": "oven",
+   "uz": "duxovka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum's cake was still in the oven when the guests arrived, so the whole flat smelled of chocolate.",
+   "gap": "oven",
+   "alt": []
+  },
+  {
+   "id": "fridge",
+   "en": "fridge",
+   "uz": "muzlatkich (sovutgich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put the milk back in the fridge, or it'll go bad in this heat.",
+   "gap": "fridge",
+   "alt": []
+  },
+  {
+   "id": "freezer",
+   "en": "freezer",
+   "uz": "muzlatish kamerasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We keep ice cream and frozen vegetables in the freezer.",
+   "gap": "freezer",
+   "alt": []
+  },
+  {
+   "id": "microwave",
+   "en": "microwave",
+   "uz": "mikroto‘lqinli pech",
+   "pos": "noun",
+   "img": true,
+   "ex": "I warmed up my soup in the microwave in just two minutes.",
+   "gap": "microwave",
+   "alt": []
+  },
+  {
+   "id": "sink",
+   "en": "sink",
+   "uz": "rakovina (oshxonadagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After dinner, I washed all the dirty pots and pans by hand in the kitchen sink.",
+   "gap": "sink",
+   "alt": []
+  },
+  {
+   "id": "washbasin",
+   "en": "washbasin",
+   "uz": "qo‘l yuvgich (vannaxonadagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a small washbasin in the bathroom, with a mirror above it.",
+   "gap": "washbasin",
+   "alt": [
+    "basin",
+    "wash basin"
+   ]
+  },
+  {
+   "id": "tap",
+   "en": "tap",
+   "uz": "jo‘mrak",
+   "pos": "noun",
+   "img": true,
+   "ex": "The tap in the bathroom drips all night, and the sound keeps me awake.",
+   "gap": "tap",
+   "alt": [
+    "taps"
+   ]
+  },
+  {
+   "id": "kettle",
+   "en": "kettle",
+   "uz": "choynak (suv qaynatgich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our new electric kettle boils a litre of water in under two minutes.",
+   "gap": "kettle",
+   "alt": []
+  },
+  {
+   "id": "cupboard",
+   "en": "cupboard",
+   "uz": "eshikli javon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The plates and glasses are in the cupboard above the sink.",
+   "gap": "cupboard",
+   "alt": [
+    "cupboards"
+   ]
+  },
+  {
+   "id": "tiles",
+   "en": "tiles",
+   "uz": "kafel (sopol plitkalar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The bathroom walls are covered in blue and white tiles, like the old mosques of Samarkand.",
+   "gap": "tiles",
+   "alt": [
+    "tile"
+   ]
+  },
+  {
+   "id": "sofa",
+   "en": "sofa",
+   "uz": "divan",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three of us can sit comfortably on the big sofa in front of the TV.",
+   "gap": "sofa",
+   "alt": [
+    "sofas"
+   ]
+  },
+  {
+   "id": "cushion",
+   "en": "cushion",
+   "uz": "yostiqcha (divan uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put a soft cushion behind your back if the chair is too hard.",
+   "gap": "cushion",
+   "alt": [
+    "cushions"
+   ]
+  },
+  {
+   "id": "armchair",
+   "en": "armchair",
+   "uz": "kreslo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat sleeps all day in the old armchair by the window.",
+   "gap": "armchair",
+   "alt": [
+    "armchairs"
+   ]
+  },
+  {
+   "id": "firm",
+   "en": "firm",
+   "uz": "qattiq (yumshoq emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I can't sleep on a soft mattress; I need a firm one, or my back hurts.",
+   "gap": "firm",
+   "alt": []
+  },
+  {
+   "id": "rug",
+   "en": "rug",
+   "uz": "kichik gilam (palos)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a small woollen rug by my bed, so my feet don't touch the cold floor in the morning.",
+   "gap": "rug",
+   "alt": [
+    "rugs"
+   ]
+  },
+  {
+   "id": "carpet",
+   "en": "carpet",
+   "uz": "butun polni qoplagan gilam",
+   "pos": "noun",
+   "img": false,
+   "ex": "The whole floor of the bedroom is covered with a thick wall-to-wall carpet.",
+   "gap": "carpet",
+   "alt": [
+    "carpets"
+   ]
+  },
+  {
+   "id": "curtains",
+   "en": "curtains",
+   "uz": "parda",
+   "pos": "noun",
+   "img": true,
+   "ex": "Close the curtains, please; the sun is shining straight into my eyes.",
+   "gap": "curtains",
+   "alt": [
+    "curtain"
+   ]
+  },
+  {
+   "id": "blinds",
+   "en": "blinds",
+   "uz": "jalyuzi",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the office, we pull the blinds down in the afternoon so the sun doesn't shine on our screens.",
+   "gap": "blinds",
+   "alt": [
+    "blind"
+   ]
+  },
+  {
+   "id": "duvet",
+   "en": "duvet",
+   "uz": "parli ko‘rpa",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter I sleep under a thick feather duvet.",
+   "gap": "duvet",
+   "alt": [
+    "duvets"
+   ]
+  },
+  {
+   "id": "sheet",
+   "en": "sheet",
+   "uz": "choyshab",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before you sleep, cover the mattress with a clean cotton sheet.",
+   "gap": "sheet",
+   "alt": [
+    "sheets"
+   ]
+  },
+  {
+   "id": "blanket",
+   "en": "blanket",
+   "uz": "adyol",
+   "pos": "noun",
+   "img": false,
+   "ex": "It got cold in the night, so Mum put an extra woollen blanket on my bed.",
+   "gap": "blanket",
+   "alt": [
+    "blankets"
+   ]
+  },
+  {
+   "id": "pillow",
+   "en": "pillow",
+   "uz": "yostiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't sleep with a high pillow under my head; it hurts my neck.",
+   "gap": "pillow",
+   "alt": [
+    "pillows"
+   ]
+  },
+  {
+   "id": "living_room",
+   "en": "living room",
+   "uz": "yashash xonasi (mehmonxona)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After dinner the whole family sits in the living room and watches TV together.",
+   "gap": "living room",
+   "alt": [
+    "living rooms"
+   ]
+  },
+  {
+   "id": "kitchen",
+   "en": "kitchen",
+   "uz": "oshxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our flat is small, so the kitchen is also where we eat our meals and the children do their homework.",
+   "gap": "kitchen",
+   "alt": []
+  },
+  {
+   "id": "bedroom",
+   "en": "bedroom",
+   "uz": "yotoqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laziz shares a bedroom with his little brother, and they sleep in bunk beds.",
+   "gap": "bedroom",
+   "alt": [
+    "bedrooms"
+   ]
+  },
+  {
+   "id": "bathroom",
+   "en": "bathroom",
+   "uz": "vannaxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our bathroom is so small that you can touch both walls while you are in the shower.",
+   "gap": "bathroom",
+   "alt": [
+    "bathrooms"
+   ]
+  },
+  {
+   "id": "one_bedroom_flat",
+   "en": "one-bedroom flat",
+   "uz": "bir yotoqxonali kvartira",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a student, Javlon rented a one-bedroom flat near the metro, with a tiny kitchen and a shower.",
+   "gap": "one-bedroom flat",
+   "alt": [
+    "one bedroom flat"
+   ]
+  },
+  {
+   "id": "own_room",
+   "en": "have your own room",
+   "uz": "alohida xonasi bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since her brother left for university, Mohira has her own room for the first time.",
+   "gap": "has her own room",
+   "alt": [
+    "has her own room",
+    "has his own room",
+    "have my own room",
+    "have their own rooms",
+    "have their own room"
+   ]
+  },
+  {
+   "id": "fridge_freezer",
+   "en": "fridge-freezer",
+   "uz": "ikki kamerali muzlatkich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our new fridge-freezer is taller than my brother: the top part keeps food cool and the bottom part keeps it frozen.",
+   "gap": "fridge-freezer",
+   "alt": [
+    "fridge freezer"
+   ]
+  },
+  {
+   "id": "choice",
+   "en": "choice",
+   "uz": "tanlov (tanlash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the furniture shop we had a difficult choice between a grey sofa and a blue one.",
+   "gap": "choice",
+   "alt": [
+    "choices"
+   ]
+  },
+  {
+   "id": "soft",
+   "en": "soft",
+   "uz": "yumshoq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our new mattress is so soft that I sink into it like a cloud.",
+   "gap": "soft",
+   "alt": []
+  },
+  {
+   "id": "lighting",
+   "en": "lighting",
+   "uz": "yoritish (chiroqlar tizimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My room is too dark in the evenings, so I want better lighting: maybe two lamps and a bright ceiling light.",
+   "gap": "lighting",
+   "alt": []
+  },
+  {
+   "id": "gift",
+   "en": "gift",
+   "uz": "sovg‘a",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum has a gift shop where you can buy postcards, mugs and T-shirts with pictures of the paintings.",
+   "gap": "gift",
+   "alt": [
+    "gifts"
+   ]
+  },
+  {
+   "id": "sale",
+   "en": "sale",
+   "uz": "arzonlashtirilgan savdo (chegirma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "These winter boots were half price in the sale, so I bought two pairs.",
+   "gap": "sale",
+   "alt": [
+    "sales"
+   ]
+  },
+  {
+   "id": "wooden_floor",
+   "en": "wooden floor",
+   "uz": "yog‘och pol",
+   "pos": "noun",
+   "img": false,
+   "ex": "When we took up the old carpet, we found a beautiful wooden floor underneath.",
+   "gap": "wooden floor",
+   "alt": [
+    "wooden floors"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fridge",
+   "freezer"
+  ],
+  [
+   "oven",
+   "cooker"
+  ],
+  [
+   "oven",
+   "microwave"
+  ],
+  [
+   "sink",
+   "washbasin"
+  ],
+  [
+   "sofa",
+   "armchair"
+  ],
+  [
+   "cushion",
+   "pillow"
+  ],
+  [
+   "rug",
+   "carpet"
+  ],
+  [
+   "curtains",
+   "blinds"
+  ],
+  [
+   "duvet",
+   "blanket"
+  ],
+  [
+   "duvet",
+   "sheet"
+  ],
+  [
+   "duvet",
+   "pillow"
+  ],
+  [
+   "sheet",
+   "blanket"
+  ],
+  [
+   "spare_room",
+   "study"
+  ],
+  [
+   "dishwasher",
+   "washing_machine"
+  ],
+  [
+   "living_room",
+   "dining_room"
+  ],
+  [
+   "living_room",
+   "spare_room"
+  ],
+  [
+   "pillow",
+   "sheet"
+  ],
+  [
+   "tap",
+   "washbasin"
+  ],
+  [
+   "tap",
+   "sink"
+  ],
+  [
+   "kitchen",
+   "dining_room"
+  ],
+  [
+   "kitchen",
+   "living_room"
+  ],
+  [
+   "kitchen",
+   "study"
+  ],
+  [
+   "kitchen",
+   "bedroom"
+  ],
+  [
+   "kitchen",
+   "spare_room"
+  ],
+  [
+   "bedroom",
+   "spare_room"
+  ],
+  [
+   "bedroom",
+   "study"
+  ],
+  [
+   "bedroom",
+   "living_room"
+  ],
+  [
+   "bedroom",
+   "dining_room"
+  ],
+  [
+   "bathroom",
+   "en_suite"
+  ],
+  [
+   "one_bedroom_flat",
+   "flat"
+  ],
+  [
+   "one_bedroom_flat",
+   "apartment"
+  ],
+  [
+   "fridge_freezer",
+   "fridge"
+  ],
+  [
+   "fridge_freezer",
+   "freezer"
+  ],
+  [
+   "soft",
+   "firm"
+  ],
+  [
+   "wooden_floor",
+   "carpet"
+  ],
+  [
+   "wooden_floor",
+   "rug"
+  ]
+ ]
+}

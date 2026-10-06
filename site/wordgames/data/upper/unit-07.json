@@ -1,0 +1,1073 @@
+{
+ "book": "upper",
+ "unit": 7,
+ "title": "Describing people: appearance",
+ "title_uz": "Odamlarni tasvirlash: tashqi ko‘rinish",
+ "words": [
+  {
+   "id": "straight",
+   "en": "straight",
+   "uz": "tekis, silliq (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Her hair is so straight that it won't hold a single curl, even after an hour with hot rollers.",
+   "gap": "straight",
+   "alt": []
+  },
+  {
+   "id": "wavy",
+   "en": "wavy",
+   "uz": "to‘lqinsimon (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "When Nodira takes out her plaits in the evening, her hair stays soft and wavy until the next morning.",
+   "gap": "wavy",
+   "alt": []
+  },
+  {
+   "id": "curly",
+   "en": "curly",
+   "uz": "jingalak",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Little Sardor has such curly hair that his mum can hardly get a comb through the tight little rings.",
+   "gap": "curly",
+   "alt": []
+  },
+  {
+   "id": "crew_cut",
+   "en": "crew cut",
+   "uz": "juda kalta soch turmagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before joining the army, Jasur got a crew cut, so now his hair is only a centimetre long.",
+   "gap": "crew cut",
+   "alt": [
+    "crew-cut"
+   ]
+  },
+  {
+   "id": "bald",
+   "en": "bald",
+   "uz": "kal",
+   "pos": "adjective",
+   "img": true,
+   "ex": "My uncle started losing his hair at thirty, and by fifty he was completely bald.",
+   "gap": "bald",
+   "alt": []
+  },
+  {
+   "id": "freckles",
+   "en": "freckles",
+   "uz": "sepkil",
+   "pos": "noun",
+   "img": true,
+   "ex": "Every summer, Lola gets little brown freckles all over her nose and cheeks.",
+   "gap": "freckles",
+   "alt": [
+    "freckle"
+   ]
+  },
+  {
+   "id": "beard",
+   "en": "beard",
+   "uz": "soqol",
+   "pos": "noun",
+   "img": true,
+   "ex": "My brother stopped shaving last month and now has a thick black beard that covers his chin and cheeks.",
+   "gap": "beard",
+   "alt": [
+    "beards"
+   ]
+  },
+  {
+   "id": "moustache",
+   "en": "moustache",
+   "uz": "mo‘ylov",
+   "pos": "noun",
+   "img": true,
+   "ex": "In the old village photos, almost every man has a thick black moustache but no beard.",
+   "gap": "moustache",
+   "alt": [
+    "mustache"
+   ]
+  },
+  {
+   "id": "chubby",
+   "en": "chubby",
+   "uz": "do‘mboq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The baby has such chubby cheeks that all the aunties want to pinch them.",
+   "gap": "chubby",
+   "alt": []
+  },
+  {
+   "id": "receding",
+   "en": "receding",
+   "uz": "peshonadan to‘kilib borayotgan (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My father's hair is receding at the front, so his forehead looks higher every year.",
+   "gap": "receding",
+   "alt": []
+  },
+  {
+   "id": "wrinkles",
+   "en": "wrinkles",
+   "uz": "ajinlar",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old shepherd's face was brown from the sun and covered in deep wrinkles.",
+   "gap": "wrinkles",
+   "alt": [
+    "wrinkle"
+   ]
+  },
+  {
+   "id": "go_grey",
+   "en": "go grey",
+   "uz": "oqarmoq (soch haqida)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our headteacher's hair went grey in just a few years; now it's almost white.",
+   "gap": "went grey",
+   "alt": [
+    "went grey",
+    "gone grey",
+    "going grey",
+    "goes grey",
+    "go gray"
+   ]
+  },
+  {
+   "id": "blonde",
+   "en": "blonde",
+   "uz": "oq-sariq (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Zarina dyed her dark hair blonde for the summer, and at first her friends didn't recognise her.",
+   "gap": "blonde",
+   "alt": [
+    "blond"
+   ]
+  },
+  {
+   "id": "ginger_haired",
+   "en": "ginger-haired",
+   "uz": "malla sochli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the class photo, Akmal is easy to find: he's the only ginger-haired boy, with bright orange hair and freckles.",
+   "gap": "ginger-haired",
+   "alt": [
+    "ginger haired"
+   ]
+  },
+  {
+   "id": "auburn",
+   "en": "auburn",
+   "uz": "qizg‘ish-jigarrang (soch)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the autumn sunlight, her auburn hair was almost the same colour as the chestnut leaves in the park.",
+   "gap": "auburn",
+   "alt": []
+  },
+  {
+   "id": "fair",
+   "en": "fair",
+   "uz": "och rangli (soch, teri)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Anna, a tourist from Riga, has very fair skin, so she wore a wide hat all day while exploring Shahrisabz.",
+   "gap": "fair",
+   "alt": []
+  },
+  {
+   "id": "complexion",
+   "en": "complexion",
+   "uz": "yuz terisining rangi (chehra)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to plenty of water and sleep, she has a clear, healthy complexion with no spots.",
+   "gap": "complexion",
+   "alt": []
+  },
+  {
+   "id": "tan",
+   "en": "tan",
+   "uz": "oftobda qoraygan tus",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a week on the beach in Antalya, Dilnoza came home with a deep golden tan.",
+   "gap": "tan",
+   "alt": []
+  },
+  {
+   "id": "sunburnt",
+   "en": "sunburnt",
+   "uz": "oftobda kuygan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I fell asleep by the pool without sun cream and got badly sunburnt.",
+   "gap": "sunburnt",
+   "alt": [
+    "sunburned"
+   ]
+  },
+  {
+   "id": "plump",
+   "en": "plump",
+   "uz": "to‘lagina, semizroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the old painting, the smiling merchant is a little plump, with rosy cheeks and a round, friendly face.",
+   "gap": "plump",
+   "alt": []
+  },
+  {
+   "id": "stocky",
+   "en": "stocky",
+   "uz": "past bo‘yli, gavdali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The wrestler was short and stocky, with broad shoulders and a thick neck.",
+   "gap": "stocky",
+   "alt": []
+  },
+  {
+   "id": "muscular",
+   "en": "muscular",
+   "uz": "mushakdor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a year at the gym, Bekzod has strong, muscular arms.",
+   "gap": "muscular",
+   "alt": []
+  },
+  {
+   "id": "obese",
+   "en": "obese",
+   "uz": "o‘ta semiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The clinic runs a free programme that helps patients who are obese lose weight slowly and safely.",
+   "gap": "obese",
+   "alt": []
+  },
+  {
+   "id": "overweight",
+   "en": "overweight",
+   "uz": "ortiqcha vaznli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our cat got a bit overweight over the winter, so the vet put her on a special diet.",
+   "gap": "overweight",
+   "alt": []
+  },
+  {
+   "id": "well_built",
+   "en": "well-built",
+   "uz": "baquvvat, gavdasi kelishgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new security guard is tall and well-built, so nobody wants to argue with him.",
+   "gap": "well-built",
+   "alt": [
+    "well built"
+   ]
+  },
+  {
+   "id": "slim",
+   "en": "slim",
+   "uz": "xipcha, qomati kelishgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "She does yoga every morning and has stayed slim and fit for years.",
+   "gap": "slim",
+   "alt": []
+  },
+  {
+   "id": "skinny",
+   "en": "skinny",
+   "uz": "cho‘pday oriq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After two weeks in hospital with a bad flu, my cousin looked pale and skinny, so we brought him homemade soup every day.",
+   "gap": "skinny",
+   "alt": []
+  },
+  {
+   "id": "figure",
+   "en": "figure",
+   "uz": "qomat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Years of ballet have given Tanzila a graceful figure and perfect posture.",
+   "gap": "figure",
+   "alt": []
+  },
+  {
+   "id": "elegant",
+   "en": "elegant",
+   "uz": "nafis, did bilan kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Even at seventy, our retired literature teacher looks elegant in her simple dark suit, silk scarf and polished shoes.",
+   "gap": "elegant",
+   "alt": []
+  },
+  {
+   "id": "well_dressed",
+   "en": "well-dressed",
+   "uz": "yaxshi kiyingan, ust-boshi ozoda",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kamron is always well-dressed: his shirts are ironed and his shoes are clean.",
+   "gap": "well-dressed",
+   "alt": [
+    "well dressed"
+   ]
+  },
+  {
+   "id": "scruffy",
+   "en": "scruffy",
+   "uz": "ust-boshi tartibsiz, uringan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The famous painter always looks scruffy, in paint-covered jeans and a jumper with holes at the elbows.",
+   "gap": "scruffy",
+   "alt": []
+  },
+  {
+   "id": "stunning",
+   "en": "stunning",
+   "uz": "ko‘zni qamashtiradigan go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the graduation ball, Madina looked absolutely stunning in the green dress her mother had sewn for her.",
+   "gap": "stunning",
+   "alt": []
+  },
+  {
+   "id": "good_looking",
+   "en": "good-looking",
+   "uz": "ko‘rinishi chiroyli, xushro‘y",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With his dark eyes and warm smile, Bobur is very good-looking; a modelling agency even asked him to be in their photos.",
+   "gap": "good-looking",
+   "alt": [
+    "good looking"
+   ]
+  },
+  {
+   "id": "handsome",
+   "en": "handsome",
+   "uz": "kelishgan, ko‘rkam (erkak)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The actor who played the young prince was tall and handsome, and all the girls were talking about him.",
+   "gap": "handsome",
+   "alt": []
+  },
+  {
+   "id": "feature",
+   "en": "feature",
+   "uz": "yuz qismi, chehra jihati (ko‘z, lab va h.k.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I think her smile is her best feature: it lights up the whole room.",
+   "gap": "feature",
+   "alt": [
+    "features"
+   ]
+  },
+  {
+   "id": "first_impression",
+   "en": "first impression",
+   "uz": "birinchi taassurot",
+   "pos": "noun",
+   "img": false,
+   "ex": "On his first day at the new school, Diyor ironed his shirt twice, because he knew first impressions matter.",
+   "gap": "first impressions",
+   "alt": [
+    "first impressions"
+   ]
+  },
+  {
+   "id": "thin_faced",
+   "en": "thin-faced",
+   "uz": "ozg‘in yuzli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The thin-faced man in the photo looked as if he hadn't eaten properly for weeks.",
+   "gap": "thin-faced",
+   "alt": [
+    "thin face"
+   ]
+  },
+  {
+   "id": "round_faced",
+   "en": "round-faced",
+   "uz": "dumaloq yuzli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Like her mother, Mohira is round-faced, with big dark eyes and dimples in her cheeks.",
+   "gap": "round-faced",
+   "alt": [
+    "round face"
+   ]
+  },
+  {
+   "id": "black_skin",
+   "en": "black",
+   "uz": "qora tanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Barack Obama became the first black president of the United States in 2009.",
+   "gap": "black",
+   "alt": []
+  },
+  {
+   "id": "white_skin",
+   "en": "white",
+   "uz": "oq tanli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the old film all the actors were white, but the new version has a much more mixed cast.",
+   "gap": "white",
+   "alt": []
+  },
+  {
+   "id": "attractive",
+   "en": "attractive",
+   "uz": "jozibali, ko‘rkam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most people find a warm smile more attractive than expensive clothes.",
+   "gap": "attractive",
+   "alt": []
+  },
+  {
+   "id": "unattractive",
+   "en": "unattractive",
+   "uz": "ko‘rimsiz, xunuk",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the outside the building is rather unattractive, all grey concrete, but inside it's lovely.",
+   "gap": "unattractive",
+   "alt": []
+  },
+  {
+   "id": "dark_hair",
+   "en": "dark",
+   "uz": "qora (soch); qoramtir (teri)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Sanjar's hair is so dark that in old photos it looks completely black.",
+   "gap": "dark",
+   "alt": []
+  },
+  {
+   "id": "red_haired",
+   "en": "red-haired",
+   "uz": "qizil sochli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In the painting, a red-haired girl in a green dress is reading by the window.",
+   "gap": "red-haired",
+   "alt": [
+    "red haired"
+   ]
+  },
+  {
+   "id": "fat",
+   "en": "fat",
+   "uz": "semiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbours' cat has become so fat that it can't jump onto the wall any more.",
+   "gap": "fat",
+   "alt": []
+  },
+  {
+   "id": "stout",
+   "en": "stout",
+   "uz": "to‘ladan kelgan (gavdali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shopkeeper was a stout, red-cheeked man who laughed loudly at his own jokes.",
+   "gap": "stout",
+   "alt": []
+  },
+  {
+   "id": "smart",
+   "en": "smart",
+   "uz": "ozoda va did bilan (kiyingan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "You need to look smart for the interview, so wear a jacket and polish your shoes.",
+   "gap": "smart",
+   "alt": []
+  },
+  {
+   "id": "untidy_looking",
+   "en": "untidy-looking",
+   "uz": "tartibsiz ko‘rinishli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After three nights of camping, the boys came home tired and untidy-looking.",
+   "gap": "untidy-looking",
+   "alt": [
+    "untidy looking"
+   ]
+  },
+  {
+   "id": "messy_looking",
+   "en": "messy-looking",
+   "uz": "pala-partish ko‘rinishli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Temur turned up at the party in a messy-looking T-shirt covered in paint.",
+   "gap": "messy-looking",
+   "alt": [
+    "messy looking"
+   ]
+  },
+  {
+   "id": "personality",
+   "en": "personality",
+   "uz": "shaxsiyat (fe’l-atvor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rayhona isn't the prettiest girl in the class, but her warm personality makes everyone like her.",
+   "gap": "personality",
+   "alt": []
+  },
+  {
+   "id": "tallish",
+   "en": "tallish",
+   "uz": "baland bo‘yliroq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Bekzod isn't really tall, just tallish: about a metre seventy-eight.",
+   "gap": "tallish",
+   "alt": []
+  },
+  {
+   "id": "brownish",
+   "en": "brownish",
+   "uz": "qo‘ng‘irtob",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After the storm, the river water turned a brownish colour, full of mud from the hills.",
+   "gap": "brownish",
+   "alt": []
+  },
+  {
+   "id": "thirtyish",
+   "en": "thirtyish",
+   "uz": "o‘ttiz yoshlar atrofida",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'd say the new manager is thirtyish, but she looks younger.",
+   "gap": "thirtyish",
+   "alt": []
+  },
+  {
+   "id": "in_his_thirties",
+   "en": "in his thirties",
+   "uz": "o‘ttiz yoshlarda (30–39)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My brother is in his thirties now, but he still plays football like a teenager.",
+   "gap": "in his thirties",
+   "alt": [
+    "in her thirties",
+    "in their thirties"
+   ]
+  },
+  {
+   "id": "build_body",
+   "en": "build",
+   "uz": "gavda tuzilishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Both brothers have the same strong build, with broad shoulders and big hands.",
+   "gap": "build",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "straight",
+   "wavy"
+  ],
+  [
+   "straight",
+   "curly"
+  ],
+  [
+   "wavy",
+   "curly"
+  ],
+  [
+   "beard",
+   "moustache"
+  ],
+  [
+   "freckles",
+   "wrinkles"
+  ],
+  [
+   "bald",
+   "receding"
+  ],
+  [
+   "blonde",
+   "auburn"
+  ],
+  [
+   "blonde",
+   "ginger_haired"
+  ],
+  [
+   "auburn",
+   "ginger_haired"
+  ],
+  [
+   "complexion",
+   "tan"
+  ],
+  [
+   "tan",
+   "sunburnt"
+  ],
+  [
+   "chubby",
+   "plump"
+  ],
+  [
+   "plump",
+   "obese"
+  ],
+  [
+   "plump",
+   "stocky"
+  ],
+  [
+   "stocky",
+   "muscular"
+  ],
+  [
+   "slim",
+   "skinny"
+  ],
+  [
+   "elegant",
+   "stunning"
+  ],
+  [
+   "handsome",
+   "stunning"
+  ],
+  [
+   "handsome",
+   "elegant"
+  ],
+  [
+   "fair",
+   "blonde"
+  ],
+  [
+   "fair",
+   "ginger_haired"
+  ],
+  [
+   "overweight",
+   "plump"
+  ],
+  [
+   "overweight",
+   "obese"
+  ],
+  [
+   "overweight",
+   "chubby"
+  ],
+  [
+   "overweight",
+   "stocky"
+  ],
+  [
+   "well_built",
+   "muscular"
+  ],
+  [
+   "well_built",
+   "stocky"
+  ],
+  [
+   "well_dressed",
+   "elegant"
+  ],
+  [
+   "well_dressed",
+   "stunning"
+  ],
+  [
+   "good_looking",
+   "handsome"
+  ],
+  [
+   "good_looking",
+   "stunning"
+  ],
+  [
+   "good_looking",
+   "elegant"
+  ],
+  [
+   "moustache",
+   "bald"
+  ],
+  [
+   "beard",
+   "wrinkles"
+  ],
+  [
+   "beard",
+   "go_grey"
+  ],
+  [
+   "wrinkles",
+   "go_grey"
+  ],
+  [
+   "moustache",
+   "go_grey"
+  ],
+  [
+   "moustache",
+   "wrinkles"
+  ],
+  [
+   "freckles",
+   "fair"
+  ],
+  [
+   "fair",
+   "sunburnt"
+  ],
+  [
+   "obese",
+   "chubby"
+  ],
+  [
+   "slim",
+   "muscular"
+  ],
+  [
+   "elegant",
+   "slim"
+  ],
+  [
+   "handsome",
+   "well_built"
+  ],
+  [
+   "handsome",
+   "muscular"
+  ],
+  [
+   "handsome",
+   "slim"
+  ],
+  [
+   "thin_faced",
+   "round_faced"
+  ],
+  [
+   "thin_faced",
+   "chubby"
+  ],
+  [
+   "thin_faced",
+   "skinny"
+  ],
+  [
+   "thin_faced",
+   "slim"
+  ],
+  [
+   "round_faced",
+   "chubby"
+  ],
+  [
+   "round_faced",
+   "skinny"
+  ],
+  [
+   "round_faced",
+   "slim"
+  ],
+  [
+   "chubby",
+   "skinny"
+  ],
+  [
+   "chubby",
+   "slim"
+  ],
+  [
+   "black_skin",
+   "white_skin"
+  ],
+  [
+   "black_skin",
+   "dark_hair"
+  ],
+  [
+   "black_skin",
+   "fair"
+  ],
+  [
+   "white_skin",
+   "dark_hair"
+  ],
+  [
+   "white_skin",
+   "fair"
+  ],
+  [
+   "dark_hair",
+   "fair"
+  ],
+  [
+   "attractive",
+   "unattractive"
+  ],
+  [
+   "attractive",
+   "stunning"
+  ],
+  [
+   "attractive",
+   "good_looking"
+  ],
+  [
+   "attractive",
+   "handsome"
+  ],
+  [
+   "attractive",
+   "elegant"
+  ],
+  [
+   "unattractive",
+   "stunning"
+  ],
+  [
+   "unattractive",
+   "good_looking"
+  ],
+  [
+   "unattractive",
+   "handsome"
+  ],
+  [
+   "unattractive",
+   "elegant"
+  ],
+  [
+   "dark_hair",
+   "blonde"
+  ],
+  [
+   "dark_hair",
+   "auburn"
+  ],
+  [
+   "dark_hair",
+   "curly"
+  ],
+  [
+   "dark_hair",
+   "straight"
+  ],
+  [
+   "dark_hair",
+   "wavy"
+  ],
+  [
+   "fair",
+   "auburn"
+  ],
+  [
+   "fair",
+   "curly"
+  ],
+  [
+   "fair",
+   "straight"
+  ],
+  [
+   "fair",
+   "wavy"
+  ],
+  [
+   "blonde",
+   "curly"
+  ],
+  [
+   "blonde",
+   "straight"
+  ],
+  [
+   "blonde",
+   "wavy"
+  ],
+  [
+   "auburn",
+   "curly"
+  ],
+  [
+   "auburn",
+   "straight"
+  ],
+  [
+   "auburn",
+   "wavy"
+  ],
+  [
+   "red_haired",
+   "ginger_haired"
+  ],
+  [
+   "red_haired",
+   "auburn"
+  ],
+  [
+   "red_haired",
+   "blonde"
+  ],
+  [
+   "red_haired",
+   "fair"
+  ],
+  [
+   "red_haired",
+   "dark_hair"
+  ],
+  [
+   "ginger_haired",
+   "dark_hair"
+  ],
+  [
+   "fat",
+   "plump"
+  ],
+  [
+   "fat",
+   "overweight"
+  ],
+  [
+   "fat",
+   "obese"
+  ],
+  [
+   "fat",
+   "chubby"
+  ],
+  [
+   "fat",
+   "stout"
+  ],
+  [
+   "fat",
+   "stocky"
+  ],
+  [
+   "plump",
+   "stout"
+  ],
+  [
+   "overweight",
+   "stout"
+  ],
+  [
+   "obese",
+   "stout"
+  ],
+  [
+   "obese",
+   "stocky"
+  ],
+  [
+   "chubby",
+   "stout"
+  ],
+  [
+   "chubby",
+   "stocky"
+  ],
+  [
+   "stout",
+   "stocky"
+  ],
+  [
+   "smart",
+   "well_dressed"
+  ],
+  [
+   "smart",
+   "elegant"
+  ],
+  [
+   "untidy_looking",
+   "messy_looking"
+  ],
+  [
+   "untidy_looking",
+   "scruffy"
+  ],
+  [
+   "untidy_looking",
+   "unattractive"
+  ],
+  [
+   "messy_looking",
+   "scruffy"
+  ],
+  [
+   "messy_looking",
+   "unattractive"
+  ],
+  [
+   "scruffy",
+   "unattractive"
+  ],
+  [
+   "thirtyish",
+   "in_his_thirties"
+  ],
+  [
+   "build_body",
+   "figure"
+  ],
+  [
+   "brownish",
+   "auburn"
+  ],
+  [
+   "well_built",
+   "stout"
+  ],
+  [
+   "well_built",
+   "fat"
+  ]
+ ]
+}

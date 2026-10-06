@@ -1,0 +1,458 @@
+{
+ "book": "preint",
+ "unit": 43,
+ "title": "Books and films",
+ "title_uz": "Kitoblar va filmlar",
+ "words": [
+  {
+   "id": "literature",
+   "en": "literature",
+   "uz": "adabiyot",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our literature teacher asks us to read one classic book every month and discuss it in class.",
+   "gap": "literature",
+   "alt": []
+  },
+  {
+   "id": "fiction",
+   "en": "fiction",
+   "uz": "badiiy adabiyot (to‘qima)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I prefer true stories to fiction; I like reading about things that really happened.",
+   "gap": "fiction",
+   "alt": []
+  },
+  {
+   "id": "novel",
+   "en": "novel",
+   "uz": "roman (katta asar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister is writing her first novel: it's a long story about a girl who travels back in time.",
+   "gap": "novel",
+   "alt": [
+    "novels"
+   ]
+  },
+  {
+   "id": "thriller",
+   "en": "thriller",
+   "uz": "triller (hayajonli asar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I couldn't put the thriller down; I had to find out who had stolen the museum's diamonds.",
+   "gap": "thriller",
+   "alt": [
+    "thrillers"
+   ]
+  },
+  {
+   "id": "science_fiction",
+   "en": "science fiction",
+   "uz": "ilmiy fantastika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jasur's bookshelf is full of science fiction; his favourite book is about a boy who builds a robot on Mars.",
+   "gap": "science fiction",
+   "alt": []
+  },
+  {
+   "id": "author",
+   "en": "author",
+   "uz": "muallif (kitob yozgan odam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The author of the book visited our school library and signed copies for the pupils.",
+   "gap": "author",
+   "alt": [
+    "authors"
+   ]
+  },
+  {
+   "id": "biography",
+   "en": "biography",
+   "uz": "biografiya (tarjimai hol kitobi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm reading a biography of a famous footballer; it starts with his childhood in a poor village.",
+   "gap": "biography",
+   "alt": [
+    "biographies"
+   ]
+  },
+  {
+   "id": "poetry",
+   "en": "poetry",
+   "uz": "she’riyat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilfuza loves poetry and often reads her favourite verses aloud at school events.",
+   "gap": "poetry",
+   "alt": []
+  },
+  {
+   "id": "poet",
+   "en": "poet",
+   "uz": "shoir",
+   "pos": "noun",
+   "img": false,
+   "ex": "A young poet visited our class, read us her verses about spring and then helped us write our own.",
+   "gap": "poet",
+   "alt": [
+    "poets"
+   ]
+  },
+  {
+   "id": "poem",
+   "en": "poem",
+   "uz": "she’r (bitta asar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For Teachers' Day, every pupil in our class wrote a short poem with four lines.",
+   "gap": "poem",
+   "alt": [
+    "poems"
+   ]
+  },
+  {
+   "id": "horror_film",
+   "en": "horror film",
+   "uz": "qo‘rqinchli film",
+   "pos": "noun",
+   "img": false,
+   "ex": "I couldn't sleep after watching that horror film about a ghost in an empty old house.",
+   "gap": "horror film",
+   "alt": [
+    "horror films"
+   ]
+  },
+  {
+   "id": "review",
+   "en": "review",
+   "uz": "taqriz (film/kitob haqida fikr)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The film got great reviews in the newspapers, so we bought tickets at once.",
+   "gap": "reviews",
+   "alt": [
+    "reviews"
+   ]
+  },
+  {
+   "id": "star",
+   "en": "star",
+   "uz": "yulduz (mashhur aktyor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tickets sold out in an hour because the most famous star in the country plays the main role.",
+   "gap": "star",
+   "alt": [
+    "stars"
+   ]
+  },
+  {
+   "id": "actor",
+   "en": "actor",
+   "uz": "aktyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over two hundred young actors came to the audition for the main role.",
+   "gap": "actors",
+   "alt": [
+    "actors"
+   ]
+  },
+  {
+   "id": "complicated",
+   "en": "complicated",
+   "uz": "murakkab (tushunish qiyin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The story was so complicated that my brother had to explain it to me afterwards.",
+   "gap": "complicated",
+   "alt": []
+  },
+  {
+   "id": "entertainment",
+   "en": "entertainment",
+   "uz": "ko‘ngilochar dastur",
+   "pos": "noun",
+   "img": false,
+   "ex": "For entertainment, the hotel shows a film in the garden every evening.",
+   "gap": "entertainment",
+   "alt": []
+  },
+  {
+   "id": "comedy",
+   "en": "comedy",
+   "uz": "komediya",
+   "pos": "noun",
+   "img": false,
+   "ex": "We laughed all the way through the comedy; it's the funniest film I've seen this year.",
+   "gap": "comedy",
+   "alt": [
+    "comedies"
+   ]
+  },
+  {
+   "id": "whats_on",
+   "en": "what's on",
+   "uz": "nima namoyish etilyapti",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Let's check what's on at the cinema tonight before we decide where to go.",
+   "gap": "what's on",
+   "alt": []
+  },
+  {
+   "id": "fancy",
+   "en": "fancy",
+   "uz": "(biror narsa) qilgisi kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I don't fancy seeing anything scary tonight; let's watch something funny.",
+   "gap": "fancy",
+   "alt": [
+    "fancies",
+    "fancied"
+   ]
+  },
+  {
+   "id": "director",
+   "en": "director",
+   "uz": "rejissyor",
+   "pos": "noun",
+   "img": false,
+   "ex": "The director shouted 'Cut!' and asked the actors to try the scene again.",
+   "gap": "director",
+   "alt": [
+    "directors"
+   ]
+  },
+  {
+   "id": "latest",
+   "en": "latest",
+   "uz": "eng so‘nggi (eng yangi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Have you seen the latest Pixar cartoon? It only came out last Friday.",
+   "gap": "latest",
+   "alt": []
+  },
+  {
+   "id": "entertain",
+   "en": "entertain",
+   "uz": "ko‘nglini ochmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A clown came to entertain the children at the birthday party with jokes and balloons.",
+   "gap": "entertain",
+   "alt": [
+    "entertains",
+    "entertained",
+    "entertaining"
+   ]
+  },
+  {
+   "id": "entertainer",
+   "en": "entertainer",
+   "uz": "ko‘ngilochar artist",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour works as a children's entertainer: he does magic tricks and juggles at parties.",
+   "gap": "entertainer",
+   "alt": [
+    "entertainers"
+   ]
+  },
+  {
+   "id": "reviewer",
+   "en": "reviewer",
+   "uz": "taqrizchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The reviewer gave the film only two stars out of five and called it boring.",
+   "gap": "reviewer",
+   "alt": [
+    "reviewers"
+   ]
+  },
+  {
+   "id": "acting",
+   "en": "acting",
+   "uz": "aktyorlik mahorati (o‘yin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The story was weak, but the acting was brilliant: you really believed in every character.",
+   "gap": "acting",
+   "alt": []
+  },
+  {
+   "id": "act",
+   "en": "act",
+   "uz": "rol o‘ynamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda wants to act in films one day, so she goes to a drama club after school.",
+   "gap": "act",
+   "alt": [
+    "acts",
+    "acted"
+   ]
+  },
+  {
+   "id": "direct_film",
+   "en": "direct",
+   "uz": "rejissyorlik qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Next spring Kamron will direct the school play, so he's choosing the actors now.",
+   "gap": "direct",
+   "alt": [
+    "directs",
+    "directed",
+    "directing"
+   ]
+  },
+  {
+   "id": "romantic_comedy",
+   "en": "romantic comedy",
+   "uz": "sevgi haqidagi komediya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mira loves a good romantic comedy: two people meet, argue, laugh a lot and fall in love by the end.",
+   "gap": "romantic comedy",
+   "alt": [
+    "romantic comedies"
+   ]
+  },
+  {
+   "id": "directing",
+   "en": "directing",
+   "uz": "rejissyorlik (kasbi, ishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She won the prize for directing: the judges loved the way she guided the young actors.",
+   "gap": "directing",
+   "alt": []
+  },
+  {
+   "id": "review_verb",
+   "en": "review",
+   "uz": "taqriz yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A well-known critic will review the new film in tomorrow's newspaper.",
+   "gap": "review",
+   "alt": [
+    "reviews",
+    "reviewed",
+    "reviewing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "literature",
+   "fiction"
+  ],
+  [
+   "fiction",
+   "science_fiction"
+  ],
+  [
+   "novel",
+   "thriller"
+  ],
+  [
+   "novel",
+   "biography"
+  ],
+  [
+   "thriller",
+   "horror_film"
+  ],
+  [
+   "author",
+   "poet"
+  ],
+  [
+   "poetry",
+   "poem"
+  ],
+  [
+   "star",
+   "actor"
+  ],
+  [
+   "actor",
+   "entertainer"
+  ],
+  [
+   "review",
+   "reviewer"
+  ],
+  [
+   "act",
+   "direct_film"
+  ],
+  [
+   "director",
+   "reviewer"
+  ],
+  [
+   "entertain",
+   "entertainment"
+  ],
+  [
+   "star",
+   "songwriter"
+  ],
+  [
+   "entertainer",
+   "solo_artist"
+  ],
+  [
+   "fiction",
+   "poetry"
+  ],
+  [
+   "acting",
+   "comedy"
+  ],
+  [
+   "literature",
+   "science_fiction"
+  ],
+  [
+   "literature",
+   "poetry"
+  ],
+  [
+   "star",
+   "entertainer"
+  ],
+  [
+   "comedy",
+   "romantic_comedy"
+  ],
+  [
+   "acting",
+   "directing"
+  ],
+  [
+   "direct_film",
+   "directing"
+  ],
+  [
+   "review",
+   "review_verb"
+  ],
+  [
+   "reviewer",
+   "review_verb"
+  ]
+ ]
+}

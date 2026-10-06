@@ -1,0 +1,623 @@
+{
+ "book": "elementary",
+ "unit": 15,
+ "title": "At school and university",
+ "title_uz": "Maktab va universitetda",
+ "words": [
+  {
+   "id": "english",
+   "en": "English",
+   "uz": "ingliz tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In our English lesson today we learnt ten new words for things in the kitchen.",
+   "gap": "English",
+   "alt": []
+  },
+  {
+   "id": "maths",
+   "en": "maths",
+   "uz": "matematika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Today in maths we learnt how to find the area of a triangle.",
+   "gap": "maths",
+   "alt": [
+    "math",
+    "mathematics"
+   ]
+  },
+  {
+   "id": "history",
+   "en": "history",
+   "uz": "tarix",
+   "pos": "noun",
+   "img": false,
+   "ex": "This term in history we're studying Amir Temur and his empire.",
+   "gap": "history",
+   "alt": []
+  },
+  {
+   "id": "geography",
+   "en": "geography",
+   "uz": "geografiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "In geography we coloured the rivers and mountains of Uzbekistan on a map.",
+   "gap": "geography",
+   "alt": []
+  },
+  {
+   "id": "biology",
+   "en": "biology",
+   "uz": "biologiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "We looked at onion cells under a microscope in our biology lesson.",
+   "gap": "biology",
+   "alt": []
+  },
+  {
+   "id": "art",
+   "en": "art",
+   "uz": "tasviriy san’at",
+   "pos": "noun",
+   "img": false,
+   "ex": "In art I painted a picture of the Registan in Samarkand.",
+   "gap": "art",
+   "alt": []
+  },
+  {
+   "id": "modern_languages",
+   "en": "modern languages",
+   "uz": "chet tillari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola is good at modern languages: she speaks English, Russian and Korean.",
+   "gap": "modern languages",
+   "alt": []
+  },
+  {
+   "id": "pe",
+   "en": "PE",
+   "uz": "jismoniy tarbiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "We play basketball in the sports hall in our PE lessons.",
+   "gap": "PE",
+   "alt": [
+    "P.E.",
+    "physical education"
+   ]
+  },
+  {
+   "id": "physics",
+   "en": "physics",
+   "uz": "fizika",
+   "pos": "noun",
+   "img": false,
+   "ex": "In physics we learnt how electricity moves through a wire to a light bulb.",
+   "gap": "physics",
+   "alt": []
+  },
+  {
+   "id": "music",
+   "en": "music",
+   "uz": "musiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our music teacher plays the dutor and teaches us Uzbek folk songs.",
+   "gap": "music",
+   "alt": []
+  },
+  {
+   "id": "ict",
+   "en": "ICT",
+   "uz": "informatika",
+   "pos": "noun",
+   "img": false,
+   "ex": "In ICT we learnt how to make a simple website.",
+   "gap": "ICT",
+   "alt": [
+    "I.C.T."
+   ]
+  },
+  {
+   "id": "chemistry",
+   "en": "chemistry",
+   "uz": "kimyo",
+   "pos": "noun",
+   "img": false,
+   "ex": "Be careful in the chemistry lab: some of these liquids can burn your skin.",
+   "gap": "chemistry",
+   "alt": []
+  },
+  {
+   "id": "noticeboard",
+   "en": "noticeboard",
+   "uz": "e’lonlar taxtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The exam timetable is on the noticeboard outside the staff room.",
+   "gap": "noticeboard",
+   "alt": [
+    "notice board"
+   ]
+  },
+  {
+   "id": "notebook",
+   "en": "notebook",
+   "uz": "daftar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Write the new words in your notebook and learn them for Monday.",
+   "gap": "notebook",
+   "alt": [
+    "notebooks"
+   ]
+  },
+  {
+   "id": "pen",
+   "en": "pen",
+   "uz": "ruchka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can I borrow a pen? Mine has run out of ink.",
+   "gap": "pen",
+   "alt": [
+    "pens"
+   ]
+  },
+  {
+   "id": "piece_of_paper",
+   "en": "piece of paper",
+   "uz": "bir varaq qog‘oz",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone was dead, so I wrote her number on a piece of paper.",
+   "gap": "piece of paper",
+   "alt": [
+    "pieces of paper"
+   ]
+  },
+  {
+   "id": "board_rubber",
+   "en": "board rubber",
+   "uz": "doska o‘chirg‘ichi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the end of the lesson, Jasur cleaned the whiteboard with the board rubber.",
+   "gap": "board rubber",
+   "alt": []
+  },
+  {
+   "id": "computer",
+   "en": "computer",
+   "uz": "kompyuter",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our computer is very old and slow; it takes five minutes to start.",
+   "gap": "computer",
+   "alt": [
+    "computers"
+   ]
+  },
+  {
+   "id": "pencil",
+   "en": "pencil",
+   "uz": "qalam",
+   "pos": "noun",
+   "img": true,
+   "ex": "Draw the map with a pencil first, so you can rub out your mistakes.",
+   "gap": "pencil",
+   "alt": []
+  },
+  {
+   "id": "textbook",
+   "en": "textbook",
+   "uz": "darslik",
+   "pos": "noun",
+   "img": false,
+   "ex": "My history textbook is so heavy that my school bag weighs five kilos.",
+   "gap": "textbook",
+   "alt": [
+    "textbooks"
+   ]
+  },
+  {
+   "id": "drawing_pin",
+   "en": "drawing pin",
+   "uz": "knopka",
+   "pos": "noun",
+   "img": true,
+   "ex": "Fix the poster to the noticeboard with a drawing pin.",
+   "gap": "drawing pin",
+   "alt": [
+    "drawing pins"
+   ]
+  },
+  {
+   "id": "rubber",
+   "en": "rubber",
+   "uz": "o‘chirg‘ich",
+   "pos": "noun",
+   "img": false,
+   "ex": "I wrote the wrong answer in pencil, so I used my rubber.",
+   "gap": "rubber",
+   "alt": []
+  },
+  {
+   "id": "pencil_sharpener",
+   "en": "pencil sharpener",
+   "uz": "qalamtarash",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put the pencil in the pencil sharpener and turn it slowly, so the point doesn't break.",
+   "gap": "pencil sharpener",
+   "alt": [
+    "sharpener"
+   ]
+  },
+  {
+   "id": "desk",
+   "en": "desk",
+   "uz": "parta",
+   "pos": "noun",
+   "img": true,
+   "ex": "In our classroom, two pupils sit at each desk.",
+   "gap": "desk",
+   "alt": []
+  },
+  {
+   "id": "ruler",
+   "en": "ruler",
+   "uz": "chizg‘ich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Measure the line with your ruler: how many centimetres long is it?",
+   "gap": "ruler",
+   "alt": []
+  },
+  {
+   "id": "whiteboard",
+   "en": "whiteboard",
+   "uz": "oq doska",
+   "pos": "noun",
+   "img": true,
+   "ex": "The teacher wrote the new words on the whiteboard with a green marker.",
+   "gap": "whiteboard",
+   "alt": []
+  },
+  {
+   "id": "university",
+   "en": "university",
+   "uz": "universitet",
+   "pos": "noun",
+   "img": false,
+   "ex": "After school, my brother wants to study law at university in Tashkent.",
+   "gap": "university",
+   "alt": []
+  },
+  {
+   "id": "exam",
+   "en": "exam",
+   "uz": "imtihon",
+   "pos": "noun",
+   "img": false,
+   "ex": "We have a big English exam on Friday, so I'm studying every evening.",
+   "gap": "exam",
+   "alt": [
+    "exams"
+   ]
+  },
+  {
+   "id": "pass",
+   "en": "pass",
+   "uz": "(imtihondan) o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you pass all your exams, you can go up to the next class.",
+   "gap": "pass",
+   "alt": [
+    "passed"
+   ]
+  },
+  {
+   "id": "fail",
+   "en": "fail",
+   "uz": "(imtihondan) yiqilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Bobur didn't study at all, so I think he will fail the test.",
+   "gap": "fail",
+   "alt": [
+    "failed"
+   ]
+  },
+  {
+   "id": "degree",
+   "en": "degree",
+   "uz": "oliy ma’lumot diplomi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After four years at university, my sister got a degree in economics.",
+   "gap": "degree",
+   "alt": []
+  },
+  {
+   "id": "course",
+   "en": "course",
+   "uz": "kurs (o‘quv kursi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This summer I'm doing a two-week English course at a language centre in Nukus.",
+   "gap": "course",
+   "alt": []
+  },
+  {
+   "id": "homework",
+   "en": "homework",
+   "uz": "uy vazifasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher gives us homework every day except Friday.",
+   "gap": "homework",
+   "alt": []
+  },
+  {
+   "id": "board",
+   "en": "board",
+   "uz": "doska",
+   "pos": "noun",
+   "img": false,
+   "ex": "The teacher drew a big map of Asia on the board in white chalk.",
+   "gap": "board",
+   "alt": []
+  },
+  {
+   "id": "ohp",
+   "en": "OHP",
+   "uz": "slayd proyektori (eski uskuna)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our old teacher put a plastic sheet on the OHP, and the words appeared on the wall.",
+   "gap": "OHP",
+   "alt": [
+    "overhead projector",
+    "ohp"
+   ]
+  },
+  {
+   "id": "board_pen",
+   "en": "board pen",
+   "uz": "doska markeri",
+   "pos": "noun",
+   "img": true,
+   "ex": "The board pen is almost dry, so the words on the whiteboard are very pale.",
+   "gap": "board pen",
+   "alt": [
+    "board pens"
+   ]
+  },
+  {
+   "id": "dvd_player",
+   "en": "DVD player",
+   "uz": "videodisk qo‘yadigan apparat",
+   "pos": "noun",
+   "img": true,
+   "ex": "Our teacher put the disc into the DVD player and showed us a film about volcanoes.",
+   "gap": "DVD player",
+   "alt": [
+    "dvd player"
+   ]
+  },
+  {
+   "id": "teach",
+   "en": "teach",
+   "uz": "o‘qitmoq (dars bermoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ms Rahimova teaches chemistry to the older classes.",
+   "gap": "teaches",
+   "alt": [
+    "teaches",
+    "taught",
+    "teaching"
+   ]
+  },
+  {
+   "id": "study",
+   "en": "study",
+   "uz": "tahsil olmoq (o‘qimoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our neighbour Ravshan studies medicine at a university in Andijan.",
+   "gap": "studies",
+   "alt": [
+    "studies",
+    "studied",
+    "studying"
+   ]
+  },
+  {
+   "id": "learn",
+   "en": "learn",
+   "uz": "o‘rganmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This year my little brother is learning to swim at the sports centre.",
+   "gap": "learning",
+   "alt": [
+    "learns",
+    "learnt",
+    "learned",
+    "learning"
+   ]
+  },
+  {
+   "id": "school",
+   "en": "school",
+   "uz": "maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little sister is six, and this September she starts school for the first time.",
+   "gap": "school",
+   "alt": [
+    "schools"
+   ]
+  },
+  {
+   "id": "write",
+   "en": "write",
+   "uz": "yozmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please write your name at the top of the test paper.",
+   "gap": "write",
+   "alt": [
+    "writes",
+    "wrote",
+    "writing",
+    "written"
+   ]
+  },
+  {
+   "id": "final_exam",
+   "en": "final exams",
+   "uz": "bitiruv imtihonlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora is studying every night because her final exams start in June.",
+   "gap": "final exams",
+   "alt": [
+    "final exam"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "maths",
+   "physics"
+  ],
+  [
+   "physics",
+   "chemistry"
+  ],
+  [
+   "biology",
+   "chemistry"
+  ],
+  [
+   "history",
+   "geography"
+  ],
+  [
+   "geography",
+   "art"
+  ],
+  [
+   "art",
+   "music"
+  ],
+  [
+   "notebook",
+   "textbook"
+  ],
+  [
+   "pencil",
+   "pencil_sharpener"
+  ],
+  [
+   "pencil",
+   "rubber"
+  ],
+  [
+   "rubber",
+   "pencil_sharpener"
+  ],
+  [
+   "noticeboard",
+   "whiteboard"
+  ],
+  [
+   "pass",
+   "fail"
+  ],
+  [
+   "english",
+   "modern_languages"
+  ],
+  [
+   "pen",
+   "pencil"
+  ],
+  [
+   "piece_of_paper",
+   "notebook"
+  ],
+  [
+   "board_rubber",
+   "rubber"
+  ],
+  [
+   "exam",
+   "course"
+  ],
+  [
+   "university",
+   "course"
+  ],
+  [
+   "board",
+   "whiteboard"
+  ],
+  [
+   "board",
+   "noticeboard"
+  ],
+  [
+   "board_pen",
+   "pen"
+  ],
+  [
+   "dvd_player",
+   "computer"
+  ],
+  [
+   "dvd_player",
+   "laptop"
+  ],
+  [
+   "ohp",
+   "dvd_player"
+  ],
+  [
+   "teach",
+   "study"
+  ],
+  [
+   "teach",
+   "learn"
+  ],
+  [
+   "study",
+   "learn"
+  ],
+  [
+   "school",
+   "university"
+  ],
+  [
+   "school",
+   "course"
+  ],
+  [
+   "final_exam",
+   "exam"
+  ],
+  [
+   "final_exam",
+   "degree"
+  ]
+ ]
+}

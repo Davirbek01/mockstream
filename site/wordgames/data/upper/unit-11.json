@@ -1,0 +1,554 @@
+{
+ "book": "upper",
+ "unit": 11,
+ "title": "At home",
+ "title_uz": "Uyda",
+ "words": [
+  {
+   "id": "bungalow",
+   "en": "bungalow",
+   "uz": "bir qavatli uy (bungalo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since Dad hurt his back, my parents want to move to a bungalow so they never have to climb stairs again.",
+   "gap": "bungalow",
+   "alt": [
+    "bungalows"
+   ]
+  },
+  {
+   "id": "detached_house",
+   "en": "detached house",
+   "uz": "alohida turgan uy",
+   "pos": "noun",
+   "img": false,
+   "ex": "We don't share a wall with anyone: we live in a detached house, so we can play music as loud as we like.",
+   "gap": "detached house",
+   "alt": [
+    "detached houses",
+    "detached"
+   ]
+  },
+  {
+   "id": "semi_detached_house",
+   "en": "semi-detached house",
+   "uz": "bir devori qo‘shniga tutash uy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our semi-detached house shares just one wall with the neighbours, so we sometimes hear their baby at night.",
+   "gap": "semi-detached house",
+   "alt": [
+    "semi-detached houses",
+    "semi-detached",
+    "semi"
+   ]
+  },
+  {
+   "id": "terraced_house",
+   "en": "terraced house",
+   "uz": "qator tutash uylardan biri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Living in a terraced house in Leeds means neighbours on both sides: drilling on the left, loud music on the right.",
+   "gap": "terraced house",
+   "alt": [
+    "terraced houses"
+   ]
+  },
+  {
+   "id": "cottage",
+   "en": "cottage",
+   "uz": "qishloqdagi kichik uy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every August we rent a tiny stone cottage in a mountain village near Zaamin, with apple trees all around it.",
+   "gap": "cottage",
+   "alt": [
+    "cottages"
+   ]
+  },
+  {
+   "id": "self_contained_flat",
+   "en": "self-contained flat",
+   "uz": "o‘z oshxona-hammomi bor kvartira",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'm tired of sharing a kitchen and bathroom with five other students; next year I want a self-contained flat of my own.",
+   "gap": "self-contained flat",
+   "alt": [
+    "self-contained flats"
+   ]
+  },
+  {
+   "id": "studio_flat",
+   "en": "studio flat",
+   "uz": "bir xonali studiya-kvartira",
+   "pos": "noun",
+   "img": false,
+   "ex": "Timur lives alone in a studio flat near the Tashkent City mall: one main room for sleeping and living, plus a tiny bathroom.",
+   "gap": "studio flat",
+   "alt": [
+    "studio flats"
+   ]
+  },
+  {
+   "id": "villa",
+   "en": "villa",
+   "uz": "villa (bog‘li katta uy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the holiday, the four families shared a luxury villa with its own pool and a huge garden.",
+   "gap": "villa",
+   "alt": [
+    "villas"
+   ]
+  },
+  {
+   "id": "master_bedroom",
+   "en": "master bedroom",
+   "uz": "asosiy (eng katta) yotoqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents sleep in the master bedroom, which is the biggest room upstairs and has its own bathroom.",
+   "gap": "master bedroom",
+   "alt": [
+    "main bedroom"
+   ]
+  },
+  {
+   "id": "utility_room",
+   "en": "utility room",
+   "uz": "kir yuvish xonasi (xo‘jalik xonasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's no space for a washing machine in our kitchen, so it stands in a small utility room by the back door.",
+   "gap": "utility room",
+   "alt": []
+  },
+  {
+   "id": "shed",
+   "en": "shed",
+   "uz": "hovlidagi kichik ombor",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad keeps his spade, rake and other garden tools in a wooden shed at the end of the garden.",
+   "gap": "shed",
+   "alt": [
+    "sheds"
+   ]
+  },
+  {
+   "id": "attic",
+   "en": "attic",
+   "uz": "chordoq",
+   "pos": "noun",
+   "img": false,
+   "ex": "We store our old suitcases and winter blankets in the attic, right under the roof.",
+   "gap": "attic",
+   "alt": [
+    "loft",
+    "attics"
+   ]
+  },
+  {
+   "id": "cellar",
+   "en": "cellar",
+   "uz": "yerto‘la (derazasiz ombor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jars of jam and pickled tomatoes are kept in the cellar under the house, where it's dark and cool all year.",
+   "gap": "cellar",
+   "alt": [
+    "cellars"
+   ]
+  },
+  {
+   "id": "basement",
+   "en": "basement",
+   "uz": "yer osti qavati (derazali)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our small design office is in the basement, but high windows near the ceiling let in some daylight.",
+   "gap": "basement",
+   "alt": [
+    "basements"
+   ]
+  },
+  {
+   "id": "studio",
+   "en": "studio",
+   "uz": "ustaxona (rassom, fotograf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The artist paints in a bright studio on the top floor of her house, with canvases leaning against every wall.",
+   "gap": "studio",
+   "alt": [
+    "studios"
+   ]
+  },
+  {
+   "id": "landing",
+   "en": "landing",
+   "uz": "zinapoya maydonchasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the top of the stairs there's a small landing with doors to three bedrooms.",
+   "gap": "landing",
+   "alt": []
+  },
+  {
+   "id": "hall",
+   "en": "hall",
+   "uz": "dahliz",
+   "pos": "noun",
+   "img": false,
+   "ex": "Visitors leave their shoes and coats in the hall, just inside the front door.",
+   "gap": "hall",
+   "alt": [
+    "hallway"
+   ]
+  },
+  {
+   "id": "porch",
+   "en": "porch",
+   "uz": "eshik oldidagi ayvoncha",
+   "pos": "noun",
+   "img": false,
+   "ex": "It was pouring with rain, so we waited in the porch until someone came and opened the front door.",
+   "gap": "porch",
+   "alt": [
+    "porches"
+   ]
+  },
+  {
+   "id": "patio",
+   "en": "patio",
+   "uz": "uy oldidagi ochiq tosh maydoncha",
+   "pos": "noun",
+   "img": false,
+   "ex": "On summer evenings we eat dinner outside on the patio, between the house and the garden.",
+   "gap": "patio",
+   "alt": [
+    "terrace",
+    "patios"
+   ]
+  },
+  {
+   "id": "drive",
+   "en": "drive",
+   "uz": "uyga kiradigan mashina yo‘lagi",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's room for two cars on our drive, so guests never have to park in the street.",
+   "gap": "drive",
+   "alt": [
+    "drives"
+   ]
+  },
+  {
+   "id": "remote_control",
+   "en": "remote control",
+   "uz": "masofadan boshqarish pulti",
+   "pos": "noun",
+   "img": true,
+   "ex": "I can't change the channel because my little brother has hidden the remote control again.",
+   "gap": "remote control",
+   "alt": [
+    "remote",
+    "remotes"
+   ]
+  },
+  {
+   "id": "socket",
+   "en": "socket",
+   "uz": "elektr rozetkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Is there a free socket near the bed? I need to plug in my laptop.",
+   "gap": "socket",
+   "alt": [
+    "sockets"
+   ]
+  },
+  {
+   "id": "phone_charger",
+   "en": "phone charger",
+   "uz": "telefon quvvatlagichi",
+   "pos": "noun",
+   "img": true,
+   "ex": "My battery is almost empty, and I left my phone charger at the office.",
+   "gap": "phone charger",
+   "alt": [
+    "charger",
+    "phone chargers"
+   ]
+  },
+  {
+   "id": "table_mat",
+   "en": "table mat",
+   "uz": "issiq idish tagligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum laid the table with plates, glasses and a table mat at each place so the hot dishes wouldn't mark the wooden table.",
+   "gap": "table mat",
+   "alt": [
+    "table mats"
+   ]
+  },
+  {
+   "id": "corkscrew",
+   "en": "corkscrew",
+   "uz": "probka ochqich (shtopor)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The bottle of grape juice had a real cork, and nobody at the picnic had brought a corkscrew.",
+   "gap": "corkscrew",
+   "alt": [
+    "corkscrews"
+   ]
+  },
+  {
+   "id": "toilet_roll",
+   "en": "toilet roll",
+   "uz": "tualet qog‘ozi",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's no paper left in the bathroom; could you put a new toilet roll there?",
+   "gap": "toilet roll",
+   "alt": [
+    "toilet rolls"
+   ]
+  },
+  {
+   "id": "coat_hanger",
+   "en": "coat hanger",
+   "uz": "kiyim ilgich (veshalka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put your jacket on a coat hanger in the wardrobe so it doesn't get creased.",
+   "gap": "coat hanger",
+   "alt": [
+    "hanger",
+    "hangers",
+    "coat hangers"
+   ]
+  },
+  {
+   "id": "peeler",
+   "en": "peeler",
+   "uz": "po‘choq tozalagich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Use the peeler to take the skin off the carrots before you chop them.",
+   "gap": "peeler",
+   "alt": [
+    "peelers"
+   ]
+  },
+  {
+   "id": "chopping_board",
+   "en": "chopping board",
+   "uz": "kesish taxtasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Cut the onions on the chopping board, not straight on the kitchen table!",
+   "gap": "chopping board",
+   "alt": [
+    "chopping boards"
+   ]
+  },
+  {
+   "id": "dustpan_and_brush",
+   "en": "dustpan and brush",
+   "uz": "xokandoz va cho‘tka",
+   "pos": "noun",
+   "img": true,
+   "ex": "I dropped a glass, so I swept up all the little pieces with the dustpan and brush.",
+   "gap": "dustpan and brush",
+   "alt": []
+  },
+  {
+   "id": "grater",
+   "en": "grater",
+   "uz": "qirg‘ich",
+   "pos": "noun",
+   "img": true,
+   "ex": "Use the grater to turn the hard cheese into tiny pieces for the pasta.",
+   "gap": "grater",
+   "alt": [
+    "graters"
+   ]
+  },
+  {
+   "id": "ironing_board",
+   "en": "ironing board",
+   "uz": "dazmol taxtasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "My shirt was creased, so I put up the ironing board and plugged in the iron.",
+   "gap": "ironing board",
+   "alt": [
+    "ironing boards"
+   ]
+  },
+  {
+   "id": "loft_conversion",
+   "en": "loft conversion",
+   "uz": "chordoqni xonaga aylantirish",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the twins got older, the Hendersons paid for a loft conversion and turned the space under the roof into a bedroom with its own staircase.",
+   "gap": "loft conversion",
+   "alt": [
+    "loft conversions",
+    "attic conversion"
+   ]
+  },
+  {
+   "id": "do_the_ironing",
+   "en": "do the ironing",
+   "uz": "dazmol qilmoq (kiyimlarni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On Sunday evenings Ravshan does the ironing so that all his shirts are smooth for the working week.",
+   "gap": "does the ironing",
+   "alt": [
+    "does the ironing",
+    "did the ironing",
+    "doing the ironing"
+   ]
+  },
+  {
+   "id": "do_the_hoovering",
+   "en": "do the hoovering",
+   "uz": "changyutgich bilan tozalamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the guests arrive, Nilufar always does the hoovering, so there are no crumbs left on the living-room carpet.",
+   "gap": "does the hoovering",
+   "alt": [
+    "does the hoovering",
+    "did the hoovering",
+    "doing the hoovering"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "bungalow",
+   "cottage"
+  ],
+  [
+   "bungalow",
+   "villa"
+  ],
+  [
+   "bungalow",
+   "detached_house"
+  ],
+  [
+   "cottage",
+   "villa"
+  ],
+  [
+   "cottage",
+   "detached_house"
+  ],
+  [
+   "villa",
+   "detached_house"
+  ],
+  [
+   "semi_detached_house",
+   "terraced_house"
+  ],
+  [
+   "semi_detached_house",
+   "detached_house"
+  ],
+  [
+   "detached_house",
+   "terraced_house"
+  ],
+  [
+   "self_contained_flat",
+   "studio_flat"
+  ],
+  [
+   "studio",
+   "studio_flat"
+  ],
+  [
+   "cellar",
+   "basement"
+  ],
+  [
+   "utility_room",
+   "cellar"
+  ],
+  [
+   "utility_room",
+   "basement"
+  ],
+  [
+   "attic",
+   "cellar"
+  ],
+  [
+   "shed",
+   "cellar"
+  ],
+  [
+   "hall",
+   "porch"
+  ],
+  [
+   "hall",
+   "landing"
+  ],
+  [
+   "porch",
+   "patio"
+  ],
+  [
+   "table_mat",
+   "chopping_board"
+  ],
+  [
+   "peeler",
+   "grater"
+  ],
+  [
+   "socket",
+   "phone_charger"
+  ],
+  [
+   "terraced_house",
+   "studio_flat"
+  ],
+  [
+   "terraced_house",
+   "self_contained_flat"
+  ],
+  [
+   "studio",
+   "attic"
+  ],
+  [
+   "utility_room",
+   "shed"
+  ],
+  [
+   "loft_conversion",
+   "attic"
+  ],
+  [
+   "do_the_ironing",
+   "do_the_hoovering"
+  ],
+  [
+   "do_the_ironing",
+   "ironing_board"
+  ]
+ ]
+}

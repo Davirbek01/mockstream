@@ -1,0 +1,236 @@
+{
+ "book": "elementary",
+ "unit": 54,
+ "title": "Manner",
+ "title_uz": "Harakat tarzi",
+ "words": [
+  {
+   "id": "fast",
+   "en": "fast",
+   "uz": "tez",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hurry up! If we walk fast, we can still catch the bus.",
+   "gap": "fast",
+   "alt": []
+  },
+  {
+   "id": "slow",
+   "en": "slow",
+   "uz": "sekin (sifat): sekin avtobus",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old bus to the village is so slow that walking is almost quicker.",
+   "gap": "slow",
+   "alt": []
+  },
+  {
+   "id": "slowly",
+   "en": "slowly",
+   "uz": "sekin (ravish): sekin gapirmoq",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Could you speak more slowly, please? My English isn't very good yet.",
+   "gap": "slowly",
+   "alt": []
+  },
+  {
+   "id": "loud",
+   "en": "loud",
+   "uz": "baland (sifat): baland musiqa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ali, your headphones are so loud that I can hear your music from here!",
+   "gap": "loud",
+   "alt": []
+  },
+  {
+   "id": "loudly",
+   "en": "loudly",
+   "uz": "baland ovozda (ravish)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The cockerel next door crows so loudly every morning that it wakes the whole street.",
+   "gap": "loudly",
+   "alt": []
+  },
+  {
+   "id": "quiet",
+   "en": "quiet",
+   "uz": "jimjit (sifat): jimjit joy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our street is very quiet at night: you can't hear any cars at all.",
+   "gap": "quiet",
+   "alt": []
+  },
+  {
+   "id": "quietly",
+   "en": "quietly",
+   "uz": "past ovozda (ravish): jimgina",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Please talk quietly in the reading room; people are trying to concentrate.",
+   "gap": "quietly",
+   "alt": []
+  },
+  {
+   "id": "good",
+   "en": "good",
+   "uz": "yaxshi (sifat): yaxshi oshpaz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Madina is a good cook: her soup is the best in our street.",
+   "gap": "good",
+   "alt": []
+  },
+  {
+   "id": "well_adv",
+   "en": "well",
+   "uz": "yaxshi (ravish): yaxshi o‘qimoq",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Otabek did very well in his maths exam: he got 98 out of 100.",
+   "gap": "well",
+   "alt": []
+  },
+  {
+   "id": "bad",
+   "en": "bad",
+   "uz": "yomon (sifat): yomon qo‘shiqchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I'm a bad singer, but I'm quite a good dancer.",
+   "gap": "bad",
+   "alt": []
+  },
+  {
+   "id": "badly",
+   "en": "badly",
+   "uz": "yomon (ravish): yomon o‘ynamoq",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our team played badly yesterday: even our goalkeeper made lots of mistakes, and we lost 5–0.",
+   "gap": "badly",
+   "alt": []
+  },
+  {
+   "id": "right",
+   "en": "right",
+   "uz": "to‘g‘ri",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Your answer is right: seven times eight really is fifty-six.",
+   "gap": "right",
+   "alt": []
+  },
+  {
+   "id": "wrong",
+   "en": "wrong",
+   "uz": "noto‘g‘ri",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Oops, I got off the bus at the wrong stop, so now I have to walk back.",
+   "gap": "wrong",
+   "alt": []
+  },
+  {
+   "id": "in_a_friendly_way",
+   "en": "in a friendly way",
+   "uz": "do‘stona ohangda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new shop assistant was very kind: she smiled and spoke to us in a friendly way.",
+   "gap": "in a friendly way",
+   "alt": []
+  },
+  {
+   "id": "in_an_unfriendly_way",
+   "en": "in an unfriendly way",
+   "uz": "nodo‘stona ohangda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The guard looked at us in an unfriendly way and shouted, 'Get out of the car park!'",
+   "gap": "in an unfriendly way",
+   "alt": []
+  },
+  {
+   "id": "the_right_way",
+   "en": "the right way",
+   "uz": "to‘g‘ri usul",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our coach showed us the right way to hold the racket, and now I hit the ball much better.",
+   "gap": "the right way",
+   "alt": []
+  },
+  {
+   "id": "the_wrong_way",
+   "en": "the wrong way",
+   "uz": "noto‘g‘ri usul",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You're holding the map the wrong way: north should be at the top.",
+   "gap": "the wrong way",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "slow",
+   "slowly"
+  ],
+  [
+   "loud",
+   "loudly"
+  ],
+  [
+   "quiet",
+   "quietly"
+  ],
+  [
+   "good",
+   "well_adv"
+  ],
+  [
+   "bad",
+   "badly"
+  ],
+  [
+   "right",
+   "wrong"
+  ],
+  [
+   "right",
+   "the_right_way"
+  ],
+  [
+   "wrong",
+   "the_wrong_way"
+  ],
+  [
+   "right",
+   "right_side"
+  ],
+  [
+   "right",
+   "good"
+  ],
+  [
+   "wrong",
+   "bad"
+  ],
+  [
+   "in_a_friendly_way",
+   "quietly"
+  ],
+  [
+   "in_a_friendly_way",
+   "slowly"
+  ],
+  [
+   "slow",
+   "bad"
+  ]
+ ]
+}

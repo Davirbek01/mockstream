@@ -1,0 +1,736 @@
+{
+ "book": "advanced",
+ "unit": 26,
+ "title": "Travel and accommodation",
+ "title_uz": "Sayohat va turar joy",
+ "words": [
+  {
+   "id": "scheduled_flight",
+   "en": "scheduled flight",
+   "uz": "jadval bo‘yicha muntazam reys",
+   "pos": "noun",
+   "img": false,
+   "ex": "Unlike the holiday charters, the scheduled flight leaves at 7:40 every Monday, whether it is full or half empty.",
+   "gap": "scheduled flight",
+   "alt": [
+    "scheduled flights"
+   ]
+  },
+  {
+   "id": "charter_flight",
+   "en": "charter flight",
+   "uz": "maxsus buyurtma bilan uchadigan reys",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tour company hired a whole plane, and the charter flight took 180 holidaymakers straight to a beach resort in Antalya.",
+   "gap": "charter flight",
+   "alt": [
+    "charter flights"
+   ]
+  },
+  {
+   "id": "non_refundable",
+   "en": "non-refundable",
+   "uz": "puli qaytarilmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Behruz bought the cheaper non-refundable ticket, then broke his leg a week before the trip and lost all the money.",
+   "gap": "non-refundable",
+   "alt": [
+    "non refundable",
+    "nonrefundable"
+   ]
+  },
+  {
+   "id": "cancellation_fee",
+   "en": "cancellation fee",
+   "uz": "bekor qilganlik uchun to‘lov",
+   "pos": "noun",
+   "img": false,
+   "ex": "Changing her mind two days before the trip cost Nodira a cancellation fee of fifty dollars.",
+   "gap": "cancellation fee",
+   "alt": [
+    "cancellation fees"
+   ]
+  },
+  {
+   "id": "stopover",
+   "en": "stopover",
+   "uz": "yo‘l-yo‘lakay to‘xtab tunash",
+   "pos": "noun",
+   "img": false,
+   "ex": "On our way to Hanoi we had a two-night stopover in Bangkok and spent a whole day exploring its floating markets.",
+   "gap": "stopover",
+   "alt": [
+    "stopovers"
+   ]
+  },
+  {
+   "id": "package_holiday",
+   "en": "package holiday",
+   "uz": "tayyor turpaket (yo‘llanma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My parents hate planning, so every summer they buy a package holiday: flights, a hotel by the sea and transfers, all in one booking.",
+   "gap": "package holiday",
+   "alt": [
+    "package holidays"
+   ]
+  },
+  {
+   "id": "all_inclusive",
+   "en": "all-inclusive",
+   "uz": "hamma narsa narxga kiritilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Their hotel was all-inclusive, so the children could have juice and ice cream whenever they liked without paying extra.",
+   "gap": "all-inclusive",
+   "alt": [
+    "all inclusive"
+   ]
+  },
+  {
+   "id": "flight_only",
+   "en": "flight only",
+   "uz": "faqat aviachipta (mehmonxonasiz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We booked flight only, because my aunt lives in Dubai and we could stay with her.",
+   "gap": "flight only",
+   "alt": []
+  },
+  {
+   "id": "shuttle_bus",
+   "en": "shuttle bus",
+   "uz": "qatnov avtobusi",
+   "pos": "noun",
+   "img": true,
+   "ex": "A free shuttle bus runs every twenty minutes between the airport terminal and the hotel.",
+   "gap": "shuttle bus",
+   "alt": [
+    "shuttle buses"
+   ]
+  },
+  {
+   "id": "ferry",
+   "en": "ferry",
+   "uz": "parom",
+   "pos": "noun",
+   "img": true,
+   "ex": "We missed the last ferry to the island and had to spend the night in a café by the harbour.",
+   "gap": "ferry",
+   "alt": [
+    "ferries"
+   ]
+  },
+  {
+   "id": "crossing",
+   "en": "crossing",
+   "uz": "dengizdan suzib o‘tish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sea was so rough that half the passengers were seasick before the ninety-minute crossing was over.",
+   "gap": "crossing",
+   "alt": [
+    "crossings"
+   ]
+  },
+  {
+   "id": "cruise",
+   "en": "cruise",
+   "uz": "kemada dengiz sayohati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her parents celebrated their anniversary with a two-week cruise around the Mediterranean, stopping at a different port every day.",
+   "gap": "cruise",
+   "alt": [
+    "cruises"
+   ]
+  },
+  {
+   "id": "holiday_of_a_lifetime",
+   "en": "holiday of a lifetime",
+   "uz": "umrbod esda qoladigan sayohat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Seeing the Northern Lights in Norway was the holiday of a lifetime for Javlon, and he still shows everyone the photos.",
+   "gap": "holiday of a lifetime",
+   "alt": []
+  },
+  {
+   "id": "berth",
+   "en": "berth",
+   "uz": "(kema, poyezd) yotoq o‘rni",
+   "pos": "noun",
+   "img": false,
+   "ex": "To save money, Shahzod booked a berth in a four-person cabin and shared it with three strangers.",
+   "gap": "berth",
+   "alt": [
+    "berths"
+   ]
+  },
+  {
+   "id": "upper_deck",
+   "en": "upper deck",
+   "uz": "yuqori paluba",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cabins on the upper deck have bigger windows and better views, but they cost almost twice as much.",
+   "gap": "upper deck",
+   "alt": []
+  },
+  {
+   "id": "exotic",
+   "en": "exotic",
+   "uz": "uzoq va g‘aroyib (begona yurtga xos)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After years of summers at the dacha, she wanted somewhere exotic, with coral reefs and bright parrots.",
+   "gap": "exotic",
+   "alt": []
+  },
+  {
+   "id": "get_away_from_it_all",
+   "en": "get away from it all",
+   "uz": "kundalik tashvishlardan uzoqlashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With no phone signal and no internet, the little house in the hills is the perfect place to get away from it all.",
+   "gap": "get away from it all",
+   "alt": [
+    "getting away from it all",
+    "got away from it all"
+   ]
+  },
+  {
+   "id": "carriage",
+   "en": "carriage",
+   "uz": "(poyezd) vagon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our seats were in the last carriage, so we had to walk the whole length of the platform with our suitcases.",
+   "gap": "carriage",
+   "alt": [
+    "carriages"
+   ]
+  },
+  {
+   "id": "change_trains",
+   "en": "change trains",
+   "uz": "poyezd almashtirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "There's no direct service to the village, so we'll have to change trains twice on the way.",
+   "gap": "change trains",
+   "alt": [
+    "changed trains",
+    "changing trains",
+    "changes trains"
+   ]
+  },
+  {
+   "id": "through_train",
+   "en": "through train",
+   "uz": "to‘g‘ri (almashtirishsiz) poyezd",
+   "pos": "noun",
+   "img": false,
+   "ex": "We took the through train, so we didn't need to get off once during the whole twelve-hour journey.",
+   "gap": "through train",
+   "alt": [
+    "through trains"
+   ]
+  },
+  {
+   "id": "get_around",
+   "en": "get around",
+   "uz": "(shahar bo‘ylab) qatnab yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The easiest way to get around Prague is by tram, and one ticket lasts for ninety minutes.",
+   "gap": "get around",
+   "alt": [
+    "getting around",
+    "got around",
+    "gets around"
+   ]
+  },
+  {
+   "id": "unlimited_mileage",
+   "en": "unlimited mileage",
+   "uz": "cheklanmagan masofa (probeg)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We drove nearly 2,000 kilometres around Georgia, but thanks to unlimited mileage the rental company didn't charge us a cent extra.",
+   "gap": "unlimited mileage",
+   "alt": []
+  },
+  {
+   "id": "come_and_go_as_you_please",
+   "en": "come and go as you please",
+   "uz": "xohlagan paytda kelib-ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Having our own car meant we could come and go as we pleased instead of waiting for the tour bus.",
+   "gap": "come and go as we pleased",
+   "alt": [
+    "come and go as we please",
+    "come and go as we pleased",
+    "come and go as they please",
+    "come and go as I please"
+   ]
+  },
+  {
+   "id": "economy_class",
+   "en": "economy class",
+   "uz": "arzon toifadagi salon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The seats in economy class were narrow, but the ticket cost a third of the business-class price.",
+   "gap": "economy class",
+   "alt": []
+  },
+  {
+   "id": "budget_airline",
+   "en": "budget airline",
+   "uz": "arzon aviakompaniya (loukoster)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The budget airline charged us extra for a bottle of water and even for choosing our seats.",
+   "gap": "budget airline",
+   "alt": [
+    "budget airlines"
+   ]
+  },
+  {
+   "id": "national_carrier",
+   "en": "national carrier",
+   "uz": "milliy aviatashuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Flying with the country's national carrier cost more, but hot meals and a 23-kilo suitcase were included.",
+   "gap": "national carrier",
+   "alt": [
+    "national carriers"
+   ]
+  },
+  {
+   "id": "via",
+   "en": "via",
+   "uz": "… orqali (oraliq nuqta)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "We flew to London via Istanbul, with a three-hour wait between the two flights.",
+   "gap": "via",
+   "alt": []
+  },
+  {
+   "id": "car_hire",
+   "en": "car hire",
+   "uz": "avtomobil ijarasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We booked car hire online before the trip, so a small car was waiting for us when we landed.",
+   "gap": "car hire",
+   "alt": []
+  },
+  {
+   "id": "camping",
+   "en": "camping",
+   "uz": "chodirda dam olish",
+   "pos": "noun",
+   "img": false,
+   "ex": "We went camping in the Nuratau hills and cooked every meal over a fire for three nights.",
+   "gap": "camping",
+   "alt": []
+  },
+  {
+   "id": "self_catering",
+   "en": "self-catering",
+   "uz": "ovqatni o‘zing tayyorlaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The flat was self-catering, so every evening we bought vegetables at the market and cooked dinner ourselves.",
+   "gap": "self-catering",
+   "alt": [
+    "self catering"
+   ]
+  },
+  {
+   "id": "chalet",
+   "en": "chalet",
+   "uz": "yog‘och dam olish uychasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "In Beldersay we rented a wooden chalet with a fireplace and a view of the snowy slopes.",
+   "gap": "chalet",
+   "alt": [
+    "chalets"
+   ]
+  },
+  {
+   "id": "guest_house",
+   "en": "guest house",
+   "uz": "kichik oilaviy mehmonxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Instead of a big hotel, we stayed in a family-run guest house in the old town, where breakfast was served in the courtyard.",
+   "gap": "guest house",
+   "alt": [
+    "guesthouse",
+    "guest houses"
+   ]
+  },
+  {
+   "id": "inn",
+   "en": "inn",
+   "uz": "qo‘noqxona (ovqat va tunash joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We spent the night at a 300-year-old inn in an English village, eating dinner downstairs by the fire and sleeping in a tiny room upstairs.",
+   "gap": "inn",
+   "alt": [
+    "inns"
+   ]
+  },
+  {
+   "id": "half_board",
+   "en": "half board",
+   "uz": "yarim pansion (nonushta + kechki ovqat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We chose half board: breakfast and dinner at the hotel, and lunch wherever we happened to be.",
+   "gap": "half board",
+   "alt": []
+  },
+  {
+   "id": "full_board",
+   "en": "full board",
+   "uz": "to‘liq pansion (uch mahal ovqat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With full board, all three meals were served at the sanatorium, so we never had to look for a café.",
+   "gap": "full board",
+   "alt": []
+  },
+  {
+   "id": "restrictions",
+   "en": "restrictions",
+   "uz": "cheklovlar (chipta shartlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cheap ticket came with strict restrictions: no changes, no refunds and travel on weekdays only.",
+   "gap": "restrictions",
+   "alt": [
+    "restriction"
+   ]
+  },
+  {
+   "id": "value_for_money",
+   "en": "value for money",
+   "uz": "narxiga arziydigan (qulay narx)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The family room was small, but with breakfast included it was excellent value for money.",
+   "gap": "value for money",
+   "alt": []
+  },
+  {
+   "id": "transfer_airport",
+   "en": "transfer",
+   "uz": "aeroportdan mehmonxonaga yetkazish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The price of the trip includes transfers, so a minibus will meet you at the airport and take you to the hotel.",
+   "gap": "transfers",
+   "alt": [
+    "transfers"
+   ]
+  },
+  {
+   "id": "cabin",
+   "en": "cabin",
+   "uz": "kayuta (kemadagi xona)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We slept in a tiny cabin on the night ferry, with two narrow bunks and a round window.",
+   "gap": "cabin",
+   "alt": [
+    "cabins"
+   ]
+  },
+  {
+   "id": "deluxe",
+   "en": "deluxe",
+   "uz": "lyuks, yuqori toifali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For their anniversary they upgraded to a deluxe suite with a private balcony overlooking the sea.",
+   "gap": "deluxe",
+   "alt": [
+    "de luxe"
+   ]
+  },
+  {
+   "id": "direct_train",
+   "en": "direct train",
+   "uz": "to‘g‘ridan-to‘g‘ri qatnaydigan poyezd",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a direct train from the capital to the coast, so you don't have to change anywhere.",
+   "gap": "direct train",
+   "alt": [
+    "direct trains"
+   ]
+  },
+  {
+   "id": "first_class",
+   "en": "first class",
+   "uz": "eng oliy toifa (eng qimmat salon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On her flight to Dubai, Zarina was upgraded to first class and given a seat that turned into a bed.",
+   "gap": "first class",
+   "alt": [
+    "first-class"
+   ]
+  },
+  {
+   "id": "business_class",
+   "en": "business class",
+   "uz": "ishbilarmonlar toifasi (qimmat salon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of the passengers in business class were working on laptops during the long flight to Seoul.",
+   "gap": "business class",
+   "alt": [
+    "business-class"
+   ]
+  },
+  {
+   "id": "route",
+   "en": "route",
+   "uz": "yo‘nalish, marshrut",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cheapest route to Lisbon goes through Istanbul, with a long wait between flights.",
+   "gap": "route",
+   "alt": [
+    "routes"
+   ]
+  },
+  {
+   "id": "low_cost",
+   "en": "low-cost",
+   "uz": "arzon narxli (kam xarajatli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many students fly with low-cost airlines, even though they have to pay extra for every bag.",
+   "gap": "low-cost",
+   "alt": [
+    "low cost"
+   ]
+  },
+  {
+   "id": "extras",
+   "en": "extras",
+   "uz": "qo‘shimcha to‘lovlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The advertised price looked cheap, but extras such as seat selection and luggage almost doubled it.",
+   "gap": "extras",
+   "alt": [
+    "extra"
+   ]
+  },
+  {
+   "id": "airport_taxes",
+   "en": "airport taxes",
+   "uz": "aeroport yig‘imlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ticket itself costs ninety euros, plus about twenty euros in airport taxes.",
+   "gap": "airport taxes",
+   "alt": [
+    "airport tax"
+   ]
+  },
+  {
+   "id": "accident_insurance",
+   "en": "accident insurance",
+   "uz": "baxtsiz hodisadan sug‘urta",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you hire a car, it is wise to pay a little more for accident insurance in case of a scratch or a crash.",
+   "gap": "accident insurance",
+   "alt": []
+  },
+  {
+   "id": "caravan",
+   "en": "caravan",
+   "uz": "yashash tirkamasi (avtouy)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The family towed their caravan to the coast and parked it at a campsite under the pine trees.",
+   "gap": "caravan",
+   "alt": [
+    "caravans"
+   ]
+  },
+  {
+   "id": "tent",
+   "en": "tent",
+   "uz": "chodir",
+   "pos": "noun",
+   "img": true,
+   "ex": "It took us an hour to put up the tent because the wind kept blowing it over.",
+   "gap": "tent",
+   "alt": [
+    "tents"
+   ]
+  },
+  {
+   "id": "holiday_maker",
+   "en": "holiday-maker",
+   "uz": "dam oluvchi (ta’tildagi odam)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In August the little beach is crowded with holiday-makers from all over Europe.",
+   "gap": "holiday-makers",
+   "alt": [
+    "holiday-makers",
+    "holidaymaker",
+    "holidaymakers"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "scheduled_flight",
+   "charter_flight"
+  ],
+  [
+   "package_holiday",
+   "all_inclusive"
+  ],
+  [
+   "package_holiday",
+   "flight_only"
+  ],
+  [
+   "all_inclusive",
+   "full_board"
+  ],
+  [
+   "all_inclusive",
+   "self_catering"
+  ],
+  [
+   "half_board",
+   "full_board"
+  ],
+  [
+   "non_refundable",
+   "cancellation_fee"
+  ],
+  [
+   "crossing",
+   "cruise"
+  ],
+  [
+   "ferry",
+   "cruise"
+  ],
+  [
+   "ferry",
+   "crossing"
+  ],
+  [
+   "change_trains",
+   "through_train"
+  ],
+  [
+   "carriage",
+   "berth"
+  ],
+  [
+   "get_away_from_it_all",
+   "come_and_go_as_you_please"
+  ],
+  [
+   "get_around",
+   "come_and_go_as_you_please"
+  ],
+  [
+   "budget_airline",
+   "national_carrier"
+  ],
+  [
+   "stopover",
+   "via"
+  ],
+  [
+   "guest_house",
+   "chalet"
+  ],
+  [
+   "inn",
+   "guest_house"
+  ],
+  [
+   "inn",
+   "chalet"
+  ],
+  [
+   "car_hire",
+   "unlimited_mileage"
+  ],
+  [
+   "economy_class",
+   "upper_deck"
+  ],
+  [
+   "exotic",
+   "holiday_of_a_lifetime"
+  ],
+  [
+   "non_refundable",
+   "economy_class"
+  ],
+  [
+   "transfer_airport",
+   "shuttle_bus"
+  ],
+  [
+   "transfer_airport",
+   "extras"
+  ],
+  [
+   "cabin",
+   "berth"
+  ],
+  [
+   "direct_train",
+   "through_train"
+  ],
+  [
+   "first_class",
+   "business_class"
+  ],
+  [
+   "business_class",
+   "economy_class"
+  ],
+  [
+   "low_cost",
+   "budget_airline"
+  ],
+  [
+   "extras",
+   "airport_taxes"
+  ],
+  [
+   "holiday_maker",
+   "hordes"
+  ]
+ ]
+}

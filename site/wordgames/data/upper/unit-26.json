@@ -1,0 +1,743 @@
+{
+ "book": "upper",
+ "unit": 26,
+ "title": "The natural world",
+ "title_uz": "Tabiat olami",
+ "words": [
+  {
+   "id": "horns",
+   "en": "horns",
+   "uz": "shoxlar (hayvonning)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Male ibex in the Chatkal mountains have long curved horns on their heads, which they use when they fight each other.",
+   "gap": "horns",
+   "alt": [
+    "horn"
+   ]
+  },
+  {
+   "id": "mane",
+   "en": "mane",
+   "uz": "yol (ot, sherning bo‘yin yungi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before the horse show, the stable girl brushed the horse's mane and tied it into small plaits along its neck.",
+   "gap": "mane",
+   "alt": [
+    "manes"
+   ]
+  },
+  {
+   "id": "beak",
+   "en": "beak",
+   "uz": "tumshuq (qushning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our parrot cracks sunflower seeds open with its strong curved beak and drops the shells on the floor.",
+   "gap": "beak",
+   "alt": [
+    "beaks"
+   ]
+  },
+  {
+   "id": "whiskers",
+   "en": "whiskers",
+   "uz": "mo‘ylov (mushuk, sichqonning)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The cat's long white whiskers twitched as she sniffed the fish on my plate.",
+   "gap": "whiskers",
+   "alt": [
+    "whisker"
+   ]
+  },
+  {
+   "id": "wing",
+   "en": "wing",
+   "uz": "qanot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The sparrow had hurt one wing, so it could only hop around the yard and couldn't fly away.",
+   "gap": "wing",
+   "alt": [
+    "wings"
+   ]
+  },
+  {
+   "id": "tail",
+   "en": "tail",
+   "uz": "dum",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our dog is so happy when we come home that he wags his tail and runs around in circles.",
+   "gap": "tail",
+   "alt": [
+    "tails"
+   ]
+  },
+  {
+   "id": "fur",
+   "en": "fur",
+   "uz": "mo‘yna, jun (hayvon terisidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our cat leaves so much grey fur on the sofa that we have to vacuum it every single day.",
+   "gap": "fur",
+   "alt": []
+  },
+  {
+   "id": "nest",
+   "en": "nest",
+   "uz": "in (qush uyasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "A pair of swallows has built a nest of mud under our balcony, and now we can hear the chicks calling for food.",
+   "gap": "nest",
+   "alt": [
+    "nests"
+   ]
+  },
+  {
+   "id": "hoof",
+   "en": "hoof",
+   "uz": "tuyoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "The horse was limping, so the farmer lifted its back hoof and found a sharp stone stuck in it.",
+   "gap": "hoof",
+   "alt": [
+    "hooves",
+    "hoofs"
+   ]
+  },
+  {
+   "id": "feather",
+   "en": "feather",
+   "uz": "pat (qush pati)",
+   "pos": "noun",
+   "img": true,
+   "ex": "My little sister found a long black-and-white feather on the river bank and stuck it in her hat.",
+   "gap": "feather",
+   "alt": [
+    "feathers"
+   ]
+  },
+  {
+   "id": "claws",
+   "en": "claws",
+   "uz": "tirnoqlar (hayvon, qushning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Be careful when you play with the kitten: she has tiny but very sharp claws.",
+   "gap": "claws",
+   "alt": [
+    "claw"
+   ]
+  },
+  {
+   "id": "paw",
+   "en": "paw",
+   "uz": "panja (it, mushukning oyog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The puppy left muddy prints all over the kitchen floor, so we wiped each paw with a towel before letting him back in.",
+   "gap": "paw",
+   "alt": [
+    "paws"
+   ]
+  },
+  {
+   "id": "petals",
+   "en": "petals",
+   "uz": "gulbarglar",
+   "pos": "noun",
+   "img": true,
+   "ex": "The wind blew the white and pink petals off the apricot trees, and the yard looked as if it had snowed.",
+   "gap": "petals",
+   "alt": [
+    "petal"
+   ]
+  },
+  {
+   "id": "pollen",
+   "en": "pollen",
+   "uz": "gulchang",
+   "pos": "noun",
+   "img": false,
+   "ex": "I sneeze all through May because I'm allergic to grass pollen.",
+   "gap": "pollen",
+   "alt": []
+  },
+  {
+   "id": "branch",
+   "en": "branch",
+   "uz": "shox (daraxt shoxi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last night's storm broke a large branch off the walnut tree, and it fell onto our garage roof.",
+   "gap": "branch",
+   "alt": [
+    "branches"
+   ]
+  },
+  {
+   "id": "bough",
+   "en": "bough",
+   "uz": "yo‘g‘on shox (daraxtning)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The neighbours' children hung a rope swing from a thick, low bough of the old mulberry tree.",
+   "gap": "bough",
+   "alt": [
+    "boughs"
+   ]
+  },
+  {
+   "id": "bud",
+   "en": "bud",
+   "uz": "kurtak, g‘uncha",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's only early March, but the apple trees are already covered in fat buds that will open into flowers next month.",
+   "gap": "buds",
+   "alt": [
+    "buds"
+   ]
+  },
+  {
+   "id": "thorn",
+   "en": "thorn",
+   "uz": "tikan",
+   "pos": "noun",
+   "img": false,
+   "ex": "Wear thick gloves when you cut back the roses, or the thorns will scratch your fingers.",
+   "gap": "thorns",
+   "alt": [
+    "thorns"
+   ]
+  },
+  {
+   "id": "bark",
+   "en": "bark",
+   "uz": "po‘stloq (daraxt po‘stlog‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the old plane trees in our park, the bark peels off in thin pieces and leaves pale cream and green patches.",
+   "gap": "bark",
+   "alt": []
+  },
+  {
+   "id": "twig",
+   "en": "twig",
+   "uz": "novda (ingichka shoxcha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We gathered thin dry twigs from under the trees to light the campfire.",
+   "gap": "twigs",
+   "alt": [
+    "twigs"
+   ]
+  },
+  {
+   "id": "trunk",
+   "en": "trunk",
+   "uz": "tana (daraxt tanasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trunk of this old walnut tree is so thick that three people holding hands can't reach around it.",
+   "gap": "trunk",
+   "alt": [
+    "trunks"
+   ]
+  },
+  {
+   "id": "stem",
+   "en": "stem",
+   "uz": "poya (gul poyasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cut the stems of the tulips at an angle before you put them in the vase.",
+   "gap": "stems",
+   "alt": [
+    "stems"
+   ]
+  },
+  {
+   "id": "roots",
+   "en": "roots",
+   "uz": "ildizlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Over the years, the tree's roots have grown under the pavement and pushed the paving stones up.",
+   "gap": "roots",
+   "alt": [
+    "root"
+   ]
+  },
+  {
+   "id": "whale",
+   "en": "whale",
+   "uz": "kit (dengiz hayvoni)",
+   "pos": "noun",
+   "img": true,
+   "ex": "On our boat trip off the coast of Norway, a huge whale came up to breathe and blew a fountain of water into the air.",
+   "gap": "whale",
+   "alt": [
+    "whales"
+   ]
+  },
+  {
+   "id": "shark",
+   "en": "shark",
+   "uz": "akula",
+   "pos": "noun",
+   "img": true,
+   "ex": "The lifeguards closed the beach after someone saw a shark's fin close to the swimmers.",
+   "gap": "shark's",
+   "alt": [
+    "sharks",
+    "shark's"
+   ]
+  },
+  {
+   "id": "bat_animal",
+   "en": "bat",
+   "uz": "ko‘rshapalak",
+   "pos": "noun",
+   "img": true,
+   "ex": "As soon as it gets dark, hundreds of bats fly out of the cave to hunt insects.",
+   "gap": "bats",
+   "alt": [
+    "bats"
+   ]
+  },
+  {
+   "id": "deer",
+   "en": "deer",
+   "uz": "kiyik (bug‘u)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We stopped the car in the forest because a deer with huge antlers was standing in the road, frozen in our headlights.",
+   "gap": "deer",
+   "alt": []
+  },
+  {
+   "id": "frog",
+   "en": "frog",
+   "uz": "qurbaqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "On summer nights the frogs in the pond near our village croak so loudly that it's hard to fall asleep.",
+   "gap": "frogs",
+   "alt": [
+    "frogs"
+   ]
+  },
+  {
+   "id": "worm",
+   "en": "worm",
+   "uz": "chuvalchang",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the heavy rain, dozens of pink worms came up out of the wet soil and lay on the path.",
+   "gap": "worms",
+   "alt": [
+    "worms"
+   ]
+  },
+  {
+   "id": "crab",
+   "en": "crab",
+   "uz": "qisqichbaqa",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the beach, a small crab ran sideways across the sand and hid under a rock.",
+   "gap": "crab",
+   "alt": [
+    "crabs"
+   ]
+  },
+  {
+   "id": "owl",
+   "en": "owl",
+   "uz": "boyo‘g‘li (boyqush)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We couldn't sleep in the tent because an owl kept hooting in the trees all night.",
+   "gap": "owl",
+   "alt": [
+    "owls"
+   ]
+  },
+  {
+   "id": "fox",
+   "en": "fox",
+   "uz": "tulki",
+   "pos": "noun",
+   "img": true,
+   "ex": "A fox got into our neighbour's chicken coop last night and carried off two hens.",
+   "gap": "fox",
+   "alt": [
+    "foxes"
+   ]
+  },
+  {
+   "id": "snail",
+   "en": "snail",
+   "uz": "shilliqqurt (chig‘anoqli)",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the rain, my little brother found a snail on a cabbage leaf and watched it pull its head back into its shell.",
+   "gap": "snail",
+   "alt": [
+    "snails"
+   ]
+  },
+  {
+   "id": "pigeon",
+   "en": "pigeon",
+   "uz": "kaptar",
+   "pos": "noun",
+   "img": true,
+   "ex": "Hundreds of pigeons gather in the square at Khast Imam, where visitors feed them grain.",
+   "gap": "pigeons",
+   "alt": [
+    "pigeons"
+   ]
+  },
+  {
+   "id": "peacock",
+   "en": "peacock",
+   "uz": "tovus (erkagi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the zoo, the peacock opened his enormous tail like a shining blue-and-green fan to impress the females.",
+   "gap": "peacock",
+   "alt": [
+    "peacocks"
+   ]
+  },
+  {
+   "id": "seal",
+   "en": "seal",
+   "uz": "tyulen",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the aquarium, the children laughed as two seals clapped their flippers and caught the fish the keeper threw to them.",
+   "gap": "seals",
+   "alt": [
+    "seals"
+   ]
+  },
+  {
+   "id": "blossom",
+   "en": "blossom",
+   "uz": "gullamoq (daraxt)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the almond trees around Samarkand blossom in March, the hills turn pale pink.",
+   "gap": "blossom",
+   "alt": [
+    "blossoms",
+    "blossomed",
+    "blossoming"
+   ]
+  },
+  {
+   "id": "pick_flowers",
+   "en": "pick",
+   "uz": "uzmoq, termoq (gul, meva)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please don't pick the tulips in the park; leave them for everyone to enjoy.",
+   "gap": "pick",
+   "alt": [
+    "picks",
+    "picked",
+    "picking"
+   ]
+  },
+  {
+   "id": "lay_eggs",
+   "en": "lay",
+   "uz": "(tuxum) qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every spring, a pair of storks returns to the top of the old minaret to lay its eggs.",
+   "gap": "lay",
+   "alt": [
+    "lays",
+    "laid",
+    "laying"
+   ]
+  },
+  {
+   "id": "breed",
+   "en": "breed",
+   "uz": "boqib ko‘paytirmoq (hayvon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many families in Karakalpakstan breed camels for their milk and wool.",
+   "gap": "breed",
+   "alt": [
+    "breeds",
+    "bred",
+    "breeding"
+   ]
+  },
+  {
+   "id": "egg",
+   "en": "egg",
+   "uz": "tuxum",
+   "pos": "noun",
+   "img": true,
+   "ex": "The hen sat on her eggs for three weeks until the chicks hatched.",
+   "gap": "eggs",
+   "alt": [
+    "eggs"
+   ]
+  },
+  {
+   "id": "leaf",
+   "en": "leaf",
+   "uz": "barg (yaproq)",
+   "pos": "noun",
+   "img": true,
+   "ex": "In autumn the leaves on the plane trees turn yellow and fall, and we rake them up into big piles.",
+   "gap": "leaves",
+   "alt": [
+    "leaves"
+   ]
+  },
+  {
+   "id": "flower_v",
+   "en": "flower",
+   "uz": "gul ochmoq (o‘simlik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Most cactuses flower only rarely, sometimes just once every few years.",
+   "gap": "flower",
+   "alt": [
+    "flowers",
+    "flowered",
+    "flowering"
+   ]
+  },
+  {
+   "id": "collect",
+   "en": "collect",
+   "uz": "to‘plamoq, yig‘moq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Each worker bee visits hundreds of flowers a day to collect nectar for the hive.",
+   "gap": "collect",
+   "alt": [
+    "collects",
+    "collected",
+    "collecting"
+   ]
+  },
+  {
+   "id": "grow",
+   "en": "grow",
+   "uz": "o‘smoq; o‘stirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our tomato plants grew so fast this summer that they were taller than me by August.",
+   "gap": "grew",
+   "alt": [
+    "grows",
+    "grew",
+    "grown",
+    "growing"
+   ]
+  },
+  {
+   "id": "pick_up",
+   "en": "pick up",
+   "uz": "(yerdan) ko‘tarib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The little boy dropped his ice cream cone, and his sister quickly picked it up off the pavement.",
+   "gap": "picked it up",
+   "alt": [
+    "picks up",
+    "picked up",
+    "picking up",
+    "pick it up",
+    "picked it up"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "branch",
+   "twig"
+  ],
+  [
+   "mane",
+   "fur"
+  ],
+  [
+   "claws",
+   "paw"
+  ],
+  [
+   "hoof",
+   "paw"
+  ],
+  [
+   "feather",
+   "wing"
+  ],
+  [
+   "bark",
+   "trunk"
+  ],
+  [
+   "stem",
+   "roots"
+  ],
+  [
+   "bud",
+   "petals"
+  ],
+  [
+   "whale",
+   "shark"
+  ],
+  [
+   "whale",
+   "seal"
+  ],
+  [
+   "shark",
+   "seal"
+  ],
+  [
+   "owl",
+   "bat_animal"
+  ],
+  [
+   "fox",
+   "deer"
+  ],
+  [
+   "pigeon",
+   "peacock"
+  ],
+  [
+   "blossom",
+   "breed"
+  ],
+  [
+   "whiskers",
+   "fur"
+  ],
+  [
+   "petals",
+   "blossom"
+  ],
+  [
+   "branch",
+   "bough"
+  ],
+  [
+   "bough",
+   "twig"
+  ],
+  [
+   "bough",
+   "trunk"
+  ],
+  [
+   "worm",
+   "snail"
+  ],
+  [
+   "horns",
+   "deer"
+  ],
+  [
+   "horns",
+   "fur"
+  ],
+  [
+   "feather",
+   "peacock"
+  ],
+  [
+   "feather",
+   "pigeon"
+  ],
+  [
+   "feather",
+   "owl"
+  ],
+  [
+   "petals",
+   "pollen"
+  ],
+  [
+   "petals",
+   "stem"
+  ],
+  [
+   "bat_animal",
+   "wing"
+  ],
+  [
+   "crab",
+   "claws"
+  ],
+  [
+   "owl",
+   "beak"
+  ],
+  [
+   "owl",
+   "wing"
+  ],
+  [
+   "pigeon",
+   "wing"
+  ],
+  [
+   "pigeon",
+   "beak"
+  ],
+  [
+   "peacock",
+   "tail"
+  ],
+  [
+   "fox",
+   "tail"
+  ],
+  [
+   "fox",
+   "fur"
+  ],
+  [
+   "seal",
+   "whiskers"
+  ],
+  [
+   "beak",
+   "claws"
+  ],
+  [
+   "egg",
+   "nest"
+  ],
+  [
+   "flower_v",
+   "blossom"
+  ],
+  [
+   "pick_up",
+   "pick_flowers"
+  ]
+ ]
+}

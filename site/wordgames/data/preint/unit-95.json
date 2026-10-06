@@ -1,0 +1,272 @@
+{
+ "book": "preint",
+ "unit": 95,
+ "title": "Formal and informal English",
+ "title_uz": "Rasmiy va norasmiy ingliz tili",
+ "words": [
+  {
+   "id": "purchase",
+   "en": "purchase",
+   "uz": "xarid qilmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Tickets may be purchased online or from the machines at the museum entrance.",
+   "gap": "purchased",
+   "alt": [
+    "purchased",
+    "purchases"
+   ]
+  },
+  {
+   "id": "premises",
+   "en": "premises",
+   "uz": "hudud, bino (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Students must not leave the school premises at lunchtime without a teacher's permission.",
+   "gap": "premises",
+   "alt": []
+  },
+  {
+   "id": "regret_to_inform",
+   "en": "regret to inform",
+   "uz": "afsus bilan ma’lum qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We regret to inform passengers that the 9:15 train to Karshi has been cancelled.",
+   "gap": "regret to inform",
+   "alt": []
+  },
+  {
+   "id": "require",
+   "en": "require",
+   "uz": "talab qilmoq, kerak bo‘lmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Children under twelve require an adult to come with them to the pool.",
+   "gap": "require",
+   "alt": [
+    "requires",
+    "required"
+   ]
+  },
+  {
+   "id": "further",
+   "en": "further",
+   "uz": "qo‘shimcha (rasmiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "If you have any further questions about the trip, please speak to Ms Yusupova.",
+   "gap": "further",
+   "alt": []
+  },
+  {
+   "id": "assistance",
+   "en": "assistance",
+   "uz": "yordam (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Passengers who need assistance with heavy luggage should speak to a member of staff.",
+   "gap": "assistance",
+   "alt": []
+  },
+  {
+   "id": "grant",
+   "en": "grant",
+   "uz": "bermoq, taqdim etmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The university granted her a place on its summer programme.",
+   "gap": "granted",
+   "alt": [
+    "granted",
+    "grants"
+   ]
+  },
+  {
+   "id": "regarding",
+   "en": "regarding",
+   "uz": "…ga doir, xususida (rasmiy)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "I am writing regarding the advertisement for a part-time job in your café.",
+   "gap": "regarding",
+   "alt": []
+  },
+  {
+   "id": "commence",
+   "en": "commence",
+   "uz": "boshlanmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The concert will commence at 7 p.m.; please be in your seats by 6.50.",
+   "gap": "commence",
+   "alt": [
+    "commences",
+    "commenced"
+   ]
+  },
+  {
+   "id": "depart",
+   "en": "depart",
+   "uz": "jo‘nab ketmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The last bus to the airport departs at 11.45 p.m. from stop B.",
+   "gap": "departs",
+   "alt": [
+    "departs",
+    "departed"
+   ]
+  },
+  {
+   "id": "proceed_to",
+   "en": "proceed to",
+   "uz": "…ga o‘tmoq, yo‘l olmoq (rasmiy)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "All students taking the English exam should now proceed to Room 14 on the second floor.",
+   "gap": "proceed to",
+   "alt": []
+  },
+  {
+   "id": "quite_a_bit",
+   "en": "quite a bit",
+   "uz": "ancha tez-tez (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We go to that café quite a bit; the waiters all know our names.",
+   "gap": "quite a bit",
+   "alt": []
+  },
+  {
+   "id": "bloke",
+   "en": "bloke",
+   "uz": "erkak kishi (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bloke at the phone shop said his name was Botir, and he was really helpful.",
+   "gap": "bloke",
+   "alt": [
+    "blokes"
+   ]
+  },
+  {
+   "id": "make_it",
+   "en": "make it",
+   "uz": "kela olmoq, ulgurmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sorry, I can't make it to football practice tonight; I've got a dentist appointment.",
+   "gap": "make it",
+   "alt": []
+  },
+  {
+   "id": "the_thing_is",
+   "en": "the thing is",
+   "uz": "gap shundaki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'd love to lend you my bike, but the thing is, the back tyre is flat.",
+   "gap": "the thing is",
+   "alt": []
+  },
+  {
+   "id": "kids",
+   "en": "kids",
+   "uz": "bolalar (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbours have three kids, and they play football in the yard every evening.",
+   "gap": "kids",
+   "alt": [
+    "kid"
+   ]
+  },
+  {
+   "id": "or_so",
+   "en": "or so",
+   "uz": "…chamasi (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The drive to the lake takes an hour or so, depending on the traffic.",
+   "gap": "or so",
+   "alt": []
+  },
+  {
+   "id": "i_bet",
+   "en": "I bet",
+   "uz": "ishonchim komil",
+   "pos": "phrase",
+   "img": false,
+   "ex": "You've been practising all week; I bet you'll win on Saturday.",
+   "gap": "I bet",
+   "alt": []
+  },
+  {
+   "id": "be_up_to",
+   "en": "be up to",
+   "uz": "(nima) bilan band bo‘lmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I haven't seen Nodira for ages; I wonder what she's up to these days.",
+   "gap": "up to",
+   "alt": [
+    "up to"
+   ]
+  },
+  {
+   "id": "dying_for",
+   "en": "be dying for",
+   "uz": "…ni juda-juda xohlamoq (so‘zlashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the long walk in the heat, we were all dying for a glass of cold water.",
+   "gap": "dying for",
+   "alt": [
+    "dying for"
+   ]
+  },
+  {
+   "id": "load_of_rubbish",
+   "en": "a load of rubbish",
+   "uz": "bema’ni narsa (juda yomon)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The film had great reviews, but I thought the ending was a load of rubbish.",
+   "gap": "a load of rubbish",
+   "alt": []
+  },
+  {
+   "id": "stuff",
+   "en": "stuff",
+   "uz": "narsalar (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put your swimming stuff in this bag, and don't forget your towel.",
+   "gap": "stuff",
+   "alt": []
+  },
+  {
+   "id": "great_good",
+   "en": "great",
+   "uz": "zo‘r (juda yaxshi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new burger place near the station is great: the food is tasty, it's cheap and the staff are friendly.",
+   "gap": "great",
+   "alt": []
+  },
+  {
+   "id": "not_in_a_position_to",
+   "en": "not in a position to",
+   "uz": "…ga imkoni yo‘q (rasmiy)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I am afraid the college is not in a position to offer free transport this year.",
+   "gap": "not in a position to",
+   "alt": []
+  }
+ ],
+ "clash": []
+}

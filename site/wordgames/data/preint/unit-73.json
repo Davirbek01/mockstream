@@ -1,0 +1,330 @@
+{
+ "book": "preint",
+ "unit": 73,
+ "title": "Compound nouns",
+ "title_uz": "Qo‘shma otlar",
+ "words": [
+  {
+   "id": "public_transport_cn",
+   "en": "public transport",
+   "uz": "jamoat qatnov vositalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "In this city, public transport is cheap and fast, so many families don't need a car.",
+   "gap": "public transport",
+   "alt": []
+  },
+  {
+   "id": "campsite",
+   "en": "campsite",
+   "uz": "lager joyi (chodir tikiladigan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We put up our tent at a campsite next to a mountain river.",
+   "gap": "campsite",
+   "alt": [
+    "campsites"
+   ]
+  },
+  {
+   "id": "babysitter",
+   "en": "babysitter",
+   "uz": "enaga (bolaga qarovchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbours pay a babysitter to look after their twins on Friday evenings.",
+   "gap": "babysitter",
+   "alt": [
+    "babysitters"
+   ]
+  },
+  {
+   "id": "income_tax_cn",
+   "en": "income tax",
+   "uz": "daromad solig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "When my older brother got his first job, he was surprised how much of his salary went on income tax.",
+   "gap": "income tax",
+   "alt": []
+  },
+  {
+   "id": "mother_tongue",
+   "en": "mother tongue",
+   "uz": "ona tili",
+   "pos": "noun",
+   "img": false,
+   "ex": "Kazakh is Aliya's mother tongue, but she also speaks perfect Uzbek and Russian.",
+   "gap": "mother tongue",
+   "alt": []
+  },
+  {
+   "id": "travel_agent",
+   "en": "travel agent",
+   "uz": "sayohat tashkilotchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "We asked a travel agent to book our flights and hotel for the trip to Malaysia.",
+   "gap": "travel agent",
+   "alt": [
+    "travel agents"
+   ]
+  },
+  {
+   "id": "film_maker",
+   "en": "film-maker",
+   "uz": "kino yaratuvchi (rejissyor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The young film-maker spent two years shooting a documentary about the wild sheep of the Nuratau mountains.",
+   "gap": "film-maker",
+   "alt": [
+    "filmmaker",
+    "film maker",
+    "film-makers"
+   ]
+  },
+  {
+   "id": "full_stop_cn",
+   "en": "full stop",
+   "uz": "nuqta (tinish belgisi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Your sentence is far too long: put a full stop after 'yesterday' and start a new one.",
+   "gap": "full stop",
+   "alt": []
+  },
+  {
+   "id": "haircut",
+   "en": "haircut",
+   "uz": "soch oldirish (soch turmagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I went to the barber's and got a short haircut for the summer.",
+   "gap": "haircut",
+   "alt": [
+    "haircuts"
+   ]
+  },
+  {
+   "id": "dj",
+   "en": "DJ",
+   "uz": "bazmda musiqa qo‘yuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the school party, the DJ played music until nine o'clock.",
+   "gap": "DJ",
+   "alt": [
+    "disc jockey",
+    "DJs"
+   ]
+  },
+  {
+   "id": "crossroads",
+   "en": "crossroads",
+   "uz": "chorraha",
+   "pos": "noun",
+   "img": false,
+   "ex": "When you reach the crossroads, go straight over, and the pharmacy is on your right.",
+   "gap": "crossroads",
+   "alt": []
+  },
+  {
+   "id": "hairdresser",
+   "en": "hairdresser",
+   "uz": "sartarosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "My sister goes to the hairdresser's every month to have her hair cut and coloured.",
+   "gap": "hairdresser",
+   "alt": [
+    "hairdressers",
+    "hairdresser's"
+   ]
+  },
+  {
+   "id": "sunglasses",
+   "en": "sunglasses",
+   "uz": "quyosh ko‘zoynagi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The snow was so bright in the mountains that everyone wore sunglasses.",
+   "gap": "sunglasses",
+   "alt": []
+  },
+  {
+   "id": "hairdryer",
+   "en": "hairdryer",
+   "uz": "fen (soch quritgich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "After swimming, she dried her hair with a hairdryer in the changing room.",
+   "gap": "hairdryer",
+   "alt": [
+    "hair dryer",
+    "hairdryers"
+   ]
+  },
+  {
+   "id": "wheelchair",
+   "en": "wheelchair",
+   "uz": "nogironlar aravachasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Since his accident he has used a wheelchair, so the new ramp at the school entrance is a big help.",
+   "gap": "wheelchair",
+   "alt": [
+    "wheelchairs"
+   ]
+  },
+  {
+   "id": "toothpaste",
+   "en": "toothpaste",
+   "uz": "tish pastasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Put a little toothpaste on your brush and clean your teeth for two minutes.",
+   "gap": "toothpaste",
+   "alt": []
+  },
+  {
+   "id": "chest_of_drawers",
+   "en": "chest of drawers",
+   "uz": "tortmali javon (komod)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I keep my socks and jumpers in the chest of drawers next to my bed.",
+   "gap": "chest of drawers",
+   "alt": []
+  },
+  {
+   "id": "toothbrush",
+   "en": "toothbrush",
+   "uz": "tish cho‘tkasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "I left my toothbrush at home, so I bought a cheap one at the station shop.",
+   "gap": "toothbrush",
+   "alt": [
+    "toothbrushes"
+   ]
+  },
+  {
+   "id": "bus_stop_cn",
+   "en": "bus stop",
+   "uz": "avtobus bekati",
+   "pos": "noun",
+   "img": true,
+   "ex": "There's a bus stop right outside our school, so I don't have to walk far.",
+   "gap": "bus stop",
+   "alt": [
+    "bus stops"
+   ]
+  },
+  {
+   "id": "airport",
+   "en": "airport",
+   "uz": "samolyotlar uchib-qo‘nadigan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our plane landed at the airport forty minutes early.",
+   "gap": "airport",
+   "alt": [
+    "airports"
+   ]
+  },
+  {
+   "id": "airline",
+   "en": "airline",
+   "uz": "havo yo‘llari kompaniyasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Which airline are you flying with to Dubai, and how much was the ticket?",
+   "gap": "airline",
+   "alt": [
+    "airlines"
+   ]
+  },
+  {
+   "id": "aircraft_cn",
+   "en": "aircraft",
+   "uz": "samolyot (havo kemasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "From our window we watched a huge aircraft take off and disappear into the clouds.",
+   "gap": "aircraft",
+   "alt": []
+  },
+  {
+   "id": "bus_driver",
+   "en": "bus driver",
+   "uz": "avtobus haydovchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus driver waited for the old lady to sit down before he moved off.",
+   "gap": "bus driver",
+   "alt": [
+    "bus drivers"
+   ]
+  },
+  {
+   "id": "id_card",
+   "en": "ID card",
+   "uz": "shaxsiy guvohnoma",
+   "pos": "noun",
+   "img": false,
+   "ex": "You must show your ID card to the guard before you can enter the building.",
+   "gap": "ID card",
+   "alt": [
+    "identity card",
+    "ID cards"
+   ]
+  },
+  {
+   "id": "bus_station",
+   "en": "bus station",
+   "uz": "avtovokzal",
+   "pos": "noun",
+   "img": false,
+   "ex": "Long-distance buses to other cities leave from the main bus station.",
+   "gap": "bus station",
+   "alt": [
+    "bus stations"
+   ]
+  },
+  {
+   "id": "birthday_card",
+   "en": "birthday card",
+   "uz": "tug‘ilgan kun tabriknomasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I made a birthday card for my best friend and drew a big cake on the front.",
+   "gap": "birthday card",
+   "alt": [
+    "birthday cards"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "bus_stop_cn",
+   "bus_station"
+  ],
+  [
+   "airport",
+   "airline"
+  ],
+  [
+   "toothpaste",
+   "toothbrush"
+  ],
+  [
+   "toothbrush",
+   "birthday_card"
+  ],
+  [
+   "toothbrush",
+   "hairdryer"
+  ]
+ ]
+}

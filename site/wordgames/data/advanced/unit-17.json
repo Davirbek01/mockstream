@@ -1,0 +1,739 @@
+{
+ "book": "advanced",
+ "unit": 17,
+ "title": "All the rage: clothes and fashion",
+ "title_uz": "Rosa urfda: kiyim-kechak va moda",
+ "words": [
+  {
+   "id": "scruffy",
+   "en": "scruffy",
+   "uz": "egni-boshi tartibsiz (ozoda emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a night on the train from Khiva, in creased T-shirts and muddy jeans, we looked so scruffy that the hotel receptionist hesitated before giving us our keys.",
+   "gap": "scruffy",
+   "alt": []
+  },
+  {
+   "id": "dress_code",
+   "en": "dress code",
+   "uz": "kiyinish tartibi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bank has a strict dress code: dark jackets for men, and no trainers for anyone.",
+   "gap": "dress code",
+   "alt": [
+    "dress codes"
+   ]
+  },
+  {
+   "id": "attire",
+   "en": "attire",
+   "uz": "libos (rasmiy so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Formal attire is required at the olympiad award ceremony, so Jasur borrowed his brother's dark grey jacket and tie.",
+   "gap": "attire",
+   "alt": []
+  },
+  {
+   "id": "revealing",
+   "en": "revealing",
+   "uz": "badanni ko‘p ochib qo‘yadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Before the trip to the mosques of Bukhara, our teacher reminded us not to pack revealing tops or shorts.",
+   "gap": "revealing",
+   "alt": []
+  },
+  {
+   "id": "frumpy",
+   "en": "frumpy",
+   "uz": "eskicha va bezaksiz kiyingan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Madina felt frumpy in her aunt's old brown coat, so she swapped it for a bright yellow jacket.",
+   "gap": "frumpy",
+   "alt": []
+  },
+  {
+   "id": "outfit",
+   "en": "outfit",
+   "uz": "kiyim to‘plami (bir tekis libos)",
+   "pos": "noun",
+   "img": false,
+   "ex": "For the school's Independence Day concert, Laylo chose an outfit of green atlas silk with matching shoes and a small bag.",
+   "gap": "outfit",
+   "alt": [
+    "outfits"
+   ]
+  },
+  {
+   "id": "suit",
+   "en": "suit",
+   "uz": "kostyum-shim",
+   "pos": "noun",
+   "img": true,
+   "ex": "Timur bought a navy suit for his job interview, with the jacket and trousers made from the same wool.",
+   "gap": "suit",
+   "alt": [
+    "suits"
+   ]
+  },
+  {
+   "id": "invaluable",
+   "en": "invaluable",
+   "uz": "bebaho (juda ham foydali)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A good pair of walking boots proved invaluable on our three-day hike in the mountains of Zaamin.",
+   "gap": "invaluable",
+   "alt": []
+  },
+  {
+   "id": "accessories",
+   "en": "accessories",
+   "uz": "aksessuarlar (qo‘shimcha bezaklar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "She kept the dress simple and let her accessories, a silver necklace and a wide leather belt, do the talking.",
+   "gap": "accessories",
+   "alt": [
+    "accessory"
+   ]
+  },
+  {
+   "id": "cufflinks",
+   "en": "cufflinks",
+   "uz": "yeng (manjet) tugmalari",
+   "pos": "noun",
+   "img": true,
+   "ex": "For the ceremony, Dad wore a white shirt with gold cufflinks that had once belonged to his uncle.",
+   "gap": "cufflinks",
+   "alt": [
+    "cufflink"
+   ]
+  },
+  {
+   "id": "dress_down_day",
+   "en": "dress-down day",
+   "uz": "erkin kiyinish kuni",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the last day before the holidays, the school held a dress-down day, and pupils swapped their uniforms for jeans and hoodies.",
+   "gap": "dress-down day",
+   "alt": [
+    "dress-down days",
+    "dress down day"
+   ]
+  },
+  {
+   "id": "midriff",
+   "en": "midriff",
+   "uz": "qorin qismi (ko‘krak va bel orasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The goalkeeper took the ball hard in the midriff and lay winded on the grass for a whole minute.",
+   "gap": "midriff",
+   "alt": [
+    "midriffs"
+   ]
+  },
+  {
+   "id": "overalls",
+   "en": "overalls",
+   "uz": "kombinezon (ish kiyimi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The mechanics at the garage wear blue overalls to keep the oil off their clothes.",
+   "gap": "overalls",
+   "alt": []
+  },
+  {
+   "id": "skimpy",
+   "en": "skimpy",
+   "uz": "juda kalta va yupqa (kam matoli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "That skimpy little jacket won't keep you warm in a Tashkent January; take your proper coat!",
+   "gap": "skimpy",
+   "alt": []
+  },
+  {
+   "id": "baggy",
+   "en": "baggy",
+   "uz": "keng, shalvirab turadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My dad's old sweater is so baggy on me that the sleeves cover my hands completely.",
+   "gap": "baggy",
+   "alt": []
+  },
+  {
+   "id": "clingy",
+   "en": "clingy",
+   "uz": "badanga yopishib turadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cycling tops are made clingy on purpose, so that they don't flap about in the wind.",
+   "gap": "clingy",
+   "alt": []
+  },
+  {
+   "id": "chic",
+   "en": "chic",
+   "uz": "nafis va zamonaviy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In a simple black dress and a silk scarf, the designer looked effortlessly chic.",
+   "gap": "chic",
+   "alt": []
+  },
+  {
+   "id": "smart_casual",
+   "en": "smart-casual",
+   "uz": "yarim rasmiy (ozoda, erkin)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The invitation says smart-casual, so a shirt without a tie and clean trousers will be fine.",
+   "gap": "smart-casual",
+   "alt": [
+    "smart casual"
+   ]
+  },
+  {
+   "id": "dressed_up_to_the_nines",
+   "en": "dressed up to the nines",
+   "uz": "eng chiroyli kiyimlarda yasangan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the graduation ball everyone was dressed up to the nines, the boys in dinner jackets and the girls in long gowns.",
+   "gap": "dressed up to the nines",
+   "alt": [
+    "dolled up to the nines",
+    "done up to the nines",
+    "dressed to the nines"
+   ]
+  },
+  {
+   "id": "designer_label",
+   "en": "designer label",
+   "uz": "mashhur brend (dizayner yorlig‘i)",
+   "pos": "noun",
+   "img": false,
+   "ex": "He refuses to wear anything without a designer label, even his socks.",
+   "gap": "designer label",
+   "alt": [
+    "designer labels"
+   ]
+  },
+  {
+   "id": "made_to_measure",
+   "en": "made-to-measure",
+   "uz": "o‘lchab, buyurtma bilan tikilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Because he is two metres tall, Otabek has all his trousers made-to-measure by a tailor in Samarkand.",
+   "gap": "made-to-measure",
+   "alt": [
+    "made to measure"
+   ]
+  },
+  {
+   "id": "off_the_peg",
+   "en": "off the peg",
+   "uz": "tayyor (do‘kondan olingan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "This jacket wasn't made specially for me; I bought it off the peg at a department store, and it fitted perfectly.",
+   "gap": "off the peg",
+   "alt": [
+    "off the rack"
+   ]
+  },
+  {
+   "id": "all_the_rage",
+   "en": "all the rage",
+   "uz": "rosa urfda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Jackets embroidered with suzani patterns are all the rage among Tashkent students this autumn.",
+   "gap": "all the rage",
+   "alt": []
+  },
+  {
+   "id": "height_of_fashion",
+   "en": "height of fashion",
+   "uz": "modaning cho‘qqisi (eng urfdagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Back in my father's school days, a leather jacket from the Hippodrome market was the height of fashion; today his old one hangs forgotten in the wardrobe.",
+   "gap": "height of fashion",
+   "alt": [
+    "the height of fashion"
+   ]
+  },
+  {
+   "id": "up_to_the_minute",
+   "en": "up-to-the-minute",
+   "uz": "eng so‘nggi (yangidan-yangi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The app sends you up-to-the-minute reports on what the models wore on the catwalk only an hour ago.",
+   "gap": "up-to-the-minute",
+   "alt": [
+    "up to the minute"
+   ]
+  },
+  {
+   "id": "trend_setter",
+   "en": "trend-setter",
+   "uz": "modaga yo‘l ochuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "A real trend-setter, Kamila wore wide-legged trousers months before every girl in our class copied her.",
+   "gap": "trend-setter",
+   "alt": [
+    "trendsetter",
+    "trend-setters",
+    "trend setter"
+   ]
+  },
+  {
+   "id": "must_have",
+   "en": "must-have",
+   "uz": "hamma xohlaydigan (shart narsa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "For a few months, those white trainers with green soles were the must-have item at our school; even some teachers bought a pair.",
+   "gap": "must-have",
+   "alt": [
+    "must have"
+   ]
+  },
+  {
+   "id": "catch_on",
+   "en": "catch on",
+   "uz": "ommalashib ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Wearing a traditional chapan over jeans started with a few art students and quickly caught on across the city.",
+   "gap": "caught on",
+   "alt": [
+    "caught on",
+    "catches on",
+    "catching on"
+   ]
+  },
+  {
+   "id": "slave_to_fashion",
+   "en": "slave to fashion",
+   "uz": "modaning quli",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin is such a slave to fashion that she gives away her clothes the moment the magazines declare them out of style.",
+   "gap": "slave to fashion",
+   "alt": []
+  },
+  {
+   "id": "off_the_cuff",
+   "en": "off the cuff",
+   "uz": "tayyorgarliksiz (o‘sha zahoti)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The minister had lost his notes, so he spoke off the cuff for twenty minutes, and the audience loved it.",
+   "gap": "off the cuff",
+   "alt": [
+    "off-the-cuff"
+   ]
+  },
+  {
+   "id": "hand_in_glove",
+   "en": "hand in glove",
+   "uz": "juda yaqin hamkorlikda (til biriktirib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The music teacher is hand in glove with the art teacher: every song she picks for the concert gets a backdrop he paints to match.",
+   "gap": "hand in glove",
+   "alt": []
+  },
+  {
+   "id": "on_a_shoestring",
+   "en": "on a shoestring",
+   "uz": "juda oz pul sarflab",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We toured the Fergana Valley on a shoestring, sleeping in cheap guesthouses and eating at roadside stalls.",
+   "gap": "on a shoestring",
+   "alt": []
+  },
+  {
+   "id": "no_frills",
+   "en": "no-frills",
+   "uz": "ortiqcha qulayliklarsiz, oddiy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new canteen is strictly no-frills: plastic trays, metal benches and three dishes a day, but the food is tasty and cheap.",
+   "gap": "no-frills",
+   "alt": [
+    "no frills"
+   ]
+  },
+  {
+   "id": "draw_a_veil_over",
+   "en": "draw a veil over",
+   "uz": "(noxush narsa haqida) gapirmay qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After the 7–0 defeat, the coach said it was best to draw a veil over the whole match and focus on the next one.",
+   "gap": "draw a veil over",
+   "alt": [
+    "drew a veil over",
+    "draws a veil over",
+    "drawn a veil over",
+    "drawing a veil over"
+   ]
+  },
+  {
+   "id": "up_your_sleeve",
+   "en": "up your sleeve",
+   "uz": "yengida yashirib (pinhona reja sifatida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Two pawns down, the chess coach still smiled calmly; clearly she had a surprise up her sleeve.",
+   "gap": "up her sleeve",
+   "alt": [
+    "up her sleeve",
+    "up his sleeve",
+    "up my sleeve",
+    "up their sleeve"
+   ]
+  },
+  {
+   "id": "scruff",
+   "en": "scruff",
+   "uz": "ust-boshi pala-partish odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother is a bit of a scruff at weekends, but on Monday he puts on a pressed shirt for the office.",
+   "gap": "scruff",
+   "alt": []
+  },
+  {
+   "id": "cleavage",
+   "en": "cleavage",
+   "uz": "ko‘krak oralig‘i (ochiq yoqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The dress code for the reception asks guests to avoid necklines that show too much cleavage.",
+   "gap": "cleavage",
+   "alt": []
+  },
+  {
+   "id": "see_through",
+   "en": "see-through",
+   "uz": "ichi ko‘rinadigan (shaffof)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The curtains in the hotel room were almost see-through, so the morning sun woke us at five.",
+   "gap": "see-through",
+   "alt": [
+    "see through"
+   ]
+  },
+  {
+   "id": "fabric",
+   "en": "fabric",
+   "uz": "mato (gazlama)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Shops in Margilan sell bright silk fabrics woven by hand in local workshops.",
+   "gap": "fabrics",
+   "alt": [
+    "fabrics"
+   ]
+  },
+  {
+   "id": "safety_helmet",
+   "en": "safety helmet",
+   "uz": "himoya kaskasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "Visitors to the building site must wear a safety helmet at all times.",
+   "gap": "safety helmet",
+   "alt": [
+    "safety helmets"
+   ]
+  },
+  {
+   "id": "reveal",
+   "en": "reveal",
+   "uz": "ochib ko‘rsatmoq (badanni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Her sleeveless dress revealed a small tattoo of a swallow on her shoulder.",
+   "gap": "revealed",
+   "alt": [
+    "revealed",
+    "reveals"
+   ]
+  },
+  {
+   "id": "high_street",
+   "en": "high street",
+   "uz": "oddiy (arzon) do‘konlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "You don't need to spend a fortune: this jacket came from the high street and cost less than a pizza.",
+   "gap": "high street",
+   "alt": [
+    "High Street"
+   ]
+  },
+  {
+   "id": "latest_fashion",
+   "en": "latest fashion",
+   "uz": "eng so‘nggi moda",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even on holiday, Gulnoza is always dressed in the latest fashion, straight from the Milan catwalks.",
+   "gap": "latest fashion",
+   "alt": [
+    "the latest fashion",
+    "the very latest fashion"
+   ]
+  },
+  {
+   "id": "set_a_trend",
+   "en": "set a trend",
+   "uz": "yangi modaga asos solmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the singer wore a hand-painted chapan in her video, she set a trend that spread to schools all over the country.",
+   "gap": "set a trend",
+   "alt": [
+    "set a new trend",
+    "sets a trend",
+    "setting a trend"
+   ]
+  },
+  {
+   "id": "on_trend",
+   "en": "on trend",
+   "uz": "urfda (moda talabiga mos)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Long denim skirts are very on trend this year, so the shops can't keep them in stock.",
+   "gap": "on trend",
+   "alt": [
+    "on-trend"
+   ]
+  },
+  {
+   "id": "suit_look_good",
+   "en": "suit",
+   "uz": "(kiyim) yarashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "That shade of green really suits you; you should wear it more often.",
+   "gap": "suits",
+   "alt": [
+    "suits",
+    "suited"
+   ]
+  },
+  {
+   "id": "straitjacket",
+   "en": "straitjacket",
+   "uz": "erkinlikni bo‘g‘uvchi qolip (majoziy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many teachers feel the new exam rules have put them in a straitjacket, leaving no room for creative lessons.",
+   "gap": "straitjacket",
+   "alt": [
+    "strait-jacket",
+    "straitjackets"
+   ]
+  },
+  {
+   "id": "valueless",
+   "en": "valueless",
+   "uz": "qadrsiz (hech qanday qiymatsiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old coins in the jar turned out to be valueless, so we gave them to my little brother to play with.",
+   "gap": "valueless",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "scruffy",
+   "frumpy"
+  ],
+  [
+   "revealing",
+   "skimpy"
+  ],
+  [
+   "revealing",
+   "clingy"
+  ],
+  [
+   "skimpy",
+   "clingy"
+  ],
+  [
+   "skimpy",
+   "baggy"
+  ],
+  [
+   "chic",
+   "dressed_up_to_the_nines"
+  ],
+  [
+   "chic",
+   "smart_casual"
+  ],
+  [
+   "outfit",
+   "attire"
+  ],
+  [
+   "outfit",
+   "suit"
+  ],
+  [
+   "made_to_measure",
+   "off_the_peg"
+  ],
+  [
+   "trend_setter",
+   "slave_to_fashion"
+  ],
+  [
+   "all_the_rage",
+   "must_have"
+  ],
+  [
+   "all_the_rage",
+   "height_of_fashion"
+  ],
+  [
+   "height_of_fashion",
+   "must_have"
+  ],
+  [
+   "all_the_rage",
+   "up_to_the_minute"
+  ],
+  [
+   "dress_code",
+   "dress_down_day"
+  ],
+  [
+   "attire",
+   "suit"
+  ],
+  [
+   "cufflinks",
+   "accessories"
+  ],
+  [
+   "overalls",
+   "suit"
+  ],
+  [
+   "skimpy",
+   "chic"
+  ],
+  [
+   "skimpy",
+   "scruffy"
+  ],
+  [
+   "scruff",
+   "scruffy"
+  ],
+  [
+   "cleavage",
+   "midriff"
+  ],
+  [
+   "see_through",
+   "skimpy"
+  ],
+  [
+   "see_through",
+   "revealing"
+  ],
+  [
+   "see_through",
+   "clingy"
+  ],
+  [
+   "safety_helmet",
+   "overalls"
+  ],
+  [
+   "safety_helmet",
+   "suit"
+  ],
+  [
+   "reveal",
+   "revealing"
+  ],
+  [
+   "high_street",
+   "designer_label"
+  ],
+  [
+   "high_street",
+   "off_the_peg"
+  ],
+  [
+   "latest_fashion",
+   "height_of_fashion"
+  ],
+  [
+   "latest_fashion",
+   "all_the_rage"
+  ],
+  [
+   "set_a_trend",
+   "trend_setter"
+  ],
+  [
+   "set_a_trend",
+   "catch_on"
+  ],
+  [
+   "on_trend",
+   "chic"
+  ],
+  [
+   "on_trend",
+   "up_to_the_minute"
+  ],
+  [
+   "on_trend",
+   "all_the_rage"
+  ],
+  [
+   "on_trend",
+   "must_have"
+  ],
+  [
+   "suit_look_good",
+   "suit"
+  ],
+  [
+   "valueless",
+   "invaluable"
+  ],
+  [
+   "fabric",
+   "accessories"
+  ]
+ ]
+}

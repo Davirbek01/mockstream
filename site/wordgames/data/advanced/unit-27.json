@@ -1,0 +1,564 @@
+{
+ "book": "advanced",
+ "unit": 27,
+ "title": "Attracting tourists",
+ "title_uz": "Sayyohlarni jalb qilish",
+ "words": [
+  {
+   "id": "escape_the_crowds",
+   "en": "escape the crowds",
+   "uz": "gavjum joylardan qochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "To escape the crowds at the Taj Mahal, we arrived at sunrise, before the tour coaches.",
+   "gap": "escape the crowds",
+   "alt": [
+    "escaping the crowds",
+    "escaped the crowds",
+    "escapes the crowds"
+   ]
+  },
+  {
+   "id": "off_the_beaten_track",
+   "en": "off the beaten track",
+   "uz": "sayyohlar kam boradigan joyda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bored of the famous sights, they hired a local guide and went off the beaten track to villages that tourists never see.",
+   "gap": "off the beaten track",
+   "alt": [
+    "get off the beaten track",
+    "got off the beaten track"
+   ]
+  },
+  {
+   "id": "get_back_to_nature",
+   "en": "get back to nature",
+   "uz": "tabiat bag‘riga qaytmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every summer the scouts leave their phones at home and get back to nature, cooking on a fire and sleeping under the stars.",
+   "gap": "get back to nature",
+   "alt": [
+    "getting back to nature",
+    "got back to nature",
+    "gets back to nature"
+   ]
+  },
+  {
+   "id": "tourist_sector",
+   "en": "tourist sector",
+   "uz": "turizm sohasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of new jobs in hotels, restaurants and transport have been created in the country's tourist sector over the past five years.",
+   "gap": "tourist sector",
+   "alt": []
+  },
+  {
+   "id": "discerning",
+   "en": "discerning",
+   "uz": "didli, sifatni farqlay oladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The small hotel attracts discerning guests who care more about good design and quiet than about a big swimming pool.",
+   "gap": "discerning",
+   "alt": []
+  },
+  {
+   "id": "boast",
+   "en": "boast",
+   "uz": "(faxrlanarli narsaga) ega bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our little town boasts three museums, a medieval fortress and a lake with crystal-clear water.",
+   "gap": "boasts",
+   "alt": [
+    "boasts",
+    "boasted",
+    "boasting"
+   ]
+  },
+  {
+   "id": "hordes",
+   "en": "hordes",
+   "uz": "to‘da-to‘da olomon",
+   "pos": "noun",
+   "img": false,
+   "ex": "In August, hordes of tourists fill the narrow streets of Venice, and locals can hardly get to work.",
+   "gap": "hordes",
+   "alt": [
+    "horde"
+   ]
+  },
+  {
+   "id": "a_wealth_of",
+   "en": "a wealth of",
+   "uz": "juda ko‘p, boy (xilma-xil)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The museum's website offers a wealth of information about the old caravan routes, with maps and photos.",
+   "gap": "a wealth of",
+   "alt": [
+    "wealth of"
+   ]
+  },
+  {
+   "id": "flora_and_fauna",
+   "en": "flora and fauna",
+   "uz": "o‘simlik va hayvonot dunyosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Biology students spent a week in the mountains recording the local flora and fauna, from wild tulips to mountain goats.",
+   "gap": "flora and fauna",
+   "alt": []
+  },
+  {
+   "id": "national_park",
+   "en": "national park",
+   "uz": "milliy bog‘",
+   "pos": "noun",
+   "img": false,
+   "ex": "Visitors to the national park can follow marked trails, stay at the campsite and visit the information centre at the gate.",
+   "gap": "national park",
+   "alt": [
+    "national parks"
+   ]
+  },
+  {
+   "id": "nature_reserve",
+   "en": "nature reserve",
+   "uz": "qo‘riqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "The marsh was declared a nature reserve to protect the rare birds that nest there every spring.",
+   "gap": "nature reserve",
+   "alt": [
+    "nature reserves"
+   ]
+  },
+  {
+   "id": "tracts",
+   "en": "tracts",
+   "uz": "ulkan yer maydonlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "Vast tracts of farmland along the river were flooded when the dam burst.",
+   "gap": "tracts",
+   "alt": [
+    "tract"
+   ]
+  },
+  {
+   "id": "virgin",
+   "en": "virgin",
+   "uz": "inson qo‘li tegmagan (tabiat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Loggers have never reached this remote valley, so its slopes are still covered in virgin forest.",
+   "gap": "virgin",
+   "alt": []
+  },
+  {
+   "id": "out_of_the_ordinary",
+   "en": "out of the ordinary",
+   "uz": "g‘ayrioddiy, odatdan tashqari",
+   "pos": "phrase",
+   "img": false,
+   "ex": "For something a little out of the ordinary, why not spend a night in an old lighthouse on the coast?",
+   "gap": "out of the ordinary",
+   "alt": []
+  },
+  {
+   "id": "unwind",
+   "en": "unwind",
+   "uz": "bo‘shashib dam olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After a stressful exam week, Farida likes to unwind with a long walk and a good book.",
+   "gap": "unwind",
+   "alt": [
+    "unwinding",
+    "unwound",
+    "unwinds"
+   ]
+  },
+  {
+   "id": "recharge",
+   "en": "recharge",
+   "uz": "kuch-quvvat yig‘moq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A long weekend at my cousin's farm, with no screens and plenty of sleep, helped me recharge my batteries before the new term.",
+   "gap": "recharge",
+   "alt": [
+    "recharged",
+    "recharging",
+    "recharges"
+   ]
+  },
+  {
+   "id": "bush",
+   "en": "bush",
+   "uz": "(Afrika, Avstraliya) yovvoyi butazor",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our guide drove us deep into the African bush at dawn, and within an hour we had spotted lions resting under the thorn trees.",
+   "gap": "bush",
+   "alt": []
+  },
+  {
+   "id": "four_by_four",
+   "en": "four-by-four",
+   "uz": "to‘liq yuritmali avtomobil (4x4)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The track to the desert camp is so sandy that only a four-by-four can get through.",
+   "gap": "four-by-four",
+   "alt": [
+    "4x4",
+    "four by four",
+    "four-by-fours"
+   ]
+  },
+  {
+   "id": "waterfront",
+   "en": "waterfront",
+   "uz": "suv bo‘yidagi (sohildagi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our waterfront café had tables right next to the river, so we could watch the boats go by.",
+   "gap": "waterfront",
+   "alt": []
+  },
+  {
+   "id": "stunning",
+   "en": "stunning",
+   "uz": "ko‘zni qamashtiradigan, juda go‘zal",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the top of the tower there is a stunning view of the old city, its blue domes shining in the sun.",
+   "gap": "stunning",
+   "alt": []
+  },
+  {
+   "id": "unbeatable",
+   "en": "unbeatable",
+   "uz": "undan arzoni yo‘q (narx)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shop's prices are unbeatable: nowhere else in town sells the same phones for less.",
+   "gap": "unbeatable",
+   "alt": []
+  },
+  {
+   "id": "awe_inspiring",
+   "en": "awe-inspiring",
+   "uz": "hayratga soladigan, ulug‘vor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Standing at the foot of the huge rock wall was an awe-inspiring experience that made us all feel very small.",
+   "gap": "awe-inspiring",
+   "alt": [
+    "awe inspiring"
+   ]
+  },
+  {
+   "id": "ramble",
+   "en": "ramble",
+   "uz": "yengil sayr (piyoda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "It's only a gentle two-hour ramble along the river, so even the younger children can join us.",
+   "gap": "ramble",
+   "alt": [
+    "rambles"
+   ]
+  },
+  {
+   "id": "hike",
+   "en": "hike",
+   "uz": "piyoda tog‘ yurishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hike up to the waterfall takes about four hours and includes some steep, rocky paths.",
+   "gap": "hike",
+   "alt": [
+    "hikes"
+   ]
+  },
+  {
+   "id": "trek",
+   "en": "trek",
+   "uz": "ko‘p kunlik og‘ir piyoda safar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our six-day trek across the mountains meant carrying heavy rucksacks and sleeping in a different village each night.",
+   "gap": "trek",
+   "alt": [
+    "treks"
+   ]
+  },
+  {
+   "id": "unrivalled",
+   "en": "unrivalled",
+   "uz": "tengi yo‘q, raqibsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The museum's collection of Islamic manuscripts is unrivalled in the region; scholars come from all over the world to study it.",
+   "gap": "unrivalled",
+   "alt": [
+    "unrivaled"
+   ]
+  },
+  {
+   "id": "scenic",
+   "en": "scenic",
+   "uz": "manzarali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Take the scenic route through the hills instead of the motorway; it's slower, but the views are wonderful.",
+   "gap": "scenic",
+   "alt": []
+  },
+  {
+   "id": "tropical_paradise",
+   "en": "tropical paradise",
+   "uz": "tropik jannat",
+   "pos": "noun",
+   "img": false,
+   "ex": "With white sand, palm trees and warm turquoise water, the island looked like a tropical paradise.",
+   "gap": "tropical paradise",
+   "alt": []
+  },
+  {
+   "id": "ecotourism",
+   "en": "ecotourism",
+   "uz": "tabiatni asrovchi sayohatchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to ecotourism, the villagers now earn money by hosting visitors instead of cutting down the forest.",
+   "gap": "ecotourism",
+   "alt": []
+  },
+  {
+   "id": "savour",
+   "en": "savour",
+   "uz": "zavqlanib totmoq (rohatlanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sit by the window and savour a bowl of fresh cherries while the sun sets over the hills.",
+   "gap": "savour",
+   "alt": [
+    "savor",
+    "savoured",
+    "savouring",
+    "savours"
+   ]
+  },
+  {
+   "id": "heartland",
+   "en": "heartland",
+   "uz": "mamlakatning ichki markaziy hududi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Leaving the busy beaches behind, we drove for two days into the country's heartland, a quiet region of wheat fields and small market towns.",
+   "gap": "heartland",
+   "alt": [
+    "heartlands"
+   ]
+  },
+  {
+   "id": "seek",
+   "en": "seek",
+   "uz": "izlamoq, qidirmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Travellers who seek peace and quiet often head for the small mountain villages above Zaamin.",
+   "gap": "seek",
+   "alt": [
+    "seeking",
+    "seeks",
+    "sought"
+   ]
+  },
+  {
+   "id": "terrain",
+   "en": "terrain",
+   "uz": "joy relyefi (yer yuzasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The trek is only for experienced walkers, because the terrain is rocky and very steep.",
+   "gap": "terrain",
+   "alt": []
+  },
+  {
+   "id": "renowned",
+   "en": "renowned",
+   "uz": "mashhur, dovrug‘i ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The valley is renowned for its apricot orchards, which turn pink and white every spring.",
+   "gap": "renowned",
+   "alt": []
+  },
+  {
+   "id": "villa",
+   "en": "villa",
+   "uz": "hovlili dam olish uyi (hovuzli)",
+   "pos": "noun",
+   "img": true,
+   "ex": "We rented a small villa with its own pool, just ten minutes' walk from the beach.",
+   "gap": "villa",
+   "alt": [
+    "villas"
+   ]
+  },
+  {
+   "id": "sleep_accommodate",
+   "en": "sleep",
+   "uz": "(uy) … kishini sig‘dirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cottage sleeps up to eight people, so it is ideal for two families travelling together.",
+   "gap": "sleeps",
+   "alt": [
+    "sleeps"
+   ]
+  },
+  {
+   "id": "air_conditioned",
+   "en": "air-conditioned",
+   "uz": "konditsionerli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On the long drive across the desert we were grateful for our air-conditioned minibus.",
+   "gap": "air-conditioned",
+   "alt": [
+    "air conditioned"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "escape_the_crowds",
+   "off_the_beaten_track"
+  ],
+  [
+   "escape_the_crowds",
+   "get_back_to_nature"
+  ],
+  [
+   "off_the_beaten_track",
+   "get_back_to_nature"
+  ],
+  [
+   "hordes",
+   "a_wealth_of"
+  ],
+  [
+   "national_park",
+   "nature_reserve"
+  ],
+  [
+   "virgin",
+   "out_of_the_ordinary"
+  ],
+  [
+   "unwind",
+   "recharge"
+  ],
+  [
+   "stunning",
+   "awe_inspiring"
+  ],
+  [
+   "stunning",
+   "scenic"
+  ],
+  [
+   "awe_inspiring",
+   "scenic"
+  ],
+  [
+   "unbeatable",
+   "unrivalled"
+  ],
+  [
+   "ramble",
+   "hike"
+  ],
+  [
+   "hike",
+   "trek"
+  ],
+  [
+   "ramble",
+   "trek"
+  ],
+  [
+   "bush",
+   "heartland"
+  ],
+  [
+   "bush",
+   "national_park"
+  ],
+  [
+   "bush",
+   "nature_reserve"
+  ],
+  [
+   "tracts",
+   "heartland"
+  ],
+  [
+   "tropical_paradise",
+   "ecotourism"
+  ],
+  [
+   "discerning",
+   "unrivalled"
+  ],
+  [
+   "waterfront",
+   "scenic"
+  ],
+  [
+   "seek",
+   "savour"
+  ],
+  [
+   "terrain",
+   "tracts"
+  ],
+  [
+   "renowned",
+   "unrivalled"
+  ],
+  [
+   "villa",
+   "chalet"
+  ],
+  [
+   "get_back_to_nature",
+   "get_away_from_it_all"
+  ],
+  [
+   "escape_the_crowds",
+   "get_away_from_it_all"
+  ],
+  [
+   "unwind",
+   "get_away_from_it_all"
+  ],
+  [
+   "recharge",
+   "get_away_from_it_all"
+  ],
+  [
+   "out_of_the_ordinary",
+   "exotic"
+  ]
+ ]
+}

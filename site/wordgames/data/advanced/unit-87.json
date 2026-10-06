@@ -1,0 +1,677 @@
+{
+ "book": "advanced",
+ "unit": 87,
+ "title": "Suffixes: forming new words",
+ "title_uz": "Qo‘shimchalar: yangi so‘z yasash",
+ "words": [
+  {
+   "id": "washable",
+   "en": "washable",
+   "uz": "yuvsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "We chose a washable sofa cover: when the children spill juice on it, we just put it in the machine at forty degrees.",
+   "gap": "washable",
+   "alt": []
+  },
+  {
+   "id": "disposable",
+   "en": "disposable",
+   "uz": "bir martalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our canteen has stopped using disposable cups and now gives every pupil a metal one.",
+   "gap": "disposable",
+   "alt": []
+  },
+  {
+   "id": "predictable",
+   "en": "predictable",
+   "uz": "oldindan bilsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The film was so predictable that I guessed the ending in the first ten minutes.",
+   "gap": "predictable",
+   "alt": []
+  },
+  {
+   "id": "avoidable",
+   "en": "avoidable",
+   "uz": "oldini olsa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Most kitchen fires are avoidable: just never leave a hot pan unattended.",
+   "gap": "avoidable",
+   "alt": []
+  },
+  {
+   "id": "manageable",
+   "en": "manageable",
+   "uz": "eplasa bo‘ladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Breaking the project into small weekly steps made the workload much more manageable.",
+   "gap": "manageable",
+   "alt": []
+  },
+  {
+   "id": "health_conscious",
+   "en": "health-conscious",
+   "uz": "sog‘lig‘iga jiddiy e’tiborli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My health-conscious neighbour checks the sugar and fat on every food label before she buys anything.",
+   "gap": "health-conscious",
+   "alt": [
+    "health conscious"
+   ]
+  },
+  {
+   "id": "safety_conscious",
+   "en": "safety-conscious",
+   "uz": "xavfsizlikka jiddiy e’tiborli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The safety-conscious factory manager makes every worker wear goggles and gloves near the machines.",
+   "gap": "safety-conscious",
+   "alt": [
+    "safety conscious"
+   ]
+  },
+  {
+   "id": "stress_free",
+   "en": "stress-free",
+   "uz": "tashvishsiz, xotirjam",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Booking the train tickets a month early made our family holiday completely stress-free.",
+   "gap": "stress-free",
+   "alt": [
+    "stress free"
+   ]
+  },
+  {
+   "id": "tax_free",
+   "en": "tax-free",
+   "uz": "soliqsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Passengers can buy perfume and chocolate tax-free in the airport departure lounge.",
+   "gap": "tax-free",
+   "alt": [
+    "tax free"
+   ]
+  },
+  {
+   "id": "additive_free",
+   "en": "additive-free",
+   "uz": "sun’iy qo‘shimchalarsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This yoghurt is completely additive-free: just milk and live cultures, with no colourings or preservatives.",
+   "gap": "additive-free",
+   "alt": [
+    "additive free"
+   ]
+  },
+  {
+   "id": "fibre_rich",
+   "en": "fibre-rich",
+   "uz": "kletchatkaga boy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The doctor advised a fibre-rich diet with plenty of beans, oats and vegetables.",
+   "gap": "fibre-rich",
+   "alt": [
+    "fiber-rich",
+    "fibre rich"
+   ]
+  },
+  {
+   "id": "community_led",
+   "en": "community-led",
+   "uz": "mahalla aholisi boshqargan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new playground is a community-led project: local residents raised the money and built it themselves.",
+   "gap": "community-led",
+   "alt": [
+    "community led"
+   ]
+  },
+  {
+   "id": "student_led",
+   "en": "student-led",
+   "uz": "o‘quvchilar o‘zi olib boradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Every Friday our school holds a student-led assembly, planned and presented entirely by pupils.",
+   "gap": "student-led",
+   "alt": [
+    "student led"
+   ]
+  },
+  {
+   "id": "like_minded",
+   "en": "like-minded",
+   "uz": "hamfikr",
+   "pos": "adjective",
+   "img": false,
+   "ex": "At the chess club she finally met like-minded people who loved the game as much as she did.",
+   "gap": "like-minded",
+   "alt": [
+    "like minded"
+   ]
+  },
+  {
+   "id": "career_minded",
+   "en": "career-minded",
+   "uz": "kasbda yuksalishga intiluvchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Many career-minded graduates take evening courses to get promoted faster at work.",
+   "gap": "career-minded",
+   "alt": [
+    "career minded"
+   ]
+  },
+  {
+   "id": "ovenproof",
+   "en": "ovenproof",
+   "uz": "duxovka issig‘iga chidamli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Pour the mixture into an ovenproof bowl and bake it for forty minutes.",
+   "gap": "ovenproof",
+   "alt": []
+  },
+  {
+   "id": "soundproof",
+   "en": "soundproof",
+   "uz": "ovoz o‘tkazmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The music school has soundproof practice rooms, so you can't hear the drums in the corridor.",
+   "gap": "soundproof",
+   "alt": []
+  },
+  {
+   "id": "waterproof",
+   "en": "waterproof",
+   "uz": "suv o‘tkazmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Take a waterproof jacket; it often rains in the mountains in the afternoon.",
+   "gap": "waterproof",
+   "alt": []
+  },
+  {
+   "id": "stress_related",
+   "en": "stress-related",
+   "uz": "asabiy zo‘riqishdan kelib chiqqan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Headaches and poor sleep during exam season are often stress-related.",
+   "gap": "stress-related",
+   "alt": [
+    "stress related"
+   ]
+  },
+  {
+   "id": "age_related",
+   "en": "age-related",
+   "uz": "yoshga bog‘liq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Poor eyesight in people over seventy is usually age-related.",
+   "gap": "age-related",
+   "alt": [
+    "age related"
+   ]
+  },
+  {
+   "id": "guilt_ridden",
+   "en": "guilt-ridden",
+   "uz": "aybdorlik hissi qiynagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After forgetting his best friend's birthday, Behzod felt guilt-ridden for days.",
+   "gap": "guilt-ridden",
+   "alt": [
+    "guilt ridden"
+   ]
+  },
+  {
+   "id": "bedridden",
+   "en": "bedridden",
+   "uz": "yotib qolgan (kasallikdan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After she broke her hip, our elderly neighbour was bedridden for two months.",
+   "gap": "bedridden",
+   "alt": []
+  },
+  {
+   "id": "newsworthy",
+   "en": "newsworthy",
+   "uz": "xabar qilishga arziydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Nothing newsworthy happened in the village this week, so the local paper printed recipes instead.",
+   "gap": "newsworthy",
+   "alt": []
+  },
+  {
+   "id": "lively",
+   "en": "lively",
+   "uz": "serg‘ayrat, jo‘shqin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our lively puppy never stops running round the yard and chasing its own tail.",
+   "gap": "lively",
+   "alt": []
+  },
+  {
+   "id": "leisurely",
+   "en": "leisurely",
+   "uz": "shoshilmasdan, sokin",
+   "pos": "adjective",
+   "img": false,
+   "ex": "On Sunday mornings we take a leisurely stroll along the canal before breakfast.",
+   "gap": "leisurely",
+   "alt": []
+  },
+  {
+   "id": "miserly",
+   "en": "miserly",
+   "uz": "xasis",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The miserly shopkeeper refused to give the children even one free sweet.",
+   "gap": "miserly",
+   "alt": []
+  },
+  {
+   "id": "costly",
+   "en": "costly",
+   "uz": "qimmatga tushadigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ignoring a small leak in the roof turned out to be a costly mistake.",
+   "gap": "costly",
+   "alt": []
+  },
+  {
+   "id": "applicant",
+   "en": "applicant",
+   "uz": "ariza topshiruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each applicant for the job must send a CV and two letters of reference.",
+   "gap": "applicant",
+   "alt": [
+    "applicants"
+   ]
+  },
+  {
+   "id": "contestant",
+   "en": "contestant",
+   "uz": "tanlov ishtirokchisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The youngest contestant on the TV talent show sang a folk song and won first prize.",
+   "gap": "contestant",
+   "alt": [
+    "contestants"
+   ]
+  },
+  {
+   "id": "claimant",
+   "en": "claimant",
+   "uz": "tovon talab qiluvchi shaxs",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the flood, hundreds of insurance claimants were still waiting for compensation for their damaged homes.",
+   "gap": "claimants",
+   "alt": [
+    "claimants"
+   ]
+  },
+  {
+   "id": "occupant",
+   "en": "occupant",
+   "uz": "xonadonda yashovchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The previous occupant of the flat left a beautiful old piano behind.",
+   "gap": "occupant",
+   "alt": [
+    "occupants"
+   ]
+  },
+  {
+   "id": "moisten",
+   "en": "moisten",
+   "uz": "namlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before sealing the envelope, she moistened the edge with a wet sponge.",
+   "gap": "moistened",
+   "alt": [
+    "moistens",
+    "moistened",
+    "moistening"
+   ]
+  },
+  {
+   "id": "sweeten",
+   "en": "sweeten",
+   "uz": "shirin qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of sugar, the café sweetens its homemade lemonade with fresh grape juice.",
+   "gap": "sweetens",
+   "alt": [
+    "sweetens",
+    "sweetened",
+    "sweetening"
+   ]
+  },
+  {
+   "id": "worsen",
+   "en": "worsen",
+   "uz": "yomonlashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If you don't rest your injured knee, the pain will only worsen.",
+   "gap": "worsen",
+   "alt": [
+    "worsens",
+    "worsened",
+    "worsening"
+   ]
+  },
+  {
+   "id": "redden",
+   "en": "redden",
+   "uz": "qizarmoq (yuz)",
+   "pos": "verb",
+   "img": false,
+   "ex": "His face reddened with embarrassment when the teacher read his poem aloud.",
+   "gap": "reddened",
+   "alt": [
+    "reddens",
+    "reddened",
+    "reddening"
+   ]
+  },
+  {
+   "id": "productive",
+   "en": "productive",
+   "uz": "yangi so‘z yasashda hamon faol",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since '-able' is still a productive suffix, English speakers keep using it to make brand-new adjectives.",
+   "gap": "productive",
+   "alt": []
+  },
+  {
+   "id": "class_conscious",
+   "en": "class-conscious",
+   "uz": "tabaqaviy farqqa o‘ta e’tiborli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Victorian England was a deeply class-conscious society, where people judged each other by their accent and family background.",
+   "gap": "class-conscious",
+   "alt": [
+    "class conscious"
+   ]
+  },
+  {
+   "id": "time_conscious",
+   "en": "time-conscious",
+   "uz": "vaqtga qattiq e’tiborli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our time-conscious manager starts every meeting at exactly nine and ends it the moment the hour is up.",
+   "gap": "time-conscious",
+   "alt": [
+    "time conscious"
+   ]
+  },
+  {
+   "id": "age_conscious",
+   "en": "age-conscious",
+   "uz": "yoshiga ortiqcha e’tiborli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Since turning forty, Feruza has become very age-conscious and never tells anyone how old she is.",
+   "gap": "age-conscious",
+   "alt": [
+    "age conscious"
+   ]
+  },
+  {
+   "id": "calcium_rich",
+   "en": "calcium-rich",
+   "uz": "kalsiyga boy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Milk, cheese and yoghurt are calcium-rich foods that help to build strong bones.",
+   "gap": "calcium-rich",
+   "alt": [
+    "calcium rich"
+   ]
+  },
+  {
+   "id": "worker_led",
+   "en": "worker-led",
+   "uz": "ishchilar o‘zi boshqargan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The strike began as a worker-led protest, organised by the factory staff themselves without any union leaders.",
+   "gap": "worker-led",
+   "alt": [
+    "worker led"
+   ]
+  },
+  {
+   "id": "university_led",
+   "en": "university-led",
+   "uz": "universitet boshchiligidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The university-led research project brought together professors from three different faculties.",
+   "gap": "university-led",
+   "alt": [
+    "university led"
+   ]
+  },
+  {
+   "id": "money_minded",
+   "en": "money-minded",
+   "uz": "faqat pulni o‘ylaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new owners are so money-minded that they now charge customers for tap water and extra napkins.",
+   "gap": "money-minded",
+   "alt": [
+    "money minded"
+   ]
+  },
+  {
+   "id": "high_minded",
+   "en": "high-minded",
+   "uz": "yuksak axloqli, oliyjanob",
+   "pos": "adjective",
+   "img": false,
+   "ex": "As a high-minded judge, she refused every gift, even a box of sweets, in case it looked like a bribe.",
+   "gap": "high-minded",
+   "alt": [
+    "high minded"
+   ]
+  },
+  {
+   "id": "idiot_proof",
+   "en": "idiot-proof",
+   "uz": "har kim xatosiz ishlata oladigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new ticket machine is completely idiot-proof: one big green button and clear pictures, so nobody can get it wrong.",
+   "gap": "idiot-proof",
+   "alt": [
+    "idiot proof"
+   ]
+  },
+  {
+   "id": "crime_related",
+   "en": "crime-related",
+   "uz": "jinoyatga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The library has a whole shelf of crime-related books, from detective novels to studies of famous trials.",
+   "gap": "crime-related",
+   "alt": [
+    "crime related"
+   ]
+  },
+  {
+   "id": "crime_ridden",
+   "en": "crime-ridden",
+   "uz": "jinoyatchilik avj olgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Twenty years ago the district was crime-ridden, but new street lights and a police station have made it safe.",
+   "gap": "crime-ridden",
+   "alt": [
+    "crime ridden"
+   ]
+  },
+  {
+   "id": "informant",
+   "en": "informant",
+   "uz": "politsiyaga axborot yetkazuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Acting on a tip-off from a police informant, officers found the stolen paintings in a garage.",
+   "gap": "informant",
+   "alt": [
+    "informants"
+   ]
+  },
+  {
+   "id": "woollen",
+   "en": "woollen",
+   "uz": "jundan to‘qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In winter my sister wears a scratchy woollen scarf that keeps her neck warm.",
+   "gap": "woollen",
+   "alt": [
+    "woolen"
+   ]
+  },
+  {
+   "id": "golden",
+   "en": "golden",
+   "uz": "tillarang, oltin tusli",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In late June the wheat fields turn golden and are ready to harvest.",
+   "gap": "golden",
+   "alt": []
+  },
+  {
+   "id": "distant_far",
+   "en": "distant",
+   "uz": "olisdagi, uzoqdagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the roof we could just make out the distant mountains, almost lost in the haze sixty kilometres away.",
+   "gap": "distant",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "community_led",
+   "student_led"
+  ],
+  [
+   "stress_related",
+   "age_related"
+  ],
+  [
+   "predictable",
+   "avoidable"
+  ],
+  [
+   "predictable",
+   "manageable"
+  ],
+  [
+   "avoidable",
+   "manageable"
+  ],
+  [
+   "stress_free",
+   "tax_free"
+  ],
+  [
+   "health_conscious",
+   "safety_conscious"
+  ],
+  [
+   "like_minded",
+   "career_minded"
+  ],
+  [
+   "applicant",
+   "claimant"
+  ],
+  [
+   "ovenproof",
+   "soundproof"
+  ],
+  [
+   "soundproof",
+   "waterproof"
+  ],
+  [
+   "applicant",
+   "contestant"
+  ],
+  [
+   "costly",
+   "predictable"
+  ],
+  [
+   "lively",
+   "leisurely"
+  ],
+  [
+   "fibre_rich",
+   "calcium_rich"
+  ],
+  [
+   "career_minded",
+   "money_minded"
+  ],
+  [
+   "money_minded",
+   "miserly"
+  ],
+  [
+   "distant_far",
+   "golden"
+  ],
+  [
+   "crime_related",
+   "crime_ridden"
+  ],
+  [
+   "woollen",
+   "golden"
+  ]
+ ]
+}

@@ -1,0 +1,610 @@
+{
+ "book": "advanced",
+ "unit": 82,
+ "title": "Whatchamacallit: being indirect",
+ "title_uz": "Anaqa narsa: gapni aylantirib aytish",
+ "words": [
+  {
+   "id": "the_thing_is",
+   "en": "the thing is",
+   "uz": "gap shundaki",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'd love to come hiking with you; the thing is, I've promised to help my neighbour move house on Saturday.",
+   "gap": "the thing is",
+   "alt": []
+  },
+  {
+   "id": "for_one_thing",
+   "en": "for one thing",
+   "uz": "birinchidan (sabab sanaganda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I'm not buying that phone: for one thing, it's far too expensive, and for another, the battery is terrible.",
+   "gap": "for one thing",
+   "alt": []
+  },
+  {
+   "id": "have_a_thing_about",
+   "en": "have a thing about",
+   "uz": "…ga g‘ayrioddiy ishqi yoki nafrati bor",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our cat has a thing about plastic bags: she attacks every one she sees.",
+   "gap": "has a thing about",
+   "alt": [
+    "has a thing about",
+    "had a thing about",
+    "having a thing about"
+   ]
+  },
+  {
+   "id": "make_a_big_thing_of",
+   "en": "make a big thing of",
+   "uz": "arzimas narsani katta qilib ko‘rsatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It's only a tiny scratch on the car door, so please stop making such a big thing of it.",
+   "gap": "making such a big thing of",
+   "alt": [
+    "making such a big thing of",
+    "making a big thing of",
+    "made a big thing of",
+    "makes a big thing of"
+   ]
+  },
+  {
+   "id": "as_things_are",
+   "en": "as things are",
+   "uz": "hozirgi ahvolda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We can't afford a new roof as things are at the moment, so we'll just repair the old one.",
+   "gap": "as things are",
+   "alt": []
+  },
+  {
+   "id": "get_it_together",
+   "en": "get it together",
+   "uz": "o‘zini yig‘ib, ishga kirishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sanjar keeps talking about starting a podcast, but he never quite gets it together.",
+   "gap": "gets it together",
+   "alt": [
+    "gets it together",
+    "got it together",
+    "getting it together"
+   ]
+  },
+  {
+   "id": "get_things_sorted",
+   "en": "get things sorted",
+   "uz": "muammoni hal qilib qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't worry about the broken printer; the technician will get things sorted by lunchtime.",
+   "gap": "get things sorted",
+   "alt": [
+    "got things sorted",
+    "getting things sorted",
+    "get things sorted out"
+   ]
+  },
+  {
+   "id": "get_to_oneself",
+   "en": "get someone to yourself",
+   "uz": "biror kishi bilan yolg‘iz qolmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Munisa's phone never stops ringing, so it's hard to get her to myself for even five minutes.",
+   "gap": "get her to myself",
+   "alt": [
+    "get her to myself",
+    "get him to myself",
+    "got her to myself",
+    "got him to myself"
+   ]
+  },
+  {
+   "id": "thingy",
+   "en": "thingy",
+   "uz": "haligi narsa (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pass me the thingy, you know, the little plastic gadget for opening jars.",
+   "gap": "thingy",
+   "alt": [
+    "thingies"
+   ]
+  },
+  {
+   "id": "whatchamacallit",
+   "en": "whatchamacallit",
+   "uz": "nomi yodga kelmagan buyum",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't fix the bike without that whatchamacallit, the small tool that tightens the spokes.",
+   "gap": "whatchamacallit",
+   "alt": [
+    "whatchamacallits"
+   ]
+  },
+  {
+   "id": "whatsisname",
+   "en": "whatsisname",
+   "uz": "haligi kishi (erkak, ismi esda yo‘q)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I bumped into whatsisname from the flat upstairs, the man with the big black dog.",
+   "gap": "whatsisname",
+   "alt": [
+    "whatshisname"
+   ]
+  },
+  {
+   "id": "whatsername",
+   "en": "whatsername",
+   "uz": "haligi ayol (ismi esda yo‘q)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Have you seen whatsername, the woman who runs the bakery on the corner?",
+   "gap": "whatsername",
+   "alt": [
+    "whatshername"
+   ]
+  },
+  {
+   "id": "bags_of",
+   "en": "bags of",
+   "uz": "juda ko‘p, bir dunyo (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't panic about the hall decorations; with three days still to go, we've got bags of time.",
+   "gap": "bags of",
+   "alt": []
+  },
+  {
+   "id": "loads_of",
+   "en": "loads of",
+   "uz": "talaygina, behisob (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't buy any more paper; there are loads of empty notebooks in the cupboard already.",
+   "gap": "loads of",
+   "alt": [
+    "a load of"
+   ]
+  },
+  {
+   "id": "umpteen",
+   "en": "umpteen",
+   "uz": "son-sanoqsiz (marta)",
+   "pos": "determiner",
+   "img": false,
+   "ex": "I've reminded him umpteen times to lock the gate, but he still forgets.",
+   "gap": "umpteen",
+   "alt": []
+  },
+  {
+   "id": "scrap_of",
+   "en": "a scrap of",
+   "uz": "zarracha ham (inkor gapda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Despite all the adverts, there isn't a scrap of evidence that the new diet works, not even one small study.",
+   "gap": "a scrap of",
+   "alt": [
+    "scrap of"
+   ]
+  },
+  {
+   "id": "not_the_most_sensible",
+   "en": "not the most sensible",
+   "uz": "unchalik oqilona emas (yumshoq tanqid)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Leaving your bike unlocked outside the station was not the most sensible decision you've ever made.",
+   "gap": "not the most sensible",
+   "alt": []
+  },
+  {
+   "id": "in_the_nicest_possible_way",
+   "en": "in the nicest possible way",
+   "uz": "yaxshi niyatda aytyapman",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Your brother is rather loud, and I mean that in the nicest possible way.",
+   "gap": "in the nicest possible way",
+   "alt": []
+  },
+  {
+   "id": "no_offence_intended",
+   "en": "no offence intended",
+   "uz": "xafa qilish niyatim yo‘q",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Well, no offence intended, but your soup needs a lot more salt.",
+   "gap": "no offence intended",
+   "alt": [
+    "no offence"
+   ]
+  },
+  {
+   "id": "if_you_dont_mind",
+   "en": "if you don't mind my saying so",
+   "uz": "ochig‘ini aytsam, ranjimang",
+   "pos": "phrase",
+   "img": false,
+   "ex": "That jacket is a little too big for you, if you don't mind my saying so.",
+   "gap": "if you don't mind my saying so",
+   "alt": [
+    "if you don't mind me saying so"
+   ]
+  },
+  {
+   "id": "i_gather",
+   "en": "I gather",
+   "uz": "eshitishimcha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "So, I gather you've been offered a place at the music college; congratulations!",
+   "gap": "I gather",
+   "alt": [
+    "gather"
+   ]
+  },
+  {
+   "id": "incidentally",
+   "en": "incidentally",
+   "uz": "aytgancha (yangi mavzu ochib)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The meeting went well and, incidentally, the new projector works perfectly.",
+   "gap": "incidentally",
+   "alt": []
+  },
+  {
+   "id": "present_company_excepted",
+   "en": "present company excepted",
+   "uz": "bu yerdagilar bundan mustasno",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Most football fans are terrible singers, present company excepted, of course.",
+   "gap": "present company excepted",
+   "alt": []
+  },
+  {
+   "id": "myself_included",
+   "en": "myself included",
+   "uz": "men ham shu jumladan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Everyone in the class, myself included, forgot that the essay was due today.",
+   "gap": "myself included",
+   "alt": []
+  },
+  {
+   "id": "thing_subject",
+   "en": "thing",
+   "uz": "masala, mavzu (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There are two things I need to discuss with the coach: the training times and the new kit.",
+   "gap": "things",
+   "alt": [
+    "things"
+   ]
+  },
+  {
+   "id": "a_thing",
+   "en": "a thing",
+   "uz": "hech narsa (inkor gapda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The shop had sold out by noon, and there wasn't a thing left on the shelves.",
+   "gap": "a thing",
+   "alt": []
+  },
+  {
+   "id": "get_understand",
+   "en": "get",
+   "uz": "tushunmoq, anglamoq (so‘zl.)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Could you explain the joke again? I still don't get it.",
+   "gap": "get",
+   "alt": [
+    "gets",
+    "got",
+    "getting"
+   ]
+  },
+  {
+   "id": "get_it_in_the_post",
+   "en": "get it in the post",
+   "uz": "pochtaga topshirib jo‘natmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "I've signed the card and found a stamp, so I'll get it in the post on my way to work.",
+   "gap": "get it in the post",
+   "alt": [
+    "got it in the post",
+    "gets it in the post",
+    "getting it in the post"
+   ]
+  },
+  {
+   "id": "thingummy",
+   "en": "thingummy",
+   "uz": "haligi-nima (buyum, so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Where's the thingummy for unblocking the sink, the rubber cup on a stick?",
+   "gap": "thingummy",
+   "alt": [
+    "thingummies",
+    "thingamy"
+   ]
+  },
+  {
+   "id": "thingumijig",
+   "en": "thingumijig",
+   "uz": "anavi-chi (nomi esdan chiqqan buyum)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hold that thingumijig steady while I tighten the last screw on the shelf.",
+   "gap": "thingumijig",
+   "alt": [
+    "thingummyjig",
+    "thingamajig",
+    "thingumajig"
+   ]
+  },
+  {
+   "id": "thingamibob",
+   "en": "thingamibob",
+   "uz": "haligi matoh (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I bought a little thingamibob that stops the charger cable falling behind my desk.",
+   "gap": "thingamibob",
+   "alt": [
+    "thingamabob",
+    "thingummybob"
+   ]
+  },
+  {
+   "id": "whatsit",
+   "en": "whatsit",
+   "uz": "haligi nimasi (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Have you seen the whatsit for the TV? I can't change the channel without it.",
+   "gap": "whatsit",
+   "alt": [
+    "whatsits"
+   ]
+  },
+  {
+   "id": "whatnot",
+   "en": "whatnot",
+   "uz": "allanima (nomsiz narsa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There's a whatnot on the dashboard that beeps whenever I forget my seat belt.",
+   "gap": "whatnot",
+   "alt": []
+  },
+  {
+   "id": "masses_of",
+   "en": "masses of",
+   "uz": "juda ko‘p, to‘lib-toshgan (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The festival was packed: there were masses of people queueing at every food stall.",
+   "gap": "masses of",
+   "alt": [
+    "a mass of"
+   ]
+  },
+  {
+   "id": "dozens_of",
+   "en": "dozens of",
+   "uz": "o‘nlab, o‘nlarcha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since her cooking video went viral, Gulnora has received dozens of messages from strangers.",
+   "gap": "dozens of",
+   "alt": []
+  },
+  {
+   "id": "tons_of",
+   "en": "tons of",
+   "uz": "tog‘dek, uyib tashlangan (so‘zl.)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't worry about lunch; Rustam has brought tons of food for everyone.",
+   "gap": "tons of",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "the_thing_is",
+   "for_one_thing"
+  ],
+  [
+   "thingy",
+   "whatchamacallit"
+  ],
+  [
+   "bags_of",
+   "loads_of"
+  ],
+  [
+   "loads_of",
+   "umpteen"
+  ],
+  [
+   "no_offence_intended",
+   "if_you_dont_mind"
+  ],
+  [
+   "present_company_excepted",
+   "myself_included"
+  ],
+  [
+   "i_gather",
+   "incidentally"
+  ],
+  [
+   "get_it_in_the_post",
+   "get_things_sorted"
+  ],
+  [
+   "a_thing",
+   "scrap_of"
+  ],
+  [
+   "thingy",
+   "thingummy"
+  ],
+  [
+   "thingy",
+   "thingumijig"
+  ],
+  [
+   "thingy",
+   "thingamibob"
+  ],
+  [
+   "thingy",
+   "whatsit"
+  ],
+  [
+   "thingy",
+   "whatnot"
+  ],
+  [
+   "whatchamacallit",
+   "thingummy"
+  ],
+  [
+   "whatchamacallit",
+   "thingumijig"
+  ],
+  [
+   "whatchamacallit",
+   "thingamibob"
+  ],
+  [
+   "whatchamacallit",
+   "whatsit"
+  ],
+  [
+   "whatchamacallit",
+   "whatnot"
+  ],
+  [
+   "thingummy",
+   "thingumijig"
+  ],
+  [
+   "thingummy",
+   "thingamibob"
+  ],
+  [
+   "thingummy",
+   "whatsit"
+  ],
+  [
+   "thingummy",
+   "whatnot"
+  ],
+  [
+   "thingumijig",
+   "thingamibob"
+  ],
+  [
+   "thingumijig",
+   "whatsit"
+  ],
+  [
+   "thingumijig",
+   "whatnot"
+  ],
+  [
+   "thingamibob",
+   "whatsit"
+  ],
+  [
+   "thingamibob",
+   "whatnot"
+  ],
+  [
+   "whatsit",
+   "whatnot"
+  ],
+  [
+   "thingy",
+   "whatsisname"
+  ],
+  [
+   "thingy",
+   "whatsername"
+  ],
+  [
+   "bags_of",
+   "masses_of"
+  ],
+  [
+   "bags_of",
+   "dozens_of"
+  ],
+  [
+   "bags_of",
+   "tons_of"
+  ],
+  [
+   "bags_of",
+   "umpteen"
+  ],
+  [
+   "loads_of",
+   "masses_of"
+  ],
+  [
+   "loads_of",
+   "dozens_of"
+  ],
+  [
+   "loads_of",
+   "tons_of"
+  ],
+  [
+   "umpteen",
+   "masses_of"
+  ],
+  [
+   "umpteen",
+   "dozens_of"
+  ],
+  [
+   "umpteen",
+   "tons_of"
+  ],
+  [
+   "masses_of",
+   "dozens_of"
+  ],
+  [
+   "masses_of",
+   "tons_of"
+  ],
+  [
+   "dozens_of",
+   "tons_of"
+  ]
+ ]
+}

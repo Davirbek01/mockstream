@@ -1,0 +1,683 @@
+{
+ "book": "preint",
+ "unit": 33,
+ "title": "Studying English and taking exams",
+ "title_uz": "Ingliz tilini o‘rganish va imtihon topshirish",
+ "words": [
+  {
+   "id": "wide_vocabulary",
+   "en": "wide vocabulary",
+   "uz": "boy so‘z zaxirasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mohinur reads two English novels a month, so she has a really wide vocabulary for her age.",
+   "gap": "wide vocabulary",
+   "alt": []
+  },
+  {
+   "id": "increase_vocabulary",
+   "en": "increase your vocabulary",
+   "uz": "so‘z boyligini oshirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every day Elyor writes ten new English words on sticky notes and puts them on the fridge to increase his vocabulary.",
+   "gap": "increase his vocabulary",
+   "alt": [
+    "increase my vocabulary",
+    "increase his vocabulary",
+    "increase her vocabulary",
+    "increased his vocabulary"
+   ]
+  },
+  {
+   "id": "accurately",
+   "en": "accurately",
+   "uz": "xatosiz, aniq",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Ulug‘bek speaks slowly but accurately, and he almost never makes a grammar mistake.",
+   "gap": "accurately",
+   "alt": []
+  },
+  {
+   "id": "fluent",
+   "en": "fluent",
+   "uz": "ravon (to‘xtamay gapiradigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a year with a host family in Canada, my brother came back completely fluent in English.",
+   "gap": "fluent",
+   "alt": []
+  },
+  {
+   "id": "accent",
+   "en": "accent",
+   "uz": "talaffuz uslubi (aksent)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Brown has lived in Uzbekistan for ten years, but people still notice his Scottish accent when he speaks Uzbek.",
+   "gap": "accent",
+   "alt": [
+    "accents"
+   ]
+  },
+  {
+   "id": "consonant",
+   "en": "consonant",
+   "uz": "undosh (tovush yoki harf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many learners find it hard to say 'strength', because it has three consonants together at the start.",
+   "gap": "consonants",
+   "alt": [
+    "consonants"
+   ]
+  },
+  {
+   "id": "vowel",
+   "en": "vowel",
+   "uz": "unli (tovush yoki harf)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the word 'queue' there are four vowels in a row, which looks really strange to my little sister.",
+   "gap": "vowels",
+   "alt": [
+    "vowels"
+   ]
+  },
+  {
+   "id": "make_yourself_understood",
+   "en": "make yourself understood",
+   "uz": "fikrini tushuntira olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My Russian isn't perfect, but on holiday in Kazan I could always make myself understood in shops and cafés.",
+   "gap": "make myself understood",
+   "alt": [
+    "make myself understood",
+    "made myself understood",
+    "make himself understood",
+    "make herself understood"
+   ]
+  },
+  {
+   "id": "basic",
+   "en": "basic",
+   "uz": "boshlang‘ich (juda oddiy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My Korean is still very basic: I can say hello and thank you, and count to ten.",
+   "gap": "basic",
+   "alt": []
+  },
+  {
+   "id": "willing_to",
+   "en": "willing to",
+   "uz": "…ga tayyor / rozi",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilshod is always willing to explain the homework to classmates who were absent.",
+   "gap": "willing to",
+   "alt": [
+    "willing"
+   ]
+  },
+  {
+   "id": "experiment_with",
+   "en": "experiment with",
+   "uz": "sinab ko‘rmoq (tajriba qilmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Good learners aren't afraid to experiment with new words, even if they sometimes use them in the wrong place.",
+   "gap": "experiment with",
+   "alt": [
+    "experiments with",
+    "experimented with",
+    "experimenting with"
+   ]
+  },
+  {
+   "id": "get_things_wrong",
+   "en": "get things wrong",
+   "uz": "xato qilib qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Bahodir is great at mental maths, but when he hurries he sometimes gets things wrong.",
+   "gap": "gets things wrong",
+   "alt": [
+    "gets things wrong",
+    "got things wrong",
+    "getting things wrong"
+   ]
+  },
+  {
+   "id": "make_progress",
+   "en": "make progress",
+   "uz": "rivojlanmoq / oldinga siljimoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Since she started writing to a pen friend in Australia, Rayhona has made great progress with her spelling.",
+   "gap": "made great progress",
+   "alt": [
+    "makes progress",
+    "made progress",
+    "making progress",
+    "made great progress",
+    "make a lot of progress"
+   ]
+  },
+  {
+   "id": "pick_up",
+   "en": "pick up",
+   "uz": "o‘z-o‘zidan o‘rganib olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My little brother watched Turkish cartoons all summer and managed to pick up enough Turkish to chat with the kids next door.",
+   "gap": "pick up",
+   "alt": [
+    "picks up",
+    "picked up",
+    "picking up",
+    "pick it up"
+   ]
+  },
+  {
+   "id": "good_ear",
+   "en": "a good ear for language",
+   "uz": "tilni eshitib ilg‘ash qobiliyati",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mirjalol can copy any accent after hearing it only once; he has a good ear for language.",
+   "gap": "a good ear for language",
+   "alt": [
+    "good ear for language",
+    "good ear"
+   ]
+  },
+  {
+   "id": "take_exam",
+   "en": "take an exam",
+   "uz": "imtihon topshirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Feruza is going to take an exam in German in March, so she practises with an online tutor every evening.",
+   "gap": "take an exam",
+   "alt": [
+    "takes an exam",
+    "took an exam",
+    "taking an exam"
+   ]
+  },
+  {
+   "id": "pass",
+   "en": "pass",
+   "uz": "(imtihondan) o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum was so happy when I passed my music school exam at the first attempt.",
+   "gap": "passed",
+   "alt": [
+    "passes",
+    "passed",
+    "passing"
+   ]
+  },
+  {
+   "id": "fail",
+   "en": "fail",
+   "uz": "(imtihondan) yiqilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Akmal didn't revise at all and failed the chemistry test, so now he has to do it again in August.",
+   "gap": "failed",
+   "alt": [
+    "fails",
+    "failed",
+    "failing"
+   ]
+  },
+  {
+   "id": "retake",
+   "en": "retake",
+   "uz": "qayta topshirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Laziz wasn't happy with his IELTS score, so he plans to retake the test in December.",
+   "gap": "retake",
+   "alt": [
+    "retakes",
+    "retook",
+    "retaken",
+    "retaking"
+   ]
+  },
+  {
+   "id": "hard_work",
+   "en": "hard work",
+   "uz": "mashaqqatli mehnat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Building the model bridge for the science fair was hard work, but our team won first prize.",
+   "gap": "hard work",
+   "alt": []
+  },
+  {
+   "id": "do_your_best",
+   "en": "do your best",
+   "uz": "qo‘lidan kelganini qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The piano piece was really difficult, but I did my best on the night, and the audience clapped for a long time.",
+   "gap": "did my best",
+   "alt": [
+    "do my best",
+    "did my best",
+    "does his best",
+    "doing her best"
+   ]
+  },
+  {
+   "id": "candidate",
+   "en": "candidate",
+   "uz": "imtihon topshiruvchi (nomzod)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each candidate must show a passport at the door before going into the exam room.",
+   "gap": "candidate",
+   "alt": [
+    "candidates"
+   ]
+  },
+  {
+   "id": "grade",
+   "en": "grade",
+   "uz": "baho",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lola got the highest grade in the class for her history project about the Silk Road.",
+   "gap": "grade",
+   "alt": [
+    "grades"
+   ]
+  },
+  {
+   "id": "get_through",
+   "en": "get through",
+   "uz": "oxiriga yetkazmoq (tugatmoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "We still have six units of the coursebook to get through before the end of the year.",
+   "gap": "get through",
+   "alt": [
+    "gets through",
+    "got through",
+    "getting through"
+   ]
+  },
+  {
+   "id": "revision",
+   "en": "revision",
+   "uz": "imtihon oldi takrorlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the week before exams, the library is full of students doing revision with their notes.",
+   "gap": "revision",
+   "alt": []
+  },
+  {
+   "id": "exam_preparation",
+   "en": "exam preparation",
+   "uz": "imtihonga tayyorgarlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our teacher spends the last month of the course on exam preparation: practice tests, timing and tips.",
+   "gap": "exam preparation",
+   "alt": []
+  },
+  {
+   "id": "essay",
+   "en": "essay",
+   "uz": "insho",
+   "pos": "noun",
+   "img": false,
+   "ex": "For homework we have to write a 250-word essay about the pros and cons of online lessons.",
+   "gap": "essay",
+   "alt": [
+    "essays"
+   ]
+  },
+  {
+   "id": "practise",
+   "en": "practise",
+   "uz": "mashq qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahlo practises her speaking with a friend on video calls every Sunday.",
+   "gap": "practises",
+   "alt": [
+    "practises",
+    "practised",
+    "practising",
+    "practice"
+   ]
+  },
+  {
+   "id": "accurate",
+   "en": "accurate",
+   "uz": "aniq, xatosiz (sifat)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The weather app is usually accurate: when it says rain at three, it rains at three.",
+   "gap": "accurate",
+   "alt": []
+  },
+  {
+   "id": "fluently",
+   "en": "fluently",
+   "uz": "ravon (ravishda)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "After two years in Seoul, Kamron can chat fluently with taxi drivers about anything.",
+   "gap": "fluently",
+   "alt": []
+  },
+  {
+   "id": "well_adv",
+   "en": "well",
+   "uz": "yaxshi (ravish: qanday qilib?)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Mansur didn't sleep well before the exam because the neighbours' dog barked all night.",
+   "gap": "well",
+   "alt": []
+  },
+  {
+   "id": "good_adj",
+   "en": "good",
+   "uz": "yaxshi (sifat: qanday?)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hamid has a good memory for faces, but he always forgets people's names.",
+   "gap": "good",
+   "alt": []
+  },
+  {
+   "id": "elementary",
+   "en": "elementary",
+   "uz": "eng quyi darajadagi (boshlang‘ich)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Kevin's Uzbek is still elementary: he can order tea and ask for the bill, but not much more.",
+   "gap": "elementary",
+   "alt": []
+  },
+  {
+   "id": "simple",
+   "en": "simple",
+   "uz": "oddiy (murakkab emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The instructions were simple, so even my six-year-old brother could put the toy plane together.",
+   "gap": "simple",
+   "alt": []
+  },
+  {
+   "id": "learn_from_mistakes",
+   "en": "learn from your mistakes",
+   "uz": "xatolaridan saboq olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our chess coach shows us our lost games, because he wants us to learn from our mistakes.",
+   "gap": "learn from our mistakes",
+   "alt": [
+    "learn from my mistakes",
+    "learn from our mistakes",
+    "learns from her mistakes",
+    "learnt from his mistakes",
+    "learned from his mistakes"
+   ]
+  },
+  {
+   "id": "do_an_exam",
+   "en": "do an exam",
+   "uz": "imtihonda qatnashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Next Friday all the eleventh-graders will do an exam in physics in the school hall.",
+   "gap": "do an exam",
+   "alt": [
+    "does an exam",
+    "did an exam",
+    "doing an exam",
+    "done an exam"
+   ]
+  },
+  {
+   "id": "try_your_best",
+   "en": "try your best",
+   "uz": "bor kuchini sarflamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The little gymnasts didn't win a medal, but they tried their best and smiled at the end.",
+   "gap": "tried their best",
+   "alt": [
+    "try my best",
+    "tried my best",
+    "tries his best",
+    "trying her best",
+    "tried their best",
+    "try their best"
+   ]
+  },
+  {
+   "id": "mark_grade",
+   "en": "mark",
+   "uz": "ball (baho)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ms Ruzieva gave me a low mark because I wrote only half a page.",
+   "gap": "mark",
+   "alt": [
+    "marks"
+   ]
+  },
+  {
+   "id": "do_well",
+   "en": "do well",
+   "uz": "yaxshi natija ko‘rsatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our robotics team did well at the national competition and came third.",
+   "gap": "did well",
+   "alt": [
+    "does well",
+    "did well",
+    "doing well",
+    "done well"
+   ]
+  },
+  {
+   "id": "do_badly",
+   "en": "do badly",
+   "uz": "yomon natija ko‘rsatmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Rustam did badly in the spelling test because he hadn't looked at the word list.",
+   "gap": "did badly",
+   "alt": [
+    "does badly",
+    "did badly",
+    "doing badly",
+    "done badly"
+   ]
+  },
+  {
+   "id": "coursebook",
+   "en": "coursebook",
+   "uz": "darslik (kurs kitobi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Each unit of our coursebook ends with a short quiz and a song.",
+   "gap": "coursebook",
+   "alt": [
+    "coursebooks"
+   ]
+  },
+  {
+   "id": "with_a_bit_of_luck",
+   "en": "with a bit of luck",
+   "uz": "biroz omad kulib boqsa",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The train leaves at six, so with a bit of luck we'll be in Fergana before dark.",
+   "gap": "with a bit of luck",
+   "alt": []
+  },
+  {
+   "id": "work_on",
+   "en": "work on",
+   "uz": "ustida ishlamoq (yaxshilamoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Dilbar's grammar is excellent, but she needs to work on her pronunciation.",
+   "gap": "work on",
+   "alt": [
+    "works on",
+    "worked on",
+    "working on"
+   ]
+  },
+  {
+   "id": "get_on_progress",
+   "en": "get on",
+   "uz": "(o‘qishi) yurishmoq, ilgarilamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Your son is getting on very well with his English this term; his reading is much better.",
+   "gap": "getting on",
+   "alt": [
+    "getting on",
+    "gets on",
+    "got on"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "consonant",
+   "vowel"
+  ],
+  [
+   "retake",
+   "pass"
+  ],
+  [
+   "revision",
+   "exam_preparation"
+  ],
+  [
+   "candidate",
+   "pupil"
+  ],
+  [
+   "fluent",
+   "basic"
+  ],
+  [
+   "take_exam",
+   "retake"
+  ],
+  [
+   "accurate",
+   "accurately"
+  ],
+  [
+   "accurate",
+   "good_adj"
+  ],
+  [
+   "fluently",
+   "accurately"
+  ],
+  [
+   "fluently",
+   "fluent"
+  ],
+  [
+   "well_adv",
+   "accurately"
+  ],
+  [
+   "well_adv",
+   "fluently"
+  ],
+  [
+   "good_adj",
+   "well_adv"
+  ],
+  [
+   "elementary",
+   "basic"
+  ],
+  [
+   "simple",
+   "basic"
+  ],
+  [
+   "simple",
+   "elementary"
+  ],
+  [
+   "do_an_exam",
+   "take_exam"
+  ],
+  [
+   "do_an_exam",
+   "retake"
+  ],
+  [
+   "try_your_best",
+   "do_your_best"
+  ],
+  [
+   "mark_grade",
+   "grade"
+  ],
+  [
+   "do_well",
+   "do_badly"
+  ],
+  [
+   "do_well",
+   "pass"
+  ],
+  [
+   "do_badly",
+   "fail"
+  ],
+  [
+   "do_well",
+   "succeed"
+  ],
+  [
+   "practise",
+   "work_on"
+  ],
+  [
+   "get_on_progress",
+   "make_progress"
+  ],
+  [
+   "simple",
+   "good_adj"
+  ],
+  [
+   "do_your_best",
+   "do_well"
+  ],
+  [
+   "get_through",
+   "work_on"
+  ]
+ ]
+}

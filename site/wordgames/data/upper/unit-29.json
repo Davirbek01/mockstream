@@ -1,0 +1,443 @@
+{
+ "book": "upper",
+ "unit": 29,
+ "title": "Medicine and technology",
+ "title_uz": "Tibbiyot va texnologiya",
+ "words": [
+  {
+   "id": "crutches",
+   "en": "crutches",
+   "uz": "qo‘ltiqtayoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the accident, Jamshid had to walk on crutches for two months and couldn't play football.",
+   "gap": "crutches",
+   "alt": [
+    "crutch"
+   ]
+  },
+  {
+   "id": "spectacles",
+   "en": "spectacles",
+   "uz": "ko‘zoynak (rasmiy so‘z)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The old professor looked at us over the top of his spectacles and waited for silence.",
+   "gap": "spectacles",
+   "alt": []
+  },
+  {
+   "id": "vision",
+   "en": "vision",
+   "uz": "ko‘rish qobiliyati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Pilots need excellent vision, so they have their eyes tested every year.",
+   "gap": "vision",
+   "alt": []
+  },
+  {
+   "id": "wheelchair",
+   "en": "wheelchair",
+   "uz": "nogironlar aravachasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "The museum has ramps and lifts, so visitors in wheelchairs can reach every floor.",
+   "gap": "wheelchairs",
+   "alt": [
+    "wheelchairs"
+   ]
+  },
+  {
+   "id": "anaesthetic",
+   "en": "anaesthetic",
+   "uz": "narkoz (og‘riqsizlantirish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The vet gave our dog an anaesthetic before cleaning his teeth, and he was sleepy for the rest of the day.",
+   "gap": "anaesthetic",
+   "alt": [
+    "anesthetic",
+    "anaesthetics"
+   ]
+  },
+  {
+   "id": "x_ray",
+   "en": "X-ray",
+   "uz": "rentgen (surati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The X-ray showed that the bone in her arm was broken in two places.",
+   "gap": "X-ray",
+   "alt": [
+    "X-rays",
+    "X ray",
+    "X rays"
+   ]
+  },
+  {
+   "id": "contact_lenses",
+   "en": "contact lenses",
+   "uz": "kontakt linzalar",
+   "pos": "noun",
+   "img": true,
+   "ex": "Malika hates the way glasses steam up in winter, so she wears contact lenses instead.",
+   "gap": "contact lenses",
+   "alt": [
+    "contact lens"
+   ]
+  },
+  {
+   "id": "rapid",
+   "en": "rapid",
+   "uz": "jadal, juda tez",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our town has seen rapid growth: twenty new blocks of flats have gone up in just three years.",
+   "gap": "rapid",
+   "alt": []
+  },
+  {
+   "id": "advances",
+   "en": "advances",
+   "uz": "yutuqlar (fan-texnikadagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to advances in medicine, people today live much longer than they did a hundred years ago.",
+   "gap": "advances",
+   "alt": [
+    "advance"
+   ]
+  },
+  {
+   "id": "decade",
+   "en": "decade",
+   "uz": "o‘n yillik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school was built in the 1980s, and the building has hardly changed in four decades.",
+   "gap": "decades",
+   "alt": [
+    "decades"
+   ]
+  },
+  {
+   "id": "vast",
+   "en": "vast",
+   "uz": "ulkan, juda keng",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The library has a vast collection of old manuscripts, more than anyone could read in a lifetime.",
+   "gap": "vast",
+   "alt": []
+  },
+  {
+   "id": "device",
+   "en": "device",
+   "uz": "qurilma, moslama",
+   "pos": "noun",
+   "img": false,
+   "ex": "Please switch off your phones, smartwatches and any other electronic devices before the exam begins.",
+   "gap": "devices",
+   "alt": [
+    "devices"
+   ]
+  },
+  {
+   "id": "sophisticated",
+   "en": "sophisticated",
+   "uz": "murakkab va zamonaviy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new airport has a sophisticated security system that can recognise a passenger's face in a second.",
+   "gap": "sophisticated",
+   "alt": []
+  },
+  {
+   "id": "hearing_aid",
+   "en": "hearing aid",
+   "uz": "eshitish apparati",
+   "pos": "noun",
+   "img": true,
+   "ex": "Since he started wearing a hearing aid, our neighbour can follow conversations at the dinner table again.",
+   "gap": "hearing aid",
+   "alt": [
+    "hearing aids"
+   ]
+  },
+  {
+   "id": "pacemaker",
+   "en": "pacemaker",
+   "uz": "kardiostimulyator",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since she had a pacemaker fitted in her chest, her heart beats steadily and she can climb stairs again.",
+   "gap": "pacemaker",
+   "alt": [
+    "pacemakers"
+   ]
+  },
+  {
+   "id": "artificial",
+   "en": "artificial",
+   "uz": "sun’iy",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new stadium uses artificial grass, which stays green all year and never needs cutting.",
+   "gap": "artificial",
+   "alt": []
+  },
+  {
+   "id": "hip",
+   "en": "hip",
+   "uz": "son-chanoq bo‘g‘imi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our retired history teacher had a new hip fitted last year, and now she walks to the bazaar without pain.",
+   "gap": "hip",
+   "alt": [
+    "hips"
+   ]
+  },
+  {
+   "id": "highly",
+   "en": "highly",
+   "uz": "juda, nihoyatda (rasmiy)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Our physics teacher is highly respected by students and parents alike.",
+   "gap": "highly",
+   "alt": []
+  },
+  {
+   "id": "prosthetic",
+   "en": "prosthetic",
+   "uz": "protez (sun’iy a’zo)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Paralympic sprinter was born without a lower leg, but she runs races on a prosthetic one made of carbon fibre.",
+   "gap": "prosthetic",
+   "alt": []
+  },
+  {
+   "id": "robotic",
+   "en": "robotic",
+   "uz": "robotlashtirilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In some hospitals, surgeons control robotic arms from a computer to carry out very precise operations.",
+   "gap": "robotic",
+   "alt": []
+  },
+  {
+   "id": "laser_surgery",
+   "en": "laser surgery",
+   "uz": "lazer jarrohligi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After laser surgery on both eyes, my aunt no longer needs her glasses.",
+   "gap": "laser surgery",
+   "alt": []
+  },
+  {
+   "id": "scanner",
+   "en": "scanner",
+   "uz": "skaner (tibbiy tekshiruv apparati)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The patient had to lie completely still inside the scanner while it took pictures of his brain.",
+   "gap": "scanner",
+   "alt": [
+    "scanners"
+   ]
+  },
+  {
+   "id": "early_stage",
+   "en": "early stage",
+   "uz": "dastlabki bosqich",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our science project is still at an early stage: we've chosen a topic but haven't collected any data yet.",
+   "gap": "early stage",
+   "alt": [
+    "early stages"
+   ]
+  },
+  {
+   "id": "diagnose",
+   "en": "diagnose",
+   "uz": "tashxis qo‘ymoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "It took the doctors three days of tests to diagnose the cause of his high fever.",
+   "gap": "diagnose",
+   "alt": [
+    "diagnoses",
+    "diagnosed",
+    "diagnosing"
+   ]
+  },
+  {
+   "id": "thermometer",
+   "en": "thermometer",
+   "uz": "termometr (harorat o‘lchagich)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The thermometer outside our kitchen window showed minus twelve this morning.",
+   "gap": "thermometer",
+   "alt": [
+    "thermometers"
+   ]
+  },
+  {
+   "id": "database",
+   "en": "database",
+   "uz": "ma’lumotlar bazasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The clinic keeps every patient's records in a secure database, so any doctor there can see your medical history.",
+   "gap": "database",
+   "alt": [
+    "databases"
+   ]
+  },
+  {
+   "id": "tool",
+   "en": "tool",
+   "uz": "vosita, qurol (yordamchi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A good learner's dictionary is a useful tool for anyone studying a foreign language.",
+   "gap": "tool",
+   "alt": [
+    "tools"
+   ]
+  },
+  {
+   "id": "keyhole_surgery",
+   "en": "keyhole surgery",
+   "uz": "kichik kesmali (laparoskopik) jarrohlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum had her operation by keyhole surgery, so she was home the next day with just three small plasters on her stomach.",
+   "gap": "keyhole surgery",
+   "alt": []
+  },
+  {
+   "id": "correct_v",
+   "en": "correct",
+   "uz": "tuzatmoq (nuqsonni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Glasses and contact lenses correct short sight, so that distant objects look sharp.",
+   "gap": "correct",
+   "alt": [
+    "corrects",
+    "corrected",
+    "correcting"
+   ]
+  },
+  {
+   "id": "efficient",
+   "en": "efficient",
+   "uz": "samarali (kam sarf bilan ko‘p ish)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "LED bulbs are more efficient than old ones: they give the same light but use far less electricity.",
+   "gap": "efficient",
+   "alt": []
+  },
+  {
+   "id": "eyesight",
+   "en": "eyesight",
+   "uz": "ko‘z o‘tkirligi (ko‘rish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Reading in poor light won't permanently damage your eyesight, but it can make your eyes tired.",
+   "gap": "eyesight",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "spectacles",
+   "contact_lenses"
+  ],
+  [
+   "x_ray",
+   "scanner"
+  ],
+  [
+   "device",
+   "tool"
+  ],
+  [
+   "sophisticated",
+   "robotic"
+  ],
+  [
+   "artificial",
+   "prosthetic"
+  ],
+  [
+   "prosthetic",
+   "robotic"
+  ],
+  [
+   "artificial",
+   "robotic"
+  ],
+  [
+   "laser_surgery",
+   "keyhole_surgery"
+  ],
+  [
+   "rapid",
+   "vast"
+  ],
+  [
+   "hearing_aid",
+   "pacemaker"
+  ],
+  [
+   "crutches",
+   "wheelchair"
+  ],
+  [
+   "vision",
+   "spectacles"
+  ],
+  [
+   "advances",
+   "decade"
+  ],
+  [
+   "scanner",
+   "thermometer"
+  ],
+  [
+   "database",
+   "device"
+  ],
+  [
+   "wheelchair",
+   "spectacles"
+  ],
+  [
+   "hearing_aid",
+   "device"
+  ],
+  [
+   "thermometer",
+   "device"
+  ],
+  [
+   "eyesight",
+   "vision"
+  ],
+  [
+   "efficient",
+   "sophisticated"
+  ]
+ ]
+}

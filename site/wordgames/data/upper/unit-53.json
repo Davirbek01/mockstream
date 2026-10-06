@@ -1,0 +1,381 @@
+{
+ "book": "upper",
+ "unit": 53,
+ "title": "Time",
+ "title_uz": "Vaqt",
+ "words": [
+  {
+   "id": "stone_age",
+   "en": "the Stone Age",
+   "uz": "tosh davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the museum we saw axes and arrowheads from the Stone Age, made long before people learnt to use metal.",
+   "gap": "the Stone Age",
+   "alt": []
+  },
+  {
+   "id": "middle_ages",
+   "en": "the Middle Ages",
+   "uz": "o‘rta asrlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our history teacher showed us a copy of a map from the Middle Ages, drawn by hand when travellers still crossed the desert by camel.",
+   "gap": "the Middle Ages",
+   "alt": []
+  },
+  {
+   "id": "computer_age",
+   "en": "the computer age",
+   "uz": "kompyuter davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle says that before the computer age, he had to queue at the post office to phone relatives abroad.",
+   "gap": "the computer age",
+   "alt": []
+  },
+  {
+   "id": "era",
+   "en": "era",
+   "uz": "(yangi) davr, zamon",
+   "pos": "noun",
+   "img": false,
+   "ex": "The first fast train between Tashkent and Samarkand marked the start of a new era in travel across the country.",
+   "gap": "era",
+   "alt": []
+  },
+  {
+   "id": "spell_of_weather",
+   "en": "spell",
+   "uz": "(qisqa) muddat, bir necha kun",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a short spell of rain in the morning, the sun came out and we could play outside.",
+   "gap": "spell",
+   "alt": []
+  },
+  {
+   "id": "stage_of",
+   "en": "stage",
+   "uz": "bosqich",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new metro line is still at an early stage of construction.",
+   "gap": "stage",
+   "alt": []
+  },
+  {
+   "id": "phase",
+   "en": "phase",
+   "uz": "o‘tkinchi davr (odatda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Last year my cousin went through a phase when she only wore black and listened to sad music.",
+   "gap": "phase",
+   "alt": []
+  },
+  {
+   "id": "for_a_time",
+   "en": "for a time",
+   "uz": "bir muddat",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After school, Nodir drove a taxi for a time before he finally found a job as a programmer.",
+   "gap": "for a time",
+   "alt": []
+  },
+  {
+   "id": "for_the_time_being",
+   "en": "for the time being",
+   "uz": "hozircha",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The lift is broken, so we'll have to use the stairs for the time being, at least until the engineer comes on Monday.",
+   "gap": "for the time being",
+   "alt": []
+  },
+  {
+   "id": "at_times",
+   "en": "at times",
+   "uz": "ba’zan, goho",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Living next to the airport is fine, but at times the noise of the planes makes it impossible to hear the TV.",
+   "gap": "at times",
+   "alt": []
+  },
+  {
+   "id": "from_time_to_time",
+   "en": "from time to time",
+   "uz": "vaqti-vaqti bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We usually cook at home, but from time to time we treat ourselves to a meal at the café on the corner.",
+   "gap": "from time to time",
+   "alt": []
+  },
+  {
+   "id": "by_the_time",
+   "en": "by the time",
+   "uz": "…gan paytga kelib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The snow had already melted by the time I found my gloves and ran outside.",
+   "gap": "by the time",
+   "alt": []
+  },
+  {
+   "id": "one_at_a_time",
+   "en": "one at a time",
+   "uz": "bittadan, navbat bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The school nurse sees pupils one at a time, so please wait outside until your name is called.",
+   "gap": "one at a time",
+   "alt": []
+  },
+  {
+   "id": "in_time",
+   "en": "in time",
+   "uz": "(kech qolmay) ulgurib",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We reached the station just in time to catch the last train to Samarkand.",
+   "gap": "in time",
+   "alt": []
+  },
+  {
+   "id": "on_time_punctual",
+   "en": "on time",
+   "uz": "aynan belgilangan vaqtda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our maths teacher is never late; she starts every lesson exactly on time, at 8.30 sharp.",
+   "gap": "on time",
+   "alt": []
+  },
+  {
+   "id": "time_and_time_again",
+   "en": "time and time again",
+   "uz": "necha martalab, qayta-qayta",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our coach has warned us time and time again to drink water before training, but some players still forget.",
+   "gap": "time and time again",
+   "alt": []
+  },
+  {
+   "id": "over_the_course_of_time",
+   "en": "over the course of time",
+   "uz": "vaqt o‘tishi bilan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Water dripping from the cave roof has made a hole in the stone over the course of time.",
+   "gap": "over the course of time",
+   "alt": []
+  },
+  {
+   "id": "elapse",
+   "en": "elapse",
+   "uz": "(vaqt) o‘tmoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Barely a minute had elapsed before the phone rang again.",
+   "gap": "elapsed",
+   "alt": [
+    "elapses",
+    "elapsed"
+   ]
+  },
+  {
+   "id": "time_flies",
+   "en": "fly",
+   "uz": "(vaqt) uchqurdek o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can you believe we finish school in May? Time flies; it feels like we only started last week.",
+   "gap": "flies",
+   "alt": [
+    "flies",
+    "flew",
+    "flown"
+   ]
+  },
+  {
+   "id": "last_duration",
+   "en": "last",
+   "uz": "davom etmoq (muayyan muddat)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A good pair of leather boots can last ten years if you look after them.",
+   "gap": "last",
+   "alt": [
+    "lasts",
+    "lasted"
+   ]
+  },
+  {
+   "id": "drag_on",
+   "en": "drag on",
+   "uz": "(zerikarli) cho‘zilib ketmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The speeches at the prize-giving dragged on for so long that some of the little ones fell asleep.",
+   "gap": "dragged on",
+   "alt": [
+    "drags on",
+    "dragged on",
+    "dragging on"
+   ]
+  },
+  {
+   "id": "momentary",
+   "en": "momentary",
+   "uz": "bir lahzalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "There was a momentary pause after the last note, and then the whole audience burst into applause.",
+   "gap": "momentary",
+   "alt": []
+  },
+  {
+   "id": "fleeting",
+   "en": "fleeting",
+   "uz": "ko‘z ochib-yumguncha, o‘tkinchi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "From the train window I caught a fleeting glimpse of a fox before it disappeared into the trees.",
+   "gap": "fleeting",
+   "alt": []
+  },
+  {
+   "id": "timeless",
+   "en": "timeless",
+   "uz": "eskirmaydigan, mangu",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Some songs are timeless: my parents loved them, and now my friends and I sing them too.",
+   "gap": "timeless",
+   "alt": []
+  },
+  {
+   "id": "ice_age",
+   "en": "the Ice Age",
+   "uz": "muzlik davri",
+   "pos": "noun",
+   "img": false,
+   "ex": "Woolly mammoths roamed the cold plains of Siberia during the Ice Age, thousands of years ago.",
+   "gap": "the Ice Age",
+   "alt": []
+  },
+  {
+   "id": "go_on_last",
+   "en": "go on",
+   "uz": "(kutilgandan uzoq) davom etmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The parents' meeting went on until nine o'clock, so the caretaker had to wait to lock the building.",
+   "gap": "went on",
+   "alt": [
+    "goes on",
+    "went on",
+    "gone on",
+    "going on"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "era",
+   "stage_of"
+  ],
+  [
+   "era",
+   "phase"
+  ],
+  [
+   "stage_of",
+   "phase"
+  ],
+  [
+   "era",
+   "spell_of_weather"
+  ],
+  [
+   "for_a_time",
+   "from_time_to_time"
+  ],
+  [
+   "for_a_time",
+   "at_times"
+  ],
+  [
+   "for_a_time",
+   "for_the_time_being"
+  ],
+  [
+   "at_times",
+   "from_time_to_time"
+  ],
+  [
+   "time_and_time_again",
+   "from_time_to_time"
+  ],
+  [
+   "over_the_course_of_time",
+   "at_times"
+  ],
+  [
+   "over_the_course_of_time",
+   "for_a_time"
+  ],
+  [
+   "elapse",
+   "drag_on"
+  ],
+  [
+   "last_duration",
+   "drag_on"
+  ],
+  [
+   "momentary",
+   "fleeting"
+  ],
+  [
+   "time_and_time_again",
+   "at_times"
+  ],
+  [
+   "at_times",
+   "for_the_time_being"
+  ],
+  [
+   "phase",
+   "spell_of_weather"
+  ],
+  [
+   "for_a_time",
+   "spell_of_weather"
+  ],
+  [
+   "phase",
+   "fleeting"
+  ],
+  [
+   "ice_age",
+   "stone_age"
+  ],
+  [
+   "ice_age",
+   "middle_ages"
+  ],
+  [
+   "go_on_last",
+   "drag_on"
+  ],
+  [
+   "go_on_last",
+   "last_duration"
+  ]
+ ]
+}

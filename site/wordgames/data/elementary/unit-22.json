@@ -1,0 +1,685 @@
+{
+ "book": "elementary",
+ "unit": 22,
+ "title": "Eating out",
+ "title_uz": "Tashqarida ovqatlanish",
+ "words": [
+  {
+   "id": "cafe",
+   "en": "café",
+   "uz": "kafe",
+   "pos": "noun",
+   "img": false,
+   "ex": "My friends and I often meet at a little café opposite the school for a hot chocolate.",
+   "gap": "café",
+   "alt": [
+    "cafe",
+    "cafés",
+    "cafes"
+   ]
+  },
+  {
+   "id": "restaurant",
+   "en": "restaurant",
+   "uz": "restoran",
+   "pos": "noun",
+   "img": false,
+   "ex": "For Mum's birthday we booked a table at an expensive restaurant with live music.",
+   "gap": "restaurant",
+   "alt": [
+    "restaurants"
+   ]
+  },
+  {
+   "id": "fast_food_restaurant",
+   "en": "fast food restaurant",
+   "uz": "fastfud restorani",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the fast food restaurant in the airport, our burgers were ready in three minutes.",
+   "gap": "fast food restaurant",
+   "alt": [
+    "fast-food restaurant"
+   ]
+  },
+  {
+   "id": "take_away",
+   "en": "take-away",
+   "uz": "olib ketiladigan taom do‘koni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum was too tired to cook, so Dad got samsa from the take-away on the corner and we ate at home.",
+   "gap": "take-away",
+   "alt": [
+    "takeaway",
+    "take away"
+   ]
+  },
+  {
+   "id": "snack",
+   "en": "snack",
+   "uz": "yengil tamaddi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Between lessons I have a quick snack, like an apple or a few nuts.",
+   "gap": "snack",
+   "alt": [
+    "snacks"
+   ]
+  },
+  {
+   "id": "meal",
+   "en": "meal",
+   "uz": "ovqat (to‘liq taom)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We eat our main meal of the day in the evening, when everyone is home.",
+   "gap": "meal",
+   "alt": [
+    "meals"
+   ]
+  },
+  {
+   "id": "soft_drink",
+   "en": "soft drink",
+   "uz": "alkogolsiz ichimlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the school party there were no fizzy soft drinks, only water and fresh juice.",
+   "gap": "soft drinks",
+   "alt": [
+    "soft drinks"
+   ]
+  },
+  {
+   "id": "menu",
+   "en": "menu",
+   "uz": "menyu (taomnoma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The waiter gave us the menu, and we spent ten minutes choosing our food.",
+   "gap": "menu",
+   "alt": [
+    "menus"
+   ]
+  },
+  {
+   "id": "starter",
+   "en": "starter",
+   "uz": "yengil boshlang‘ich taom",
+   "pos": "noun",
+   "img": false,
+   "ex": "For a starter I'll have the soup, and then the chicken with rice.",
+   "gap": "starter",
+   "alt": [
+    "starters"
+   ]
+  },
+  {
+   "id": "main_course",
+   "en": "main course",
+   "uz": "asosiy taom",
+   "pos": "noun",
+   "img": false,
+   "ex": "First we had soup, then beef kebabs with rice as the main course, and finally some fruit.",
+   "gap": "main course",
+   "alt": [
+    "main courses"
+   ]
+  },
+  {
+   "id": "dessert",
+   "en": "dessert",
+   "uz": "shirinlik (desert)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We were full, but we still ordered chocolate cake for dessert.",
+   "gap": "dessert",
+   "alt": [
+    "desserts"
+   ]
+  },
+  {
+   "id": "soup_of_the_day",
+   "en": "soup of the day",
+   "uz": "kunning sho‘rvasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The soup of the day changes every day: today it's mastava, tomorrow it's chicken soup.",
+   "gap": "soup of the day",
+   "alt": []
+  },
+  {
+   "id": "mixed_salad",
+   "en": "mixed salad",
+   "uz": "aralash salat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The mixed salad has tomatoes, cucumbers, onions and a little cheese.",
+   "gap": "mixed salad",
+   "alt": []
+  },
+  {
+   "id": "fruit_salad",
+   "en": "fruit salad",
+   "uz": "meva salati",
+   "pos": "noun",
+   "img": true,
+   "ex": "After the meal I had a bowl of fruit salad made of melon, apple and pomegranate pieces.",
+   "gap": "fruit salad",
+   "alt": []
+  },
+  {
+   "id": "steak",
+   "en": "steak",
+   "uz": "steyk (qovurilgan go‘sht bo‘lagi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Dad cut his thick beef steak with a sharp knife; it was still pink inside.",
+   "gap": "steak",
+   "alt": [
+    "steaks"
+   ]
+  },
+  {
+   "id": "new_potatoes",
+   "en": "new potatoes",
+   "uz": "yosh kartoshka",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our salmon came with new potatoes, small round ones boiled with butter and dill.",
+   "gap": "new potatoes",
+   "alt": []
+  },
+  {
+   "id": "salmon",
+   "en": "salmon",
+   "uz": "losos (qizil baliq)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The salmon on my plate was pink and came all the way from Norway.",
+   "gap": "salmon",
+   "alt": []
+  },
+  {
+   "id": "green_beans",
+   "en": "green beans",
+   "uz": "yashil loviya (dukkagi bilan)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I don't like peas, but I love green beans: long, thin and crunchy.",
+   "gap": "green beans",
+   "alt": []
+  },
+  {
+   "id": "curry",
+   "en": "curry",
+   "uz": "karri (ziravorli hind taomi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This vegetable curry from India is hot and yellow with spices.",
+   "gap": "curry",
+   "alt": []
+  },
+  {
+   "id": "apple_pie",
+   "en": "apple pie",
+   "uz": "olmali pirog",
+   "pos": "noun",
+   "img": true,
+   "ex": "The apple pie was still warm from the oven, so I had a big slice with cream.",
+   "gap": "apple pie",
+   "alt": []
+  },
+  {
+   "id": "ice_cream",
+   "en": "ice cream",
+   "uz": "muzqaymoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "On hot days in Tashkent, children queue for chocolate ice cream in the park.",
+   "gap": "ice cream",
+   "alt": []
+  },
+  {
+   "id": "order_food",
+   "en": "order",
+   "uz": "buyurtma bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We ordered two plates of lagman and a salad, and they arrived quickly.",
+   "gap": "ordered",
+   "alt": [
+    "ordered",
+    "orders",
+    "ordering"
+   ]
+  },
+  {
+   "id": "rare",
+   "en": "rare",
+   "uz": "chala pishgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I don't like rare steak; it's too red inside.",
+   "gap": "rare",
+   "alt": []
+  },
+  {
+   "id": "medium_steak",
+   "en": "medium",
+   "uz": "o‘rtacha pishgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My steak was medium: a little pink in the middle, not red and not brown.",
+   "gap": "medium",
+   "alt": []
+  },
+  {
+   "id": "well_done_steak",
+   "en": "well-done",
+   "uz": "to‘liq pishgan (go‘sht)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My brother always asks for his steak well-done, so it's brown all the way through.",
+   "gap": "well-done",
+   "alt": [
+    "well done"
+   ]
+  },
+  {
+   "id": "delicious",
+   "en": "delicious",
+   "uz": "juda mazali",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pumpkin samsa straight from the tandoor was delicious; I ate three of them.",
+   "gap": "delicious",
+   "alt": []
+  },
+  {
+   "id": "customer",
+   "en": "customer",
+   "uz": "mijoz",
+   "pos": "noun",
+   "img": false,
+   "ex": "The restaurant was full: there were over a hundred customers.",
+   "gap": "customers",
+   "alt": [
+    "customers"
+   ]
+  },
+  {
+   "id": "bar",
+   "en": "bar",
+   "uz": "ichimlik peshtaxtali joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "Behind the counter of the hotel bar, a man was mixing cocktails and pouring drinks.",
+   "gap": "bar",
+   "alt": [
+    "bars"
+   ]
+  },
+  {
+   "id": "pub",
+   "en": "pub",
+   "uz": "pivoxona (Britaniya ichimlik joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Many English villages have an old pub where local people meet in the evening for a drink.",
+   "gap": "pub",
+   "alt": [
+    "pubs"
+   ]
+  },
+  {
+   "id": "alcohol",
+   "en": "alcohol",
+   "uz": "spirtli ichimliklar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our family doesn't drink alcohol, not even beer or wine, so at restaurants we always order fruit juice.",
+   "gap": "alcohol",
+   "alt": []
+  },
+  {
+   "id": "serve",
+   "en": "serve",
+   "uz": "(taom, ichimlik) tortmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This little café serves hot soup and fresh bread from eight in the morning.",
+   "gap": "serves",
+   "alt": [
+    "serves",
+    "served",
+    "serving"
+   ]
+  },
+  {
+   "id": "burger",
+   "en": "burger",
+   "uz": "burger (bulochkali kotlet)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At lunch, Timur ate a big burger in a soft bun with cheese and ketchup.",
+   "gap": "burger",
+   "alt": [
+    "burgers"
+   ]
+  },
+  {
+   "id": "fillet",
+   "en": "fillet",
+   "uz": "suyaksiz bo‘lak (baliq, go‘sht)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The cook took out all the bones, so the fish fillet was easy to eat.",
+   "gap": "fillet",
+   "alt": [
+    "fillets"
+   ]
+  },
+  {
+   "id": "chocolate_ice_cream",
+   "en": "chocolate ice cream",
+   "uz": "shokoladli muzqaymoq",
+   "pos": "noun",
+   "img": true,
+   "ex": "It was a hot afternoon, so the children ordered chocolate ice cream in cones.",
+   "gap": "chocolate ice cream",
+   "alt": []
+  },
+  {
+   "id": "sandwich",
+   "en": "sandwich",
+   "uz": "buterbrod",
+   "pos": "noun",
+   "img": true,
+   "ex": "For lunch I took a cheese sandwich and an apple to school.",
+   "gap": "sandwich",
+   "alt": [
+    "sandwiches"
+   ]
+  },
+  {
+   "id": "cake",
+   "en": "cake",
+   "uz": "tort (pishiriq)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Lola baked a big cake with twelve candles for her son's birthday.",
+   "gap": "cake",
+   "alt": [
+    "cakes"
+   ]
+  },
+  {
+   "id": "coke",
+   "en": "coke",
+   "uz": "kola (gazli ichimlik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "With his pizza, Daniyar ordered a cold coke with lots of ice.",
+   "gap": "coke",
+   "alt": [
+    "Coke",
+    "cokes"
+   ]
+  },
+  {
+   "id": "ready_to_order",
+   "en": "ready to order",
+   "uz": "buyurtma berishga tayyor",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The waiter came back to our table and asked if we were ready to order.",
+   "gap": "ready to order",
+   "alt": []
+  },
+  {
+   "id": "would_you_like",
+   "en": "would you like",
+   "uz": "…ni xohlaysizmi? (taklif)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Excuse me, would you like rice or bread with your fish?",
+   "gap": "would you like",
+   "alt": []
+  },
+  {
+   "id": "how_would_you_like",
+   "en": "how would you like",
+   "uz": "qanday bo‘lishini xohlaysiz?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The waiter asked, 'And how would you like your eggs: fried or boiled?'",
+   "gap": "how would you like",
+   "alt": []
+  },
+  {
+   "id": "ill_have",
+   "en": "I'll have",
+   "uz": "men … olaman (buyurtmada)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "'Something to drink?' — 'Yes, I'll have a glass of orange juice.'",
+   "gap": "I'll have",
+   "alt": [
+    "I will have"
+   ]
+  },
+  {
+   "id": "is_everything_all_right",
+   "en": "Is everything all right?",
+   "uz": "Hammasi joyidami?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Halfway through our meal, the manager came over and asked, 'Is everything all right?'",
+   "gap": "Is everything all right",
+   "alt": [
+    "is everything all right",
+    "Is everything all right"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cafe",
+   "restaurant"
+  ],
+  [
+   "cafe",
+   "fast_food_restaurant"
+  ],
+  [
+   "cafe",
+   "take_away"
+  ],
+  [
+   "restaurant",
+   "fast_food_restaurant"
+  ],
+  [
+   "restaurant",
+   "take_away"
+  ],
+  [
+   "fast_food_restaurant",
+   "take_away"
+  ],
+  [
+   "snack",
+   "meal"
+  ],
+  [
+   "snack",
+   "starter"
+  ],
+  [
+   "starter",
+   "main_course"
+  ],
+  [
+   "starter",
+   "dessert"
+  ],
+  [
+   "main_course",
+   "dessert"
+  ],
+  [
+   "mixed_salad",
+   "fruit_salad"
+  ],
+  [
+   "new_potatoes",
+   "green_beans"
+  ],
+  [
+   "rare",
+   "medium_steak"
+  ],
+  [
+   "rare",
+   "well_done_steak"
+  ],
+  [
+   "medium_steak",
+   "well_done_steak"
+  ],
+  [
+   "dessert",
+   "fruit_salad"
+  ],
+  [
+   "dessert",
+   "apple_pie"
+  ],
+  [
+   "dessert",
+   "ice_cream"
+  ],
+  [
+   "steak",
+   "salmon"
+  ],
+  [
+   "steak",
+   "curry"
+  ],
+  [
+   "fruit_salad",
+   "ice_cream"
+  ],
+  [
+   "delicious",
+   "rare"
+  ],
+  [
+   "delicious",
+   "medium_steak"
+  ],
+  [
+   "delicious",
+   "well_done_steak"
+  ],
+  [
+   "bar",
+   "pub"
+  ],
+  [
+   "bar",
+   "cafe"
+  ],
+  [
+   "bar",
+   "restaurant"
+  ],
+  [
+   "bar",
+   "fast_food_restaurant"
+  ],
+  [
+   "bar",
+   "take_away"
+  ],
+  [
+   "pub",
+   "cafe"
+  ],
+  [
+   "pub",
+   "restaurant"
+  ],
+  [
+   "pub",
+   "fast_food_restaurant"
+  ],
+  [
+   "pub",
+   "take_away"
+  ],
+  [
+   "alcohol",
+   "soft_drink"
+  ],
+  [
+   "serve",
+   "order_food"
+  ],
+  [
+   "burger",
+   "sandwich"
+  ],
+  [
+   "burger",
+   "steak"
+  ],
+  [
+   "chocolate_ice_cream",
+   "ice_cream"
+  ],
+  [
+   "chocolate_ice_cream",
+   "dessert"
+  ],
+  [
+   "chocolate_ice_cream",
+   "fruit_salad"
+  ],
+  [
+   "chocolate_ice_cream",
+   "apple_pie"
+  ],
+  [
+   "coke",
+   "soft_drink"
+  ],
+  [
+   "ready_to_order",
+   "order_food"
+  ],
+  [
+   "would_you_like",
+   "how_would_you_like"
+  ],
+  [
+   "cake",
+   "apple_pie"
+  ],
+  [
+   "cake",
+   "dessert"
+  ],
+  [
+   "sandwich",
+   "snack"
+  ],
+  [
+   "sandwich",
+   "cake"
+  ]
+ ]
+}

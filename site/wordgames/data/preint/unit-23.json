@@ -1,0 +1,363 @@
+{
+ "book": "preint",
+ "unit": 23,
+ "title": "Shopping",
+ "title_uz": "Xarid qilish",
+ "words": [
+  {
+   "id": "sweets",
+   "en": "sweets",
+   "uz": "konfetlar (shirinliklar)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The dentist told Bekzod to eat fewer sweets, because he had three holes in his teeth.",
+   "gap": "sweets",
+   "alt": [
+    "sweet"
+   ]
+  },
+  {
+   "id": "shelf",
+   "en": "shelf",
+   "uz": "javon (tokcha)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The rice is on the top shelf, so I have to stand on my toes to reach it.",
+   "gap": "shelf",
+   "alt": [
+    "shelves"
+   ]
+  },
+  {
+   "id": "checkout",
+   "en": "checkout",
+   "uz": "kassa (to‘lov joyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the supermarket checkout the cashier scanned our shopping and asked for 85,000 som.",
+   "gap": "checkout",
+   "alt": [
+    "checkouts"
+   ]
+  },
+  {
+   "id": "trolley",
+   "en": "trolley",
+   "uz": "xarid aravachasi",
+   "pos": "noun",
+   "img": true,
+   "ex": "We needed food for the whole week, so I pushed a big trolley round the supermarket.",
+   "gap": "trolley",
+   "alt": [
+    "trolleys"
+   ]
+  },
+  {
+   "id": "basket",
+   "en": "basket",
+   "uz": "savatcha (do‘kon savati)",
+   "pos": "noun",
+   "img": true,
+   "ex": "I only needed bread and milk, so I picked up a small basket instead of a trolley.",
+   "gap": "basket",
+   "alt": [
+    "baskets"
+   ]
+  },
+  {
+   "id": "fresh",
+   "en": "fresh",
+   "uz": "yangi (endigina tayyorlangan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbour sells fresh non from her tandir every morning, and it is still hot when we buy it.",
+   "gap": "fresh",
+   "alt": []
+  },
+  {
+   "id": "entrance",
+   "en": "entrance",
+   "uz": "kirish joyi (eshik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Let's meet at the main entrance of the mall at five, next to the big doors.",
+   "gap": "entrance",
+   "alt": [
+    "entrances"
+   ]
+  },
+  {
+   "id": "queue",
+   "en": "queue",
+   "uz": "navbat",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the first day of the sale there was a queue of people outside the shop before it opened.",
+   "gap": "queue",
+   "alt": [
+    "queues"
+   ]
+  },
+  {
+   "id": "item",
+   "en": "item",
+   "uz": "dona (alohida mahsulot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The receipt shows every item we bought and how much it cost.",
+   "gap": "item",
+   "alt": [
+    "items"
+   ]
+  },
+  {
+   "id": "likely",
+   "en": "likely",
+   "uz": "ehtimoli katta",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Take an umbrella; it's likely to rain this afternoon.",
+   "gap": "likely",
+   "alt": []
+  },
+  {
+   "id": "special_offer",
+   "en": "special offer",
+   "uz": "maxsus taklif (chegirma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "This week there's a special offer on rice: buy two bags and get one free.",
+   "gap": "special offer",
+   "alt": [
+    "special offers"
+   ]
+  },
+  {
+   "id": "rearrange",
+   "en": "rearrange",
+   "uz": "joyini o‘zgartirib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The supermarket keeps rearranging its shelves, so I can never find the tea.",
+   "gap": "rearranging",
+   "alt": [
+    "rearranges",
+    "rearranged",
+    "rearranging"
+   ]
+  },
+  {
+   "id": "throw_away",
+   "en": "throw away",
+   "uz": "tashlab yubormoq (chiqindiga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The yoghurt was two weeks old, so Mum threw it away.",
+   "gap": "threw it away",
+   "alt": [
+    "throws away",
+    "threw away",
+    "thrown away",
+    "throwing away",
+    "threw it away"
+   ]
+  },
+  {
+   "id": "shopping_centre",
+   "en": "shopping centre",
+   "uz": "savdo markazi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new shopping centre has a cinema, a food court and more than a hundred shops.",
+   "gap": "shopping centre",
+   "alt": [
+    "shopping centres",
+    "shopping center"
+   ]
+  },
+  {
+   "id": "under_one_roof",
+   "en": "under one roof",
+   "uz": "hammasi bir joyda",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the mall you can buy clothes, eat lunch and watch a film, all under one roof.",
+   "gap": "under one roof",
+   "alt": []
+  },
+  {
+   "id": "convenient",
+   "en": "convenient",
+   "uz": "qulay",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Online shopping is very convenient: you order from your sofa and get things the next day.",
+   "gap": "convenient",
+   "alt": []
+  },
+  {
+   "id": "wide_range",
+   "en": "wide range",
+   "uz": "keng tanlov (xilma-xillik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bookshop has a wide range of English books, from easy readers to long novels.",
+   "gap": "wide range",
+   "alt": []
+  },
+  {
+   "id": "replace",
+   "en": "replace",
+   "uz": "almashtirib bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My new headphones didn't work, so the shop replaced them with a new pair.",
+   "gap": "replaced",
+   "alt": [
+    "replaces",
+    "replaced",
+    "replacing"
+   ]
+  },
+  {
+   "id": "refund",
+   "en": "refund",
+   "uz": "pulni qaytarib berish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shoes were too small, so I took them back and asked for a refund.",
+   "gap": "refund",
+   "alt": [
+    "refunds"
+   ]
+  },
+  {
+   "id": "street_market",
+   "en": "street market",
+   "uz": "ochiq bozor (ko‘chadagi bozor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Sunday there is a street market in our neighbourhood, with small stalls selling fruit, clothes and old books.",
+   "gap": "street market",
+   "alt": [
+    "street markets"
+   ]
+  },
+  {
+   "id": "atmosphere",
+   "en": "atmosphere",
+   "uz": "muhit (ruh, kayfiyat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I love the noisy, friendly atmosphere of Siyob Bazaar in Samarkand.",
+   "gap": "atmosphere",
+   "alt": []
+  },
+  {
+   "id": "stall",
+   "en": "stall",
+   "uz": "rasta (savdo peshtaxtasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "At the bazaar, the man at the fruit stall let us taste a slice of melon.",
+   "gap": "stall",
+   "alt": [
+    "stalls"
+   ]
+  },
+  {
+   "id": "haggle",
+   "en": "haggle",
+   "uz": "savdolashmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At Chorsu Bazaar people often haggle over the price, and the seller usually takes a little less.",
+   "gap": "haggle",
+   "alt": [
+    "haggles",
+    "haggled",
+    "haggling"
+   ]
+  },
+  {
+   "id": "take_back",
+   "en": "take back",
+   "uz": "do‘konga qaytarib olib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "If the shirt doesn't fit, you can take it back within two weeks.",
+   "gap": "take it back",
+   "alt": [
+    "take it back",
+    "takes back",
+    "took back",
+    "taken back",
+    "taking back"
+   ]
+  },
+  {
+   "id": "make_cause",
+   "en": "make",
+   "uz": "…ga sabab bo‘lmoq (qildirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Sad films always make me cry, so these days I watch comedies instead.",
+   "gap": "make",
+   "alt": [
+    "makes",
+    "made",
+    "making"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "trolley",
+   "basket"
+  ],
+  [
+   "checkout",
+   "stall"
+  ],
+  [
+   "checkout",
+   "entrance"
+  ],
+  [
+   "likely",
+   "convenient"
+  ],
+  [
+   "refund",
+   "special_offer"
+  ],
+  [
+   "refund",
+   "replace"
+  ],
+  [
+   "replace",
+   "take_back"
+  ],
+  [
+   "shopping_centre",
+   "under_one_roof"
+  ],
+  [
+   "shelf",
+   "stall"
+  ],
+  [
+   "street_market",
+   "shopping_centre"
+  ],
+  [
+   "rearrange",
+   "replace"
+  ],
+  [
+   "basket",
+   "stall"
+  ]
+ ]
+}

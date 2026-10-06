@@ -1,0 +1,412 @@
+{
+ "book": "advanced",
+ "unit": 34,
+ "title": "Here to help: customer service",
+ "title_uz": "Yordamga tayyormiz: mijozlarga xizmat",
+ "words": [
+  {
+   "id": "prompt",
+   "en": "prompt",
+   "uz": "tezkor (kechiktirilmagan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "I emailed the museum about group tickets and got a prompt reply the same morning.",
+   "gap": "prompt",
+   "alt": []
+  },
+  {
+   "id": "query",
+   "en": "query",
+   "uz": "so‘rov (savol)",
+   "pos": "noun",
+   "img": false,
+   "ex": "If you have any queries about your exam results, please contact the school office before Friday.",
+   "gap": "queries",
+   "alt": [
+    "queries"
+   ]
+  },
+  {
+   "id": "responsive_to",
+   "en": "responsive to",
+   "uz": "…ga tez e’tibor beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The new manager is very responsive to complaints: she had the broken lift fixed two days after we mentioned it.",
+   "gap": "responsive to",
+   "alt": [
+    "responsive"
+   ]
+  },
+  {
+   "id": "accommodating",
+   "en": "accommodating",
+   "uz": "tushunib, yon beradigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The hotel staff were very accommodating and let us check in three hours early.",
+   "gap": "accommodating",
+   "alt": []
+  },
+  {
+   "id": "get_back_to",
+   "en": "get back to",
+   "uz": "…ga javob qaytarmoq (qayta bog‘lanmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The receptionist said she would check the timetable and get back to me within the hour.",
+   "gap": "get back to",
+   "alt": [
+    "got back to",
+    "gets back to",
+    "getting back to"
+   ]
+  },
+  {
+   "id": "incompetent",
+   "en": "incompetent",
+   "uz": "layoqatsiz (malakasiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The builders were so incompetent that they fitted the kitchen door upside down.",
+   "gap": "incompetent",
+   "alt": []
+  },
+  {
+   "id": "impersonal",
+   "en": "impersonal",
+   "uz": "befarq, sovuq (insoniy iliqliksiz)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "With only machines at the checkout and automatic emails, the new supermarket feels cold and impersonal.",
+   "gap": "impersonal",
+   "alt": []
+  },
+  {
+   "id": "shoddy",
+   "en": "shoddy",
+   "uz": "sifatsiz, chala-chulpa",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The trainers fell apart after a week; it was really shoddy workmanship.",
+   "gap": "shoddy",
+   "alt": []
+  },
+  {
+   "id": "substandard",
+   "en": "substandard",
+   "uz": "talabga javob bermaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The inspectors closed the canteen for a week because its hygiene was substandard.",
+   "gap": "substandard",
+   "alt": []
+  },
+  {
+   "id": "uncooperative",
+   "en": "uncooperative",
+   "uz": "hamkorlikka moyil bo‘lmagan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The shop assistant was so uncooperative that she wouldn't even tell us when the next delivery was due.",
+   "gap": "uncooperative",
+   "alt": []
+  },
+  {
+   "id": "backlog",
+   "en": "backlog",
+   "uz": "to‘planib qolgan ishlar (navbat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the holidays, the post office has a huge backlog of parcels waiting to be delivered.",
+   "gap": "backlog",
+   "alt": []
+  },
+  {
+   "id": "sense_of_urgency",
+   "en": "sense of urgency",
+   "uz": "shoshilinchlikni his qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Water was pouring through our ceiling, but the plumber showed no sense of urgency and turned up the next afternoon.",
+   "gap": "sense of urgency",
+   "alt": []
+  },
+  {
+   "id": "helpline",
+   "en": "helpline",
+   "uz": "yordam telefoni",
+   "pos": "noun",
+   "img": false,
+   "ex": "The internet provider has a free helpline that you can call 24 hours a day.",
+   "gap": "helpline",
+   "alt": [
+    "helplines"
+   ]
+  },
+  {
+   "id": "put_on_hold",
+   "en": "put on hold",
+   "uz": "liniyada kuttirib qo‘ymoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Every time I call the airline, they put me on hold and play the same annoying music.",
+   "gap": "put me on hold",
+   "alt": [
+    "put me on hold",
+    "puts you on hold",
+    "put you on hold",
+    "putting me on hold"
+   ]
+  },
+  {
+   "id": "under_guarantee",
+   "en": "under guarantee",
+   "uz": "kafolat muddatida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "My headphones broke after six months, but they were still under guarantee, so the shop replaced them free of charge.",
+   "gap": "under guarantee",
+   "alt": [
+    "under warranty"
+   ]
+  },
+  {
+   "id": "secure_site",
+   "en": "secure site",
+   "uz": "himoyalangan sayt",
+   "pos": "noun",
+   "img": false,
+   "ex": "Never type your card number unless you are on a secure site; look for the padlock symbol next to the web address.",
+   "gap": "secure site",
+   "alt": [
+    "secure sites"
+   ]
+  },
+  {
+   "id": "set_up_an_account",
+   "en": "set up an account",
+   "uz": "hisob (akkaunt) ochmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "To buy train tickets online, you first need to set up an account with your passport details.",
+   "gap": "set up an account",
+   "alt": [
+    "set up account",
+    "setting up an account",
+    "sets up an account"
+   ]
+  },
+  {
+   "id": "privacy_policy",
+   "en": "privacy policy",
+   "uz": "maxfiylik siyosati",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before signing up, read the app's privacy policy to see what it does with your personal data.",
+   "gap": "privacy policy",
+   "alt": []
+  },
+  {
+   "id": "secure_transactions",
+   "en": "secure transactions",
+   "uz": "xavfsiz to‘lov amaliyotlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The online shop guarantees secure transactions, so nobody else can see your card details when you pay.",
+   "gap": "secure transactions",
+   "alt": [
+    "secure transaction"
+   ]
+  },
+  {
+   "id": "check_availability",
+   "en": "check availability",
+   "uz": "bo‘sh joy borligini tekshirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Before booking the guesthouse, I phoned to check availability for the first week of May.",
+   "gap": "check availability",
+   "alt": [
+    "checked availability",
+    "checking availability",
+    "checks availability"
+   ]
+  },
+  {
+   "id": "home_page",
+   "en": "home page",
+   "uz": "bosh sahifa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The museum's opening hours are shown in large letters on its home page.",
+   "gap": "home page",
+   "alt": [
+    "homepage"
+   ]
+  },
+  {
+   "id": "faq",
+   "en": "FAQ",
+   "uz": "ko‘p beriladigan savollar (FAQ)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most of my questions about delivery costs were answered in the FAQ section of the website.",
+   "gap": "FAQ",
+   "alt": [
+    "FAQs",
+    "faq"
+   ]
+  },
+  {
+   "id": "browse",
+   "en": "browse",
+   "uz": "ko‘zdan kechirmoq (tanlab qaramoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the second-hand bookshop near the metro, I like to browse the shelves for a while before choosing anything.",
+   "gap": "browse",
+   "alt": [
+    "browsing",
+    "browsed",
+    "browses"
+   ]
+  },
+  {
+   "id": "site_index",
+   "en": "site index",
+   "uz": "sayt mundarijasi (alifboli ro‘yxat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I couldn't find the returns page until I looked in the site index under the letter R.",
+   "gap": "site index",
+   "alt": []
+  },
+  {
+   "id": "immediate_dispatch",
+   "en": "immediate dispatch",
+   "uz": "darhol jo‘natish",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop offers immediate dispatch, so my order left their warehouse an hour after I paid.",
+   "gap": "immediate dispatch",
+   "alt": []
+  },
+  {
+   "id": "nationwide",
+   "en": "nationwide",
+   "uz": "butun mamlakat bo‘ylab",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The courier company offers a nationwide service, delivering everywhere from Karakalpakstan to the Fergana Valley.",
+   "gap": "nationwide",
+   "alt": []
+  },
+  {
+   "id": "track",
+   "en": "track",
+   "uz": "kuzatib bormoq (buyurtmani)",
+   "pos": "verb",
+   "img": false,
+   "ex": "You can track your parcel online and see exactly which city it has reached.",
+   "gap": "track",
+   "alt": [
+    "tracked",
+    "tracking",
+    "tracks"
+   ]
+  },
+  {
+   "id": "in_store",
+   "en": "in-store",
+   "uz": "do‘konning o‘zida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The same jacket was twenty per cent cheaper online than in-store.",
+   "gap": "in-store",
+   "alt": [
+    "in store"
+   ]
+  },
+  {
+   "id": "exasperating",
+   "en": "exasperating",
+   "uz": "jonga tegadigan (asabni buzadigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Waiting forty minutes for someone to answer the phone is absolutely exasperating.",
+   "gap": "exasperating",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "prompt",
+   "responsive_to"
+  ],
+  [
+   "accommodating",
+   "responsive_to"
+  ],
+  [
+   "incompetent",
+   "shoddy"
+  ],
+  [
+   "shoddy",
+   "substandard"
+  ],
+  [
+   "incompetent",
+   "substandard"
+  ],
+  [
+   "uncooperative",
+   "impersonal"
+  ],
+  [
+   "uncooperative",
+   "incompetent"
+  ],
+  [
+   "secure_site",
+   "secure_transactions"
+  ],
+  [
+   "home_page",
+   "faq"
+  ],
+  [
+   "home_page",
+   "site_index"
+  ],
+  [
+   "faq",
+   "site_index"
+  ],
+  [
+   "browse",
+   "track"
+  ],
+  [
+   "immediate_dispatch",
+   "nationwide"
+  ],
+  [
+   "helpline",
+   "put_on_hold"
+  ],
+  [
+   "secure_site",
+   "privacy_policy"
+  ],
+  [
+   "check_availability",
+   "browse"
+  ],
+  [
+   "home_page",
+   "secure_site"
+  ]
+ ]
+}

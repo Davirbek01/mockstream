@@ -1,0 +1,511 @@
+{
+ "book": "upper",
+ "unit": 58,
+ "title": "Movement and speed",
+ "title_uz": "Harakat va tezlik",
+ "words": [
+  {
+   "id": "move_house",
+   "en": "move",
+   "uz": "ko‘chib o‘tmoq (yangi uyga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The Rahimovs moved to Termez last summer, so their daughter had to change schools.",
+   "gap": "moved",
+   "alt": [
+    "moves",
+    "moved",
+    "moving"
+   ]
+  },
+  {
+   "id": "sail",
+   "en": "sail",
+   "uz": "suzmoq (yelkanli qayiq, kema)",
+   "pos": "verb",
+   "img": false,
+   "ex": "With a strong wind behind them, the little boats sailed across the lake in less than an hour.",
+   "gap": "sailed",
+   "alt": [
+    "sails",
+    "sailed",
+    "sailing"
+   ]
+  },
+  {
+   "id": "flow",
+   "en": "flow",
+   "uz": "oqmoq (daryo, soy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Every April, melted snow from the mountains flows into the stream behind our dacha.",
+   "gap": "flows",
+   "alt": [
+    "flows",
+    "flowed",
+    "flowing"
+   ]
+  },
+  {
+   "id": "swerve",
+   "en": "swerve",
+   "uz": "keskin chetga burilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cyclist swerved sharply to miss a hole in the road and nearly fell off.",
+   "gap": "swerved",
+   "alt": [
+    "swerves",
+    "swerved",
+    "swerving"
+   ]
+  },
+  {
+   "id": "drift",
+   "en": "drift",
+   "uz": "sekin suzib ketmoq (oqim, shamolda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our paper boat drifted slowly down the canal until it disappeared under the bridge.",
+   "gap": "drifted",
+   "alt": [
+    "drifts",
+    "drifted",
+    "drifting"
+   ]
+  },
+  {
+   "id": "flutter",
+   "en": "flutter",
+   "uz": "hilpiramoq (bayroq, varaq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The pages of my notebook fluttered in the breeze from the electric fan.",
+   "gap": "fluttered",
+   "alt": [
+    "flutters",
+    "fluttered",
+    "fluttering"
+   ]
+  },
+  {
+   "id": "stir",
+   "en": "stir",
+   "uz": "sal qimirlamoq (uyquda, barg)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The baby stirred in her cot but didn't wake up.",
+   "gap": "stirred",
+   "alt": [
+    "stirs",
+    "stirred",
+    "stirring"
+   ]
+  },
+  {
+   "id": "sway",
+   "en": "sway",
+   "uz": "u yoq-bu yoqqa tebranmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The rope bridge over the river swayed gently as we walked across it one by one.",
+   "gap": "swayed",
+   "alt": [
+    "sways",
+    "swayed",
+    "swaying"
+   ]
+  },
+  {
+   "id": "crawl",
+   "en": "crawl",
+   "uz": "sudralib bormoq (tirbandlikda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "On the first day of the holidays, cars were crawling out of the city in a queue ten kilometres long.",
+   "gap": "crawling",
+   "alt": [
+    "crawls",
+    "crawled",
+    "crawling"
+   ]
+  },
+  {
+   "id": "dawdle",
+   "en": "dawdle",
+   "uz": "ivirsimoq, keragidan sekin yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My little brother always dawdles on the way home from school, stopping to look at every cat.",
+   "gap": "dawdles",
+   "alt": [
+    "dawdles",
+    "dawdled",
+    "dawdling"
+   ]
+  },
+  {
+   "id": "tear_along",
+   "en": "tear",
+   "uz": "yelday uchib chiqmoq/ketmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The kids tore out of the classroom the moment the bell rang.",
+   "gap": "tore",
+   "alt": [
+    "tears",
+    "tore",
+    "torn",
+    "tearing"
+   ]
+  },
+  {
+   "id": "shoot_past",
+   "en": "shoot past",
+   "uz": "yonidan o‘qdek o‘tib ketmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "A boy on an electric scooter shot past us on the pavement, almost knocking Dad over.",
+   "gap": "shot past",
+   "alt": [
+    "shoots past",
+    "shot past",
+    "shooting past"
+   ]
+  },
+  {
+   "id": "hurry",
+   "en": "hurry",
+   "uz": "shoshilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Seeing the bus at the stop, we started hurrying down the hill to catch it.",
+   "gap": "hurrying",
+   "alt": [
+    "hurries",
+    "hurried",
+    "hurrying"
+   ]
+  },
+  {
+   "id": "rush",
+   "en": "rush",
+   "uz": "shoshma-shosharlik qilmoq (ishda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Don't rush your homework, or you'll make silly mistakes.",
+   "gap": "rush",
+   "alt": [
+    "rushes",
+    "rushed",
+    "rushing"
+   ]
+  },
+  {
+   "id": "creep",
+   "en": "creep",
+   "uz": "sezdirmay, sekin bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The cat crept silently across the yard towards the sparrows.",
+   "gap": "crept",
+   "alt": [
+    "creeps",
+    "crept",
+    "creeping"
+   ]
+  },
+  {
+   "id": "plod",
+   "en": "plod",
+   "uz": "og‘ir qadam bilan (charchab) yurmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After ten hours of hiking, we plodded back to the camp, too tired to talk.",
+   "gap": "plodded",
+   "alt": [
+    "plods",
+    "plodded",
+    "plodding"
+   ]
+  },
+  {
+   "id": "cruise_v",
+   "en": "cruise",
+   "uz": "bir maromda uchmoq (yurmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Once we were on the motorway, Dad cruised along at a steady 90 kilometres an hour.",
+   "gap": "cruised",
+   "alt": [
+    "cruises",
+    "cruised",
+    "cruising"
+   ]
+  },
+  {
+   "id": "speed",
+   "en": "speed",
+   "uz": "tezlik (umumiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new e-bike has a top speed of 25 kilometres an hour.",
+   "gap": "speed",
+   "alt": [
+    "speeds"
+   ]
+  },
+  {
+   "id": "rate_n",
+   "en": "rate",
+   "uz": "sur’at, ko‘rsatkich (statistikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school library is growing at a rate of about fifty new books a month.",
+   "gap": "rate",
+   "alt": [
+    "rates"
+   ]
+  },
+  {
+   "id": "pace",
+   "en": "pace",
+   "uz": "sur’at (qanday his qilinishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Life in the village moves at a slower pace than in the capital.",
+   "gap": "pace",
+   "alt": []
+  },
+  {
+   "id": "velocity",
+   "en": "velocity",
+   "uz": "tezlik (fizikada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In today's physics lab we measured the velocity of a ball rolling down a ramp.",
+   "gap": "velocity",
+   "alt": []
+  },
+  {
+   "id": "move_general",
+   "en": "move",
+   "uz": "qimirlamoq, joyidan siljimoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Please sit still and don't move while I take the photo.",
+   "gap": "move",
+   "alt": [
+    "moves",
+    "moved",
+    "moving"
+   ]
+  },
+  {
+   "id": "travel_v",
+   "en": "travel",
+   "uz": "(yo‘l bo‘ylab) harakatlanmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school bus travels along the same road every morning, picking up children from five villages.",
+   "gap": "travels",
+   "alt": [
+    "travels",
+    "travelled",
+    "travelling",
+    "traveled"
+   ]
+  },
+  {
+   "id": "drive_along",
+   "en": "drive",
+   "uz": "(mashina) yurmoq, qatnamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In Britain, cars drive on the left, so look right before you cross.",
+   "gap": "drive",
+   "alt": [
+    "drives",
+    "drove",
+    "driven",
+    "driving"
+   ]
+  },
+  {
+   "id": "run_river",
+   "en": "run",
+   "uz": "oqib o‘tmoq (daryo)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The Zarafshan River runs through the middle of the valley.",
+   "gap": "runs",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "sail",
+   "cruise_v"
+  ],
+  [
+   "sail",
+   "drift"
+  ],
+  [
+   "drift",
+   "creep"
+  ],
+  [
+   "flutter",
+   "stir"
+  ],
+  [
+   "flutter",
+   "sway"
+  ],
+  [
+   "stir",
+   "sway"
+  ],
+  [
+   "crawl",
+   "creep"
+  ],
+  [
+   "plod",
+   "creep"
+  ],
+  [
+   "plod",
+   "crawl"
+  ],
+  [
+   "tear_along",
+   "shoot_past"
+  ],
+  [
+   "tear_along",
+   "cruise_v"
+  ],
+  [
+   "hurry",
+   "rush"
+  ],
+  [
+   "speed",
+   "velocity"
+  ],
+  [
+   "speed",
+   "pace"
+  ],
+  [
+   "speed",
+   "rate_n"
+  ],
+  [
+   "rate_n",
+   "pace"
+  ],
+  [
+   "move_house",
+   "sail"
+  ],
+  [
+   "move_house",
+   "drift"
+  ],
+  [
+   "move_house",
+   "flutter"
+  ],
+  [
+   "move_house",
+   "stir"
+  ],
+  [
+   "move_house",
+   "sway"
+  ],
+  [
+   "move_house",
+   "creep"
+  ],
+  [
+   "move_house",
+   "plod"
+  ],
+  [
+   "move_house",
+   "cruise_v"
+  ],
+  [
+   "move_house",
+   "swerve"
+  ],
+  [
+   "move_house",
+   "tear_along"
+  ],
+  [
+   "sail",
+   "tear_along"
+  ],
+  [
+   "move_general",
+   "move_house"
+  ],
+  [
+   "move_general",
+   "stir"
+  ],
+  [
+   "move_general",
+   "sway"
+  ],
+  [
+   "drive_along",
+   "cruise_v"
+  ],
+  [
+   "drive_along",
+   "travel_v"
+  ],
+  [
+   "drive_along",
+   "move_general"
+  ],
+  [
+   "travel_v",
+   "run_river"
+  ],
+  [
+   "travel_v",
+   "drift"
+  ],
+  [
+   "travel_v",
+   "move_house"
+  ],
+  [
+   "run_river",
+   "flow"
+  ],
+  [
+   "travel_v",
+   "sail"
+  ],
+  [
+   "travel_v",
+   "cruise_v"
+  ],
+  [
+   "travel_v",
+   "move_general"
+  ]
+ ]
+}

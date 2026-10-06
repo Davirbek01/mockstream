@@ -1,0 +1,621 @@
+{
+ "book": "preint",
+ "unit": 36,
+ "title": "Talking about your work",
+ "title_uz": "Ishingiz haqida gapirish",
+ "words": [
+  {
+   "id": "for_a_living",
+   "en": "for a living",
+   "uz": "tirikchilik uchun (kasb sifatida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the parents' meeting, Mrs Rahimova asked Sardor's father what he does for a living.",
+   "gap": "for a living",
+   "alt": []
+  },
+  {
+   "id": "work_for",
+   "en": "work for",
+   "uz": "(biror kompaniyada) ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister works for an airline, so she often flies to Istanbul and Dubai.",
+   "gap": "works for",
+   "alt": [
+    "works for",
+    "worked for",
+    "working for"
+   ]
+  },
+  {
+   "id": "marketing",
+   "en": "marketing",
+   "uz": "marketing (sotuv va reklama ishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Otabek works in marketing: he plans adverts and posts for a juice company on Instagram.",
+   "gap": "marketing",
+   "alt": []
+  },
+  {
+   "id": "consultant",
+   "en": "consultant",
+   "uz": "maslahatchi (mutaxassis)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bakery owner paid a business consultant to help her find more customers.",
+   "gap": "consultant",
+   "alt": [
+    "consultants"
+   ]
+  },
+  {
+   "id": "advise",
+   "en": "advise",
+   "uz": "maslahat bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school nurse always advises students to drink water during long exams.",
+   "gap": "advises",
+   "alt": [
+    "advises",
+    "advised",
+    "advising"
+   ]
+  },
+  {
+   "id": "advice",
+   "en": "advice",
+   "uz": "maslahat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before choosing a university, Zarina asked her English teacher for some advice.",
+   "gap": "advice",
+   "alt": []
+  },
+  {
+   "id": "set_up",
+   "en": "set up",
+   "uz": "(biznes) ochmoq, tashkil qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Last year two friends from Namangan set up a small online shop that sells handmade school bags.",
+   "gap": "set up",
+   "alt": [
+    "sets up",
+    "setting up"
+   ]
+  },
+  {
+   "id": "deal_with",
+   "en": "deal with",
+   "uz": "shug‘ullanmoq (ish, mijoz bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Feruza works at the hotel reception and deals with phone calls and emails from guests all over the world.",
+   "gap": "deals with",
+   "alt": [
+    "deals with",
+    "dealt with",
+    "dealing with"
+   ]
+  },
+  {
+   "id": "handle",
+   "en": "handle",
+   "uz": "hal qilmoq (shikoyat, muammoni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Rustam never loses his temper, so he handles all the complaints from angry customers.",
+   "gap": "handles",
+   "alt": [
+    "handles",
+    "handled",
+    "handling"
+   ]
+  },
+  {
+   "id": "responsible_for",
+   "en": "responsible for",
+   "uz": "…uchun javobgar",
+   "pos": "adjective",
+   "img": false,
+   "ex": "In our class, Bekzod is responsible for opening the windows before each lesson.",
+   "gap": "responsible for",
+   "alt": []
+  },
+  {
+   "id": "in_charge_of",
+   "en": "in charge of",
+   "uz": "…ga rahbar, …ning boshlig‘i",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Mr Ergashev is in charge of a team of twelve engineers who are building the new bridge.",
+   "gap": "in charge of",
+   "alt": []
+  },
+  {
+   "id": "product",
+   "en": "product",
+   "uz": "mahsulot",
+   "pos": "noun",
+   "img": false,
+   "ex": "The company sells honey, jam and other products from small farms in the mountains.",
+   "gap": "products",
+   "alt": [
+    "products"
+   ]
+  },
+  {
+   "id": "run_business",
+   "en": "run",
+   "uz": "boshqarmoq (biznes, do‘kon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mrs Yusupova runs a small hairdresser's in Termez with three staff.",
+   "gap": "runs",
+   "alt": [
+    "runs",
+    "ran",
+    "running"
+   ]
+  },
+  {
+   "id": "day_to_day",
+   "en": "day-to-day",
+   "uz": "kundalik (har kungi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The head teacher has a deputy who looks after the day-to-day problems of the school.",
+   "gap": "day-to-day",
+   "alt": [
+    "day to day"
+   ]
+  },
+  {
+   "id": "team",
+   "en": "team",
+   "uz": "jamoa (ishchi guruh)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our IT teacher leads a team of three students who build the school website.",
+   "gap": "team",
+   "alt": [
+    "teams"
+   ]
+  },
+  {
+   "id": "involve",
+   "en": "involve",
+   "uz": "(ish) …ni o‘z ichiga olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Being a pilot involves spending many nights away from home.",
+   "gap": "involves",
+   "alt": [
+    "involves",
+    "involved",
+    "involving"
+   ]
+  },
+  {
+   "id": "admin",
+   "en": "admin",
+   "uz": "ma’muriy ishlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teachers say they spend too many hours on admin, like filling in forms and writing reports.",
+   "gap": "admin",
+   "alt": [
+    "administration"
+   ]
+  },
+  {
+   "id": "salary",
+   "en": "salary",
+   "uz": "maosh (oylik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nurses at the new clinic get their salary on the fifth of every month.",
+   "gap": "salary",
+   "alt": [
+    "salaries"
+   ]
+  },
+  {
+   "id": "wages",
+   "en": "wages",
+   "uz": "ish haqi (kunbay yoki haftalik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builders on our street receive their wages in cash every Friday evening.",
+   "gap": "wages",
+   "alt": [
+    "wage"
+   ]
+  },
+  {
+   "id": "income",
+   "en": "income",
+   "uz": "daromad (yillik tushum)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The family's income doubled when both parents found better jobs.",
+   "gap": "income",
+   "alt": []
+  },
+  {
+   "id": "income_tax",
+   "en": "income tax",
+   "uz": "daromad solig‘i",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad's salary looks big on paper, but after income tax he takes home a bit less.",
+   "gap": "income tax",
+   "alt": []
+  },
+  {
+   "id": "fixed_hours",
+   "en": "fixed hours",
+   "uz": "o‘zgarmas ish vaqti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sevara likes her library job because it has fixed hours: always from nine till six.",
+   "gap": "fixed hours",
+   "alt": []
+  },
+  {
+   "id": "nine_to_five",
+   "en": "nine-to-five job",
+   "uz": "kunduzgi oddiy ish (9 dan 17 gacha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Javlon left his nine-to-five job at the bank to become a travel blogger.",
+   "gap": "nine-to-five job",
+   "alt": [
+    "nine to five job"
+   ]
+  },
+  {
+   "id": "overtime",
+   "en": "overtime",
+   "uz": "belgilangan vaqtdan ortiq ishlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before Navruz the bakery is so busy that everyone has to work overtime.",
+   "gap": "overtime",
+   "alt": []
+  },
+  {
+   "id": "working_conditions",
+   "en": "working conditions",
+   "uz": "ish sharoitlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new factory has good working conditions: clean air, a canteen and a small gym.",
+   "gap": "working conditions",
+   "alt": []
+  },
+  {
+   "id": "time_off",
+   "en": "time off",
+   "uz": "ishdan javob (dam olish vaqti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nargiza took some time off work to help her family move to a new flat.",
+   "gap": "time off",
+   "alt": []
+  },
+  {
+   "id": "paid_holiday",
+   "en": "paid holiday",
+   "uz": "haq to‘lanadigan ta’til",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Munisa's company every worker gets twenty-one days of paid holiday a year.",
+   "gap": "paid holiday",
+   "alt": [
+    "paid holidays"
+   ]
+  },
+  {
+   "id": "minimum_wage",
+   "en": "minimum wage",
+   "uz": "eng kam ish haqi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shahzod earns only the minimum wage at the car wash, so he's looking for a better job.",
+   "gap": "minimum wage",
+   "alt": []
+  },
+  {
+   "id": "job",
+   "en": "job",
+   "uz": "ish joyi (lavozim, sanaladi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Muhayyo found a job at a bookshop near the university and started on Monday.",
+   "gap": "job",
+   "alt": [
+    "jobs"
+   ]
+  },
+  {
+   "id": "work_n",
+   "en": "work",
+   "uz": "ish (mehnat, sanalmaydi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I can't come to the cinema tonight; I've got a lot of work to finish for tomorrow.",
+   "gap": "work",
+   "alt": []
+  },
+  {
+   "id": "sales_dept",
+   "en": "sales",
+   "uz": "savdo bo‘limi (sotish ishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Bekzod works in sales, so he spends most of the day phoning shops and offering them new goods.",
+   "gap": "sales",
+   "alt": []
+  },
+  {
+   "id": "work_in",
+   "en": "work in",
+   "uz": "(biror sohada yoki joyda) ishlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shirin works in a hospital laboratory, where she tests blood samples.",
+   "gap": "works in",
+   "alt": [
+    "works in",
+    "worked in",
+    "working in"
+   ]
+  },
+  {
+   "id": "what_do_you_do",
+   "en": "what do you do",
+   "uz": "Kasbingiz nima?",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At the party, a man asked me, 'What do you do?' and I told him I was a nurse.",
+   "gap": "What do you do",
+   "alt": [
+    "What do you do?"
+   ]
+  },
+  {
+   "id": "towel",
+   "en": "towel",
+   "uz": "sochiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Don't forget to pack a towel; the guesthouse by the lake doesn't give them out.",
+   "gap": "towel",
+   "alt": [
+    "towels"
+   ]
+  },
+  {
+   "id": "beauty_products",
+   "en": "beauty products",
+   "uz": "go‘zallik vositalari (krem, shampun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The shop on the corner sells soap, face cream and other beauty products.",
+   "gap": "beauty products",
+   "alt": []
+  },
+  {
+   "id": "manager",
+   "en": "manager",
+   "uz": "boshqaruvchi (rahbar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the waiter was rude, we asked to speak to the restaurant manager.",
+   "gap": "manager",
+   "alt": [
+    "managers"
+   ]
+  },
+  {
+   "id": "secretary",
+   "en": "secretary",
+   "uz": "kotib(a)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The head teacher's secretary answers the phone and types all his letters.",
+   "gap": "secretary",
+   "alt": [
+    "secretaries"
+   ]
+  },
+  {
+   "id": "make_money",
+   "en": "make",
+   "uz": "(pul) topmoq, daromad qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Selling honey at the bazaar, the old beekeeper makes about two thousand dollars a year.",
+   "gap": "makes",
+   "alt": [
+    "makes",
+    "made",
+    "making"
+   ]
+  },
+  {
+   "id": "pay_v",
+   "en": "pay",
+   "uz": "maosh to‘lamoq (ishchiga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The farm pays the fruit pickers by the box, not by the hour.",
+   "gap": "pays",
+   "alt": [
+    "pays",
+    "paid",
+    "paying"
+   ]
+  },
+  {
+   "id": "employer",
+   "en": "employer",
+   "uz": "ish beruvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "By law, an employer can't pay workers less than the amount the government sets.",
+   "gap": "employer",
+   "alt": [
+    "employers"
+   ]
+  },
+  {
+   "id": "health",
+   "en": "health",
+   "uz": "sog‘liq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Walking to school every day is good for your health.",
+   "gap": "health",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "deal_with",
+   "handle"
+  ],
+  [
+   "responsible_for",
+   "in_charge_of"
+  ],
+  [
+   "run_business",
+   "handle"
+  ],
+  [
+   "run_business",
+   "set_up"
+  ],
+  [
+   "run_business",
+   "work_for"
+  ],
+  [
+   "work_for",
+   "deal_with"
+  ],
+  [
+   "salary",
+   "wages"
+  ],
+  [
+   "salary",
+   "income"
+  ],
+  [
+   "wages",
+   "minimum_wage"
+  ],
+  [
+   "advise",
+   "advice"
+  ],
+  [
+   "fixed_hours",
+   "nine_to_five"
+  ],
+  [
+   "time_off",
+   "paid_holiday"
+  ],
+  [
+   "admin",
+   "marketing"
+  ],
+  [
+   "income",
+   "income_tax"
+  ],
+  [
+   "for_a_living",
+   "abroad"
+  ],
+  [
+   "salary",
+   "minimum_wage"
+  ],
+  [
+   "wages",
+   "income"
+  ],
+  [
+   "job",
+   "work_n"
+  ],
+  [
+   "work_n",
+   "admin"
+  ],
+  [
+   "sales_dept",
+   "marketing"
+  ],
+  [
+   "work_in",
+   "work_for"
+  ],
+  [
+   "beauty_products",
+   "product"
+  ],
+  [
+   "manager",
+   "consultant"
+  ],
+  [
+   "employer",
+   "manager"
+  ],
+  [
+   "pay_v",
+   "handle"
+  ],
+  [
+   "make_money",
+   "run_business"
+  ],
+  [
+   "what_do_you_do",
+   "for_a_living"
+  ],
+  [
+   "job",
+   "profession"
+  ],
+  [
+   "boss",
+   "manager"
+  ],
+  [
+   "boss",
+   "employer"
+  ],
+  [
+   "owner",
+   "manager"
+  ],
+  [
+   "make_money",
+   "pay_v"
+  ],
+  [
+   "employer",
+   "owner"
+  ]
+ ]
+}

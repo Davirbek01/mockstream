@@ -1,0 +1,382 @@
+{
+ "book": "advanced",
+ "unit": 100,
+ "title": "In the headlines",
+ "title_uz": "Gazeta sarlavhalarida",
+ "words": [
+  {
+   "id": "headline",
+   "en": "headline",
+   "uz": "gazeta sarlavhasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The headline on the front page was only four words long, but everyone in town was talking about it.",
+   "gap": "headline",
+   "alt": [
+    "headlines"
+   ]
+  },
+  {
+   "id": "tabloid",
+   "en": "tabloid",
+   "uz": "ommabop (sariq) gazeta",
+   "pos": "noun",
+   "img": false,
+   "ex": "The tabloids printed huge photos of the singer's new haircut on their front pages.",
+   "gap": "tabloids",
+   "alt": [
+    "tabloids"
+   ]
+  },
+  {
+   "id": "omit",
+   "en": "omit",
+   "uz": "tushirib qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Short of space, the journalist omitted the mayor's long quotation from the final version of the story.",
+   "gap": "omitted",
+   "alt": [
+    "omitted",
+    "omits",
+    "omitting"
+   ]
+  },
+  {
+   "id": "the_cloud",
+   "en": "the cloud",
+   "uz": "internetdagi ma’lumot ombori",
+   "pos": "noun",
+   "img": false,
+   "ex": "All my photos are stored in the cloud, so I can open them on any device.",
+   "gap": "the cloud",
+   "alt": [
+    "cloud"
+   ]
+  },
+  {
+   "id": "dramatic",
+   "en": "dramatic",
+   "uz": "hayajonli, keskin (ta’sirli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The final minutes of the match were so dramatic that nobody in the stadium sat down.",
+   "gap": "dramatic",
+   "alt": []
+  },
+  {
+   "id": "celebrity",
+   "en": "celebrity",
+   "uz": "mashhur shaxs (yulduz)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gossip magazines love to report on what every celebrity wore at the film festival.",
+   "gap": "celebrity",
+   "alt": [
+    "celebrities"
+   ]
+  },
+  {
+   "id": "pop_star",
+   "en": "pop star",
+   "uz": "estrada qo‘shiqchisi (mashhur)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thousands of teenagers queued all night to see the pop star sing her new hits.",
+   "gap": "pop star",
+   "alt": [
+    "pop stars"
+   ]
+  },
+  {
+   "id": "sports_personality",
+   "en": "sports personality",
+   "uz": "mashhur sportchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "After winning three gold medals, the swimmer was voted sports personality of the year.",
+   "gap": "sports personality",
+   "alt": [
+    "sports personalities"
+   ]
+  },
+  {
+   "id": "alliteration",
+   "en": "alliteration",
+   "uz": "bosh tovushlar takrori (so‘zlarda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The slogan 'Big Bargains in Bradford' uses alliteration to sound catchy.",
+   "gap": "alliteration",
+   "alt": []
+  },
+  {
+   "id": "catch_the_eye",
+   "en": "catch the eye",
+   "uz": "e’tiborni tortmoq, ko‘zga tashlanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "A bright red poster in the bookshop window caught my eye as I walked past.",
+   "gap": "caught my eye",
+   "alt": [
+    "catches the eye",
+    "caught the eye",
+    "catch my eye",
+    "caught my eye",
+    "catch your eye"
+   ]
+  },
+  {
+   "id": "crazed",
+   "en": "crazed",
+   "uz": "jazavaga tushgan, telbavor",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Hundreds of crazed fans screamed as the band stepped off the plane.",
+   "gap": "crazed",
+   "alt": []
+  },
+  {
+   "id": "lout",
+   "en": "lout",
+   "uz": "odobsiz bezori (so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Three louts were thrown out of the stadium for throwing plastic bottles at the referee.",
+   "gap": "louts",
+   "alt": [
+    "louts"
+   ]
+  },
+  {
+   "id": "yob",
+   "en": "yob",
+   "uz": "qo‘pol, janjalkash yigit (Brit., so‘zl.)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some yob kicked over all the flowerpots outside the café last night.",
+   "gap": "yob",
+   "alt": [
+    "yobs"
+   ]
+  },
+  {
+   "id": "crush",
+   "en": "crush",
+   "uz": "tor-mor qilmoq (mag‘lub etmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our school team crushed the visitors 7–0 in the final.",
+   "gap": "crushed",
+   "alt": [
+    "crushes",
+    "crushed",
+    "crushing"
+   ]
+  },
+  {
+   "id": "crackdown",
+   "en": "crackdown",
+   "uz": "keskin choralar (…ga qarshi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The city council has announced a crackdown on drivers who park on the pavement.",
+   "gap": "crackdown",
+   "alt": [
+    "crackdowns"
+   ]
+  },
+  {
+   "id": "rip_through",
+   "en": "rip through",
+   "uz": "(bo‘ron) vayron qilib o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A powerful storm ripped through the orchards, tearing branches off hundreds of trees.",
+   "gap": "ripped through",
+   "alt": [
+    "rips through",
+    "ripped through",
+    "ripping through"
+   ]
+  },
+  {
+   "id": "play_on_words",
+   "en": "play on words",
+   "uz": "so‘z o‘yini",
+   "pos": "noun",
+   "img": false,
+   "ex": "The fish restaurant's name, 'The Plaice to Be', is a play on words that makes every customer smile.",
+   "gap": "play on words",
+   "alt": [
+    "plays on words"
+   ]
+  },
+  {
+   "id": "shooting_star",
+   "en": "shooting star",
+   "uz": "uchar yulduz (meteor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lying on the roof on an August night, we counted eleven shooting stars in an hour.",
+   "gap": "shooting stars",
+   "alt": [
+    "shooting stars"
+   ]
+  },
+  {
+   "id": "gunman",
+   "en": "gunman",
+   "uz": "qurolli jinoyatchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Police say the gunman who robbed the bank escaped in a stolen car.",
+   "gap": "gunman",
+   "alt": [
+    "gunmen"
+   ]
+  },
+  {
+   "id": "target",
+   "en": "target",
+   "uz": "nishon (hujum, tanqid uchun)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The striker became a target for the newspapers after he missed two penalties.",
+   "gap": "target",
+   "alt": [
+    "targets"
+   ]
+  },
+  {
+   "id": "thug",
+   "en": "thug",
+   "uz": "zo‘ravon bezori",
+   "pos": "noun",
+   "img": false,
+   "ex": "The newspaper blamed a small group of thugs for smashing the windows of the bus shelter.",
+   "gap": "thugs",
+   "alt": [
+    "thugs"
+   ]
+  },
+  {
+   "id": "reign_of_terror",
+   "en": "reign of terror",
+   "uz": "dahshat hukmronligi (zulm davri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The history book describes the tyrant's ten-year reign of terror, when thousands of families fled the country.",
+   "gap": "reign of terror",
+   "alt": []
+  },
+  {
+   "id": "shoot_goal",
+   "en": "shoot",
+   "uz": "(darvozaga) zarba bermoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The young forward shot from thirty metres and the ball flew into the top corner.",
+   "gap": "shot",
+   "alt": [
+    "shot",
+    "shoots",
+    "shooting"
+   ]
+  },
+  {
+   "id": "meteor",
+   "en": "meteor",
+   "uz": "atmosferada yonib ketuvchi tosh jism",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bright flash over the mountains last night was not a plane but a meteor burning up in the atmosphere.",
+   "gap": "meteor",
+   "alt": [
+    "meteors"
+   ]
+  },
+  {
+   "id": "militaristic",
+   "en": "militaristic",
+   "uz": "harbiy ruhdagi, jangari",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The coach's militaristic training, with dawn runs and strict orders, made some players quit.",
+   "gap": "militaristic",
+   "alt": []
+  },
+  {
+   "id": "violent",
+   "en": "violent",
+   "uz": "zo‘ravonlikka oid, shafqatsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Parents complained that the video game was far too violent for young children.",
+   "gap": "violent",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "lout",
+   "yob"
+  ],
+  [
+   "celebrity",
+   "pop_star"
+  ],
+  [
+   "celebrity",
+   "sports_personality"
+  ],
+  [
+   "pop_star",
+   "sports_personality"
+  ],
+  [
+   "gunman",
+   "thug"
+  ],
+  [
+   "thug",
+   "lout"
+  ],
+  [
+   "thug",
+   "yob"
+  ],
+  [
+   "meteor",
+   "shooting_star"
+  ],
+  [
+   "violent",
+   "dramatic"
+  ],
+  [
+   "violent",
+   "crazed"
+  ],
+  [
+   "gunman",
+   "yob"
+  ],
+  [
+   "lad",
+   "yob"
+  ],
+  [
+   "lad",
+   "lout"
+  ],
+  [
+   "lad",
+   "thug"
+  ],
+  [
+   "guy",
+   "yob"
+  ]
+ ]
+}

@@ -1,0 +1,478 @@
+{
+ "book": "upper",
+ "unit": 36,
+ "title": "Social media",
+ "title_uz": "Ijtimoiy tarmoqlar",
+ "words": [
+  {
+   "id": "share",
+   "en": "share",
+   "uz": "ulashmoq (boshqalarga ko‘rsatmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Instead of sending the photos to each of us separately, Rustam shared them with the whole group in one post.",
+   "gap": "shared",
+   "alt": [
+    "shares",
+    "shared",
+    "sharing"
+   ]
+  },
+  {
+   "id": "update_status",
+   "en": "update your status",
+   "uz": "statusini yangilamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nilufar likes to update her status from every city she visits on holiday.",
+   "gap": "update her status",
+   "alt": [
+    "update her status",
+    "update his status",
+    "updates her status",
+    "updates his status",
+    "updated her status",
+    "updated his status",
+    "updating your status",
+    "update status"
+   ]
+  },
+  {
+   "id": "friend_request",
+   "en": "friend request",
+   "uz": "do‘stlik so‘rovi",
+   "pos": "noun",
+   "img": false,
+   "ex": "I accepted Kamila's friend request, and now we can see each other's photos.",
+   "gap": "friend request",
+   "alt": [
+    "friend requests"
+   ]
+  },
+  {
+   "id": "subscribe",
+   "en": "subscribe",
+   "uz": "(kanalga) obuna bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "More than two million people subscribe to his cooking channel, where he shows how to make dishes from all over Central Asia.",
+   "gap": "subscribe",
+   "alt": [
+    "subscribes",
+    "subscribed",
+    "subscribing"
+   ]
+  },
+  {
+   "id": "follow",
+   "en": "follow",
+   "uz": "(akkauntni) kuzatib bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Since I started to follow that astronaut on social media, I see her photos of the Earth from space in my feed every day.",
+   "gap": "follow",
+   "alt": [
+    "follows",
+    "followed",
+    "following"
+   ]
+  },
+  {
+   "id": "like_v",
+   "en": "like",
+   "uz": "layk bosmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Forty people liked my photo of the snowy Chimgan peaks, but nobody wrote a single word under it.",
+   "gap": "liked",
+   "alt": [
+    "likes",
+    "liked",
+    "liking"
+   ]
+  },
+  {
+   "id": "comment_v",
+   "en": "comment on",
+   "uz": "izoh qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My English teacher commented on my blog post and gave me some useful advice about my writing.",
+   "gap": "commented on",
+   "alt": [
+    "comments on",
+    "commented on",
+    "commenting on",
+    "comment",
+    "comments",
+    "commented",
+    "commenting"
+   ]
+  },
+  {
+   "id": "comment_n",
+   "en": "comment",
+   "uz": "izoh (post ostidagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Under the video of my first piano concert there was only one comment: 'Well done, sis!'",
+   "gap": "comment",
+   "alt": [
+    "comments"
+   ]
+  },
+  {
+   "id": "profile",
+   "en": "profile",
+   "uz": "profil (shaxsiy sahifa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before the interview, the manager looked at my profile on a job website to see where I had worked.",
+   "gap": "profile",
+   "alt": [
+    "profiles"
+   ]
+  },
+  {
+   "id": "rate",
+   "en": "rate",
+   "uz": "baholamoq (yulduzcha bilan)",
+   "pos": "verb",
+   "img": false,
+   "ex": "After every taxi ride, the app asks you to rate the driver from one to five stars.",
+   "gap": "rate",
+   "alt": [
+    "rates",
+    "rated",
+    "rating"
+   ]
+  },
+  {
+   "id": "views",
+   "en": "views",
+   "uz": "ko‘rishlar soni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her short video about fixing a bicycle chain has had over a million views.",
+   "gap": "views",
+   "alt": [
+    "view"
+   ]
+  },
+  {
+   "id": "notifications",
+   "en": "notifications",
+   "uz": "bildirishnomalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "My phone buzzed all night with notifications from the class group chat.",
+   "gap": "notifications",
+   "alt": [
+    "notification"
+   ]
+  },
+  {
+   "id": "turn_off",
+   "en": "turn off",
+   "uz": "o‘chirmoq (telefon, bildirishnoma)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the concert started, a voice asked everyone to turn off their phones or switch them to silent.",
+   "gap": "turn off",
+   "alt": [
+    "turns off",
+    "turned off",
+    "turning off"
+   ]
+  },
+  {
+   "id": "personal_information",
+   "en": "personal information",
+   "uz": "shaxsiy ma’lumotlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The quiz app wanted my date of birth, my school and my home address: far too much personal information for a simple game.",
+   "gap": "personal information",
+   "alt": []
+  },
+  {
+   "id": "create_account",
+   "en": "create an account",
+   "uz": "akkaunt ochmoq (ro‘yxatdan o‘tmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "To buy train tickets on the website, you first need to create an account with your email and phone number.",
+   "gap": "create an account",
+   "alt": [
+    "creates an account",
+    "created an account",
+    "creating an account",
+    "create account"
+   ]
+  },
+  {
+   "id": "private",
+   "en": "private",
+   "uz": "yopiq (faqat tanlanganlar ko‘radigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My account is private, so only people I actually know can see my photos.",
+   "gap": "private",
+   "alt": []
+  },
+  {
+   "id": "public",
+   "en": "public",
+   "uz": "ochiq (hamma ko‘ra oladigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Aziz forgot that his post was public, and by the morning strangers from three countries had replied to it.",
+   "gap": "public",
+   "alt": []
+  },
+  {
+   "id": "privacy_settings",
+   "en": "privacy settings",
+   "uz": "maxfiylik sozlamalari",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a stranger commented on her holiday photos, Madina changed her privacy settings so that only friends could see them.",
+   "gap": "privacy settings",
+   "alt": []
+  },
+  {
+   "id": "profile_picture",
+   "en": "profile picture",
+   "uz": "profil rasmi",
+   "pos": "noun",
+   "img": false,
+   "ex": "For his profile picture, Jasur chose a photo of himself on the top of a snowy mountain.",
+   "gap": "profile picture",
+   "alt": [
+    "profile pictures"
+   ]
+  },
+  {
+   "id": "timeline",
+   "en": "timeline",
+   "uz": "lenta (profildagi postlar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scrolling down her timeline, I found photos from a school trip she went on five years ago.",
+   "gap": "timeline",
+   "alt": [
+    "timelines"
+   ]
+  },
+  {
+   "id": "direct_message",
+   "en": "direct message",
+   "uz": "shaxsiy xabar (direkt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Don't write your phone number under the post where everyone can see it; send it to me in a direct message instead.",
+   "gap": "direct message",
+   "alt": [
+    "direct messages"
+   ]
+  },
+  {
+   "id": "delete_account",
+   "en": "delete your account",
+   "uz": "akkauntni o‘chirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When Bobur stopped playing the online football game, he decided to delete his account so that his details wouldn't stay on the site.",
+   "gap": "delete his account",
+   "alt": [
+    "delete my account",
+    "delete his account",
+    "deletes your account",
+    "deleted your account",
+    "deleted my account",
+    "deleting your account",
+    "delete account"
+   ]
+  },
+  {
+   "id": "default",
+   "en": "default",
+   "uz": "standart holat (avtomatik sozlama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The app's language was English by default, but I changed it to Uzbek in the settings.",
+   "gap": "default",
+   "alt": []
+  },
+  {
+   "id": "post_n",
+   "en": "post",
+   "uz": "post (tarmoqqa joylangan xabar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I wrote a long post about our school trip, and three classmates added their own photos underneath it.",
+   "gap": "post",
+   "alt": [
+    "posts"
+   ]
+  },
+  {
+   "id": "like_n",
+   "en": "likes",
+   "uz": "layklar (ot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her photo of the sunset got 300 likes in just one hour, and the little heart kept turning red.",
+   "gap": "likes",
+   "alt": [
+    "like"
+   ]
+  },
+  {
+   "id": "channel",
+   "en": "channel",
+   "uz": "kanal (TV yoki video kanal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Laylo started a video channel about chess, and now she uploads a new lesson every Friday.",
+   "gap": "channel",
+   "alt": [
+    "channels"
+   ]
+  },
+  {
+   "id": "update_n",
+   "en": "update",
+   "uz": "yangi xabar (sahifadagi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The zoo shares regular updates about the baby elephant on its page, so we can watch her grow.",
+   "gap": "updates",
+   "alt": [
+    "updates"
+   ]
+  },
+  {
+   "id": "tag_n",
+   "en": "tag",
+   "uz": "belgi (rasmdagi ism-havola)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I didn't like that photo of me, so I asked my friend to remove the tag with my name.",
+   "gap": "tag",
+   "alt": [
+    "tags"
+   ]
+  },
+  {
+   "id": "social_media",
+   "en": "social media",
+   "uz": "ijtimoiy tarmoqlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The singer announced her new album on social media before telling any newspapers.",
+   "gap": "social media",
+   "alt": []
+  },
+  {
+   "id": "privacy",
+   "en": "privacy",
+   "uz": "shaxsiy daxlsizlik (maxfiylik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Some parents worry about their children's privacy when they put photos of them online.",
+   "gap": "privacy",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "follow",
+   "subscribe"
+  ],
+  [
+   "follow",
+   "like_v"
+  ],
+  [
+   "like_v",
+   "share"
+  ],
+  [
+   "like_v",
+   "rate"
+  ],
+  [
+   "comment_v",
+   "comment_n"
+  ],
+  [
+   "profile",
+   "timeline"
+  ],
+  [
+   "profile",
+   "profile_picture"
+  ],
+  [
+   "private",
+   "public"
+  ],
+  [
+   "create_account",
+   "delete_account"
+  ],
+  [
+   "post_n",
+   "update_n"
+  ],
+  [
+   "post_n",
+   "comment_n"
+  ],
+  [
+   "like_n",
+   "views"
+  ],
+  [
+   "like_n",
+   "like_v"
+  ],
+  [
+   "like_n",
+   "notifications"
+  ],
+  [
+   "update_n",
+   "comment_n"
+  ],
+  [
+   "update_n",
+   "update_status"
+  ],
+  [
+   "update_n",
+   "notifications"
+  ],
+  [
+   "privacy",
+   "personal_information"
+  ],
+  [
+   "privacy",
+   "privacy_settings"
+  ],
+  [
+   "channel",
+   "profile"
+  ],
+  [
+   "channel",
+   "timeline"
+  ],
+  [
+   "tag_n",
+   "profile_picture"
+  ]
+ ]
+}

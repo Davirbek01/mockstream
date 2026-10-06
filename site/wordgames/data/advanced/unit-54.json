@@ -1,0 +1,496 @@
+{
+ "book": "advanced",
+ "unit": 54,
+ "title": "Diet, sport and fitness",
+ "title_uz": "Ovqatlanish, sport va jismoniy tayyorgarlik",
+ "words": [
+  {
+   "id": "artery",
+   "en": "artery",
+   "uz": "arteriya (qon tomiri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the biology lesson, we found the pulse in the artery on the inside of our wrists and counted the beats.",
+   "gap": "artery",
+   "alt": [
+    "arteries"
+   ]
+  },
+  {
+   "id": "circulate",
+   "en": "circulate",
+   "uz": "aylanmoq (qon tomirlarda)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Wiggle your toes now and then on long flights to help the blood circulate in your legs.",
+   "gap": "circulate",
+   "alt": [
+    "circulates",
+    "circulated",
+    "circulating"
+   ]
+  },
+  {
+   "id": "impede",
+   "en": "impede",
+   "uz": "to‘sqinlik qilmoq (sekinlashtirmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Heavy snow on the mountain pass impeded the ambulance, so the journey to the hospital in Angren took twice as long.",
+   "gap": "impeded",
+   "alt": [
+    "impeded",
+    "impedes",
+    "impeding"
+   ]
+  },
+  {
+   "id": "clog",
+   "en": "clog",
+   "uz": "tiqilib qolishiga sabab bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hair and soap can clog the bathroom drain, so it's worth cleaning it once a week.",
+   "gap": "clog",
+   "alt": [
+    "clogs",
+    "clogged",
+    "clogging"
+   ]
+  },
+  {
+   "id": "cholesterol",
+   "en": "cholesterol",
+   "uz": "xolesterin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mr Aliyev's blood test showed a high level of cholesterol, so he has cut down on fatty meat and butter.",
+   "gap": "cholesterol",
+   "alt": []
+  },
+  {
+   "id": "plaque",
+   "en": "plaque",
+   "uz": "tomir devoridagi yog‘ qatlami",
+   "pos": "noun",
+   "img": false,
+   "ex": "On the ultrasound screen, the doctor showed Mr Ergashev a thin fatty layer of plaque narrowing one of the tubes that carry blood to his brain, and said that more walking would stop it growing.",
+   "gap": "plaque",
+   "alt": []
+  },
+  {
+   "id": "heart_attack",
+   "en": "heart attack",
+   "uz": "yurak xuruji (infarkt)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a mild heart attack last winter, Mr Haydarov gave up fried food and now walks in the park every evening.",
+   "gap": "heart attack",
+   "alt": [
+    "heart attacks"
+   ]
+  },
+  {
+   "id": "nutritious",
+   "en": "nutritious",
+   "uz": "to‘yimli (foydali moddalarga boy)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Mung bean soup is cheap, filling and very nutritious, which is why it's on the school canteen menu every week.",
+   "gap": "nutritious",
+   "alt": []
+  },
+  {
+   "id": "in_moderation",
+   "en": "in moderation",
+   "uz": "me’yorida (oshirib yubormay)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sweets are fine in moderation; the problem starts when you eat them every single day.",
+   "gap": "in moderation",
+   "alt": []
+  },
+  {
+   "id": "pose_a_danger",
+   "en": "pose a danger",
+   "uz": "xavf tug‘dirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Ice on the school steps can pose a danger, so the caretaker spreads salt on them every morning.",
+   "gap": "pose a danger",
+   "alt": [
+    "poses a danger",
+    "posed a danger",
+    "posing a danger"
+   ]
+  },
+  {
+   "id": "fibre",
+   "en": "fibre",
+   "uz": "kletchatka (o‘simlik tolasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nigora adds chickpeas and grated carrots to her salads to get more fibre into her diet.",
+   "gap": "fibre",
+   "alt": [
+    "fiber"
+   ]
+  },
+  {
+   "id": "lentils",
+   "en": "lentils",
+   "uz": "yasmiq",
+   "pos": "noun",
+   "img": true,
+   "ex": "Red lentils cook in about twenty minutes and turn into a thick, warming soup.",
+   "gap": "lentils",
+   "alt": [
+    "lentil"
+   ]
+  },
+  {
+   "id": "oatmeal",
+   "en": "oatmeal",
+   "uz": "suli yormasi (bo‘tqasi)",
+   "pos": "noun",
+   "img": true,
+   "ex": "A bowl of hot oatmeal with honey and walnuts keeps me going until lunchtime.",
+   "gap": "oatmeal",
+   "alt": []
+  },
+  {
+   "id": "wholemeal_bread",
+   "en": "wholemeal bread",
+   "uz": "kepakli non",
+   "pos": "noun",
+   "img": true,
+   "ex": "The bakery near the metro sells dark wholemeal bread with sunflower seeds alongside the usual round white non.",
+   "gap": "wholemeal bread",
+   "alt": []
+  },
+  {
+   "id": "cardiovascular",
+   "en": "cardiovascular",
+   "uz": "yurak-qon tomir (tizimiga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Skipping is a cheap form of cardiovascular exercise: just ten minutes leaves your heart pounding.",
+   "gap": "cardiovascular",
+   "alt": []
+  },
+  {
+   "id": "blood_pressure",
+   "en": "blood pressure",
+   "uz": "qon bosimi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nurse wrapped a cuff around my arm and pumped it up to measure my blood pressure.",
+   "gap": "blood pressure",
+   "alt": []
+  },
+  {
+   "id": "diabetes",
+   "en": "diabetes",
+   "uz": "qandli diabet (kasalligi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ever since Otabek was found to have diabetes, the whole family has eaten fewer sweets and more vegetables.",
+   "gap": "diabetes",
+   "alt": []
+  },
+  {
+   "id": "diabetic",
+   "en": "diabetic",
+   "uz": "qandli diabet bilan og‘rigan odam",
+   "pos": "noun",
+   "img": false,
+   "ex": "As a diabetic, Otabek checks his blood sugar before every PE lesson and keeps a snack in his bag.",
+   "gap": "diabetic",
+   "alt": [
+    "diabetics"
+   ]
+  },
+  {
+   "id": "insulin",
+   "en": "insulin",
+   "uz": "qon qandini boshqaruvchi gormon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her body doesn't produce enough insulin, so she has to inject it every day.",
+   "gap": "insulin",
+   "alt": []
+  },
+  {
+   "id": "burn_calories",
+   "en": "burn calories",
+   "uz": "kaloriya sarflamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Climbing the stairs instead of taking the lift is an easy way to burn calories.",
+   "gap": "burn calories",
+   "alt": [
+    "burns calories",
+    "burned calories",
+    "burnt calories",
+    "burning calories"
+   ]
+  },
+  {
+   "id": "sporty",
+   "en": "sporty",
+   "uz": "sportga ishqiboz (chaqqon)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Akmal isn't very sporty, but he loves long bike rides along the river at the weekend.",
+   "gap": "sporty",
+   "alt": []
+  },
+  {
+   "id": "metabolism",
+   "en": "metabolism",
+   "uz": "moddalar almashinuvi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teenagers often have a fast metabolism, which is why my brother can eat two dinners and never put on weight.",
+   "gap": "metabolism",
+   "alt": []
+  },
+  {
+   "id": "bmi",
+   "en": "BMI",
+   "uz": "tana vazni indeksi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school nurse measured Sherali's height, weighed him, and then worked out his BMI on her calculator.",
+   "gap": "BMI",
+   "alt": [
+    "Body Mass Index"
+   ]
+  },
+  {
+   "id": "intent_on",
+   "en": "intent on",
+   "uz": "…ga qat’iy ahd qilgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Gulnoza is intent on finishing her first half marathon next year, so she trains every morning before school.",
+   "gap": "intent on",
+   "alt": []
+  },
+  {
+   "id": "brisk",
+   "en": "brisk",
+   "uz": "tez va g‘ayratli (qadam)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "A brisk thirty-minute walk to school is better exercise than most people think.",
+   "gap": "brisk",
+   "alt": []
+  },
+  {
+   "id": "own_goal",
+   "en": "own goal",
+   "uz": "o‘z darvozasiga gol (o‘ziga zarar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The café scored an own goal when it raised its prices just as a cheaper café opened next door.",
+   "gap": "own goal",
+   "alt": [
+    "own goals"
+   ]
+  },
+  {
+   "id": "move_goalposts",
+   "en": "move the goalposts",
+   "uz": "qoidani o‘yin davomida o‘zgartirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "It's frustrating when the organisers keep moving the goalposts and add new rules after the competition has started.",
+   "gap": "moving the goalposts",
+   "alt": [
+    "moving the goalposts",
+    "moved the goalposts",
+    "moves the goalposts"
+   ]
+  },
+  {
+   "id": "level_playing_field",
+   "en": "level playing field",
+   "uz": "hamma uchun teng sharoit",
+   "pos": "noun",
+   "img": false,
+   "ex": "Giving every school the same laptops would create a level playing field for pupils in villages and in cities.",
+   "gap": "level playing field",
+   "alt": []
+  },
+  {
+   "id": "in_the_running",
+   "en": "in the running",
+   "uz": "g‘oliblikka da’vogarlar orasida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After her brilliant interview, Kamila is still in the running for a place on the national robotics team.",
+   "gap": "in the running",
+   "alt": []
+  },
+  {
+   "id": "neck_and_neck",
+   "en": "neck and neck",
+   "uz": "teng-barobar (bellashuvda)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "With one round left in the quiz, the two teams were neck and neck on 48 points each.",
+   "gap": "neck and neck",
+   "alt": []
+  },
+  {
+   "id": "skate_around",
+   "en": "skate around",
+   "uz": "(mavzuni) chetlab o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When reporters asked about the delays, the director skated around the question and talked about something else.",
+   "gap": "skated around",
+   "alt": [
+    "skated around",
+    "skating around",
+    "skates around",
+    "skate round"
+   ]
+  },
+  {
+   "id": "sail_through",
+   "en": "sail through",
+   "uz": "(imtihondan) oson o‘tmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nodira had practised every evening, so she sailed through her piano exam.",
+   "gap": "sailed through",
+   "alt": [
+    "sailed through",
+    "sailing through",
+    "sails through"
+   ]
+  },
+  {
+   "id": "porridge",
+   "en": "porridge",
+   "uz": "bo‘tqa (yorma bo‘tqasi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On cold mornings, Shahzoda stirs a pot of milky porridge on the stove and tops each bowl with dried apricots.",
+   "gap": "porridge",
+   "alt": []
+  },
+  {
+   "id": "glucose",
+   "en": "glucose",
+   "uz": "glyukoza (qondagi shakar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the long match, the coach handed out sports drinks full of glucose to give the players quick energy.",
+   "gap": "glucose",
+   "alt": []
+  },
+  {
+   "id": "hormone",
+   "en": "hormone",
+   "uz": "gormon (organizmni boshqaruvchi modda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Adrenaline is a hormone that makes your heart race when you suddenly get a fright.",
+   "gap": "hormone",
+   "alt": [
+    "hormones"
+   ]
+  },
+  {
+   "id": "blood_vessel",
+   "en": "blood vessel",
+   "uz": "qon tomiri",
+   "pos": "noun",
+   "img": false,
+   "ex": "After a very strong sneeze, a tiny blood vessel burst in Botir's eye and left a bright red spot.",
+   "gap": "blood vessel",
+   "alt": [
+    "blood vessels"
+   ]
+  },
+  {
+   "id": "counteract",
+   "en": "counteract",
+   "uz": "ta’sirini qaytarmoq (yo‘qqa chiqarmoq)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A glass of cold milk helps to counteract the burning feeling of very spicy food.",
+   "gap": "counteract",
+   "alt": [
+    "counteracts",
+    "counteracted",
+    "counteracting"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "cholesterol",
+   "insulin"
+  ],
+  [
+   "clog",
+   "impede"
+  ],
+  [
+   "lentils",
+   "oatmeal"
+  ],
+  [
+   "diabetes",
+   "diabetic"
+  ],
+  [
+   "diabetes",
+   "insulin"
+  ],
+  [
+   "cholesterol",
+   "plaque"
+  ],
+  [
+   "heart_attack",
+   "stroke"
+  ],
+  [
+   "porridge",
+   "oatmeal"
+  ],
+  [
+   "glucose",
+   "insulin"
+  ],
+  [
+   "glucose",
+   "cholesterol"
+  ],
+  [
+   "glucose",
+   "fibre"
+  ],
+  [
+   "hormone",
+   "insulin"
+  ],
+  [
+   "blood_vessel",
+   "artery"
+  ],
+  [
+   "blood_vessel",
+   "plaque"
+  ],
+  [
+   "counteract",
+   "impede"
+  ]
+ ]
+}

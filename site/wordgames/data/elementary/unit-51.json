@@ -1,0 +1,1892 @@
+{
+ "book": "elementary",
+ "unit": 51,
+ "title": "Days, months, seasons",
+ "title_uz": "Kunlar, oylar, fasllar",
+ "words": [
+  {
+   "id": "monday",
+   "en": "Monday",
+   "uz": "dushanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "The new school week starts on Monday, so I pack my school bag on Sunday night.",
+   "gap": "Monday",
+   "alt": []
+  },
+  {
+   "id": "tuesday",
+   "en": "Tuesday",
+   "uz": "seshanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our swimming lesson moved from Monday to the next day, Tuesday, because the pool was closed.",
+   "gap": "Tuesday",
+   "alt": []
+  },
+  {
+   "id": "wednesday",
+   "en": "Wednesday",
+   "uz": "chorshanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "We have a history test on Thursday, so I'll revise the day before, on Wednesday evening.",
+   "gap": "Wednesday",
+   "alt": []
+  },
+  {
+   "id": "thursday",
+   "en": "Thursday",
+   "uz": "payshanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bazaar is very crowded on Friday, so Aunt Dilbar does her shopping a day earlier, on Thursday.",
+   "gap": "Thursday",
+   "alt": []
+  },
+  {
+   "id": "friday",
+   "en": "Friday",
+   "uz": "juma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dilnoza's birthday party is on Saturday, so she's buying the cake the day before, on Friday afternoon.",
+   "gap": "Friday",
+   "alt": []
+  },
+  {
+   "id": "saturday",
+   "en": "Saturday",
+   "uz": "shanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the weekend Jasur helps his parents clean the flat on Saturday and relaxes on Sunday.",
+   "gap": "Saturday",
+   "alt": []
+  },
+  {
+   "id": "sunday",
+   "en": "Sunday",
+   "uz": "yakshanba",
+   "pos": "noun",
+   "img": false,
+   "ex": "We have lessons on Saturday too, so for me Sunday is the only day when I can sleep late.",
+   "gap": "Sunday",
+   "alt": []
+  },
+  {
+   "id": "weekend",
+   "en": "weekend",
+   "uz": "hafta oxiri (dam olish kunlari)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My older brother studies in Chirchiq during the week and comes home to us at the weekend.",
+   "gap": "weekend",
+   "alt": []
+  },
+  {
+   "id": "yesterday",
+   "en": "yesterday",
+   "uz": "kecha (o‘tgan kun)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Laziz was ill yesterday, but he's feeling better and he's back at school today.",
+   "gap": "yesterday",
+   "alt": []
+  },
+  {
+   "id": "today",
+   "en": "today",
+   "uz": "bugun",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Sorry, I can't play football today: my chess lesson starts in twenty minutes.",
+   "gap": "today",
+   "alt": []
+  },
+  {
+   "id": "tomorrow",
+   "en": "tomorrow",
+   "uz": "ertaga",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Don't forget your sports kit: we've got PE tomorrow morning.",
+   "gap": "tomorrow",
+   "alt": []
+  },
+  {
+   "id": "january",
+   "en": "January",
+   "uz": "yanvar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our coldest night this winter was on 12 January, less than two weeks after New Year.",
+   "gap": "January",
+   "alt": []
+  },
+  {
+   "id": "february",
+   "en": "February",
+   "uz": "fevral",
+   "pos": "noun",
+   "img": false,
+   "ex": "My birthday is on 29 February, so I can only celebrate on the real date in a leap year!",
+   "gap": "February",
+   "alt": []
+  },
+  {
+   "id": "march",
+   "en": "March",
+   "uz": "mart",
+   "pos": "noun",
+   "img": false,
+   "ex": "On 8 March, Women's Day, my brother and I made breakfast for our mother.",
+   "gap": "March",
+   "alt": []
+  },
+  {
+   "id": "april",
+   "en": "April",
+   "uz": "aprel",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our exams start in May, so in April, the month before, we study very hard.",
+   "gap": "April",
+   "alt": []
+  },
+  {
+   "id": "may",
+   "en": "May",
+   "uz": "yilning beshinchi oyi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school's 'Last Bell' party is on 25 May, at the very end of spring.",
+   "gap": "May",
+   "alt": []
+  },
+  {
+   "id": "june",
+   "en": "June",
+   "uz": "iyun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our summer holidays start on 1 June, so that's my favourite day of the year!",
+   "gap": "June",
+   "alt": []
+  },
+  {
+   "id": "july",
+   "en": "July",
+   "uz": "iyul",
+   "pos": "noun",
+   "img": false,
+   "ex": "My uncle's family is staying with us for three weeks, from 25 June to 15 July.",
+   "gap": "July",
+   "alt": []
+  },
+  {
+   "id": "august",
+   "en": "August",
+   "uz": "avgust",
+   "pos": "noun",
+   "img": false,
+   "ex": "My brother's driving test is on 31 August, the very last day of summer.",
+   "gap": "August",
+   "alt": []
+  },
+  {
+   "id": "september",
+   "en": "September",
+   "uz": "sentabr",
+   "pos": "noun",
+   "img": false,
+   "ex": "School starts again on 2 September, the day after Independence Day.",
+   "gap": "September",
+   "alt": []
+  },
+  {
+   "id": "october",
+   "en": "October",
+   "uz": "oktabr",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our autumn holidays begin at the end of October and finish in early November.",
+   "gap": "October",
+   "alt": []
+  },
+  {
+   "id": "november",
+   "en": "November",
+   "uz": "noyabr",
+   "pos": "noun",
+   "img": false,
+   "ex": "Autumn ends in November, and soon after that the first snow falls in the mountains.",
+   "gap": "November",
+   "alt": []
+  },
+  {
+   "id": "december",
+   "en": "December",
+   "uz": "dekabr",
+   "pos": "noun",
+   "img": false,
+   "ex": "We decorate our classroom for New Year at the end of December, just before the holidays.",
+   "gap": "December",
+   "alt": []
+  },
+  {
+   "id": "spring",
+   "en": "spring",
+   "uz": "bahor",
+   "pos": "noun",
+   "img": false,
+   "ex": "In March, when spring begins, the trees in our street are covered in pink and white flowers.",
+   "gap": "spring",
+   "alt": []
+  },
+  {
+   "id": "summer",
+   "en": "summer",
+   "uz": "yoz",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every summer, when Tashkent is too hot, we spend two weeks in a cool village in the Chatkal mountains.",
+   "gap": "summer",
+   "alt": []
+  },
+  {
+   "id": "autumn",
+   "en": "autumn",
+   "uz": "kuz",
+   "pos": "noun",
+   "img": false,
+   "ex": "In autumn, when the leaves turn yellow, our class sweeps them up in the school yard.",
+   "gap": "autumn",
+   "alt": []
+  },
+  {
+   "id": "winter",
+   "en": "winter",
+   "uz": "qish",
+   "pos": "noun",
+   "img": false,
+   "ex": "In winter, when the roads are icy, my uncle leaves his car at home and takes the metro.",
+   "gap": "winter",
+   "alt": []
+  },
+  {
+   "id": "fortnight",
+   "en": "fortnight",
+   "uz": "ikki hafta",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbours are visiting relatives in Almaty for a fortnight, so we're feeding their cat for fourteen days.",
+   "gap": "fortnight",
+   "alt": []
+  },
+  {
+   "id": "century",
+   "en": "century",
+   "uz": "asr (yuz yil)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old caravanserai in our town was built in the 16th century, more than 400 years ago.",
+   "gap": "century",
+   "alt": []
+  },
+  {
+   "id": "leap_year",
+   "en": "leap year",
+   "uz": "kabisa yili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In a leap year, February has 29 days, so we get one extra day of school!",
+   "gap": "leap year",
+   "alt": []
+  },
+  {
+   "id": "hour",
+   "en": "hour",
+   "uz": "soat (60 daqiqa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our football training lasts an hour: it starts at five and finishes at six.",
+   "gap": "hour",
+   "alt": []
+  },
+  {
+   "id": "minute",
+   "en": "minute",
+   "uz": "daqiqa",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus stop is very close: it's only a five-minute walk from our house.",
+   "gap": "minute",
+   "alt": []
+  },
+  {
+   "id": "second",
+   "en": "second",
+   "uz": "soniya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can you hold my bag for a second? I need to tie my shoelace.",
+   "gap": "second",
+   "alt": []
+  },
+  {
+   "id": "morning",
+   "en": "morning",
+   "uz": "ertalab / tong",
+   "pos": "noun",
+   "img": false,
+   "ex": "I have breakfast at seven o'clock every morning before school.",
+   "gap": "morning",
+   "alt": []
+  },
+  {
+   "id": "afternoon",
+   "en": "afternoon",
+   "uz": "tushdan keyin",
+   "pos": "noun",
+   "img": false,
+   "ex": "We have lessons in the morning, and in the afternoon, from two until five o'clock, I go to the sports club.",
+   "gap": "afternoon",
+   "alt": []
+  },
+  {
+   "id": "evening",
+   "en": "evening",
+   "uz": "kechqurun",
+   "pos": "noun",
+   "img": false,
+   "ex": "Dad comes home from work at seven in the evening, and we all have dinner together.",
+   "gap": "evening",
+   "alt": []
+  },
+  {
+   "id": "year",
+   "en": "year",
+   "uz": "yil",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our baby brother is one year old today: he was born exactly twelve months ago.",
+   "gap": "year",
+   "alt": [
+    "years"
+   ]
+  },
+  {
+   "id": "day",
+   "en": "day",
+   "uz": "kun (sutka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The bus ride to the mountain camp takes a whole day: we leave at six in the morning and arrive at night.",
+   "gap": "day",
+   "alt": [
+    "days"
+   ]
+  },
+  {
+   "id": "week",
+   "en": "week",
+   "uz": "hafta",
+   "pos": "noun",
+   "img": false,
+   "ex": "We stayed at the seaside for a week: we arrived on Sunday and left the next Sunday.",
+   "gap": "week",
+   "alt": [
+    "weeks"
+   ]
+  },
+  {
+   "id": "month",
+   "en": "month",
+   "uz": "oy (taqvim oyi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "February is the shortest month: it usually has only 28 days.",
+   "gap": "month",
+   "alt": [
+    "months"
+   ]
+  },
+  {
+   "id": "season",
+   "en": "season",
+   "uz": "fasl (yil fasli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My favourite season is autumn, when the apples in our orchard are ready to pick.",
+   "gap": "season",
+   "alt": [
+    "seasons"
+   ]
+  },
+  {
+   "id": "the_day_before_yesterday",
+   "en": "the day before yesterday",
+   "uz": "o‘tgan kuni (kechadan oldingi kun)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Today is Wednesday, so the day before yesterday was Monday.",
+   "gap": "the day before yesterday",
+   "alt": []
+  },
+  {
+   "id": "the_day_after_tomorrow",
+   "en": "the day after tomorrow",
+   "uz": "indinga (ertadan keyingi kun)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "It's Wednesday today, and my swimming test is this Friday, the day after tomorrow.",
+   "gap": "the day after tomorrow",
+   "alt": []
+  },
+  {
+   "id": "at_the_weekend",
+   "en": "at the weekend",
+   "uz": "hafta oxirida",
+   "pos": "phrase",
+   "img": false,
+   "ex": "We have lessons on weekdays, and at the weekend, on Saturday and Sunday, I help in my father's shop.",
+   "gap": "at the weekend",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "monday",
+   "weekend"
+  ],
+  [
+   "monday",
+   "yesterday"
+  ],
+  [
+   "monday",
+   "today"
+  ],
+  [
+   "monday",
+   "tomorrow"
+  ],
+  [
+   "monday",
+   "spring"
+  ],
+  [
+   "monday",
+   "summer"
+  ],
+  [
+   "monday",
+   "autumn"
+  ],
+  [
+   "monday",
+   "winter"
+  ],
+  [
+   "monday",
+   "fortnight"
+  ],
+  [
+   "monday",
+   "century"
+  ],
+  [
+   "monday",
+   "leap_year"
+  ],
+  [
+   "tuesday",
+   "weekend"
+  ],
+  [
+   "tuesday",
+   "yesterday"
+  ],
+  [
+   "tuesday",
+   "today"
+  ],
+  [
+   "tuesday",
+   "tomorrow"
+  ],
+  [
+   "tuesday",
+   "spring"
+  ],
+  [
+   "tuesday",
+   "summer"
+  ],
+  [
+   "tuesday",
+   "autumn"
+  ],
+  [
+   "tuesday",
+   "winter"
+  ],
+  [
+   "tuesday",
+   "fortnight"
+  ],
+  [
+   "tuesday",
+   "century"
+  ],
+  [
+   "tuesday",
+   "leap_year"
+  ],
+  [
+   "wednesday",
+   "weekend"
+  ],
+  [
+   "wednesday",
+   "yesterday"
+  ],
+  [
+   "wednesday",
+   "today"
+  ],
+  [
+   "wednesday",
+   "tomorrow"
+  ],
+  [
+   "wednesday",
+   "spring"
+  ],
+  [
+   "wednesday",
+   "summer"
+  ],
+  [
+   "wednesday",
+   "autumn"
+  ],
+  [
+   "wednesday",
+   "winter"
+  ],
+  [
+   "wednesday",
+   "fortnight"
+  ],
+  [
+   "wednesday",
+   "century"
+  ],
+  [
+   "wednesday",
+   "leap_year"
+  ],
+  [
+   "thursday",
+   "weekend"
+  ],
+  [
+   "thursday",
+   "yesterday"
+  ],
+  [
+   "thursday",
+   "today"
+  ],
+  [
+   "thursday",
+   "tomorrow"
+  ],
+  [
+   "thursday",
+   "spring"
+  ],
+  [
+   "thursday",
+   "summer"
+  ],
+  [
+   "thursday",
+   "autumn"
+  ],
+  [
+   "thursday",
+   "winter"
+  ],
+  [
+   "thursday",
+   "fortnight"
+  ],
+  [
+   "thursday",
+   "century"
+  ],
+  [
+   "thursday",
+   "leap_year"
+  ],
+  [
+   "friday",
+   "weekend"
+  ],
+  [
+   "friday",
+   "yesterday"
+  ],
+  [
+   "friday",
+   "today"
+  ],
+  [
+   "friday",
+   "tomorrow"
+  ],
+  [
+   "friday",
+   "spring"
+  ],
+  [
+   "friday",
+   "summer"
+  ],
+  [
+   "friday",
+   "autumn"
+  ],
+  [
+   "friday",
+   "winter"
+  ],
+  [
+   "friday",
+   "fortnight"
+  ],
+  [
+   "friday",
+   "century"
+  ],
+  [
+   "friday",
+   "leap_year"
+  ],
+  [
+   "saturday",
+   "weekend"
+  ],
+  [
+   "saturday",
+   "yesterday"
+  ],
+  [
+   "saturday",
+   "today"
+  ],
+  [
+   "saturday",
+   "tomorrow"
+  ],
+  [
+   "saturday",
+   "spring"
+  ],
+  [
+   "saturday",
+   "summer"
+  ],
+  [
+   "saturday",
+   "autumn"
+  ],
+  [
+   "saturday",
+   "winter"
+  ],
+  [
+   "saturday",
+   "fortnight"
+  ],
+  [
+   "saturday",
+   "century"
+  ],
+  [
+   "saturday",
+   "leap_year"
+  ],
+  [
+   "sunday",
+   "weekend"
+  ],
+  [
+   "sunday",
+   "yesterday"
+  ],
+  [
+   "sunday",
+   "today"
+  ],
+  [
+   "sunday",
+   "tomorrow"
+  ],
+  [
+   "sunday",
+   "spring"
+  ],
+  [
+   "sunday",
+   "summer"
+  ],
+  [
+   "sunday",
+   "autumn"
+  ],
+  [
+   "sunday",
+   "winter"
+  ],
+  [
+   "sunday",
+   "fortnight"
+  ],
+  [
+   "sunday",
+   "century"
+  ],
+  [
+   "sunday",
+   "leap_year"
+  ],
+  [
+   "january",
+   "weekend"
+  ],
+  [
+   "january",
+   "yesterday"
+  ],
+  [
+   "january",
+   "today"
+  ],
+  [
+   "january",
+   "tomorrow"
+  ],
+  [
+   "january",
+   "spring"
+  ],
+  [
+   "january",
+   "summer"
+  ],
+  [
+   "january",
+   "autumn"
+  ],
+  [
+   "january",
+   "winter"
+  ],
+  [
+   "january",
+   "fortnight"
+  ],
+  [
+   "january",
+   "century"
+  ],
+  [
+   "january",
+   "leap_year"
+  ],
+  [
+   "february",
+   "weekend"
+  ],
+  [
+   "february",
+   "yesterday"
+  ],
+  [
+   "february",
+   "today"
+  ],
+  [
+   "february",
+   "tomorrow"
+  ],
+  [
+   "february",
+   "spring"
+  ],
+  [
+   "february",
+   "summer"
+  ],
+  [
+   "february",
+   "autumn"
+  ],
+  [
+   "february",
+   "winter"
+  ],
+  [
+   "february",
+   "fortnight"
+  ],
+  [
+   "february",
+   "century"
+  ],
+  [
+   "february",
+   "leap_year"
+  ],
+  [
+   "march",
+   "weekend"
+  ],
+  [
+   "march",
+   "yesterday"
+  ],
+  [
+   "march",
+   "today"
+  ],
+  [
+   "march",
+   "tomorrow"
+  ],
+  [
+   "march",
+   "spring"
+  ],
+  [
+   "march",
+   "summer"
+  ],
+  [
+   "march",
+   "autumn"
+  ],
+  [
+   "march",
+   "winter"
+  ],
+  [
+   "march",
+   "fortnight"
+  ],
+  [
+   "march",
+   "century"
+  ],
+  [
+   "march",
+   "leap_year"
+  ],
+  [
+   "april",
+   "weekend"
+  ],
+  [
+   "april",
+   "yesterday"
+  ],
+  [
+   "april",
+   "today"
+  ],
+  [
+   "april",
+   "tomorrow"
+  ],
+  [
+   "april",
+   "spring"
+  ],
+  [
+   "april",
+   "summer"
+  ],
+  [
+   "april",
+   "autumn"
+  ],
+  [
+   "april",
+   "winter"
+  ],
+  [
+   "april",
+   "fortnight"
+  ],
+  [
+   "april",
+   "century"
+  ],
+  [
+   "april",
+   "leap_year"
+  ],
+  [
+   "may",
+   "weekend"
+  ],
+  [
+   "may",
+   "yesterday"
+  ],
+  [
+   "may",
+   "today"
+  ],
+  [
+   "may",
+   "tomorrow"
+  ],
+  [
+   "may",
+   "spring"
+  ],
+  [
+   "may",
+   "summer"
+  ],
+  [
+   "may",
+   "autumn"
+  ],
+  [
+   "may",
+   "winter"
+  ],
+  [
+   "may",
+   "fortnight"
+  ],
+  [
+   "may",
+   "century"
+  ],
+  [
+   "may",
+   "leap_year"
+  ],
+  [
+   "june",
+   "weekend"
+  ],
+  [
+   "june",
+   "yesterday"
+  ],
+  [
+   "june",
+   "today"
+  ],
+  [
+   "june",
+   "tomorrow"
+  ],
+  [
+   "june",
+   "spring"
+  ],
+  [
+   "june",
+   "summer"
+  ],
+  [
+   "june",
+   "autumn"
+  ],
+  [
+   "june",
+   "winter"
+  ],
+  [
+   "june",
+   "fortnight"
+  ],
+  [
+   "june",
+   "century"
+  ],
+  [
+   "june",
+   "leap_year"
+  ],
+  [
+   "july",
+   "weekend"
+  ],
+  [
+   "july",
+   "yesterday"
+  ],
+  [
+   "july",
+   "today"
+  ],
+  [
+   "july",
+   "tomorrow"
+  ],
+  [
+   "july",
+   "spring"
+  ],
+  [
+   "july",
+   "summer"
+  ],
+  [
+   "july",
+   "autumn"
+  ],
+  [
+   "july",
+   "winter"
+  ],
+  [
+   "july",
+   "fortnight"
+  ],
+  [
+   "july",
+   "century"
+  ],
+  [
+   "july",
+   "leap_year"
+  ],
+  [
+   "august",
+   "weekend"
+  ],
+  [
+   "august",
+   "yesterday"
+  ],
+  [
+   "august",
+   "today"
+  ],
+  [
+   "august",
+   "tomorrow"
+  ],
+  [
+   "august",
+   "spring"
+  ],
+  [
+   "august",
+   "summer"
+  ],
+  [
+   "august",
+   "autumn"
+  ],
+  [
+   "august",
+   "winter"
+  ],
+  [
+   "august",
+   "fortnight"
+  ],
+  [
+   "august",
+   "century"
+  ],
+  [
+   "august",
+   "leap_year"
+  ],
+  [
+   "september",
+   "weekend"
+  ],
+  [
+   "september",
+   "yesterday"
+  ],
+  [
+   "september",
+   "today"
+  ],
+  [
+   "september",
+   "tomorrow"
+  ],
+  [
+   "september",
+   "spring"
+  ],
+  [
+   "september",
+   "summer"
+  ],
+  [
+   "september",
+   "autumn"
+  ],
+  [
+   "september",
+   "winter"
+  ],
+  [
+   "september",
+   "fortnight"
+  ],
+  [
+   "september",
+   "century"
+  ],
+  [
+   "september",
+   "leap_year"
+  ],
+  [
+   "october",
+   "weekend"
+  ],
+  [
+   "october",
+   "yesterday"
+  ],
+  [
+   "october",
+   "today"
+  ],
+  [
+   "october",
+   "tomorrow"
+  ],
+  [
+   "october",
+   "spring"
+  ],
+  [
+   "october",
+   "summer"
+  ],
+  [
+   "october",
+   "autumn"
+  ],
+  [
+   "october",
+   "winter"
+  ],
+  [
+   "october",
+   "fortnight"
+  ],
+  [
+   "october",
+   "century"
+  ],
+  [
+   "october",
+   "leap_year"
+  ],
+  [
+   "november",
+   "weekend"
+  ],
+  [
+   "november",
+   "yesterday"
+  ],
+  [
+   "november",
+   "today"
+  ],
+  [
+   "november",
+   "tomorrow"
+  ],
+  [
+   "november",
+   "spring"
+  ],
+  [
+   "november",
+   "summer"
+  ],
+  [
+   "november",
+   "autumn"
+  ],
+  [
+   "november",
+   "winter"
+  ],
+  [
+   "november",
+   "fortnight"
+  ],
+  [
+   "november",
+   "century"
+  ],
+  [
+   "november",
+   "leap_year"
+  ],
+  [
+   "december",
+   "weekend"
+  ],
+  [
+   "december",
+   "yesterday"
+  ],
+  [
+   "december",
+   "today"
+  ],
+  [
+   "december",
+   "tomorrow"
+  ],
+  [
+   "december",
+   "spring"
+  ],
+  [
+   "december",
+   "summer"
+  ],
+  [
+   "december",
+   "autumn"
+  ],
+  [
+   "december",
+   "winter"
+  ],
+  [
+   "december",
+   "fortnight"
+  ],
+  [
+   "december",
+   "century"
+  ],
+  [
+   "december",
+   "leap_year"
+  ],
+  [
+   "fortnight",
+   "weekend"
+  ],
+  [
+   "monday",
+   "hour"
+  ],
+  [
+   "monday",
+   "minute"
+  ],
+  [
+   "monday",
+   "second"
+  ],
+  [
+   "monday",
+   "morning"
+  ],
+  [
+   "monday",
+   "afternoon"
+  ],
+  [
+   "monday",
+   "evening"
+  ],
+  [
+   "tuesday",
+   "hour"
+  ],
+  [
+   "tuesday",
+   "minute"
+  ],
+  [
+   "tuesday",
+   "second"
+  ],
+  [
+   "tuesday",
+   "morning"
+  ],
+  [
+   "tuesday",
+   "afternoon"
+  ],
+  [
+   "tuesday",
+   "evening"
+  ],
+  [
+   "wednesday",
+   "hour"
+  ],
+  [
+   "wednesday",
+   "minute"
+  ],
+  [
+   "wednesday",
+   "second"
+  ],
+  [
+   "wednesday",
+   "morning"
+  ],
+  [
+   "wednesday",
+   "afternoon"
+  ],
+  [
+   "wednesday",
+   "evening"
+  ],
+  [
+   "thursday",
+   "hour"
+  ],
+  [
+   "thursday",
+   "minute"
+  ],
+  [
+   "thursday",
+   "second"
+  ],
+  [
+   "thursday",
+   "morning"
+  ],
+  [
+   "thursday",
+   "afternoon"
+  ],
+  [
+   "thursday",
+   "evening"
+  ],
+  [
+   "friday",
+   "hour"
+  ],
+  [
+   "friday",
+   "minute"
+  ],
+  [
+   "friday",
+   "second"
+  ],
+  [
+   "friday",
+   "morning"
+  ],
+  [
+   "friday",
+   "afternoon"
+  ],
+  [
+   "friday",
+   "evening"
+  ],
+  [
+   "saturday",
+   "hour"
+  ],
+  [
+   "saturday",
+   "minute"
+  ],
+  [
+   "saturday",
+   "second"
+  ],
+  [
+   "saturday",
+   "morning"
+  ],
+  [
+   "saturday",
+   "afternoon"
+  ],
+  [
+   "saturday",
+   "evening"
+  ],
+  [
+   "sunday",
+   "hour"
+  ],
+  [
+   "sunday",
+   "minute"
+  ],
+  [
+   "sunday",
+   "second"
+  ],
+  [
+   "sunday",
+   "morning"
+  ],
+  [
+   "sunday",
+   "afternoon"
+  ],
+  [
+   "sunday",
+   "evening"
+  ],
+  [
+   "january",
+   "hour"
+  ],
+  [
+   "january",
+   "minute"
+  ],
+  [
+   "january",
+   "second"
+  ],
+  [
+   "january",
+   "morning"
+  ],
+  [
+   "january",
+   "afternoon"
+  ],
+  [
+   "january",
+   "evening"
+  ],
+  [
+   "february",
+   "hour"
+  ],
+  [
+   "february",
+   "minute"
+  ],
+  [
+   "february",
+   "second"
+  ],
+  [
+   "february",
+   "morning"
+  ],
+  [
+   "february",
+   "afternoon"
+  ],
+  [
+   "february",
+   "evening"
+  ],
+  [
+   "march",
+   "hour"
+  ],
+  [
+   "march",
+   "minute"
+  ],
+  [
+   "march",
+   "second"
+  ],
+  [
+   "march",
+   "morning"
+  ],
+  [
+   "march",
+   "afternoon"
+  ],
+  [
+   "march",
+   "evening"
+  ],
+  [
+   "april",
+   "hour"
+  ],
+  [
+   "april",
+   "minute"
+  ],
+  [
+   "april",
+   "second"
+  ],
+  [
+   "april",
+   "morning"
+  ],
+  [
+   "april",
+   "afternoon"
+  ],
+  [
+   "april",
+   "evening"
+  ],
+  [
+   "may",
+   "hour"
+  ],
+  [
+   "may",
+   "minute"
+  ],
+  [
+   "may",
+   "second"
+  ],
+  [
+   "may",
+   "morning"
+  ],
+  [
+   "may",
+   "afternoon"
+  ],
+  [
+   "may",
+   "evening"
+  ],
+  [
+   "june",
+   "hour"
+  ],
+  [
+   "june",
+   "minute"
+  ],
+  [
+   "june",
+   "second"
+  ],
+  [
+   "june",
+   "morning"
+  ],
+  [
+   "june",
+   "afternoon"
+  ],
+  [
+   "june",
+   "evening"
+  ],
+  [
+   "july",
+   "hour"
+  ],
+  [
+   "july",
+   "minute"
+  ],
+  [
+   "july",
+   "second"
+  ],
+  [
+   "july",
+   "morning"
+  ],
+  [
+   "july",
+   "afternoon"
+  ],
+  [
+   "july",
+   "evening"
+  ],
+  [
+   "august",
+   "hour"
+  ],
+  [
+   "august",
+   "minute"
+  ],
+  [
+   "august",
+   "second"
+  ],
+  [
+   "august",
+   "morning"
+  ],
+  [
+   "august",
+   "afternoon"
+  ],
+  [
+   "august",
+   "evening"
+  ],
+  [
+   "september",
+   "hour"
+  ],
+  [
+   "september",
+   "minute"
+  ],
+  [
+   "september",
+   "second"
+  ],
+  [
+   "september",
+   "morning"
+  ],
+  [
+   "september",
+   "afternoon"
+  ],
+  [
+   "september",
+   "evening"
+  ],
+  [
+   "october",
+   "hour"
+  ],
+  [
+   "october",
+   "minute"
+  ],
+  [
+   "october",
+   "second"
+  ],
+  [
+   "october",
+   "morning"
+  ],
+  [
+   "october",
+   "afternoon"
+  ],
+  [
+   "october",
+   "evening"
+  ],
+  [
+   "november",
+   "hour"
+  ],
+  [
+   "november",
+   "minute"
+  ],
+  [
+   "november",
+   "second"
+  ],
+  [
+   "november",
+   "morning"
+  ],
+  [
+   "november",
+   "afternoon"
+  ],
+  [
+   "november",
+   "evening"
+  ],
+  [
+   "december",
+   "hour"
+  ],
+  [
+   "december",
+   "minute"
+  ],
+  [
+   "december",
+   "second"
+  ],
+  [
+   "december",
+   "morning"
+  ],
+  [
+   "december",
+   "afternoon"
+  ],
+  [
+   "december",
+   "evening"
+  ],
+  [
+   "minute",
+   "second"
+  ],
+  [
+   "year",
+   "leap_year"
+  ],
+  [
+   "year",
+   "century"
+  ],
+  [
+   "year",
+   "fortnight"
+  ],
+  [
+   "day",
+   "morning"
+  ],
+  [
+   "day",
+   "afternoon"
+  ],
+  [
+   "day",
+   "evening"
+  ],
+  [
+   "day",
+   "week"
+  ],
+  [
+   "day",
+   "hour"
+  ],
+  [
+   "month",
+   "season"
+  ],
+  [
+   "season",
+   "spring"
+  ],
+  [
+   "season",
+   "summer"
+  ],
+  [
+   "season",
+   "autumn"
+  ],
+  [
+   "season",
+   "winter"
+  ],
+  [
+   "year",
+   "summer"
+  ],
+  [
+   "year",
+   "spring"
+  ],
+  [
+   "year",
+   "autumn"
+  ],
+  [
+   "year",
+   "winter"
+  ],
+  [
+   "the_day_before_yesterday",
+   "yesterday"
+  ],
+  [
+   "the_day_after_tomorrow",
+   "tomorrow"
+  ],
+  [
+   "the_day_after_tomorrow",
+   "weekend"
+  ],
+  [
+   "at_the_weekend",
+   "weekend"
+  ],
+  [
+   "at_the_weekend",
+   "yesterday"
+  ],
+  [
+   "day",
+   "monday"
+  ],
+  [
+   "day",
+   "tuesday"
+  ],
+  [
+   "day",
+   "wednesday"
+  ],
+  [
+   "day",
+   "thursday"
+  ],
+  [
+   "day",
+   "friday"
+  ],
+  [
+   "day",
+   "saturday"
+  ],
+  [
+   "day",
+   "sunday"
+  ],
+  [
+   "day",
+   "today"
+  ],
+  [
+   "week",
+   "weekend"
+  ],
+  [
+   "week",
+   "fortnight"
+  ],
+  [
+   "month",
+   "fortnight"
+  ]
+ ]
+}

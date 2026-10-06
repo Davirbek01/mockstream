@@ -1,0 +1,344 @@
+{
+ "book": "preint",
+ "unit": 90,
+ "title": "Prepositions: place and movement",
+ "title_uz": "Predloglar: joy va harakat",
+ "words": [
+  {
+   "id": "beyond",
+   "en": "beyond",
+   "uz": "narigi tomonida",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Our school is just beyond the railway line: cross the bridge and you'll see it on the left.",
+   "gap": "beyond",
+   "alt": []
+  },
+  {
+   "id": "beside",
+   "en": "beside",
+   "uz": "yonida (yonma-yon)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Come and sit beside me; there's an empty chair here.",
+   "gap": "beside",
+   "alt": []
+  },
+  {
+   "id": "above",
+   "en": "above",
+   "uz": "yuqorisida (tepa qavatda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The family in the flat above us play the piano every evening; we can hear it through the ceiling.",
+   "gap": "above",
+   "alt": []
+  },
+  {
+   "id": "below",
+   "en": "below",
+   "uz": "pastida (quyida)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "From the plane we could see the clouds far below us.",
+   "gap": "below",
+   "alt": []
+  },
+  {
+   "id": "before_place",
+   "en": "before",
+   "uz": "…dan oldinroqda (yo‘lda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Driving out of town, you'll see a petrol station just before the bridge; turn left there, so you don't cross the river.",
+   "gap": "before",
+   "alt": []
+  },
+  {
+   "id": "against",
+   "en": "against",
+   "uz": "…ga suyab (tegib turgan)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Lean the mirror against the wall for now; we'll hang it up tomorrow.",
+   "gap": "against",
+   "alt": []
+  },
+  {
+   "id": "underneath",
+   "en": "underneath",
+   "uz": "tagida (ostida turgan)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The cat was hiding underneath the bed, so we had to lie on the floor to see it.",
+   "gap": "underneath",
+   "alt": []
+  },
+  {
+   "id": "among",
+   "en": "among",
+   "uz": "orasida (ko‘pchilik ichida)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Can you find your sister among all these children in the school photo?",
+   "gap": "among",
+   "alt": []
+  },
+  {
+   "id": "out_of",
+   "en": "out of",
+   "uz": "ichidan tashqariga",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Can you take the milk out of the fridge? I need it for the pancakes.",
+   "gap": "out of",
+   "alt": []
+  },
+  {
+   "id": "into",
+   "en": "into",
+   "uz": "ichiga",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Put the eggs into the bowl and mix them with the sugar.",
+   "gap": "into",
+   "alt": []
+  },
+  {
+   "id": "towards",
+   "en": "towards",
+   "uz": "tomonga (yo‘nalishda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The dog saw me across the park and started running towards me; a few seconds later it was at my feet.",
+   "gap": "towards",
+   "alt": [
+    "toward"
+   ]
+  },
+  {
+   "id": "over_across",
+   "en": "over",
+   "uz": "ustidan oshib",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The ball flew over the goalkeeper's head and into the net.",
+   "gap": "over",
+   "alt": []
+  },
+  {
+   "id": "under",
+   "en": "under",
+   "uz": "ostidan o‘tib (harakat)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The road goes under the railway, so be careful: it's dark and narrow there.",
+   "gap": "under",
+   "alt": []
+  },
+  {
+   "id": "through",
+   "en": "through",
+   "uz": "orqali o‘tib (ichidan)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "In the morning the sun shines through my bedroom window and wakes me up.",
+   "gap": "through",
+   "alt": []
+  },
+  {
+   "id": "round_prep",
+   "en": "round",
+   "uz": "atrofini aylanib",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Every Monday our PE teacher makes us run all the way round the stadium five times.",
+   "gap": "round",
+   "alt": [
+    "around"
+   ]
+  },
+  {
+   "id": "past_prep",
+   "en": "past",
+   "uz": "yonidan o‘tib (to‘xtamay)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The bus went straight past us without stopping, so we had to wait for the next one.",
+   "gap": "past",
+   "alt": []
+  },
+  {
+   "id": "come_after",
+   "en": "come after",
+   "uz": "ortidan quvib kelmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The shop assistant came after me because I had left my change on the counter.",
+   "gap": "came after",
+   "alt": [
+    "came after",
+    "comes after",
+    "coming after"
+   ]
+  },
+  {
+   "id": "down_prep",
+   "en": "down",
+   "uz": "pastga qarab (bo‘ylab)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The ball rolled all the way down the hill to the bottom.",
+   "gap": "down",
+   "alt": []
+  },
+  {
+   "id": "at_place",
+   "en": "at",
+   "uz": "…da (ishda, bekatda kabi nuqtada)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Zuhra is at work until six, so phone her this evening.",
+   "gap": "at",
+   "alt": []
+  },
+  {
+   "id": "on_surface",
+   "en": "on",
+   "uz": "ustida (sirtida)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Mrs Karimova wrote the date on the board at the start of the class.",
+   "gap": "on",
+   "alt": []
+  },
+  {
+   "id": "in_inside",
+   "en": "in",
+   "uz": "ichida",
+   "pos": "preposition",
+   "img": false,
+   "ex": "Mr Nazarov is in the classroom, marking our tests.",
+   "gap": "in",
+   "alt": []
+  },
+  {
+   "id": "by_near",
+   "en": "by",
+   "uz": "yaqinida (yonginasida)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "We stayed in a small hotel by the sea, and we could hear the waves all night.",
+   "gap": "by",
+   "alt": []
+  },
+  {
+   "id": "right_exactly",
+   "en": "right",
+   "uz": "aynan, naq (joyni aniqlaydi)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bus stop is right outside our school gate, so I'm never late.",
+   "gap": "right",
+   "alt": []
+  },
+  {
+   "id": "after_place",
+   "en": "after",
+   "uz": "…dan keyin (navbatda, tartibda)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "In the queue at the canteen, Farida was after me, so I got my lunch first and she got hers second.",
+   "gap": "after",
+   "alt": []
+  },
+  {
+   "id": "beneath",
+   "en": "beneath",
+   "uz": "ostida (ustidan bosilib turgan)",
+   "pos": "preposition",
+   "img": false,
+   "ex": "The old coins were hidden beneath a loose floorboard in the kitchen.",
+   "gap": "beneath",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "above",
+   "over_across"
+  ],
+  [
+   "under",
+   "underneath"
+  ],
+  [
+   "beyond",
+   "past_prep"
+  ],
+  [
+   "below",
+   "under"
+  ],
+  [
+   "beyond",
+   "over_across"
+  ],
+  [
+   "over_across",
+   "past_prep"
+  ],
+  [
+   "by_near",
+   "beside"
+  ],
+  [
+   "beneath",
+   "underneath"
+  ],
+  [
+   "beneath",
+   "under"
+  ],
+  [
+   "on_surface",
+   "against"
+  ],
+  [
+   "in_inside",
+   "into"
+  ],
+  [
+   "beneath",
+   "below"
+  ],
+  [
+   "by_near",
+   "before_place"
+  ],
+  [
+   "by_near",
+   "past_prep"
+  ],
+  [
+   "after_place",
+   "beyond"
+  ],
+  [
+   "beneath",
+   "by_near"
+  ],
+  [
+   "by_near",
+   "over_across"
+  ],
+  [
+   "on_surface",
+   "through"
+  ],
+  [
+   "in_inside",
+   "through"
+  ]
+ ]
+}

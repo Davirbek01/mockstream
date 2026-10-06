@@ -1,0 +1,264 @@
+{
+ "book": "elementary",
+ "unit": 42,
+ "title": "Come / came / come",
+ "title_uz": "Come fe’li bilan birikmalar",
+ "words": [
+  {
+   "id": "come_in",
+   "en": "come in",
+   "uz": "ichkariga kirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Why are you standing at the door in the cold? Please come in and take off your coat.",
+   "gap": "come in",
+   "alt": [
+    "comes in",
+    "came in",
+    "coming in"
+   ]
+  },
+  {
+   "id": "come_into",
+   "en": "come into",
+   "uz": "… ichiga kirib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "A small sparrow came into our classroom through the open window and flew around the lamp.",
+   "gap": "came into",
+   "alt": [
+    "comes into",
+    "came into",
+    "coming into"
+   ]
+  },
+  {
+   "id": "come_out",
+   "en": "come out",
+   "uz": "chiqib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Mum pressed the button on the juicer, and fresh orange juice came out into the glass.",
+   "gap": "came out",
+   "alt": [
+    "comes out",
+    "came out",
+    "coming out"
+   ]
+  },
+  {
+   "id": "come_out_of",
+   "en": "come out of",
+   "uz": "… ichidan chiqib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We waited outside until my brother came out of the barber's with very short hair.",
+   "gap": "came out of",
+   "alt": [
+    "comes out of",
+    "came out of",
+    "coming out of"
+   ]
+  },
+  {
+   "id": "come_back",
+   "en": "come back",
+   "uz": "qaytib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our English teacher went to a conference for a week and came back on Monday with lots of new games for us.",
+   "gap": "came back",
+   "alt": [
+    "comes back",
+    "came back",
+    "coming back"
+   ]
+  },
+  {
+   "id": "come_back_from",
+   "en": "come back from",
+   "uz": "… dan qaytib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "My sister came back from summer camp near Lake Aydarkul with lots of photos and a new hat.",
+   "gap": "came back from",
+   "alt": [
+    "comes back from",
+    "came back from",
+    "coming back from"
+   ]
+  },
+  {
+   "id": "come_home",
+   "en": "come home",
+   "uz": "uyga qaytib kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Shahzoda always comes home from school at two and has lunch with her little brother.",
+   "gap": "comes home",
+   "alt": [
+    "comes home",
+    "came home",
+    "coming home"
+   ]
+  },
+  {
+   "id": "come_from",
+   "en": "come from",
+   "uz": "asli … dan bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our new classmate comes from Khorezm, so she speaks Uzbek with a slightly different accent.",
+   "gap": "comes from",
+   "alt": [
+    "comes from",
+    "came from",
+    "coming from"
+   ]
+  },
+  {
+   "id": "come_along",
+   "en": "come along",
+   "uz": "birga bormoq / qo‘shilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dad and I are going fishing at the lake early on Sunday, and my friend Sardor wants to come along with his own fishing rod.",
+   "gap": "come along",
+   "alt": [
+    "comes along",
+    "came along",
+    "coming along"
+   ]
+  },
+  {
+   "id": "come_with",
+   "en": "come with",
+   "uz": "… bilan birga kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Can I come with you to the bookshop? I need a new dictionary.",
+   "gap": "come with",
+   "alt": [
+    "comes with",
+    "came with",
+    "coming with"
+   ]
+  },
+  {
+   "id": "come_and_see",
+   "en": "come and see",
+   "uz": "mehmonga kelmoq / ko‘rgani kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "We've moved to a new flat near the river; please come and see us on Saturday!",
+   "gap": "come and see",
+   "alt": [
+    "come and see me",
+    "come and see us",
+    "came and saw"
+   ]
+  },
+  {
+   "id": "come_verb",
+   "en": "come",
+   "uz": "kelmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Lola, come here and look at this funny video of our cat!",
+   "gap": "come",
+   "alt": [
+    "comes",
+    "came",
+    "coming"
+   ]
+  },
+  {
+   "id": "go_clubbing",
+   "en": "go clubbing",
+   "uz": "tungi klubga (raqsga) bormoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Ravshan loves loud dance music, so on Saturday nights he and his friends go clubbing until late.",
+   "gap": "go clubbing",
+   "alt": [
+    "goes clubbing",
+    "went clubbing",
+    "going clubbing"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "come_in",
+   "come_into"
+  ],
+  [
+   "come_into",
+   "come_out_of"
+  ],
+  [
+   "come_out",
+   "come_out_of"
+  ],
+  [
+   "come_out_of",
+   "come_back_from"
+  ],
+  [
+   "come_back",
+   "come_home"
+  ],
+  [
+   "come_back",
+   "come_back_from"
+  ],
+  [
+   "come_from",
+   "come_back_from"
+  ],
+  [
+   "come_along",
+   "come_with"
+  ],
+  [
+   "come_and_see",
+   "come_with"
+  ],
+  [
+   "come_along",
+   "come_and_see"
+  ],
+  [
+   "come_verb",
+   "come_in"
+  ],
+  [
+   "come_verb",
+   "come_back"
+  ],
+  [
+   "come_verb",
+   "come_out"
+  ],
+  [
+   "come_verb",
+   "come_along"
+  ],
+  [
+   "come_verb",
+   "come_with"
+  ],
+  [
+   "come_verb",
+   "come_and_see"
+  ],
+  [
+   "come_verb",
+   "come_home"
+  ],
+  [
+   "come_verb",
+   "come_back_from"
+  ]
+ ]
+}

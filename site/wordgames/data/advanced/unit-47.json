@@ -1,0 +1,324 @@
+{
+ "book": "advanced",
+ "unit": 47,
+ "title": "The media: in print",
+ "title_uz": "OAV: bosma nashrlar",
+ "words": [
+  {
+   "id": "obituary",
+   "en": "obituary",
+   "uz": "marhum hayoti haqida maqola",
+   "pos": "noun",
+   "img": false,
+   "ex": "When the famous poet died, every national paper printed a long obituary describing her life and work.",
+   "gap": "obituary",
+   "alt": [
+    "obituaries"
+   ]
+  },
+  {
+   "id": "editorial",
+   "en": "editorial",
+   "uz": "tahririyat maqolasi (muharrir fikri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In today's editorial, the paper argues that the city needs more cycle lanes and fewer car parks.",
+   "gap": "editorial",
+   "alt": [
+    "editorials"
+   ]
+  },
+  {
+   "id": "leader_article",
+   "en": "leader",
+   "uz": "bosh maqola (gazetada)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The editor herself wrote this morning's leader, calling on the council to save the old cinema.",
+   "gap": "leader",
+   "alt": [
+    "leaders"
+   ]
+  },
+  {
+   "id": "cover_news",
+   "en": "cover",
+   "uz": "(voqeani) yoritmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Three reporters were sent to Muynak to cover the music festival held every year beside the old rusting fishing boats.",
+   "gap": "cover",
+   "alt": [
+    "covers",
+    "covered",
+    "covering"
+   ]
+  },
+  {
+   "id": "classified_ads",
+   "en": "classified ads",
+   "uz": "e’lonlar bo‘limi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our neighbour found a second-hand piano for half the shop price in the classified ads, squeezed between an offer of a used car and a lost-cat notice.",
+   "gap": "classified ads",
+   "alt": [
+    "classifieds",
+    "classified ad"
+   ]
+  },
+  {
+   "id": "supplement",
+   "en": "supplement",
+   "uz": "gazeta ilovasi (qo‘shimcha jurnal)",
+   "pos": "noun",
+   "img": false,
+   "ex": "On Saturdays the newspaper is twice as thick because of the weekend supplement on travel and food.",
+   "gap": "supplement",
+   "alt": [
+    "supplements"
+   ]
+  },
+  {
+   "id": "feature",
+   "en": "feature",
+   "uz": "bir mavzuga bag‘ishlangan maqola",
+   "pos": "noun",
+   "img": false,
+   "ex": "This month's magazine has a twelve-page feature on young engineers building robots in Andijan.",
+   "gap": "feature",
+   "alt": [
+    "features"
+   ]
+  },
+  {
+   "id": "agony_column",
+   "en": "agony column",
+   "uz": "shaxsiy muammolar rukni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Teenagers write to the agony column when they don't know how to deal with a bossy friend or exam stress.",
+   "gap": "agony column",
+   "alt": [
+    "agony columns"
+   ]
+  },
+  {
+   "id": "agony_aunt",
+   "en": "agony aunt",
+   "uz": "maslahat rukni muallifi",
+   "pos": "noun",
+   "img": false,
+   "ex": "The magazine's agony aunt receives hundreds of letters a week from readers who feel lonely or stressed.",
+   "gap": "agony aunt",
+   "alt": [
+    "agony aunts"
+   ]
+  },
+  {
+   "id": "circulation",
+   "en": "circulation",
+   "uz": "tiraj (sotilgan nusxalar soni)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since it started printing puzzles and comics for kids, the magazine's circulation has doubled.",
+   "gap": "circulation",
+   "alt": []
+  },
+  {
+   "id": "diary_journal",
+   "en": "journal",
+   "uz": "kundalik daftar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Madina's journal from her exchange year in Japan, full of sketches and train tickets, is now her favourite souvenir.",
+   "gap": "journal",
+   "alt": [
+    "journals"
+   ]
+  },
+  {
+   "id": "newsletter",
+   "en": "newsletter",
+   "uz": "axborotnoma (byulleten)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every Friday, parents at our school receive an email newsletter with news about exams, clubs and trips.",
+   "gap": "newsletter",
+   "alt": [
+    "newsletters"
+   ]
+  },
+  {
+   "id": "pamphlet",
+   "en": "pamphlet",
+   "uz": "risola (siyosiy kitobcha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The student society printed a short pamphlet setting out its political case for lowering the voting age to sixteen.",
+   "gap": "pamphlet",
+   "alt": [
+    "pamphlets"
+   ]
+  },
+  {
+   "id": "press_release",
+   "en": "press release",
+   "uz": "matbuot uchun rasmiy xabar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The football club issued a press release confirming that its new coach would start in July.",
+   "gap": "press release",
+   "alt": [
+    "press releases"
+   ]
+  },
+  {
+   "id": "leaflet",
+   "en": "leaflet",
+   "uz": "axborot varaqasi",
+   "pos": "noun",
+   "img": false,
+   "ex": "While we were waiting, the nurse gave me a leaflet with simple tips on healthy eating.",
+   "gap": "leaflet",
+   "alt": [
+    "leaflets"
+   ]
+  },
+  {
+   "id": "brochure",
+   "en": "brochure",
+   "uz": "reklama bukleti (sayohat, firma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The travel agency gave us a glossy brochure full of photos of guesthouses in the Nurata hills.",
+   "gap": "brochure",
+   "alt": [
+    "brochures"
+   ]
+  },
+  {
+   "id": "prospectus",
+   "en": "prospectus",
+   "uz": "o‘quv yurti haqida qo‘llanma",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school's careers room has a whole shelf of college prospectuses, so you can compare fees and courses before you apply.",
+   "gap": "prospectuses",
+   "alt": [
+    "prospectuses"
+   ]
+  },
+  {
+   "id": "flyer",
+   "en": "flyer",
+   "uz": "ko‘chada tarqatiladigan e’lon",
+   "pos": "noun",
+   "img": false,
+   "ex": "Volunteers stood outside the sports centre handing out flyers for Saturday's charity fun run.",
+   "gap": "flyers",
+   "alt": [
+    "flyers",
+    "flier"
+   ]
+  },
+  {
+   "id": "booklet",
+   "en": "booklet",
+   "uz": "yupqa kitobcha",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every candidate receives a thin twelve-page booklet explaining the exam rules, from which pens are allowed to what to do if you feel ill.",
+   "gap": "booklet",
+   "alt": [
+    "booklets"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "editorial",
+   "leader_article"
+  ],
+  [
+   "agony_column",
+   "agony_aunt"
+  ],
+  [
+   "supplement",
+   "brochure"
+  ],
+  [
+   "supplement",
+   "feature"
+  ],
+  [
+   "pamphlet",
+   "leaflet"
+  ],
+  [
+   "pamphlet",
+   "booklet"
+  ],
+  [
+   "leaflet",
+   "booklet"
+  ],
+  [
+   "leaflet",
+   "flyer"
+  ],
+  [
+   "flyer",
+   "booklet"
+  ],
+  [
+   "brochure",
+   "booklet"
+  ],
+  [
+   "brochure",
+   "leaflet"
+  ],
+  [
+   "brochure",
+   "prospectus"
+  ],
+  [
+   "prospectus",
+   "booklet"
+  ],
+  [
+   "newsletter",
+   "press_release"
+  ],
+  [
+   "brochure",
+   "flyer"
+  ],
+  [
+   "brochure",
+   "pamphlet"
+  ],
+  [
+   "pamphlet",
+   "flyer"
+  ],
+  [
+   "cover_news",
+   "cover_cost"
+  ],
+  [
+   "supplement",
+   "booklet"
+  ],
+  [
+   "prospectus",
+   "leaflet"
+  ],
+  [
+   "pamphlet",
+   "press_release"
+  ]
+ ]
+}

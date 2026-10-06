@@ -1,0 +1,420 @@
+{
+ "book": "advanced",
+ "unit": 71,
+ "title": "Number: statistics and quantity",
+ "title_uz": "Son: statistika va miqdor",
+ "words": [
+  {
+   "id": "twofold",
+   "en": "twofold",
+   "uz": "ikki barobar (ikki hissa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The chess club had 150 members last year and has 300 now: a twofold rise in just twelve months.",
+   "gap": "twofold",
+   "alt": []
+  },
+  {
+   "id": "threefold",
+   "en": "threefold",
+   "uz": "uch barobar (uch hissa)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Ticket sales for the festival jumped from 4,000 to 12,000, a threefold increase that surprised even the organisers.",
+   "gap": "threefold",
+   "alt": []
+  },
+  {
+   "id": "quadruple",
+   "en": "quadruple",
+   "uz": "to‘rt barobar oshmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The number of electric buses in the city quadrupled from 25 to 100 in just three years.",
+   "gap": "quadrupled",
+   "alt": [
+    "quadrupled",
+    "quadruples",
+    "quadrupling"
+   ]
+  },
+  {
+   "id": "by_a_factor_of",
+   "en": "by a factor of",
+   "uz": "… marta (ko‘paytirilib)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Thanks to the new pumps, the farm's daily water supply grew by a factor of five, from two to ten tonnes.",
+   "gap": "by a factor of",
+   "alt": []
+  },
+  {
+   "id": "drastic",
+   "en": "drastic",
+   "uz": "keskin (jiddiy va to‘satdan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "After a drastic drop in temperature overnight, the apricot blossom in the orchards was ruined.",
+   "gap": "drastic",
+   "alt": []
+  },
+  {
+   "id": "revise_upwards",
+   "en": "revise upwards",
+   "uz": "(raqamni) oshirib qayta hisoblamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After the final count, the number of visitors to the book fair was revised upwards from 8,000 to 9,500.",
+   "gap": "revised upwards",
+   "alt": [
+    "revised upwards",
+    "revises upwards",
+    "revising upwards"
+   ]
+  },
+  {
+   "id": "revise_downwards",
+   "en": "revise downwards",
+   "uz": "(raqamni) kamaytirib qayta hisoblamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When the storm missed the valley, the rainfall estimate was revised downwards from 40 mm to just 15 mm.",
+   "gap": "revised downwards",
+   "alt": [
+    "revised downwards",
+    "revises downwards",
+    "revising downwards"
+   ]
+  },
+  {
+   "id": "deviate_from_the_norm",
+   "en": "deviate from the norm",
+   "uz": "me’yordan chetga chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "This spring's weather deviated from the norm, with snow falling in the foothills in late April.",
+   "gap": "deviated from the norm",
+   "alt": [
+    "deviated from the norm",
+    "deviates from the norm",
+    "deviating from the norm"
+   ]
+  },
+  {
+   "id": "fluctuate",
+   "en": "fluctuate",
+   "uz": "goh oshib, goh tushib turmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In late summer melon prices can fluctuate wildly, depending on how many trucks the farmers bring in.",
+   "gap": "fluctuate",
+   "alt": [
+    "fluctuates",
+    "fluctuated",
+    "fluctuating"
+   ]
+  },
+  {
+   "id": "seesaw",
+   "en": "seesaw",
+   "uz": "navbatma-navbat ko‘tarilib-tushmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Our team's league position seesawed all season: third one week, ninth the next, then back up to fourth.",
+   "gap": "seesawed",
+   "alt": [
+    "seesawed",
+    "seesaws",
+    "seesawing"
+   ]
+  },
+  {
+   "id": "erratic",
+   "en": "erratic",
+   "uz": "betartib, to‘satdan o‘zgaruvchan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My little brother's sleep has been erratic this week: one night he's in bed by nine, the next he's up until two.",
+   "gap": "erratic",
+   "alt": []
+  },
+  {
+   "id": "aggregate",
+   "en": "aggregate",
+   "uz": "umumiy yig‘indi (jami)",
+   "pos": "noun",
+   "img": false,
+   "ex": "We lost the second leg 2–1, but still went through to the final, winning 4–3 on aggregate.",
+   "gap": "aggregate",
+   "alt": []
+  },
+  {
+   "id": "blip",
+   "en": "blip",
+   "uz": "vaqtinchalik o‘zgarish (sakrash)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The website's slow loading on Monday morning turned out to be a blip; by lunchtime it was running smoothly again.",
+   "gap": "blip",
+   "alt": []
+  },
+  {
+   "id": "correlation",
+   "en": "correlation",
+   "uz": "o‘zaro bog‘liqlik (bir-biriga mos o‘zgarish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "City planners noticed a clear correlation between the number of trees on a street and how cool it stays in July.",
+   "gap": "correlation",
+   "alt": []
+  },
+  {
+   "id": "gdp",
+   "en": "GDP",
+   "uz": "YaIM (yalpi ichki mahsulot)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The country's GDP per head has doubled in twenty years, so most families are now much better off.",
+   "gap": "GDP",
+   "alt": [
+    "gross domestic product"
+   ]
+  },
+  {
+   "id": "expenditure",
+   "en": "expenditure",
+   "uz": "sarf-xarajat",
+   "pos": "noun",
+   "img": false,
+   "ex": "The school's expenditure on electricity fell sharply after solar panels were fitted on the roof.",
+   "gap": "expenditure",
+   "alt": []
+  },
+  {
+   "id": "discrepancy",
+   "en": "discrepancy",
+   "uz": "nomuvofiqlik (mos kelmaslik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was a discrepancy of 3,000 som between the receipt and the amount taken from my card.",
+   "gap": "discrepancy",
+   "alt": [
+    "discrepancies"
+   ]
+  },
+  {
+   "id": "ratio",
+   "en": "ratio",
+   "uz": "nisbat",
+   "pos": "noun",
+   "img": false,
+   "ex": "For a strong foundation, the builders mixed sand and cement in a ratio of three to one.",
+   "gap": "ratio",
+   "alt": [
+    "ratios"
+   ]
+  },
+  {
+   "id": "flawed",
+   "en": "flawed",
+   "uz": "nuqsonli, xatoli (noaniq)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The survey was flawed because it only asked people who already used the app.",
+   "gap": "flawed",
+   "alt": []
+  },
+  {
+   "id": "multiple",
+   "en": "multiple",
+   "uz": "ko‘plab, turli-tuman",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The first draft of the report contained multiple errors, from wrong dates to missing tables.",
+   "gap": "multiple",
+   "alt": []
+  },
+  {
+   "id": "inconsistent_with",
+   "en": "inconsistent with",
+   "uz": "… ga zid (mos kelmaydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The step count on my watch is inconsistent with my phone's: 8,000 steps on one, 11,000 on the other.",
+   "gap": "inconsistent with",
+   "alt": []
+  },
+  {
+   "id": "ballpark_figure",
+   "en": "ballpark figure",
+   "uz": "taxminiy raqam",
+   "pos": "noun",
+   "img": false,
+   "ex": "The builder couldn't give us an exact price yet, only a ballpark figure based on similar kitchens.",
+   "gap": "ballpark figure",
+   "alt": [
+    "ballpark figures"
+   ]
+  },
+  {
+   "id": "tot_up",
+   "en": "tot up",
+   "uz": "hammasini qo‘shib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "When I totted up everything I'd bought at the bazaar, it came to almost 200,000 som.",
+   "gap": "totted up",
+   "alt": [
+    "totted up",
+    "tots up",
+    "totting up"
+   ]
+  },
+  {
+   "id": "run_into_six_figures",
+   "en": "run into six figures",
+   "uz": "olti xonali songa yetmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Repairing the old theatre's roof could easily run into six figures, so the city is looking for sponsors.",
+   "gap": "run into six figures",
+   "alt": [
+    "runs into six figures",
+    "ran into six figures",
+    "running into six figures"
+   ]
+  },
+  {
+   "id": "variables",
+   "en": "variables",
+   "uz": "o‘zgaruvchi omillar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fuel prices, the weather and the exchange rate are all variables that could change our travel budget.",
+   "gap": "variables",
+   "alt": [
+    "variable"
+   ]
+  },
+  {
+   "id": "projected_figures",
+   "en": "projected figures",
+   "uz": "rejadagi (prognoz) ko‘rsatkichlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "If the projected figures are right, the new metro line will carry 50,000 passengers a day by 2030.",
+   "gap": "projected figures",
+   "alt": []
+  },
+  {
+   "id": "err_on_the_side_of_caution",
+   "en": "err on the side of caution",
+   "uz": "ehtiyot shart deb ish tutmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The forecast mentioned possible snow on the pass, so our driver erred on the side of caution and took the valley road.",
+   "gap": "erred on the side of caution",
+   "alt": [
+    "erred on the side of caution",
+    "errs on the side of caution",
+    "erring on the side of caution"
+   ]
+  },
+  {
+   "id": "round_down",
+   "en": "round down",
+   "uz": "kichik tomonga yaxlitlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The bill came to 98,600 som, but the café owner kindly rounded down the total to 98,000.",
+   "gap": "rounded down",
+   "alt": [
+    "rounded down",
+    "rounds down",
+    "rounding down"
+   ]
+  },
+  {
+   "id": "conservative_estimate",
+   "en": "conservative estimate",
+   "uz": "ehtiyotkor (past) baho",
+   "pos": "noun",
+   "img": false,
+   "ex": "Even by a conservative estimate, at least 5,000 people came to watch the Navruz concert in the park.",
+   "gap": "conservative estimate",
+   "alt": [
+    "conservative estimates"
+   ]
+  },
+  {
+   "id": "aggregate_verb",
+   "en": "aggregate",
+   "uz": "jamlamoq (barcha raqamlarni bir joyga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The teacher aggregated the scores from all four tests into a single total to decide who would represent the school.",
+   "gap": "aggregated",
+   "alt": [
+    "aggregated",
+    "aggregates",
+    "aggregating"
+   ]
+  },
+  {
+   "id": "round_up",
+   "en": "round up",
+   "uz": "katta tomonga yaxlitlamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For a quick estimate, Nodira rounded up each price to the nearest thousand so that the total would never be too low.",
+   "gap": "rounded up",
+   "alt": [
+    "rounded up",
+    "rounds up",
+    "rounding up"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "fluctuate",
+   "seesaw"
+  ],
+  [
+   "ballpark_figure",
+   "conservative_estimate"
+  ],
+  [
+   "round_down",
+   "revise_downwards"
+  ],
+  [
+   "twofold",
+   "threefold"
+  ],
+  [
+   "twofold",
+   "drastic"
+  ],
+  [
+   "threefold",
+   "drastic"
+  ],
+  [
+   "aggregate_verb",
+   "tot_up"
+  ],
+  [
+   "aggregate_verb",
+   "aggregate"
+  ],
+  [
+   "round_up",
+   "round_down"
+  ],
+  [
+   "round_up",
+   "revise_upwards"
+  ]
+ ]
+}

@@ -1,0 +1,915 @@
+{
+ "book": "advanced",
+ "unit": 15,
+ "title": "Birth and death: from cradle to grave",
+ "title_uz": "Tug‘ilish va o‘lim: beshikdan qabrgacha",
+ "words": [
+  {
+   "id": "pregnant",
+   "en": "pregnant",
+   "uz": "homilador",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our English teacher is pregnant, so a new teacher will take her classes from March.",
+   "gap": "pregnant",
+   "alt": []
+  },
+  {
+   "id": "expecting",
+   "en": "expecting",
+   "uz": "farzand kutayotgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our neighbours are expecting their first baby in May, so they've started painting the spare room yellow.",
+   "gap": "expecting",
+   "alt": []
+  },
+  {
+   "id": "midwife",
+   "en": "midwife",
+   "uz": "doya",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the maternity hospital, an experienced midwife stayed with Gulnora all night until the baby arrived.",
+   "gap": "midwife",
+   "alt": [
+    "midwives"
+   ]
+  },
+  {
+   "id": "give_birth",
+   "en": "give birth",
+   "uz": "farzand ko‘rmoq (tug‘moq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Laylo gave birth to healthy twins at a clinic in Tashkent last week.",
+   "gap": "gave birth",
+   "alt": [
+    "gave birth",
+    "gives birth",
+    "giving birth",
+    "given birth"
+   ]
+  },
+  {
+   "id": "go_into_labour",
+   "en": "go into labour",
+   "uz": "to‘lg‘oq tuta boshlamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Dilnoza went into labour during a snowstorm, so her husband called an ambulance to take her to the maternity hospital.",
+   "gap": "went into labour",
+   "alt": [
+    "went into labour",
+    "goes into labour",
+    "gone into labour",
+    "go into labor"
+   ]
+  },
+  {
+   "id": "deliver",
+   "en": "deliver",
+   "uz": "tug‘ruqni qabul qilmoq (shifokor)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The doctor who delivered me still works at the same hospital in Termez.",
+   "gap": "delivered",
+   "alt": [
+    "delivered",
+    "delivers"
+   ]
+  },
+  {
+   "id": "caesarean_section",
+   "en": "caesarean section",
+   "uz": "kesar kesish (jarrohlik yo‘li bilan tug‘ish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because the baby was lying in the wrong position, the surgeons decided to perform a caesarean section.",
+   "gap": "caesarean section",
+   "alt": [
+    "caesarean",
+    "cesarean section",
+    "C-section"
+   ]
+  },
+  {
+   "id": "ripe_old_age",
+   "en": "ripe old age",
+   "uz": "chuqur keksalik (uzoq umr ko‘rish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Villagers in the mountains above Boysun often live to a ripe old age, working in their orchards well into their nineties.",
+   "gap": "ripe old age",
+   "alt": []
+  },
+  {
+   "id": "late",
+   "en": "late",
+   "uz": "marhum (hayotdan o‘tgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "This library was founded by the late Professor Rahimov, whose portrait still hangs by the entrance.",
+   "gap": "late",
+   "alt": []
+  },
+  {
+   "id": "pensioner",
+   "en": "pensioner",
+   "uz": "nafaqaxo‘r",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every morning a group of pensioners plays chess on the benches in the park.",
+   "gap": "pensioners",
+   "alt": [
+    "pensioners"
+   ]
+  },
+  {
+   "id": "sheltered_accommodation",
+   "en": "sheltered accommodation",
+   "uz": "qariyalar uchun parvarishli uy-joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Mrs Petrova could no longer manage the stairs, she moved into sheltered accommodation with a nurse on site.",
+   "gap": "sheltered accommodation",
+   "alt": []
+  },
+  {
+   "id": "have_your_wits_about_you",
+   "en": "have your wits about you",
+   "uz": "aqli joyida (fikri tiniq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "At ninety-one, our neighbour still has all her wits about her and beats everyone at crosswords.",
+   "gap": "has all her wits about her",
+   "alt": [
+    "has all her wits about her",
+    "has his wits about him",
+    "have all your wits about you"
+   ]
+  },
+  {
+   "id": "dementia",
+   "en": "dementia",
+   "uz": "xotira so‘nishi (qarilikdagi aqliy zaiflik)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Regular exercise and learning new skills may lower the risk of dementia in later life.",
+   "gap": "dementia",
+   "alt": []
+  },
+  {
+   "id": "coffin",
+   "en": "coffin",
+   "uz": "tobut",
+   "pos": "noun",
+   "img": false,
+   "ex": "Six of his former teammates carried the coffin out of the hall in silence.",
+   "gap": "coffin",
+   "alt": [
+    "coffins"
+   ]
+  },
+  {
+   "id": "wake",
+   "en": "wake",
+   "uz": "dafndan keyingi yig‘in (ma’raka)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the funeral, relatives gathered at the house for the wake, sharing happy stories about her life.",
+   "gap": "wake",
+   "alt": []
+  },
+  {
+   "id": "will",
+   "en": "will",
+   "uz": "vasiyatnoma",
+   "pos": "noun",
+   "img": false,
+   "ex": "In her will, the writer left her entire library to the village school.",
+   "gap": "will",
+   "alt": [
+    "wills"
+   ]
+  },
+  {
+   "id": "ashes",
+   "en": "ashes",
+   "uz": "marhumning xoki (kuli)",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to his wishes, the mountaineer's ashes were scattered on the slopes of the peak he loved most.",
+   "gap": "ashes",
+   "alt": []
+  },
+  {
+   "id": "mourning",
+   "en": "mourning",
+   "uz": "motam (aza)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Flags flew at half-mast as the whole country went into mourning for the victims of the earthquake.",
+   "gap": "mourning",
+   "alt": []
+  },
+  {
+   "id": "cremation",
+   "en": "cremation",
+   "uz": "jasadni kuydirish (kremasiya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Japan, more than 99 per cent of funerals end in cremation.",
+   "gap": "cremation",
+   "alt": []
+  },
+  {
+   "id": "burial",
+   "en": "burial",
+   "uz": "dafn etish (yerga qo‘yish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Muslim tradition, burial usually takes place within a day of death.",
+   "gap": "burial",
+   "alt": []
+  },
+  {
+   "id": "condolences",
+   "en": "condolences",
+   "uz": "ta’ziya (hamdardlik izhori)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The whole class signed a card to offer our condolences to Aziz after his uncle died.",
+   "gap": "condolences",
+   "alt": []
+  },
+  {
+   "id": "pass_away",
+   "en": "pass away",
+   "uz": "vafot etmoq (yumshoq ibora)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The famous singer passed away peacefully at home at the age of eighty-seven.",
+   "gap": "passed away",
+   "alt": [
+    "passed away",
+    "passes away"
+   ]
+  },
+  {
+   "id": "on_its_last_legs",
+   "en": "on its last legs",
+   "uz": "eskirib, ishdan chiqay deb qolgan",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our school's photocopier is on its last legs; it jams every few pages and smells of hot plastic.",
+   "gap": "on its last legs",
+   "alt": [
+    "on their last legs",
+    "on my last legs",
+    "on your last legs"
+   ]
+  },
+  {
+   "id": "at_deaths_door",
+   "en": "at death's door",
+   "uz": "o‘lim yoqasida (o‘lay deb qolgan)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "After a week in bed with flu, Bobur joked that he had been at death's door, but by Monday he was back at football practice.",
+   "gap": "at death's door",
+   "alt": [
+    "at deaths door"
+   ]
+  },
+  {
+   "id": "fatalities",
+   "en": "fatalities",
+   "uz": "halok bo‘lganlar soni",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since the new traffic lights were installed, there have been no fatalities on this road.",
+   "gap": "fatalities",
+   "alt": [
+    "fatality"
+   ]
+  },
+  {
+   "id": "perish",
+   "en": "perish",
+   "uz": "halok bo‘lmoq (gazeta uslubi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Dozens of sailors perished when their fishing boat sank in a storm off the coast of Norway.",
+   "gap": "perished",
+   "alt": [
+    "perished",
+    "perishes"
+   ]
+  },
+  {
+   "id": "the_deceased",
+   "en": "the deceased",
+   "uz": "vafot etgan shaxs (rasmiy)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The lawyer read out the will in front of the deceased's three children.",
+   "gap": "deceased",
+   "alt": [
+    "deceased"
+   ]
+  },
+  {
+   "id": "bequeath",
+   "en": "bequeath",
+   "uz": "vasiyat qilib qoldirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "In his will, an old collector bequeathed his rare coins to the city museum.",
+   "gap": "bequeathed",
+   "alt": [
+    "bequeathed",
+    "bequeaths"
+   ]
+  },
+  {
+   "id": "inherit",
+   "en": "inherit",
+   "uz": "meros qilib olmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Madina inherited her mother's old sewing machine along with her talent for embroidery.",
+   "gap": "inherited",
+   "alt": [
+    "inherited",
+    "inherits"
+   ]
+  },
+  {
+   "id": "intestate",
+   "en": "intestate",
+   "uz": "vasiyatnomasiz (vafot etgan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Because he died intestate, a court had to decide how to divide his property.",
+   "gap": "intestate",
+   "alt": []
+  },
+  {
+   "id": "pregnancy",
+   "en": "pregnancy",
+   "uz": "homiladorlik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Zulfiya kept working at the bank until the eighth month of her pregnancy.",
+   "gap": "pregnancy",
+   "alt": [
+    "pregnancies"
+   ]
+  },
+  {
+   "id": "conception",
+   "en": "conception",
+   "uz": "urug‘lanish (homila boshlanishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Doctors usually count the length of a pregnancy from about two weeks before conception.",
+   "gap": "conception",
+   "alt": []
+  },
+  {
+   "id": "fertilise",
+   "en": "fertilise",
+   "uz": "urug‘lantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Once an egg has been fertilised, it begins to divide into more and more cells.",
+   "gap": "fertilised",
+   "alt": [
+    "fertilised",
+    "fertilises",
+    "fertilize",
+    "fertilized"
+   ]
+  },
+  {
+   "id": "embryo",
+   "en": "embryo",
+   "uz": "murtak (ilk haftalardagi homila)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At six weeks, the human embryo is only about the size of a lentil.",
+   "gap": "embryo",
+   "alt": [
+    "embryos"
+   ]
+  },
+  {
+   "id": "implant",
+   "en": "implant",
+   "uz": "(bachadon devoriga) yopishmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "About a week after conception, the tiny ball of cells implants itself in the lining of the womb.",
+   "gap": "implants",
+   "alt": [
+    "implants",
+    "implanted"
+   ]
+  },
+  {
+   "id": "womb",
+   "en": "womb",
+   "uz": "ona qorni (bachadon)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Babies can hear sounds from the outside world while they are still in the womb.",
+   "gap": "womb",
+   "alt": []
+  },
+  {
+   "id": "uterus",
+   "en": "uterus",
+   "uz": "bachadon (tibbiy atama)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During pregnancy, the uterus grows to many times its normal size.",
+   "gap": "uterus",
+   "alt": []
+  },
+  {
+   "id": "conceive_baby",
+   "en": "conceive",
+   "uz": "homilador bo‘lmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "After years of trying, Saida and her husband finally conceived their first child when she was forty.",
+   "gap": "conceived",
+   "alt": [
+    "conceived",
+    "conceives"
+   ]
+  },
+  {
+   "id": "fertility_drugs",
+   "en": "fertility drugs",
+   "uz": "homilador bo‘lishga yordam beruvchi dori",
+   "pos": "noun",
+   "img": false,
+   "ex": "Twins are more common among women who have taken fertility drugs.",
+   "gap": "fertility drugs",
+   "alt": [
+    "fertility drug"
+   ]
+  },
+  {
+   "id": "ivf",
+   "en": "IVF",
+   "uz": "sun’iy urug‘lantirish (EKU)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since 1978, more than ten million babies around the world have been born thanks to IVF.",
+   "gap": "IVF",
+   "alt": [
+    "in vitro fertilisation",
+    "ivf"
+   ]
+  },
+  {
+   "id": "test_tube_baby",
+   "en": "test tube baby",
+   "uz": "probirkada urug‘langan chaqaloq",
+   "pos": "noun",
+   "img": false,
+   "ex": "Louise Brown, born in England in 1978, was the world's first test tube baby.",
+   "gap": "test tube baby",
+   "alt": [
+    "test-tube baby",
+    "test tube babies"
+   ]
+  },
+  {
+   "id": "foetus",
+   "en": "foetus",
+   "uz": "homila (8-haftadan keyin)",
+   "pos": "noun",
+   "img": false,
+   "ex": "By around twenty weeks, the foetus moves strongly enough for the mother to feel its kicks.",
+   "gap": "foetus",
+   "alt": [
+    "fetus",
+    "foetuses"
+   ]
+  },
+  {
+   "id": "placenta",
+   "en": "placenta",
+   "uz": "yo‘ldosh",
+   "pos": "noun",
+   "img": false,
+   "ex": "Oxygen and food pass from the mother to the baby through the placenta.",
+   "gap": "placenta",
+   "alt": []
+  },
+  {
+   "id": "induce",
+   "en": "induce",
+   "uz": "tug‘ruqni sun’iy boshlatmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Because the baby was two weeks overdue, Shahnoza had to be induced at the maternity hospital.",
+   "gap": "induced",
+   "alt": [
+    "induced",
+    "induces"
+   ]
+  },
+  {
+   "id": "induction",
+   "en": "induction",
+   "uz": "tug‘ruqni sun’iy boshlatish",
+   "pos": "noun",
+   "img": false,
+   "ex": "If labour does not start naturally, the doctor may suggest an induction.",
+   "gap": "induction",
+   "alt": []
+  },
+  {
+   "id": "delivery",
+   "en": "delivery",
+   "uz": "tug‘ruq (bolaning dunyoga kelishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mother and baby were both fine after a quick and easy delivery.",
+   "gap": "delivery",
+   "alt": []
+  },
+  {
+   "id": "doddery",
+   "en": "doddery",
+   "uz": "qarilikdan qaltiroq (so‘zl.)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The old shopkeeper is a bit doddery on his feet now, so a young assistant carries the heavy boxes.",
+   "gap": "doddery",
+   "alt": []
+  },
+  {
+   "id": "gaga",
+   "en": "gaga",
+   "uz": "qarib, esi kirdi-chiqdi (haqoratli)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "My neighbour jokes that he's going gaga whenever he forgets where he left his glasses.",
+   "gap": "gaga",
+   "alt": []
+  },
+  {
+   "id": "funeral",
+   "en": "funeral",
+   "uz": "dafn marosimi (janoza)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Shops in the village closed for the morning so that everyone could attend the old teacher's funeral.",
+   "gap": "funeral",
+   "alt": [
+    "funerals"
+   ]
+  },
+  {
+   "id": "mourner",
+   "en": "mourner",
+   "uz": "aza tutuvchi (motamdor)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At the cemetery, the mourners stood in silence while a final prayer was read.",
+   "gap": "mourners",
+   "alt": [
+    "mourners"
+   ]
+  },
+  {
+   "id": "bereaved",
+   "en": "bereaved",
+   "uz": "yaqinidan judo bo‘lgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The charity offers free counselling to bereaved families.",
+   "gap": "bereaved",
+   "alt": [
+    "the bereaved"
+   ]
+  },
+  {
+   "id": "crematorium",
+   "en": "crematorium",
+   "uz": "jasad kuydiriladigan joy",
+   "pos": "noun",
+   "img": false,
+   "ex": "A week after the service, the family collected the urn from the crematorium.",
+   "gap": "crematorium",
+   "alt": []
+  },
+  {
+   "id": "loss",
+   "en": "loss",
+   "uz": "judolik (yaqinini yo‘qotish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "When Rano came back to work after her father's death, her manager quietly said how sorry he was for her loss.",
+   "gap": "loss",
+   "alt": []
+  },
+  {
+   "id": "pass_on",
+   "en": "pass on",
+   "uz": "olamdan o‘tmoq (yumshoq ibora)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Her husband passed on last spring, and she now runs the bakery on her own.",
+   "gap": "passed on",
+   "alt": [
+    "passed on",
+    "passes on"
+   ]
+  },
+  {
+   "id": "pass_over",
+   "en": "pass over",
+   "uz": "narigi dunyoga ketmoq (yumshoq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Many people in the village believe their loved ones still watch over them after they have passed over.",
+   "gap": "passed over",
+   "alt": [
+    "passed over",
+    "passes over"
+   ]
+  },
+  {
+   "id": "slaughter",
+   "en": "slaughter",
+   "uz": "qirg‘in qilmoq (gazeta uslubi)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Before the ban on the ivory trade, tens of thousands of elephants were slaughtered every year.",
+   "gap": "slaughtered",
+   "alt": [
+    "slaughtered",
+    "slaughters"
+   ]
+  },
+  {
+   "id": "bequest",
+   "en": "bequest",
+   "uz": "vasiyat bo‘yicha qoldirilgan hadya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to a generous bequest from a former pupil, the school library now has a new reading room.",
+   "gap": "bequest",
+   "alt": [
+    "bequests"
+   ]
+  },
+  {
+   "id": "inheritance",
+   "en": "inheritance",
+   "uz": "meros",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ravshan used his inheritance to open a small bookshop in Namangan.",
+   "gap": "inheritance",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "pregnant",
+   "expecting"
+  ],
+  [
+   "give_birth",
+   "deliver"
+  ],
+  [
+   "give_birth",
+   "go_into_labour"
+  ],
+  [
+   "late",
+   "the_deceased"
+  ],
+  [
+   "pass_away",
+   "perish"
+  ],
+  [
+   "cremation",
+   "burial"
+  ],
+  [
+   "will",
+   "intestate"
+  ],
+  [
+   "bequeath",
+   "inherit"
+  ],
+  [
+   "coffin",
+   "ashes"
+  ],
+  [
+   "coffin",
+   "the_deceased"
+  ],
+  [
+   "wake",
+   "mourning"
+  ],
+  [
+   "fatalities",
+   "perish"
+  ],
+  [
+   "at_deaths_door",
+   "on_its_last_legs"
+  ],
+  [
+   "at_deaths_door",
+   "pass_away"
+  ],
+  [
+   "pregnancy",
+   "conception"
+  ],
+  [
+   "fertilise",
+   "implant"
+  ],
+  [
+   "embryo",
+   "foetus"
+  ],
+  [
+   "womb",
+   "uterus"
+  ],
+  [
+   "placenta",
+   "womb"
+  ],
+  [
+   "placenta",
+   "uterus"
+  ],
+  [
+   "conceive_baby",
+   "give_birth"
+  ],
+  [
+   "ivf",
+   "fertility_drugs"
+  ],
+  [
+   "ivf",
+   "test_tube_baby"
+  ],
+  [
+   "induce",
+   "deliver"
+  ],
+  [
+   "induction",
+   "caesarean_section"
+  ],
+  [
+   "induction",
+   "delivery"
+  ],
+  [
+   "delivery",
+   "caesarean_section"
+  ],
+  [
+   "doddery",
+   "gaga"
+  ],
+  [
+   "gaga",
+   "dementia"
+  ],
+  [
+   "funeral",
+   "wake"
+  ],
+  [
+   "funeral",
+   "burial"
+  ],
+  [
+   "funeral",
+   "cremation"
+  ],
+  [
+   "mourner",
+   "pensioner"
+  ],
+  [
+   "bereaved",
+   "pregnant"
+  ],
+  [
+   "bereaved",
+   "expecting"
+  ],
+  [
+   "bereaved",
+   "the_deceased"
+  ],
+  [
+   "crematorium",
+   "cremation"
+  ],
+  [
+   "pass_on",
+   "pass_away"
+  ],
+  [
+   "pass_over",
+   "pass_away"
+  ],
+  [
+   "pass_on",
+   "pass_over"
+  ],
+  [
+   "pass_on",
+   "perish"
+  ],
+  [
+   "pass_over",
+   "perish"
+  ],
+  [
+   "slaughter",
+   "perish"
+  ],
+  [
+   "bequest",
+   "will"
+  ],
+  [
+   "bequest",
+   "inheritance"
+  ],
+  [
+   "inheritance",
+   "inherit"
+  ],
+  [
+   "bequest",
+   "bequeath"
+  ],
+  [
+   "loss",
+   "condolences"
+  ],
+  [
+   "loss",
+   "mourning"
+  ],
+  [
+   "mourner",
+   "mourning"
+  ],
+  [
+   "induce",
+   "induction"
+  ],
+  [
+   "delivery",
+   "deliver"
+  ],
+  [
+   "delivery",
+   "give_birth"
+  ],
+  [
+   "conceive_baby",
+   "pregnant"
+  ],
+  [
+   "pregnancy",
+   "pregnant"
+  ],
+  [
+   "loss",
+   "bereaved"
+  ],
+  [
+   "mourner",
+   "bereaved"
+  ]
+ ]
+}

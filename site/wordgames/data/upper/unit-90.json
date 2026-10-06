@@ -1,0 +1,552 @@
+{
+ "book": "upper",
+ "unit": 90,
+ "title": "Expressions with bring and take",
+ "title_uz": "bring va take bilan iboralar",
+ "words": [
+  {
+   "id": "bring_up",
+   "en": "bring up",
+   "uz": "tarbiyalab voyaga yetkazmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Shahzoda was brought up speaking three languages at home: Uzbek, Tajik and Russian.",
+   "gap": "brought up",
+   "alt": [
+    "brings up",
+    "brought up",
+    "bringing up"
+   ]
+  },
+  {
+   "id": "bring_off",
+   "en": "bring off",
+   "uz": "qiyin ishni uddalamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Nobody thought our small team could win the regional final, but we brought it off.",
+   "gap": "brought it off",
+   "alt": [
+    "brings off",
+    "brought off",
+    "bringing off",
+    "brought it off",
+    "bring it off"
+   ]
+  },
+  {
+   "id": "bring_on",
+   "en": "bring on",
+   "uz": "qo‘zg‘atmoq (yo‘tal, xuruj)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Too much screen time late at night can bring on a bad headache.",
+   "gap": "bring on",
+   "alt": [
+    "brings on",
+    "brought on",
+    "bringing on"
+   ]
+  },
+  {
+   "id": "bring_out",
+   "en": "bring out",
+   "uz": "sotuvga chiqarmoq (yangi mahsulot)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "My favourite author is bringing out the third book in her fantasy series this autumn.",
+   "gap": "bringing out",
+   "alt": [
+    "brings out",
+    "brought out",
+    "bringing out"
+   ]
+  },
+  {
+   "id": "bring_back",
+   "en": "bring back",
+   "uz": "qayta joriy qilmoq (qoida)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Our head teacher has brought back the old rule: no phones in the classroom.",
+   "gap": "brought back",
+   "alt": [
+    "brings back",
+    "brought back",
+    "bringing back"
+   ]
+  },
+  {
+   "id": "bring_down",
+   "en": "bring down",
+   "uz": "pasaytirmoq (narx, soliq)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The new supermarket has brought down the price of vegetables in our area.",
+   "gap": "brought down",
+   "alt": [
+    "brings down",
+    "brought down",
+    "bringing down"
+   ]
+  },
+  {
+   "id": "bring_round",
+   "en": "bring round",
+   "uz": "ko‘ndirmoq, o‘z fikriga qo‘shmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "At first my parents didn't want a cat, but I finally brought them round.",
+   "gap": "brought them round",
+   "alt": [
+    "brings round",
+    "brought round",
+    "bringing round",
+    "brought them round"
+   ]
+  },
+  {
+   "id": "take_after",
+   "en": "take after",
+   "uz": "…ga o‘xshamoq (oiladagi kattaga)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Little Sherzod takes after his older sister: he's just as stubborn and just as funny.",
+   "gap": "takes after",
+   "alt": [
+    "takes after",
+    "took after",
+    "taking after"
+   ]
+  },
+  {
+   "id": "take_back",
+   "en": "take back",
+   "uz": "aytgan gapini qaytarib olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "I'm sorry I called you lazy. I take it back.",
+   "gap": "take it back",
+   "alt": [
+    "take it back",
+    "takes back",
+    "took back"
+   ]
+  },
+  {
+   "id": "be_taken_in",
+   "en": "be taken in",
+   "uz": "aldanib qolmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Many tourists were taken in by the fake guide and paid for a tour that never happened.",
+   "gap": "taken in",
+   "alt": [
+    "taken in",
+    "was taken in",
+    "were taken in"
+   ]
+  },
+  {
+   "id": "take_off_succeed",
+   "en": "take off",
+   "uz": "birdan rivojlanib ketmoq (savdo, ish)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Her online English lessons really took off during the summer holidays.",
+   "gap": "took off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taken off",
+    "taking off"
+   ]
+  },
+  {
+   "id": "take_over",
+   "en": "take over",
+   "uz": "lavozimni o‘z zimmasiga olmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Who will take over as captain now that Lola has broken her arm?",
+   "gap": "take over",
+   "alt": [
+    "takes over",
+    "took over",
+    "taken over",
+    "taking over"
+   ]
+  },
+  {
+   "id": "take_to",
+   "en": "take to",
+   "uz": "darrov yoqtirib qolmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Our new kitten took to my little brother at once and now sleeps on his bed every night.",
+   "gap": "took to",
+   "alt": [
+    "takes to",
+    "took to",
+    "taken to"
+   ]
+  },
+  {
+   "id": "bring_into_force",
+   "en": "bring into force",
+   "uz": "kuchga kiritmoq (qonun, qoida)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The new rules for scooter riders will be brought into force at the start of next year.",
+   "gap": "brought into force",
+   "alt": [
+    "brought into force"
+   ]
+  },
+  {
+   "id": "bring_to_light",
+   "en": "bring to light",
+   "uz": "oshkor qilmoq, yuzaga chiqarmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The students' survey brought to light a serious problem with the school buses.",
+   "gap": "brought to light",
+   "alt": [
+    "brought to light",
+    "brings to light"
+   ]
+  },
+  {
+   "id": "bring_to_a_head",
+   "en": "bring to a head",
+   "uz": "hal qiluvchi nuqtaga yetkazmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The long argument about parking was finally brought to a head when the neighbours called a meeting.",
+   "gap": "brought to a head",
+   "alt": [
+    "brought to a head",
+    "brings to a head"
+   ]
+  },
+  {
+   "id": "bring_out_the_best_in",
+   "en": "bring out the best in",
+   "uz": "eng yaxshi fazilatlarini namoyon qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Working with younger children really brings out the best in Javohir; he's so patient with them.",
+   "gap": "brings out the best in",
+   "alt": [
+    "brings out the best in",
+    "brought out the best in"
+   ]
+  },
+  {
+   "id": "take_advantage_of",
+   "en": "take advantage of",
+   "uz": "…dan noo‘rin foydalanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Older pupils shouldn't take advantage of the younger ones by sending them to buy snacks.",
+   "gap": "take advantage of",
+   "alt": [
+    "takes advantage of",
+    "took advantage of",
+    "taken advantage of"
+   ]
+  },
+  {
+   "id": "take_for_granted",
+   "en": "take for granted",
+   "uz": "qadriga yetmaslik, odatiy hol deb bilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Electricity is easy to take for granted until there's a power cut.",
+   "gap": "take for granted",
+   "alt": [
+    "taken for granted",
+    "took for granted"
+   ]
+  },
+  {
+   "id": "take_control_of",
+   "en": "take control of",
+   "uz": "vaziyatni nazoratga olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When the lights went out at the concert, one of the teachers took control of the situation and calmly led everyone outside.",
+   "gap": "took control of",
+   "alt": [
+    "takes control of",
+    "took control of",
+    "taken control of"
+   ]
+  },
+  {
+   "id": "take_your_breath_away",
+   "en": "take your breath away",
+   "uz": "hayratdan lol qoldirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The view from the top of the pass will take your breath away.",
+   "gap": "take your breath away",
+   "alt": [
+    "took my breath away",
+    "takes your breath away"
+   ]
+  },
+  {
+   "id": "take_place",
+   "en": "take place",
+   "uz": "bo‘lib o‘tmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The school sports day will take place on the main field next Friday.",
+   "gap": "take place",
+   "alt": [
+    "takes place",
+    "took place",
+    "taken place"
+   ]
+  },
+  {
+   "id": "take_a_risk",
+   "en": "take a risk",
+   "uz": "tavakkal qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Don't take a risk with those old wires; call an electrician instead.",
+   "gap": "take a risk",
+   "alt": [
+    "takes a risk",
+    "took a risk",
+    "taking a risk"
+   ]
+  },
+  {
+   "id": "take_seriously",
+   "en": "take seriously",
+   "uz": "jiddiy qabul qilmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The storm warning should be taken seriously, so please stay indoors tonight.",
+   "gap": "taken seriously",
+   "alt": [
+    "taken seriously",
+    "took seriously"
+   ]
+  },
+  {
+   "id": "take_into_account",
+   "en": "take into account",
+   "uz": "hisobga olmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "When you plan the trip, the cost of meals must also be taken into account.",
+   "gap": "taken into account",
+   "alt": [
+    "taken into account",
+    "took into account"
+   ]
+  },
+  {
+   "id": "take_pride_in",
+   "en": "take pride in",
+   "uz": "…ni faxr bilan, puxta bajarmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Our caretaker takes pride in the school garden; every flower bed is perfect.",
+   "gap": "takes pride in",
+   "alt": [
+    "takes pride in",
+    "took pride in"
+   ]
+  },
+  {
+   "id": "take_the_opportunity",
+   "en": "take the opportunity",
+   "uz": "fursatdan foydalanmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "While you're in Termez, take the opportunity to see the ancient ruins at Fayaz Tepa.",
+   "gap": "take the opportunity",
+   "alt": [
+    "took the opportunity",
+    "takes the opportunity"
+   ]
+  },
+  {
+   "id": "bring_down_government",
+   "en": "bring down",
+   "uz": "hokimiyatdan ag‘darmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The opposition hoped that the scandal would bring down the government before the election.",
+   "gap": "bring down",
+   "alt": [
+    "brings down",
+    "brought down",
+    "bringing down"
+   ]
+  },
+  {
+   "id": "capital_punishment",
+   "en": "capital punishment",
+   "uz": "o‘lim jazosi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan abolished capital punishment in 2008.",
+   "gap": "capital punishment",
+   "alt": []
+  },
+  {
+   "id": "take_in_absorb",
+   "en": "take in",
+   "uz": "o‘zlashtirib olmoq (ma’lumotni)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "It's hard to take in so many new facts in a single lesson.",
+   "gap": "take in",
+   "alt": [
+    "takes in",
+    "took in",
+    "taken in",
+    "taking in"
+   ]
+  },
+  {
+   "id": "take_off_plane",
+   "en": "take off",
+   "uz": "havoga ko‘tarilmoq (samolyot)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Our plane took off an hour late because of the thick fog.",
+   "gap": "took off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taken off",
+    "taking off"
+   ]
+  },
+  {
+   "id": "take_off_imitate",
+   "en": "take off",
+   "uz": "kulgili qilib taqlid qilmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Doniyor is very good at taking off our maths teacher; he even copies her walk.",
+   "gap": "taking off",
+   "alt": [
+    "takes off",
+    "took off",
+    "taken off",
+    "taking off"
+   ]
+  },
+  {
+   "id": "take_on_employ",
+   "en": "take on",
+   "uz": "ishga olmoq (xodim)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The new hotel is taking on fifty extra staff for the summer season.",
+   "gap": "taking on",
+   "alt": [
+    "takes on",
+    "took on",
+    "taken on",
+    "taking on"
+   ]
+  },
+  {
+   "id": "take_up_hobby",
+   "en": "take up",
+   "uz": "(yangi mashg‘ulot) boshlamoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "After he retired, Mr Karimov took up chess and now plays every evening in the park.",
+   "gap": "took up",
+   "alt": [
+    "takes up",
+    "took up",
+    "taken up",
+    "taking up"
+   ]
+  },
+  {
+   "id": "bring_into_the_open",
+   "en": "bring into the open",
+   "uz": "oshkora qilmoq (yashirin muammoni)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The problem with bullying should be brought into the open and discussed by the whole school.",
+   "gap": "brought into the open",
+   "alt": [
+    "brought into the open",
+    "brings into the open"
+   ]
+  },
+  {
+   "id": "take_for_granted_assume",
+   "en": "take for granted",
+   "uz": "shubhasiz deb o‘ylamoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "I took it for granted that the shop would be open on Sunday, but it was closed.",
+   "gap": "took it for granted",
+   "alt": [
+    "took it for granted",
+    "take it for granted",
+    "taken for granted"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "take_seriously",
+   "take_into_account"
+  ],
+  [
+   "take_over",
+   "take_control_of"
+  ],
+  [
+   "be_taken_in",
+   "take_advantage_of"
+  ],
+  [
+   "bring_down",
+   "bring_down_government"
+  ],
+  [
+   "take_in_absorb",
+   "be_taken_in"
+  ],
+  [
+   "take_off_plane",
+   "take_off_succeed"
+  ],
+  [
+   "take_off_imitate",
+   "take_off_succeed"
+  ],
+  [
+   "take_off_plane",
+   "take_off_imitate"
+  ],
+  [
+   "take_up_hobby",
+   "take_to"
+  ],
+  [
+   "bring_into_the_open",
+   "bring_to_light"
+  ],
+  [
+   "take_for_granted",
+   "take_for_granted_assume"
+  ]
+ ]
+}

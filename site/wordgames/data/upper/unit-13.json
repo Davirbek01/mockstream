@@ -1,0 +1,571 @@
+{
+ "book": "upper",
+ "unit": 13,
+ "title": "Global problems",
+ "title_uz": "Jahon muammolari",
+ "words": [
+  {
+   "id": "earthquake_disaster",
+   "en": "earthquake",
+   "uz": "zilzila (yer silkinishi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ground moved for almost a minute during the earthquake, and books fell off every shelf in our flat.",
+   "gap": "earthquake",
+   "alt": [
+    "earthquakes"
+   ]
+  },
+  {
+   "id": "flood_disaster",
+   "en": "flood",
+   "uz": "suv toshqini",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 2022, after record monsoon rains, a huge flood covered about a third of Pakistan.",
+   "gap": "flood",
+   "alt": [
+    "floods"
+   ]
+  },
+  {
+   "id": "drought_disaster",
+   "en": "drought",
+   "uz": "qurg‘oqchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "There was no rain from April to October, and farmers called it the worst drought in fifty years.",
+   "gap": "drought",
+   "alt": [
+    "droughts"
+   ]
+  },
+  {
+   "id": "volcano",
+   "en": "volcano",
+   "uz": "vulqon",
+   "pos": "noun",
+   "img": true,
+   "ex": "Mount Etna in Sicily is one of the most active volcanoes in Europe.",
+   "gap": "volcanoes",
+   "alt": [
+    "volcanoes"
+   ]
+  },
+  {
+   "id": "famine",
+   "en": "famine",
+   "uz": "ocharchilik",
+   "pos": "noun",
+   "img": false,
+   "ex": "Ireland's great famine of the 1840s began when a plant disease destroyed the potato harvest year after year.",
+   "gap": "famine",
+   "alt": [
+    "famines"
+   ]
+  },
+  {
+   "id": "landslide",
+   "en": "landslide",
+   "uz": "yer ko‘chkisi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Heavy rain loosened the hillside, and a landslide covered the mountain road with rocks and mud.",
+   "gap": "landslide",
+   "alt": [
+    "landslides"
+   ]
+  },
+  {
+   "id": "epidemic",
+   "en": "epidemic",
+   "uz": "epidemiya",
+   "pos": "noun",
+   "img": false,
+   "ex": "Schools in the town closed for two weeks during the flu epidemic, as half the pupils were ill.",
+   "gap": "epidemic",
+   "alt": [
+    "epidemics"
+   ]
+  },
+  {
+   "id": "explosion",
+   "en": "explosion",
+   "uz": "portlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "A gas explosion destroyed the front of a bakery, but luckily it happened at night and nobody was inside.",
+   "gap": "explosion",
+   "alt": [
+    "explosions"
+   ]
+  },
+  {
+   "id": "tornado",
+   "en": "tornado",
+   "uz": "tornado (quyun)",
+   "pos": "noun",
+   "img": true,
+   "ex": "The USA has more tornadoes than any other country: every spring, these spinning columns of wind cross its flat central plains.",
+   "gap": "tornadoes",
+   "alt": [
+    "tornadoes",
+    "tornados"
+   ]
+  },
+  {
+   "id": "typhoon",
+   "en": "typhoon",
+   "uz": "tayfun",
+   "pos": "noun",
+   "img": false,
+   "ex": "In November 2013, a typhoon called Haiyan hit the central Philippines with winds of over 300 km/h.",
+   "gap": "typhoon",
+   "alt": [
+    "typhoons"
+   ]
+  },
+  {
+   "id": "civil_war",
+   "en": "civil war",
+   "uz": "fuqarolar urushi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Spain's civil war, from 1936 to 1939, set neighbour against neighbour and divided many families.",
+   "gap": "civil war",
+   "alt": [
+    "civil wars"
+   ]
+  },
+  {
+   "id": "natural_disaster",
+   "en": "natural disaster",
+   "uz": "tabiiy ofat",
+   "pos": "noun",
+   "img": false,
+   "ex": "Japan has very strict building rules because it faces so many natural disasters, from earthquakes to tsunamis.",
+   "gap": "natural disasters",
+   "alt": [
+    "natural disasters"
+   ]
+  },
+  {
+   "id": "shake",
+   "en": "shake",
+   "uz": "silkinmoq, titramoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "During the small earthquake last night, our windows shook and the lamp swung, but nothing was broken.",
+   "gap": "shook",
+   "alt": [
+    "shakes",
+    "shook",
+    "shaken",
+    "shaking"
+   ]
+  },
+  {
+   "id": "erupt",
+   "en": "erupt",
+   "uz": "otilmoq (vulqon)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When a volcano in Iceland erupted in 2010, its ash cloud closed much of Europe's airspace for several days.",
+   "gap": "erupted",
+   "alt": [
+    "erupts",
+    "erupted"
+   ]
+  },
+  {
+   "id": "spread",
+   "en": "spread",
+   "uz": "tarqalmoq (kasallik)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The disease spread quickly from village to village because people shared the same well.",
+   "gap": "spread",
+   "alt": [
+    "spreads",
+    "spreading"
+   ]
+  },
+  {
+   "id": "starve",
+   "en": "starve",
+   "uz": "ochlikdan azob chekmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Without food aid, thousands of families in the region would be starving by winter.",
+   "gap": "starving",
+   "alt": [
+    "starves",
+    "starved",
+    "starving"
+   ]
+  },
+  {
+   "id": "break_out",
+   "en": "break out",
+   "uz": "boshlanib ketmoq (urush)",
+   "pos": "verb",
+   "img": false,
+   "ex": "When war broke out in 1939, many London children were sent to live in the countryside.",
+   "gap": "broke out",
+   "alt": [
+    "breaks out",
+    "broke out",
+    "broken out"
+   ]
+  },
+  {
+   "id": "sweep_through",
+   "en": "sweep through",
+   "uz": "bosib o‘tmoq (bo‘ron)",
+   "pos": "verb",
+   "img": false,
+   "ex": "A powerful storm swept through the coastal villages overnight, tearing the roofs off many houses.",
+   "gap": "swept through",
+   "alt": [
+    "sweeps through",
+    "swept through"
+   ]
+  },
+  {
+   "id": "casualties",
+   "en": "casualties",
+   "uz": "halok bo‘lganlar va yaradorlar",
+   "pos": "noun",
+   "img": false,
+   "ex": "The hospital reported the casualties of the train crash: two people had died and thirty were hurt.",
+   "gap": "casualties",
+   "alt": [
+    "casualty"
+   ]
+  },
+  {
+   "id": "victim",
+   "en": "victim",
+   "uz": "jabrlanuvchi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Charities collected warm clothes and blankets for the victims of the storm who had lost their homes.",
+   "gap": "victims",
+   "alt": [
+    "victims"
+   ]
+  },
+  {
+   "id": "survivor",
+   "en": "survivor",
+   "uz": "omon qolgan kishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Five days after the earthquake, rescue teams were still finding survivors alive under the ruins.",
+   "gap": "survivors",
+   "alt": [
+    "survivors"
+   ]
+  },
+  {
+   "id": "refugee",
+   "en": "refugee",
+   "uz": "qochqin",
+   "pos": "noun",
+   "img": false,
+   "ex": "Since 2022, millions of refugees have left Ukraine because of the war, and many have gone to Poland.",
+   "gap": "refugees",
+   "alt": [
+    "refugees"
+   ]
+  },
+  {
+   "id": "migrant",
+   "en": "migrant",
+   "uz": "ish izlab ketgan muhojir",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every spring, many migrants from Uzbekistan travel to Russia and Kazakhstan to work on building sites.",
+   "gap": "migrants",
+   "alt": [
+    "migrants"
+   ]
+  },
+  {
+   "id": "wounded",
+   "en": "wounded",
+   "uz": "yaradorlar (jangda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the battle, medical helicopters flew the wounded to a hospital far from the fighting.",
+   "gap": "wounded",
+   "alt": []
+  },
+  {
+   "id": "injure",
+   "en": "injure",
+   "uz": "jarohatlamoq (odamni)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Luckily, nobody was injured in the fire, although the building itself was badly damaged.",
+   "gap": "injured",
+   "alt": [
+    "injures",
+    "injured"
+   ]
+  },
+  {
+   "id": "damage",
+   "en": "damage",
+   "uz": "zarar yetkazmoq (narsaga)",
+   "pos": "verb",
+   "img": false,
+   "ex": "The hailstorm damaged hundreds of car roofs, but no one was hurt.",
+   "gap": "damaged",
+   "alt": [
+    "damages",
+    "damaged"
+   ]
+  },
+  {
+   "id": "rabies",
+   "en": "rabies",
+   "uz": "quturish",
+   "pos": "noun",
+   "img": false,
+   "ex": "If a stray dog bites you, see a doctor at once, because the bite can pass on rabies.",
+   "gap": "rabies",
+   "alt": []
+  },
+  {
+   "id": "malaria",
+   "en": "malaria",
+   "uz": "bezgak",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sleeping under a net protects people from mosquito bites, and so from malaria.",
+   "gap": "malaria",
+   "alt": []
+  },
+  {
+   "id": "cholera",
+   "en": "cholera",
+   "uz": "vabo",
+   "pos": "noun",
+   "img": false,
+   "ex": "In 1854, the London doctor John Snow traced an outbreak of cholera to a single water pump in Soho.",
+   "gap": "cholera",
+   "alt": []
+  },
+  {
+   "id": "typhoid",
+   "en": "typhoid",
+   "uz": "ich terlama",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before her trip, the nurse gave her a typhoid injection, because the disease can come from unsafe food and water.",
+   "gap": "typhoid",
+   "alt": []
+  },
+  {
+   "id": "aids",
+   "en": "AIDS",
+   "uz": "OITS",
+   "pos": "noun",
+   "img": false,
+   "ex": "Every 1 December, World AIDS Day reminds people to get tested for HIV.",
+   "gap": "AIDS",
+   "alt": []
+  },
+  {
+   "id": "tragedy",
+   "en": "tragedy",
+   "uz": "fojia",
+   "pos": "noun",
+   "img": false,
+   "ex": "The ferry sinking was a national tragedy, and the whole country spent a day in mourning.",
+   "gap": "tragedy",
+   "alt": [
+    "tragedies"
+   ]
+  },
+  {
+   "id": "disaster_event",
+   "en": "disaster",
+   "uz": "ofat (katta talafotli hodisa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The Red Cross trains volunteers so that they know how to help in a disaster of any kind, whether it is a flood, a fire or an explosion.",
+   "gap": "disaster",
+   "alt": [
+    "disasters"
+   ]
+  },
+  {
+   "id": "war",
+   "en": "war",
+   "uz": "urush",
+   "pos": "noun",
+   "img": false,
+   "ex": "The old soldier never liked to talk about the war, but he kept his medals in a small box by his bed.",
+   "gap": "war",
+   "alt": [
+    "wars"
+   ]
+  },
+  {
+   "id": "tropical_storm",
+   "en": "tropical storm",
+   "uz": "tropik bo‘ron",
+   "pos": "noun",
+   "img": false,
+   "ex": "Forecasters say the tropical storm could grow into a hurricane before it reaches the coast.",
+   "gap": "tropical storm",
+   "alt": [
+    "tropical storms"
+   ]
+  },
+  {
+   "id": "major_accident",
+   "en": "major accident",
+   "uz": "yirik halokat (baxtsiz hodisa)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Two lorries and a coach collided on the motorway in thick fog, a major accident that closed the road for twelve hours.",
+   "gap": "major accident",
+   "alt": [
+    "major accidents",
+    "major incident",
+    "major incidents"
+   ]
+  },
+  {
+   "id": "tremble_ground",
+   "en": "tremble",
+   "uz": "zirillamoq (yer)",
+   "pos": "verb",
+   "img": false,
+   "ex": "In the mountain village, people felt the ground tremble for several seconds, and the dogs began to bark.",
+   "gap": "tremble",
+   "alt": [
+    "trembles",
+    "trembled",
+    "trembling"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "earthquake_disaster",
+   "explosion"
+  ],
+  [
+   "flood_disaster",
+   "landslide"
+  ],
+  [
+   "drought_disaster",
+   "famine"
+  ],
+  [
+   "famine",
+   "epidemic"
+  ],
+  [
+   "tornado",
+   "typhoon"
+  ],
+  [
+   "erupt",
+   "break_out"
+  ],
+  [
+   "spread",
+   "sweep_through"
+  ],
+  [
+   "shake",
+   "sweep_through"
+  ],
+  [
+   "casualties",
+   "victim"
+  ],
+  [
+   "casualties",
+   "wounded"
+  ],
+  [
+   "victim",
+   "survivor"
+  ],
+  [
+   "victim",
+   "refugee"
+  ],
+  [
+   "survivor",
+   "refugee"
+  ],
+  [
+   "refugee",
+   "migrant"
+  ],
+  [
+   "wounded",
+   "injure"
+  ],
+  [
+   "wounded",
+   "victim"
+  ],
+  [
+   "wounded",
+   "survivor"
+  ],
+  [
+   "cholera",
+   "typhoid"
+  ],
+  [
+   "epidemic",
+   "natural_disaster"
+  ],
+  [
+   "tragedy",
+   "disaster_event"
+  ],
+  [
+   "tragedy",
+   "natural_disaster"
+  ],
+  [
+   "disaster_event",
+   "natural_disaster"
+  ],
+  [
+   "major_accident",
+   "disaster_event"
+  ],
+  [
+   "major_accident",
+   "tragedy"
+  ],
+  [
+   "war",
+   "civil_war"
+  ],
+  [
+   "tropical_storm",
+   "typhoon"
+  ],
+  [
+   "tropical_storm",
+   "tornado"
+  ],
+  [
+   "tremble_ground",
+   "shake"
+  ]
+ ]
+}

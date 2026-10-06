@@ -1,0 +1,622 @@
+{
+ "book": "preint",
+ "unit": 32,
+ "title": "School education",
+ "title_uz": "Maktab ta’limi",
+ "words": [
+  {
+   "id": "education",
+   "en": "education",
+   "uz": "ta’lim",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mum had to stop her education at fourteen to look after her younger brothers, so now, at forty, she's taking evening classes.",
+   "gap": "education",
+   "alt": []
+  },
+  {
+   "id": "state_school",
+   "en": "state school",
+   "uz": "davlat maktabi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Most families in our town can't pay high fees, so nearly all the children go to the local state school.",
+   "gap": "state school",
+   "alt": [
+    "state schools"
+   ]
+  },
+  {
+   "id": "private_school",
+   "en": "private school",
+   "uz": "xususiy maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "Mohira's parents pay quite a lot every month, because she goes to a private school with only twelve pupils in a class.",
+   "gap": "private school",
+   "alt": [
+    "private schools"
+   ]
+  },
+  {
+   "id": "nursery_school",
+   "en": "nursery school",
+   "uz": "bog‘cha (maktabgacha ta’lim)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before she started first grade, my little sister spent three happy years at a nursery school near our flat.",
+   "gap": "nursery school",
+   "alt": [
+    "nursery schools",
+    "nursery"
+   ]
+  },
+  {
+   "id": "primary_school",
+   "en": "primary school",
+   "uz": "boshlang‘ich maktab",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother is in his last year of primary school; next September he'll be in fifth grade with a different teacher for each subject.",
+   "gap": "primary school",
+   "alt": [
+    "primary schools"
+   ]
+  },
+  {
+   "id": "secondary_school",
+   "en": "secondary school",
+   "uz": "o‘rta maktab (yuqori sinflar)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Jasmina is in grade eleven, the last year of secondary school, and she's already choosing a university.",
+   "gap": "secondary school",
+   "alt": [
+    "secondary schools"
+   ]
+  },
+  {
+   "id": "attend",
+   "en": "attend",
+   "uz": "qatnamoq (rasmiy)",
+   "pos": "verb",
+   "img": false,
+   "ex": "Nearly two thousand pupils attend the big school on our street, so lessons are in two shifts, morning and afternoon.",
+   "gap": "attend",
+   "alt": [
+    "attends",
+    "attended",
+    "attending"
+   ]
+  },
+  {
+   "id": "pupil",
+   "en": "pupil",
+   "uz": "o‘quvchi (maktabda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our head teacher knows every pupil in the school by name, even the new first-graders.",
+   "gap": "pupil",
+   "alt": [
+    "pupils"
+   ]
+  },
+  {
+   "id": "vocational",
+   "en": "vocational",
+   "uz": "kasb-hunarga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Farrukh didn't want to go to university, so he chose a two-year vocational course and now works as a cook in a hotel kitchen.",
+   "gap": "vocational",
+   "alt": []
+  },
+  {
+   "id": "go_on_to_university",
+   "en": "go on to university",
+   "uz": "o‘qishni universitetda davom ettirmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Only half of last year's school leavers went on to university; the others started work or went to college.",
+   "gap": "went on to university",
+   "alt": [
+    "went on to university",
+    "goes on to university",
+    "going on to university"
+   ]
+  },
+  {
+   "id": "college",
+   "en": "college",
+   "uz": "kollej",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sitora is in her second year at a college in Andijan, where she's training to be a hairdresser.",
+   "gap": "college",
+   "alt": [
+    "colleges"
+   ]
+  },
+  {
+   "id": "leave_school",
+   "en": "leave school",
+   "uz": "maktabni bitirmoq / tashlab ketmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "The chef on my favourite cooking show left school at sixteen to work as a waiter, and ten years later he opened his own restaurant.",
+   "gap": "left school",
+   "alt": [
+    "left school",
+    "leaves school",
+    "leaving school"
+   ]
+  },
+  {
+   "id": "subject",
+   "en": "subject",
+   "uz": "fan (o‘quv predmeti)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Biology is my favourite subject, because we sometimes look at insects under a microscope.",
+   "gap": "subject",
+   "alt": [
+    "subjects"
+   ]
+  },
+  {
+   "id": "maths",
+   "en": "maths",
+   "uz": "matematika",
+   "pos": "noun",
+   "img": false,
+   "ex": "Diyora wants to study engineering, so she has extra maths lessons twice a week.",
+   "gap": "maths",
+   "alt": [
+    "math"
+   ]
+  },
+  {
+   "id": "timetable",
+   "en": "timetable",
+   "uz": "dars jadvali",
+   "pos": "noun",
+   "img": false,
+   "ex": "According to the new timetable, we have physics on Tuesdays and Thursdays.",
+   "gap": "timetable",
+   "alt": [
+    "timetables"
+   ]
+  },
+  {
+   "id": "lunch_break",
+   "en": "lunch break",
+   "uz": "tushlik tanaffusi",
+   "pos": "noun",
+   "img": false,
+   "ex": "At Oliver's school in Leeds there's a one-hour lunch break, so pupils have time to eat and play basketball.",
+   "gap": "lunch break",
+   "alt": [
+    "lunch breaks"
+   ]
+  },
+  {
+   "id": "term",
+   "en": "term",
+   "uz": "chorak / semestr (o‘quv davri)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our exchange student Harry says the first term at his school in Bristol starts in September and finishes just before Christmas.",
+   "gap": "term",
+   "alt": [
+    "terms"
+   ]
+  },
+  {
+   "id": "school_year",
+   "en": "school year",
+   "uz": "o‘quv yili",
+   "pos": "noun",
+   "img": false,
+   "ex": "In Uzbekistan the school year ends in late May with a ceremony called the Last Bell.",
+   "gap": "school year",
+   "alt": [
+    "school years"
+   ]
+  },
+  {
+   "id": "break_up_school",
+   "en": "break up",
+   "uz": "ta’tilga chiqmoq (maktab)",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "Emma's school breaks up next Friday, and on Saturday she's flying to Navoi to spend the summer with us.",
+   "gap": "breaks up",
+   "alt": [
+    "breaks up",
+    "broke up",
+    "breaking up"
+   ]
+  },
+  {
+   "id": "go_back",
+   "en": "go back",
+   "uz": "(maktabga) qaytmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "After three months of summer holidays, we go back to school on the second of September.",
+   "gap": "go back",
+   "alt": [
+    "goes back",
+    "went back",
+    "going back"
+   ]
+  },
+  {
+   "id": "rules",
+   "en": "rules",
+   "uz": "qoidalar",
+   "pos": "noun",
+   "img": false,
+   "ex": "One of the rules at our school is that phones must stay in your bag during lessons.",
+   "gap": "rules",
+   "alt": [
+    "rule"
+   ]
+  },
+  {
+   "id": "break_the_rules",
+   "en": "break the rules",
+   "uz": "qoidani buzmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Shohruh broke the rules by using his phone during the test, so the teacher took it until the end of the day.",
+   "gap": "broke the rules",
+   "alt": [
+    "broke the rules",
+    "breaks the rules",
+    "broken the rules",
+    "breaking the rules"
+   ]
+  },
+  {
+   "id": "punish",
+   "en": "punish",
+   "uz": "jazolamoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "At my father's old school, a strict maths teacher punished anyone who forgot their homework by making them stand at the back.",
+   "gap": "punished",
+   "alt": [
+    "punishes",
+    "punished",
+    "punishing"
+   ]
+  },
+  {
+   "id": "stay_behind",
+   "en": "stay behind",
+   "uz": "(boshqalar ketganda) qolmoq",
+   "pos": "phrasal verb",
+   "img": false,
+   "ex": "The whole class went home at two, but Shahzoda stayed behind to help the teacher put the chairs away.",
+   "gap": "stayed behind",
+   "alt": [
+    "stays behind",
+    "stayed behind",
+    "staying behind"
+   ]
+  },
+  {
+   "id": "get_into_trouble",
+   "en": "get into trouble",
+   "uz": "baloga qolmoq (dakki eshitmoq)",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Sherzod got into trouble for drawing cartoons of the teachers in his history book.",
+   "gap": "got into trouble",
+   "alt": [
+    "got into trouble",
+    "gets into trouble",
+    "getting into trouble"
+   ]
+  },
+  {
+   "id": "uniform",
+   "en": "uniform",
+   "uz": "forma (maktab kiyimi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My school uniform got too small over the summer, so Mum bought me a new jacket and trousers for September.",
+   "gap": "uniform",
+   "alt": [
+    "uniforms"
+   ]
+  },
+  {
+   "id": "relaxed",
+   "en": "relaxed",
+   "uz": "erkin, bemalol (rasmiy emas)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The atmosphere in our art club is very relaxed: we listen to music while we paint and nobody gives marks.",
+   "gap": "relaxed",
+   "alt": []
+  },
+  {
+   "id": "dress_v",
+   "en": "dress",
+   "uz": "kiyinmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Once a month our school has a charity day, when we can dress however we like if we give a little money for the children's hospital.",
+   "gap": "dress",
+   "alt": [
+    "dresses",
+    "dressed",
+    "dressing"
+   ]
+  },
+  {
+   "id": "free_cost",
+   "en": "free",
+   "uz": "bepul",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Entrance to the city museum is free for pupils on Sundays.",
+   "gap": "free",
+   "alt": []
+  },
+  {
+   "id": "gcse",
+   "en": "GCSE",
+   "uz": "16 yoshdagi bitiruv imtihoni (Angliya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lucy is sixteen and has just taken her GCSE in French, along with nine other subjects.",
+   "gap": "GCSE",
+   "alt": [
+    "GCSEs"
+   ]
+  },
+  {
+   "id": "a_level",
+   "en": "A level",
+   "uz": "18 yoshdagi bitiruv imtihoni (Angliya)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Tom is eighteen and needs top grades in his three A levels to study medicine.",
+   "gap": "A levels",
+   "alt": [
+    "A levels",
+    "A-level",
+    "A-levels"
+   ]
+  },
+  {
+   "id": "further_education",
+   "en": "further education",
+   "uz": "maktabdan keyingi ta’lim (kollejda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Isla chose further education at a local college, where she's training to be a nursery teacher.",
+   "gap": "further education",
+   "alt": []
+  },
+  {
+   "id": "get_a_job",
+   "en": "get a job",
+   "uz": "ishga joylashmoq",
+   "pos": "phrase",
+   "img": false,
+   "ex": "Instead of going to university, Ollie got a job in a bike shop at eighteen.",
+   "gap": "got a job",
+   "alt": [
+    "got a job",
+    "gets a job",
+    "getting a job"
+   ]
+  },
+  {
+   "id": "hotel_management",
+   "en": "hotel management",
+   "uz": "mehmonxona boshqaruvi (kurs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "To learn how to run a hotel, Aziza is doing a two-year course in hotel management.",
+   "gap": "hotel management",
+   "alt": []
+  },
+  {
+   "id": "travel_and_tourism",
+   "en": "travel and tourism",
+   "uz": "sayohat va turizm (kurs)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Javlon took a course in travel and tourism, and now he books flights and tours for customers at an agency.",
+   "gap": "travel and tourism",
+   "alt": []
+  },
+  {
+   "id": "teaching",
+   "en": "teaching",
+   "uz": "o‘qituvchilik (kasbi)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Nilufar loves explaining things to children, so she wants a career in teaching.",
+   "gap": "teaching",
+   "alt": []
+  },
+  {
+   "id": "history_subject",
+   "en": "history",
+   "uz": "tarix (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In history we're learning about ancient Egypt and how the pyramids were built.",
+   "gap": "history",
+   "alt": []
+  },
+  {
+   "id": "science_subject",
+   "en": "science",
+   "uz": "tabiiy fanlar (fan)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In science we put a plant in a dark cupboard to see what would happen to its leaves.",
+   "gap": "science",
+   "alt": []
+  },
+  {
+   "id": "school_break",
+   "en": "break",
+   "uz": "tanaffus (darslar orasida)",
+   "pos": "noun",
+   "img": false,
+   "ex": "During the morning break, the pupils buy hot samsa from the canteen and play in the yard.",
+   "gap": "break",
+   "alt": [
+    "breaks"
+   ]
+  },
+  {
+   "id": "lipstick",
+   "en": "lipstick",
+   "uz": "lab bo‘yog‘i (pomada)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Before the school photo, Ms Taylor put on some red lipstick and checked her hair.",
+   "gap": "lipstick",
+   "alt": []
+  },
+  {
+   "id": "sir",
+   "en": "sir",
+   "uz": "ustoz (erkak o‘qituvchiga murojaat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Excuse me, sir, can I open the window?' Akbar asked Mr Ross.",
+   "gap": "sir",
+   "alt": [
+    "Sir"
+   ]
+  },
+  {
+   "id": "miss_teacher",
+   "en": "miss",
+   "uz": "ustoz (ayol o‘qituvchiga murojaat)",
+   "pos": "noun",
+   "img": false,
+   "ex": "'Can I go to the toilet, miss?' Lola asked Ms Green.",
+   "gap": "miss",
+   "alt": [
+    "Miss"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "state_school",
+   "primary_school"
+  ],
+  [
+   "state_school",
+   "secondary_school"
+  ],
+  [
+   "state_school",
+   "nursery_school"
+  ],
+  [
+   "private_school",
+   "primary_school"
+  ],
+  [
+   "private_school",
+   "secondary_school"
+  ],
+  [
+   "private_school",
+   "nursery_school"
+  ],
+  [
+   "term",
+   "school_year"
+  ],
+  [
+   "stay_behind",
+   "go_back"
+  ],
+  [
+   "punish",
+   "break_the_rules"
+  ],
+  [
+   "break_the_rules",
+   "get_into_trouble"
+  ],
+  [
+   "leave_school",
+   "go_on_to_university"
+  ],
+  [
+   "vocational",
+   "basic"
+  ],
+  [
+   "gcse",
+   "a_level"
+  ],
+  [
+   "further_education",
+   "education"
+  ],
+  [
+   "hotel_management",
+   "travel_and_tourism"
+  ],
+  [
+   "teaching",
+   "education"
+  ],
+  [
+   "school_break",
+   "lunch_break"
+  ],
+  [
+   "sir",
+   "miss_teacher"
+  ],
+  [
+   "maths",
+   "science_subject"
+  ],
+  [
+   "maths",
+   "history_subject"
+  ],
+  [
+   "history_subject",
+   "science_subject"
+  ],
+  [
+   "free_cost",
+   "vocational"
+  ],
+  [
+   "get_a_job",
+   "leave_school"
+  ],
+  [
+   "teaching",
+   "further_education"
+  ],
+  [
+   "vocational",
+   "hotel_management"
+  ],
+  [
+   "subject",
+   "science_subject"
+  ]
+ ]
+}

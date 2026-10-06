@@ -1,0 +1,655 @@
+{
+ "book": "upper",
+ "unit": 24,
+ "title": "Environmental problems",
+ "title_uz": "Ekologik muammolar",
+ "words": [
+  {
+   "id": "globalisation",
+   "en": "globalisation",
+   "uz": "globallashuv",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of globalisation, the same coffee shops and clothes brands can be found in almost every big city.",
+   "gap": "globalisation",
+   "alt": [
+    "globalization"
+   ]
+  },
+  {
+   "id": "acid_rain",
+   "en": "acid rain",
+   "uz": "kislotali yomg‘ir",
+   "pos": "noun",
+   "img": false,
+   "ex": "In parts of Europe, acid rain from factory smoke damaged forests and old stone statues.",
+   "gap": "acid rain",
+   "alt": []
+  },
+  {
+   "id": "air_pollution",
+   "en": "air pollution",
+   "uz": "havoning ifloslanishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "On windless winter days, air pollution in Tashkent can become so bad that many people wear masks.",
+   "gap": "air pollution",
+   "alt": []
+  },
+  {
+   "id": "global_warming",
+   "en": "global warming",
+   "uz": "global isish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists agree that global warming is making summers in Central Asia hotter and longer.",
+   "gap": "global warming",
+   "alt": []
+  },
+  {
+   "id": "hazardous_waste",
+   "en": "hazardous waste",
+   "uz": "xavfli chiqindilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Old batteries are hazardous waste, so never throw them in the ordinary rubbish bin.",
+   "gap": "hazardous waste",
+   "alt": []
+  },
+  {
+   "id": "ozone_layer",
+   "en": "ozone layer",
+   "uz": "ozon qatlami",
+   "pos": "noun",
+   "img": false,
+   "ex": "Thanks to a worldwide ban on certain chemicals, the hole in the ozone layer over Antarctica is slowly getting smaller.",
+   "gap": "ozone layer",
+   "alt": []
+  },
+  {
+   "id": "ozone_depletion",
+   "en": "ozone depletion",
+   "uz": "ozon qatlamining yemirilishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Chemicals once used in fridges and spray cans caused serious ozone depletion high above Antarctica, so in 1987 countries agreed to stop using them.",
+   "gap": "ozone depletion",
+   "alt": []
+  },
+  {
+   "id": "water_pollution",
+   "en": "water pollution",
+   "uz": "suvning ifloslanishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Plastic rubbish and oil from ships are major causes of water pollution in the oceans.",
+   "gap": "water pollution",
+   "alt": []
+  },
+  {
+   "id": "smog",
+   "en": "smog",
+   "uz": "shahar ustidagi tutun aralash quyuq tuman",
+   "pos": "noun",
+   "img": false,
+   "ex": "On some winter mornings, smog hangs over the city so thickly that we can't see the mountains from our school.",
+   "gap": "smog",
+   "alt": []
+  },
+  {
+   "id": "overpopulation",
+   "en": "overpopulation",
+   "uz": "aholining haddan tashqari ko‘payishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "In some poor regions, overpopulation means there are simply too many people for the land to feed.",
+   "gap": "overpopulation",
+   "alt": []
+  },
+  {
+   "id": "rainforest_destruction",
+   "en": "rainforest destruction",
+   "uz": "tropik o‘rmonlarning yo‘q qilinishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Cutting down trees to make room for cattle farms is a major cause of rainforest destruction in Brazil.",
+   "gap": "rainforest destruction",
+   "alt": []
+  },
+  {
+   "id": "greenhouse_effect",
+   "en": "greenhouse effect",
+   "uz": "issiqxona effekti",
+   "pos": "noun",
+   "img": false,
+   "ex": "Without the natural greenhouse effect, the Earth would be far too cold for people to live on.",
+   "gap": "greenhouse effect",
+   "alt": []
+  },
+  {
+   "id": "carbon_dioxide",
+   "en": "carbon dioxide",
+   "uz": "karbonat angidrid (CO₂)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Fizzy drinks get their bubbles from carbon dioxide gas that is pumped into the bottle.",
+   "gap": "carbon dioxide",
+   "alt": [
+    "CO2"
+   ]
+  },
+  {
+   "id": "atmosphere",
+   "en": "atmosphere",
+   "uz": "atmosfera (Yerni o‘rab turgan havo)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Spacecraft returning from orbit get extremely hot as they fall back through the atmosphere.",
+   "gap": "atmosphere",
+   "alt": []
+  },
+  {
+   "id": "polar_ice_caps",
+   "en": "polar ice caps",
+   "uz": "qutblardagi muz qoplamlari",
+   "pos": "noun",
+   "img": false,
+   "ex": "As the polar ice caps melt, sea levels around the world are slowly rising.",
+   "gap": "polar ice caps",
+   "alt": [
+    "polar ice cap",
+    "ice caps"
+   ]
+  },
+  {
+   "id": "climate_change",
+   "en": "climate change",
+   "uz": "iqlim o‘zgarishi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Longer droughts, worse floods and stronger storms are all signs of climate change.",
+   "gap": "climate change",
+   "alt": []
+  },
+  {
+   "id": "species",
+   "en": "species",
+   "uz": "(hayvon, o‘simlik) turi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Scientists discover thousands of new species of insects every year.",
+   "gap": "species",
+   "alt": []
+  },
+  {
+   "id": "endangered",
+   "en": "endangered",
+   "uz": "yo‘qolib ketish xavfi ostidagi",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Bukhara deer was once endangered, but strict protection has helped its numbers grow again.",
+   "gap": "endangered",
+   "alt": []
+  },
+  {
+   "id": "extinct",
+   "en": "extinct",
+   "uz": "butunlay qirilib ketgan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The Turan tiger once lived along the rivers of Uzbekistan, but it became extinct in the 20th century.",
+   "gap": "extinct",
+   "alt": []
+  },
+  {
+   "id": "overfishing",
+   "en": "overfishing",
+   "uz": "baliqni haddan tashqari ovlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Because of overfishing, there are far fewer cod in the North Atlantic than there were fifty years ago.",
+   "gap": "overfishing",
+   "alt": []
+  },
+  {
+   "id": "environmentalist",
+   "en": "environmentalist",
+   "uz": "atrof-muhit himoyachisi (ekolog)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My cousin wants to become an environmentalist, so she spends her weekends planting trees and cleaning river banks.",
+   "gap": "environmentalist",
+   "alt": [
+    "environmentalists"
+   ]
+  },
+  {
+   "id": "green",
+   "en": "green",
+   "uz": "ekologik (tabiatni asraydigan)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The mayor promised new green policies, such as more cycle lanes and electric buses.",
+   "gap": "green",
+   "alt": [
+    "greener"
+   ]
+  },
+  {
+   "id": "conservation",
+   "en": "conservation",
+   "uz": "tabiatni muhofaza qilish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Rangers in the Saigachy reserve do important conservation work, protecting rare saiga antelopes from hunters.",
+   "gap": "conservation",
+   "alt": []
+  },
+  {
+   "id": "nature_reserve",
+   "en": "nature reserve",
+   "uz": "qo‘riqxona",
+   "pos": "noun",
+   "img": false,
+   "ex": "Hunting is forbidden in the Chatkal nature reserve, where bears and mountain goats live freely.",
+   "gap": "nature reserve",
+   "alt": [
+    "nature reserves"
+   ]
+  },
+  {
+   "id": "environmentally_friendly",
+   "en": "environmentally friendly",
+   "uz": "atrof-muhitga zararsiz",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Cloth bags are more environmentally friendly than plastic ones because you can use them hundreds of times.",
+   "gap": "environmentally friendly",
+   "alt": []
+  },
+  {
+   "id": "dispose_of",
+   "en": "dispose of",
+   "uz": "(chiqindini) xavfsiz yo‘q qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Hospitals must dispose of used needles in special safe boxes.",
+   "gap": "dispose of",
+   "alt": [
+    "disposes of",
+    "disposed of",
+    "disposing of"
+   ]
+  },
+  {
+   "id": "recycling",
+   "en": "recycling",
+   "uz": "chiqindini qayta ishlash",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our school started recycling paper and plastic bottles, and the money goes to the library.",
+   "gap": "recycling",
+   "alt": []
+  },
+  {
+   "id": "carbon_footprint",
+   "en": "carbon footprint",
+   "uz": "uglerod izi",
+   "pos": "noun",
+   "img": false,
+   "ex": "Taking the train instead of flying is a simple way to reduce your carbon footprint.",
+   "gap": "carbon footprint",
+   "alt": [
+    "carbon footprints"
+   ]
+  },
+  {
+   "id": "fossil_fuels",
+   "en": "fossil fuels",
+   "uz": "qazilma yoqilg‘ilar",
+   "pos": "noun",
+   "img": false,
+   "ex": "Uzbekistan is building huge solar farms so that it can burn fewer fossil fuels to make electricity.",
+   "gap": "fossil fuels",
+   "alt": [
+    "fossil fuel"
+   ]
+  },
+  {
+   "id": "pollute",
+   "en": "pollute",
+   "uz": "ifloslantirmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "For years the factory polluted the river with chemicals, and all the fish disappeared.",
+   "gap": "polluted",
+   "alt": [
+    "pollutes",
+    "polluted",
+    "polluting"
+   ]
+  },
+  {
+   "id": "pollutant",
+   "en": "pollutant",
+   "uz": "ifloslantiruvchi modda",
+   "pos": "noun",
+   "img": false,
+   "ex": "Car exhaust contains many pollutants that harm our lungs.",
+   "gap": "pollutants",
+   "alt": [
+    "pollutants"
+   ]
+  },
+  {
+   "id": "destructive",
+   "en": "destructive",
+   "uz": "vayronkor (katta zarar yetkazuvchi)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The floods were the most destructive in years, washing away roads and bridges.",
+   "gap": "destructive",
+   "alt": []
+  },
+  {
+   "id": "disposable",
+   "en": "disposable",
+   "uz": "bir martalik",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Plastic forks and disposable cups are used for a few minutes but stay in the ground for hundreds of years.",
+   "gap": "disposable",
+   "alt": []
+  },
+  {
+   "id": "gas",
+   "en": "gas",
+   "uz": "suyuq ham, qattiq ham bo‘lmagan modda",
+   "pos": "noun",
+   "img": false,
+   "ex": "When water boils, it turns into steam, which is a gas you can't hold in your hand.",
+   "gap": "gas",
+   "alt": [
+    "gases"
+   ]
+  },
+  {
+   "id": "acid",
+   "en": "acid",
+   "uz": "kislota",
+   "pos": "noun",
+   "img": false,
+   "ex": "Lemon juice contains citric acid, which gives it such a sharp taste.",
+   "gap": "acid",
+   "alt": [
+    "acids"
+   ]
+  },
+  {
+   "id": "overpopulated",
+   "en": "overpopulated",
+   "uz": "aholisi haddan ziyod ko‘p (hudud)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The island is so overpopulated that families of six often share a single small room.",
+   "gap": "overpopulated",
+   "alt": []
+  },
+  {
+   "id": "ecological",
+   "en": "ecological",
+   "uz": "ekologik (tabiat muvozanatiga oid)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The oil spill was an ecological disaster that killed thousands of seabirds along the coast.",
+   "gap": "ecological",
+   "alt": []
+  },
+  {
+   "id": "ecologically_sound",
+   "en": "ecologically sound",
+   "uz": "tabiatga zarar yetkazmaydigan",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Planting local trees that need little water is an ecologically sound way to make a desert city greener.",
+   "gap": "ecologically sound",
+   "alt": []
+  },
+  {
+   "id": "globalise",
+   "en": "globalise",
+   "uz": "jahon miqyosiga olib chiqmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "Many small fashion brands want to globalise their business by selling online to customers abroad.",
+   "gap": "globalise",
+   "alt": [
+    "globalize",
+    "globalises",
+    "globalised",
+    "globalising",
+    "globalizes",
+    "globalized",
+    "globalizing"
+   ]
+  },
+  {
+   "id": "global",
+   "en": "global",
+   "uz": "umumjahon, butun dunyoga oid",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The pandemic was a global problem that affected people on every continent.",
+   "gap": "global",
+   "alt": []
+  },
+  {
+   "id": "globally",
+   "en": "globally",
+   "uz": "jahon miqyosida",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The company started in a small flat in Tbilisi but now sells its apps globally, from Brazil to Japan.",
+   "gap": "globally",
+   "alt": []
+  },
+  {
+   "id": "environment",
+   "en": "environment",
+   "uz": "atrof-muhit (tabiiy muhit)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Throwing plastic into rivers harms the environment and the creatures that depend on clean water.",
+   "gap": "environment",
+   "alt": []
+  },
+  {
+   "id": "environmental",
+   "en": "environmental",
+   "uz": "atrof-muhit bilan bog‘liq",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our class wrote a report on local environmental problems, such as rubbish in the canal and dust from the cement factory.",
+   "gap": "environmental",
+   "alt": []
+  },
+  {
+   "id": "destruction",
+   "en": "destruction",
+   "uz": "vayronagarchilik (yo‘q qilinish)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The earthquake caused terrible destruction in the old part of the city, and many buildings fell down.",
+   "gap": "destruction",
+   "alt": []
+  },
+  {
+   "id": "destroy",
+   "en": "destroy",
+   "uz": "vayron qilmoq, yo‘q qilmoq",
+   "pos": "verb",
+   "img": false,
+   "ex": "The fire destroyed three houses in the village, but luckily nobody was hurt.",
+   "gap": "destroyed",
+   "alt": [
+    "destroys",
+    "destroyed",
+    "destroying"
+   ]
+  },
+  {
+   "id": "destructively",
+   "en": "destructively",
+   "uz": "vayronkorona (zarar keltirib)",
+   "pos": "adverb",
+   "img": false,
+   "ex": "The bored puppy behaved destructively while we were out, chewing shoes and tearing the sofa cushions.",
+   "gap": "destructively",
+   "alt": []
+  },
+  {
+   "id": "disposal",
+   "en": "disposal",
+   "uz": "(chiqindini) yo‘q qilish, ko‘mish",
+   "pos": "noun",
+   "img": false,
+   "ex": "Finland has built tunnels deep underground for the safe disposal of nuclear waste.",
+   "gap": "disposal",
+   "alt": []
+  },
+  {
+   "id": "environmentally",
+   "en": "environmentally",
+   "uz": "ekologik jihatdan",
+   "pos": "adverb",
+   "img": false,
+   "ex": "Building a dam across the valley would be environmentally disastrous for the fish that swim up the river to lay their eggs.",
+   "gap": "environmentally",
+   "alt": []
+  },
+  {
+   "id": "polluting",
+   "en": "polluting",
+   "uz": "atrofni ifloslantiruvchi (zavod, mashina)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "The city is slowly replacing its old, polluting buses with quiet electric ones.",
+   "gap": "polluting",
+   "alt": []
+  }
+ ],
+ "clash": [
+  [
+   "ecologically_sound",
+   "green"
+  ],
+  [
+   "overpopulated",
+   "overcrowded"
+  ],
+  [
+   "global_warming",
+   "climate_change"
+  ],
+  [
+   "global_warming",
+   "greenhouse_effect"
+  ],
+  [
+   "greenhouse_effect",
+   "climate_change"
+  ],
+  [
+   "air_pollution",
+   "smog"
+  ],
+  [
+   "air_pollution",
+   "water_pollution"
+  ],
+  [
+   "ozone_layer",
+   "atmosphere"
+  ],
+  [
+   "ozone_layer",
+   "ozone_depletion"
+  ],
+  [
+   "endangered",
+   "extinct"
+  ],
+  [
+   "green",
+   "environmentally_friendly"
+  ],
+  [
+   "conservation",
+   "nature_reserve"
+  ],
+  [
+   "hazardous_waste",
+   "pollutant"
+  ],
+  [
+   "overpopulation",
+   "overfishing"
+  ],
+  [
+   "acid_rain",
+   "air_pollution"
+  ],
+  [
+   "acid_rain",
+   "smog"
+  ],
+  [
+   "ecological",
+   "green"
+  ],
+  [
+   "ecological",
+   "environmental"
+  ],
+  [
+   "environmental",
+   "green"
+  ],
+  [
+   "ecologically_sound",
+   "environmentally_friendly"
+  ],
+  [
+   "environmentally",
+   "environmentally_friendly"
+  ],
+  [
+   "environmentally",
+   "globally"
+  ],
+  [
+   "environmentally",
+   "destructively"
+  ],
+  [
+   "polluting",
+   "pollute"
+  ],
+  [
+   "polluting",
+   "pollutant"
+  ],
+  [
+   "polluting",
+   "green"
+  ],
+  [
+   "polluting",
+   "environmentally_friendly"
+  ],
+  [
+   "polluting",
+   "destructive"
+  ]
+ ]
+}

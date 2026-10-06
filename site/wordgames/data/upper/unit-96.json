@@ -1,0 +1,403 @@
+{
+ "book": "upper",
+ "unit": 96,
+ "title": "Formal and informal words 2",
+ "title_uz": "Rasmiy va norasmiy so‘zlar 2",
+ "words": [
+  {
+   "id": "loo",
+   "en": "loo",
+   "uz": "hojatxona (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Is there a loo on this train? I really need to wash my hands.",
+   "gap": "loo",
+   "alt": [
+    "loos"
+   ]
+  },
+  {
+   "id": "quid",
+   "en": "quid",
+   "uz": "funt sterling (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Can you lend me five quid for the bus? I left my wallet at home.",
+   "gap": "quid",
+   "alt": []
+  },
+  {
+   "id": "spuds",
+   "en": "spuds",
+   "uz": "kartoshka (so‘zlashuvda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Can you scrub the spuds while I chop the onions?",
+   "gap": "spuds",
+   "alt": [
+    "spud"
+   ]
+  },
+  {
+   "id": "bike",
+   "en": "bike",
+   "uz": "velosiped (so‘zlashuvda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "Sanjar rides his bike to college whenever the weather is dry.",
+   "gap": "bike",
+   "alt": [
+    "bikes"
+   ]
+  },
+  {
+   "id": "cab",
+   "en": "cab",
+   "uz": "taksi (so‘zlashuvda)",
+   "pos": "noun",
+   "img": true,
+   "ex": "It was after midnight, so Mohira called a cab instead of waiting for the night bus.",
+   "gap": "cab",
+   "alt": [
+    "cabs"
+   ]
+  },
+  {
+   "id": "the_tube",
+   "en": "the Tube",
+   "uz": "London metrosi (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In London we travelled under the city on the Tube, which was much faster than the bus.",
+   "gap": "the Tube",
+   "alt": []
+  },
+  {
+   "id": "cops",
+   "en": "cops",
+   "uz": "politsiyachilar (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A little boy got lost at the fair, and two cops helped him find his parents.",
+   "gap": "cops",
+   "alt": [
+    "cop"
+   ]
+  },
+  {
+   "id": "lab",
+   "en": "lab",
+   "uz": "tajriba xonasi (qisqartma so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put your goggles on before you enter the chemistry lab.",
+   "gap": "lab",
+   "alt": [
+    "labs"
+   ]
+  },
+  {
+   "id": "tech",
+   "en": "tech",
+   "uz": "IT va raqamli sohaga oid (qisqartma)",
+   "pos": "adjective",
+   "img": false,
+   "ex": "Our city is hosting a tech fair where students can try out robots and VR headsets.",
+   "gap": "tech",
+   "alt": []
+  },
+  {
+   "id": "telly",
+   "en": "telly",
+   "uz": "oynai jahon (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "My little brother would watch telly all day if we let him.",
+   "gap": "telly",
+   "alt": []
+  },
+  {
+   "id": "mag",
+   "en": "mag",
+   "uz": "jurnal (qisqartma so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I picked up a cooking mag at the station to read on the train.",
+   "gap": "mag",
+   "alt": [
+    "mags"
+   ]
+  },
+  {
+   "id": "ad",
+   "en": "ad",
+   "uz": "reklama, e’lon (qisqartma so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The language centre ran an ad on Instagram and got fifty new students in a week.",
+   "gap": "ad",
+   "alt": [
+    "ads",
+    "advert",
+    "adverts"
+   ]
+  },
+  {
+   "id": "fridge",
+   "en": "fridge",
+   "uz": "muzlatkich",
+   "pos": "noun",
+   "img": false,
+   "ex": "Put the yoghurt back in the fridge or it'll go off.",
+   "gap": "fridge",
+   "alt": [
+    "fridges"
+   ]
+  },
+  {
+   "id": "vet",
+   "en": "vet",
+   "uz": "hayvonlar shifokori (qisqartma)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Our tortoise stopped eating, so we carried him to the vet in a shoebox.",
+   "gap": "vet",
+   "alt": [
+    "vets"
+   ]
+  },
+  {
+   "id": "celeb",
+   "en": "celeb",
+   "uz": "mashhur shaxs (qisqartma so‘z)",
+   "pos": "noun",
+   "img": false,
+   "ex": "A TV celeb opened the new shopping centre, and hundreds of fans came to take selfies.",
+   "gap": "celeb",
+   "alt": [
+    "celebs"
+   ]
+  },
+  {
+   "id": "phone",
+   "en": "phone",
+   "uz": "qo‘ng‘iroq qilmoq (qisqartma)",
+   "pos": "verb",
+   "img": false,
+   "ex": "I'll phone you as soon as my plane lands.",
+   "gap": "phone",
+   "alt": [
+    "phones",
+    "phoned",
+    "phoning"
+   ]
+  },
+  {
+   "id": "dosh",
+   "en": "dosh",
+   "uz": "pul (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I'd love a new laptop, but I haven't got the dosh right now.",
+   "gap": "dosh",
+   "alt": []
+  },
+  {
+   "id": "readies",
+   "en": "readies",
+   "uz": "naqd pul (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The stall at the market doesn't take cards, so make sure you've got the readies.",
+   "gap": "readies",
+   "alt": []
+  },
+  {
+   "id": "moolah",
+   "en": "moolah",
+   "uz": "pul-mablag‘ (hazil, slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Her online shop is making serious moolah these days.",
+   "gap": "moolah",
+   "alt": []
+  },
+  {
+   "id": "nosh",
+   "en": "nosh",
+   "uz": "ovqat, taom (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The nosh at the party was fantastic: there were six kinds of salad.",
+   "gap": "nosh",
+   "alt": []
+  },
+  {
+   "id": "grub",
+   "en": "grub",
+   "uz": "qorin to‘ydiradigan ovqat (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The grub at the summer camp was simple (bread, soup and tea), but after a day of picking cherries it tasted wonderful.",
+   "gap": "grub",
+   "alt": []
+  },
+  {
+   "id": "sarnie",
+   "en": "sarnie",
+   "uz": "buterbrod (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I made myself a cheese sarnie and ate it on the bus.",
+   "gap": "sarnie",
+   "alt": [
+    "sarnies"
+   ]
+  },
+  {
+   "id": "cuppa",
+   "en": "cuppa",
+   "uz": "bir piyola choy (so‘zlashuvda)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Sit down and I'll put the kettle on for a cuppa.",
+   "gap": "cuppa",
+   "alt": []
+  },
+  {
+   "id": "nerd",
+   "en": "nerd",
+   "uz": "o‘qishdan bosh ko‘tarmaydigan (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "At school Diyor was a maths nerd; now he designs software.",
+   "gap": "nerd",
+   "alt": [
+    "nerds"
+   ]
+  },
+  {
+   "id": "geek",
+   "en": "geek",
+   "uz": "kompyuter-texnika ishqibozi (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Gulnoza is a real computer geek: she built her own PC from spare parts.",
+   "gap": "geek",
+   "alt": [
+    "geeks"
+   ]
+  },
+  {
+   "id": "anorak",
+   "en": "anorak",
+   "uz": "zerikarli mashg‘ulot ishqibozi (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Only a real train anorak would know the number of every engine on that line.",
+   "gap": "anorak",
+   "alt": [
+    "anoraks"
+   ]
+  },
+  {
+   "id": "quack",
+   "en": "quack",
+   "uz": "shifokor (mensimay, slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "I've had this cough for a month, so I'm finally going to see the quack tomorrow.",
+   "gap": "quack",
+   "alt": [
+    "quacks"
+   ]
+  },
+  {
+   "id": "shrink_slang",
+   "en": "shrink",
+   "uz": "psixiatr (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "After the accident he had bad dreams for months, so his parents found him a good shrink to talk to.",
+   "gap": "shrink",
+   "alt": [
+    "shrinks"
+   ]
+  },
+  {
+   "id": "the_nick",
+   "en": "the nick",
+   "uz": "qamoqxona (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "In the TV drama, the young pickpocket ends up spending two years in the nick.",
+   "gap": "the nick",
+   "alt": [
+    "nick"
+   ]
+  },
+  {
+   "id": "the_old_bill",
+   "en": "the Old Bill",
+   "uz": "politsiya (slang, britancha)",
+   "pos": "noun",
+   "img": false,
+   "ex": "The car alarm went on for an hour, so a neighbour finally rang the Old Bill.",
+   "gap": "the Old Bill",
+   "alt": [
+    "the old bill",
+    "Old Bill"
+   ]
+  },
+  {
+   "id": "squaddie",
+   "en": "squaddie",
+   "uz": "oddiy askar (slang)",
+   "pos": "noun",
+   "img": false,
+   "ex": "Before he became a famous actor, he joined the army and was a squaddie for three years before he was promoted to corporal.",
+   "gap": "squaddie",
+   "alt": [
+    "squaddies"
+   ]
+  }
+ ],
+ "clash": [
+  [
+   "dosh",
+   "readies"
+  ],
+  [
+   "dosh",
+   "moolah"
+  ],
+  [
+   "readies",
+   "moolah"
+  ],
+  [
+   "nosh",
+   "grub"
+  ],
+  [
+   "nerd",
+   "geek"
+  ],
+  [
+   "nerd",
+   "anorak"
+  ],
+  [
+   "geek",
+   "anorak"
+  ],
+  [
+   "quack",
+   "shrink_slang"
+  ],
+  [
+   "the_old_bill",
+   "cops"
+  ]
+ ]
+}
