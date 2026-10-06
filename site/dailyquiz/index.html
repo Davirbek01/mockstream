@@ -187,6 +187,10 @@ function topics(slugs) {
 function buildQuiz(level, day) {
   return catalogue(level).then(function (rows) {
     /* sort() so the pool order never depends on what the API happened to return */
+    /* sample01-* is a placeholder topic still published under the name
+       "Sample Test"; it has real questions but no business being served as
+       today's quiz. Keep it out of the pool. */
+    rows = rows.filter(function (x) { return x.slug && x.slug.indexOf('sample01') !== 0; });
     var g = rows.filter(function (x) { return x.mock_type === 'grammar'; })
                 .map(function (x) { return x.slug; }).sort();
     var v = rows.filter(function (x) { return x.mock_type === 'vocabulary'; })
