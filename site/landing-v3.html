@@ -23868,11 +23868,14 @@
         }
         var grid = document.querySelector('.tools-grid.tools-grid-3');
         if (grid && !grid.querySelector('[data-learn-soon]')) {
+          // No 'idioms' entry here: Idiom Clips is LIVE and already has its
+          // own tile above. A soon-filler on the same key rendered a second,
+          // greyed 'Idioms & Phrasals — Soon' card right under the working
+          // one, which read as if the feature had not shipped.
           var TOOLS = [
             ['wordgames', '🎮', 'linear-gradient(135deg, #a78bfa, #7c3aed)', 'Word Games', 'Play & learn vocabulary'],
             ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
             ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
-            ['idioms', '🧩', 'linear-gradient(135deg, #f472b6, #db2777)', 'Idioms & Phrasals', 'Master natural English'],
             ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear'],
             ['speakingclub', '🎙️', 'linear-gradient(135deg, #fb7185, #e11d48)', 'Speaking Club', 'Live practice rooms'],
             ['podcasts', '📻', 'linear-gradient(135deg, #38bdf8, #0284c7)', 'Podcasts', 'Graded listening series'],
