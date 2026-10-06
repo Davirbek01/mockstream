@@ -6253,7 +6253,8 @@
       global:      'global_login_bot',
       muzaffars:   'muzaffars_login_bot',
       achievers:   'acheivers_login_bot',
-      record:      'multilevelrecord_sign_bot'
+      record:      'multilevelrecord_sign_bot',
+      max:         'multilevelmax_sign_bot'
     };
 
     // A login bot accepts exactly ONE domain (/setdomain), so a centre that has
@@ -23087,8 +23088,10 @@
         niners:      'niners-desktop-releases',
         global:      'global-education-desktop-releases',
         achievers:   'achievers-desktop-releases',
-        muzaffars:   'muzaffars-desktop-releases'
+        muzaffars:   'muzaffars-desktop-releases',
+        max:         'multilevelmax-desktop-releases'
       };
+      var APK_R2 = 'https://audio.mock-stream.com/apps/android/';
       var APPS_MOBILE = {
         mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
                        android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
@@ -23101,12 +23104,22 @@
         // on 2026-10-05: all six builds were resubmitted and came back
         // APPROVED. The iosSoon branch below stays, since a build does retire
         // 90 days after upload and the flag is how we hide a dead invite.
-        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
-        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
-        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
-        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
-        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
-        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' }
+        // `apk` is the CURRENT build on R2. Without it this tab listed the
+        // centre's GCS bucket and took the first .apk it found — which is
+        // still each clone's 1.0.0 from July, because releases have gone to
+        // R2 since 2026-09-12. So the Apps tab was handing out a build five
+        // versions behind the one apps.html serves. R2 also has free egress;
+        // the GCS listing stays as the fallback.
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd', apk: APK_R2 + 'bek/MockStream-bek-1.1.0.apk' },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy', apk: APK_R2 + 'record/MockStream-record-1.1.0.apk' },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E', apk: APK_R2 + 'niners/MockStream-niners-1.1.0.apk' },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W', apk: APK_R2 + 'global/MockStream-global-1.1.0.apk' },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd', apk: APK_R2 + 'achievers/MockStream-achievers-1.1.0.apk' },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w', apk: APK_R2 + 'muzaffars/MockStream-muzaffars-1.1.0.apk' },
+        // Multilevel Max opened 2026-10-05 with Windows, macOS and Android.
+        // Its iPhone app has not been built yet — no TestFlight invite has
+        // ever existed, so `iosSoon` (which promises a renewal) would lie.
+        max:       { iosNew: true, apk: APK_R2 + 'max/MockStream-max-1.1.0.apk' }
       };
 
       var appsBuilt = false;
@@ -23204,12 +23217,13 @@
           card('appCardIos',
                'iPhone / iPad',
                mob.store ? 'On the App Store.'
+                 : mob.iosNew ? 'Not out yet. The Windows, macOS and Android apps are ready today, and the browser runs every mock in the meantime.'
                  : mob.iosSoon ? 'A new build is on its way to TestFlight. The invite opens again as soon as Apple releases it — the Windows, macOS and Android apps are unaffected.'
                  : 'Through TestFlight, Apple own installer for pre-release apps.',
                ownShots ? '/images/apps/phone-report.png' : '', '', 'ios', 'apple');
 
         if (mob.ios && !mob.iosSoon) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
-        if (mob.iosSoon) {
+        if (mob.iosSoon || mob.iosNew) {
           var iosCard = document.getElementById('appCardIos');
           var iosBtns = iosCard && iosCard.querySelector('.app-btns');
           if (iosBtns) {
@@ -23240,8 +23254,10 @@
         fromYml(base + 'latest.yml', /^path:\s*(\S+\.exe)\s*$/m, 'appCardWin', 'Download');
         fromYml(base + 'latest-mac.yml', /url:\s*(\S+\.dmg)/, 'appCardMac', 'Download');
 
-        // Android sideload: find the APK rather than assume its name.
-        if (!mob.store) {
+        // Android sideload: the pinned R2 build when we have one, else fall
+        // back to whatever .apk the bucket still holds.
+        if (mob.apk) btn('appCardDroid', 'Download APK', mob.apk);
+        else if (!mob.store) {
           fetch('https://storage.googleapis.com/storage/v1/b/' + bucket + '/o?fields=items(name)&maxResults=200')
             .then(function (r) { return r.ok ? r.json() : null; })
             .then(function (j) {
@@ -23256,6 +23272,8 @@
         if (note) {
           note.textContent = mob.store
             ? 'Signing in with the same account keeps your results together across every device.'
+            : mob.iosNew
+            ? 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once. The iPhone app is still being prepared; until it lands the same mocks run in the browser, on Windows, on macOS and on Android, and your results stay in sync.'
             : mob.iosSoon
             ? 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once. The iPhone invite is being renewed and returns in a day or two; until then the same mocks run in the browser, on Windows, on macOS and on Android, and your results stay in sync.'
             : 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once, and iPhone goes through TestFlight. Your results stay in sync either way.';
