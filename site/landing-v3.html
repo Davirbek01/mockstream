@@ -7995,6 +7995,13 @@
           var btn = document.getElementById(id);
           if (btn) btn.style.display = 'none';
         });
+      } else {
+        // Registered Users runs the other way round: it exists so clones can
+        // reach a panel they otherwise can't, since their section has no
+        // Admin Panel row. The main site DOES have that row, and its sidebar
+        // already lists Registered Users, so here the shortcut is duplication.
+        var ru = document.getElementById('msv3RegUsersBtn');
+        if (ru) ru.style.display = 'none';
       }
     })();
 
