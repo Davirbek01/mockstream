@@ -15,6 +15,26 @@
        only thing that says so, and the nav + data scope depend on it.
        Not deferred - _markRole/renderExtracted read it synchronously. -->
   <script src="/center-id.js"></script>
+  <script>
+    // Is this a clone host? Decided once, here, because the answer drives both
+    // the CSS below and the panel gate further down.
+    // Fails CLOSED: with no __CENTER_ID (script blocked, 404, stale cache) we
+    // read the hostname rather than assuming the main site, so a failed load
+    // can never hand the full panel to a clone.
+    (function () {
+      var id = (window.__CENTER_ID || '').toString();
+      var isClone;
+      if (id) {
+        isClone = id !== 'mock_stream';
+      } else {
+        var h = (location.hostname || '').replace(/^www\./, '');
+        isClone = !(h === 'mock-stream.com' || h === 'localhost' || h === '127.0.0.1');
+      }
+      window.__admIsClone = isClone;
+      // Set before <body> exists: no flash of a sidebar the viewer may not use.
+      if (isClone) document.documentElement.classList.add('adm-solo');
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth.js?v=5" defer></script>
   <script src="/admin-auth.js" defer></script>
@@ -234,6 +254,15 @@
     html.adm-locked .adm-hamburger,
     html.adm-locked .adm-drawer-backdrop { display: none !important; }
     html.adm-locked .adm-layout { grid-template-columns: minmax(0, 1fr); }
+
+    /* Clone hosts run admin.html as a SINGLE-PANEL host. Billboard and
+       Registered Users are each reached from their own row on the profile
+       page, so a nav between them earns nothing and only advertises that
+       other panels exist. Breadcrumb stays — it says which panel you are in. */
+    html.adm-solo .adm-sidebar,
+    html.adm-solo .adm-hamburger,
+    html.adm-solo .adm-drawer-backdrop { display: none !important; }
+    html.adm-solo .adm-layout { grid-template-columns: minmax(0, 1fr); }
   </style>
 </head>
 <body>
@@ -432,18 +461,7 @@
   // Role alone was never enough: a super admin opening /admin.html on a clone
   // got the full panel - every centre's data, on someone else's domain. The
   // full panel belongs to mock-stream.com only.
-  function _admCloneHost() {
-    var id = (window.__CENTER_ID || '').toString();
-    // Fail CLOSED. If center-id.js did not load there is no id, and
-    // defaulting to 'mock_stream' would hand the full panel to whichever
-    // domain the script happened to fail on. Fall back to the hostname,
-    // which cannot be missing, and treat anything unrecognised as a clone.
-    if (!id) {
-      var h = (location.hostname || '').replace(/^www\./, '');
-      return !(h === 'mock-stream.com' || h === 'localhost' || h === '127.0.0.1');
-    }
-    return id !== 'mock_stream';
-  }
+  function _admCloneHost() { return window.__admIsClone === true; }
   function _admRestricted() {
     return window.__admIsCenterAdmin === true || _admCloneHost();
   }
