@@ -5792,6 +5792,12 @@
           Billboard
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3RegUsersBtn"
+                title="Everyone registered at your centre: sign-in method, last seen, mock history.">
+          <span class="msv3-row-icon">👥</span>
+          Registered Users
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section msv3-sec-skills">
@@ -7651,6 +7657,12 @@
     // admins get the centre dropdown filter.
     document.getElementById('msv3BillboardBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#billboard';
+    });
+    // Second centre-admin panel. Like Billboard it stays visible on clones —
+    // admin.html's CENTER_ADMIN_PANELS decides who actually gets in, and the
+    // panel scopes its query to the admin's own centre.
+    document.getElementById('msv3RegUsersBtn').addEventListener('click', function () {
+      window.location.href = '/admin.html#registered-users';
     });
     // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
     // First gate on super-admin role using the same Supabase JWT check

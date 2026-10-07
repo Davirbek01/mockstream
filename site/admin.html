@@ -308,7 +308,7 @@
     'registered-users': {
       label: 'Registered Users',
       icon: '👥',
-      script: '/admin/registered-users.js?v=7',
+      script: '/admin/registered-users.js?v=8',
       open: function (container) {
         if (window.AdminPanels && window.AdminPanels.registeredUsers && typeof window.AdminPanels.registeredUsers.open === 'function') {
           window.AdminPanels.registeredUsers.open(container);
@@ -423,7 +423,7 @@
   ];
   function _escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
   // Panels available to centre admins (everything else is super-admin only).
-  var CENTER_ADMIN_PANELS = ['billboard'];
+  var CENTER_ADMIN_PANELS = ['billboard', 'registered-users'];
   function renderExtracted() {
     var holder = document.getElementById('admNavExtracted');
     if (!holder) return;
@@ -685,7 +685,10 @@
       var info = await window.AdminAuth.currentRole();
       // currentRole returns 'super_admin' or 'admin' (centre admin) or null.
       window.__admIsCenterAdmin = !!(info && info.role === 'admin');
-    } catch (_e) { window.__admIsCenterAdmin = false; }
+      // Panels that show per-centre data need the centre itself, not just the
+      // role. currentRole() already returns it; it used to be thrown away.
+      window.__admCenter = (info && info.center) || '';
+    } catch (_e) { window.__admIsCenterAdmin = false; window.__admCenter = ''; }
   }
   // Centre admins land on billboard if they hash to a panel they can't use.
   function _pickInitialPanel() {
