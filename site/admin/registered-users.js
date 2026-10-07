@@ -262,11 +262,17 @@
         // hard 1000 no matter how many users existed — 1080 real rows meant 80
         // people simply missing from every tab and from the counts. Page through
         // with Range headers until a short page proves we reached the end.
+        // A centre admin only ever sees their own centre, so ask PostgREST for
+        // that slice instead of pulling all 18k rows and filtering in the
+        // browser. Muzaffars goes from 19 round trips to 1. Super admins
+        // (no __admCenter) still get everything.
+        var _scope = (window.__admCenter || '').toString();
+        var _scopeQ = _scope ? '&center=eq.' + encodeURIComponent(_scope) : '';
         async function _fetchAllCandidates() {
           var PAGE = 1000, from = 0, all = [];
           for (var guard = 0; guard < 50; guard++) {   // 50k ceiling, never infinite
             var resp = await fetch(
-              SB_URL + '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc',
+              SB_URL + '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc' + _scopeQ,
               { headers: {
                   'apikey': SB_KEY,
                   'Authorization': 'Bearer ' + token,
@@ -401,6 +407,13 @@
     function _populateRuCentres() {
       var sel = document.getElementById('ruCenter');
       if (!sel) return;
+      // Scoped admins have exactly one centre: the picker would be a
+      // single-item dropdown, so drop it and keep the row count visible.
+      if (window.__admCenter) {
+        sel.value = '';
+        sel.style.display = 'none';
+        return;
+      }
       var keep = sel.value || '';
       var counts = {};
       _ruData.forEach(function(c) {

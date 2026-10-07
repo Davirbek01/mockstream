@@ -5792,6 +5792,12 @@
           Billboard
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3RegUsersBtn"
+                title="Everyone registered at your centre: sign-in method, last seen, mock history.">
+          <span class="msv3-row-icon">👥</span>
+          Registered Users
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section msv3-sec-skills">
@@ -7652,6 +7658,12 @@
     document.getElementById('msv3BillboardBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#billboard';
     });
+    // Second centre-admin panel. Like Billboard it stays visible on clones —
+    // admin.html's CENTER_ADMIN_PANELS decides who actually gets in, and the
+    // panel scopes its query to the admin's own centre.
+    document.getElementById('msv3RegUsersBtn').addEventListener('click', function () {
+      window.location.href = '/admin.html#registered-users';
+    });
     // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
     // First gate on super-admin role using the same Supabase JWT check
     // Force-refresh uses. Non-admins get the 🔐 modal instead of being
@@ -7983,6 +7995,13 @@
           var btn = document.getElementById(id);
           if (btn) btn.style.display = 'none';
         });
+      } else {
+        // Registered Users runs the other way round: it exists so clones can
+        // reach a panel they otherwise can't, since their section has no
+        // Admin Panel row. The main site DOES have that row, and its sidebar
+        // already lists Registered Users, so here the shortcut is duplication.
+        var ru = document.getElementById('msv3RegUsersBtn');
+        if (ru) ru.style.display = 'none';
       }
     })();
 
