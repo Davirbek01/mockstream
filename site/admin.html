@@ -11,6 +11,10 @@
   <script>document.documentElement.setAttribute('data-theme', 'light');</script>
 
   <!-- Supabase JS + auth helpers (same modules the dashboard uses). -->
+  <!-- Must load BEFORE the panel code: on a clone host this file is the
+       only thing that says so, and the nav + data scope depend on it.
+       Not deferred - _markRole/renderExtracted read it synchronously. -->
+  <script src="/center-id.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth.js?v=5" defer></script>
   <script src="/admin-auth.js" defer></script>
@@ -308,7 +312,7 @@
     'registered-users': {
       label: 'Registered Users',
       icon: '👥',
-      script: '/admin/registered-users.js?v=8',
+      script: '/admin/registered-users.js?v=9',
       open: function (container) {
         if (window.AdminPanels && window.AdminPanels.registeredUsers && typeof window.AdminPanels.registeredUsers.open === 'function') {
           window.AdminPanels.registeredUsers.open(container);
@@ -424,10 +428,29 @@
   function _escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
   // Panels available to centre admins (everything else is super-admin only).
   var CENTER_ADMIN_PANELS = ['billboard', 'registered-users'];
+  // A clone host gets the centre-admin panel set NO MATTER WHO IS LOOKING.
+  // Role alone was never enough: a super admin opening /admin.html on a clone
+  // got the full panel - every centre's data, on someone else's domain. The
+  // full panel belongs to mock-stream.com only.
+  function _admCloneHost() {
+    var id = (window.__CENTER_ID || '').toString();
+    // Fail CLOSED. If center-id.js did not load there is no id, and
+    // defaulting to 'mock_stream' would hand the full panel to whichever
+    // domain the script happened to fail on. Fall back to the hostname,
+    // which cannot be missing, and treat anything unrecognised as a clone.
+    if (!id) {
+      var h = (location.hostname || '').replace(/^www\./, '');
+      return !(h === 'mock-stream.com' || h === 'localhost' || h === '127.0.0.1');
+    }
+    return id !== 'mock_stream';
+  }
+  function _admRestricted() {
+    return window.__admIsCenterAdmin === true || _admCloneHost();
+  }
   function renderExtracted() {
     var holder = document.getElementById('admNavExtracted');
     if (!holder) return;
-    var isCenterAdmin = window.__admIsCenterAdmin === true;
+    var isCenterAdmin = _admRestricted();
     holder.innerHTML = Object.keys(PANELS).filter(function (key) {
       return !isCenterAdmin || CENTER_ADMIN_PANELS.indexOf(key) >= 0;
     }).map(function (key) {
@@ -447,7 +470,7 @@
     var holder = document.getElementById('admNavLegacy');
     if (!holder) return;
     // Centre admins don't get the legacy super-admin tools.
-    if (window.__admIsCenterAdmin === true) { holder.innerHTML = ''; return; }
+    if (_admRestricted()) { holder.innerHTML = ''; return; }
     holder.innerHTML = LEGACY_ITEMS.map(function (it) {
       return '<button class="adm-nav-item" data-legacy="' + (it.href || '') + '" data-newtab="' + (it.newTab ? '1' : '') + '">' +
                '<span class="adm-nav-icon">' + it.icon + '</span>' + it.label +
@@ -621,7 +644,10 @@
   // ── Sidebar clicks ─────────────────────────────────────────────────────
   // (Click handlers are wired by renderExtracted / renderLegacy.)
   window.addEventListener('hashchange', function () {
-    _activate(_readHashPanel());
+    // Through _pickInitialPanel, not _readHashPanel: hand-typing
+    // /admin.html#centers on a clone must land on billboard like every
+    // other restricted route, instead of walking straight past the gate.
+    _activate(_pickInitialPanel());
   });
 
   // ── Boot ───────────────────────────────────────────────────────────────
@@ -687,13 +713,17 @@
       window.__admIsCenterAdmin = !!(info && info.role === 'admin');
       // Panels that show per-centre data need the centre itself, not just the
       // role. currentRole() already returns it; it used to be thrown away.
-      window.__admCenter = (info && info.center) || '';
-    } catch (_e) { window.__admIsCenterAdmin = false; window.__admCenter = ''; }
+      window.__admCenter = (info && info.center) ||
+                           (_admCloneHost() ? window.__CENTER_ID : '');
+    } catch (_e) {
+      window.__admIsCenterAdmin = false;
+      window.__admCenter = _admCloneHost() ? window.__CENTER_ID : '';
+    }
   }
   // Centre admins land on billboard if they hash to a panel they can't use.
   function _pickInitialPanel() {
     var h = _readHashPanel();
-    if (window.__admIsCenterAdmin && CENTER_ADMIN_PANELS.indexOf(h) < 0) {
+    if (_admRestricted() && CENTER_ADMIN_PANELS.indexOf(h) < 0) {
       return CENTER_ADMIN_PANELS[0]; // 'billboard'
     }
     return h;
