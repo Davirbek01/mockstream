@@ -4407,8 +4407,20 @@
       if (!text) { _say('Type a message first.', '#dc2626'); return; }
       btn.disabled = true; btn.textContent = '⏳ Sending...';
       try {
-        // Collect destination device_ids (deduped).
+        // Collect destination conversation keys (deduped).
+        //
+        // Primary: the ACCOUNT conversation `u:<email>_private`. chat-bubble.js
+        // builds exactly this key for any signed-in user (getUserKey() ->
+        // 'u:' + email) — Telegram sign-ins included, via their synthetic
+        // tg_<id>@telegram.<host> address — so the message reaches them on
+        // every device they sign in on, not just the one that took the test.
+        //
+        // The device keys below stay for legacy threads. The premium_devices
+        // lookup in particular is near-useless from here: it goes out with the
+        // anon key and RLS returns zero rows, since its SELECT policy requires
+        // lower(email) = _jwt_email().
         var devices = {};
+        if (r.user_email) devices['u:' + String(r.user_email).toLowerCase()] = true;
         if (r.device_id) devices[r.device_id] = true;
         if (r.user_email) {
           try {
@@ -4424,7 +4436,8 @@
         }
         var ids = Object.keys(devices);
         if (!ids.length) {
-          _say('No device or email known for this user.', '#dc2626');
+          // Guest result with no email and no device id — nothing to key on.
+          _say('This result has no account email, so there is nowhere to deliver to.', '#dc2626');
           btn.disabled = false; btn.textContent = '📨 Send';
           return;
         }
