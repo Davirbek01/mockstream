@@ -4450,16 +4450,39 @@
     }
 
     // ===== WRITING PLUS SUBMISSIONS =====
+    // writing_plus_submissions is centre-scoped by RLS: the anon publishable
+    // key may INSERT (the student's submit on Writing Plus.html) but not
+    // SELECT/UPDATE. These admin calls must send the signed-in admin's JWT.
+    async function _wpAdminToken() {
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var c = window.MockStream && window.MockStream.auth &&
+                typeof window.MockStream.auth.getClient === 'function'
+                  ? window.MockStream.auth.getClient() : null;
+        if (c && c.auth && typeof c.auth.getSession === 'function') {
+          var sess = await c.auth.getSession();
+          var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+          if (at) return at;
+        }
+      } catch (e) {}
+      try {
+        var st = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (st && st.access_token) return st.access_token;
+      } catch (e) {}
+      return SB_KEY;
+    }
+
     async function loadWritingPlusSubmissions() {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpAdminToken();
       var noData = document.getElementById('wpNoData');
       var list = document.getElementById('wpSubmissionsList');
       noData.textContent = '⏳ Loading...';
       try {
         var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
         var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=50', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok }
         });
         if (!r.ok) throw new Error(r.status);
         var rows = await r.json();
@@ -4504,10 +4527,11 @@
     async function updateWPStatus(id, status) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpAdminToken();
       try {
         var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
           method: 'PATCH',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: status })
         });
         if (r.ok) {
@@ -4520,9 +4544,10 @@
     async function viewWPSubmission(id) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpAdminToken();
       try {
         var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok }
         });
         var rows = await r.json();
         if (!rows.length) return;
