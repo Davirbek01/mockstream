@@ -18,6 +18,30 @@
   var _siteAdminUnlocked = false;
   var _wpStylesInjected = false;
 
+  // RLS on writing_plus_submissions is centre-scoped: the anon publishable
+  // key can INSERT (the student's submit) but can no longer SELECT, UPDATE
+  // or DELETE. Every admin request below must therefore carry the signed-in
+  // admin's own JWT, or PostgREST returns an empty set / 401.
+  // Mirrors the token lookup in registered-users.js.
+  async function _wpToken() {
+    var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    try {
+      var c = window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.getClient === 'function'
+                ? window.MockStream.auth.getClient() : null;
+      if (c && c.auth && typeof c.auth.getSession === 'function') {
+        var sess = await c.auth.getSession();
+        var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+        if (at) return at;
+      }
+    } catch (e) {}
+    try {
+      var st = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      if (st && st.access_token) return st.access_token;
+    } catch (e) {}
+    return SB_KEY;
+  }
+
   function _wpInjectStyles() {
     if (_wpStylesInjected) return;
     if (document.getElementById('ruPanelStyles') || document.getElementById('wpPanelStyles')) {
@@ -149,12 +173,13 @@
     async function _loadWpData() {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpToken();
       var listEl = document.getElementById('wpList');
       var statsEl = document.getElementById('wpStats');
       listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
       try {
         var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?status=neq.deleted&order=created_at.desc&limit=200', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok }
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         _wpData = await r.json();
@@ -257,19 +282,20 @@
       if (!confirmed) return;
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpToken();
       var btn = document.getElementById('wpDeleteSelBtn');
       if (btn) { btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none'; }
       try {
         for (var i = 0; i < ids.length; i++) {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
             method: 'DELETE',
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Prefer': 'return=representation' }
           });
           var deleted = r.ok ? await r.json() : [];
           if (!deleted.length) {
             await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
               method: 'PATCH',
-              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Content-Type': 'application/json' },
               body: JSON.stringify({ status: 'deleted' })
             });
           }
@@ -333,19 +359,20 @@
     async function _updateWpStatus(id, status) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpToken();
       if (status === 'deleted') {
         var confirmed = await _wpConfirm('Permanently delete this submission? This cannot be undone.');
         if (!confirmed) return;
         try {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
             method: 'DELETE',
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Prefer': 'return=representation' }
           });
           var deleted = r.ok ? await r.json() : [];
           if (!deleted.length) {
             await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
               method: 'PATCH',
-              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Content-Type': 'application/json' },
               body: JSON.stringify({ status: 'deleted' })
             });
           }
@@ -355,7 +382,7 @@
         try {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
             method: 'PATCH',
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok, 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: status })
           });
           if (r.ok) await _loadWpData();
@@ -366,9 +393,10 @@
     async function _viewWpDetail(id) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _wpTok = await _wpToken();
       try {
         var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + _wpTok }
         });
         var rows = await r.json();
         if (!rows.length) return;
