@@ -674,6 +674,16 @@
     .bell-pop-item .bpi-chip.cw  { background: #eef2ff; color: #4338ca; }
     .bell-pop-item .bpi-chip.iw  { background: #fdf2f8; color: #be185d; }
     .bell-pop-item .bpi-chip.cl  { background: #ecfdf5; color: #047857; }
+    .bell-pop-item .bpi-chip.pm  { background: #ede9fe; color: #6d28d9; }
+    .bell-pop-item.is-msg .bpi-title { font-weight: 700; }
+    .bell-pop-msghead {
+      padding: 8px 14px 4px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6d28d9;
+    }
     .bell-pop-item .bpi-chip.il  { background: #fef3c7; color: #b45309; }
     .bell-pop-item .bpi-chip.cr  { background: #f0f9ff; color: #0369a1; }
     .bell-pop-item .bpi-chip.ir  { background: #faf5ff; color: #6b21a8; }
@@ -5525,6 +5535,62 @@
       renderTrending(perCombo);
       renderJustAdded(justAdded);
       renderBellPopover(justAdded);
+      // After the feed is on screen, fold in any admin DMs. Fire-and-forget:
+      // it re-renders the popover itself and a failure leaves What's new intact.
+      loadPrivateMessages();
+    }
+
+    /* ───────── Private messages in the bell ─────────
+       landing-v3 carries no chat bubble (chat-bubble.js ships on the 18
+       mock/content pages, not here), so an admin DM was invisible to anyone
+       who only opens the home page. The bell now surfaces it.
+
+       Key: `u:<email>_private` — the ACCOUNT conversation that
+       chat-bubble.js's getUserKey() already builds, so Google and Telegram
+       sign-ins both work (Telegram carries a synthetic
+       tg_<id>@telegram.<host> address). We deliberately do NOT look at
+       premium_devices: its RLS hides every row from the anon key.
+
+       Read-only on purpose — replying still happens in the real Help
+       Center on the mock pages. */
+    var _pmItems = [];
+    var _lastJustAdded = [];
+
+    // landing-v3 has no escapeHtml of its own; message bodies are
+    // admin-authored free text, so they must never be injected raw.
+    function _pmEsc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function _pmSignedInEmail() {
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            window.MockStream.auth.isSignedIn && window.MockStream.auth.isSignedIn()) {
+          var u = window.MockStream.auth.getCurrentUser && window.MockStream.auth.getCurrentUser();
+          if (u && u.email) return String(u.email).toLowerCase();
+        }
+      } catch (_e) {}
+      return '';
+    }
+
+    async function loadPrivateMessages() {
+      var email = _pmSignedInEmail();
+      if (!email) return;
+      try {
+        var conv = 'u:' + email + '_private';
+        var r = await fetch(SB_URL + '/rest/v1/support_messages?conversation_id=eq.' +
+          encodeURIComponent(conv) + '&role=eq.admin&category=eq.private' +
+          '&order=created_at.desc&limit=10&select=content,created_at,sender_name', {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) return;
+        var rows = await r.json();
+        if (!Array.isArray(rows) || !rows.length) return;
+        _pmItems = rows;
+        renderBellPopover(_lastJustAdded);
+      } catch (_e) { /* the bell still shows What's new */ }
     }
 
     /* ───────── Bell popover — "What's new" ─────────
@@ -5532,19 +5598,49 @@
        Just-added rail. Click an item → opens the matching picker via
        the same navToPicker handoff used by tile clicks. */
     function renderBellPopover(rows) {
+      _lastJustAdded = rows || _lastJustAdded;
       var listEl = document.getElementById('bellPopList');
       var subEl  = document.getElementById('bellPopSub');
       if (!listEl) return;
 
       var fresh = (rows || []).slice(0, 10);
+
+      // Private messages ride above the mock feed, newest first.
+      var msgHtml = '', newestMsg = '';
+      if (_pmItems.length) {
+        newestMsg = _pmItems[0].created_at || '';
+        msgHtml = '<div class="bell-pop-msghead">Messages</div>';
+        for (var mi = 0; mi < _pmItems.length; mi++) {
+          var pm = _pmItems[mi];
+          msgHtml += '<div class="bell-pop-item is-msg">'
+                  +   '<span class="bpi-chip pm">MSG</span>'
+                  +   '<span class="bpi-body">'
+                  +     '<span class="bpi-title">' + _pmEsc(pm.content) + '</span>'
+                  +     '<span class="bpi-meta">' + _pmEsc(pm.sender_name || 'Admin')
+                  +       ' · ' + relativeDate(pm.created_at) + '</span>'
+                  +   '</span>'
+                  + '</div>';
+        }
+      }
+      var pmSeen = '';
+      try { pmSeen = localStorage.getItem('ms_pm_last_seen') || ''; } catch (_e) {}
+      var pmUnread = !!(newestMsg && newestMsg > pmSeen);
+
       if (!fresh.length) {
-        listEl.innerHTML = '<div class="bell-pop-empty">No new mocks this week. Check back soon.</div>';
-        if (subEl) subEl.textContent = 'Last 7 days';
-        var dot = document.getElementById('bellDot');
-        if (dot) dot.classList.add('hidden');
+        listEl.innerHTML = msgHtml +
+          '<div class="bell-pop-empty">No new mocks this week. Check back soon.</div>';
+        if (subEl) subEl.textContent = _pmItems.length
+          ? _pmItems.length + ' message' + (_pmItems.length === 1 ? '' : 's')
+          : 'Last 7 days';
+        var dot0 = document.getElementById('bellDot');
+        if (dot0) {
+          dot0.classList.toggle('hidden', !pmUnread);
+          dot0.dataset.newestMsg = newestMsg;
+        }
         return;
       }
-      if (subEl) subEl.textContent = fresh.length + ' new in the last week';
+      if (subEl) subEl.textContent = (_pmItems.length ? _pmItems.length + ' message' +
+        (_pmItems.length === 1 ? '' : 's') + ' · ' : '') + fresh.length + ' new in the last week';
 
       var html = '';
       for (var i = 0; i < fresh.length; i++) {
@@ -5572,7 +5668,7 @@
               +   '<span class="bpi-arrow">→</span>'
               + '</button>';
       }
-      listEl.innerHTML = html || '<div class="bell-pop-empty">No new mocks this week.</div>';
+      listEl.innerHTML = msgHtml + (html || '<div class="bell-pop-empty">No new mocks this week.</div>');
 
       // Hide the unread dot once the user has data to look at; show it again
       // next session if new mocks have been added since the last visit. Cheap
@@ -5582,13 +5678,15 @@
       try { lastSeen = localStorage.getItem('ms_bell_last_seen') || ''; } catch (_e) {}
       var dotEl = document.getElementById('bellDot');
       if (dotEl) {
-        if (newest && newest <= lastSeen) {
-          dotEl.classList.add('hidden');
-        } else {
+        var mockUnread = !(newest && newest <= lastSeen);
+        if (mockUnread || pmUnread) {
           dotEl.classList.remove('hidden');
+        } else {
+          dotEl.classList.add('hidden');
         }
         // Stash on the element so the open-handler can mark-seen.
         dotEl.dataset.newest = newest;
+        dotEl.dataset.newestMsg = newestMsg;
       }
     }
 
@@ -5607,12 +5705,18 @@
       function open() {
         wrap.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
-        // Mark the freshest mock as "seen" — clears the unread dot until a
-        // newer mock arrives.
+        // Mark the freshest mock AND the freshest private message as "seen"
+        // — clears the unread dot until something newer arrives.
+        var marked = false;
         if (dot && dot.dataset && dot.dataset.newest) {
           try { localStorage.setItem('ms_bell_last_seen', dot.dataset.newest); } catch (_e) {}
-          dot.classList.add('hidden');
+          marked = true;
         }
+        if (dot && dot.dataset && dot.dataset.newestMsg) {
+          try { localStorage.setItem('ms_pm_last_seen', dot.dataset.newestMsg); } catch (_e) {}
+          marked = true;
+        }
+        if (marked) dot.classList.add('hidden');
       }
 
       btn.addEventListener('click', function (e) {
@@ -8548,7 +8652,7 @@
         'ms_candidate_name', 'ms_avatar_url',
         'CANDIDATE_SURNAME', 'CANDIDATE_FIRSTNAME',
         'ms_is_admin', 'ms_oauth_next',
-        'ms_bell_last_seen',
+        'ms_bell_last_seen', 'ms_pm_last_seen',
         // Persistent guest "entered" marker (index.html autoResume) — clear it
         // so an explicit sign-out lands on a fresh Welcome instead of skipping it.
         'ms_entered_app'

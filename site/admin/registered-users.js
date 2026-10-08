@@ -932,9 +932,18 @@
     }
 
     // ----- Send Private DM from Registered Users panel → user's Help Center Private tab -----
-    // Looks up every device_id known for this user (from premium_devices and from prior private
-    // messages) and posts an admin reply into each <device_id>_private conversation, so the user
-    // sees the message no matter which device they're on.
+    // Primary target is the ACCOUNT conversation, `u:<email>_private`. That is
+    // the key chat-bubble.js already builds for any signed-in user
+    // (getUserKey() -> 'u:' + email), Google and Telegram alike — Telegram
+    // sign-ins carry a synthetic tg_<id>@telegram.<host> address — so the
+    // message follows the person onto every device they sign in on.
+    //
+    // The old device fan-out (<device_id>_private) is kept as a secondary
+    // target for legacy threads, but it is no longer load-bearing: it read
+    // premium_devices with the anon key, which RLS answers with zero rows
+    // (its SELECT policy wants lower(email) = _jwt_email()), and only ~3,088
+    // of 18,249 users have a device row at all. Relying on it is what made
+    // this feature report success while reaching nobody.
     async function _ruSendPrivateDm(email, studentName) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -948,6 +957,8 @@
       _say('Looking up devices...');
       try {
         var deviceIds = {};
+        // Source 0 (primary): the account conversation.
+        if (email) deviceIds['u:' + String(email).toLowerCase()] = true;
         // Source 1: premium_devices (only for registered emails)
         if (email) {
           try {
@@ -973,7 +984,9 @@
         } catch (_e2) {}
         var ids = Object.keys(deviceIds);
         if (!ids.length) {
-          _say('No device found for this user yet — they need to open the app at least once after signing in.', '#e53935');
+          // Only reachable for a guest row with no email at all; a signed-in
+          // user always has Source 0 above.
+          _say('This user has no account email, so there is nowhere to deliver to.', '#e53935');
           if (btn) { btn.disabled = false; btn.textContent = '📨 Send'; }
           return;
         }
