@@ -1630,6 +1630,14 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .hero-byline {
+      margin: 10px 0 0;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--muted, #64748b);
+    }
+    .hero-byline[hidden] { display: none; }
     .hero-sub {
       font-size: 15.5px;
       color: var(--muted);
@@ -2650,6 +2658,9 @@
       <h1 class="hero-title">
         Earn real <em>Multilevel &amp; IELTS</em> readiness
       </h1>
+      <!-- Brand byline. Hidden by default; the clone gate below reveals it
+           only where a centre has one, so the other 7 sites are untouched. -->
+      <div class="hero-byline" id="msv3HeroByline" hidden></div>
       <div class="vitals">
         <div class="vital v-violet">
           <div class="vital-icon">
@@ -8002,6 +8013,14 @@
         // already lists Registered Users, so here the shortcut is duplication.
         var ru = document.getElementById('msv3RegUsersBtn');
         if (ru) ru.style.display = 'none';
+      }
+      // Per-centre brand byline under the hero title. Only centres listed
+      // here get one; everyone else keeps the element hidden.
+      var BYLINES = { max: 'Multilevel Max by Coursera English Team' };
+      var by = document.getElementById('msv3HeroByline');
+      if (by && BYLINES[centerId]) {
+        by.textContent = BYLINES[centerId];
+        by.hidden = false;
       }
     })();
 
