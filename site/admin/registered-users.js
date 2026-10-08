@@ -268,28 +268,51 @@
         // (no __admCenter) still get everything.
         var _scope = (window.__admCenter || '').toString();
         var _scopeQ = _scope ? '&center=eq.' + encodeURIComponent(_scope) : '';
+        var _CAND_URL = SB_URL +
+          '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc' + _scopeQ;
+        function _candHeaders(from, to, extra) {
+          var h = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token,
+                    'Range-Unit': 'items', 'Range': from + '-' + to };
+          if (extra) h['Prefer'] = extra;
+          return h;
+        }
+        async function _fetchPage(from, PAGE) {
+          var resp = await fetch(_CAND_URL, { headers: _candHeaders(from, from + PAGE - 1) });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          var b = await resp.json();
+          return Array.isArray(b) ? b : [];
+        }
+        // The old loop awaited each 1000-row page before asking for the next.
+        // On the main site that is 19 round trips END TO END — the database
+        // answers the worst page in 70ms, so nearly all of the wait was the
+        // browser sitting still between requests. Ask for the count once, then
+        // fetch every page AT THE SAME TIME.
         async function _fetchAllCandidates() {
-          var PAGE = 1000, from = 0, all = [];
-          for (var guard = 0; guard < 50; guard++) {   // 50k ceiling, never infinite
-            var resp = await fetch(
-              SB_URL + '/rest/v1/candidates?select=*&order=last_seen_at.desc.nullslast,updated_at.desc' + _scopeQ,
-              { headers: {
-                  'apikey': SB_KEY,
-                  'Authorization': 'Bearer ' + token,
-                  'Range-Unit': 'items',
-                  'Range': from + '-' + (from + PAGE - 1)
-                } });
-            if (!resp.ok) {
-              if (from === 0) throw new Error('HTTP ' + resp.status);
-              break;                                   // keep what we already have
+          var PAGE = 1000;
+          var first = await fetch(_CAND_URL, { headers: _candHeaders(0, PAGE - 1, 'count=exact') });
+          if (!first.ok) throw new Error('HTTP ' + first.status);
+          var head = await first.json();
+          if (!Array.isArray(head)) head = [];
+          // Content-Range is "0-999/18217"; the total is what we page against.
+          var cr = first.headers.get('content-range') || '';
+          var total = parseInt((cr.split('/')[1] || ''), 10);
+          if (!isFinite(total) || total <= head.length) return head;   // one page was everything
+          var offsets = [];
+          for (var o = PAGE; o < total && offsets.length < 49; o += PAGE) offsets.push(o);
+          var rest;
+          try {
+            rest = await Promise.all(offsets.map(function (o) { return _fetchPage(o, PAGE); }));
+          } catch (_e) {
+            // A parallel burst can trip a rate limit where a slow walk would
+            // not. Fall back to the old sequential walk rather than showing a
+            // short list that looks like missing users.
+            rest = [];
+            for (var i = 0; i < offsets.length; i++) {
+              try { rest.push(await _fetchPage(offsets[i], PAGE)); }
+              catch (_e2) { break; }
             }
-            var batch = await resp.json();
-            if (!Array.isArray(batch) || !batch.length) break;
-            all = all.concat(batch);
-            if (batch.length < PAGE) break;             // last page
-            from += PAGE;
           }
-          return all;
+          return head.concat.apply(head, rest);
         }
         var [cands, premResp] = await Promise.all([
           _fetchAllCandidates(),

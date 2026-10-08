@@ -263,6 +263,11 @@
     html.adm-solo .adm-hamburger,
     html.adm-solo .adm-drawer-backdrop { display: none !important; }
     html.adm-solo .adm-layout { grid-template-columns: minmax(0, 1fr); }
+    /* .adm-content is capped at 1200px and not centred. With the sidebar
+       present its 248px balanced the page; with the sidebar gone the cap
+       pinned the panel to the left edge and dumped all the slack on the
+       right. Centre it in the column instead. */
+    html.adm-solo .adm-content { margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
@@ -341,7 +346,7 @@
     'registered-users': {
       label: 'Registered Users',
       icon: '👥',
-      script: '/admin/registered-users.js?v=9',
+      script: '/admin/registered-users.js?v=10',
       open: function (container) {
         if (window.AdminPanels && window.AdminPanels.registeredUsers && typeof window.AdminPanels.registeredUsers.open === 'function') {
           window.AdminPanels.registeredUsers.open(container);
