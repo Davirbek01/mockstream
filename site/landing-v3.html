@@ -701,6 +701,71 @@
     }
     .bell-pop-reply button[disabled] { opacity: .55; cursor: default; }
     .bell-pop-replymsg { padding: 0 14px 8px; font-size: 11.5px; color: var(--muted); }
+    .bell-pop-askrow { padding: 8px 14px 10px; }
+    .bell-pop-askrow button {
+      width: 100%; border: 1px dashed var(--line, #e2e8f0); cursor: pointer;
+      padding: 9px 12px; border-radius: 10px;
+      background: transparent; color: var(--ink);
+      font: inherit; font-size: 12.5px; font-weight: 700;
+    }
+    .bell-pop-askrow button:hover { border-color: #a78bfa; color: #6d28d9; }
+
+    /* Compose dialog. The popover is a crowded list, so writing happens in its
+       own centred card, shaped like the Results Dashboard's modal. */
+    .pm-dlg {
+      position: fixed; inset: 0; z-index: 1300;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; background: rgba(15, 23, 42, .45);
+      opacity: 0; transition: opacity .18s ease;
+    }
+    .pm-dlg.show { opacity: 1; }
+    .pm-dlg.hidden { display: none; }
+    .pm-dlg-card {
+      width: min(520px, 100%); border-radius: 16px; overflow: hidden;
+      background: var(--surface, #fff);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, .3);
+      transform: translateY(8px) scale(.99); transition: transform .18s ease;
+    }
+    .pm-dlg.show .pm-dlg-card { transform: none; }
+    .pm-dlg-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 14px 18px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff; font-size: 15px; font-weight: 800;
+    }
+    .pm-dlg-head button {
+      border: 0; background: transparent; color: #fff; cursor: pointer;
+      font-size: 22px; line-height: 1; padding: 0 2px; opacity: .85;
+    }
+    .pm-dlg-head button:hover { opacity: 1; }
+    .pm-dlg-quote {
+      margin: 14px 18px 0; padding: 9px 12px;
+      border-left: 3px solid #c4b5fd; border-radius: 0 8px 8px 0;
+      background: var(--line-soft, #f8fafc);
+      font-size: 12.5px; line-height: 1.4; color: var(--muted);
+      max-height: 76px; overflow: hidden;
+    }
+    .pm-dlg-card textarea {
+      display: block; width: calc(100% - 36px); margin: 14px 18px 0;
+      min-height: 112px; resize: vertical;
+      padding: 11px 12px; border-radius: 10px;
+      border: 1px solid var(--line, #e2e8f0);
+      background: var(--surface, #fff); color: var(--ink);
+      font: inherit; font-size: 14px; line-height: 1.45;
+    }
+    .pm-dlg-card textarea:focus { outline: 2px solid #c4b5fd; outline-offset: -1px; }
+    .pm-dlg-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 14px 18px 16px;
+    }
+    .pm-dlg-foot .bell-pop-replymsg { padding: 0; }
+    .pm-dlg-foot button {
+      border: 0; cursor: pointer; margin-left: auto;
+      padding: 10px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    }
+    .pm-dlg-foot button[disabled] { opacity: .55; cursor: default; }
     .bell-pop-replybtn {
       align-self: flex-start;
       border: 0; background: transparent; cursor: pointer;
@@ -5790,19 +5855,13 @@
     // answered, so one centre's admins do not read each other's threads.
     var _pmReplyTo = null;      // { email, name }
 
+    // The popover is a list, and a busy one — the mock feed fills it.
+    // Writing happens in its own dialog instead, so the box is never buried
+    // under "What's new".
     function _pmComposerHtml() {
-      var head = _pmReplyTo
-        ? '<span class="pm-target">Replying to <b>' + _pmEsc(_pmReplyTo.name) + '</b>' +
-          '<button type="button" id="pmReplyClear" title="Cancel">×</button></span>'
-        : '<span class="pm-target is-new">New question · goes to the team</span>';
-      return '<div class="bell-pop-targetrow">' + head + '</div>'
-           + '<div class="bell-pop-reply">'
-           +   '<input id="pmReplyInput" type="text" maxlength="2000" '
-           +     'placeholder="' + (_pmReplyTo ? 'Write a reply…' : 'Ask a question…') + '" '
-           +     'aria-label="Message your centre">'
-           +   '<button id="pmReplySend" type="button">Send</button>'
-           + '</div>'
-           + '<div class="bell-pop-replymsg" id="pmReplyMsg"></div>';
+      return '<div class="bell-pop-askrow">'
+           +   '<button type="button" id="pmAskBtn">Ask a question</button>'
+           + '</div>';
     }
 
     function _pmDisplayName() {
@@ -5815,6 +5874,61 @@
         if (n) return String(n);
       } catch (_e) {}
       return 'Student';
+    }
+
+    function _pmDialog() {
+      var el = document.getElementById('pmDlg');
+      if (el) return el;
+      el = document.createElement('div');
+      el.id = 'pmDlg';
+      el.className = 'pm-dlg hidden';
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-modal', 'true');
+      el.innerHTML =
+        '<div class="pm-dlg-card">' +
+          '<div class="pm-dlg-head">' +
+            '<span id="pmDlgTitle"></span>' +
+            '<button type="button" id="pmDlgX" aria-label="Close">&times;</button>' +
+          '</div>' +
+          '<div class="pm-dlg-quote" id="pmDlgQuote"></div>' +
+          '<textarea id="pmReplyInput" maxlength="2000" rows="4" aria-label="Your message"></textarea>' +
+          '<div class="pm-dlg-foot">' +
+            '<span class="bell-pop-replymsg" id="pmReplyMsg"></span>' +
+            '<button type="button" id="pmReplySend">Send</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(el);
+      el.addEventListener('click', function (e) {
+        // Backdrop or the close button; a click inside the card must not shut it.
+        if (e.target === el || e.target.id === 'pmDlgX') _pmCloseDialog();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !el.classList.contains('hidden')) _pmCloseDialog();
+      });
+      return el;
+    }
+
+    function _pmOpenDialog(target, quote) {
+      _pmReplyTo = target;
+      var el = _pmDialog();
+      var t = document.getElementById('pmDlgTitle');
+      var q = document.getElementById('pmDlgQuote');
+      var i = document.getElementById('pmReplyInput');
+      var n = document.getElementById('pmReplyMsg');
+      if (t) t.textContent = target ? 'Reply to ' + target.name : 'Ask a question';
+      if (q) { q.textContent = quote || ''; q.style.display = quote ? '' : 'none'; }
+      if (n) n.textContent = target ? '' : 'Goes to the team.';
+      if (i) { i.value = ''; i.placeholder = target ? 'Write a reply...' : 'Ask a question...'; }
+      el.classList.remove('hidden');
+      requestAnimationFrame(function () { el.classList.add('show'); if (i) i.focus(); });
+    }
+
+    function _pmCloseDialog() {
+      var el = document.getElementById('pmDlg');
+      if (!el) return;
+      el.classList.remove('show');
+      setTimeout(function () { el.classList.add('hidden'); }, 180);
+      _pmReplyTo = null;
     }
 
     async function _pmSendReply() {
@@ -5852,13 +5966,11 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         if (inp) inp.value = '';
         if (note) note.textContent = '';
-        _pmReplyTo = null;
+        _pmCloseDialog();
         // Force the next load to repaint even though the newest row changed
         // only at the tail of the list.
         _pmItems = [];
         await loadPrivateMessages();
-        var again = document.getElementById('pmReplyInput');
-        if (again) again.focus();
       } catch (_e) {
         if (note) note.textContent = 'Could not send. Please try again.';
       } finally {
@@ -5890,19 +6002,9 @@
           (!rows.length || (rows[0].created_at === _pmItems[0].created_at));
         if (same) return;
         _pmItems = rows;
-        // A poll landing mid-sentence must not wipe what is being typed —
-        // renderBellPopover rebuilds the composer along with the list.
-        var _inp = document.getElementById('pmReplyInput');
-        var _draft = _inp ? _inp.value : '';
-        var _hadFocus = !!(_inp && document.activeElement === _inp);
+        // The composer sits in its own dialog now, so a repaint of the list
+        // can no longer wipe a half-typed message.
         renderBellPopover(_lastJustAdded);
-        if (_draft || _hadFocus) {
-          var _again = document.getElementById('pmReplyInput');
-          if (_again) {
-            _again.value = _draft;
-            if (_hadFocus) { _again.focus(); _again.selectionStart = _again.selectionEnd = _draft.length; }
-          }
-        }
         _pmMarkSeenIfOpen();
         _pmMaybeToast();
       } catch (_e) { /* the bell still shows What's new */
@@ -5946,7 +6048,8 @@
                   +     (_mine ? '' :
                         '<button type="button" class="bell-pop-replybtn" ' +
                           'data-reply-to="' + _pmEsc(pm.admin_email || '') + '" ' +
-                          'data-reply-name="' + _pmEsc(_pmSenderLabel(pm.sender_name)) + '">Reply</button>')
+                          'data-reply-name="' + _pmEsc(_pmSenderLabel(pm.sender_name)) + '" ' +
+                          'data-reply-quote="' + _pmEsc(String(pm.content || '').slice(0, 300)) + '">Reply</button>')
                   +     '<span class="bpi-meta">' + _pmEsc(_mine ? 'You' : _pmSenderLabel(pm.sender_name))
                   +       ' · ' + relativeDate(pm.created_at) + '</span>'
                   +   '</span>'
@@ -6065,36 +6168,39 @@
       // for that skill (data-open). Backdrop clicks keep the popover open.
       // Delegated: the composer is rebuilt with the popover's innerHTML, so a
       // listener bound to the button itself would not survive a render.
-      pop.addEventListener('click', function (e) {
-        if (e.target.closest('#pmReplySend')) {
+      // Send lives in the dialog, outside the popover, so it binds on the
+      // document. Shift+Enter still makes a new line.
+      document.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('#pmReplySend')) {
           e.preventDefault();
           void _pmSendReply();
-          return;
         }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey && e.target && e.target.id === 'pmReplyInput') {
+          e.preventDefault();
+          void _pmSendReply();
+        }
+      });
+
+      pop.addEventListener('click', function (e) {
         var rb = e.target.closest('[data-reply-to]');
         if (rb) {
           e.preventDefault();
+          e.stopPropagation();
           var addr = rb.getAttribute('data-reply-to') || '';
           // An older message predates admin_email; without an address the
           // only honest destination is the team.
-          _pmReplyTo = addr ? { email: addr, name: rb.getAttribute('data-reply-name') || 'Admin' } : null;
-          renderBellPopover(_lastJustAdded);
-          var i1 = document.getElementById('pmReplyInput');
-          if (i1) i1.focus();
+          _pmOpenDialog(
+            addr ? { email: addr, name: rb.getAttribute('data-reply-name') || 'Admin' } : null,
+            rb.getAttribute('data-reply-quote') || ''
+          );
           return;
         }
-        if (e.target.closest('#pmReplyClear')) {
+        if (e.target.closest('#pmAskBtn')) {
           e.preventDefault();
-          _pmReplyTo = null;
-          renderBellPopover(_lastJustAdded);
-          var i2 = document.getElementById('pmReplyInput');
-          if (i2) i2.focus();
-        }
-      });
-      pop.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && e.target && e.target.id === 'pmReplyInput') {
-          e.preventDefault();
-          void _pmSendReply();
+          e.stopPropagation();
+          _pmOpenDialog(null, '');
         }
       });
 
