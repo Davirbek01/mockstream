@@ -5575,9 +5575,32 @@
       return '';
     }
 
+    // A message that arrives while the page sits open used to stay invisible
+    // until a reload, because this ran once at feed time. It now also runs
+    // when the bell is opened, when the tab comes back to the foreground,
+    // and every two minutes.
+    var _pmBusy = false;
+
+    // Re-rendering the popover rebuilds the dot from ms_pm_last_seen, so a
+    // refresh that lands while the popover is open would put the unread dot
+    // back on a message the person is looking at. Re-mark it instead.
+    function _pmMarkSeenIfOpen() {
+      var wrap = document.getElementById('bellWrap');
+      var dot  = document.getElementById('bellDot');
+      if (!wrap || !dot || !wrap.classList.contains('open')) return;
+      if (dot.dataset && dot.dataset.newest) {
+        try { localStorage.setItem('ms_bell_last_seen', dot.dataset.newest); } catch (_e) {}
+      }
+      if (dot.dataset && dot.dataset.newestMsg) {
+        try { localStorage.setItem('ms_pm_last_seen', dot.dataset.newestMsg); } catch (_e) {}
+      }
+      dot.classList.add('hidden');
+    }
+
     async function loadPrivateMessages() {
       var email = _pmSignedInEmail();
-      if (!email) return;
+      if (!email || _pmBusy) return;
+      _pmBusy = true;
       try {
         var conv = 'u:' + email + '_private';
         var r = await fetch(SB_URL + '/rest/v1/support_messages?conversation_id=eq.' +
@@ -5587,11 +5610,27 @@
         });
         if (!r.ok) return;
         var rows = await r.json();
-        if (!Array.isArray(rows) || !rows.length) return;
+        if (!Array.isArray(rows)) return;
+        // Only repaint on an actual change — a poll that finds nothing new
+        // must not reset the popover's scroll position under the reader.
+        var same = rows.length === _pmItems.length &&
+          (!rows.length || (rows[0].created_at === _pmItems[0].created_at));
+        if (same) return;
         _pmItems = rows;
         renderBellPopover(_lastJustAdded);
-      } catch (_e) { /* the bell still shows What's new */ }
+        _pmMarkSeenIfOpen();
+      } catch (_e) { /* the bell still shows What's new */
+      } finally { _pmBusy = false; }
     }
+
+    // Foreground tab + a slow heartbeat. Both are no-ops for a signed-out
+    // visitor, since loadPrivateMessages returns on the missing email.
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) loadPrivateMessages();
+    });
+    setInterval(function () {
+      if (!document.hidden) loadPrivateMessages();
+    }, 120000);
 
     /* ───────── Bell popover — "What's new" ─────────
        Populated from the same fetchJustAdded() rows that feed the
@@ -5717,6 +5756,8 @@
           marked = true;
         }
         if (marked) dot.classList.add('hidden');
+        // Pull anything that landed since the page loaded.
+        loadPrivateMessages();
       }
 
       btn.addEventListener('click', function (e) {
