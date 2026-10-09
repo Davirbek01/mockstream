@@ -954,34 +954,33 @@
       var text = (ta && ta.value || '').trim();
       if (!text) { _say('Type a message first.', '#e53935'); return; }
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Sending...'; }
-      _say('Looking up devices...');
+      _say('Sending...');
       try {
+        // One key per person. When the account email is known that is the
+        // only target: chat-bubble.js reads 'u:<email>_private' for every
+        // signed-in user, so adding device keys buys no reach and costs a
+        // duplicate copy in the Private tab for anyone whose device is also
+        // in premium_devices.
+        //
+        // The old sender_name lookup is gone for the same reason it was
+        // unsafe: two students with the same display name would have
+        // delivered each other's private messages.
         var deviceIds = {};
-        // Source 0 (primary): the account conversation.
-        if (email) deviceIds['u:' + String(email).toLowerCase()] = true;
-        // Source 1: premium_devices (only for registered emails)
         if (email) {
+          deviceIds['u:' + String(email).toLowerCase()] = true;
+        } else {
+          // Guest row with no email — a device key is the only thing to go on.
           try {
-            var dResp = await fetch(SB_URL + '/rest/v1/premium_devices?email=eq.' + encodeURIComponent(email) + '&select=device_id', {
+            var nameQ = encodeURIComponent(studentName);
+            var sResp = await fetch(SB_URL + '/rest/v1/support_messages?sender_name=eq.' + nameQ + '&category=eq.private&role=eq.user&select=device_id&order=created_at.desc&limit=20', {
               headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
             });
-            if (dResp.ok) {
-              var dRows = await dResp.json();
-              dRows.forEach(function(r) { if (r.device_id) deviceIds[r.device_id] = true; });
+            if (sResp.ok) {
+              var sRows = await sResp.json();
+              sRows.forEach(function(r) { if (r.device_id) deviceIds[r.device_id] = true; });
             }
-          } catch (_e) {}
+          } catch (_e2) {}
         }
-        // Source 2: prior private messages from this user
-        try {
-          var nameQ = encodeURIComponent(studentName);
-          var sResp = await fetch(SB_URL + '/rest/v1/support_messages?sender_name=eq.' + nameQ + '&category=eq.private&role=eq.user&select=device_id&order=created_at.desc&limit=20', {
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-          });
-          if (sResp.ok) {
-            var sRows = await sResp.json();
-            sRows.forEach(function(r) { if (r.device_id) deviceIds[r.device_id] = true; });
-          }
-        } catch (_e2) {}
         var ids = Object.keys(deviceIds);
         if (!ids.length) {
           // Only reachable for a guest row with no email at all; a signed-in
@@ -990,7 +989,6 @@
           if (btn) { btn.disabled = false; btn.textContent = '📨 Send'; }
           return;
         }
-        _say('Sending to ' + ids.length + ' device' + (ids.length === 1 ? '' : 's') + '...');
         var senderName = (typeof getMsAdminName === 'function' ? getMsAdminName() : null) || 'Admin';
         var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
         var sent = 0, failed = 0;
@@ -1017,7 +1015,7 @@
           } catch (_e3) { failed++; }
         }
         if (sent > 0) {
-          _say('✅ Delivered to ' + sent + ' device' + (sent === 1 ? '' : 's') + (failed ? ' (' + failed + ' failed)' : ''), '#10b981');
+          _say('✅ Delivered' + (failed ? ' (' + failed + ' copy failed)' : ''), '#10b981');
           if (ta) ta.value = '';
         } else {
           _say('❌ Send failed.', '#e53935');

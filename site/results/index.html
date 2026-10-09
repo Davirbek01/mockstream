@@ -4415,24 +4415,15 @@
         // tg_<id>@telegram.<host> address — so the message reaches them on
         // every device they sign in on, not just the one that took the test.
         //
-        // The device keys below stay for legacy threads. The premium_devices
-        // lookup in particular is near-useless from here: it goes out with the
-        // anon key and RLS returns zero rows, since its SELECT policy requires
-        // lower(email) = _jwt_email().
+        // That key alone. Adding the result row's device_id on top delivered
+        // the same text twice to anyone whose device is also in
+        // premium_devices — about a quarter of all results.
         var devices = {};
-        if (r.user_email) devices['u:' + String(r.user_email).toLowerCase()] = true;
-        if (r.device_id) devices[r.device_id] = true;
         if (r.user_email) {
-          try {
-            var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_devices?email=eq.' +
-              encodeURIComponent(r.user_email) + '&select=device_id', {
-              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
-            });
-            if (resp.ok) {
-              var rows = await resp.json();
-              rows.forEach(function (x) { if (x.device_id) devices[x.device_id] = true; });
-            }
-          } catch (_e) {}
+          devices['u:' + String(r.user_email).toLowerCase()] = true;
+        } else if (r.device_id) {
+          // Guest result, no account to key on.
+          devices[r.device_id] = true;
         }
         var ids = Object.keys(devices);
         if (!ids.length) {
@@ -4469,8 +4460,7 @@
           } catch (_e2) { failed++; }
         }
         if (sent > 0) {
-          _say('✅ Delivered to ' + sent + ' device' + (sent === 1 ? '' : 's') +
-            (failed ? ' (' + failed + ' failed)' : ''), '#059669');
+          _say('✅ Delivered' + (failed ? ' (' + failed + ' copy failed)' : ''), '#059669');
           ta.value = '';
           setTimeout(closeResultDm, 1200);
         } else {
