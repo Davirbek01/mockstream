@@ -673,7 +673,7 @@
         var _aiToday = (window._ruAiTodayMap && window._ruAiTodayMap[_aiKey]) || 0;
         if (_aiToday > 0) details.push('🤖 ' + _aiToday + ' AI today');
         var updatedStr = _ruWhenLine(c);
-        html += '<div class="ru-card' + (c.blocked ? ' ru-card-blocked' : '') + '" onclick="_viewUserResults(\'' + name.replace(/'/g, "\\'").replace(/</g, '&lt;') + '\')">' +
+        html += '<div class="ru-card' + (c.blocked ? ' ru-card-blocked' : '') + '" onclick="_viewUserResults(\'' + String(c.id || '') + '\')">' +
           '<div class="ru-card-avatar">' + avatarInner + '</div>' +
           '<div class="ru-card-info">' +
             '<div class="ru-card-name">' + name.replace(/</g, '&lt;') + (c.blocked ? ' <span style="color:#e53935;font-size:11px;font-weight:700;">🚫 BLOCKED</span>' : '') + _getRoleBadge(c.email) + '</div>' +
@@ -1028,7 +1028,13 @@
     }
     window._ruSendPrivateDm = _ruSendPrivateDm;
 
-    async function _viewUserResults(studentName) {
+    // Takes the candidates.id uuid, NOT the display name. 996 display names
+    // are shared by two or more accounts (2,154 rows), so a name lookup here
+    // always opened whichever of them sorted first — and every action on the
+    // page (private message, premium/admin, block) then hit the wrong person.
+    async function _viewUserResults(candidateId) {
+      var _row = _ruData.find(function(c) { return c.id === candidateId; });
+      var studentName = _row ? (_row.student_name || '') : String(candidateId || '');
       var searchEl = document.getElementById('ruSearch');
       var statsEl = document.getElementById('ruStats');
       var listEl = document.getElementById('ruList');
@@ -1048,7 +1054,23 @@
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var results = [];
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc', {
+        // 53% of results rows carry no user_email, so email alone would hide
+        // most of the history: take this account's own rows plus the
+        // unattributed ones filed under the same name.
+        // Inside or=() a comma or paren in the value is structural: an
+        // unquoted name like "Davirbek Khasanov (davirbekkhasanov)" or
+        // "Ali, Vali" makes PostgREST answer PGRST100. Quote every literal
+        // and escape the quote and backslash inside it.
+        function _pgLit(v) {
+          var BS = String.fromCharCode(92), QU = String.fromCharCode(34);
+          var esc = String(v).split(BS).join(BS + BS).split(QU).join(BS + QU);
+          return QU + encodeURIComponent(esc) + QU;
+        }
+        var _rq = (_row && _row.email)
+          ? 'or=(user_email.eq.' + _pgLit(_row.email) +
+            ',and(user_email.is.null,student_name.eq.' + _pgLit(studentName) + '))'
+          : 'student_name=eq.' + encodeURIComponent(studentName);
+        var resp = await fetch(SB_URL + '/rest/v1/results?' + _rq + '&select=*&order=created_at.desc', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         });
         if (resp.ok) results = await resp.json();
@@ -1081,7 +1103,7 @@
       var html = '';
 
       // Profile contact card
-      var candidate = _ruData.find(function(c) { return c.student_name === studentName; });
+      var candidate = _row || _ruData.find(function(c) { return c.student_name === studentName; });
       if (candidate) {
         var avatarParts = studentName.trim().split(/\s+/);
         var avatarInitials = avatarParts.length >= 2 ? (avatarParts[0][0] + avatarParts[avatarParts.length - 1][0]).toUpperCase() : studentName.substring(0, 2).toUpperCase();
