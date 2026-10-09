@@ -701,6 +701,25 @@
     }
     .bell-pop-reply button[disabled] { opacity: .55; cursor: default; }
     .bell-pop-replymsg { padding: 0 14px 8px; font-size: 11.5px; color: var(--muted); }
+    .bell-pop-replybtn {
+      align-self: flex-start;
+      border: 0; background: transparent; cursor: pointer;
+      padding: 1px 0; margin-top: 1px;
+      font: inherit; font-size: 11.5px; font-weight: 700;
+      color: #6d28d9; text-decoration: underline;
+    }
+    .bell-pop-targetrow { padding: 6px 14px 0; }
+    .pm-target {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      background: #ede9fe; color: #6d28d9;
+    }
+    .pm-target.is-new { background: var(--line-soft, #f1f5f9); color: var(--muted); }
+    .pm-target button {
+      border: 0; background: transparent; cursor: pointer;
+      color: inherit; font-size: 13px; line-height: 1; padding: 0 1px;
+    }
 
     /* New-message toast — a DM should not wait for someone to think of
        clicking the bell. Sits under the bell, slides in, auto-hides; the
@@ -5766,6 +5785,26 @@
       return SB_KEY;
     }
 
+    // Who the next message goes to. null = a new question, which is routed
+    // to the super admin alone; otherwise the admin whose message is being
+    // answered, so one centre's admins do not read each other's threads.
+    var _pmReplyTo = null;      // { email, name }
+
+    function _pmComposerHtml() {
+      var head = _pmReplyTo
+        ? '<span class="pm-target">Replying to <b>' + _pmEsc(_pmReplyTo.name) + '</b>' +
+          '<button type="button" id="pmReplyClear" title="Cancel">×</button></span>'
+        : '<span class="pm-target is-new">New question · goes to the team</span>';
+      return '<div class="bell-pop-targetrow">' + head + '</div>'
+           + '<div class="bell-pop-reply">'
+           +   '<input id="pmReplyInput" type="text" maxlength="2000" '
+           +     'placeholder="' + (_pmReplyTo ? 'Write a reply…' : 'Ask a question…') + '" '
+           +     'aria-label="Message your centre">'
+           +   '<button id="pmReplySend" type="button">Send</button>'
+           + '</div>'
+           + '<div class="bell-pop-replymsg" id="pmReplyMsg"></div>';
+    }
+
     function _pmDisplayName() {
       try {
         var u = window.MockStream && window.MockStream.auth &&
@@ -5804,12 +5843,16 @@
             category: 'private',
             center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) ||
                     window.__CENTER_ID || 'mock_stream',
-            device_id: did || 'landing_v3'
+            device_id: did || 'landing_v3',
+            // '__super__' keeps a fresh question away from centre admins;
+            // a reply is addressed to the one admin who wrote the message.
+            admin_email: (_pmReplyTo && _pmReplyTo.email) ? _pmReplyTo.email : '__super__'
           })
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         if (inp) inp.value = '';
         if (note) note.textContent = '';
+        _pmReplyTo = null;
         // Force the next load to repaint even though the newest row changed
         // only at the tail of the list.
         _pmItems = [];
@@ -5835,7 +5878,7 @@
         // the admin side. role drives which rows count as unread.
         var r = await fetch(SB_URL + '/rest/v1/support_messages?conversation_id=eq.' +
           encodeURIComponent(conv) + '&category=eq.private' +
-          '&order=created_at.desc&limit=20&select=content,created_at,sender_name,role', {
+          '&order=created_at.desc&limit=20&select=content,created_at,sender_name,role,admin_email', {
           headers: { apikey: SB_KEY, Authorization: 'Bearer ' + _tok }
         });
         if (!r.ok) return;
@@ -5900,6 +5943,10 @@
                   +   '<span class="bpi-chip pm">' + (_mine ? 'YOU' : 'MSG') + '</span>'
                   +   '<span class="bpi-body">'
                   +     '<span class="bpi-title">' + _pmEsc(pm.content) + '</span>'
+                  +     (_mine ? '' :
+                        '<button type="button" class="bell-pop-replybtn" ' +
+                          'data-reply-to="' + _pmEsc(pm.admin_email || '') + '" ' +
+                          'data-reply-name="' + _pmEsc(_pmSenderLabel(pm.sender_name)) + '">Reply</button>')
                   +     '<span class="bpi-meta">' + _pmEsc(_mine ? 'You' : _pmSenderLabel(pm.sender_name))
                   +       ' · ' + relativeDate(pm.created_at) + '</span>'
                   +   '</span>'
@@ -5908,12 +5955,7 @@
         // Replying here keeps the thread alive for someone who only ever
         // opens the home page. Text only — voice/image/PDF stay in the real
         // Help Center on the mock pages.
-        msgHtml += '<div class="bell-pop-reply">'
-                +   '<input id="pmReplyInput" type="text" maxlength="2000" '
-                +     'placeholder="Write a reply…" aria-label="Reply to your centre">'
-                +   '<button id="pmReplySend" type="button">Send</button>'
-                + '</div>'
-                + '<div class="bell-pop-replymsg" id="pmReplyMsg"></div>';
+        msgHtml += _pmComposerHtml();
       }
       var pmSeen = '';
       try { pmSeen = localStorage.getItem('ms_pm_last_seen') || ''; } catch (_e) {}
@@ -6027,6 +6069,26 @@
         if (e.target.closest('#pmReplySend')) {
           e.preventDefault();
           void _pmSendReply();
+          return;
+        }
+        var rb = e.target.closest('[data-reply-to]');
+        if (rb) {
+          e.preventDefault();
+          var addr = rb.getAttribute('data-reply-to') || '';
+          // An older message predates admin_email; without an address the
+          // only honest destination is the team.
+          _pmReplyTo = addr ? { email: addr, name: rb.getAttribute('data-reply-name') || 'Admin' } : null;
+          renderBellPopover(_lastJustAdded);
+          var i1 = document.getElementById('pmReplyInput');
+          if (i1) i1.focus();
+          return;
+        }
+        if (e.target.closest('#pmReplyClear')) {
+          e.preventDefault();
+          _pmReplyTo = null;
+          renderBellPopover(_lastJustAdded);
+          var i2 = document.getElementById('pmReplyInput');
+          if (i2) i2.focus();
         }
       });
       pop.addEventListener('keydown', function (e) {

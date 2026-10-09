@@ -973,6 +973,21 @@
       } catch (_e) { return null; }
     }
 
+    // The admin's own address, used ONLY to route replies back to them —
+    // it is never rendered to the student, which is why sender_name keeps
+    // carrying the display name instead.
+    async function _ruAdminEmail() {
+      try {
+        var c = window.MockStream && window.MockStream.auth &&
+                typeof window.MockStream.auth.getClient === 'function'
+                  ? window.MockStream.auth.getClient() : null;
+        var sess = c && c.auth ? await c.auth.getSession() : null;
+        var e = sess && sess.data && sess.data.session && sess.data.session.user &&
+                sess.data.session.user.email;
+        return e ? String(e).toLowerCase() : null;
+      } catch (_e) { return null; }
+    }
+
     async function _ruSendPrivateDm(email, studentName) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -1022,6 +1037,7 @@
         // address, so a staff email never reaches them.
         var _sn = String((typeof getMsAdminName === 'function' ? getMsAdminName() : '') || '').trim();
         var senderName = (!_sn || _sn.indexOf('@') !== -1) ? 'Admin' : _sn;
+        var adminEmail = await _ruAdminEmail();
         var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
         var sent = 0, failed = 0;
         for (var i = 0; i < ids.length; i++) {
@@ -1032,7 +1048,8 @@
             content: text,
             category: 'private',
             center: center,
-            device_id: 'admin_panel'
+            device_id: 'admin_panel',
+            admin_email: adminEmail
           };
           try {
             var pResp = await fetch(SB_URL + '/rest/v1/support_messages', {

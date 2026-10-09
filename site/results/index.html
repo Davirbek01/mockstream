@@ -4461,6 +4461,13 @@
         // this wrote the admin's raw email and 10 such rows already exist.
         var _sn = String(localStorage.getItem('ms_admin_email') || '').trim();
         var senderName = (!_sn || _sn.indexOf('@') !== -1) ? 'Admin' : _sn;
+        // Routes a reply back to this admin alone. Never shown to the student.
+        var adminEmail = null;
+        try {
+          var _s = (window.AdminAuth && typeof window.AdminAuth.currentEmail === 'function')
+            ? await window.AdminAuth.currentEmail() : '';
+          adminEmail = _s ? String(_s).toLowerCase() : null;
+        } catch (_eA) {}
         var center = r.center || 'mock_stream';
         var sent = 0, failed = 0;
         for (var i = 0; i < ids.length; i++) {
@@ -4471,7 +4478,8 @@
             content: text,
             category: 'private',
             center: center,
-            device_id: 'admin_panel'
+            device_id: 'admin_panel',
+            admin_email: adminEmail
           };
           try {
             var pResp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
