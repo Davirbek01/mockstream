@@ -51,6 +51,53 @@
     }).catch(function () { /* offline — will retry next visit */ });
   }
 
+  // The signed-in account's access token, if there is one. Mirrors the
+  // lookup landing-v3 uses; returns '' for a signed-out visitor.
+  function userToken() {
+    try {
+      var c = window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.getClient === 'function'
+                ? window.MockStream.auth.getClient() : null;
+      if (c && c.auth && typeof c.auth.getSession === 'function') {
+        return c.auth.getSession().then(function (r) {
+          var t = r && r.data && r.data.session && r.data.session.access_token;
+          return t || localToken();
+        }).catch(function () { return localToken(); });
+      }
+    } catch (_e) {}
+    return Promise.resolve(localToken());
+  }
+
+  function localToken() {
+    try {
+      var raw = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      if (raw && raw.access_token) return raw.access_token;
+    } catch (_e) {}
+    return '';
+  }
+
+  // Bind this browser to the signed-in account so a private message can reach
+  // it. The address is NEVER sent: web_push_subs takes anon inserts with
+  // check(true), so a body-supplied email would let anyone subscribe to
+  // someone else's messages. The RPC reads it from the caller's own JWT.
+  // Needed as well as the insert trigger, because a browser that subscribed
+  // before signing in already has a row with no address.
+  function claimSub(sub) {
+    if (!sub || !sub.endpoint) return Promise.resolve();
+    return userToken().then(function (tok) {
+      if (!tok) return;
+      return fetch(SUPABASE_URL + '/rest/v1/rpc/web_push_claim', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + tok,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_endpoint: sub.endpoint })
+      }).catch(function () { /* offline — retried next visit */ });
+    }).catch(function () { });
+  }
+
   function subscribe() {
     return navigator.serviceWorker.ready.then(function (reg) {
       return reg.pushManager.getSubscription().then(function (existing) {
@@ -60,7 +107,10 @@
           applicationServerKey: b64ToUint8(VAPID_PUBLIC)
         });
       });
-    }).then(function (sub) { return saveSub(sub).then(function () { return sub; }); });
+    }).then(function (sub) {
+      return saveSub(sub).then(function () { return claimSub(sub); })
+                         .then(function () { return sub; });
+    });
   }
 
   window.MSPush = {
@@ -78,5 +128,21 @@
   // Silent refresh when permission was already granted earlier.
   if (supported() && Notification.permission === 'granted') {
     subscribe().catch(function () { });
+    // On a cold load the Supabase session is usually not restored yet, so the
+    // first claim finds no token and does nothing. Try again a few times, and
+    // when the tab comes back — a sign-in that happens later still binds.
+    var tries = 0;
+    var retry = setInterval(function () {
+      if (++tries > 4) { clearInterval(retry); return; }
+      navigator.serviceWorker.ready
+        .then(function (reg) { return reg.pushManager.getSubscription(); })
+        .then(claimSub).catch(function () { });
+    }, 5000);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) return;
+      navigator.serviceWorker.ready
+        .then(function (reg) { return reg.pushManager.getSubscription(); })
+        .then(claimSub).catch(function () { });
+    });
   }
 })();

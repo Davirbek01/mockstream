@@ -5709,6 +5709,10 @@
        Read-only on purpose — replying still happens in the real Help
        Center on the mock pages. */
     var _pmItems = [];
+    // An admin's own bell doubles as their inbox: student messages addressed
+    // to them, which live in the students' threads, not this account's.
+    // Always empty for a student — RLS returns nothing outside their thread.
+    var _pmInbox = [];
     var _lastJustAdded = [];
 
     // landing-v3 has no escapeHtml of its own; message bodies are
@@ -5717,6 +5721,14 @@
       return String(v == null ? '' : v)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // A PostgREST filter value. Unquoted, anything with a comma or a paren
+    // breaks the parse (PGRST100) — the same guard registered-users.js uses.
+    function _pmLit(v) {
+      var BS = String.fromCharCode(92), QU = String.fromCharCode(34);
+      var esc = String(v == null ? '' : v).split(BS).join(BS + BS).split(QU).join(BS + QU);
+      return QU + encodeURIComponent(esc) + QU;
     }
 
     function _pmSignedInEmail() {
@@ -5800,10 +5812,25 @@
       setTimeout(function () { el.classList.add('hidden'); }, 240);
     }
 
-    // Your own reply must never light the unread dot or raise a toast.
-    function _pmAdminItems() {
-      return _pmItems.filter(function (m) { return m.role !== 'user'; });
+    // Who the message is from, for the toast and the meta line. A student's
+    // own name is shown as it is; a staff address is never shown to anyone.
+    function _pmFromLabel(m) {
+      if (m && m.__inbox) return String(m.sender_name || 'Student');
+      return _pmSenderLabel(m && m.sender_name);
     }
+
+    // Everything that should light the unread dot or raise a toast. Your own
+    // reply must never do either, so role 'user' is dropped from your thread
+    // — but an inbox row IS role 'user', and for the admin reading it that is
+    // precisely the arrival worth announcing.
+    function _pmAdminItems() {
+      var mine = _pmItems.filter(function (m) { return m.role !== 'user'; });
+      return mine.concat(_pmInbox).sort(function (a, b) {
+        return String(b.created_at || '').localeCompare(String(a.created_at || ''));
+      });
+    }
+
+    function _pmCount() { return _pmItems.length + _pmInbox.length; }
 
     function _pmMaybeToast() {
       var admins = _pmAdminItems();
@@ -5820,8 +5847,10 @@
       var el = _pmToastEl();
       var fromEl = document.getElementById('pmToastFrom');
       var txtEl  = document.getElementById('pmToastText');
-      if (fromEl) fromEl.textContent = _pmSenderLabel(top.sender_name);
+      if (fromEl) fromEl.textContent = _pmFromLabel(top);
       if (txtEl)  txtEl.textContent  = String(top.content || '');
+      var tagEl = el.querySelector('.pm-toast-tag');
+      if (tagEl) tagEl.textContent = top.__inbox ? 'STUDENT' : 'ADMIN';
       el.classList.remove('hidden');
       requestAnimationFrame(function () { el.classList.add('show'); });
       if (_pmToastTimer) clearTimeout(_pmToastTimer);
@@ -5943,25 +5972,31 @@
       try {
         var tok = await _pmToken();
         var did = ''; try { did = localStorage.getItem('ms_device_id') || ''; } catch (_e0) {}
+        // Two directions through one dialog. Answering a student writes into
+        // that student's thread as the admin side and stamps this address, so
+        // their next reply comes back here and not to the whole team.
+        var toStudent = !!(_pmReplyTo && _pmReplyTo.conv);
+        var payload = {
+          conversation_id: toStudent ? _pmReplyTo.conv : ('u:' + email + '_private'),
+          role: toStudent ? 'admin' : 'user',
+          sender_name: _pmDisplayName(),
+          content: text,
+          category: 'private',
+          center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) ||
+                  window.__CENTER_ID || 'mock_stream',
+          device_id: toStudent ? 'landing_v3_admin' : (did || 'landing_v3'),
+          // '__super__' keeps a fresh question away from centre admins;
+          // a reply is addressed to the one admin who wrote the message.
+          admin_email: toStudent ? email
+                     : ((_pmReplyTo && _pmReplyTo.email) ? _pmReplyTo.email : '__super__')
+        };
         var resp = await fetch(SB_URL + '/rest/v1/support_messages', {
           method: 'POST',
           headers: {
             apikey: SB_KEY, Authorization: 'Bearer ' + tok,
             'Content-Type': 'application/json', Prefer: 'return=minimal'
           },
-          body: JSON.stringify({
-            conversation_id: 'u:' + email + '_private',
-            role: 'user',
-            sender_name: _pmDisplayName(),
-            content: text,
-            category: 'private',
-            center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) ||
-                    window.__CENTER_ID || 'mock_stream',
-            device_id: did || 'landing_v3',
-            // '__super__' keeps a fresh question away from centre admins;
-            // a reply is addressed to the one admin who wrote the message.
-            admin_email: (_pmReplyTo && _pmReplyTo.email) ? _pmReplyTo.email : '__super__'
-          })
+          body: JSON.stringify(payload)
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         if (inp) inp.value = '';
@@ -5970,6 +6005,7 @@
         // Force the next load to repaint even though the newest row changed
         // only at the tail of the list.
         _pmItems = [];
+        _pmInbox = [];
         await loadPrivateMessages();
       } catch (_e) {
         if (note) note.textContent = 'Could not send. Please try again.';
@@ -5996,12 +6032,39 @@
         if (!r.ok) return;
         var rows = await r.json();
         if (!Array.isArray(rows)) return;
+
+        // The other half of the conversation. A student's reply lands in the
+        // student's own thread, so until now it reached the admin nowhere
+        // except a panel buried in the dashboard. No admin check is needed
+        // here: RLS already decides who may read outside their own thread,
+        // and the thread we exclude is the only one a student can read.
+        var inbox = [];
+        try {
+          var ri = await fetch(SB_URL + '/rest/v1/support_messages' +
+            '?category=eq.private&role=eq.user' +
+            '&conversation_id=neq.' + encodeURIComponent(conv) +
+            '&admin_email=in.(' + _pmLit('__super__') + ',' + _pmLit(email) + ')' +
+            '&order=created_at.desc&limit=20' +
+            '&select=id,conversation_id,content,created_at,sender_name,admin_email', {
+            headers: { apikey: SB_KEY, Authorization: 'Bearer ' + _tok }
+          });
+          if (ri.ok) {
+            var ji = await ri.json();
+            if (Array.isArray(ji)) {
+              inbox = ji.map(function (m) { m.__inbox = true; return m; });
+            }
+          }
+        } catch (_ei) { /* the bell still shows the rest */ }
+
         // Only repaint on an actual change — a poll that finds nothing new
         // must not reset the popover's scroll position under the reader.
         var same = rows.length === _pmItems.length &&
-          (!rows.length || (rows[0].created_at === _pmItems[0].created_at));
+          (!rows.length || (rows[0].created_at === _pmItems[0].created_at)) &&
+          inbox.length === _pmInbox.length &&
+          (!inbox.length || (inbox[0].created_at === _pmInbox[0].created_at));
         if (same) return;
         _pmItems = rows;
+        _pmInbox = inbox;
         // The composer sits in its own dialog now, so a repaint of the list
         // can no longer wipe a half-typed message.
         renderBellPopover(_lastJustAdded);
@@ -6036,8 +6099,31 @@
       var msgHtml = '', newestMsg = '';
       var _adminItems = _pmAdminItems();
       if (_adminItems.length) newestMsg = _adminItems[0].created_at || '';
+
+      // An admin's inbox rides above their own thread: it is the half that
+      // needs answering. Reply here writes into the student's thread.
+      if (_pmInbox.length) {
+        msgHtml += '<div class="bell-pop-msghead">From students</div>';
+        for (var ii = 0; ii < _pmInbox.length; ii++) {
+          var sm = _pmInbox[ii];
+          msgHtml += '<div class="bell-pop-item is-msg">'
+                  +   '<span class="bpi-chip pm">NEW</span>'
+                  +   '<span class="bpi-body">'
+                  +     '<span class="bpi-title">' + _pmEsc(sm.content) + '</span>'
+                  +     '<button type="button" class="bell-pop-replybtn" '
+                  +       'data-reply-conv="' + _pmEsc(sm.conversation_id || '') + '" '
+                  +       'data-reply-name="' + _pmEsc(_pmFromLabel(sm)) + '" '
+                  +       'data-reply-quote="' + _pmEsc(String(sm.content || '').slice(0, 300))
+                  +       '">Reply</button>'
+                  +     '<span class="bpi-meta">' + _pmEsc(_pmFromLabel(sm))
+                  +       ' · ' + relativeDate(sm.created_at) + '</span>'
+                  +   '</span>'
+                  + '</div>';
+        }
+      }
+
       if (_pmItems.length) {
-        msgHtml = '<div class="bell-pop-msghead">Messages</div>';
+        msgHtml += '<div class="bell-pop-msghead">Messages</div>';
         for (var mi = 0; mi < _pmItems.length; mi++) {
           var pm = _pmItems[mi];
           var _mine = pm.role === 'user';
@@ -6067,8 +6153,8 @@
       if (!fresh.length) {
         listEl.innerHTML = msgHtml +
           '<div class="bell-pop-empty">No new mocks this week. Check back soon.</div>';
-        if (subEl) subEl.textContent = _pmItems.length
-          ? _pmItems.length + ' message' + (_pmItems.length === 1 ? '' : 's')
+        if (subEl) subEl.textContent = _pmCount()
+          ? _pmCount() + ' message' + (_pmCount() === 1 ? '' : 's')
           : 'Last 7 days';
         var dot0 = document.getElementById('bellDot');
         if (dot0) {
@@ -6077,8 +6163,8 @@
         }
         return;
       }
-      if (subEl) subEl.textContent = (_pmItems.length ? _pmItems.length + ' message' +
-        (_pmItems.length === 1 ? '' : 's') + ' · ' : '') + fresh.length + ' new in the last week';
+      if (subEl) subEl.textContent = (_pmCount() ? _pmCount() + ' message' +
+        (_pmCount() === 1 ? '' : 's') + ' · ' : '') + fresh.length + ' new in the last week';
 
       var html = '';
       for (var i = 0; i < fresh.length; i++) {
@@ -6189,6 +6275,16 @@
           e.preventDefault();
           e.stopPropagation();
           var addr = rb.getAttribute('data-reply-to') || '';
+          var rconv = rb.getAttribute('data-reply-conv') || '';
+          if (rconv) {
+            // Admin answering a student: the reply belongs in THAT student's
+            // thread, written as the admin side, not in the admin's own.
+            _pmOpenDialog(
+              { conv: rconv, name: rb.getAttribute('data-reply-name') || 'Student' },
+              rb.getAttribute('data-reply-quote') || ''
+            );
+            return;
+          }
           // An older message predates admin_email; without an address the
           // only honest destination is the team.
           _pmOpenDialog(
@@ -22496,7 +22592,7 @@
       }
     } catch (e) { }
   </script>
-  <script src="/push-client.js"></script>
+  <script src="/push-client.js?v=2"></script>
   <style>
     #pushNudge { position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 99989; background: var(--card, #fff); color: var(--ink, #0f172a); border: 1px solid rgba(148, 163, 184, .35); border-radius: 16px; box-shadow: 0 14px 40px rgba(15, 23, 42, .22); padding: 14px 44px 14px 14px; display: flex; align-items: flex-start; gap: 12px; opacity: 0; transform: translateY(16px); transition: opacity .3s ease, transform .3s ease; }
     #pushNudge.show { opacity: 1; transform: translateY(0); }
