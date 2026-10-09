@@ -944,6 +944,35 @@
     // (its SELECT policy wants lower(email) = _jwt_email()), and only ~3,088
     // of 18,249 users have a device row at all. Relying on it is what made
     // this feature report success while reaching nobody.
+    // Fires the mobile push for a DM. send-push takes the admin's JWT in the
+    // body: admin-auth.js only rewrites /rest/v1/ calls, so a functions URL
+    // carries no Authorization of its own. Returns the device count, or null
+    // when we could not even ask.
+    async function _ruPushDm(toEmail, fromName, text) {
+      try {
+        var c = window.MockStream && window.MockStream.auth &&
+                typeof window.MockStream.auth.getClient === 'function'
+                  ? window.MockStream.auth.getClient() : null;
+        var sess = c && c.auth ? await c.auth.getSession() : null;
+        var jwt = sess && sess.data && sess.data.session && sess.data.session.access_token;
+        if (!jwt) return null;
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/send-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY },
+          body: JSON.stringify({
+            userJwt: jwt,
+            toEmail: toEmail,
+            title: fromName || 'Admin',
+            body: text,
+            data: { type: 'dm' }
+          })
+        });
+        if (!r.ok) return null;
+        var out = await r.json();
+        return typeof out.sent === 'number' ? out.sent : null;
+      } catch (_e) { return null; }
+    }
+
     async function _ruSendPrivateDm(email, studentName) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -1018,8 +1047,16 @@
           } catch (_e3) { failed++; }
         }
         if (sent > 0) {
-          _say('✅ Delivered' + (failed ? ' (' + failed + ' copy failed)' : ''), '#10b981');
           if (ta) ta.value = '';
+          // The row is written; the apps' bells will show it on next open.
+          // Also raise a real push so it lands on the lock screen like any
+          // other notification. Best-effort: a push failure must not turn a
+          // delivered message into an error.
+          var pushed = email ? await _ruPushDm(email, senderName, text) : null;
+          _say('✅ Delivered' +
+            (pushed === null ? '' : pushed > 0 ? ' · pushed to ' + pushed + ' device' + (pushed === 1 ? '' : 's')
+                                               : ' · no app installed') +
+            (failed ? ' (' + failed + ' copy failed)' : ''), '#10b981');
         } else {
           _say('❌ Send failed.', '#e53935');
         }
