@@ -9,7 +9,12 @@
 //      POST { title, body, url?, center?, data? }
 //      with  Authorization: Bearer <service-role>
 //
-//   2. Manual/system sends (same service-role bearer).
+//   2. Private message to ONE person (notify_private_message DB trigger)
+//      POST { toEmail, title, body, url?, data? }
+//      - targets that account's browsers instead of a whole centre
+//      - `toEmail` wins over `center`
+//
+//   3. Manual/system sends (same service-role bearer).
 //
 // Prunes subscriptions the push service reports gone (404/410).
 //
@@ -62,14 +67,24 @@ Deno.serve(async (req) => {
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return json(400, { error: 'bad json' }); }
 
-  const title  = String(body.title || '').slice(0, 120);
-  const text   = String(body.body  || '').slice(0, 300);
-  const url    = String(body.url   || '/landing-v3.html');
-  const center = String(body.center || 'all').toLowerCase().trim();
+  const title   = String(body.title || '').slice(0, 120);
+  const text    = String(body.body  || '').slice(0, 300);
+  const url     = String(body.url   || '/landing-v3.html');
+  const center  = String(body.center || 'all').toLowerCase().trim();
+  const toEmail = String(body.toEmail || '').trim().toLowerCase();
   if (!title) return json(400, { error: 'title required' });
 
   let q = sb.from('web_push_subs').select('endpoint,p256dh,auth');
-  if (center && center !== 'all') q = q.eq('center_id', center);
+  if (toEmail) {
+    // One person, every browser they have signed in on — the twin of
+    // send-push's toEmail branch, used for a private message. user_email is
+    // never taken from the subscribing client (the table accepts anon inserts
+    // with check(true)); a BEFORE INSERT trigger stamps it from the caller's
+    // JWT, and web_push_claim() backfills a subscription made before sign-in.
+    q = q.eq('user_email', toEmail);
+  } else if (center && center !== 'all') {
+    q = q.eq('center_id', center);
+  }
   const { data: subs, error } = await q;
   if (error) return json(500, { error: error.message });
   if (!subs || subs.length === 0) return json(200, { sent: 0, pruned: 0 });
