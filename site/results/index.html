@@ -4362,10 +4362,9 @@
     // Routes the admin DM into the user's Help Center → Private tab via
     // the same support_messages table that the existing Registered Users
     // panel and Site Management → Private Messages panel use.
-    // Destination conversation_id is always <device_id>_private.
-    // We always send to r.device_id, and (if r.user_email exists) ALSO
-    // fan out to every other device in premium_devices for that email,
-    // so a Google user reads the message on any of their signed-in devices.
+    // Destination conversation_id is u:<email>_private for a signed-in
+    // account, so the message follows the person across every device they
+    // sign in on; <device_id>_private only for a guest result with no email.
     function openResultDm(resultId) {
       var r = (allResults || []).find(function (x) { return x.id === resultId; });
       if (!r) { alert('Result not found.'); return; }
