@@ -989,7 +989,10 @@
           if (btn) { btn.disabled = false; btn.textContent = '📨 Send'; }
           return;
         }
-        var senderName = (typeof getMsAdminName === 'function' ? getMsAdminName() : null) || 'Admin';
+        // Shown to the student — collapse anything that looks like an
+        // address, so a staff email never reaches them.
+        var _sn = String((typeof getMsAdminName === 'function' ? getMsAdminName() : '') || '').trim();
+        var senderName = (!_sn || _sn.indexOf('@') !== -1) ? 'Admin' : _sn;
         var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
         var sent = 0, failed = 0;
         for (var i = 0; i < ids.length; i++) {
