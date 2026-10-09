@@ -5597,16 +5597,39 @@
       dot.classList.add('hidden');
     }
 
+    // support_messages is read under RLS that identifies the caller by the
+    // email claim in their JWT. landing-v3 does NOT load admin-auth.js, so
+    // nothing swaps the token in for us — this request has to carry it, or
+    // it arrives as anon and anon can no longer read anything.
+    async function _pmToken() {
+      try {
+        var c = window.MockStream && window.MockStream.auth &&
+                typeof window.MockStream.auth.getClient === 'function'
+                  ? window.MockStream.auth.getClient() : null;
+        if (c && c.auth && typeof c.auth.getSession === 'function') {
+          var sess = await c.auth.getSession();
+          var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+          if (at) return at;
+        }
+      } catch (_e) {}
+      try {
+        var raw = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+        if (raw && raw.access_token) return raw.access_token;
+      } catch (_e2) {}
+      return SB_KEY;
+    }
+
     async function loadPrivateMessages() {
       var email = _pmSignedInEmail();
       if (!email || _pmBusy) return;
       _pmBusy = true;
       try {
         var conv = 'u:' + email + '_private';
+        var _tok = await _pmToken();
         var r = await fetch(SB_URL + '/rest/v1/support_messages?conversation_id=eq.' +
           encodeURIComponent(conv) + '&role=eq.admin&category=eq.private' +
           '&order=created_at.desc&limit=10&select=content,created_at,sender_name', {
-          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + _tok }
         });
         if (!r.ok) return;
         var rows = await r.json();
