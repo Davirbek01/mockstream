@@ -13,6 +13,14 @@
 //      POST { title, body, data?, center? }  with Authorization: Bearer <service-role>
 //      - the service-role bearer authorises a system (super) send
 //
+//   3. Private message to ONE person (admin panels, after writing the row)
+//      POST { userJwt | adminPasscode, toEmail, title, body, data? }
+//      - targets that account's own devices instead of a whole centre
+//      - a centre admin is additionally confined to tokens of their centre
+//      - does NOT write a `notifications` row: the message already lives in
+//        support_messages and the apps' bells read it from there, so logging
+//        it here would show the same text twice
+//
 // Reads push_tokens with the service role; prunes tokens Expo reports as
 // DeviceNotRegistered.
 //
@@ -94,6 +102,7 @@ Deno.serve(async (req) => {
   let body: any = {};
   try { body = await req.json(); } catch {}
 
+  const toEmail = (body.toEmail || '').toString().trim().toLowerCase();
   const title = (body.title || '').toString().trim();
   const msg   = (body.body  || '').toString().trim();
   const data  = (body.data && typeof body.data === 'object') ? body.data : {};
@@ -120,12 +129,21 @@ Deno.serve(async (req) => {
   // super may pick; a centre admin is locked to their centre.
   const center: string = auth.role === 'admin' ? auth.center : (cid(body.center) || 'all');
 
-  // Log to in-app notification history (so swiped/missed pushes are reviewable).
-  // Best-effort — never block the actual push on a logging failure.
-  try { await sb.from('notifications').insert({ title, body: msg, data, center }); } catch { /* noop */ }
-
   let q = sb.from('push_tokens').select('token, center_id');
-  if (center !== 'all') q = q.eq('center_id', center);
+  if (toEmail) {
+    // One person, every device they have signed in on. A centre admin stays
+    // confined to tokens registered by their own centre's app build, so this
+    // cannot become a way to reach another centre's students.
+    q = q.ilike('user_email', toEmail);
+    if (auth.role === 'admin') q = q.eq('center_id', center);
+  } else {
+    // Broadcast: log to the in-app history so a swiped push stays reviewable.
+    // Best-effort — never block the actual push on a logging failure. A
+    // targeted message is skipped here: it is already a support_messages row
+    // that both bells read, and a second copy would show it twice.
+    try { await sb.from('notifications').insert({ title, body: msg, data, center }); } catch { /* noop */ }
+    if (center !== 'all') q = q.eq('center_id', center);
+  }
   const { data: rows, error } = await q;
   if (error) return json(500, { ok: false, error: 'token_query_failed' });
 

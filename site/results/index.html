@@ -4397,6 +4397,32 @@
     }
     window.closeResultDm = closeResultDm;
 
+    // Mobile push for a DM. send-push wants the admin's JWT in the body —
+    // admin-auth.js only rewrites /rest/v1/ calls, so a functions URL carries
+    // no Authorization of its own. Returns the device count, or null.
+    async function _pushResultDm(toEmail, fromName, text) {
+      try {
+        var sess = (window.AdminAuth && typeof window.AdminAuth.currentSession === 'function')
+          ? await window.AdminAuth.currentSession() : null;
+        var jwt = sess && sess.access_token;
+        if (!jwt) return null;
+        var resp = await fetch(SUPABASE_URL + '/functions/v1/send-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+          body: JSON.stringify({
+            userJwt: jwt,
+            toEmail: String(toEmail).toLowerCase(),
+            title: fromName || 'Admin',
+            body: text,
+            data: { type: 'dm' }
+          })
+        });
+        if (!resp.ok) return null;
+        var out = await resp.json();
+        return typeof out.sent === 'number' ? out.sent : null;
+      } catch (_e) { return null; }
+    }
+
     async function _sendResultDm(r) {
       var ta = document.getElementById('resultDmText');
       var msg = document.getElementById('resultDmMsg');
@@ -4435,6 +4461,13 @@
         // this wrote the admin's raw email and 10 such rows already exist.
         var _sn = String(localStorage.getItem('ms_admin_email') || '').trim();
         var senderName = (!_sn || _sn.indexOf('@') !== -1) ? 'Admin' : _sn;
+        // Routes a reply back to this admin alone. Never shown to the student.
+        var adminEmail = null;
+        try {
+          var _s = (window.AdminAuth && typeof window.AdminAuth.currentEmail === 'function')
+            ? await window.AdminAuth.currentEmail() : '';
+          adminEmail = _s ? String(_s).toLowerCase() : null;
+        } catch (_eA) {}
         var center = r.center || 'mock_stream';
         var sent = 0, failed = 0;
         for (var i = 0; i < ids.length; i++) {
@@ -4445,7 +4478,8 @@
             content: text,
             category: 'private',
             center: center,
-            device_id: 'admin_panel'
+            device_id: 'admin_panel',
+            admin_email: adminEmail
           };
           try {
             var pResp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
@@ -4462,9 +4496,16 @@
           } catch (_e2) { failed++; }
         }
         if (sent > 0) {
-          _say('✅ Delivered' + (failed ? ' (' + failed + ' copy failed)' : ''), '#059669');
           ta.value = '';
-          setTimeout(closeResultDm, 1200);
+          // Row written; also raise a real mobile push so it reaches the lock
+          // screen. Best-effort — a push failure must not report the delivered
+          // message as an error.
+          var pushed = r.user_email ? await _pushResultDm(r.user_email, senderName, text) : null;
+          _say('✅ Delivered' +
+            (pushed === null ? '' : pushed > 0 ? ' · pushed to ' + pushed + ' device' + (pushed === 1 ? '' : 's')
+                                               : ' · no app installed') +
+            (failed ? ' (' + failed + ' copy failed)' : ''), '#059669');
+          setTimeout(closeResultDm, 1600);
         } else {
           _say('❌ Send failed.', '#dc2626');
         }
