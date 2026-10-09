@@ -676,6 +676,52 @@
     .bell-pop-item .bpi-chip.cl  { background: #ecfdf5; color: #047857; }
     .bell-pop-item .bpi-chip.pm  { background: #ede9fe; color: #6d28d9; }
     .bell-pop-item.is-msg .bpi-title { font-weight: 700; }
+
+    /* New-message toast — a DM should not wait for someone to think of
+       clicking the bell. Sits under the bell, slides in, auto-hides; the
+       unread dot stays until the bell itself is opened. */
+    .pm-toast {
+      position: fixed; top: 74px; right: 18px; z-index: 1200;
+      display: flex; align-items: flex-start; gap: 10px;
+      width: min(340px, calc(100vw - 36px));
+      padding: 12px 12px 12px 14px;
+      border-radius: 14px; border: 1px solid var(--line, #e2e8f0);
+      background: var(--surface, #fff);
+      box-shadow: 0 12px 34px rgba(15, 23, 42, .18);
+      cursor: pointer;
+      transform: translateY(-10px); opacity: 0;
+      transition: transform .22s ease, opacity .22s ease;
+    }
+    .pm-toast.show { transform: translateY(0); opacity: 1; }
+    .pm-toast.hidden { display: none; }
+    .pm-toast-badge {
+      flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff;
+      font-size: 15px;
+    }
+    .pm-toast-body { flex: 1 1 auto; min-width: 0; }
+    .pm-toast-from {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 800; color: var(--ink, #0f172a);
+      margin-bottom: 2px;
+    }
+    .pm-toast-tag {
+      font-size: 9px; font-weight: 800; letter-spacing: .04em;
+      padding: 2px 6px; border-radius: 999px;
+      background: #ede9fe; color: #6d28d9;
+    }
+    .pm-toast-text {
+      font-size: 13px; line-height: 1.35; color: var(--ink-soft, #475569);
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .pm-toast-x {
+      flex: 0 0 auto; border: 0; background: transparent; cursor: pointer;
+      font-size: 17px; line-height: 1; padding: 2px 4px;
+      color: var(--ink-faint, #94a3b8);
+    }
+    .pm-toast-x:hover { color: var(--ink, #0f172a); }
     .bell-pop-msghead {
       padding: 8px 14px 4px;
       font-size: 11px;
@@ -5597,6 +5643,76 @@
       dot.classList.add('hidden');
     }
 
+    // sender_name is whatever the sending panel put there, and the Results
+    // Dashboard has been writing the admin's raw email (10 such rows exist).
+    // A student must never be shown a staff address, so anything that looks
+    // like one collapses to "Admin".
+    function _pmSenderLabel(n) {
+      var v = String(n == null ? '' : n).trim();
+      if (!v || v.indexOf('@') !== -1) return 'Admin';
+      return v;
+    }
+
+    // Toast at most once per page load, and never twice for the same message.
+    var _pmToastedFor = '';
+    var _pmToastTimer = null;
+
+    function _pmToastEl() {
+      var el = document.getElementById('pmToast');
+      if (el) return el;
+      el = document.createElement('div');
+      el.id = 'pmToast';
+      el.className = 'pm-toast hidden';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      el.innerHTML =
+        '<span class="pm-toast-badge">✉</span>' +
+        '<span class="pm-toast-body">' +
+          '<span class="pm-toast-from"><span id="pmToastFrom"></span>' +
+            '<span class="pm-toast-tag">ADMIN</span></span>' +
+          '<span class="pm-toast-text" id="pmToastText"></span>' +
+        '</span>' +
+        '<button class="pm-toast-x" id="pmToastX" aria-label="Dismiss">×</button>';
+      document.body.appendChild(el);
+      el.addEventListener('click', function (e) {
+        if (e.target && e.target.id === 'pmToastX') { e.stopPropagation(); _pmHideToast(); return; }
+        _pmHideToast();
+        var btn = document.getElementById('bellBtn');
+        if (btn) btn.click();
+      });
+      return el;
+    }
+
+    function _pmHideToast() {
+      var el = document.getElementById('pmToast');
+      if (!el) return;
+      el.classList.remove('show');
+      if (_pmToastTimer) { clearTimeout(_pmToastTimer); _pmToastTimer = null; }
+      setTimeout(function () { el.classList.add('hidden'); }, 240);
+    }
+
+    function _pmMaybeToast() {
+      if (!_pmItems.length) return;
+      var top = _pmItems[0];
+      var when = top.created_at || '';
+      if (!when || when === _pmToastedFor) return;
+      var seen = '';
+      try { seen = localStorage.getItem('ms_pm_last_seen') || ''; } catch (_e) {}
+      if (!(when > seen)) return;                           // already read
+      var wrap = document.getElementById('bellWrap');
+      if (wrap && wrap.classList.contains('open')) return;  // they are looking at it
+      _pmToastedFor = when;
+      var el = _pmToastEl();
+      var fromEl = document.getElementById('pmToastFrom');
+      var txtEl  = document.getElementById('pmToastText');
+      if (fromEl) fromEl.textContent = _pmSenderLabel(top.sender_name);
+      if (txtEl)  txtEl.textContent  = String(top.content || '');
+      el.classList.remove('hidden');
+      requestAnimationFrame(function () { el.classList.add('show'); });
+      if (_pmToastTimer) clearTimeout(_pmToastTimer);
+      _pmToastTimer = setTimeout(_pmHideToast, 15000);
+    }
+
     // support_messages is read under RLS that identifies the caller by the
     // email claim in their JWT. landing-v3 does NOT load admin-auth.js, so
     // nothing swaps the token in for us — this request has to carry it, or
@@ -5642,6 +5758,7 @@
         _pmItems = rows;
         renderBellPopover(_lastJustAdded);
         _pmMarkSeenIfOpen();
+        _pmMaybeToast();
       } catch (_e) { /* the bell still shows What's new */
       } finally { _pmBusy = false; }
     }
@@ -5678,7 +5795,7 @@
                   +   '<span class="bpi-chip pm">MSG</span>'
                   +   '<span class="bpi-body">'
                   +     '<span class="bpi-title">' + _pmEsc(pm.content) + '</span>'
-                  +     '<span class="bpi-meta">' + _pmEsc(pm.sender_name || 'Admin')
+                  +     '<span class="bpi-meta">' + _pmEsc(_pmSenderLabel(pm.sender_name))
                   +       ' · ' + relativeDate(pm.created_at) + '</span>'
                   +   '</span>'
                   + '</div>';

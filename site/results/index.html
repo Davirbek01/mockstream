@@ -4431,7 +4431,10 @@
           btn.disabled = false; btn.textContent = '📨 Send';
           return;
         }
-        var senderName = localStorage.getItem('ms_admin_email') || 'Admin';
+        // sender_name is shown to the student. Never ship a staff address:
+        // this wrote the admin's raw email and 10 such rows already exist.
+        var _sn = String(localStorage.getItem('ms_admin_email') || '').trim();
+        var senderName = (!_sn || _sn.indexOf('@') !== -1) ? 'Admin' : _sn;
         var center = r.center || 'mock_stream';
         var sent = 0, failed = 0;
         for (var i = 0; i < ids.length; i++) {
