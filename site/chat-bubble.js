@@ -784,11 +784,39 @@
   }
 
   // ─── SUPABASE HELPERS ─────────────────────────────────────────────────────
-  function sbFetch(path, opts) {
+  // Send the signed-in person's JWT when there is one. support_messages is
+  // read and written under RLS that identifies the caller by their email
+  // claim; the publishable key alone is nobody. Guests keep the anon key.
+  async function _sbToken() {
+    try {
+      var c = window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.getClient === 'function'
+                ? window.MockStream.auth.getClient() : null;
+      if (c && c.auth && typeof c.auth.getSession === 'function') {
+        var sess = await c.auth.getSession();
+        var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+        if (at) return at;
+      }
+    } catch (_e) {}
+    try {
+      var raw = JSON.parse(localStorage.getItem('ms_auth_session') || 'null');
+      if (raw && raw.access_token) return raw.access_token;
+    } catch (_e2) {}
+    return SB_KEY;
+  }
+
+  // ONLY support_messages. dict_lookups and community_messages have no
+  // policy for the authenticated role at all, so sending a JWT there would
+  // lock a signed-in person out of their own dictionary history and the
+  // community tab.
+  var _JWT_PATHS = /^\/rest\/v1\/support_messages(\?|$)/;
+
+  async function sbFetch(path, opts) {
     opts = opts || {};
+    var tok = _JWT_PATHS.test(path) ? await _sbToken() : SB_KEY;
     opts.headers = Object.assign({
       'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
+      'Authorization': 'Bearer ' + tok,
       'Content-Type': 'application/json'
     }, opts.headers || {});
     return fetch(SB_URL + path, opts);
