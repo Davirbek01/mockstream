@@ -147,35 +147,58 @@ Deno.serve(async (req) => {
   const { data: rows, error } = await q;
   if (error) return json(500, { ok: false, error: 'token_query_failed' });
 
-  const tokens = (rows || []).map((r: any) => r.token).filter((t: string) => /^ExponentPushToken\[/.test(t));
-  if (!tokens.length) return json(200, { ok: true, sent: 0, failed: 0, note: 'no_devices' });
+  const valid = (rows || []).filter((r: any) => /^ExponentPushToken\[/.test(r?.token || ''));
+  if (!valid.length) return json(200, { ok: true, sent: 0, failed: 0, note: 'no_devices' });
 
-  // ---- send via Expo (chunks of 100) -------------------------------
+  // Expo refuses a request whose tokens belong to more than one project
+  // (PUSH_TOO_MANY_EXPERIENCE_IDS) and rejects the WHOLE batch, not the
+  // stragglers. Every centre ships its own EAS project, so a broadcast —
+  // always one centre — never noticed. A toEmail send does: one person is
+  // signed in on several centres' apps. Group by centre, one request each.
+  const byCentre = new Map<string, string[]>();
+  for (const r of valid as any[]) {
+    const k = String(r.center_id || 'mock_stream');
+    if (!byCentre.has(k)) byCentre.set(k, []);
+    byCentre.get(k)!.push(r.token);
+  }
+
+  // ---- send via Expo (per project, chunks of 100) -------------------
   let sent = 0, failed = 0;
   const dead: string[] = [];
-  for (let i = 0; i < tokens.length; i += 100) {
-    const chunk = tokens.slice(i, i + 100);
-    const messages = chunk.map((to: string) => ({
-      to, title, body: msg, data, sound: 'default', channelId: 'default', priority: 'high',
-    }));
-    try {
-      const resp = await fetch(EXPO_PUSH, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(messages),
-      });
-      const out = await resp.json().catch(() => ({}));
-      const tickets = Array.isArray(out?.data) ? out.data : [];
-      tickets.forEach((t: any, idx: number) => {
-        if (t?.status === 'ok') sent++;
-        else {
-          failed++;
-          if (t?.details?.error === 'DeviceNotRegistered') dead.push(chunk[idx]);
+  const notes: string[] = [];
+  for (const [centreKey, group] of byCentre) {
+    for (let i = 0; i < group.length; i += 100) {
+      const chunk = group.slice(i, i + 100);
+      const messages = chunk.map((to: string) => ({
+        to, title, body: msg, data, sound: 'default', channelId: 'default', priority: 'high',
+      }));
+      try {
+        const resp = await fetch(EXPO_PUSH, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(messages),
+        });
+        const out = await resp.json().catch(() => ({}));
+        const tickets = Array.isArray(out?.data) ? out.data : [];
+        tickets.forEach((t: any, idx: number) => {
+          if (t?.status === 'ok') sent++;
+          else {
+            failed++;
+            if (t?.details?.error === 'DeviceNotRegistered') dead.push(chunk[idx]);
+            else if (t?.message) notes.push(centreKey + ':' + String(t.message).slice(0, 60));
+          }
+        });
+        // A whole-batch rejection carries its reason in `errors`, never in
+        // tickets. Record it: a silent `failed: n` is what hid this bug.
+        if (!tickets.length) {
+          failed += chunk.length;
+          const code = out?.errors?.[0]?.code || out?.errors?.[0]?.message || ('http_' + resp.status);
+          notes.push(centreKey + ':' + String(code).slice(0, 60));
         }
-      });
-      if (!tickets.length) failed += chunk.length;
-    } catch {
-      failed += chunk.length;
+      } catch (e) {
+        failed += chunk.length;
+        notes.push(centreKey + ':throw:' + String((e as Error)?.message || '').slice(0, 40));
+      }
     }
   }
 
@@ -186,5 +209,5 @@ Deno.serve(async (req) => {
     }
   }
 
-  return json(200, { ok: true, sent, failed, devices: tokens.length, pruned: dead.length });
+  return json(200, { ok: true, sent, failed, devices: valid.length, projects: byCentre.size, pruned: dead.length, notes: notes.slice(0, 6) });
 });
