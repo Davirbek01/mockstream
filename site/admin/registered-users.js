@@ -1415,12 +1415,26 @@
           });
       } else {
         _ruProgress(20);
-        _ruFetchReport(reportPath)
-          .then(function(r) { _ruProgress(60); return r.text(); })
+        // Every non-zip report is opened through the `report` function, the way
+        // the Results Dashboard does it. A stored PAYLOAD (.json — reading,
+        // listening, full-mock) is not a document and is rendered there on each
+        // open; fetching it straight from storage put the raw JSON on screen.
+        // A stored .html goes through it too, so it gets its scripts mended and
+        // the AI rails it may have been saved without. Storage, then the R2
+        // archive, stays as the fallback.
+        var RU_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        fetch(RU_SB_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath))
+          .then(function(r) {
+            if (!r.ok) throw new Error('report fn ' + r.status);
+            _ruProgress(60); return r.text();
+          })
+          .catch(function() {
+            return _ruFetchReport(reportPath).then(function(r) { _ruProgress(60); return r.text(); });
+          })
           .then(function(html) {
             _ruProgress(90);
             html = _ruInjectArchiveAudio(html);
-            var blob = new Blob([html], { type: 'text/html' });
+            var blob = new Blob([html], { type: 'text/html; charset=utf-8' });
             iframe.src = URL.createObjectURL(blob);
             title.textContent = reportPath.split('/').pop();
             _ruHideLoading();
