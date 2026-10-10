@@ -6270,7 +6270,11 @@
       });
 
       pop.addEventListener('click', function (e) {
-        var rb = e.target.closest('[data-reply-to]');
+        // Two shapes of Reply button: a student's message in the admin inbox
+        // carries data-reply-conv (the thread to write into), an admin's
+        // message carries data-reply-to (the address). Matching only the
+        // latter left every inbox Reply inert.
+        var rb = e.target.closest('[data-reply-to],[data-reply-conv]');
         if (rb) {
           e.preventDefault();
           e.stopPropagation();
